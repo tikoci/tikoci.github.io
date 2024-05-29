@@ -36,6 +36,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - run: find . 
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
       
@@ -53,7 +55,9 @@ jobs:
       
       - name: Include static files in ./dist
         run: git pull
-        
+      
+      - run: find . 
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
