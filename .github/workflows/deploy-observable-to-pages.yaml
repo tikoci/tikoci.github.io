@@ -1,5 +1,8 @@
+
 # Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+# Adapted for Observable Framework
+
+name: Deploy Observable Pages
 
 on:
   # Runs on pushes targeting the default branch
@@ -29,15 +32,31 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
+
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
+      
+      - name: Setup NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      
+      - name: Install NodeJS Packages
+        run: npm ci
+      
+      - name: Run Observerable Framework Builder
+        run: npm run build
+      
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload entire repository
-          path: '.'
+          path: './dist'
+      
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
