@@ -54,10 +54,8 @@ jobs:
         run: npm run build
       
       - name: Include static files in ./dist
-        run: git pull
-      
-      - run: find . 
-
+        run: git restore dist
+        
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
