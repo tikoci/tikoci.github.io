@@ -51,6 +51,9 @@ jobs:
       - name: Run Observerable Framework Builder
         run: npm run build
       
+      - name: Include static files in ./dist
+        run: git pull
+        
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
