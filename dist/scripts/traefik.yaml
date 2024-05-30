@@ -13,7 +13,7 @@ http:
       loadBalancer:
         passHostHeader: false
         servers:
-          - url: '{{ env "PROXY_TO_URL" }}'
+          - url: "{{ env "PROXY_TO_URL" }}"
   middlewares:
     add-cors-routeros:
       headers:
