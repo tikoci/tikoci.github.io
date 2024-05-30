@@ -1,0 +1,32 @@
+http:
+  routers:
+    routeros-rest-cors:
+      rule: "PathPrefix(`/rest/`)"
+      service: proxy-to-routeros
+      middlewares:
+        - add-cors-routeros
+    routeros-web:
+      rule: "!PathPrefix(`/rest/`)"
+      service: proxy-to-routeros
+  services:
+    proxy-to-routeros:
+      loadBalancer:
+        passHostHeader: false
+        servers:
+          - url: "{{env "PROXY_TO_URL" }}"
+  middlewares:
+    add-cors-routeros:
+      headers:
+        accessControlAllowCredentials: true
+        accessControlAllowMethods:
+          - GET
+          - OPTIONS
+          - PUT
+          - POST
+          - PATCH
+          - DELETE
+        accessControlAllowHeaders: "*"
+        accessControlAllowOriginList:
+          - "*"
+        accessControlMaxAge: 100
+        addVaryHeader: true
