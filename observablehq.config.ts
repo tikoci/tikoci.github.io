@@ -5,6 +5,7 @@ export default {
   root: "docs",
   theme: "dark",
   footer: "",
+  head: '<script defer data-domain="tikoci.github.io" src="https://plausible.io/js/script.js"></script>'
 
   // The pages and sections in the sidebar. If you don’t specify this option,
   // all pages will be listed in alphabetical order. Listing pages explicitly
