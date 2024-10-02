@@ -3,7 +3,7 @@ export default {
   // The project’s title; used in the sidebar and webpage titles.
   title: "Observable RouterOS",
   root: "docs",
-  theme: "light",
+  theme: ["glacier", "coffee"],
   footer: "",
   head: '<script defer data-domain="tikoci.github.io" src="https://plausible.io/js/script.js"></script>'
 
