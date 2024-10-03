@@ -3,9 +3,9 @@ export default {
   // The project’s title; used in the sidebar and webpage titles.
   title: "Observable RouterOS",
   root: "docs",
-  theme: ["glacier", "coffee"],
+  theme: ["ink"],
   footer: "",
-  head: '<script defer data-domain="tikoci.github.io" src="https://plausible.io/js/script.js"></script>'
+  head: '<script defer data-domain="tikoci.github.io" src="https://plausible.io/js/script.js"></script><style>blockquote { font-style: italic; }</style>'
 
   // The pages and sections in the sidebar. If you don’t specify this option,
   // all pages will be listed in alphabetical order. Listing pages explicitly
