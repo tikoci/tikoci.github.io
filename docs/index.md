@@ -2,7 +2,7 @@
 toc: true 
 ---
 
-# `TIKOCI` — RouterOS Code Depot
+# `TIKOCI` — RouterOS Code and Container Depot
 
 ```js
 const ipaPronunciations = [
@@ -16,9 +16,9 @@ const ipaPronunciations = [
   ];
 ```
 
-Contains various Open Source Mikrotik RouterOS projects, generally focused on `/container` and scripting.  This page serves as an commented index to the more developed projects within `tikoci`.  
+Contains various Open Source Mikrotik RouterOS projects, generally focused on `/container` and scripting.  This page serves as an commented index to the more developed projects within TIKOCI.  
 
-> See [Repositories](https://github.com/orgs/tikoci/repositories) for full list of all `tikoci`'s code and projects.
+> See [Repositories](https://github.com/orgs/tikoci/repositories) for full list of all TIKOCI's code and projects.
 
 ### Web Tools
 
@@ -100,7 +100,7 @@ Various _maybe_ good examples of RouterOS scripting function:
 
 The following projects are in hooper:
 
-* **RouterOS "Functional Repo"**  Various, potentially useful, scripts are littered here and [forum](https://forum.mikrotik.com).  Part of the original idea of this GitHub project was to store them, in one place, and allow simple downloads.  Eventually, more scripts will be published on  `tikoci.github.com`.
+* **RouterOS "Functional Repo"**  Various, potentially useful, scripts are littered here and [forum](https://forum.mikrotik.com).  Part of the original idea of TIKOCI was to store them, in one place, and allow simple downloads.  Eventually, more scripts will be published on  `tikoci.github.com`.
 
 * **[Traefik Proxy](https://traefik.io/traefik/) Container _with for CORS & WASM_**  Traefik seems like a better fit for adding HTTP frontend on RouterOS, than the previous [tikoci/ngnix](https://github.com/tikoci/ngnix) approach.  While Traefik's DockerHub image work on RouterOS as-is — setup, configuration, and log viewing are [greatly aided by scripting](https://forum.mikrotik.com/viewtopic.php?p=1081289&hilit=traefik&sid=210f6f07854850cfd0310e4666640003#p1077850).  The _longer term_ goal is to integrate Grain WASM [tikoci/traefik-wasm-grain](traefik-wasm-grain) plugin, as basis for policy enforcement for REST APIs (e.g. RouterOS REST support), using Traefik 3.0's WASM support.
 
@@ -137,7 +137,7 @@ Various repos make use of great work by others.  Specifically, and in no order:
 * `curl2rsc` webpage in [`tikoci/postman-code-generator`](https://github.com/tikoci/postman-code-generator/index.html) uses [HTMX](https://htmx.org), with [glitch.com](https://glitch.com) providing a backend web service needed to run Postman's `curl-to-postman` and `postman-collection` modules under nodeJS.
 * [EvilFreelancer/docker-routeros](https://github.com/EvilFreelancer/docker-routeros)'s "CHR+QEMU-in-Docker" project is used to in extracting RouterOS `/console/inspect` data from a CHR running within a [GitHub Action](https://github.com/tikoci/restraml/blob/bda495263bb4ec6c11ab460054ca2e90777104a1/.github/workflows/manual-using-extra-docker-in-docker.yaml#L37) and used by `tikoci/restraml`'s schema generation code.
 * `tikoci/fat-chr` just re-builds a CHR image but relies on a script with some incantation of `qemu-img`/`gdisk` - but the scripts themselves come from @jaclaz and @kriznos, with @sindy providing QA+mgmt, in a Mikrotik [forum discussion](https://forum.mikrotik.com/viewtopic.php?t=184254&hilit=eufi).
-* `tikoci.github.io` uses the [Observable Framework](https://observablehq.com/framework/) and GitHub Pages to build this website, which will be developed more in future. 
+* `tikoci.github.io` uses the [Observable Framework](https://observablehq.com/framework/) and GitHub Pages to build the TIKOCI website, which will be developed more in future. 
 * `tikoci/winbox-deb` is largely borrowed from @eworm and others's [Arch winbox package](https://aur.archlinux.org/packages/winbox), specifically the `.desktop` file.
 * [Stuart Feldman](https://en.wikipedia.org/wiki/Stuart_Feldman), creator of original UNIX `make` & GNU's excellent [documentation](https://www.gnu.org/software/make/) covering it.  Despite `Makefile`'s being ~50 years old, it allows the nifty (IMO) containerization approach used in `tikoci/netinstall` project – which is just [66 lines of `Makefile` code](https://github.com/tikoci/netinstall/blob/master/Makefile).  And, `make` also acts the "runtime" inside the container to **both** do operations and handle options via `cmd=` or env vars.  
 * In the esoteric, `traefik-wasm-grain` is an experimental [WASM plugin for Traefik](https://plugins.traefik.io/plugins/666374dee8d831193077b35b/example-wasm-plugin-using-grain), built with [Grain](https://grain-lang.org) language & runs as RouterOS Traefik container - but the low-level `HttpWasm` bindings would not have been possible without help from [@ospencer]( https://github.com/ospencer).
