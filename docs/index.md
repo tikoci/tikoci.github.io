@@ -45,6 +45,9 @@ Contains various Open Source Mikrotik RouterOS projects, generally focused on `/
 
 ### Current Container Projects 
 
+> [!TIPS]
+> Check out new [`make.d` container](https://github.com/tikoci/make.d), which wraps Alpine packages using `make` into a multiprocess service loader.  Basically a "better base" for RouterOS.  But it is a work-in-process but welcome to try it.
+
 The collection includes more RouterOS containers, but the most developed are:
 
 * **[tikoci/cligames](https://github.com/tikoci/cligames)** old BSD game collections (30+ games!) – wrapped into RouterOS container – with retro `telnet` interface.  Available on [DockerHub](https://hub.docker.com/r/ammo74/cligames)
@@ -159,4 +162,8 @@ Various repos make use of great work by others.  Specifically, and in no order:
 >
 > **Follow any links at your own risk.**.  Various materials and code may contain links to other websites, content, or services.  Links are not investigated, monitored, or checked for accuracy, adequacy, validity, reliability, availability, or completeness by us.  
 >
-> **No liability can be accepted.**  No representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability, or completeness of any information is offered.  Use the concepts, code, examples and other content at your own risk. There may be errors and inaccuracies, that may of course be damaging to your system. Although this is highly unlikely, you should proceed with caution. The author(s) do not accept any responsibility for any damage incurred.  
+> **No liability can be accepted.**  No representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability, or completeness of any information is offered.  Use the concepts, code, examples and other content at your own risk. There may be errors and inaccuracies, that may of course be damaging to your system. Although this is highly unlikely, you should proceed with caution. The author(s) do not accept any responsibility for any damage incurred.
+
+```js
+FileAttachment("images/dalle-cubist-potto.webp")
+```
