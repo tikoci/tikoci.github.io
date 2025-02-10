@@ -30,7 +30,7 @@ A new https://tikoci.github.io/utm-chr repo was added.  This packages RouterOS C
 ...a fully-functional router should appear in UTM, after prompting.
 
 ```js
-FileAttachment("images/chr-utm-serialopen.png")
+FileAttachment("images/chr-utm-serialopen.png").image()
 ```
 
 
@@ -178,5 +178,5 @@ Various repos make use of great work by others.  Specifically, and in no order:
 > **No liability can be accepted.**  No representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability, or completeness of any information is offered.  Use the concepts, code, examples and other content at your own risk. There may be errors and inaccuracies, that may of course be damaging to your system. Although this is highly unlikely, you should proceed with caution. The author(s) do not accept any responsibility for any damage incurred.
 
 ```js
-FileAttachment("images/dalle-cubist-potto.webp")
+FileAttachment("images/dalle-cubist-potto.webp").image()
 ```
