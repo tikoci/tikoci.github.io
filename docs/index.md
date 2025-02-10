@@ -33,6 +33,15 @@ But, if you're reading this on a Intel Mac & have UTM...
 FileAttachment("images/chr-utm-serialopen.png").image()
 ```
 
+### RouterOS "TUI Experiments" — __[`$lsbridge`](https://forum.mikrotik.com/viewtopic.php?t=214189#p1123276)__
+
+This is a RouterOS scripts (requires 7.18beta) that "visualizes" the VLAN-aware bridge settings.  Eventually, interactive control will be added.  But even "view-only", handy tool to "see" the bridge settings.
+
+```js
+FileAttachment("images/lsbridge-hex-s-forum.jpeg").image()
+```
+
+_See https://forum.mikrotik.com/viewtopic.php?t=214189#p1123276 for code and more screenshots._
 
 ### Web Tools
 
