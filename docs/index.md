@@ -20,6 +20,20 @@ Contains various Open Source Mikrotik RouterOS projects, generally focused on `/
 
 > See [Repositories](https://github.com/orgs/tikoci/repositories) for full list of all TIKOCI's code and projects.
 
+### <mark>NEW</mark> UTM for CHR
+
+A new https://tikoci.github.io/utm-chr repo was added.  This packages RouterOS CHR as UTM virtual machines for automatic install.  No fussing with disks or display.   The "Release" section has a [download with a `RouterOS.utm.zip`](https://github.com/tikoci/chr-utm/releases/tag/v7.17.2), which when expanded is valid UTM virtual machine.  Only Intel-based macOS is supported today.  And if you're reading this on a Intel Mac & have UTM... 
+
+**[Install CHR on Intel Mac using UTM](utm://downloadVM?url=https://github.com/tikoci/chr-utm/releases/download/v7.17.2/RouterOS.utm.zip
+)**
+
+...a fully-functional router should appear in UTM, after prompting.
+
+```js
+FileAttachment("images/chr-utm-serialopen.png")
+```
+
+
 ### Web Tools
 
 * #### `diff` RouterOS commands changes between two versions
@@ -45,10 +59,9 @@ Contains various Open Source Mikrotik RouterOS projects, generally focused on `/
 
 ### Current Container Projects 
 
-> [!TIPS]
-> Check out new [`make.d` container](https://github.com/tikoci/make.d), which wraps Alpine packages using `make` into a multiprocess service loader.  Basically a "better base" for RouterOS.  But it is a work-in-process but welcome to try it.
-
 The collection includes more RouterOS containers, but the most developed are:
+
+* **[`make.d` container](https://github.com/tikoci/make.d)**, which wraps Alpine packages using `make` into a multiprocess service loader.  Basically a "better base" for RouterOS – including bash complemtions, development tool, and many TUI tools.  The `mk` provides access to add tools, as well as manage "services".  While, experimental, `make.d` container has been stable for months in lab to run MQTT broker.
 
 * **[tikoci/cligames](https://github.com/tikoci/cligames)** old BSD game collections (30+ games!) – wrapped into RouterOS container – with retro `telnet` interface.  Available on [DockerHub](https://hub.docker.com/r/ammo74/cligames)
 
@@ -144,7 +157,7 @@ Various repos make use of great work by others.  Specifically, and in no order:
 * `tikoci/winbox-deb` is largely borrowed from @eworm and others's [Arch winbox package](https://aur.archlinux.org/packages/winbox), specifically the `.desktop` file.
 * [Stuart Feldman](https://en.wikipedia.org/wiki/Stuart_Feldman), creator of original UNIX `make` & GNU's excellent [documentation](https://www.gnu.org/software/make/) covering it.  Despite `Makefile`'s being ~50 years old, it allows the nifty (IMO) containerization approach used in `tikoci/netinstall` project – which is just [66 lines of `Makefile` code](https://github.com/tikoci/netinstall/blob/master/Makefile).  And, `make` also acts the "runtime" inside the container to **both** do operations and handle options via `cmd=` or env vars.  
 * In the esoteric, `traefik-wasm-grain` is an experimental [WASM plugin for Traefik](https://plugins.traefik.io/plugins/666374dee8d831193077b35b/example-wasm-plugin-using-grain), built with [Grain](https://grain-lang.org) language & runs as RouterOS Traefik container - but the low-level `HttpWasm` bindings would not have been possible without help from [@ospencer]( https://github.com/ospencer).
-* Mikrotik's [@mrz](https://forum.mikrotik.com/memberlist.php?mode=viewprofile&u=11373). Intentionally last, since it was his `/console/inspect` ["easter egg"](https://forum.mikrotik.com/viewtopic.php?t=175564#p966543) clues that gave impetus to the various "schema tools" for RouterOS developed here.
+* Mikrotik's [@mrz](https://forum.mikrotik.com/memberlist.php?mode=viewprofile&u=11373) source of `/console/inspect` ["easter egg"](https://forum.mikrotik.com/viewtopic.php?t=175564#p966543) with clues that gave impetus to the various "schema tools" for RouterOS developed here.
 
 
 ### * Disclaimers
