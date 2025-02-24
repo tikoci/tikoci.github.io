@@ -35,13 +35,13 @@ FileAttachment("images/chr-utm-serialopen.png").image()
 
 ### RouterOS "TUI Experiments" — __[`$lsbridge`](https://forum.mikrotik.com/viewtopic.php?t=214189#p1123276)__
 
-This is a RouterOS scripts (requires 7.18beta) that "visualizes" the VLAN-aware bridge settings.  Eventually, interactive control will be added.  But even "view-only", handy tool to "see" the bridge settings.
+This is a RouterOS scripts (requires 7.18beta) that "visualizes" the VLAN-aware bridge settings.  Eventually, interactive control will be added.  But even "view-only", handy tool to "see" the bridge settings.  [Script Download](scripts/lsbridge.rsc) _(requires 7.18+)_
 
 ```js
 FileAttachment("images/lsbridge-hex-s-forum.jpeg").image()
 ```
 
-_See https://forum.mikrotik.com/viewtopic.php?t=214189#p1123276 for code and more screenshots._
+_See https://forum.mikrotik.com/viewtopic.php?t=214189#p1123276 for code and more screenshots._  [Script Download](scripts/lsbridge.rsc) _(requires 7.18+)_
 
 ### Web Tools
 
@@ -101,7 +101,7 @@ Not all project in tikoci are containers. Projects below generally re-package, i
 Various _maybe_ good examples of RouterOS scripting function:
 
 * **[
-🧐 example of automating VLAN creation/removal/inspecting using $mkvlan/$rmvlan/$catvlan...](https://forum.mikrotik.com/viewtopic.php?t=214189&hilit=lsbridge#p1123276) - VLAN automation script on RouterOS to add L3 VLANs and manage bridge ports/vlans, scripts can be found in [autovlan.rsc](scripts/autovlan.rsc) which has the various $mkvlan, $rmvlan, $catvlan, ... function (requires 7.17+).  With a prototype script for  "visualizing the bridge": [lsbrdige.rsc](scripts/autovlan.rsc) (requires 7.18+)
+🧐 example of automating VLAN creation/removal/inspecting using $mkvlan/$rmvlan/$catvlan...](https://forum.mikrotik.com/viewtopic.php?t=214189&hilit=lsbridge#p1123276) - VLAN automation script on RouterOS to add L3 VLANs and manage bridge ports/vlans, scripts can be found in [autovlan.rsc](scripts/autovlan.rsc) which has the various $mkvlan, $rmvlan, $catvlan, ... function _(requires 7.17+)_.  With a prototype script for  "visualizing the bridge": [lsbrdige.rsc](scripts/lsbridge.rsc) _(requires 7.18+)_
 
 * **[`$PIANO`](https://forum.mikrotik.com/viewtopic.php?p=1058665)** - interactive "player piano" & studio-quality recorder using :beep
 
