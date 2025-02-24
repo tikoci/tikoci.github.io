@@ -100,6 +100,9 @@ Not all project in tikoci are containers. Projects below generally re-package, i
 
 Various _maybe_ good examples of RouterOS scripting function:
 
+* **[
+🧐 example of automating VLAN creation/removal/inspecting using $mkvlan/$rmvlan/$catvlan...](https://forum.mikrotik.com/viewtopic.php?t=214189&hilit=lsbridge#p1123276) - VLAN automation script on RouterOS to add L3 VLANs and manage bridge ports/vlans, scripts can be found in [autovlan.rsc](scripts/autovlan.rsc) which has the various $mkvlan, $rmvlan, $catvlan, ... function (requires 7.17+).  With a prototype script for  "visualizing the bridge": [lsbrdige.rsc](scripts/autovlan.rsc) (requires 7.18+)
+
 * **[`$PIANO`](https://forum.mikrotik.com/viewtopic.php?p=1058665)** - interactive "player piano" & studio-quality recorder using :beep
 
 * **[`$INQUIRE`](https://forum.mikrotik.com/viewtopic.php?t=197695)** - prompt user for input using arrays +**[`$CHOICES`](https://forum.mikrotik.com/viewtopic.php?t=197695#p1013583)** +**[`$QKEYS`](https://forum.mikrotik.com/viewtopic.php?t=197695#p1081024)**
