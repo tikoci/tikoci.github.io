@@ -22,12 +22,7 @@ Contains various Open Source Mikrotik RouterOS projects, generally focused on `/
 
 ### <mark>NEW</mark> Automating CHR install on UTM for macOS
 
-A new [tikoci/chr-utm](https://github.com/tikoci/chr-utm) repo was added, which packages RouterOS CHR as UTM virtual machines for automatic install.  No more fussing with disks or display.   The "Release" section has a [download with a `RouterOS.utm.zip`](https://github.com/tikoci/chr-utm/releases/tag/v7.17.2), which when expanded is valid UTM virtual machine.  Only Intel-based macOS is supported today.  
-
-But, if you're reading this on a Intel Mac & have UTM... 
-**[Install CHR on Intel Mac using UTM](utm://downloadVM?url=https://github.com/tikoci/chr-utm/releases/download/v7.17.2/RouterOS.utm.zip
-)**
-...will result in a fully-functional RouterOS-based system on macOS.
+The [tikoci/mikropkl](https://github.com/tikoci/mikropkl) packages RouterOS CHR as macOS UTM virtual machines for automated install.  No more fussing with disks or display.  [Releases](https://github.com/tikoci/mikropkl/releases/latest) has `utm://` links and `.zip` files for recent versions of RouterOS ("CHR") ready-to-use with macOS UTM.   
 
 ```js
 FileAttachment("images/chr-utm-serialopen.png").image()
