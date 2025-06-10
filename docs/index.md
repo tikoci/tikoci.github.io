@@ -20,7 +20,30 @@ Contains various Open Source Mikrotik RouterOS projects, generally focused on `/
 
 > See [Repositories](https://github.com/orgs/tikoci/repositories) for full list of all TIKOCI's code and projects.
 
-### <mark>NEW</mark> Automating CHR install on UTM for macOS
+
+### <mark>NEW</mark> LSP Server for RouterOS for better editing
+
+![demo](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNDl4NXg5ZXB0YWd2Z2s5b2t0Z2t6enN6Y3NmbTRsZ2o5dWM3MTJqMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Rm4TUg15fUuUhHVvSx/giphy.gif
+)
+
+A "working prototype" of a LSP server for 3rd party editors, like VSCode and NeoVim, can be found in the [tikoci/lsp-routeros-ts](https://github.com/tikoci/lsp-routeros-ts).
+More work can done to improve (and perhaps fix bugs), but the basics of syntax checking and completion should work.
+
+![img](https://i.ibb.co/1t1y3kLL/Router-OS-LSP-as-VSIX-loaded-in-VSCode.png)
+
+The project builds a `lsp-routeros-ts.vsix` file - containing the TypeScript-based RouterOS LSP – and can be downloaded for use in VSCode using:
+```
+wget https://github.com/tikoci/lsp-routeros-ts/releases/latest/download/lsp-routeros-ts.vsix
+code --install-extension lsp-routeros-ts.vsix
+```
+and after VSIX is installed, in VSCode, you'll need to go the "settings" for "RouterOS LSP" in extension to provide a RouterOS device for REST API.
+
+Single file executables, for various OS/platforms, containing the same RouterOS LSP code are also availble for download, to allow the LSP work in other editors.
+
+
+Checkout the [README.md](https://github.com/tikoci/lsp-routeros-ts/blob/main/README.md) for more complete details
+
+### Automating CHR install on UTM for macOS
 
 The [tikoci/mikropkl](https://github.com/tikoci/mikropkl) packages RouterOS CHR as macOS UTM virtual machines for automated install.  No more fussing with disks or display.  [Releases](https://github.com/tikoci/mikropkl/releases/latest) has `utm://` links and `.zip` files for recent versions of RouterOS ("CHR") ready-to-use with macOS UTM.   
 
