@@ -2,6 +2,8 @@
 dist/*
 !dist/scripts/
 !dist/scripts/**
+!dist/media/
+!dist/media/**
 !dist/fat-chr/
 !dist/fat-chr/**
 docs/.observablehq/cache/
