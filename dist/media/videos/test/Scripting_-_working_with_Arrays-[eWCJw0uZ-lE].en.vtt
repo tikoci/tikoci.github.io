@@ -1,0 +1,266 @@
+WEBVTT
+Kind: captions
+
+00:00:00.080 --> 00:00:05.080 position:63% line:0%
+We had a look at how RouterOS arrays can be&nbsp;
+defined – as a list of values or as a list&nbsp;&nbsp;
+
+00:00:05.080 --> 00:00:10.920 position:63% line:0%
+of value and key pairs. Now, we will further&nbsp;
+explore how we can work with this data type.
+
+00:00:10.920 --> 00:00:15.000 position:63% line:0%
+Here I have the two kinds of arrays&nbsp;
+that I mentioned and even though they&nbsp;&nbsp;
+
+00:00:15.000 --> 00:00:19.000 position:63% line:0%
+might seem fundamentally different,&nbsp;
+in RotuerOS they are compatible.
+
+00:00:19.000 --> 00:00:24.680 position:63% line:0%
+I can create a third array by concatenating&nbsp;
+the first two if I want to. This can be done&nbsp;&nbsp;
+
+00:00:24.680 --> 00:00:30.720 position:63% line:0%
+with a simple comma. And then if we print the&nbsp;
+output, we will see that the order has changed.&nbsp;
+
+00:00:30.720 --> 00:00:34.920 position:63% line:0%
+The values without a key were simply&nbsp;
+placed at the start of the array. But&nbsp;&nbsp;
+
+00:00:34.920 --> 00:00:38.880 position:63% line:0%
+the keyed values got moved to the&nbsp;
+end and reordered alphabetically.
+
+00:00:38.880 --> 00:00:42.800 position:63% line:0%
+Those are a couple of nuances that you&nbsp;
+have to keep in mind when concatenating&nbsp;&nbsp;
+
+00:00:42.800 --> 00:00:48.760 position:63% line:0%
+arrays. Simple keyless arrays will not get&nbsp;
+reordered – they will just get combined as&nbsp;&nbsp;
+
+00:00:48.760 --> 00:00:54.320 position:63% line:0%
+you would expect with regular arrays.&nbsp;
+But whenever you add entries with keys&nbsp;&nbsp;
+
+00:00:54.320 --> 00:00:59.920 position:63% line:0%
+into the mixture – those keyed entries will&nbsp;
+get moved to the end sorted alphabetically.
+
+00:01:00.560 --> 00:01:05.120 position:63% line:0%
+Now, to retrieve a specific value from&nbsp;
+an array, we could of course use an index&nbsp;&nbsp;
+
+00:01:05.120 --> 00:01:10.440 position:63% line:0%
+similar to regular arrays. The syntax is to&nbsp;
+put the array call in brackets and create&nbsp;&nbsp;
+
+00:01:10.440 --> 00:01:16.080 position:63% line:0%
+this little arrow pointing at our index&nbsp;
+using a dash and the greater-than symbol.&nbsp;
+
+00:01:16.080 --> 00:01:21.400 position:63% line:0%
+So I have successfully called the very&nbsp;
+first element with index 0. However,&nbsp;&nbsp;
+
+00:01:21.400 --> 00:01:27.280 position:63% line:0%
+the index will only work with elements that&nbsp;
+do not have a key. So if I want to call one&nbsp;&nbsp;
+
+00:01:27.280 --> 00:01:32.680 position:63% line:0%
+of the last three elements in this array, I&nbsp;
+have to use the key in place of the index and&nbsp;&nbsp;
+
+00:01:32.680 --> 00:01:37.440 position:63% line:0%
+I will be able to get those values.
+Personally, I wouldn’t use combined&nbsp;&nbsp;
+
+00:01:37.440 --> 00:01:42.520 position:63% line:0%
+arrays like this just out of principle,&nbsp;
+because I don’t want to confuse myself.&nbsp;
+
+00:01:42.520 --> 00:01:49.720 position:63% line:0%
+For example, if I create another script with two&nbsp;
+elements. Index 0 is going to be the letter ‘a’,&nbsp;&nbsp;
+
+00:01:49.720 --> 00:01:54.880 position:63% line:0%
+but then the next element is going&nbsp;
+to have a key 0 and value ‘b’. Now,&nbsp;&nbsp;
+
+00:01:54.880 --> 00:02:01.000 position:63% line:0%
+what do you think will happen when I try to&nbsp;
+call it? Which element is going to be returned?
+
+00:02:01.000 --> 00:02:07.200 position:63% line:0%
+Well, the answer is that the number zero is&nbsp;
+calling the index, and if I create another call&nbsp;&nbsp;
+
+00:02:07.200 --> 00:02:13.880 position:63% line:0%
+with zero in quotes – that zero is a string&nbsp;
+and it will be calling a key. If I run this,&nbsp;&nbsp;
+
+00:02:13.880 --> 00:02:19.120 position:63% line:0%
+you can see that both calls got executed&nbsp;
+and returned the elements correctly,&nbsp;&nbsp;
+
+00:02:19.120 --> 00:02:22.640 position:63% line:0%
+so you can do it this way if you&nbsp;
+want. I wouldn’t recommend it.&nbsp;&nbsp;
+
+00:02:22.640 --> 00:02:27.160 position:63% line:0%
+Just try to keep your regular arrays&nbsp;
+separate from the dictionary type.
+
+00:02:27.160 --> 00:02:30.240 position:63% line:0%
+Alright, there could be different&nbsp;
+situations where you can make use&nbsp;&nbsp;
+
+00:02:30.240 --> 00:02:35.880 position:63% line:0%
+of arrays, but if you are going to make&nbsp;
+anything complex, you will have to parse&nbsp;&nbsp;
+
+00:02:35.880 --> 00:02:42.400 position:63% line:0%
+RouterOS outputs and there is a built-in&nbsp;
+way to receive those outputs as arrays.
+
+00:02:42.400 --> 00:02:47.920 position:63% line:0%
+If you try to retrieve the output of a print&nbsp;
+command through regular command substitution,&nbsp;&nbsp;
+
+00:02:47.920 --> 00:02:52.600 position:63% line:0%
+what will happen is… The script will&nbsp;
+simply run the print command as if it&nbsp;&nbsp;
+
+00:02:52.600 --> 00:02:58.360 position:63% line:0%
+was typed into the terminal and then you can&nbsp;
+see the very last line is the result of the&nbsp;&nbsp;
+
+00:02:58.360 --> 00:03:03.240 position:63% line:0%
+‘typeof’ command – it is nil because&nbsp;
+no value was passed to the variable.
+
+00:03:03.240 --> 00:03:09.160 position:63% line:0%
+Now, let’s make a little change to the script and&nbsp;
+add the ‘as-value’ parameter to the print command.&nbsp;
+
+00:03:09.160 --> 00:03:15.400 position:63% line:0%
+When I run this, there is no visible output, and&nbsp;
+our variable is now properly defined as an array.
+
+00:03:15.400 --> 00:03:20.920 position:63% line:0%
+Next, we could iterate over the array using&nbsp;
+the ‘foreach’ loop. The syntax is pretty&nbsp;&nbsp;
+
+00:03:20.920 --> 00:03:27.400 position:63% line:0%
+simple. First, we define two variables that will&nbsp;
+represent key and value. If you only defined a&nbsp;&nbsp;
+
+00:03:27.400 --> 00:03:34.360 position:63% line:0%
+single variable here, you would be working with&nbsp;
+the values only. Next, type ‘in=’ the array that&nbsp;&nbsp;
+
+00:03:34.360 --> 00:03:41.480 position:63% line:0%
+you are working with. After that a do section with&nbsp;
+the commands that should be executed in each loop.&nbsp;
+
+00:03:41.480 --> 00:03:45.800 position:63% line:0%
+This script now returns something&nbsp;
+similar to the regular print command.
+
+00:03:45.800 --> 00:03:51.080 position:63% line:0%
+There is also a more specific command – get.&nbsp;
+In sections like the system resource where&nbsp;&nbsp;
+
+00:03:51.080 --> 00:03:58.560 position:63% line:0%
+the output is an array with key-value pairs, it&nbsp;
+works identically to the ‘print as-value’. But&nbsp;&nbsp;
+
+00:03:58.560 --> 00:04:05.000 position:63% line:0%
+we can also specify which value we would like&nbsp;
+to return. If we wanted to work with uptime,&nbsp;&nbsp;
+
+00:04:05.000 --> 00:04:08.400 position:63% line:0%
+this would have saved us some hassle with parsing.
+
+00:04:08.400 --> 00:04:13.440 position:63% line:0%
+However, not all sections will be like&nbsp;
+this – whenever there is a list of entries,&nbsp;&nbsp;
+
+00:04:13.440 --> 00:04:19.200 position:63% line:0%
+like interfaces or addresses, the output&nbsp;
+of ‘print as-value’ is going to be an&nbsp;&nbsp;
+
+00:04:19.200 --> 00:04:23.760 position:63% line:0%
+array of arrays, and similarly,&nbsp;
+the get command will not be able&nbsp;&nbsp;
+
+00:04:23.760 --> 00:04:29.240 position:63% line:0%
+to return anything unless you specify&nbsp;
+which array you would like to ‘get’.
+
+00:04:29.240 --> 00:04:35.120 position:63% line:0%
+For example, with 'interface get', now&nbsp;
+I also have to identify the array. I can&nbsp;&nbsp;
+
+00:04:35.120 --> 00:04:42.000 position:63% line:0%
+use the interface name, but remember '.id' is&nbsp;
+preferable. The output is now a whole array,&nbsp;&nbsp;
+
+00:04:42.000 --> 00:04:48.040 position:63% line:0%
+but get can take another parameter, so I could&nbsp;
+query for the running status, for example.
+
+00:04:48.040 --> 00:04:53.040 position:63% line:0%
+If you do want to read and process all&nbsp;
+of the information or most of it then&nbsp;&nbsp;
+
+00:04:53.040 --> 00:04:57.520 position:63% line:0%
+you will be better to run a loop&nbsp;
+inside a loop. Here is an example,&nbsp;&nbsp;
+
+00:04:57.520 --> 00:05:03.360 position:63% line:0%
+the first loop iterates over the master array&nbsp;
+of all interfaces. Then, the second loop goes&nbsp;&nbsp;
+
+00:05:03.360 --> 00:05:08.760 position:63% line:0%
+over the individual interface arrays and&nbsp;
+neatly prints the contents. Of course, this&nbsp;&nbsp;
+
+00:05:08.760 --> 00:05:14.200 position:63% line:0%
+is where you would place all the other actions&nbsp;
+that you would perform with that information.
+
+00:05:14.200 --> 00:05:18.840 position:63% line:0%
+And this is what the output would look like&nbsp;
+in case you are wondering. You could use&nbsp;&nbsp;
+
+00:05:18.840 --> 00:05:23.440 position:63% line:0%
+a script to display a neat table of&nbsp;
+information that is relevant to you,&nbsp;&nbsp;
+
+00:05:23.440 --> 00:05:27.280 position:63% line:0%
+but more likely you might want to&nbsp;
+automate something. For example,&nbsp;&nbsp;
+
+00:05:27.280 --> 00:05:32.440 position:63% line:0%
+you could check when an interface is running or&nbsp;
+a certain device is detected through neighbor&nbsp;&nbsp;
+
+00:05:32.440 --> 00:05:39.480 position:63% line:0%
+discovery or wifi access list and enable a rate&nbsp;
+limit or just send yourself a notification.
+
+00:05:39.480 --> 00:05:45.080 position:63% line:0%
+The last thing I should mention on arrays is&nbsp;
+the ‘toarray’ command. If for whatever reason&nbsp;&nbsp;
+
+00:05:45.080 --> 00:05:49.200 position:63% line:0%
+you have a string with numbers or characters&nbsp;
+separated by commas or semicolons and you&nbsp;&nbsp;
+
+00:05:49.200 --> 00:05:59.640 position:63% line:0%
+need it to turn it into an array, just run&nbsp;
+this command and the output will be an array.
+

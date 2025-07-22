@@ -1,0 +1,296 @@
+WEBVTT
+Kind: captions
+
+00:00:00.120 --> 00:00:05.720 position:63% line:0%
+Did you know that RouterOS has its own scripting&nbsp;
+language? Most things that you can imagine&nbsp;&nbsp;
+
+00:00:05.720 --> 00:00:11.840 position:63% line:0%
+automating on your router can be scripted. Little&nbsp;
+niche features that would be nice for you to have,&nbsp;&nbsp;
+
+00:00:11.840 --> 00:00:17.000 position:63% line:0%
+could just be added by yourself, and you don’t&nbsp;
+need a computer science degree. If you have&nbsp;&nbsp;
+
+00:00:17.000 --> 00:00:27.200 position:63% line:0%
+a basic understanding of how scripts&nbsp;
+work then you can script in RouterOS.
+
+00:00:27.200 --> 00:00:31.560 position:63% line:0%
+So how does RotuerOS scripting work?&nbsp;
+Similar to popular languages like bash&nbsp;&nbsp;
+
+00:00:31.560 --> 00:00:35.200 position:63% line:0%
+and python you can script&nbsp;
+directly into the terminal,&nbsp;&nbsp;
+
+00:00:35.200 --> 00:00:39.160 position:63% line:0%
+which is convenient when you are trying&nbsp;
+things out and checking if a particular&nbsp;&nbsp;
+
+00:00:39.160 --> 00:00:44.600 position:63% line:0%
+command would work, as well as, when you&nbsp;
+want to execute multiple commands in order.
+
+00:00:44.600 --> 00:00:48.160 position:63% line:0%
+But whenever you come up with&nbsp;
+something worthwhile, of course,&nbsp;&nbsp;
+
+00:00:48.160 --> 00:00:53.800 position:63% line:0%
+you want to store it as a script, so that&nbsp;
+you can execute it whenever you want to.&nbsp;&nbsp;
+
+00:00:53.800 --> 00:00:58.320 position:63% line:0%
+In RouterOS instead of creating script&nbsp;
+files, you store your scripts in the&nbsp;&nbsp;
+
+00:00:58.320 --> 00:01:04.440 position:63% line:0%
+system script section – this just helps with&nbsp;
+permissions and also keeps things organized.
+
+00:01:04.440 --> 00:01:09.920 position:63% line:0%
+Let’s just go ahead and add a little script, so&nbsp;
+that I can show you the very basic principles.&nbsp;
+
+00:01:09.920 --> 00:01:13.560 position:63% line:0%
+All that is needed for now&nbsp;
+is a name for the script.&nbsp;
+
+00:01:13.560 --> 00:01:16.920 position:63% line:0%
+As you can see a bunch of&nbsp;
+other parameters got generated,&nbsp;&nbsp;
+
+00:01:16.920 --> 00:01:21.520 position:63% line:0%
+but we don’t have to understand them,&nbsp;
+we can just begin editing our source.
+
+00:01:21.520 --> 00:01:26.600 position:63% line:0%
+Now, that puts us in the built-in script&nbsp;
+editor. Nothing fancy, just a text editor&nbsp;&nbsp;
+
+00:01:26.600 --> 00:01:31.760 position:63% line:0%
+that will highlight the syntax. Here we can&nbsp;
+enter any RouterOS commands just like we&nbsp;&nbsp;
+
+00:01:31.760 --> 00:01:37.960 position:63% line:0%
+would in the terminal, so the most basic script&nbsp;
+could consist of multiple lines of configuration.
+
+00:01:37.960 --> 00:01:42.240 position:63% line:0%
+But the possibilities are pretty broad,&nbsp;
+to say the least, you are mainly limited&nbsp;&nbsp;
+
+00:01:42.240 --> 00:01:48.400 position:63% line:0%
+by your imagination here, as we have all&nbsp;
+the fundamental building blocks available.
+
+00:01:48.400 --> 00:01:53.040 position:63% line:0%
+Starting with variables. There are&nbsp;
+11 data types that you can use,&nbsp;&nbsp;
+
+00:01:53.040 --> 00:01:58.480 position:63% line:0%
+but you don’t have to specifically declare them&nbsp;
+beforehand – they are automatically recognized&nbsp;&nbsp;
+
+00:01:58.480 --> 00:02:03.480 position:63% line:0%
+when you assign value to the variable.&nbsp;
+What we have to specifically declare,&nbsp;&nbsp;
+
+00:02:03.480 --> 00:02:09.400 position:63% line:0%
+however, is the scope as we have&nbsp;
+two options – local and global.
+
+00:02:09.400 --> 00:02:16.240 position:63% line:0%
+To create a local variable type a column&nbsp;
+symbol followed by the word local, a space,&nbsp;&nbsp;
+
+00:02:16.240 --> 00:02:20.120 position:63% line:0%
+and the name of the variable.&nbsp;
+You can leave it like that or&nbsp;&nbsp;
+
+00:02:20.120 --> 00:02:25.520 position:63% line:0%
+add a value after that. A number will&nbsp;
+declare it as an integer. Similarly,&nbsp;&nbsp;
+
+00:02:25.520 --> 00:02:31.560 position:63% line:0%
+characters would create a string, and typing&nbsp;
+true or false would result in a boolean.
+
+00:02:31.560 --> 00:02:35.280 position:63% line:0%
+The global scope variables&nbsp;
+are declared just the same.&nbsp;
+
+00:02:35.280 --> 00:02:41.440 position:63% line:0%
+Next, let’s print them using the put command.&nbsp;
+As with all RouterOS commands it has to start&nbsp;&nbsp;
+
+00:02:41.440 --> 00:02:47.400 position:63% line:0%
+with the column symbol and to get the value of&nbsp;
+a particular variable we have to use the dollar&nbsp;&nbsp;
+
+00:02:47.400 --> 00:02:54.120 position:63% line:0%
+symbol. Without the dollar, ‘put’ would simply&nbsp;
+output the name of the variable as a string.
+
+00:02:54.120 --> 00:03:00.160 position:63% line:0%
+Now, we can save and close the script&nbsp;
+Ctrl+O, and then we can run it.&nbsp;&nbsp;
+
+00:03:00.160 --> 00:03:04.160 position:63% line:0%
+As you can see, both variables&nbsp;
+got printed the same. But the&nbsp;&nbsp;
+
+00:03:04.160 --> 00:03:09.360 position:63% line:0%
+difference here is that after running the&nbsp;
+script the local variable got removed,&nbsp;&nbsp;
+
+00:03:09.360 --> 00:03:16.280 position:63% line:0%
+but the global is still stored in the RAM. You&nbsp;
+can verify that in the environment subsection.
+
+00:03:16.280 --> 00:03:21.840 position:63% line:0%
+If I issue a put command, it still returns&nbsp;
+the value. The global variable could be&nbsp;&nbsp;
+
+00:03:21.840 --> 00:03:25.680 position:63% line:0%
+handy when you are building your&nbsp;
+own little ecosystem of scripts,&nbsp;&nbsp;
+
+00:03:25.680 --> 00:03:30.320 position:63% line:0%
+but needlessly using it is not a good&nbsp;
+practice and should be avoided. To clear&nbsp;&nbsp;
+
+00:03:30.320 --> 00:03:35.920 position:63% line:0%
+the variable from the RAM we can reboot&nbsp;
+the device or issue a remove command.
+
+00:03:35.920 --> 00:03:40.720 position:63% line:0%
+The local variable is the safe option&nbsp;
+we want to use wherever possible. The&nbsp;&nbsp;
+
+00:03:40.720 --> 00:03:45.440 position:63% line:0%
+only thing you have to keep in mind&nbsp;
+is the limited scope. If I put curly&nbsp;&nbsp;
+
+00:03:45.440 --> 00:03:50.520 position:63% line:0%
+brackets around a local variable like&nbsp;
+this, anything calling it outside those&nbsp;&nbsp;
+
+00:03:50.520 --> 00:03:55.240 position:63% line:0%
+brackets will fail. So this 'put'&nbsp;
+command would not work anymore.
+
+00:03:55.240 --> 00:04:01.080 position:63% line:0%
+RouterOS scripting supports all the typical&nbsp;
+arithmetic operators, so I could multiply this&nbsp;&nbsp;
+
+00:04:01.080 --> 00:04:07.760 position:63% line:0%
+number by two for example. The set command&nbsp;
+lets you change the value of the variable,&nbsp;&nbsp;
+
+00:04:07.760 --> 00:04:13.920 position:63% line:0%
+and place your mathematical operation in&nbsp;
+regular brackets. Multiplication works fine,&nbsp;&nbsp;
+
+00:04:13.920 --> 00:04:18.880 position:63% line:0%
+but arithmetic operators are not the only&nbsp;
+ones available. For example, there is no&nbsp;&nbsp;
+
+00:04:18.880 --> 00:04:26.560 position:63% line:0%
+power operator, and if you use the typical symbol,&nbsp;
+it will actually perform a bitwise xor operation.
+
+00:04:26.560 --> 00:04:32.760 position:63% line:0%
+The script now returns 121, because the&nbsp;
+bit resembling 2 got flipped down on that&nbsp;&nbsp;
+
+00:04:32.760 --> 00:04:37.760 position:63% line:0%
+variable. All sorts of quirky things can be&nbsp;
+done. I won’t cover all the operators now,&nbsp;&nbsp;
+
+00:04:37.760 --> 00:04:40.360 position:63% line:0%
+you can look them up on the help page.
+
+00:04:40.360 --> 00:04:46.440 position:63% line:0%
+If I want to actually square this variable, I&nbsp;
+have to simply multiply it with itself. Next,&nbsp;&nbsp;
+
+00:04:46.440 --> 00:04:52.720 position:63% line:0%
+I could do a conditional statement. After&nbsp;
+the ‘if’ you do the condition in brackets and&nbsp;&nbsp;
+
+00:04:52.720 --> 00:05:00.960 position:63% line:0%
+then you type ‘do=’ and place any actions inside&nbsp;
+curly brackets. These can be multi-line actions,&nbsp;&nbsp;
+
+00:05:00.960 --> 00:05:05.880 position:63% line:0%
+I will leave it as a one-liner and&nbsp;
+run it. Works just how it should.
+
+00:05:05.880 --> 00:05:09.720 position:63% line:0%
+Finally, this wouldn’t be scripting&nbsp;
+if we didn’t do loops and functions,&nbsp;&nbsp;
+
+00:05:09.720 --> 00:05:16.680 position:63% line:0%
+so let’s edit the script one more time and&nbsp;
+create a function that will be called by a loop.
+
+00:05:16.680 --> 00:05:24.400 position:63% line:0%
+Functions are defined the same way as variables,&nbsp;
+but in place of value, we place a ‘do’ action.&nbsp;&nbsp;
+
+00:05:24.400 --> 00:05:30.680 position:63% line:0%
+Let’s output the value of $1 which is the&nbsp;
+first argument that the function receives,&nbsp;&nbsp;
+
+00:05:30.680 --> 00:05:37.720 position:63% line:0%
+followed by the squared value of that number.&nbsp;
+Notice there is a dollar sign before the bracket&nbsp;&nbsp;
+
+00:05:37.720 --> 00:05:43.680 position:63% line:0%
+with the multiplication – this is necessary to&nbsp;
+execute an operation in the middle of a string.
+
+00:05:43.680 --> 00:05:49.360 position:63% line:0%
+Then let’s do a simple for loop with&nbsp;
+the integer ‘i’ going from 1 to 9,&nbsp;&nbsp;
+
+00:05:49.360 --> 00:05:53.680 position:63% line:0%
+and have it call our function&nbsp;
+using the value of ‘i’.
+
+00:05:53.680 --> 00:05:58.600 position:63% line:0%
+Now, when I save it and run it, I&nbsp;
+get a cute multiplication table.
+
+00:05:58.600 --> 00:06:02.760 position:63% line:0%
+When you consider that generated&nbsp;
+variables like this could be used to&nbsp;&nbsp;
+
+00:06:02.760 --> 00:06:08.040 position:63% line:0%
+automate configuration and that RotuerOS&nbsp;
+has built-in script trigger mechanisms,&nbsp;&nbsp;
+
+00:06:08.040 --> 00:06:12.080 position:63% line:0%
+the Scheduler, the Netwatch, and DHCP actions,&nbsp;&nbsp;
+
+00:06:12.080 --> 00:06:18.760 position:63% line:0%
+then you realize that you could script almost any&nbsp;
+unique feature or router behavior that you need.&nbsp;
+
+00:06:18.760 --> 00:06:23.760 position:63% line:0%
+Many people have written useful scripts&nbsp;
+for RouterOS and if you search online,&nbsp;&nbsp;
+
+00:06:23.760 --> 00:06:29.320 position:63% line:0%
+you will find countless forum articles&nbsp;
+and even entire GitHub repositories.
+
+00:06:29.320 --> 00:06:35.240 position:63% line:0%
+To learn more about the different scripting&nbsp;
+commands and operators visit our help page,&nbsp;&nbsp;
+
+00:06:35.240 --> 00:06:38.800 position:63% line:0%
+the link is in the description.
+

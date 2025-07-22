@@ -1,0 +1,238 @@
+WEBVTT
+Kind: captions
+
+00:00:00.080 --> 00:00:04.080 position:63% line:0%
+I am back with another video on scripting.&nbsp;
+There are many useful things I could not cover&nbsp;&nbsp;
+
+00:00:04.080 --> 00:00:09.640 position:63% line:0%
+in the last one, so I will go over more specific&nbsp;
+segments in additional videos, but in this one,&nbsp;&nbsp;
+
+00:00:09.640 --> 00:00:14.960 position:63% line:0%
+I will tell you about a few small nuances&nbsp;
+that were left out, but could be very useful.
+
+00:00:14.960 --> 00:00:20.840 position:63% line:0%
+Let’s start by examining script permissions&nbsp;
+in more detail. When you add a script, owner,&nbsp;&nbsp;
+
+00:00:20.840 --> 00:00:26.640 position:63% line:0%
+policy, and the dont-require-permissions&nbsp;
+properties are set automatically. The owner&nbsp;&nbsp;
+
+00:00:26.640 --> 00:00:33.000 position:63% line:0%
+is simply the user who added the script, but&nbsp;
+the execution is not limited to that user only.
+
+00:00:33.000 --> 00:00:39.640 position:63% line:0%
+So if I log in as another user with another&nbsp;
+administrator account, I can still run it.&nbsp;&nbsp;
+
+00:00:39.640 --> 00:00:45.440 position:63% line:0%
+However, the execution will be prevented for users&nbsp;
+who do not have full user rights. A read-only&nbsp;&nbsp;
+
+00:00:45.440 --> 00:00:51.320 position:63% line:0%
+account cannot execute this script even though&nbsp;
+it only reads information, but we can change&nbsp;&nbsp;
+
+00:00:51.320 --> 00:00:56.640 position:63% line:0%
+this by setting the dont-require-permissions&nbsp;
+property to yes, and now it can be executed by&nbsp;&nbsp;
+
+00:00:56.640 --> 00:01:03.360 position:63% line:0%
+anyone – even the read-only users who cannot&nbsp;
+edit the source. This allows for a very neat&nbsp;&nbsp;
+
+00:01:03.360 --> 00:01:10.080 position:63% line:0%
+way to give your non-admin users very specific&nbsp;
+abilities if you will. But you cannot control&nbsp;&nbsp;
+
+00:01:10.080 --> 00:01:16.920 position:63% line:0%
+which users will be able to run which scripts&nbsp;
+as it is a simple on/off switch for everyone.
+
+00:01:16.920 --> 00:01:23.080 position:63% line:0%
+What you can control is the policy, but for most&nbsp;
+people and most scripts, it is not necessary to&nbsp;&nbsp;
+
+00:01:23.080 --> 00:01:28.600 position:63% line:0%
+alter it from the default. Theoretically, if you&nbsp;
+wrote a very versatile script that could end up&nbsp;&nbsp;
+
+00:01:28.600 --> 00:01:34.960 position:63% line:0%
+executing almost any command, then you could limit&nbsp;
+the script's capabilities with the policy, but&nbsp;&nbsp;
+
+00:01:34.960 --> 00:01:40.280 position:63% line:0%
+that is not usually the case. Another situation&nbsp;
+where I could imagine this property being used&nbsp;&nbsp;
+
+00:01:40.280 --> 00:01:46.760 position:63% line:0%
+is when you have copied a script that you want to&nbsp;
+run for some reason, but you don’t understand it.&nbsp;&nbsp;
+
+00:01:46.760 --> 00:01:52.200 position:63% line:0%
+Then you could disable certain privileges like&nbsp;
+the ability to change the password and access&nbsp;&nbsp;
+
+00:01:52.200 --> 00:01:58.520 position:63% line:0%
+sensitive information, for example. That is&nbsp;
+the sort of stuff you can do with the policy.
+
+00:01:58.520 --> 00:02:03.400 position:63% line:0%
+Let’s move on to some code quirks.
+First up, I should mention that you can&nbsp;&nbsp;
+
+00:02:03.400 --> 00:02:10.360 position:63% line:0%
+comment out lines using the hashtag symbol,&nbsp;
+so they don’t get executed when debugging,&nbsp;&nbsp;
+
+00:02:10.360 --> 00:02:14.840 position:63% line:0%
+for example. And of course, you&nbsp;
+can add informational comments.
+
+00:02:14.840 --> 00:02:19.480 position:63% line:0%
+Another quick thing I should mention&nbsp;
+is that you can split lines without&nbsp;&nbsp;
+
+00:02:19.480 --> 00:02:24.480 position:63% line:0%
+breaking the execution. Just go&nbsp;
+to one of the spaces and type a&nbsp;&nbsp;
+
+00:02:24.480 --> 00:02:29.200 position:63% line:0%
+backslash followed by enter. You can&nbsp;
+do it as many times as necessary,&nbsp;&nbsp;
+
+00:02:29.200 --> 00:02:35.000 position:63% line:0%
+and it can help you tidy things up when you are&nbsp;
+exceeding the workable width of your terminal.
+
+00:02:35.000 --> 00:02:40.800 position:63% line:0%
+Now, whenever you press ‘enter’, you&nbsp;
+are actually typing an invisible symbol,&nbsp;&nbsp;
+
+00:02:40.800 --> 00:02:47.880 position:63% line:0%
+sometimes called an end-of-line sequence or&nbsp;
+just a new-line character. Historically there&nbsp;&nbsp;
+
+00:02:47.880 --> 00:02:53.680 position:63% line:0%
+have been differences between these characters&nbsp;
+in different operating systems and Windows has&nbsp;&nbsp;
+
+00:02:53.680 --> 00:02:59.960 position:63% line:0%
+taken a double-character approach. The&nbsp;
+same two-character sequence is being used&nbsp;&nbsp;
+
+00:02:59.960 --> 00:03:06.440 position:63% line:0%
+in RouterOS scripts. This could potentially have&nbsp;
+an implication when copying and pasting lines of&nbsp;&nbsp;
+
+00:03:06.440 --> 00:03:14.440 position:63% line:0%
+code between different environments or using a&nbsp;
+script to access information from somewhere else.
+
+00:03:14.440 --> 00:03:17.680 position:63% line:0%
+If we create a string and we&nbsp;
+want to include a newline,&nbsp;&nbsp;
+
+00:03:17.680 --> 00:03:22.120 position:63% line:0%
+we could just press enter, but that&nbsp;
+breaks up the line in our script,&nbsp;&nbsp;
+
+00:03:22.120 --> 00:03:30.160 position:63% line:0%
+so alternatively we can also use “\n”. Those two&nbsp;
+characters will get interpreted as a newline.&nbsp;&nbsp;
+
+00:03:30.160 --> 00:03:38.520 position:63% line:0%
+Now, the “:put” command is displaying these with a&nbsp;
+little tab added, but both newlines are the same.
+
+00:03:38.520 --> 00:03:44.400 position:63% line:0%
+The backslash in strings is used to escape&nbsp;
+the typical use of characters. In this case,&nbsp;&nbsp;
+
+00:03:44.400 --> 00:03:50.000 position:63% line:0%
+it turns the letter ‘n’ into a newline,&nbsp;
+but there are several other such cases and&nbsp;&nbsp;
+
+00:03:50.000 --> 00:03:56.280 position:63% line:0%
+they are known as escape sequences. So, for&nbsp;
+example, you can use it to include a double&nbsp;&nbsp;
+
+00:03:56.280 --> 00:04:01.360 position:63% line:0%
+quote inside of a string, preventing&nbsp;
+that symbol from ending the string.
+
+00:04:01.360 --> 00:04:06.240 position:63% line:0%
+Similarly, you can include the backslash&nbsp;
+itself into a string and so on.&nbsp;
+
+00:04:06.240 --> 00:04:14.640 position:63% line:0%
+You can even include specific hex values&nbsp;
+of symbols, so 4D and 54 can become… MT.&nbsp;
+
+00:04:14.640 --> 00:04:18.640 position:63% line:0%
+Moving on, it is possible to&nbsp;
+concatenate or combine strings.&nbsp;
+
+00:04:18.640 --> 00:04:22.760 position:63% line:0%
+All you have to do is place a simple&nbsp;
+dot between them. Alternatively,&nbsp;&nbsp;
+
+00:04:22.760 --> 00:04:29.280 position:63% line:0%
+you can also combine some text with a variable.&nbsp;
+If one of those variables is of a different kind,&nbsp;&nbsp;
+
+00:04:29.280 --> 00:04:34.800 position:63% line:0%
+like a number or boolean, it will still&nbsp;
+work, as long as the output is text.
+
+00:04:34.800 --> 00:04:39.120 position:63% line:0%
+The last thing that I would like to&nbsp;
+touch on is command substitution. I&nbsp;&nbsp;
+
+00:04:39.120 --> 00:04:43.720 position:63% line:0%
+already showed you in the last video, that&nbsp;
+you can execute multiple operations in&nbsp;&nbsp;
+
+00:04:43.720 --> 00:04:47.880 position:63% line:0%
+brackets and that the dollar sign,&nbsp;
+which is used to call variables,&nbsp;&nbsp;
+
+00:04:47.880 --> 00:04:53.600 position:63% line:0%
+can also be used before brackets to&nbsp;
+perform operations inside of a string.
+
+00:04:53.600 --> 00:04:55.240 position:63% line:0%
+But what you might not realize,&nbsp;&nbsp;
+
+00:04:55.240 --> 00:05:01.840 position:63% line:0%
+is that we also have the square brackets&nbsp;
+which can be used to substitute commands.&nbsp;
+
+00:05:01.840 --> 00:05:06.680 position:63% line:0%
+Here is what it looks like. The first string will&nbsp;
+get its value assigned from the output of the&nbsp;&nbsp;
+
+00:05:06.680 --> 00:05:13.320 position:63% line:0%
+identity print command. But the second string&nbsp;
+will have the “get” command called inside it.&nbsp;
+
+00:05:13.320 --> 00:05:19.320 position:63% line:0%
+So now if we run the script, we can see that&nbsp;
+the output is a simple identity print followed&nbsp;&nbsp;
+
+00:05:19.320 --> 00:05:26.280 position:63% line:0%
+by a sentence containing a specific MAC address&nbsp;
+that was inserted using the command substitution.
+
+00:05:26.280 --> 00:05:29.760 position:63% line:0%
+Alright, that is enough information&nbsp;
+for this video. If you are interested&nbsp;&nbsp;
+
+00:05:29.760 --> 00:05:35.280 position:63% line:0%
+in scripting, stay tuned as there&nbsp;
+are a couple more videos coming soon.
+

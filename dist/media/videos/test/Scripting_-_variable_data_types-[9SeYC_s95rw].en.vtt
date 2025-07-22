@@ -1,0 +1,206 @@
+WEBVTT
+Kind: captions
+
+00:00:00.120 --> 00:00:03.680 position:63% line:0%
+There are 11 data types that&nbsp;
+RotuerOS variables can have,&nbsp;&nbsp;
+
+00:00:03.680 --> 00:00:06.600 position:63% line:0%
+let’s have a closer look&nbsp;
+to understand them better.
+
+00:00:06.600 --> 00:00:13.080 position:63% line:0%
+First up we got a variable with no defined value,&nbsp;
+which is the first data type – nil. There isn’t&nbsp;&nbsp;
+
+00:00:13.080 --> 00:00:17.920 position:63% line:0%
+much to see, but I have prepared a little&nbsp;
+script snippet that establishes the variable,&nbsp;&nbsp;
+
+00:00:17.920 --> 00:00:24.000 position:63% line:0%
+prints it using the ‘put’ command and the&nbsp;
+output is an empty line. But then it also&nbsp;&nbsp;
+
+00:00:24.000 --> 00:00:30.120 position:63% line:0%
+prints the output of a command called ‘typeof’&nbsp;
+– this command returns the data type of any&nbsp;&nbsp;
+
+00:00:30.120 --> 00:00:33.040 position:63% line:0%
+variable, and in this case, it is ‘nothing’.
+
+00:00:33.040 --> 00:00:39.360 position:63% line:0%
+Moving on, we got num which is our 64-bit&nbsp;
+integer. When we run a similar little script,&nbsp;&nbsp;
+
+00:00:39.360 --> 00:00:43.920 position:63% line:0%
+you can see that the output of the&nbsp;
+‘typeof’ command is simply ‘num’. It&nbsp;&nbsp;
+
+00:00:43.920 --> 00:00:49.480 position:63% line:0%
+is the only number data type we have, so&nbsp;
+when doing math operations like division,&nbsp;&nbsp;
+
+00:00:49.480 --> 00:00:54.280 position:63% line:0%
+we have to keep in mind that there is no&nbsp;
+floating data point. If a mathematical&nbsp;&nbsp;
+
+00:00:54.280 --> 00:01:00.080 position:63% line:0%
+operation results in something with a&nbsp;
+decimal point, it will simply get rounded.&nbsp;
+
+00:01:00.080 --> 00:01:05.480 position:63% line:0%
+Normally people don’t want to do advanced math&nbsp;
+operations on their routers, so this shouldn’t&nbsp;&nbsp;
+
+00:01:05.480 --> 00:01:11.440 position:63% line:0%
+be much of a setback. But if you need to do a&nbsp;
+precise math operation, you can easily work around&nbsp;&nbsp;
+
+00:01:11.440 --> 00:01:17.800 position:63% line:0%
+the limitation. For example, if you want to divide&nbsp;
+a number with the precision of one decimal place,&nbsp;&nbsp;
+
+00:01:17.800 --> 00:01:23.600 position:63% line:0%
+you could multiply the dividend by 10 and&nbsp;
+remember that the rightmost digit is the&nbsp;&nbsp;
+
+00:01:23.600 --> 00:01:30.080 position:63% line:0%
+first decimal place. There is also the modulo&nbsp;
+operator, which you could use to generate a&nbsp;&nbsp;
+
+00:01:30.080 --> 00:01:37.160 position:63% line:0%
+readable output with multiple decimal places.
+A fun fact about the num data type is that&nbsp;&nbsp;
+
+00:01:37.160 --> 00:01:41.280 position:63% line:0%
+you could also use bytes in&nbsp;
+hexadecimal format as input.
+
+00:01:41.280 --> 00:01:47.520 position:63% line:0%
+Then we got bool. Not much to it, it just stores&nbsp;
+a single bit of information that resembles true&nbsp;&nbsp;
+
+00:01:47.520 --> 00:01:52.480 position:63% line:0%
+or false, and hence there are only two&nbsp;
+outputs that this variable could have.
+
+00:01:52.480 --> 00:01:57.640 position:63% line:0%
+Strings will take up more memory, but&nbsp;
+they can store any text that you need.
+
+00:01:57.640 --> 00:02:04.000 position:63% line:0%
+Since this is scripting for routers the next four&nbsp;
+data types are for storing networking information.&nbsp;
+
+00:02:04.000 --> 00:02:12.080 position:63% line:0%
+IP type can efficiently store IPv4 addresses.
+IP-prefix is slightly larger and is intended to&nbsp;&nbsp;
+
+00:02:12.080 --> 00:02:19.280 position:63% line:0%
+store the subnet information, but really it&nbsp;
+stores the same data as IP plus the subnet.&nbsp;
+
+00:02:19.280 --> 00:02:24.960 position:63% line:0%
+In the same manner, we have the IP6 type.
+And of course, an IP6-prefix&nbsp;&nbsp;
+
+00:02:24.960 --> 00:02:30.120 position:63% line:0%
+to store the subnet information.
+And then we have a special RouterOS variable&nbsp;&nbsp;
+
+00:02:30.120 --> 00:02:36.000 position:63% line:0%
+called ID. It always starts with a star,&nbsp;
+but it is just a hexadecimal number.
+
+00:02:36.000 --> 00:02:41.640 position:63% line:0%
+These are generally used as immutable&nbsp;
+references to configurable items. For example,&nbsp;&nbsp;
+
+00:02:41.640 --> 00:02:48.440 position:63% line:0%
+an interface could be referenced using its list&nbsp;
+number and name, but both of those could change&nbsp;&nbsp;
+
+00:02:48.440 --> 00:02:53.600 position:63% line:0%
+breaking your script. So the ID is a&nbsp;
+much better way to reference things,&nbsp;&nbsp;
+
+00:02:53.600 --> 00:02:59.200 position:63% line:0%
+but they are usually not displayed anywhere. If&nbsp;
+you would like to find out the ID you will need&nbsp;&nbsp;
+
+00:02:59.200 --> 00:03:05.200 position:63% line:0%
+to use the ‘get’ command. The information&nbsp;
+that is returned will contain the ID.
+
+00:03:05.200 --> 00:03:11.160 position:63% line:0%
+Now, it is also possible to store time as a&nbsp;
+variable. So if I record midnight as a variable,&nbsp;&nbsp;
+
+00:03:11.160 --> 00:03:17.160 position:63% line:0%
+it works just fine, but there is a quirk. If&nbsp;
+you work with this data type and at any point,&nbsp;&nbsp;
+
+00:03:17.160 --> 00:03:22.640 position:63% line:0%
+the value reaches 24 hours,&nbsp;
+it will no longer return 24,&nbsp;&nbsp;
+
+00:03:22.640 --> 00:03:30.240 position:63% line:0%
+instead it will turn into 1d00. This is because&nbsp;
+the data type stores date and time together,&nbsp;&nbsp;
+
+00:03:30.240 --> 00:03:34.760 position:63% line:0%
+but as long as the date part is all&nbsp;
+zeroes, they don’t get displayed.&nbsp;
+
+00:03:34.760 --> 00:03:39.120 position:63% line:0%
+If you want to use this data type to keep&nbsp;
+track of things over time, you will have&nbsp;&nbsp;
+
+00:03:39.120 --> 00:03:46.360 position:63% line:0%
+to parse for the full format that starts with&nbsp;
+weeks, followed by days, and ends with time.&nbsp;
+
+00:03:46.360 --> 00:03:52.120 position:63% line:0%
+The 'weeks' number will get pretty large, but ten&nbsp;
+thousand is just an example, and it would actually&nbsp;&nbsp;
+
+00:03:52.120 --> 00:04:00.080 position:63% line:0%
+be referencing a far future. RouterOS uses the&nbsp;
+Unix time which starts on January 1st, 1970.&nbsp;&nbsp;
+
+00:04:00.080 --> 00:04:08.240 position:63% line:0%
+Today's date converted to time data type&nbsp;
+would result in something like week 2800.
+
+00:04:08.240 --> 00:04:13.880 position:63% line:0%
+Finally, the last data type is 'array'.&nbsp;
+Working with arrays deserves a separate video,&nbsp;&nbsp;
+
+00:04:13.880 --> 00:04:18.680 position:63% line:0%
+but here is how you can create them.
+To define one, you need to place your&nbsp;&nbsp;
+
+00:04:18.680 --> 00:04:23.240 position:63% line:0%
+values inside curly brackets and&nbsp;
+of course, you have to separate&nbsp;&nbsp;
+
+00:04:23.240 --> 00:04:29.760 position:63% line:0%
+them. You can use commas in the input if you&nbsp;
+like, but the output will return semicolons.&nbsp;
+
+00:04:29.760 --> 00:04:34.080 position:63% line:0%
+What is interesting about this data type&nbsp;
+is that it can also work similarly to&nbsp;&nbsp;
+
+00:04:34.080 --> 00:04:39.760 position:63% line:0%
+dictionaries in Python, so you could&nbsp;
+also define one using key-value pairs.
+
+00:04:39.760 --> 00:04:43.040 position:63% line:0%
+The funny thing is that you&nbsp;
+could even mix them, but more&nbsp;&nbsp;
+
+00:04:43.040 --> 00:04:51.640 position:63% line:0%
+on that in the video on working with arrays.
+Thank you for watching and have fun scripting.
+

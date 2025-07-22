@@ -1,0 +1,266 @@
+WEBVTT
+Kind: captions
+
+00:00:00.080 --> 00:00:05.080 position:63% line:0%
+Przyjrzeliśmy się, w jaki sposób tablice RouterOS mogą być 
+zdefiniowane - jako lista wartości lub jako lista  
+
+00:00:05.080 --> 00:00:10.920 position:63% line:0%
+par wartości i kluczy. Teraz będziemy dalej 
+jak możemy pracować z tym typem danych.
+
+00:00:10.920 --> 00:00:15.000 position:63% line:0%
+Tutaj mam dwa rodzaje tablic 
+o których wspomniałem i nawet jeśli  
+
+00:00:15.000 --> 00:00:19.000 position:63% line:0%
+mogą wydawać się zasadniczo różne, 
+w RotuerOS są one kompatybilne.
+
+00:00:19.000 --> 00:00:24.680 position:63% line:0%
+Mogę utworzyć trzecią tablicę przez konkatenację 
+pierwsze dwie, jeśli chcę. Można to zrobić  
+
+00:00:24.680 --> 00:00:30.720 position:63% line:0%
+za pomocą zwykłego przecinka. A następnie, jeśli wydrukujemy 
+zobaczymy, że kolejność została zmieniona. 
+
+00:00:30.720 --> 00:00:34.920 position:63% line:0%
+Wartości bez klucza zostały po prostu 
+umieszczone na początku tablicy. Ale  
+
+00:00:34.920 --> 00:00:38.880 position:63% line:0%
+wartości z kluczem zostały przeniesione na 
+koniec i uporządkowane alfabetycznie.
+
+00:00:38.880 --> 00:00:42.800 position:63% line:0%
+Jest to kilka niuansów, o których 
+trzeba mieć na uwadze podczas konkatenacji  
+
+00:00:42.800 --> 00:00:48.760 position:63% line:0%
+tablic. Proste tablice bez klucza nie zostaną 
+uporządkowane - zostaną po prostu połączone jako  
+
+00:00:48.760 --> 00:00:54.320 position:63% line:0%
+jak w przypadku zwykłych tablic. 
+Ale za każdym razem, gdy dodasz wpisy z kluczami  
+
+00:01:00.560 --> 00:01:05.120 position:63% line:0%
+Teraz, aby pobrać określoną wartość z 
+tablicy, możemy oczywiście użyć indeksu  
+
+00:00:54.320 --> 00:00:59.920 position:63% line:0%
+do mieszanki - te wpisy z kluczami zostaną 
+zostaną przeniesione na koniec posortowane alfabetycznie.
+
+00:01:05.120 --> 00:01:10.440 position:63% line:0%
+podobnie jak w przypadku zwykłych tablic. Składnia polega na 
+umieszczenie wywołania tablicy w nawiasach i utworzenie  
+
+00:01:10.440 --> 00:01:16.080 position:63% line:0%
+tę małą strzałkę wskazującą na nasz indeks 
+używając myślnika i symbolu większego niż. 
+
+00:01:16.080 --> 00:01:21.400 position:63% line:0%
+Pomyślnie wywołałem pierwszy element z indeksem 0. 
+pierwszy element z indeksem 0,  
+
+00:01:21.400 --> 00:01:27.280 position:63% line:0%
+indeks będzie działał tylko z elementami, które 
+nie mają klucza. Więc jeśli chcę wywołać jeden  
+
+00:01:27.280 --> 00:01:32.680 position:63% line:0%
+z ostatnich trzech elementów w tej tablicy, muszę 
+muszę użyć klucza zamiast indeksu i  
+
+00:01:32.680 --> 00:01:37.440 position:63% line:0%
+Będę w stanie uzyskać te wartości.
+Osobiście nie używałbym połączonych  
+
+00:01:37.440 --> 00:01:42.520 position:63% line:0%
+takich tablic tylko z zasady, 
+ponieważ nie chcę się mylić. 
+
+00:01:42.520 --> 00:01:49.720 position:63% line:0%
+Na przykład, jeśli utworzę inny skrypt z dwoma 
+elementami. Indeks 0 będzie literą "a",  
+
+00:01:49.720 --> 00:01:54.880 position:63% line:0%
+ale następny element będzie 
+będzie miał klucz 0 i wartość 'b'. Teraz,  
+
+00:01:54.880 --> 00:02:01.000 position:63% line:0%
+Jak myślisz, co się stanie, gdy spróbuję 
+go wywołać? Który element zostanie zwrócony?
+
+00:02:01.000 --> 00:02:07.200 position:63% line:0%
+Cóż, odpowiedź jest taka, że liczba zero jest 
+wywołuje indeks, a jeśli utworzę kolejne wywołanie  
+
+00:02:07.200 --> 00:02:13.880 position:63% line:0%
+z zerem w cudzysłowie - to zero jest ciągiem znaków 
+i będzie wywoływało klucz. Jeśli uruchomię to,  
+
+00:02:13.880 --> 00:02:19.120 position:63% line:0%
+widać, że oba wywołania zostały wykonane 
+i poprawnie zwróciły elementy,  
+
+00:02:19.120 --> 00:02:22.640 position:63% line:0%
+więc możesz to zrobić w ten sposób, jeśli 
+chcesz. Nie polecałbym tego.  
+
+00:02:22.640 --> 00:02:27.160 position:63% line:0%
+Po prostu staraj się trzymać zwykłe tablice 
+oddzielać od typu słownikowego.
+
+00:02:27.160 --> 00:02:30.240 position:63% line:0%
+W porządku, mogą być różne 
+sytuacje, w których można wykorzystać  
+
+00:02:30.240 --> 00:02:35.880 position:63% line:0%
+z tablic, ale jeśli zamierzasz zrobić coś złożonego, będziesz musiał 
+cokolwiek złożonego, będziesz musiał przeanalizować  
+
+00:02:35.880 --> 00:02:42.400 position:63% line:0%
+Wyjścia RouterOS i istnieje wbudowany sposób 
+sposób, aby otrzymać te wyjścia jako tablice.
+
+00:02:42.400 --> 00:02:47.920 position:63% line:0%
+Jeśli spróbujesz pobrać dane wyjściowe polecenia print 
+poprzez regularne podstawianie poleceń,  
+
+00:02:47.920 --> 00:02:52.600 position:63% line:0%
+co się stanie... Skrypt po prostu uruchomi polecenie 
+po prostu uruchomi polecenie drukowania tak, jakby  
+
+00:02:52.600 --> 00:02:58.360 position:63% line:0%
+został wpisany do terminala, a następnie można 
+zobaczyć, że ostatnia linia jest wynikiem operacji  
+
+00:02:58.360 --> 00:03:03.240 position:63% line:0%
+'typeof' - jest to zero, ponieważ 
+żadna wartość nie została przekazana do zmiennej.
+
+00:03:03.240 --> 00:03:09.160 position:63% line:0%
+Teraz wprowadźmy małą zmianę do skryptu i 
+i dodajmy parametr 'as-value' do polecenia print. 
+
+00:03:09.160 --> 00:03:15.400 position:63% line:0%
+Kiedy to uruchamiam, nie ma widocznych danych wyjściowych, a 
+nasza zmienna jest teraz poprawnie zdefiniowana jako tablica.
+
+00:03:15.400 --> 00:03:20.920 position:63% line:0%
+Następnie możemy iterować po tablicy za pomocą pętli 
+pętli "foreach". Składnia jest dość prosta  
+
+00:03:20.920 --> 00:03:27.400 position:63% line:0%
+prosta. Najpierw definiujemy dwie zmienne, które będą 
+reprezentować klucz i wartość. Jeśli zdefiniowałeś tylko zmienną  
+
+00:03:27.400 --> 00:03:34.360 position:63% line:0%
+pojedynczą zmienną, pracowałbyś tylko z 
+tylko wartościami. Następnie wpisz 'in=' tablicę, która  
+
+00:03:34.360 --> 00:03:41.480 position:63% line:0%
+z którą pracujesz. Następnie sekcja do z poleceniami 
+poleceniami, które powinny być wykonywane w każdej pętli. 
+
+00:03:41.480 --> 00:03:45.800 position:63% line:0%
+Ten skrypt zwraca teraz coś 
+podobne do zwykłego polecenia print.
+
+00:03:45.800 --> 00:03:51.080 position:63% line:0%
+Istnieje również bardziej specyficzne polecenie - get. 
+W sekcjach takich jak zasoby systemowe, gdzie  
+
+00:03:51.080 --> 00:03:58.560 position:63% line:0%
+wyjście jest tablicą z parami klucz-wartość, działa to identycznie jak 
+działa identycznie jak "print as-value". Ale  
+
+00:03:58.560 --> 00:04:05.000 position:63% line:0%
+możemy również określić, którą wartość chcemy 
+zwrócić. Jeśli chcemy pracować z uptime,  
+
+00:04:05.000 --> 00:04:08.400 position:63% line:0%
+zaoszczędziłoby nam to trochę kłopotów z parsowaniem.
+
+00:04:08.400 --> 00:04:13.440 position:63% line:0%
+Jednak nie wszystkie sekcje będą takie 
+w ten sposób - zawsze, gdy istnieje lista wpisów,  
+
+00:04:13.440 --> 00:04:19.200 position:63% line:0%
+takich jak interfejsy lub adresy, wyjście 
+z 'print as-value' będzie listą  
+
+00:04:19.200 --> 00:04:23.760 position:63% line:0%
+tablicą tablic i podobnie, 
+polecenie get nie będzie w stanie  
+
+00:04:23.760 --> 00:04:29.240 position:63% line:0%
+zwrócić niczego, chyba że określisz 
+która tablica ma zostać "pobrana".
+
+00:04:29.240 --> 00:04:35.120 position:63% line:0%
+Na przykład, z "interfejsem get", teraz 
+Muszę również zidentyfikować tablicę. Mogę  
+
+00:04:35.120 --> 00:04:42.000 position:63% line:0%
+użyć nazwy interfejsu, ale należy pamiętać, że ".id" jest 
+preferowane. Wyjściem jest teraz cała tablica,  
+
+00:04:42.000 --> 00:04:48.040 position:63% line:0%
+ale get może przyjąć inny parametr, więc mógłbym 
+na przykład zapytanie o status uruchomienia.
+
+00:04:48.040 --> 00:04:53.040 position:63% line:0%
+Jeśli chcesz odczytać i przetworzyć wszystkie 
+informacji lub większość z nich, wtedy  
+
+00:04:53.040 --> 00:04:57.520 position:63% line:0%
+lepiej będzie uruchomić pętlę 
+wewnątrz pętli. Oto przykład,  
+
+00:04:57.520 --> 00:05:03.360 position:63% line:0%
+Pierwsza pętla iteruje po tablicy głównej 
+wszystkich interfejsów. Następnie druga pętla przechodzi  
+
+00:05:03.360 --> 00:05:08.760 position:63% line:0%
+nad poszczególnymi tablicami interfejsów i 
+zgrabnie wypisuje ich zawartość. Oczywiście  
+
+00:05:08.760 --> 00:05:14.200 position:63% line:0%
+to miejsce, w którym można umieścić wszystkie inne działania 
+które można wykonać z tymi informacjami.
+
+00:05:14.200 --> 00:05:18.840 position:63% line:0%
+A tak wyglądałyby dane wyjściowe 
+na wypadek, gdybyś się zastanawiał. Mógłbyś użyć  
+
+00:05:18.840 --> 00:05:23.440 position:63% line:0%
+skryptu, aby wyświetlić zgrabną tabelę 
+informacji, które są dla ciebie istotne,  
+
+00:05:23.440 --> 00:05:27.280 position:63% line:0%
+ale bardziej prawdopodobne jest, że będziesz chciał 
+coś zautomatyzować. Na przykład,  
+
+00:05:27.280 --> 00:05:32.440 position:63% line:0%
+można sprawdzić, kiedy interfejs jest uruchomiony lub 
+określone urządzenie jest wykrywane przez sąsiada  
+
+00:05:32.440 --> 00:05:39.480 position:63% line:0%
+wykrywanie lub listę dostępu wifi i włączyć limit prędkości 
+lub po prostu wysłać sobie powiadomienie.
+
+00:05:39.480 --> 00:05:45.080 position:63% line:0%
+Ostatnią rzeczą, o której powinienem wspomnieć w przypadku tablic jest 
+polecenie "toarray". Jeśli z jakiegokolwiek powodu  
+
+00:05:45.080 --> 00:05:49.200 position:63% line:0%
+masz ciąg z liczbami lub znakami 
+oddzielonymi przecinkami lub średnikami, a ty  
+
+00:05:49.200 --> 00:05:59.640 position:63% line:0%
+potrzebujesz przekształcić go w tablicę, po prostu uruchom to polecenie 
+to polecenie, a wynikiem będzie tablica.
+

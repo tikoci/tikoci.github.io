@@ -1,0 +1,296 @@
+WEBVTT
+Kind: captions
+
+00:00:00.120 --> 00:00:05.720 position:63% line:0%
+Tudtad, hogy a RouterOS-nek van saját script
+nyelve? A legtöbb dolog, amit csak elképzelhetsz
+
+00:00:05.720 --> 00:00:11.840 position:63% line:0%
+hogy utomatikusan fut a routereden, az scriptelhető. Kis
+specifikus funkciók, amikre szükséged van, 
+
+00:00:11.840 --> 00:00:17.000 position:63% line:0%
+könnyen hozzáadhatóak, és még nem is
+kell hozzá szoftverfejlesztői jártasság. Ha rendelkezel
+
+00:00:17.000 --> 00:00:27.200 position:63% line:0%
+egy alapvető elképzeléssel, hogy hogyan működnek a scriptek
+akkor fogsz tudni scriptet írni a RouterOS-ben. 
+
+00:00:27.200 --> 00:00:31.560 position:63% line:0%
+Szóval, hogy is működik a RouterOS script? 
+Hasonlóan a népszerű programnyelvekhez, mint a Bash
+
+00:00:31.560 --> 00:00:35.200 position:63% line:0%
+és a Python, scriptelhetsz
+közvetlenül a terminálba, 
+
+00:00:35.200 --> 00:00:39.160 position:63% line:0%
+ami elég kényelmes amikor kipróbálsz
+valamit, és ellenőrzöd, hogy egy bizonyos
+
+00:00:39.160 --> 00:00:44.600 position:63% line:0%
+parancs fog-e múködni, valamint, hogy
+akarsz-e végrehajtani sorrendben több parancsot. 
+
+00:00:44.600 --> 00:00:48.160 position:63% line:0%
+Ha bármikor eszedbe jut 
+valami jó megoldás, természetesen
+
+00:00:48.160 --> 00:00:53.800 position:63% line:0%
+szeretnéd azt eltárolni scriptként, 
+hogy bármikor elérhető legyen. 
+
+00:00:53.800 --> 00:00:58.320 position:63% line:0%
+A RouterOS-ben, ahelyett, hogy létrehoznál script
+fájlokat, a scriptjeid tárolását a
+
+00:00:58.320 --> 00:01:04.440 position:63% line:0%
+system script section menüpont végzi, ami segít
+a hozzáférés kezeléssel és rendezetten tartja a dolgokat. 
+
+00:01:04.440 --> 00:01:09.920 position:63% line:0%
+Próbáljunk hozzáadni egy egyszerű scriptet, 
+hogy megmutassam nektek az alapelveket.
+
+00:01:09.920 --> 00:01:13.560 position:63% line:0%
+Most kezdetben csak egy
+névre lesz szükséged a scrithez.
+
+00:01:13.560 --> 00:01:16.920 position:63% line:0%
+Ahogy láthatod, egy csomó
+egyéb paraméter generálódott le, 
+
+00:01:16.920 --> 00:01:21.520 position:63% line:0%
+de nem szükséges mindet megérteni, 
+csak simán elkezdhetjük szerkeszteni. 
+
+00:01:21.520 --> 00:01:26.600 position:63% line:0%
+Eljutottunk a beépített script szerkesztőbe.
+Semmi extre, csak egy sima szövegszerkesztő,
+
+00:01:26.600 --> 00:01:31.760 position:63% line:0%
+ami kiemeli a szintaxisokat. Itt beírhatunk
+bármilyen RouterOS parancsot, ugyanúgy, 
+
+00:01:31.760 --> 00:01:37.960 position:63% line:0%
+ahogy a terminálba írnánk, szóval a legegyszerűbb script
+is számos sornyi konfigurációt tartalmazhat. 
+
+00:01:37.960 --> 00:01:42.240 position:63% line:0%
+A lehetőségek széles skálája miatt
+kijelenthetjük, hogy a fő korlát
+
+00:01:42.240 --> 00:01:48.400 position:63% line:0%
+a saját képzelőerőnk lesz, mivel az összes 
+szükséges összetevővel rendelkezik a rendszer. 
+
+00:01:48.400 --> 00:01:53.040 position:63% line:0%
+Kezdjük a változókkal. Összesen 
+11 adat típust tudsz használni, 
+
+00:01:53.040 --> 00:01:58.480 position:63% line:0%
+de nem kell őket előre specifikusan deklarálni, 
+automatikusan fel lesznek ismerve
+
+00:01:58.480 --> 00:02:03.480 position:63% line:0%
+amikor értéket rendelsz a változóhoz. 
+Amit viszont deklarálnunk kell, 
+
+00:02:03.480 --> 00:02:09.400 position:63% line:0%
+az az, a két lehetőség közül, 
+hogy local vagy global beállítást szeretnénk. 
+
+00:02:09.400 --> 00:02:16.240 position:63% line:0%
+Local változó létrehozásához be kell gépelni és oszlop
+szimbólumot, utána "local" szót, majd space
+
+00:02:16.240 --> 00:02:20.120 position:63% line:0%
+és a változó neve. 
+Akár így is hagyhatod, vagy
+
+00:02:20.120 --> 00:02:25.520 position:63% line:0%
+hozzáadhatsz egy értéket. Egy szám fogja
+meghatározni integer (egész szám)-ként. Hasonlóan
+
+00:02:25.520 --> 00:02:31.560 position:63% line:0%
+a karakterek szövegként, beírva, hogy
+"true", vagy "false" pedig logikai értékként. 
+
+00:02:31.560 --> 00:02:35.280 position:63% line:0%
+A global változókat
+ugyanígy kell deklarálni. 
+
+00:02:35.280 --> 00:02:41.440 position:63% line:0%
+Most írjuk ki őket a "put" parancs használatával. 
+Mint minden RouterOS paranccsal, ennek is
+
+00:02:41.440 --> 00:02:47.400 position:63% line:0%
+az oszlop szimbólummal kell kezdődnie és ahhoz
+értéket kapjon a változó, a dollár jelet kell használni. 
+
+00:02:47.400 --> 00:02:54.120 position:63% line:0%
+A dollárjel nélkül a "put" csak simán
+kiírná a változó nevét szövegként. 
+
+00:02:54.120 --> 00:03:00.160 position:63% line:0%
+Most elmenthetjük és bezárhatjuk a scriptet, 
+Ctrl+O, és már futtathatjuk is. 
+
+00:03:00.160 --> 00:03:04.160 position:63% line:0%
+Mint látod, mindkét változó
+ugyanúgy lett kiírva. De a
+
+00:03:04.160 --> 00:03:09.360 position:63% line:0%
+különbség, miután futtatuk a scriptet, 
+hogy a local változó el lett távolítva, 
+
+00:03:09.360 --> 00:03:16.280 position:63% line:0%
+de a global még mindig tárolva van a RAM-ban. 
+Leellenőrizheted az "environment" almenüben. 
+
+00:03:16.280 --> 00:03:21.840 position:63% line:0%
+Ha kiadok egy "put" parancsot, az még mindig visszaadja
+az értéket. A global változó jól jöhet, 
+
+00:03:21.840 --> 00:03:25.680 position:63% line:0%
+ha fel akarsz építeni egy saját
+kis scriptrendszert,
+
+00:03:25.680 --> 00:03:30.320 position:63% line:0%
+de szükségtelenül használni nem egy jó
+gyakorlat és kerülendő. Hogy töröljük 
+
+00:03:30.320 --> 00:03:35.920 position:63% line:0%
+a változót a RAM-ból, újraindíthatjuk 
+az eszközt, vagy kiadhatunk egy "remove" parancsot. 
+
+00:03:35.920 --> 00:03:40.720 position:63% line:0%
+A local változó a biztonságosabb megoldás, 
+amit előnyben kéne részesíteni amikkor csak lehet. 
+
+00:03:40.720 --> 00:03:45.440 position:63% line:0%
+Az egyetlen dolog, amit észben kell tartanunk
+az korlátozott lépték. 
+
+00:03:45.440 --> 00:03:50.520 position:63% line:0%
+Ha zárójelbe rakom a local változót, így, 
+akkor bármi, ami meghívja a zárójelen kívülről
+
+00:03:50.520 --> 00:03:55.240 position:63% line:0%
+az nem fog működni. Szóval ez a "put" 
+parancs nem fog futni többet.
+
+00:03:55.240 --> 00:04:01.080 position:63% line:0%
+A RouterOS scripting támogatja a legtöbb
+aritmetikus kapcsolót, szóval például
+
+00:04:01.080 --> 00:04:07.760 position:63% line:0%
+megduplázhatjuk ezt a számot. A beállított parancs
+lehetővé teszi a változó értékének módosítását,
+
+00:04:07.760 --> 00:04:13.920 position:63% line:0%
+és ha a matematikai műveletet
+hagyományos zárójelbe teszi. A többszörözés jól múködik, 
+
+00:04:13.920 --> 00:04:18.880 position:63% line:0%
+de az aritmetikus kapcsolókon kívül 
+is van lehetőség. Például, ha nincs 
+
+00:04:18.880 --> 00:04:26.560 position:63% line:0%
+egy fő kapcsolónk és használunk egy tipikus jelet
+az tulajdonképpen egy bit-szintű "xor" művelet lesz. 
+
+00:04:26.560 --> 00:04:32.760 position:63% line:0%
+A scrip így a 121 értéket fogja adni, mert a
+bit, ami a 2-re hivatkozik le lesz fordítva azon a 
+
+00:04:32.760 --> 00:04:37.760 position:63% line:0%
+változón. Mindenféle mókás dolgot meg lehet
+tenni. Nem fogom most az összeset bemutatni, 
+
+00:04:37.760 --> 00:04:40.360 position:63% line:0%
+utána lehet nézni a help page-en. 
+
+00:04:40.360 --> 00:04:46.440 position:63% line:0%
+Ha négyzetre akarom emelni ezt a változót, 
+akkor szimplán meg kell szoroznom önmagával. Ezután
+
+00:04:46.440 --> 00:04:52.720 position:63% line:0%
+beállíthatok egy kondíciós parancsot. Az "if" után
+kell megadni a kondíciót zárójelben, és
+
+00:04:52.720 --> 00:05:00.960 position:63% line:0%
+utána begépelni, hogy "do=" és hozzáírni a feladatot
+zárójelben. Ezek lehetnek többsoros feladatok is, 
+
+00:05:00.960 --> 00:05:05.880 position:63% line:0%
+de én most így hagyom egysorosként
+és futtatom. Pont úgy megy, ahogy kéne. 
+
+00:05:05.880 --> 00:05:09.720 position:63% line:0%
+Végül pedig, ez nem volna script írás, ha
+nem csinálnánk hurkokat és függvényeket, 
+
+00:05:09.720 --> 00:05:16.680 position:63% line:0%
+szóval szerkesszünk egy scriptet még egyszer és
+hozzunk létre egy függvényt, amit meghív egy hurok. 
+
+00:05:16.680 --> 00:05:24.400 position:63% line:0%
+A függvényeket ugyanúgy kell definiálni, mint a változót, 
+csak az érték helyett egy "do" parancsot adunk. 
+
+00:05:24.400 --> 00:05:30.680 position:63% line:0%
+Adjuk meg kimeneti értéknek a $1-et, ami az
+első argumentum, amit a függvény megkap, 
+
+00:05:30.680 --> 00:05:37.720 position:63% line:0%
+ezután pedig ennek az értéknek a négyzetét. 
+Vegyük észre, hogy van egy dollárjel a zárójel előtt
+
+00:05:37.720 --> 00:05:43.680 position:63% line:0%
+a szorzással. Ez szükséges ahhoz, hogy
+futtatható legyen egy művelet a szöveg közepén. 
+
+00:05:43.680 --> 00:05:49.360 position:63% line:0%
+Ezután csináljuk egy szimpla hurkot
+"i" integer változóval 1-től 9-ig, 
+
+00:05:49.360 --> 00:05:53.680 position:63% line:0%
+és hívjuk meg a függvényünket
+az "i" értéket használva. 
+
+00:05:53.680 --> 00:05:58.600 position:63% line:0%
+Most elmentem és futtatom, és 
+kapok egy szép szorzótáblát. 
+
+00:05:58.600 --> 00:06:02.760 position:63% line:0%
+Amikor úgy gondolod, hogy a generált
+változók, mint ezek, használhatók
+
+00:06:02.760 --> 00:06:08.040 position:63% line:0%
+konfiguráció automatizálásra és a RouterOS
+rendelkezik beépített script futtató mehanizmussal, 
+
+00:06:08.040 --> 00:06:12.080 position:63% line:0%
+a Scheduler, a Netwatch, és a DHCP feladatok,&nbsp;&nbsp;
+
+00:06:12.080 --> 00:06:18.760 position:63% line:0%
+akkor rájövünk, hogy szinte bármilyen
+egyedi funkció scriptelhető, amire szükségünk van. 
+
+00:06:18.760 --> 00:06:23.760 position:63% line:0%
+Sokan írtak már hasznos scripteket
+a RouterOS-hez, és ha rákarestek online, 
+
+00:06:23.760 --> 00:06:29.320 position:63% line:0%
+akkor számos fórumon fogtok találni, 
+sőt még egyész GitHub adattárakat is. 
+
+00:06:29.320 --> 00:06:35.240 position:63% line:0%
+Ha többet akarsz megtudni a különböző scripting
+parancsokról és műveletekről, látogasd meg a help oldalunkat, 
+
+00:06:35.240 --> 00:06:38.800 position:63% line:0%
+a link a leírásban. 
+
