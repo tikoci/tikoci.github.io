@@ -5,7 +5,7 @@ export default {
   root: "docs",
   theme: ["ink"],
   footer: "",
-  head: '<script defer data-domain="tikoci.github.io" src="https://plausible.io/js/script.js"></script><style>blockquote { font-style: italic; }</style>'
+  head: `<script async src="https://plausible.io/js/pa-ubWop5eYckoDPVbIjXU4_.js"></script><script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script><style>blockquote { font-style: italic; }</style>`
 
   // The pages and sections in the sidebar. If you don’t specify this option,
   // all pages will be listed in alphabetical order. Listing pages explicitly
