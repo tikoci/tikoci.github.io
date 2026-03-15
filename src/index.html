@@ -18,14 +18,26 @@
     <header class="container">
         <nav>
             <ul>
-                <li><strong><a href="index.html">TIKOCI</a></strong></li>
-            </ul>
-            <ul>
                 <li>
                     <details class="dropdown">
-                        <summary>Categories</summary>
-                        <ul dir="rtl">
-                            <li><a href="dev-tools.html">Development Tools</a></li>
+                        <summary class="brand-icon" aria-label="Browse site sections">
+                            <svg viewBox="0 0 120 120" class="nav-potto" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <polygon points="10,100 35,20 60,5 85,20 110,100" fill="#e8594f" opacity="0.85"/>
+                                <polygon points="25,105 45,35 60,25 75,35 95,105" fill="#f4a236" opacity="0.8"/>
+                                <polygon points="40,95 48,45 60,35 72,45 80,95" fill="#3a3a3a"/>
+                                <circle cx="52" cy="58" r="6" fill="#f7e559"/>
+                                <circle cx="68" cy="55" r="7" fill="#5bc0eb"/>
+                                <circle cx="52" cy="58" r="2.5" fill="#1a1a1a"/>
+                                <circle cx="69" cy="55" r="3" fill="#1a1a1a"/>
+                                <polygon points="58,63 62,63 60,70" fill="#e8594f"/>
+                                <polygon points="38,48 48,45 43,30" fill="#5bc0eb" opacity="0.9"/>
+                                <polygon points="82,48 72,45 77,28" fill="#f4a236" opacity="0.9"/>
+                                <rect x="45" y="78" width="30" height="4" rx="1" fill="#f7e559" opacity="0.7"/>
+                                <line x1="60" y1="70" x2="60" y2="78" stroke="#f7e559" stroke-width="1.5"/>
+                            </svg>
+                        </summary>
+                        <ul>
+                            <li><a href="dev-tools.html">VSCode Extensions</a></li>
                             <li><a href="virtualization.html">Virtualization</a></li>
                             <li><a href="containers.html">Containers</a></li>
                             <li><a href="scripts.html">RouterOS Scripts</a></li>
@@ -33,7 +45,39 @@
                         </ul>
                     </details>
                 </li>
-                <li><a href="https://github.com/orgs/tikoci/repositories" target="_blank" rel="noopener">GitHub</a></li>
+                <li><strong><a href="index.html" class="brand-reverse">TIKOCI</a></strong></li>
+            </ul>
+            <ul>
+                <li>
+                    <details class="dropdown">
+                        <summary>Tools</summary>
+                        <ul dir="rtl">
+                            <li><a href="https://tikoci.github.io/restraml/tikapp.html" target="_blank" rel="noopener">/app Editor</a></li>
+                            <li><a href="https://tikoci.github.io/restraml/tikapp-manual.html" target="_blank" rel="noopener">/app Manual</a></li>
+                            <li><a href="https://tikoci.github.io/restraml/diff.html" target="_blank" rel="noopener">Schema Diff</a></li>
+                            <li><a href="https://tikoci.github.io/restraml/lookup.html" target="_blank" rel="noopener">Command Lookup</a></li>
+                            <li><a href="https://tikoci.github.io/restraml" target="_blank" rel="noopener">Schema Downloads</a></li>
+                        </ul>
+                    </details>
+                </li>
+                <li>
+                    <a href="https://github.com/orgs/tikoci/repositories" target="_blank" rel="noopener" role="button" class="github-btn outline">
+                        <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" fill="currentColor"/></svg>
+                        Repos
+                    </a>
+                </li>
+                <li>
+                    <details class="dropdown">
+                        <summary class="mikrotik-icon" aria-label="MikroTik resources">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2 19L7 5L12 13L17 5L22 19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></svg>
+                        </summary>
+                        <ul dir="rtl">
+                            <li><a href="https://mikrotik.com" target="_blank" rel="noopener">mikrotik.com</a></li>
+                            <li><a href="https://forum.mikrotik.com" target="_blank" rel="noopener">Forum</a></li>
+                            <li><a href="https://help.mikrotik.com" target="_blank" rel="noopener">Help &amp; Docs</a></li>
+                        </ul>
+                    </details>
+                </li>
                 <li><a href="#" id="theme_switcher" aria-label="Toggle dark mode"></a></li>
             </ul>
         </nav>
@@ -64,42 +108,42 @@
                     <line x1="60" y1="70" x2="60" y2="78" stroke="#f7e559" stroke-width="1.5"/>
                 </svg>
             </div>
-            <h1><kbd>TIKOCI</kbd></h1>
+            <h1><span class="brand-reverse">TIKOCI</span></h1>
             <p>Open Source MikroTik RouterOS projects — containers, scripts, LSP, API schemas, and virtualization tools.</p>
             <p><small>See <a href="https://github.com/orgs/tikoci/repositories">all repositories</a> for the full list.</small></p>
         </section>
 
-        <!-- restraml callout -->
-        <article class="restraml-callout">
-            <p><strong>New:</strong> <a href="https://tikoci.github.io/restraml">restraml</a> — browse RouterOS API schemas, diff command changes across versions, and look up CLI/REST paths. All in the browser, no install needed.</p>
+        <!-- /app Editor callout -->
+        <article>
+            <p><strong>New:</strong> <a href="https://tikoci.github.io/restraml/tikapp.html">/app Editor</a> &mdash; a browser-based Monaco editor for writing and validating RouterOS <code>/app</code> container definitions (RouterOS 7.22+). Live schema validation, example picker, and one-click deploy commands. <a href="web-tools.html">See Web Tools &rarr;</a></p>
         </article>
 
-        <!-- Development Tools -->
+        <!-- VSCode Extensions -->
         <div class="category-header">
             <svg class="cubist-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><polygon points="2,12 8,3 8,21" fill="#5bc0eb"/><polygon points="22,12 16,3 16,21" fill="#e8594f"/><rect x="9" y="8" width="6" height="8" fill="#f4a236"/></svg>
-            <h2>Development Tools</h2>
+            <h2>VSCode Extensions</h2>
             <a href="dev-tools.html">View all &rarr;</a>
         </div>
         <div class="project-grid">
             <article>
                 <header>
-                    <a href="https://github.com/tikoci/lsp-routeros-ts">lsp-routeros-ts</a>
+                    <a href="dev-tools.html">RouterOS LSP</a>
                     <mark class="new">NEW</mark>
                     <mark class="lang">TypeScript</mark>
                 </header>
-                <p>LSP server for RouterOS — syntax checking and completions in VSCode, NeoVim, and other editors. Downloads a <kbd>.vsix</kbd> extension for VSCode, plus standalone executables for other editors.</p>
+                <p>Language Server for RouterOS scripting — live diagnostics, autocompletion, hover docs, and <kbd>Go to Definition</kbd> in VS Code. Also works standalone with NeoVim and other LSP editors.</p>
                 <footer>
-                    <a href="https://github.com/tikoci/lsp-routeros-ts/releases/latest">Latest Release</a>
+                    <a href="https://marketplace.visualstudio.com/items?itemName=TIKOCI.lsp-routeros-ts" target="_blank" rel="noopener">VS Code Marketplace</a>
                 </footer>
             </article>
             <article>
                 <header>
-                    <a href="https://github.com/tikoci/restraml">restraml</a>
+                    <a href="dev-tools.html">TikBook</a>
                     <mark class="lang">TypeScript</mark>
                 </header>
-                <p>Generates RAML/OpenAPI schemas for the RouterOS REST API. Boots CHR in CI to dynamically extract API structure from <code>/console/inspect</code>. Also hosts the <a href="https://tikoci.github.io/restraml/diff.html">Schema Diff</a> and <a href="https://tikoci.github.io/restraml/lookup.html">Command Lookup</a> tools.</p>
+                <p>RouterOS Notebooks for VS Code &mdash; run and script RouterOS directly from a <code>.tikbook</code> notebook. GitHub Copilot support included.</p>
                 <footer>
-                    <a href="https://tikoci.github.io/restraml">restraml Site</a>
+                    <a href="https://marketplace.visualstudio.com/items?itemName=TIKOCI.tikbook" target="_blank" rel="noopener">VS Code Marketplace</a>
                 </footer>
             </article>
         </div>
@@ -224,6 +268,13 @@
         <div class="project-grid">
             <article>
                 <header>
+                    <a href="https://tikoci.github.io/restraml/tikapp.html">/app Editor</a>
+                    <mark class="new">NEW</mark>
+                </header>
+                <p>Browser-based Monaco editor for RouterOS <code>/app</code> YAML &mdash; live schema validation, example picker, and Copy&nbsp;/app/add CLI command. RouterOS 7.22+ required.</p>
+            </article>
+            <article>
+                <header>
                     <a href="https://tikoci.github.io/restraml/diff.html">Schema Diff</a>
                 </header>
                 <p>Pick two RouterOS versions to see what commands changed in CLI or REST APIs. Runs entirely in the browser.</p>
@@ -288,8 +339,9 @@
         </section>
     </main>
 
-    <footer class="container">
+    <footer class="container site-footer">
         <small>&copy; TIKOCI &mdash; Open Source MikroTik RouterOS Projects</small>
+        <small>Not affiliated with or endorsed by <a href="https://mikrotik.com" target="_blank" rel="noopener">MikroTik</a>. All trademarks are property of their respective owners.</small>
     </footer>
 
     <script src="shared.js"></script>

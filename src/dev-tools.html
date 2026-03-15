@@ -3,7 +3,248 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Development Tools — TIKOCI</title>
+    <title>VSCode Extensions — TIKOCI</title>
+    <meta name="description" content="TIKOCI VSCode extensions for MikroTik RouterOS: RouterOS LSP language server and TikBook notebook toolkit — install directly from the VS Code Marketplace.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Manrope:wght@200..800&display=swap">
+    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="cubist.css">
+    <script async src="https://plausible.io/js/pa-ubWop5eYckoDPVbIjXU4_.js"></script>
+    <script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)};plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>
+</head>
+<body>
+    <header class="container">
+        <nav>
+            <ul>
+                <li>
+                    <details class="dropdown">
+                        <summary class="brand-icon" aria-label="Browse site sections">
+                            <svg viewBox="0 0 120 120" class="nav-potto" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <polygon points="10,100 35,20 60,5 85,20 110,100" fill="#e8594f" opacity="0.85"/>
+                                <polygon points="25,105 45,35 60,25 75,35 95,105" fill="#f4a236" opacity="0.8"/>
+                                <polygon points="40,95 48,45 60,35 72,45 80,95" fill="#3a3a3a"/>
+                                <circle cx="52" cy="58" r="6" fill="#f7e559"/>
+                                <circle cx="68" cy="55" r="7" fill="#5bc0eb"/>
+                                <circle cx="52" cy="58" r="2.5" fill="#1a1a1a"/>
+                                <circle cx="69" cy="55" r="3" fill="#1a1a1a"/>
+                                <polygon points="58,63 62,63 60,70" fill="#e8594f"/>
+                                <polygon points="38,48 48,45 43,30" fill="#5bc0eb" opacity="0.9"/>
+                                <polygon points="82,48 72,45 77,28" fill="#f4a236" opacity="0.9"/>
+                                <rect x="45" y="78" width="30" height="4" rx="1" fill="#f7e559" opacity="0.7"/>
+                                <line x1="60" y1="70" x2="60" y2="78" stroke="#f7e559" stroke-width="1.5"/>
+                            </svg>
+                        </summary>
+                        <ul>
+                            <li><a href="dev-tools.html" aria-current="page">VSCode Extensions</a></li>
+                            <li><a href="virtualization.html">Virtualization</a></li>
+                            <li><a href="containers.html">Containers</a></li>
+                            <li><a href="scripts.html">RouterOS Scripts</a></li>
+                            <li><a href="web-tools.html">Web Tools</a></li>
+                        </ul>
+                    </details>
+                </li>
+                <li><strong><a href="index.html" class="brand-reverse">TIKOCI</a></strong></li>
+            </ul>
+            <ul>
+                <li>
+                    <details class="dropdown">
+                        <summary>Tools</summary>
+                        <ul dir="rtl">
+                            <li><a href="https://tikoci.github.io/restraml/tikapp.html" target="_blank" rel="noopener">/app Editor</a></li>
+                            <li><a href="https://tikoci.github.io/restraml/tikapp-manual.html" target="_blank" rel="noopener">/app Manual</a></li>
+                            <li><a href="https://tikoci.github.io/restraml/diff.html" target="_blank" rel="noopener">Schema Diff</a></li>
+                            <li><a href="https://tikoci.github.io/restraml/lookup.html" target="_blank" rel="noopener">Command Lookup</a></li>
+                            <li><a href="https://tikoci.github.io/restraml" target="_blank" rel="noopener">Schema Downloads</a></li>
+                        </ul>
+                    </details>
+                </li>
+                <li>
+                    <a href="https://github.com/orgs/tikoci/repositories" target="_blank" rel="noopener" role="button" class="github-btn outline">
+                        <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" fill="currentColor"/></svg>
+                        Repos
+                    </a>
+                </li>
+                <li>
+                    <details class="dropdown">
+                        <summary class="mikrotik-icon" aria-label="MikroTik resources">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2 19L7 5L12 13L17 5L22 19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></svg>
+                        </summary>
+                        <ul dir="rtl">
+                            <li><a href="https://mikrotik.com" target="_blank" rel="noopener">mikrotik.com</a></li>
+                            <li><a href="https://forum.mikrotik.com" target="_blank" rel="noopener">Forum</a></li>
+                            <li><a href="https://help.mikrotik.com" target="_blank" rel="noopener">Help &amp; Docs</a></li>
+                        </ul>
+                    </details>
+                </li>
+                <li><a href="#" id="theme_switcher" aria-label="Toggle dark mode"></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>VSCode Extensions</h1>
+        <p>Two purpose-built Visual Studio Code extensions for working with MikroTik RouterOS — syntax intelligence, a notebook interface, and a growing set of RouterOS-specific tools, all wired directly to a live router.</p>
+
+        <blockquote>
+            <p><strong>If you write RouterOS scripts or work with RouterOS configuration from a computer, these extensions are worth trying.</strong> Install RouterOS LSP for syntax checking and completions in any <code>.rsc</code> file, then add TikBook for a full notebook and tooling experience. Both are free, open source, and on the VS Code Marketplace.</p>
+        </blockquote>
+
+        <!-- RouterOS LSP -->
+        <article>
+            <header>
+                <div style="display:flex;align-items:center;gap:0.7rem;flex-wrap:wrap;">
+                    <img src="https://raw.githubusercontent.com/tikoci/lsp-routeros-ts/main/icon.png" alt="RouterOS LSP icon" width="40" height="40" style="border-radius:8px;flex-shrink:0;">
+                    <div>
+                        <h2 style="margin:0;"><a href="https://marketplace.visualstudio.com/items?itemName=TIKOCI.lsp-routeros-ts">RouterOS LSP</a> <mark class="new">FLAGSHIP</mark> <mark class="lang">TypeScript</mark></h2>
+                        <small>lsp-routeros-ts &mdash; Language Server Protocol for MikroTik RouterOS</small>
+                    </div>
+                </div>
+            </header>
+
+            <p>RouterOS LSP is a language server that provides syntax highlighting, code completion, real-time diagnostics, and other intelligent editor features for RouterOS scripts (<code>.rsc</code> files) in VS Code, NeoVim, and any LSP-capable editor. By connecting to a live RouterOS device via the REST API, the LSP knows what commands and arguments are valid for <em>your specific RouterOS version</em> — it always stays current, even after a router upgrade.</p>
+
+            <figure>
+                <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNDl4NXg5ZXB0YWd2Z2s5b2t0Z2t6enN6Y3NmbTRsZ2o5dWM3MTJqMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Rm4TUg15fUuUhHVvSx/giphy.gif" alt="RouterOS LSP animation showing autocomplete in VS Code" loading="lazy" style="max-width:100%;border-radius:var(--pico-border-radius);">
+                <figcaption>RouterOS LSP providing code completions in VS Code</figcaption>
+            </figure>
+
+            <h3>Supported Features</h3>
+            <ul>
+                <li><strong>Completion</strong> — tab completion and code suggestions, scoped to your RouterOS version</li>
+                <li><strong>Diagnostics</strong> — real-time syntax error reporting as you type</li>
+                <li><strong>Semantic Tokens</strong> — syntax highlighting that matches the RouterOS CLI color scheme</li>
+                <li><strong>Hover Information</strong> — variable inspection and inline help <small>(work in progress)</small></li>
+                <li><strong>Definition Lookup</strong> — jump to definitions within a script</li>
+                <li><strong>VSCode Walkthrough</strong> — guided setup wizard on first install</li>
+            </ul>
+
+            <h3>Install in VS Code</h3>
+            <div class="vscode-install-group">
+                <a href="vscode:extension/TIKOCI.lsp-routeros-ts" role="button" class="install-vscode-btn">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="currentColor" d="M23.15 2.587L18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 19.986V4.014a1.5 1.5 0 0 0-.85-1.427zm-5.146 14.861L10.826 12l7.178-5.448v10.896z"/></svg>
+                    Install in VS Code
+                </a>
+                <a href="https://marketplace.visualstudio.com/items?itemName=TIKOCI.lsp-routeros-ts" target="_blank" rel="noopener" role="button" class="outline">VS Code Marketplace</a>
+                <a href="https://open-vsx.org/extension/TIKOCI/lsp-routeros-ts" target="_blank" rel="noopener" role="button" class="outline">Open VSX</a>
+            </div>
+
+            <p>Alternatively, search <kbd>TIKOCI</kbd> in the VS Code Extensions panel (<kbd>Ctrl+Shift+X</kbd> / <kbd>⌘+Shift+X</kbd>) and select <strong>RouterOS LSP</strong>.</p>
+
+            <details>
+                <summary>Setup — connecting to your RouterOS device</summary>
+                <article>
+                    <p>RouterOS LSP requires a live RouterOS device accessible via the REST API. By default, RouterOS&rsquo;s <code>www</code> service runs on port 80 and is reachable from the LAN — so a standard router with default configuration works out of the box using <code>http://</code> and the <code>admin</code> account.</p>
+                    <ol>
+                        <li>Open VS Code Settings (<kbd>Ctrl+,</kbd> / <kbd>⌘+,</kbd>) and go to <strong>Extensions &rarr; RouterOS LSP</strong></li>
+                        <li>Set <strong>Base URL</strong> — e.g. <code>http://192.168.88.1</code> or <code>https://router.lan</code></li>
+                        <li>Set <strong>Username</strong> and <strong>Password</strong> for a RouterOS account with <code>read, api, rest-api</code> policy</li>
+                    </ol>
+                    <p>For production routers, HTTPS with a Let&rsquo;s Encrypt certificate is recommended:</p>
+                    <pre><code>/certificate/enable-ssl-certificate
+/ip/service enable www-ssl</code></pre>
+                    <p>For NeoVim and other LSP clients, download the standalone server binary from <a href="https://github.com/tikoci/lsp-routeros-ts/releases">GitHub Releases</a>.</p>
+                </article>
+            </details>
+
+            <footer>
+                <a href="https://marketplace.visualstudio.com/items?itemName=TIKOCI.lsp-routeros-ts" target="_blank" rel="noopener">Marketplace</a> &middot;
+                <a href="https://open-vsx.org/extension/TIKOCI/lsp-routeros-ts" target="_blank" rel="noopener">Open VSX</a> &middot;
+                <a href="https://github.com/tikoci/lsp-routeros-ts" target="_blank" rel="noopener">GitHub</a> &middot;
+                <a href="https://github.com/tikoci/lsp-routeros-ts/releases/latest" target="_blank" rel="noopener">Latest Release</a>
+            </footer>
+        </article>
+
+        <!-- TikBook -->
+        <article>
+            <header>
+                <div style="display:flex;align-items:center;gap:0.7rem;flex-wrap:wrap;">
+                    <img src="https://raw.githubusercontent.com/tikoci/vscode-tikbook/main/icon.png" alt="TikBook icon" width="40" height="40" style="border-radius:8px;flex-shrink:0;">
+                    <div>
+                        <h2 style="margin:0;"><a href="https://marketplace.visualstudio.com/items?itemName=TIKOCI.tikbook">TikBook</a> <mark class="new">NEW</mark> <mark class="lang">TypeScript</mark></h2>
+                        <small>vscode-tikbook &mdash; Notebook and Tools for MikroTik RouterOS in VS Code</small>
+                    </div>
+                </div>
+            </header>
+
+            <p>TikBook is a companion extension to RouterOS LSP, akin to a &ldquo;plus pack&rdquo; for VS Code specifically. Installing TikBook automatically brings in RouterOS LSP if it is not already present. TikBook adds a notebook interface for RouterOS scripts, virtual configuration views, CSV exports, JSON converters, and a &ldquo;Quick Commander&rdquo; menu — all wired to your live RouterOS device.</p>
+
+            <figure>
+                <img src="https://tikoci.github.io/vscode-tikbook/media/screenshots/palette-top.png" alt="TikBook Quick Commander menu" loading="lazy" style="max-width:100%;border-radius:var(--pico-border-radius);">
+                <figcaption>TikBook&rsquo;s Quick Commander menu — access notebooks, management, and help in one place</figcaption>
+            </figure>
+
+            <h3>What TikBook Adds</h3>
+            <ul>
+                <li><strong>RouterOS Notebook</strong> — Jupyter-style notebook for RouterOS, stored as plain <code>.rsc</code> or <code>.md</code> files</li>
+                <li><strong>RouterOS Run in Markdown</strong> — run <code>```routeros</code> code blocks directly from any <code>.md</code> file</li>
+                <li><strong>Quick Commander</strong> — hierarchical menu (<kbd>Alt+Shift+M</kbd>) for new documents, SSH, WebFig, CSV exports, and more</li>
+                <li><strong>CSV Views</strong> — export any <code>/print</code> command as a CSV, rendered as a table in VS Code</li>
+                <li><strong>JSON &rarr; RouterOS Array</strong> — context-menu converter to turn JSON into RouterOS array syntax</li>
+                <li><strong>GitHub Copilot support</strong> — with Copilot installed, a &ldquo;Generate&rdquo; option appears inside notebook cells; deeper Copilot integration is in the works</li>
+            </ul>
+
+            <figure>
+                <img src="https://tikoci.github.io/vscode-tikbook/media/screenshots/notebook-toolbar-with-goto.png" alt="TikBook notebook toolbar" loading="lazy" style="max-width:100%;border-radius:var(--pico-border-radius);">
+                <figcaption>The TikBook notebook toolbar — run cells, manage sections, and navigate errors</figcaption>
+            </figure>
+
+            <h3>Install in VS Code</h3>
+            <div class="vscode-install-group">
+                <a href="vscode:extension/TIKOCI.tikbook" role="button" class="install-vscode-btn">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="currentColor" d="M23.15 2.587L18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 19.986V4.014a1.5 1.5 0 0 0-.85-1.427zm-5.146 14.861L10.826 12l7.178-5.448v10.896z"/></svg>
+                    Install in VS Code
+                </a>
+                <a href="https://marketplace.visualstudio.com/items?itemName=TIKOCI.tikbook" target="_blank" rel="noopener" role="button" class="outline">VS Code Marketplace</a>
+                <a href="https://open-vsx.org/extension/TIKOCI/tikbook" target="_blank" rel="noopener" role="button" class="outline">Open VSX</a>
+            </div>
+
+            <p>When prompted, select <strong>&ldquo;use pre-release&rdquo;</strong>. If VS Code shows a publisher trust prompt, select <strong>&ldquo;Trust Publisher and Install&rdquo;</strong>.</p>
+
+            <details>
+                <summary>Connecting TikBook to RouterOS</summary>
+                <article>
+                    <p>TikBook, like RouterOS LSP, needs a REST API connection to a RouterOS device running version 7.12 or higher:</p>
+                    <ol>
+                        <li>Click the <strong>MikroTik logo</strong> in the VS Code status bar (lower left) — the RouterOS Connection Menu appears</li>
+                        <li>Select <strong>&ldquo;Set Base URL&rdquo;</strong> and enter <code>http://192.168.88.1</code> (or your router&rsquo;s address)</li>
+                        <li>Select <strong>&ldquo;Set User&rdquo;</strong> and <strong>&ldquo;Set Password as Secret&rdquo;</strong> to store credentials securely</li>
+                    </ol>
+                    <p>TikBook shares credentials with RouterOS LSP by default, so both extensions use the same router.</p>
+                    <p><strong>Tip:</strong> For local testing without touching a production router, TIKOCI provides <a href="virtualization.html">ready-to-run RouterOS CHR images</a> for macOS UTM.</p>
+                </article>
+            </details>
+
+            <footer>
+                <a href="https://marketplace.visualstudio.com/items?itemName=TIKOCI.tikbook" target="_blank" rel="noopener">Marketplace</a> &middot;
+                <a href="https://open-vsx.org/extension/TIKOCI/tikbook" target="_blank" rel="noopener">Open VSX</a> &middot;
+                <a href="https://github.com/tikoci/vscode-tikbook" target="_blank" rel="noopener">GitHub</a> &middot;
+                <a href="https://github.com/tikoci/vscode-tikbook/blob/main/CHANGELOG.md" target="_blank" rel="noopener">Changelog</a>
+            </footer>
+        </article>
+
+        <!-- winbox-deb kept but de-emphasized -->
+        <article>
+            <header>
+                <h2><a href="https://github.com/tikoci/winbox-deb">winbox-deb</a> <mark class="lang">Makefile</mark> <mark class="lang">Shell</mark></h2>
+            </header>
+            <p>Packages WinBox 4.0 as a <kbd>.deb</kbd> for Linux, with a desktop icon. Provided as a template for packaging WinBox on various Linux distributions, rather than for wide redistribution.</p>
+            <footer>
+                <a href="https://github.com/tikoci/winbox-deb">GitHub</a>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="container site-footer">
+        <small>&copy; TIKOCI &mdash; <a href="index.html">Home</a></small>
+        <small>Not affiliated with or endorsed by <a href="https://mikrotik.com" target="_blank" rel="noopener">MikroTik</a>. All trademarks are property of their respective owners.</small>
+    </footer>
+
+    <script src="shared.js"></script>
+    <script>initThemeSwitcher();</script>
+</body>
+</html>
     <meta name="description" content="TIKOCI development tools for MikroTik RouterOS: LSP server, API schema generation, code generators.">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">

@@ -102,7 +102,107 @@ details.dropdown ul li { direction: ltr; }
 
 
 /* -----------------------------------------------------------------
- * 8. Site footer (before project cards for specificity ordering)
+ * 11. Reversed/inverted brand text (TIKOCI)
+ *     Used on hero h1 and nav top-left brand link — same style
+ * ----------------------------------------------------------------- */
+.brand-reverse {
+    display: inline-block;
+    background: var(--pico-color);
+    color: var(--pico-background-color);
+    padding: 0.05em 0.4em;
+    border-radius: var(--pico-border-radius);
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    line-height: 1.5;
+    text-decoration: none;
+}
+.brand-reverse:hover,
+.brand-reverse:visited {
+    color: var(--pico-background-color);
+    text-decoration: none;
+}
+a.brand-reverse:hover { opacity: 0.85; }
+
+
+/* -----------------------------------------------------------------
+ * 12. Nav brand icon (small cubist potto — acts as categories toggle)
+ * ----------------------------------------------------------------- */
+details.dropdown > summary.brand-icon {
+    padding: 0 0.25rem;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+/* Remove Pico's caret arrow from icon-only summaries */
+details.dropdown > summary.brand-icon::after,
+details.dropdown > summary.mikrotik-icon::after {
+    display: none;
+}
+.nav-potto {
+    width: 2rem;
+    height: 2rem;
+    flex-shrink: 0;
+}
+
+
+/* -----------------------------------------------------------------
+ * 13. GitHub nav button
+ * ----------------------------------------------------------------- */
+a.github-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.85rem;
+    padding: 0.25rem 0.65rem;
+    white-space: nowrap;
+}
+a.github-btn svg {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+}
+
+
+/* -----------------------------------------------------------------
+ * 14. MikroTik icon dropdown (icon-only summary)
+ * ----------------------------------------------------------------- */
+details.dropdown > summary.mikrotik-icon {
+    padding: 0 0.3rem;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+details.dropdown > summary.mikrotik-icon svg {
+    width: 1.4rem;
+    height: 1.4rem;
+    color: currentColor;
+}
+
+
+/* -----------------------------------------------------------------
+ * 15. Install-in-VSCode button group
+ * ----------------------------------------------------------------- */
+.vscode-install-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    margin: 0.8rem 0;
+}
+.install-vscode-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+.install-vscode-btn svg {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+}
+
+
+/* -----------------------------------------------------------------
+ * 8. Site footer (general)
  * ----------------------------------------------------------------- */
 body > footer {
     text-align: center;
@@ -111,6 +211,27 @@ body > footer {
 body > footer small {
     font-style: italic;
 }
+
+
+/* -----------------------------------------------------------------
+ * 16. Site footer — not-affiliated disclaimer
+ * ----------------------------------------------------------------- */
+footer.site-footer {
+    border-top: 1px solid var(--pico-muted-border-color);
+    margin-top: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+}
+footer.site-footer small {
+    color: var(--pico-muted-color);
+    font-size: 0.78rem;
+}
+.mt-1-5 { margin-top: 1.5rem; }
 
 
 /* -----------------------------------------------------------------
