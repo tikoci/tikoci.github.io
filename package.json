@@ -6,8 +6,9 @@
     "build": "bun run build.ts",
     "dev": "bun run build.ts && bun run serve",
     "serve": "bun --bun x serve dist -l 3000",
-    "lint": "bunx @biomejs/biome lint .",
-    "lint:fix": "bunx @biomejs/biome lint --fix ."
+    "lint": "bunx @biomejs/biome lint . && bun run typecheck",
+    "lint:fix": "bunx @biomejs/biome lint --fix .",
+    "typecheck": "cd tool/mtforum && bun run --bun tsc --noEmit"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.7",

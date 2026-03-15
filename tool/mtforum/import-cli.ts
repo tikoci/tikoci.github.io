@@ -12,7 +12,7 @@
 
 import { initDb } from "./db.ts";
 import { runImport } from "./importer.ts";
-import path from "path";
+import path from "node:path";
 
 initDb();
 

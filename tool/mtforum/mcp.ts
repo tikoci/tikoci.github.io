@@ -21,7 +21,7 @@ import { z } from "zod";
 import { DB_PATH, db, getDbStats, initDb } from "./db.ts";
 import { runImport } from "./importer.ts";
 import { exportTopicMarkdown, runQuery } from "./query.ts";
-import path from "path";
+import path from "node:path";
 
 // ---------------------------------------------------------------------------
 // Bootstrap

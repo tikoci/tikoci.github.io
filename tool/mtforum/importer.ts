@@ -15,9 +15,9 @@
  */
 
 import { db, upsertPost } from "./db.ts";
-import fs from "fs";
-import path from "path";
-import crypto from "crypto";
+import fs from "node:fs";
+import path from "node:path";
+import crypto from "node:crypto";
 import { parse } from "csv-parse/sync";
 
 // ---------------------------------------------------------------------------
@@ -182,9 +182,9 @@ function ingestCsv(filePath: string, sourceExportId: number, context: ImportCont
       for (const r of rows) {
         db.run(
           "INSERT OR IGNORE INTO likes (id, post_id, topic_id, post_number, created_at, updated_at, deleted_at, deleted_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-          parseInteger(r.id) ?? null, parseInteger(r.post_id) ?? null,
+          [parseInteger(r.id) ?? null, parseInteger(r.post_id) ?? null,
           parseInteger(r.topic_id) ?? null, parseInteger(r.post_number) ?? null,
-          r.created_at ?? null, r.updated_at ?? null, r.deleted_at ?? null, r.deleted_by ?? null,
+          r.created_at ?? null, r.updated_at ?? null, r.deleted_at ?? null, r.deleted_by ?? null],
         );
       }
       break;
@@ -193,11 +193,11 @@ function ingestCsv(filePath: string, sourceExportId: number, context: ImportCont
       for (const r of rows) {
         db.run(
           "INSERT OR IGNORE INTO flags (id, post_id, flag_type, created_at, updated_at, deleted_at, deleted_by, related_post_id, targets_topic, was_take_action) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-          parseInteger(r.id) ?? null, parseInteger(r.post_id) ?? null,
+          [parseInteger(r.id) ?? null, parseInteger(r.post_id) ?? null,
           r.flag_type ?? null, r.created_at ?? null, r.updated_at ?? null,
           r.deleted_at ?? null, r.deleted_by ?? null,
           parseInteger(r.related_post_id) ?? null,
-          r.targets_topic === "true" ? 1 : 0, r.was_take_action === "true" ? 1 : 0,
+          r.targets_topic === "true" ? 1 : 0, r.was_take_action === "true" ? 1 : 0],
         );
       }
       break;
@@ -206,10 +206,10 @@ function ingestCsv(filePath: string, sourceExportId: number, context: ImportCont
       for (const r of rows) {
         db.run(
           "INSERT OR IGNORE INTO visits (topic_id, post_number, count, visited_at, posts_read, mobile, time_read) VALUES (?, ?, ?, ?, ?, ?, ?)",
-          parseInteger(r.topic_id) ?? null, parseInteger(r.post_number) ?? null,
+          [parseInteger(r.topic_id) ?? null, parseInteger(r.post_number) ?? null,
           parseInteger(r.count) ?? null, r.visited_at ?? null,
           parseInteger(r.posts_read) ?? null, parseBoolean(r.mobile) ? 1 : 0,
-          parseInteger(r.time_read) ?? null,
+          parseInteger(r.time_read) ?? null],
         );
       }
       break;
@@ -218,10 +218,10 @@ function ingestCsv(filePath: string, sourceExportId: number, context: ImportCont
       for (const r of rows) {
         db.run(
           "INSERT OR IGNORE INTO badges (badge_id, badge_name, granted_at, post_id, seq, granted_manually, notification_id, featured_rank) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-          parseInteger(r.badge_id) ?? null, r.badge_name ?? null, r.granted_at ?? null,
+          [parseInteger(r.badge_id) ?? null, r.badge_name ?? null, r.granted_at ?? null,
           parseInteger(r.post_id) ?? null, parseInteger(r.seq) ?? null,
           r.granted_manually === "true" ? 1 : 0,
-          parseInteger(r.notification_id) ?? null, parseInteger(r.featured_rank) ?? null,
+          parseInteger(r.notification_id) ?? null, parseInteger(r.featured_rank) ?? null],
         );
       }
       break;
@@ -230,10 +230,10 @@ function ingestCsv(filePath: string, sourceExportId: number, context: ImportCont
       for (const r of rows) {
         db.run(
           "INSERT OR REPLACE INTO bookmarks (bookmarkable_id, bookmarkable_type, link, name, created_at, updated_at, reminder_at, reminder_last_sent_at, reminder_set_at, auto_delete_preference) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-          parseInteger(r.bookmarkable_id) ?? null, r.bookmarkable_type ?? null,
+          [parseInteger(r.bookmarkable_id) ?? null, r.bookmarkable_type ?? null,
           r.link ?? null, r.name ?? null, r.created_at ?? null, r.updated_at ?? null,
           r.reminder_at ?? null, r.reminder_last_sent_at ?? null, r.reminder_set_at ?? null,
-          r.auto_delete_preference ?? null,
+          r.auto_delete_preference ?? null],
         );
       }
       break;
@@ -242,8 +242,8 @@ function ingestCsv(filePath: string, sourceExportId: number, context: ImportCont
       for (const r of rows) {
         db.run(
           "INSERT OR REPLACE INTO category_preferences (category_id, category_names, notification_level, dismiss_new_timestamp) VALUES (?, ?, ?, ?)",
-          parseInteger(r.category_id) ?? null, r.category_names ?? null,
-          r.notification_level ?? null, r.dismiss_new_timestamp ?? null,
+          [parseInteger(r.category_id) ?? null, r.category_names ?? null,
+          r.notification_level ?? null, r.dismiss_new_timestamp ?? null],
         );
       }
       break;
@@ -253,9 +253,9 @@ function ingestCsv(filePath: string, sourceExportId: number, context: ImportCont
       for (const r of rows) {
         db.run(
           "INSERT OR REPLACE INTO auth_tokens (id, auth_token_hash, prev_auth_token_hash, auth_token_seen, client_ip, user_agent, seen_at, rotated_at, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-          parseInteger(r.id) ?? null, r.auth_token_hash ?? null, r.prev_auth_token_hash ?? null,
+          [parseInteger(r.id) ?? null, r.auth_token_hash ?? null, r.prev_auth_token_hash ?? null,
           parseBoolean(r.auth_token_seen) ? 1 : 0, r.client_ip ?? null, r.user_agent ?? null,
-          r.seen_at ?? null, r.rotated_at ?? null, r.created_at ?? null, r.updated_at ?? null,
+          r.seen_at ?? null, r.rotated_at ?? null, r.created_at ?? null, r.updated_at ?? null],
         );
       }
       break;
@@ -264,9 +264,9 @@ function ingestCsv(filePath: string, sourceExportId: number, context: ImportCont
       for (const r of rows) {
         db.run(
           "INSERT OR REPLACE INTO auth_token_logs (id, action, user_auth_token_id, client_ip, auth_token_hash, created_at, path, user_agent) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-          parseInteger(r.id) ?? null, r.action ?? null, parseInteger(r.user_auth_token_id) ?? null,
+          [parseInteger(r.id) ?? null, r.action ?? null, parseInteger(r.user_auth_token_id) ?? null,
           r.client_ip ?? null, r.auth_token_hash ?? null, r.created_at ?? null,
-          r.path ?? null, r.user_agent ?? null,
+          r.path ?? null, r.user_agent ?? null],
         );
       }
       break;
@@ -291,7 +291,7 @@ function ingestPreferences(filePath: string, context: ImportContext) {
     for (const u of data.users) {
       db.run(
         "INSERT OR IGNORE INTO users (id, username, avatar_template, trust_level) VALUES (?, ?, ?, ?)",
-        u.id, u.username, u.avatar_template, u.trust_level,
+        [u.id, u.username, u.avatar_template, u.trust_level],
       );
     }
   }
@@ -300,19 +300,19 @@ function ingestPreferences(filePath: string, context: ImportContext) {
     for (const ub of data.user_badges) {
       db.run(
         "INSERT OR REPLACE INTO user_badges (id, user_id, badge_id, granted_at, created_at, count, granted_by_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        ub.id, ub.user_id, ub.badge_id, ub.granted_at, ub.created_at, ub.count, ub.granted_by_id,
+        [ub.id, ub.user_id, ub.badge_id, ub.granted_at, ub.created_at, ub.count, ub.granted_by_id],
       );
     }
   }
 
   if (data.badge_types) {
     for (const bt of data.badge_types) {
-      db.run("INSERT OR IGNORE INTO badge_types (id, name, sort_order) VALUES (?, ?, ?)", bt.id, bt.name, bt.sort_order);
+      db.run("INSERT OR IGNORE INTO badge_types (id, name, sort_order) VALUES (?, ?, ?)", [bt.id, bt.name, bt.sort_order]);
     }
   }
 
   if (data.user) {
-    const u = data.user as Record<string, unknown>;
+    const u = data.user as Record<string, string | number | boolean | null | undefined>;
     // Strip sensitive fields before storing
     const safe = { ...u };
     delete safe.email;
@@ -322,7 +322,7 @@ function ingestPreferences(filePath: string, context: ImportContext) {
          website_name, location, badge_count, time_read, recent_time_read, profile_view_count,
          accepted_answers, gamification_score, trust_level, moderator, admin, raw_json)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      u.id ?? null, u.username ?? null,
+      [u.id ?? null, u.username ?? null,
       // email deliberately omitted — store placeholder
       "<redacted>",
       u.created_at ?? null, u.last_posted_at ?? null, u.last_seen_at ?? null,
@@ -330,7 +330,7 @@ function ingestPreferences(filePath: string, context: ImportContext) {
       u.badge_count ?? null, u.time_read ?? null, u.recent_time_read ?? null,
       u.profile_view_count ?? null, u.accepted_answers ?? null, u.gamification_score ?? null,
       u.trust_level ?? null, u.moderator ? 1 : 0, u.admin ? 1 : 0,
-      JSON.stringify(safe),
+      JSON.stringify(safe)],
     );
   }
 }

@@ -36,6 +36,15 @@ tikoci-website/
 │   │   ├── lsbridge.rsc
 │   │   └── traefik.yaml
 │   └── media/            # Committed static files: videos (linked externally)
+├── tool/                 # Developer tools (not part of the site build)
+│   └── mtforum/          # MCP server — Discourse forum archive over SQLite
+│       ├── mcp.ts        # MCP server entry point (stdio transport)
+│       ├── db.ts         # SQLite schema init + upsert helpers (bun:sqlite)
+│       ├── importer.ts   # Discourse CSV export → SQLite import pipeline
+│       ├── query.ts      # NL → SQL query planner + FTS5 search
+│       ├── import-cli.ts # CLI wrapper for the importer
+│       ├── package.json  # Separate deps: @modelcontextprotocol/sdk, csv-parse, zod
+│       └── tsconfig.json # TypeScript config (strict, bun-types)
 ├── CLAUDE.md             # This file — full architecture guide for AI agents
 ├── AGENTS.md             # GitHub Copilot agent-specific instructions
 └── .github/
@@ -53,8 +62,9 @@ tikoci-website/
 |---------|-------------|
 | `bun install` | Install dependencies (only @biomejs/biome) |
 | `bun run build` | Run `build.ts` → produces static site in `dist/` |
-| `bun run lint` | Lint all source files with Biome v2.x |
+| `bun run lint` | Lint with Biome v2.x **+ TypeScript type-check** (`tool/mtforum/`) |
 | `bun run lint:fix` | Auto-fix lint issues |
+| `bun run typecheck` | TypeScript type-check only (`tool/mtforum/`) |
 | `bun run dev` | Build + serve locally on port 3000 |
 
 ### How build.ts works
@@ -179,7 +189,50 @@ All pages include the Plausible snippet in `<head>`:
 
 ---
 
+## MCP Server — `tool/mtforum/`
+
+A local MCP (Model Context Protocol) server that exposes a SQLite archive of MikroTik Discourse forum posts to VS Code Copilot and other MCP clients. It has its own `package.json` and dependencies, separate from the site build.
+
+### Architecture
+
+- **db.ts** — Schema init (idempotent), FTS5 virtual table, upsert helpers. Exports singleton `db` via `bun:sqlite`.
+- **importer.ts** — Scans Discourse "Download My Data" CSV exports, upserts into SQLite. Idempotent (skips files with same path + mtime + SHA1).
+- **query.ts** — Natural-language → SQL query planner. Extracts date ranges, author filters, sort modes from free-text questions. Uses FTS5 with BM25 ranking.
+- **mcp.ts** — MCP server (stdio transport). Tools: `mtforum_search`, `mtforum_get_topic`, `mtforum_import`, `mtforum_stats`, `mtforum_get_post`.
+- **import-cli.ts** — CLI wrapper: `bun run import-cli.ts [--root <path>] [--user <name>] [--force]`
+
+### Commands (run from `tool/mtforum/`)
+
+| Command | What it does |
+|---------|-------------|
+| `bun run start` | Start the MCP server (stdio) |
+| `bun run import` | Run the CSV import CLI |
+| `bun run typecheck` | TypeScript type-check |
+
+### bun:sqlite — Critical Type Pattern
+
+**`Database.run()` takes bind params as an array; `Statement.run()` takes variadic args.**
+
+```ts
+// CORRECT — db.run() with array
+db.run("INSERT INTO t VALUES (?, ?)", [val1, val2]);
+
+// CORRECT — db.prepare().run() with variadic args
+db.prepare("INSERT INTO t VALUES (?, ?)").run(val1, val2);
+
+// WRONG — db.run() with variadic args (ts2345 type error)
+db.run("INSERT INTO t VALUES (?, ?)", val1, val2);
+```
+
+### Node.js imports
+
+Always use `node:` protocol for Node.js builtins (e.g., `import fs from "node:fs"`). Biome enforces this via `useNodejsImportProtocol`.
+
+---
+
 ## Dependencies
+
+### Site (root `package.json`)
 
 | Dependency | Version | Purpose |
 |-----------|---------|---------|
@@ -189,7 +242,16 @@ All pages include the Plausible snippet in `<head>`:
 | @biomejs/biome | v2.x (devDep) | Linter (formatter disabled) |
 | Plausible | (external script) | Privacy-friendly analytics |
 
-No runtime dependencies. No build tools beyond bun itself.
+No runtime dependencies for the site. No build tools beyond bun itself.
+
+### MCP Server (`tool/mtforum/package.json`)
+
+| Dependency | Version | Purpose |
+|-----------|---------|---------|
+| @modelcontextprotocol/sdk | ^1.12 | MCP server framework (stdio transport) |
+| csv-parse | ^5.6 | Discourse CSV export parsing |
+| zod | ^3.24 | Schema validation for MCP tool params |
+| bun:sqlite | (builtin) | SQLite database with FTS5 |
 
 ---
 

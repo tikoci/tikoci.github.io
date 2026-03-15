@@ -7,7 +7,8 @@
   "scripts": {
     "start": "bun run mcp.ts",
     "import": "bun run import-cli.ts",
-    "init-db": "bun run db.ts"
+    "init-db": "bun run db.ts",
+    "typecheck": "bun run --bun tsc --noEmit"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1",
