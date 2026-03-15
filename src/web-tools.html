@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Web Tools — TIKOCI</title>
+    <meta name="description" content="TIKOCI web tools for MikroTik RouterOS: schema diff, command lookup, API schema downloads, and Observable notebooks.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Manrope:wght@200..800&display=swap">
+    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="cubist.css">
+    <script async src="https://plausible.io/js/pa-ubWop5eYckoDPVbIjXU4_.js"></script>
+    <script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)};plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>
+</head>
+<body>
+    <header class="container">
+        <nav>
+            <ul>
+                <li><strong><a href="index.html">TIKOCI</a></strong></li>
+            </ul>
+            <ul>
+                <li>
+                    <details class="dropdown">
+                        <summary>Categories</summary>
+                        <ul dir="rtl">
+                            <li><a href="dev-tools.html">Development Tools</a></li>
+                            <li><a href="virtualization.html">Virtualization</a></li>
+                            <li><a href="containers.html">Containers</a></li>
+                            <li><a href="scripts.html">RouterOS Scripts</a></li>
+                            <li><a href="web-tools.html" aria-current="page">Web Tools</a></li>
+                        </ul>
+                    </details>
+                </li>
+                <li><a href="https://github.com/orgs/tikoci/repositories" target="_blank" rel="noopener">GitHub</a></li>
+                <li><a href="#" id="theme_switcher" aria-label="Toggle dark mode"></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Web Tools</h1>
+        <p>Browser-based tools for MikroTik RouterOS — all hosted on GitHub Pages, no backend required.</p>
+
+        <article>
+            <header>
+                <h2><a href="https://tikoci.github.io/restraml/diff.html">Schema Diff</a> <mark class="lang">TypeScript</mark></h2>
+            </header>
+            <p>Pick two RouterOS versions to see what commands have changed in the CLI or RouterOS APIs like REST. Runs entirely in the browser as a serverless single-page app — all diffing and logic happens client-side.</p>
+            <footer>
+                <a href="https://tikoci.github.io/restraml/diff.html">Open Schema Diff</a> &middot;
+                <a href="https://github.com/tikoci/restraml">GitHub</a>
+            </footer>
+        </article>
+
+        <article>
+            <header>
+                <h2><a href="https://tikoci.github.io/restraml/lookup.html">Command Lookup</a> <mark class="lang">TypeScript</mark></h2>
+            </header>
+            <p>Search RouterOS CLI and REST API commands across versions. Find paths, parameters, and command structure — useful for scripting and API integration.</p>
+            <footer>
+                <a href="https://tikoci.github.io/restraml/lookup.html">Open Command Lookup</a> &middot;
+                <a href="https://github.com/tikoci/restraml">GitHub</a>
+            </footer>
+        </article>
+
+        <article>
+            <header>
+                <h2><a href="https://tikoci.github.io/restraml">Schema Downloads</a> <mark class="lang">RAML</mark> <mark class="lang">OpenAPI</mark></h2>
+            </header>
+            <p>RouterOS REST API schemas (RAML, OpenAPI) arranged by version, for use in Postman and other API tools. For use with <a href="https://postman.com"><strong>Postman App</strong></a>, see the <a href="https://forum.mikrotik.com/viewtopic.php?t=199476">forum post on REST API schema for Postman</a>.</p>
+            <footer>
+                <a href="https://tikoci.github.io/restraml">Download Schemas</a>
+            </footer>
+        </article>
+
+        <article>
+            <header>
+                <h2><a href="https://observablehq.com/@a2m0/utf2rsc?collection=@a2m0/mikrotik">utf2rsc</a> <mark class="lang">JavaScript</mark></h2>
+            </header>
+            <p>Fun converter for emojis and UTF-8 into RouterOS <code>string</code> using byte-escaping (<code>\xx</code>). An Observable notebook — runs in the browser.</p>
+            <footer>
+                <a href="https://observablehq.com/@a2m0/utf2rsc?collection=@a2m0/mikrotik">Open utf2rsc</a>
+            </footer>
+        </article>
+
+        <article>
+            <header>
+                <h2><a href="https://observablehq.com/@a2m0/csv2rsc?collection=@a2m0/mikrotik">csv2rsc</a> <mark class="lang">JavaScript</mark></h2>
+            </header>
+            <p>CSV conversion into RouterOS <code>array</code> types. Also an example of using an Observable notebook to do pre-parsing of data and generate scripts.</p>
+            <footer>
+                <a href="https://observablehq.com/@a2m0/csv2rsc?collection=@a2m0/mikrotik">Open csv2rsc</a>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="container">
+        <small>&copy; TIKOCI &mdash; <a href="index.html">Home</a></small>
+    </footer>
+
+    <script src="shared.js"></script>
+    <script>initThemeSwitcher();</script>
+</body>
+</html>

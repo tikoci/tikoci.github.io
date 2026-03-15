@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Development Tools — TIKOCI</title>
+    <meta name="description" content="TIKOCI development tools for MikroTik RouterOS: LSP server, API schema generation, code generators.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Manrope:wght@200..800&display=swap">
+    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="cubist.css">
+    <script async src="https://plausible.io/js/pa-ubWop5eYckoDPVbIjXU4_.js"></script>
+    <script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)};plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>
+</head>
+<body>
+    <header class="container">
+        <nav>
+            <ul>
+                <li><strong><a href="index.html">TIKOCI</a></strong></li>
+            </ul>
+            <ul>
+                <li>
+                    <details class="dropdown">
+                        <summary>Categories</summary>
+                        <ul dir="rtl">
+                            <li><a href="dev-tools.html" aria-current="page">Development Tools</a></li>
+                            <li><a href="virtualization.html">Virtualization</a></li>
+                            <li><a href="containers.html">Containers</a></li>
+                            <li><a href="scripts.html">RouterOS Scripts</a></li>
+                            <li><a href="web-tools.html">Web Tools</a></li>
+                        </ul>
+                    </details>
+                </li>
+                <li><a href="https://github.com/orgs/tikoci/repositories" target="_blank" rel="noopener">GitHub</a></li>
+                <li><a href="#" id="theme_switcher" aria-label="Toggle dark mode"></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Development Tools</h1>
+        <p>Tools for developing, editing, and working with MikroTik RouterOS — LSP support, API schemas, and code generators.</p>
+
+        <article>
+            <header>
+                <h2><a href="https://github.com/tikoci/lsp-routeros-ts">lsp-routeros-ts</a> <mark class="new">NEW</mark> <mark class="lang">TypeScript</mark></h2>
+            </header>
+            <p>A &ldquo;working prototype&rdquo; of an LSP server for third-party editors like VSCode and NeoVim. Provides syntax checking and completion for RouterOS scripting language.</p>
+            <figure>
+                <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNDl4NXg5ZXB0YWd2Z2s5b2t0Z2t6enN6Y3NmbTRsZ2o5dWM3MTJqMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Rm4TUg15fUuUhHVvSx/giphy.gif" alt="LSP demo showing autocomplete in VSCode" loading="lazy">
+                <figcaption>RouterOS LSP providing completions in VSCode</figcaption>
+            </figure>
+            <p>The project builds a <kbd>lsp-routeros-ts.vsix</kbd> file that can be installed in VSCode:</p>
+            <pre><code>wget https://github.com/tikoci/lsp-routeros-ts/releases/latest/download/lsp-routeros-ts.vsix
+code --install-extension lsp-routeros-ts.vsix</code></pre>
+            <p>After installing the VSIX, configure the &ldquo;RouterOS LSP&rdquo; extension settings to provide a RouterOS device for REST API access. Single-file executables for various OS/platforms are also available for use with other editors.</p>
+            <footer>
+                <a href="https://github.com/tikoci/lsp-routeros-ts">GitHub</a> &middot;
+                <a href="https://github.com/tikoci/lsp-routeros-ts/releases/latest">Latest Release</a> &middot;
+                <a href="https://github.com/tikoci/lsp-routeros-ts/blob/main/README.md">README</a>
+            </footer>
+        </article>
+
+        <article>
+            <header>
+                <h2><a href="https://github.com/tikoci/restraml">restraml</a> <mark class="lang">TypeScript</mark></h2>
+            </header>
+            <p>Generates API schemas for any RouterOS version using <a href="https://github.com/tikoci/restraml/actions/workflows/manual-using-extra-docker-in-docker.yaml">CHR in GitHub Actions</a> to dynamically create API schemas from RouterOS&rsquo;s <code>/console/inspect</code> command. The generated schemas can be used in Postman and other API tools to support <a href="https://help.mikrotik.com/docs/display/ROS/REST+API">RouterOS&rsquo;s REST API</a> development.</p>
+            <p>The project also hosts the <a href="https://tikoci.github.io/restraml/diff.html">Schema Diff</a>, <a href="https://tikoci.github.io/restraml/lookup.html">Command Lookup</a>, and <a href="https://tikoci.github.io/restraml">Schema Downloads</a> pages.</p>
+            <footer>
+                <a href="https://github.com/tikoci/restraml">GitHub</a> &middot;
+                <a href="https://tikoci.github.io/restraml">restraml Site</a>
+            </footer>
+        </article>
+
+        <article>
+            <header>
+                <h2><a href="https://github.com/tikoci/winbox-deb">winbox-deb</a> <mark class="lang">Makefile</mark> <mark class="lang">Shell</mark></h2>
+            </header>
+            <p>Uses <code>Makefile</code> to create a <kbd>.deb</kbd> Linux package with WinBox 4.0, including adding an icon to the desktop. Provided mainly as an example for others wanting to package WinBox 4.0 for various distros.</p>
+            <p><em>The <kbd>.deb</kbd> built is not intended for wide redistribution — more a template for future WinBox packaging.</em></p>
+            <footer>
+                <a href="https://github.com/tikoci/winbox-deb">GitHub</a>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="container">
+        <small>&copy; TIKOCI &mdash; <a href="index.html">Home</a></small>
+    </footer>
+
+    <script src="shared.js"></script>
+    <script>initThemeSwitcher();</script>
+</body>
+</html>

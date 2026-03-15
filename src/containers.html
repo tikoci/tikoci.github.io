@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Containers — TIKOCI</title>
+    <meta name="description" content="TIKOCI container projects for MikroTik RouterOS: multiprocess service loader, BSD games, netinstall, serial2http.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Manrope:wght@200..800&display=swap">
+    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="cubist.css">
+    <script async src="https://plausible.io/js/pa-ubWop5eYckoDPVbIjXU4_.js"></script>
+    <script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)};plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>
+</head>
+<body>
+    <header class="container">
+        <nav>
+            <ul>
+                <li><strong><a href="index.html">TIKOCI</a></strong></li>
+            </ul>
+            <ul>
+                <li>
+                    <details class="dropdown">
+                        <summary>Categories</summary>
+                        <ul dir="rtl">
+                            <li><a href="dev-tools.html">Development Tools</a></li>
+                            <li><a href="virtualization.html">Virtualization</a></li>
+                            <li><a href="containers.html" aria-current="page">Containers</a></li>
+                            <li><a href="scripts.html">RouterOS Scripts</a></li>
+                            <li><a href="web-tools.html">Web Tools</a></li>
+                        </ul>
+                    </details>
+                </li>
+                <li><a href="https://github.com/orgs/tikoci/repositories" target="_blank" rel="noopener">GitHub</a></li>
+                <li><a href="#" id="theme_switcher" aria-label="Toggle dark mode"></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Containers</h1>
+        <p>RouterOS container projects — from multiprocess service loaders to retro BSD games.</p>
+
+        <article>
+            <header>
+                <h2><a href="https://github.com/tikoci/make.d">make.d</a> <mark class="lang">Makefile</mark> <mark class="lang">Shell</mark> <mark class="lang">Dockerfile</mark></h2>
+            </header>
+            <p>Wraps Alpine packages using <code>make</code> into a multiprocess service loader — a &ldquo;better base&rdquo; for RouterOS containers. Includes bash completions, development tools, and many TUI tools. The <code>mk</code> command provides access to add tools and manage &ldquo;services&rdquo;.</p>
+            <p>While experimental, the <code>make.d</code> container has been stable for months in lab to run an MQTT broker.</p>
+            <footer>
+                <a href="https://github.com/tikoci/make.d">GitHub &amp; README</a>
+            </footer>
+        </article>
+
+        <article>
+            <header>
+                <h2><a href="https://github.com/tikoci/cligames">cligames</a> <mark class="lang">Dockerfile</mark></h2>
+            </header>
+            <p>30+ classic BSD games wrapped into a RouterOS container with a retro <code>telnet</code> interface. Connect via telnet for some old-school fun on your router.</p>
+            <footer>
+                <a href="https://github.com/tikoci/cligames">GitHub</a> &middot;
+                <a href="https://hub.docker.com/r/ammo74/cligames">DockerHub</a>
+            </footer>
+        </article>
+
+        <article>
+            <header>
+                <h2><a href="https://github.com/tikoci/netinstall">netinstall</a> <mark class="lang">Makefile</mark> <mark class="lang">Dockerfile</mark></h2>
+            </header>
+            <p>Runs MikroTik&rsquo;s netinstall tool as a RouterOS container, with QEMU to enable ARM/ARM64 support. Uses UNIX <code>make</code> to download packages automatically via <code>/container/env</code>. The whole thing is just <a href="https://github.com/tikoci/netinstall/blob/master/Makefile">66 lines of Makefile</a>.</p>
+            <footer>
+                <a href="https://github.com/tikoci/netinstall">GitHub</a> &middot;
+                <a href="https://hub.docker.com/r/ammo74/netinstall">DockerHub</a>
+            </footer>
+        </article>
+
+        <article>
+            <header>
+                <h2><a href="https://github.com/tikoci/serial2http">serial2http</a> <mark class="lang">Go</mark> <mark class="lang">Dockerfile</mark></h2>
+            </header>
+            <p>Wraps RouterOS &ldquo;remote&rdquo; serial port as an HTTP interface. Useful for programmatic access to serial-connected devices through your router.</p>
+            <footer>
+                <a href="https://github.com/tikoci/serial2http">GitHub</a> &middot;
+                <a href="https://hub.docker.com/r/ammo74/serial2http">DockerHub</a>
+            </footer>
+        </article>
+
+        <blockquote>
+            <p>There are additional containers in TIKOCI&rsquo;s <a href="https://github.com/orgs/tikoci/repositories">Repositories</a>. Some repos are used as part of other builds, and others are experiments — use unlisted containers with care, or as examples. If you have questions or problems, file an issue within the particular repo.</p>
+        </blockquote>
+    </main>
+
+    <footer class="container">
+        <small>&copy; TIKOCI &mdash; <a href="index.html">Home</a></small>
+    </footer>
+
+    <script src="shared.js"></script>
+    <script>initThemeSwitcher();</script>
+</body>
+</html>

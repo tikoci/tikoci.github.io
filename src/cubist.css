@@ -1,0 +1,34 @@
+/* =====================================================================
+ * cubist.css — Cubist/geometric decorative elements
+ *
+ * Inspired by the dalle-cubist-potto aesthetic: Picasso cubism meets
+ * O'Reilly animal covers — geometric shapes, vivid colors, bold lines.
+ *
+ * Include AFTER shared.css.
+ * ===================================================================== */
+
+/* Category header icons */
+.category-header svg.cubist-icon {
+    width: 1.6rem;
+    height: 1.6rem;
+    flex-shrink: 0;
+}
+
+/* Hero decorative graphic */
+.hero-graphic {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+.hero-graphic svg {
+    width: 7rem;
+    height: 7rem;
+}
+
+/* Callout icon */
+.restraml-callout svg.cubist-icon {
+    width: 1.2rem;
+    height: 1.2rem;
+    vertical-align: middle;
+    margin-right: 0.3rem;
+}

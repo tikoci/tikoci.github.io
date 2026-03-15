@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Virtualization — TIKOCI</title>
+    <meta name="description" content="TIKOCI virtualization projects for MikroTik RouterOS CHR: UTM VMs, UEFI images.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Manrope:wght@200..800&display=swap">
+    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="cubist.css">
+    <script async src="https://plausible.io/js/pa-ubWop5eYckoDPVbIjXU4_.js"></script>
+    <script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)};plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>
+</head>
+<body>
+    <header class="container">
+        <nav>
+            <ul>
+                <li><strong><a href="index.html">TIKOCI</a></strong></li>
+            </ul>
+            <ul>
+                <li>
+                    <details class="dropdown">
+                        <summary>Categories</summary>
+                        <ul dir="rtl">
+                            <li><a href="dev-tools.html">Development Tools</a></li>
+                            <li><a href="virtualization.html" aria-current="page">Virtualization</a></li>
+                            <li><a href="containers.html">Containers</a></li>
+                            <li><a href="scripts.html">RouterOS Scripts</a></li>
+                            <li><a href="web-tools.html">Web Tools</a></li>
+                        </ul>
+                    </details>
+                </li>
+                <li><a href="https://github.com/orgs/tikoci/repositories" target="_blank" rel="noopener">GitHub</a></li>
+                <li><a href="#" id="theme_switcher" aria-label="Toggle dark mode"></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Virtualization</h1>
+        <p>Tools for running MikroTik RouterOS CHR in virtual environments — automated UTM installs and UEFI-compatible images.</p>
+
+        <article>
+            <header>
+                <h2><a href="https://github.com/tikoci/mikropkl">mikropkl</a> <mark class="lang">PKL</mark> <mark class="lang">Shell</mark></h2>
+            </header>
+            <p>Packages RouterOS CHR as macOS UTM virtual machines for automated install. No more fussing with disks or display. <a href="https://github.com/tikoci/mikropkl/releases/latest">Releases</a> include <code>utm://</code> links and <code>.zip</code> files for recent versions of RouterOS CHR, ready-to-use with macOS UTM.</p>
+            <figure>
+                <img src="images/chr-utm-serialopen.png" alt="RouterOS CHR running in UTM on macOS" loading="lazy">
+                <figcaption>RouterOS CHR in UTM with serial console open</figcaption>
+            </figure>
+            <footer>
+                <a href="https://github.com/tikoci/mikropkl">GitHub</a> &middot;
+                <a href="https://github.com/tikoci/mikropkl/releases/latest">UTM Downloads</a>
+            </footer>
+        </article>
+
+        <article>
+            <header>
+                <h2><a href="https://github.com/tikoci/fat-chr">fat-chr</a> <mark class="lang">Shell</mark></h2>
+            </header>
+            <p>Rebuilds RouterOS CHR <code>.raw</code> images into valid UEFI images for UTM, Apple, and other virtualization platforms. Uses FAT instead of ext2 for the EFI partition. UEFI-enabled CHR images are available in the <a href="https://github.com/tikoci/fat-chr/releases">project releases</a>.</p>
+            <footer>
+                <a href="https://github.com/tikoci/fat-chr">GitHub</a> &middot;
+                <a href="https://github.com/tikoci/fat-chr/releases">UEFI CHR Images</a>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="container">
+        <small>&copy; TIKOCI &mdash; <a href="index.html">Home</a></small>
+    </footer>
+
+    <script src="shared.js"></script>
+    <script>initThemeSwitcher();</script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Build",
+            "type": "bun",
+            "request": "launch",
+            "program": "build.ts",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Dev Server",
+            "type": "bun",
+            "request": "launch",
+            "program": "build.ts",
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Build"
+        }
+    ]
+}

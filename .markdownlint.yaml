@@ -1,0 +1,4 @@
+# Suppress noisy rules on agent instruction files
+MD013: false  # Line length
+MD033: false  # Inline HTML (tables, badges)
+MD060: false  # Code block style (common false positive in agent docs)

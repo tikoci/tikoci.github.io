@@ -1,0 +1,214 @@
+/* =====================================================================
+ * shared.css — Shared styles for all tikoci.github.io pages
+ *
+ * Adapted from restraml-shared.css patterns. Include via:
+ *   <link rel="stylesheet" href="shared.css">
+ * Load AFTER Pico CSS and Google Fonts, BEFORE page-specific <style>.
+ *
+ * Sections:
+ *   1. Font overrides (JetBrains Mono + Manrope)
+ *   2. Inline code/kbd tightening
+ *   3. Logo dark/light swap
+ *   4. Theme switcher icon sizing
+ *   5. Nav dropdown LTR fix
+ *   6. Page guide pattern
+ *   7. Utility classes
+ *   8. Project cards
+ *   9. Category badges
+ *  10. Site footer
+ * ===================================================================== */
+
+
+/* -----------------------------------------------------------------
+ * 1. Font overrides
+ * ----------------------------------------------------------------- */
+:root {
+    --pico-font-family-sans-serif: Manrope, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, Helvetica, Arial, "Helvetica Neue", sans-serif, var(--pico-font-family-emoji);
+    --pico-font-family-monospace: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace, var(--pico-font-family-emoji);
+    --pico-font-family: "JetBrains Mono", var(--pico-font-family-sans-serif);
+}
+
+
+/* -----------------------------------------------------------------
+ * 2. Inline code/kbd tightening
+ * ----------------------------------------------------------------- */
+:not(pre) > code,
+:not(pre) > kbd {
+    padding: 0.05em 0.3em;
+    vertical-align: baseline;
+}
+
+
+/* -----------------------------------------------------------------
+ * 3. Logo dark/light swap
+ *    Two <img data-theme="dark|light"> in the nav. CSS swaps visibility.
+ * ----------------------------------------------------------------- */
+img[data-theme=dark] { display: none; }
+[data-theme=dark] img[data-theme=dark] { display: inline; }
+[data-theme=dark] img[data-theme=light] { display: none; }
+[data-theme=light] img[data-theme=dark] { display: none; }
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme=light]) img[data-theme=dark] { display: inline; }
+    :root:not([data-theme=light]) img[data-theme=light] { display: none; }
+}
+
+header nav img[data-theme] {
+    height: 2rem;
+    width: auto;
+}
+
+
+/* -----------------------------------------------------------------
+ * 4. Theme switcher icon sizing
+ * ----------------------------------------------------------------- */
+header nav li a svg {
+    width: var(--font-size);
+    height: var(--font-size);
+    color: var(--contrast);
+}
+
+
+/* -----------------------------------------------------------------
+ * 5. Nav dropdown LTR fix
+ * ----------------------------------------------------------------- */
+details.dropdown ul li { direction: ltr; }
+
+
+/* -----------------------------------------------------------------
+ * 6. Page guide pattern (collapsible help sections)
+ * ----------------------------------------------------------------- */
+.page-guide summary {
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
+}
+.page-guide article {
+    font-size: 0.88rem;
+    margin-top: 0.5rem;
+}
+.page-guide article hr { margin: 0.8rem 0; }
+.page-guide pre {
+    font-size: 0.78rem;
+    border-left: 3px solid var(--pico-primary);
+}
+
+
+/* -----------------------------------------------------------------
+ * 7. Utility classes
+ * ----------------------------------------------------------------- */
+.ml-1 { margin-left: 1rem; }
+.text-right { text-align: right; }
+.mt-1 { margin-top: 1rem; }
+.mt-1-5 { margin-top: 1.5rem; }
+
+
+/* -----------------------------------------------------------------
+ * 8. Site footer (before project cards for specificity ordering)
+ * ----------------------------------------------------------------- */
+body > footer {
+    text-align: center;
+    padding: 2rem 1rem;
+}
+body > footer small {
+    font-style: italic;
+}
+
+
+/* -----------------------------------------------------------------
+ * 9. Project cards
+ * ----------------------------------------------------------------- */
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+    gap: 1rem;
+}
+
+.project-grid > article {
+    margin: 0;
+}
+
+.project-grid > article > header {
+    padding-bottom: 0.5rem;
+}
+
+.project-grid > article > header a {
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.project-grid > article > footer {
+    font-size: 0.85rem;
+    padding-top: 0.5rem;
+}
+
+.project-grid > article > footer a {
+    font-size: 0.8rem;
+}
+
+
+/* -----------------------------------------------------------------
+ * 10. Category badges (using <mark>)
+ * ----------------------------------------------------------------- */
+mark {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.1em 0.45em;
+    border-radius: 0.25rem;
+    vertical-align: middle;
+}
+
+mark.new {
+    background-color: var(--pico-primary);
+    color: var(--pico-primary-inverse);
+}
+
+/* Language tags */
+mark.lang {
+    background-color: var(--pico-secondary-background);
+    color: var(--pico-secondary);
+    font-size: 0.65rem;
+    font-weight: 600;
+    margin-left: 0.25rem;
+}
+
+/* restraml callout */
+.restraml-callout {
+    border-left: 4px solid var(--pico-primary);
+    margin: 0 0 1rem;
+}
+
+/* Hero section on index */
+.hero {
+    text-align: center;
+    padding: 2rem 0 1rem;
+}
+.hero h1 {
+    font-size: 2.4rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+}
+.hero p {
+    font-size: 1.05rem;
+    max-width: 40rem;
+    margin: 0 auto;
+}
+
+/* Category section headers */
+.category-header {
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 2px solid var(--pico-primary);
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+}
+.category-header h2 {
+    margin: 0;
+    font-size: 1.3rem;
+}
+/* biome-ignore lint/style/noDescendingSpecificity: different element context than .project-grid selectors */
+.category-header > a {
+    font-size: 0.85rem;
+}

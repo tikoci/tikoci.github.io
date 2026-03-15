@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RouterOS Scripts — TIKOCI</title>
+    <meta name="description" content="TIKOCI RouterOS scripting functions: VLAN automation, bridge visualization, interactive prompts, and more.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Manrope:wght@200..800&display=swap">
+    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="cubist.css">
+    <script async src="https://plausible.io/js/pa-ubWop5eYckoDPVbIjXU4_.js"></script>
+    <script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)};plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>
+</head>
+<body>
+    <header class="container">
+        <nav>
+            <ul>
+                <li><strong><a href="index.html">TIKOCI</a></strong></li>
+            </ul>
+            <ul>
+                <li>
+                    <details class="dropdown">
+                        <summary>Categories</summary>
+                        <ul dir="rtl">
+                            <li><a href="dev-tools.html">Development Tools</a></li>
+                            <li><a href="virtualization.html">Virtualization</a></li>
+                            <li><a href="containers.html">Containers</a></li>
+                            <li><a href="scripts.html" aria-current="page">RouterOS Scripts</a></li>
+                            <li><a href="web-tools.html">Web Tools</a></li>
+                        </ul>
+                    </details>
+                </li>
+                <li><a href="https://github.com/orgs/tikoci/repositories" target="_blank" rel="noopener">GitHub</a></li>
+                <li><a href="#" id="theme_switcher" aria-label="Toggle dark mode"></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>RouterOS Scripts <mark class="lang">RouterOS Script</mark></h1>
+        <p>Various <em>maybe</em> good examples of RouterOS scripting functions. See MikroTik&rsquo;s <a href="https://help.mikrotik.com/docs/display/ROS/Scripting">Scripting Language Manual</a> for syntax and structure, and <a href="https://help.mikrotik.com/docs/display/ROS/Scripting+examples">basic examples</a>. For more practical scripts, see <a href="https://forum.mikrotik.com/viewtopic.php?t=177551">&cross; Rextended Fragments of Snippets</a>.</p>
+
+        <h2>TUI &amp; Bridge Tools</h2>
+
+        <article>
+            <header>
+                <h3><a href="https://forum.mikrotik.com/viewtopic.php?t=214189#p1123276">$lsbridge</a></h3>
+            </header>
+            <p>&ldquo;Visualizes&rdquo; the VLAN-aware bridge settings in the terminal. Even &ldquo;view-only&rdquo;, a handy tool to &ldquo;see&rdquo; the bridge settings. Eventually, interactive control will be added.</p>
+            <figure>
+                <img src="images/lsbridge-hex-s-forum.jpeg" alt="$lsbridge output showing bridge VLAN visualization" loading="lazy">
+                <figcaption>$lsbridge showing bridge VLAN configuration on a hex S</figcaption>
+            </figure>
+            <p>See the <a href="https://forum.mikrotik.com/viewtopic.php?t=214189#p1123276">forum post</a> for code and more screenshots. <a href="scripts/lsbridge.rsc">Script download</a> <small>(requires 7.18+)</small></p>
+        </article>
+
+        <article>
+            <header>
+                <h3><a href="https://forum.mikrotik.com/viewtopic.php?t=214189&hilit=lsbridge#p1123276">$mkvlan / $rmvlan / $catvlan</a></h3>
+            </header>
+            <p>VLAN automation scripts for RouterOS — add L3 VLANs and manage bridge ports/VLANs. The <code>autovlan.rsc</code> file contains <code>$mkvlan</code>, <code>$rmvlan</code>, <code>$catvlan</code>, and related functions.</p>
+            <p><a href="scripts/autovlan.rsc">Script download</a> <small>(requires 7.17+)</small></p>
+        </article>
+
+        <h2>Interactive Functions</h2>
+
+        <article>
+            <header>
+                <h3><a href="https://forum.mikrotik.com/viewtopic.php?p=1058665">$PIANO</a></h3>
+            </header>
+            <p>Interactive &ldquo;player piano&rdquo; and studio-quality recorder using <code>:beep</code>.</p>
+        </article>
+
+        <article>
+            <header>
+                <h3><a href="https://forum.mikrotik.com/viewtopic.php?t=197695">$INQUIRE</a> + <a href="https://forum.mikrotik.com/viewtopic.php?t=197695#p1013583">$CHOICES</a> + <a href="https://forum.mikrotik.com/viewtopic.php?t=197695#p1081024">$QKEYS</a></h3>
+            </header>
+            <p>Prompt user for input using arrays — flexible interactive selection helpers for RouterOS scripts.</p>
+        </article>
+
+        <article>
+            <header>
+                <h3><a href="https://forum.mikrotik.com/viewtopic.php?p=1063466">$ROKU</a></h3>
+            </header>
+            <p>The missing Roku TV remote for RouterOS.</p>
+        </article>
+
+        <h2>Utility Functions</h2>
+
+        <article>
+            <header>
+                <h3><a href="https://forum.mikrotik.com/viewtopic.php?t=204990">$ZT2DNS</a></h3>
+            </header>
+            <p>Import ZeroTier Members into MikroTik DNS, with <a href="https://forum.mikrotik.com/viewtopic.php?t=204990#p1078036">6PLANE</a> support.</p>
+        </article>
+
+        <article>
+            <header>
+                <h3><a href="https://forum.mikrotik.com/viewtopic.php?t=136256#p1083224">$npushover</a></h3>
+            </header>
+            <p>Send messages to <a href="https://pushover.net">pushover.net</a> — an example of using JSON, arrays, and <code>/tool/fetch</code>.</p>
+        </article>
+
+        <article>
+            <header>
+                <h3><a href="https://forum.mikrotik.com/viewtopic.php?t=208272&p1079713">$updateDynu</a></h3>
+            </header>
+            <p>Update IP to DNS mappings at <a href="https://www.dynu.com">dynu.com</a> for DDNS support.</p>
+        </article>
+
+        <article>
+            <header>
+                <h3><a href="https://forum.mikrotik.com/viewtopic.php?t=192103">Track LTE Signal using The Dude</a></h3>
+            </header>
+            <p>Not really a RouterOS function — but provides an example of The Dude&rsquo;s <code>array_element()</code> and <code>oid_column()</code> functions to handle name to OID mapping.</p>
+        </article>
+    </main>
+
+    <footer class="container">
+        <small>&copy; TIKOCI &mdash; <a href="index.html">Home</a></small>
+    </footer>
+
+    <script src="shared.js"></script>
+    <script>initThemeSwitcher();</script>
+</body>
+</html>
