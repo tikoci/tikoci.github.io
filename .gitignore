@@ -9,3 +9,4 @@ dist/*
 docs/.observablehq/cache/
 node_modules/
 yarn-error.log
+.local
