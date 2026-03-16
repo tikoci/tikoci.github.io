@@ -19,16 +19,5 @@ This is a multi-page static site for the TIKOCI GitHub org — MikroTik RouterOS
 
 ## Commands
 - `bun run build` — build site to dist/
-- `bun run lint` — lint with Biome + TypeScript type-check (`tool/mtforum/`)
-- `bun run typecheck` — TypeScript type-check only (`tool/mtforum/`)
+- `bun run lint` — lint with Biome
 - `bun run dev` — build + serve locally
-
-## MCP Server (`tool/mtforum/`)
-- Discourse forum archive → SQLite + FTS5, exposed via MCP tools
-- Separate `package.json` with own deps (`@modelcontextprotocol/sdk`, `csv-parse`, `zod`)
-- Uses `bun:sqlite` — `db.run()` takes params as array, `db.prepare().run()` takes variadic args
-- Use `node:` protocol for Node.js imports (enforced by Biome)
-
-## See Also
-- `CLAUDE.md` — full architecture guide
-- `AGENTS.md` — agent-specific instructions
