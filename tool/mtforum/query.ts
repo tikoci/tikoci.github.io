@@ -191,7 +191,7 @@ export function planQuestion(question: string, explicitLimit?: number): QueryPla
   const { endDate, recognized: dRec, residue: r1, startDate } = extractDateRange(normalized);
   recognized.push(...dRec);
 
-  const { author, residue: r2 } = extractAuthor(r1);
+  const { author, residue: _r2 } = extractAuthor(r1);
   if (author) recognized.push(`author:${author}`);
 
   const { sort, recognized: sRec } = inferSort(normalized);
