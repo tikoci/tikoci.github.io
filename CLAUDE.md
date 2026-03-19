@@ -87,16 +87,27 @@ All pages include `shared.css` after Pico CSS and Google Fonts. It provides:
 3. **Logo dark/light swap** — `img[data-theme]` visibility based on theme state
 4. **Theme switcher icon sizing** — SVG sizing in nav
 5. **Nav dropdown LTR fix** — prevents RTL text issues in `dir="rtl"` dropdowns
-6. **Page guide pattern** — collapsible help sections using `.page-guide`
-7. **Utility classes** — `.ml-1`, `.mt-1`, `.text-right`, etc.
-8. **Project cards** — `.project-grid` for card layouts
-9. **Category badges** — `<mark>` styling
-10. **Site footer** — consistent footer styling
+6. **Page guide pattern** — collapsible help sections using `.page-guide` + `.behind-curtain`
+7. **Share modal styling** — `dialog.share-modal` for legacy share pattern
+8. **Utility classes** — `.ml-1`, `.mt-1`, `.text-right`, `.share-link`, `.inline-select`,
+   `.switch-controls`, `.grid-2fr-1fr`
+9. **Project cards** — `.project-grid` for card layouts
+10. **Category badges** — `<mark>` styling
+11. **Site footer** — consistent footer styling
 
 ### shared.js structure
 All pages include `shared.js` before page-specific scripts. It provides:
 - `initThemeSwitcher(id?)` — 3-state dark mode toggle (auto → light → dark → auto)
 - Theme icon SVGs (sun, moon, half-circle)
+- `TIKOCI` — org-level constants (`owner`, `pagesUrl`)
+- `fetchGitHubContents(repo, path)` — fetch directory listings from GitHub Contents API
+- `fetchGitHubPagesFile(repo, path)` — fetch raw files from GitHub Pages (no rate limit)
+- `debounce(fn, ms)` — debounce wrapper for text input event handlers
+- `createCancelToken()` — cancellation token factory for async request racing
+- `readQueryParams()` / `writeQueryParams(params)` — shareable URL helpers
+- `initShareButton(buttonId, beforeCopy, label)` — inline "Copied!" share button
+- `initShareModal(opts)` — legacy share dialog (prefer `initShareButton` for new pages)
+- `escapeHtml(str)` — HTML-safe string escaping
 
 ### Dark Mode — Critical Pico v2 Pattern
 
@@ -114,26 +125,198 @@ For third-party components that need dark mode styling:
 [data-theme=dark] .component { /* dark styles */ }
 ```
 
-### Semantic HTML Quick Reference
+### Semantic HTML Quick Reference (Pico CSS v2)
 
-| Element | What Pico Does | Use For |
-|---------|---------------|---------|
+| Element / Pattern | What Pico Does | Use For |
+|---|---|---|
 | `<article>` | Card with padding, border, rounded corners | Project cards, callouts |
-| `<article>` + `<header>`/`<footer>` | Card with sections | Structured project cards |
-| `<details>`/`<summary>` | Accordion | Collapsible sections, credits |
-| `<mark>` | Highlighted text | Tags like NEW, categories |
-| `<kbd>` | Key-styled inline | Package names, tech terms |
-| `<figure>` + `<figcaption>` | Captioned content | Screenshots with descriptions |
-| `<nav>` with `<ul>` | Horizontal flex | Navigation, toolbars |
+| `<article>` + `<header>` / `<footer>` | Card with distinct header/footer sections | Structured cards |
+| `<details>` / `<summary>` | Native accordion, styled with arrow | Collapsible guide, TOC |
+| `<details>` + `name="group"` | Exclusive accordion (only one open) | Grouped sections |
+| `<summary role="button">` | Summary styled as a button | Prominent toggles |
+| `<mark>` | Highlighted inline text (yellow/primary) | Key terms, toggle names |
+| `<kbd>` | Keyboard-key styled inline | Package names, key combos |
+| `<figure>` + `<figcaption>` | Captioned content block | Code examples with notes |
+| `<ins>` / `<del>` | Green/red inline text | Showing diff semantics |
+| `<hr>` inside `<article>` | Subtle section divider within a card | Separating guide topics |
+| `role="switch"` on checkbox | Toggle switch appearance | Extra-packages, testing toggles |
+| `<nav>` with `<ul>` | Horizontal flex layout | Controls bar, toolbar |
+
+**Consistent switch labels:** When a `<nav>` has multiple `role="switch"` toggles, give the
+`<nav>` an ID and apply `font-size: 0.88rem; font-style: italic` to all labels via CSS. Use
+`<code>` (with `font-style: normal`) for technical terms within labels. Remove individual `<i>`
+tags — let CSS handle italic consistently.
 
 ### Navigation
 All pages share a consistent nav header with:
 - **TIKOCI** home link (left)
 - **Categories** dropdown (Pico's `<details class="dropdown">`)
+- **Tools** dropdown (links to restraml tools and any future interactive tool pages)
 - **GitHub** link to all repos
 - **Theme switcher** (sun/moon/half-circle SVG)
 
 On each category page, the current page is marked with `aria-current="page"` in the dropdown.
+
+When adding a new tool page, add it to the Tools dropdown in **all** existing pages.
+
+---
+
+## Interactive Tool Pages — Patterns and Conventions
+
+Beyond the portfolio category pages, this site hosts (or will host) interactive tool pages that
+pivot GitHub-hosted data into browser UIs. These follow the same patterns proven in
+[restraml](https://tikoci.github.io/restraml/)'s tool pages (lookup, diff, editor, etc.).
+
+### Core Principles
+
+- **Client-side SPA** — all logic runs in the browser. No backend. GitHub Pages serves static files only.
+- **GitHub REST API** for dynamic data — directory listings, file contents, version discovery.
+  Use `fetchGitHubContents()` and `fetchGitHubPagesFile()` from `shared.js`.
+- **No submit buttons** — prefer JS event listeners (`input`, `change`, `keydown`) over explicit
+  submit/lookup buttons. Use `debounce()` (~400 ms) for text inputs; fire immediately on `change`
+  events for checkboxes and `<select>` elements.
+- **Cancellation tokens** — prevent stale async results from racing. Use `createCancelToken()`.
+- **Shareable URLs** — all tool pages support query strings that populate controls and trigger
+  results on load. Use `writeQueryParams()` / `readQueryParams()` from `shared.js`. Update with
+  `history.replaceState()` (not `pushState` — no new history entries).
+- **Minimal CDN dependencies** — only add a library if it meaningfully solves a problem. Keep count low.
+- **Single `.html` file** — keep JS inline in each tool page. No separate `.js` files per page.
+- **Plausible tracking** — `plausible('Event Name', { props: { key: value } })` for interactions.
+
+### Event-Driven Controls Pattern
+
+```javascript
+// In page-specific <script>:
+const cancel = createCancelToken()
+const pathInput = document.getElementById('path-input')
+const versionSelect = document.getElementById('version-select')
+
+// Text input: debounce 400ms
+pathInput.addEventListener('input', debounce(async () => {
+    const id = cancel.next()
+    const data = await fetchGitHubPagesFile('restraml', `${versionSelect.value}/inspect.json`)
+        .then(r => r.json())
+    if (id !== cancel.current) return  // stale
+    renderResults(data)
+    writeQueryParams({ path: pathInput.value, version: versionSelect.value })
+}, 400))
+
+// Select/checkbox: fire immediately (no debounce)
+versionSelect.addEventListener('change', async () => {
+    const id = cancel.next()
+    const data = await fetchGitHubPagesFile('restraml', `${versionSelect.value}/inspect.json`)
+        .then(r => r.json())
+    if (id !== cancel.current) return
+    renderResults(data)
+    writeQueryParams({ path: pathInput.value, version: versionSelect.value })
+})
+```
+
+### GitHub API Fetch Patterns
+
+```javascript
+// List directories in a repo (e.g. versions)
+const versions = await fetchGitHubContents('restraml', 'docs')
+    .then(items => items.filter(f => f.type === 'dir'))
+
+// Fetch a JSON file from Pages (no rate limit, unlike API)
+const inspect = await fetchGitHubPagesFile('restraml', '7.22/inspect.json')
+    .then(r => r.json())
+
+// Fetch raw text from Pages
+const raml = await fetchGitHubPagesFile('restraml', '7.22/schema.raml')
+    .then(r => r.text())
+```
+
+### Share Button Pattern (preferred for new pages)
+
+```html
+<p class="text-right">
+    <button id="share-btn" class="outline share-link">Share</button>
+</p>
+```
+
+```javascript
+initShareButton('share-btn', () => {
+    writeQueryParams({ path: pathInput.value, version: versionSelect.value })
+})
+```
+
+### Collapsible Guide Pattern — In-Page Help
+
+Tool pages include a collapsed `<details>` section for lightweight documentation:
+
+```html
+<details id="my-guide" class="page-guide">
+    <summary><b>How to use this tool?</b> &hellip;</summary>
+    <article>
+        <header><strong>Section Title</strong></header>
+        <!-- Usage explanation -->
+        <hr>
+        <!-- Notation / syntax explanation -->
+        <hr>
+        <div class="behind-curtain">
+            <small><b>Behind the curtain</b> &mdash; how it works ...</small>
+        </div>
+        <footer>
+            <small>Bug/feature links</small>
+        </footer>
+    </article>
+</details>
+```
+
+### New Tool Page Skeleton
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tool Name — tikoci.github.io</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+    <script async src="https://plausible.io/js/pa-ubWop5eYckoDPVbIjXU4_.js"></script>
+    <script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)};plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        /* Page-specific CSS */
+    </style>
+</head>
+<body>
+    <header class="container">
+        <!-- Copy nav from an existing page, update aria-current="page" -->
+        <nav>...</nav>
+        <h1>Tool <mark>Name</mark></h1>
+    </header>
+    <main class="container">
+        <!-- Controls, results, guide -->
+    </main>
+    <footer class="container">
+        <small><em>Disclaimer</em></small>
+    </footer>
+    <script src="shared.js"></script>
+    <script>
+        initThemeSwitcher()
+        // Page-specific logic: fetch data, wire events, etc.
+    </script>
+</body>
+</html>
+```
+
+### Relationship to restraml Tool Pages
+
+The restraml project (`tikoci.github.io/restraml/`) has its own `restraml-shared.{js,css}` with
+RouterOS-specific additions (version parsing, changelog modal). This site's `shared.{js,css}` is
+the **generic foundation** — the same patterns without project-specific logic. Future alignment
+goal: restraml imports the generic shared files from the root site and layers its own additions.
+
+Current state: both repos have independent shared files with the same core patterns (theme switcher,
+dark mode CSS, font overrides, page guide, utility classes). The generic GitHub API helpers and
+event-driven UI utilities now live in this repo's `shared.js` and can be used by any tool page
+regardless of which tikoci project's data it visualizes.
 
 ---
 

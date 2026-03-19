@@ -67,6 +67,18 @@ Built with bun, styled with Pico CSS v2, deployed to GitHub Pages.
 3. Use Pico CSS semantic elements before adding custom CSS
 4. Test dark mode (auto, light, dark states)
 
+### Create an interactive tool page
+
+1. Create `src/tool-name.html` using the skeleton in `CLAUDE.md` → "New Tool Page Skeleton"
+2. Include `shared.css` (after Pico) and `shared.js` (before page script)
+3. Call `initThemeSwitcher()` immediately
+4. Use `fetchGitHubContents()` / `fetchGitHubPagesFile()` for data fetching
+5. Wire controls with `debounce()` + `createCancelToken()` (no submit buttons)
+6. Support shareable URLs with `readQueryParams()` / `writeQueryParams()`
+7. Add the page to the Tools dropdown in **all** existing pages
+8. Keep all JS inline in the single `.html` file
+9. Run `bun run lint` and `bun run build`
+
 ---
 
 ## PR Conventions

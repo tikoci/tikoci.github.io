@@ -90,6 +90,12 @@ details.dropdown ul li { direction: ltr; }
     font-size: 0.78rem;
     border-left: 3px solid var(--pico-primary);
 }
+.page-guide .behind-curtain {
+    border-left: 3px solid var(--pico-form-element-border-color);
+    border-radius: 0 var(--pico-border-radius) var(--pico-border-radius) 0;
+    padding: 0.6rem 1rem;
+    background: var(--pico-form-element-background-color);
+}
 
 
 /* -----------------------------------------------------------------
@@ -99,6 +105,36 @@ details.dropdown ul li { direction: ltr; }
 .text-right { text-align: right; }
 .mt-1 { margin-top: 1rem; }
 .mt-1-5 { margin-top: 1.5rem; }
+
+/* Share link styling */
+.share-link { font-size: 0.9em; }
+
+/* Inline compact select (for controls rows) */
+.inline-select {
+    display: inline-block;
+    width: auto;
+    padding: 0.15em 0.4em;
+    font-size: 0.85em;
+    margin: 0 0.2rem;
+    vertical-align: baseline;
+}
+
+/* Compact, consistent switch labels in control navs */
+.switch-controls label {
+    font-size: 0.78rem;
+    font-style: italic;
+    white-space: nowrap;
+}
+.switch-controls label code {
+    font-style: normal;
+    font-size: inherit;
+}
+.switch-controls ul:last-child li + li { margin-left: 0.5rem; }
+
+/* 2fr/1fr grid layout (e.g. search path + attribute inputs) */
+.grid-2fr-1fr {
+    grid-template-columns: 2fr 1fr;
+}
 
 
 /* -----------------------------------------------------------------
@@ -332,4 +368,40 @@ mark.lang {
 /* biome-ignore lint/style/noDescendingSpecificity: different element context than .project-grid selectors */
 .category-header > a {
     font-size: 0.85rem;
+}
+
+
+/* -----------------------------------------------------------------
+ * 17. Share modal styling (legacy dialog pattern)
+ *     Used by tool pages with <dialog class="share-modal">.
+ *     Prefer initShareButton() for new pages.
+ *     Placed last: dialog selectors have high specificity (0,1,3).
+ * ----------------------------------------------------------------- */
+dialog.share-modal {
+    max-width: 36rem;
+    width: 90%;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+}
+dialog.share-modal > article {
+    margin: 0;
+}
+dialog.share-modal > article > header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.75rem;
+}
+dialog.share-modal > article > footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding-top: 0.75rem;
+}
+dialog.share-modal .share-url-input {
+    font-size: 0.8em;
+    font-family: var(--pico-font-family-monospace);
+}
+dialog.share-modal .share-copy-btn {
+    width: auto;
 }

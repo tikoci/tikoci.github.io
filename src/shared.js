@@ -1,10 +1,27 @@
 // =====================================================================
 // shared.js — Shared utilities for all tikoci.github.io pages
 //
-// Adapted from restraml-shared.js. Include via:
-//   <script src="shared.js"></script>
+// Include via:  <script src="shared.js"></script>
 // Then call initThemeSwitcher() after the DOM element exists.
+//
+// This file provides:
+//   1. Theme switcher (3-state: auto → light → dark → auto)
+//   2. GitHub API helpers (fetch repo contents, raw files)
+//   3. Event-driven UI utilities (debounce, cancellation tokens)
+//   4. Query string helpers (shareable URLs)
+//   5. Share/copy button wiring
+//   6. HTML escaping
+//
+// When adding shared behavior, change THIS file — not inline copies.
 // =====================================================================
+
+
+// --- Organization constants ------------------------------------------
+const TIKOCI = Object.freeze({
+    owner: 'tikoci',
+    pagesUrl: 'https://tikoci.github.io',
+})
+
 
 // --- Theme switcher: auto → light → dark → auto ---------------------
 // CRITICAL Pico CSS v2 gotcha: data-theme="auto" is NOT valid.
@@ -42,4 +59,209 @@ function initThemeSwitcher(id) {
             el.innerHTML = _THEME_ICONS.osDefault;
         }
     });
+}
+
+
+// --- GitHub API helpers ----------------------------------------------
+// Generic functions for fetching data from any tikoci/* repo via the
+// GitHub REST API. These power "data-pivoting" tool pages that render
+// GitHub-hosted JSON/YAML/text into interactive browser UIs.
+
+/**
+ * Fetch a directory listing from the GitHub Contents API.
+ * Returns an array of { name, path, type, size, sha, ... } objects.
+ *
+ * @param {string} repo  - Repository name under tikoci org (e.g. 'restraml')
+ * @param {string} path  - Path within the repo (e.g. 'docs' or 'docs/7.22')
+ * @returns {Promise<Array>}
+ */
+// biome-ignore lint/correctness/noUnusedVariables: called from HTML pages
+function fetchGitHubContents(repo, path) {
+    const url = `https://api.github.com/repos/${TIKOCI.owner}/${repo}/contents/${path}`;
+    return fetch(url)
+        .then(r => {
+            if (!r.ok) throw new Error(`GitHub API ${r.status} ${r.statusText}`);
+            return r.json();
+        })
+        .then(data => {
+            if (!Array.isArray(data)) throw new Error('Expected directory listing from GitHub API');
+            return data;
+        });
+}
+
+/**
+ * Fetch raw file content from GitHub Pages or the raw API.
+ * Prefers Pages URL (no rate limit) with API fallback.
+ *
+ * @param {string} repo  - Repository name (e.g. 'restraml')
+ * @param {string} path  - File path (e.g. '7.22/inspect.json')
+ * @returns {Promise<Response>}
+ */
+// biome-ignore lint/correctness/noUnusedVariables: called from HTML pages
+function fetchGitHubPagesFile(repo, path) {
+    const pagesUrl = `${TIKOCI.pagesUrl}/${repo}/${path}`;
+    return fetch(pagesUrl).then(r => {
+        if (!r.ok) throw new Error(`Pages fetch ${r.status} for ${pagesUrl}`);
+        return r;
+    });
+}
+
+
+// --- Event-driven UI utilities ---------------------------------------
+// These helpers support the "no submit buttons" pattern: controls fire
+// on input/change events with debouncing and async cancellation.
+
+/**
+ * Debounce a function call. Returns a wrapper that delays invocation
+ * until `ms` milliseconds after the last call.
+ *
+ * @param {Function} fn - Function to debounce
+ * @param {number}   ms - Delay in milliseconds (recommend 400 for text input)
+ * @returns {Function}
+ */
+// biome-ignore lint/correctness/noUnusedVariables: called from HTML pages
+function debounce(fn, ms) {
+    let timer;
+    return function (...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn.apply(this, args), ms);
+    };
+}
+
+/**
+ * Create a cancellation token factory. Each call to next() increments
+ * an internal counter and returns the new value. Compare before/after
+ * an await to detect if a newer request has superseded this one.
+ *
+ * Usage:
+ *   const cancel = createCancelToken()
+ *   async function onInput() {
+ *       const id = cancel.next()
+ *       const data = await fetch(...)
+ *       if (id !== cancel.current) return  // stale, newer request in flight
+ *       renderResults(data)
+ *   }
+ *
+ * @returns {{ next: () => number, current: number }}
+ */
+// biome-ignore lint/correctness/noUnusedVariables: called from HTML pages
+function createCancelToken() {
+    const token = { current: 0 };
+    token.next = () => ++token.current;
+    return token;
+}
+
+
+// --- Query string helpers (shareable URLs) ---------------------------
+// All tool pages support query strings that populate controls and
+// trigger results on load. Use replaceState (not pushState) to update.
+
+/**
+ * Read current URL query parameters as a plain object.
+ * @returns {Object<string, string>}
+ */
+// biome-ignore lint/correctness/noUnusedVariables: called from HTML pages
+function readQueryParams() {
+    const obj = {};
+    for (const [k, v] of new URLSearchParams(location.search)) {
+        obj[k] = v;
+    }
+    return obj;
+}
+
+/**
+ * Update the URL query string without adding a history entry.
+ * Pass an object of key/value pairs; falsy values are omitted.
+ * @param {Object<string, string>} params
+ */
+// biome-ignore lint/correctness/noUnusedVariables: called from HTML pages
+function writeQueryParams(params) {
+    const sp = new URLSearchParams();
+    for (const [k, v] of Object.entries(params)) {
+        if (v) sp.set(k, v);
+    }
+    const qs = sp.toString();
+    const url = qs ? `${location.pathname}?${qs}` : location.pathname;
+    history.replaceState({}, '', url);
+}
+
+
+// --- Share / Copy URL button -----------------------------------------
+// Preferred pattern: inline "Copied!" button (no modal dialog).
+
+/**
+ * Wire a share button that copies the current URL to clipboard and
+ * shows brief "Copied!" feedback. Call writeQueryParams() first to
+ * ensure the URL reflects the current control state.
+ *
+ * @param {string}   buttonId         - ID of the <button> element
+ * @param {Function} [beforeCopy]     - Called before copying (e.g. writeQueryParams)
+ * @param {string}   [label='Share']  - Default button text
+ */
+// biome-ignore lint/correctness/noUnusedVariables: called from HTML pages
+function initShareButton(buttonId, beforeCopy, label) {
+    label = label || 'Share';
+    const btn = document.getElementById(buttonId);
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+        if (beforeCopy) beforeCopy();
+        navigator.clipboard.writeText(location.href).then(() => {
+            btn.textContent = '\u2713 Copied!';
+            setTimeout(() => { btn.textContent = label; }, 1800);
+        }).catch(() => {
+            btn.textContent = label;
+        });
+    });
+}
+
+/**
+ * Wire up a share modal dialog (legacy pattern — prefer initShareButton).
+ *
+ * @param {Object} opts
+ * @param {string} opts.linkId    - ID of the "Share" link element
+ * @param {string} opts.modalId   - ID of the <dialog> element
+ * @param {string} opts.closeId   - ID of the close link inside the dialog
+ * @param {string} opts.copyId    - ID of the "Copy to clipboard" button
+ * @param {string} opts.urlId     - ID of the URL <input> in the dialog
+ * @param {Function} [opts.beforeShow] - Called before showing the modal
+ */
+// biome-ignore lint/correctness/noUnusedVariables: called from HTML pages
+function initShareModal(opts) {
+    const modal = document.getElementById(opts.modalId);
+    document.getElementById(opts.linkId).addEventListener('click', e => {
+        e.preventDefault();
+        if (opts.beforeShow) opts.beforeShow();
+        document.getElementById(opts.urlId).value = location.href;
+        modal.showModal();
+    });
+    document.getElementById(opts.closeId).addEventListener('click', e => {
+        e.preventDefault();
+        modal.close();
+    });
+    modal.addEventListener('click', e => {
+        if (e.target === modal) modal.close();
+    });
+    document.getElementById(opts.copyId).addEventListener('click', () => {
+        const url = document.getElementById(opts.urlId).value;
+        navigator.clipboard.writeText(url).then(() => {
+            const btn = document.getElementById(opts.copyId);
+            btn.textContent = 'Copied!';
+            setTimeout(() => { btn.textContent = 'Copy to clipboard'; }, 2000);
+        }).catch(() => {
+            document.getElementById(opts.urlId).select();
+        });
+    });
+}
+
+
+// --- HTML escaping ---------------------------------------------------
+
+/**
+ * Escape HTML special characters for safe innerHTML insertion.
+ * @param {string} str
+ * @returns {string}
+ */
+// biome-ignore lint/correctness/noUnusedVariables: called from HTML pages
+function escapeHtml(str) {
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }

@@ -17,6 +17,14 @@ This is a multi-page static site for the TIKOCI GitHub org — MikroTik RouterOS
 - `dist/scripts/` and `dist/media/` are committed static files linked externally — never delete.
 - Use semantic HTML: `<article>` for cards, `<details>` for accordions, `<mark>` for tags, `<kbd>` for tech terms.
 
+## Interactive Tool Pages
+- `shared.js` provides GitHub API helpers (`fetchGitHubContents`, `fetchGitHubPagesFile`),
+  event-driven UI utilities (`debounce`, `createCancelToken`), query string helpers
+  (`readQueryParams`, `writeQueryParams`), and share button wiring (`initShareButton`).
+- No submit buttons — use `input`/`change` event listeners with debouncing.
+- Support shareable URLs via query params + `history.replaceState()`.
+- See `CLAUDE.md` → "Interactive Tool Pages" for full patterns and skeleton.
+
 ## Commands
 - `bun run build` — build site to dist/
 - `bun run lint` — lint with Biome
