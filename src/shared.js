@@ -23,6 +23,29 @@ const TIKOCI = Object.freeze({
 })
 
 
+// --- Brand gradient (random MikroTik-inspired gradient per page load) -
+// Colors drawn from mikrotik.com/logo palette. Picked once per page load
+// so hero and nav always match. Runs immediately — no DOM needed.
+const _BRAND_GRADIENTS = [
+    ['#C33366', '#692878'],
+    ['#EE9B01', '#EE4F01'],
+    ['#3660B9', '#5F2965'],
+    ['#3BB5B6', '#44DE95'],
+    ['#582D7C', '#1FC8DB'],
+    ['#CF0F14', '#EE4F01'],
+    ['#1F417A', '#87D3DB'],
+    ['#015EA4', '#3BB5B6'],
+    ['#017C65', '#A3D16E'],
+    ['#692878', '#1FC8DB'],
+];
+(() => {
+    const p = _BRAND_GRADIENTS[Math.floor(Math.random() * _BRAND_GRADIENTS.length)];
+    document.documentElement.style.setProperty(
+        '--brand-gradient', `linear-gradient(135deg, ${p[0]}, ${p[1]})`
+    );
+})();
+
+
 // --- Theme switcher: auto → light → dark → auto ---------------------
 // CRITICAL Pico CSS v2 gotcha: data-theme="auto" is NOT valid.
 // For "auto" state, REMOVE the attribute so Pico follows OS preference.
@@ -261,7 +284,55 @@ function initShareModal(opts) {
  * @param {string} str
  * @returns {string}
  */
-// biome-ignore lint/correctness/noUnusedVariables: called from HTML pages
 function escapeHtml(str) {
     return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+
+// --- Site navigation data ------------------------------------------------
+// Central tools list so nav menus stay in sync across pages.
+// When adding a tool, update this array — pages that build menus from it
+// will pick it up automatically.
+
+// biome-ignore lint/correctness/noUnusedVariables: referenced by pages
+const SITE_TOOLS = [
+    { label: '/app Editor', href: 'https://tikoci.github.io/restraml/tikapp.html' },
+    { label: '/app Manual', href: 'https://tikoci.github.io/restraml/tikapp-manual.html' },
+    { label: 'Schema Diff', href: 'https://tikoci.github.io/restraml/diff.html' },
+    { label: 'Command Lookup', href: 'https://tikoci.github.io/restraml/lookup.html' },
+    { label: 'Schema Downloads', href: 'https://tikoci.github.io/restraml' },
+];
+
+
+// --- GitHub repos dropdown -----------------------------------------------
+// Lazily populates a <ul> with the most recently active tikoci repos.
+// Call on first <details> open to avoid unnecessary API hits.
+
+/**
+ * Fetch top repos by recent push and populate a dropdown list.
+ * Falls back gracefully to the static link if the API is unavailable.
+ *
+ * @param {string} listId - ID of the <ul> element to populate
+ * @param {number} [max=10] - Number of repos to show
+ */
+// biome-ignore lint/correctness/noUnusedVariables: called from HTML pages
+function initGitHubDropdown(listId, max) {
+    max = max || 10;
+    const el = document.getElementById(listId);
+    if (!el || el.dataset.loaded) return;
+    el.dataset.loaded = '1';
+    const allUrl = `https://github.com/orgs/${TIKOCI.owner}/repositories`;
+    fetch(`https://api.github.com/orgs/${TIKOCI.owner}/repos?sort=pushed&per_page=${max}`)
+        .then(r => {
+            if (!r.ok) throw new Error(r.status);
+            return r.json();
+        })
+        .then(repos => {
+            if (!Array.isArray(repos)) return;
+            el.innerHTML = repos.map(r =>
+                `<li><a href="${escapeHtml(r.html_url)}" target="_blank" rel="noopener">${escapeHtml(r.name)}</a></li>`
+            ).join('') +
+            `<li><a href="${allUrl}" target="_blank" rel="noopener"><strong>All repositories &rarr;</strong></a></li>`;
+        })
+        .catch(() => { /* keep static fallback */ });
 }

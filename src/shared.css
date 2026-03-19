@@ -143,8 +143,8 @@ details.dropdown ul li { direction: ltr; }
  * ----------------------------------------------------------------- */
 .brand-reverse {
     display: inline-block;
-    background: var(--pico-color);
-    color: var(--pico-background-color);
+    background: var(--brand-gradient, linear-gradient(135deg, #3660B9, #5F2965));
+    color: #fff;
     padding: 0.05em 0.4em;
     border-radius: var(--pico-border-radius);
     font-weight: 800;
@@ -154,7 +154,7 @@ details.dropdown ul li { direction: ltr; }
 }
 .brand-reverse:hover,
 .brand-reverse:visited {
-    color: var(--pico-background-color);
+    color: #fff;
     text-decoration: none;
 }
 a.brand-reverse:hover { opacity: 0.85; }
@@ -267,7 +267,6 @@ footer.site-footer small {
     color: var(--pico-muted-color);
     font-size: 0.78rem;
 }
-.mt-1-5 { margin-top: 1.5rem; }
 
 
 /* -----------------------------------------------------------------
@@ -338,17 +337,40 @@ mark.lang {
 /* Hero section on index */
 .hero {
     text-align: center;
-    padding: 2rem 0 1rem;
+    padding: 1.5rem 0 0.5rem;
 }
 .hero h1 {
-    font-size: 2.4rem;
+    font-size: 2rem;
     letter-spacing: -0.02em;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.2rem;
 }
 .hero p {
-    font-size: 1.05rem;
-    max-width: 40rem;
-    margin: 0 auto;
+    font-size: 0.95rem;
+    max-width: 36rem;
+    margin: 0.2rem auto;
+}
+.hero .tagline {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.hero .subtitle {
+    color: var(--pico-muted-color);
+}
+.hero-potto {
+    width: 2.5rem;
+    height: 2.5rem;
+    vertical-align: middle;
+    margin-right: 0.3rem;
+}
+.hero-cta {
+    margin-top: 0.8rem;
+    display: flex;
+    gap: 0.6rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.hero-cta a[role="button"] {
+    font-size: 0.85rem;
 }
 
 /* Category section headers */
@@ -404,4 +426,117 @@ dialog.share-modal .share-url-input {
 }
 dialog.share-modal .share-copy-btn {
     width: auto;
+}
+
+
+/* -----------------------------------------------------------------
+ * 18. Feature grid (2-column tiles)
+ * ----------------------------------------------------------------- */
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+@media (max-width: 768px) {
+    .feature-grid { grid-template-columns: 1fr; }
+}
+.feature-grid > article {
+    margin: 0;
+}
+.feature-grid > article > header {
+    padding-bottom: 0.3rem;
+}
+.feature-grid > article > header h3 {
+    margin: 0;
+    font-size: 1.05rem;
+}
+.feature-grid > article > header h3 a {
+    text-decoration: none;
+    font-weight: 600;
+}
+.feature-grid > article > p {
+    font-size: 0.9rem;
+}
+
+
+/* -----------------------------------------------------------------
+ * 19. Other projects grid (3-column compact)
+ * ----------------------------------------------------------------- */
+.other-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+}
+@media (max-width: 768px) {
+    .other-grid { grid-template-columns: 1fr; }
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+    .other-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.other-grid > article {
+    margin: 0;
+    padding: 0.8rem 1rem;
+}
+.other-grid > article h4 {
+    margin: 0 0 0.2rem;
+    font-size: 0.92rem;
+}
+.other-grid > article h4 a {
+    text-decoration: none;
+    font-weight: 600;
+}
+.other-grid > article p {
+    font-size: 0.82rem;
+    margin: 0;
+}
+
+
+/* -----------------------------------------------------------------
+ * 20. Nav dropdown buttons with icon (Tools, GitHub)
+ * ----------------------------------------------------------------- */
+nav details.dropdown > summary[role="button"].nav-btn-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.65rem;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+nav details.dropdown > summary.nav-btn-icon svg.nav-icon {
+    width: 1.4rem;
+    height: 1.4rem;
+    flex-shrink: 0;
+}
+
+
+/* -----------------------------------------------------------------
+ * 21. Tile action buttons and detail links
+ * ----------------------------------------------------------------- */
+.tile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: center;
+}
+.tile-actions a[role="button"] {
+    font-size: 0.78rem;
+    padding: 0.2rem 0.5rem;
+}
+.tile-detail {
+    font-size: 0.8rem;
+    margin-top: 0.4rem;
+    margin-bottom: 0;
+}
+
+
+/* -----------------------------------------------------------------
+ * 22. Section label (divider with text)
+ * ----------------------------------------------------------------- */
+.section-label {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 2px solid var(--pico-primary);
+    font-size: 1.15rem;
+    font-weight: 700;
 }

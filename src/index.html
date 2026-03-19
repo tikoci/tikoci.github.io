@@ -3,14 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>TIKOCI — RouterOS Code &amp; Container Depot</title>
-    <meta name="description" content="Open source MikroTik RouterOS projects: containers, scripts, LSP, API schemas, virtualization tools.">
+    <title>TIKOCI — Open Source RouterOS Toolkit</title>
+    <meta name="description" content="Open source MikroTik RouterOS toolkit: VSCode extensions, browser-based tools, containers, scripts, and CHR virtual machine images.">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Manrope:wght@200..800&display=swap">
     <link rel="stylesheet" href="shared.css">
-    <link rel="stylesheet" href="cubist.css">
     <script async src="https://plausible.io/js/pa-ubWop5eYckoDPVbIjXU4_.js"></script>
     <script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)};plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>
 </head>
@@ -18,10 +17,13 @@
     <header class="container">
         <nav>
             <ul>
+                <li><strong><a href="index.html" class="brand-reverse">TIKOCI</a></strong></li>
+            </ul>
+            <ul>
                 <li>
                     <details class="dropdown">
-                        <summary class="brand-icon" aria-label="Browse site sections">
-                            <svg viewBox="0 0 120 120" class="nav-potto" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <summary role="button" class="outline nav-btn-icon">
+                            <svg class="nav-icon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <polygon points="10,100 35,20 60,5 85,20 110,100" fill="#e8594f" opacity="0.85"/>
                                 <polygon points="25,105 45,35 60,25 75,35 95,105" fill="#f4a236" opacity="0.8"/>
                                 <polygon points="40,95 48,45 60,35 72,45 80,95" fill="#3a3a3a"/>
@@ -35,22 +37,8 @@
                                 <rect x="45" y="78" width="30" height="4" rx="1" fill="#f7e559" opacity="0.7"/>
                                 <line x1="60" y1="70" x2="60" y2="78" stroke="#f7e559" stroke-width="1.5"/>
                             </svg>
+                            Tools
                         </summary>
-                        <ul>
-                            <li><a href="dev-tools.html">VSCode Extensions</a></li>
-                            <li><a href="virtualization.html">Virtualization</a></li>
-                            <li><a href="containers.html">Containers</a></li>
-                            <li><a href="scripts.html">RouterOS Scripts</a></li>
-                            <li><a href="web-tools.html">Web Tools</a></li>
-                        </ul>
-                    </details>
-                </li>
-                <li><strong><a href="index.html" class="brand-reverse">TIKOCI</a></strong></li>
-            </ul>
-            <ul>
-                <li>
-                    <details class="dropdown">
-                        <summary>Tools</summary>
                         <ul dir="rtl">
                             <li><a href="https://tikoci.github.io/restraml/tikapp.html" target="_blank" rel="noopener">/app Editor</a></li>
                             <li><a href="https://tikoci.github.io/restraml/tikapp-manual.html" target="_blank" rel="noopener">/app Manual</a></li>
@@ -61,20 +49,13 @@
                     </details>
                 </li>
                 <li>
-                    <a href="https://github.com/orgs/tikoci/repositories" target="_blank" rel="noopener" role="button" class="github-btn outline">
-                        <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" fill="currentColor"/></svg>
-                        Repos
-                    </a>
-                </li>
-                <li>
-                    <details class="dropdown">
-                        <summary class="mikrotik-icon" aria-label="MikroTik resources">
-                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2 19L7 5L12 13L17 5L22 19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></svg>
+                    <details class="dropdown" id="github-dropdown">
+                        <summary role="button" class="outline nav-btn-icon">
+                            <svg class="nav-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" fill="currentColor"/></svg>
+                            GitHub
                         </summary>
-                        <ul dir="rtl">
-                            <li><a href="https://mikrotik.com" target="_blank" rel="noopener">mikrotik.com</a></li>
-                            <li><a href="https://forum.mikrotik.com" target="_blank" rel="noopener">Forum</a></li>
-                            <li><a href="https://help.mikrotik.com" target="_blank" rel="noopener">Help &amp; Docs</a></li>
+                        <ul dir="rtl" id="github-repo-list">
+                            <li><a href="https://github.com/orgs/tikoci/repositories" target="_blank" rel="noopener">View all repositories</a></li>
                         </ul>
                     </details>
                 </li>
@@ -84,224 +65,167 @@
     </header>
 
     <main class="container">
+        <!-- Hero -->
         <section class="hero">
-            <div class="hero-graphic">
-                <!-- Cubist potto: geometric animal in bold Picasso-style shapes -->
-                <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <!-- Background angular shapes -->
+            <h1>
+                <svg class="hero-potto" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <polygon points="10,100 35,20 60,5 85,20 110,100" fill="#e8594f" opacity="0.85"/>
                     <polygon points="25,105 45,35 60,25 75,35 95,105" fill="#f4a236" opacity="0.8"/>
-                    <!-- Body/face -->
                     <polygon points="40,95 48,45 60,35 72,45 80,95" fill="#3a3a3a"/>
-                    <!-- Eyes: asymmetric cubist -->
                     <circle cx="52" cy="58" r="6" fill="#f7e559"/>
                     <circle cx="68" cy="55" r="7" fill="#5bc0eb"/>
                     <circle cx="52" cy="58" r="2.5" fill="#1a1a1a"/>
                     <circle cx="69" cy="55" r="3" fill="#1a1a1a"/>
-                    <!-- Angular nose -->
                     <polygon points="58,63 62,63 60,70" fill="#e8594f"/>
-                    <!-- Ears: geometric triangles -->
                     <polygon points="38,48 48,45 43,30" fill="#5bc0eb" opacity="0.9"/>
                     <polygon points="82,48 72,45 77,28" fill="#f4a236" opacity="0.9"/>
-                    <!-- Geometric accents -->
                     <rect x="45" y="78" width="30" height="4" rx="1" fill="#f7e559" opacity="0.7"/>
                     <line x1="60" y1="70" x2="60" y2="78" stroke="#f7e559" stroke-width="1.5"/>
                 </svg>
+                <span class="brand-reverse">TIKOCI</span>
+            </h1>
+            <p class="tagline">The open source RouterOS toolkit.</p>
+            <p class="subtitle">VSCode extensions. Browser tools. Containers. Scripts. CHR images.</p>
+            <div class="hero-cta">
+                <a href="vscode:extension/TIKOCI.tikbook" role="button" class="install-vscode-btn">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="currentColor" d="M23.15 2.587L18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 19.986V4.014a1.5 1.5 0 0 0-.85-1.427zm-5.146 14.861L10.826 12l7.178-5.448v10.896z"/></svg>
+                    Install for VSCode
+                </a>
+                <a href="web-tools.html" role="button" class="outline">Web Tools</a>
             </div>
-            <h1><span class="brand-reverse">TIKOCI</span></h1>
-            <p>Open Source MikroTik RouterOS projects — containers, scripts, LSP, API schemas, and virtualization tools.</p>
-            <p><small>See <a href="https://github.com/orgs/tikoci/repositories">all repositories</a> for the full list.</small></p>
         </section>
 
-        <!-- /app Editor callout -->
-        <article>
-            <p><strong>New:</strong> <a href="https://tikoci.github.io/restraml/tikapp.html">/app Editor</a> &mdash; a browser-based Monaco editor for writing and validating RouterOS <code>/app</code> container definitions (RouterOS 7.22+). Live schema validation, example picker, and one-click deploy commands. <a href="web-tools.html">See Web Tools &rarr;</a></p>
-        </article>
+        <!-- Featured tiles — 2-column grid -->
+        <div class="feature-grid">
 
-        <!-- VSCode Extensions -->
-        <div class="category-header">
-            <svg class="cubist-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><polygon points="2,12 8,3 8,21" fill="#5bc0eb"/><polygon points="22,12 16,3 16,21" fill="#e8594f"/><rect x="9" y="8" width="6" height="8" fill="#f4a236"/></svg>
-            <h2>VSCode Extensions</h2>
-            <a href="dev-tools.html">View all &rarr;</a>
-        </div>
-        <div class="project-grid">
+            <!-- VSCode Extensions -->
             <article>
                 <header>
-                    <a href="dev-tools.html">RouterOS LSP</a>
-                    <mark class="new">NEW</mark>
-                    <mark class="lang">TypeScript</mark>
+                    <h3><a href="dev-tools.html">VSCode Extensions</a></h3>
                 </header>
-                <p>Language Server for RouterOS scripting — live diagnostics, autocompletion, hover docs, and <kbd>Go to Definition</kbd> in VS Code. Also works standalone with NeoVim and other LSP editors.</p>
-                <footer>
-                    <a href="https://marketplace.visualstudio.com/items?itemName=TIKOCI.lsp-routeros-ts" target="_blank" rel="noopener">VS Code Marketplace</a>
-                </footer>
+                <p>Write RouterOS with confidence. Completions, diagnostics, and notebooks &mdash; connected to your live router.</p>
+                <div class="tile-actions">
+                    <a href="vscode:extension/TIKOCI.tikbook" role="button" class="install-vscode-btn">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="currentColor" d="M23.15 2.587L18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 19.986V4.014a1.5 1.5 0 0 0-.85-1.427zm-5.146 14.861L10.826 12l7.178-5.448v10.896z"/></svg>
+                        Install TikBook
+                    </a>
+                    <a href="vscode:extension/TIKOCI.lsp-routeros-ts" role="button" class="outline">LSP only</a>
+                </div>
+                <p class="tile-detail"><a href="dev-tools.html">Details &rarr;</a></p>
             </article>
-            <article>
-                <header>
-                    <a href="dev-tools.html">TikBook</a>
-                    <mark class="lang">TypeScript</mark>
-                </header>
-                <p>RouterOS Notebooks for VS Code &mdash; run and script RouterOS directly from a <code>.tikbook</code> notebook. GitHub Copilot support included.</p>
-                <footer>
-                    <a href="https://marketplace.visualstudio.com/items?itemName=TIKOCI.tikbook" target="_blank" rel="noopener">VS Code Marketplace</a>
-                </footer>
-            </article>
-        </div>
 
-        <!-- Virtualization -->
-        <div class="category-header">
-            <svg class="cubist-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="2" fill="#5bc0eb" opacity="0.7"/><rect x="6" y="3" width="12" height="14" rx="2" fill="#f4a236" opacity="0.8"/><rect x="9" y="1" width="6" height="12" rx="1" fill="#e8594f"/></svg>
-            <h2>Virtualization</h2>
-            <a href="virtualization.html">View all &rarr;</a>
-        </div>
-        <div class="project-grid">
+            <!-- Containers -->
             <article>
                 <header>
-                    <a href="https://github.com/tikoci/mikropkl">mikropkl</a>
-                    <mark class="lang">PKL</mark> <mark class="lang">Shell</mark>
+                    <h3><a href="containers.html">Containers</a></h3>
                 </header>
-                <p>Packages RouterOS CHR as macOS UTM virtual machines for automated install. <a href="https://github.com/tikoci/mikropkl/releases/latest">Releases</a> include <code>utm://</code> links and <code>.zip</code> files for recent CHR versions.</p>
-                <footer>
-                    <a href="https://github.com/tikoci/mikropkl/releases/latest">UTM Downloads</a>
-                </footer>
+                <p>Containers that run on RouterOS. <code>netinstall</code> in a box, retro BSD games over telnet, and a multi-tool Alpine base.</p>
+                <div class="tile-actions">
+                    <a href="https://hub.docker.com/r/ammo74/netinstall" target="_blank" rel="noopener" role="button" class="outline">netinstall</a>
+                    <a href="https://hub.docker.com/r/ammo74/cligames" target="_blank" rel="noopener" role="button" class="outline">cligames</a>
+                </div>
+                <p class="tile-detail"><a href="containers.html">All containers &rarr;</a></p>
             </article>
-            <article>
-                <header>
-                    <a href="https://github.com/tikoci/fat-chr">fat-chr</a>
-                    <mark class="lang">Shell</mark>
-                </header>
-                <p>Rebuilds RouterOS CHR <code>.raw</code> images into valid UEFI images for UTM, Apple, and other virtualization platforms using FAT instead of ext2 for the EFI partition.</p>
-                <footer>
-                    <a href="https://github.com/tikoci/fat-chr/releases">UEFI CHR Images</a>
-                </footer>
-            </article>
-        </div>
 
-        <!-- Containers -->
-        <div class="category-header">
-            <svg class="cubist-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2" y="14" width="20" height="8" rx="1" fill="#5bc0eb"/><rect x="4" y="8" width="16" height="8" rx="1" fill="#f4a236" opacity="0.85"/><rect x="6" y="2" width="12" height="8" rx="1" fill="#e8594f"/></svg>
-            <h2>Containers</h2>
-            <a href="containers.html">View all &rarr;</a>
-        </div>
-        <div class="project-grid">
+            <!-- RouterOS Scripts -->
             <article>
                 <header>
-                    <a href="https://github.com/tikoci/make.d">make.d</a>
-                    <mark class="lang">Makefile</mark> <mark class="lang">Dockerfile</mark>
+                    <h3><a href="scripts.html">RouterOS Scripts</a></h3>
                 </header>
-                <p>Alpine multiprocess container — a "better base" for RouterOS containers with bash completions, development tools, and TUI tools. The <code>mk</code> command manages services and tools.</p>
-                <footer>
-                    <a href="https://github.com/tikoci/make.d">README</a>
-                </footer>
+                <p>Copy-paste tools for the terminal. Visualize bridge VLANs, automate L3 setup, play piano with <code>:beep</code>.</p>
+                <div class="tile-actions">
+                    <a href="scripts/lsbridge.rsc" role="button" class="outline">$lsbridge.rsc</a>
+                    <a href="scripts/autovlan.rsc" role="button" class="outline">$autovlan.rsc</a>
+                </div>
+                <p class="tile-detail"><a href="scripts.html">All scripts &rarr;</a></p>
             </article>
+
+            <!-- CHR Images -->
             <article>
                 <header>
-                    <a href="https://github.com/tikoci/cligames">cligames</a>
-                    <mark class="lang">Dockerfile</mark>
+                    <h3><a href="virtualization.html">CHR Images</a></h3>
                 </header>
-                <p>30+ classic BSD games wrapped into a RouterOS container with a retro <code>telnet</code> interface.</p>
-                <footer>
-                    <a href="https://hub.docker.com/r/ammo74/cligames">DockerHub</a>
-                </footer>
+                <p>RouterOS CHR, ready to boot. One-click UTM images for Mac, UEFI-enabled raw images for everything else.</p>
+                <div class="tile-actions">
+                    <a href="https://github.com/tikoci/mikropkl/releases/latest" target="_blank" rel="noopener" role="button" class="outline">UTM Downloads</a>
+                    <a href="https://github.com/tikoci/fat-chr/releases" target="_blank" rel="noopener" role="button" class="outline">UEFI Images</a>
+                </div>
+                <p class="tile-detail"><a href="virtualization.html">Virtualization &rarr;</a></p>
             </article>
+
+            <!-- /app Editor -->
             <article>
                 <header>
-                    <a href="https://github.com/tikoci/netinstall">netinstall</a>
-                    <mark class="lang">Makefile</mark> <mark class="lang">Dockerfile</mark>
+                    <h3><a href="https://tikoci.github.io/restraml/tikapp.html" target="_blank" rel="noopener">/app Editor</a> <mark class="new">NEW</mark></h3>
                 </header>
-                <p>Runs MikroTik&rsquo;s netinstall tool as a RouterOS container, with QEMU to enable ARM/ARM64. Auto-downloads packages via <code>/container/env</code>.</p>
-                <footer>
-                    <a href="https://hub.docker.com/r/ammo74/netinstall">DockerHub</a>
-                </footer>
+                <p>Write and validate <code>/app</code> YAML in the browser. Live schema checking, built-in examples, one-click deploy commands.</p>
+                <div class="tile-actions">
+                    <a href="https://tikoci.github.io/restraml/tikapp.html" target="_blank" rel="noopener" role="button">Open Editor</a>
+                    <a href="https://tikoci.github.io/restraml/tikapp-manual.html" target="_blank" rel="noopener" role="button" class="outline">Manual</a>
+                </div>
             </article>
+
+            <!-- Schema Diff -->
             <article>
                 <header>
-                    <a href="https://github.com/tikoci/serial2http">serial2http</a>
-                    <mark class="lang">Go</mark> <mark class="lang">Dockerfile</mark>
+                    <h3><a href="https://tikoci.github.io/restraml/diff.html" target="_blank" rel="noopener">Schema Diff</a></h3>
                 </header>
-                <p>Wraps RouterOS &ldquo;remote&rdquo; serial port as an HTTP interface.</p>
-                <footer>
-                    <a href="https://hub.docker.com/r/ammo74/serial2http">DockerHub</a>
-                </footer>
+                <p>What changed? Pick two RouterOS versions, see every difference &mdash; commands, parameters, structure.</p>
+                <div class="tile-actions">
+                    <a href="https://tikoci.github.io/restraml/diff.html" target="_blank" rel="noopener" role="button" class="outline">Open Diff</a>
+                </div>
             </article>
+
+            <!-- Command Lookup -->
+            <article>
+                <header>
+                    <h3><a href="https://tikoci.github.io/restraml/lookup.html" target="_blank" rel="noopener">Command Lookup</a></h3>
+                </header>
+                <p>Search any RouterOS command across versions. Paths, parameters, types &mdash; CLI to REST.</p>
+                <div class="tile-actions">
+                    <a href="https://tikoci.github.io/restraml/lookup.html" target="_blank" rel="noopener" role="button" class="outline">Open Lookup</a>
+                </div>
+            </article>
+
+            <!-- REST API Schemas -->
+            <article>
+                <header>
+                    <h3><a href="https://tikoci.github.io/restraml" target="_blank" rel="noopener">REST API Schemas</a></h3>
+                </header>
+                <p>Versioned RouterOS API schemas (RAML, OpenAPI) for Postman and other API tools. Generated fresh from each RouterOS release.</p>
+                <div class="tile-actions">
+                    <a href="https://tikoci.github.io/restraml" target="_blank" rel="noopener" role="button" class="outline">Download Schemas</a>
+                </div>
+            </article>
+
         </div>
 
-        <!-- RouterOS Scripts -->
-        <div class="category-header">
-            <svg class="cubist-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><polygon points="2,18 2,6 10,6 10,10 6,10 6,18" fill="#f4a236"/><rect x="8" y="11" width="14" height="2" rx="1" fill="#5bc0eb"/><rect x="8" y="15" width="10" height="2" rx="1" fill="#e8594f"/><rect x="12" y="7" width="8" height="2" rx="1" fill="#f7e559"/></svg>
-            <h2>RouterOS Scripts</h2>
-            <a href="scripts.html">View all &rarr;</a>
-        </div>
-        <div class="project-grid">
+        <!-- Other Projects -->
+        <h2 class="section-label">Other Projects</h2>
+        <div class="other-grid">
             <article>
-                <header>
-                    <a href="https://forum.mikrotik.com/viewtopic.php?t=214189#p1123276">$lsbridge</a>
-                </header>
-                <p>&ldquo;Visualizes&rdquo; VLAN-aware bridge settings in the terminal. Even view-only, a handy tool to see bridge configuration. <a href="scripts/lsbridge.rsc">Script download</a> <small>(requires 7.18+)</small></p>
+                <h4><a href="https://github.com/tikoci/restraml" target="_blank" rel="noopener">restraml</a></h4>
+                <p>The engine behind the web tools. Generates API schemas from live RouterOS CHR instances via GitHub Actions.</p>
             </article>
             <article>
-                <header>
-                    <a href="https://forum.mikrotik.com/viewtopic.php?t=214189&hilit=lsbridge#p1123276">$mkvlan / $rmvlan / $catvlan</a>
-                </header>
-                <p>VLAN automation — create, remove, and inspect L3 VLANs and manage bridge ports/vlans. <a href="scripts/autovlan.rsc">Script download</a> <small>(requires 7.17+)</small></p>
+                <h4><a href="https://github.com/tikoci/make.d" target="_blank" rel="noopener">make.d</a></h4>
+                <p>Alpine multiprocess container base for RouterOS &mdash; bash completions, dev tools, TUI utilities, all managed by <code>mk</code>.</p>
             </article>
             <article>
-                <header>
-                    <a href="https://forum.mikrotik.com/viewtopic.php?p=1058665">$PIANO</a>
-                </header>
-                <p>Interactive &ldquo;player piano&rdquo; and studio-quality recorder using <code>:beep</code>.</p>
+                <h4><a href="https://github.com/tikoci/serial2http" target="_blank" rel="noopener">serial2http</a></h4>
+                <p>HTTP bridge for RouterOS serial ports, packaged as a container.</p>
             </article>
             <article>
-                <header>
-                    <a href="https://forum.mikrotik.com/viewtopic.php?t=197695">$INQUIRE / $CHOICES / $QKEYS</a>
-                </header>
-                <p>Prompt user for input using arrays — interactive selection helpers for RouterOS scripts.</p>
-            </article>
-        </div>
-
-        <!-- Web Tools -->
-        <div class="category-header">
-            <svg class="cubist-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="#5bc0eb" stroke-width="2"/><ellipse cx="12" cy="12" rx="5" ry="10" fill="none" stroke="#f4a236" stroke-width="1.5"/><line x1="2" y1="12" x2="22" y2="12" stroke="#e8594f" stroke-width="1.5"/><circle cx="12" cy="12" r="3" fill="#f7e559"/></svg>
-            <h2>Web Tools</h2>
-            <a href="web-tools.html">View all &rarr;</a>
-        </div>
-        <div class="project-grid">
-            <article>
-                <header>
-                    <a href="https://tikoci.github.io/restraml/tikapp.html">/app Editor</a>
-                    <mark class="new">NEW</mark>
-                </header>
-                <p>Browser-based Monaco editor for RouterOS <code>/app</code> YAML &mdash; live schema validation, example picker, and Copy&nbsp;/app/add CLI command. RouterOS 7.22+ required.</p>
+                <h4><a href="https://github.com/tikoci/winbox-deb" target="_blank" rel="noopener">winbox-deb</a></h4>
+                <p>WinBox 4.0 as a <kbd>.deb</kbd> for Linux. A packaging template more than a distribution.</p>
             </article>
             <article>
-                <header>
-                    <a href="https://tikoci.github.io/restraml/diff.html">Schema Diff</a>
-                </header>
-                <p>Pick two RouterOS versions to see what commands changed in CLI or REST APIs. Runs entirely in the browser.</p>
+                <h4><a href="https://observablehq.com/@a2m0/utf2rsc?collection=@a2m0/mikrotik" target="_blank" rel="noopener">utf2rsc</a></h4>
+                <p>Emoji and UTF-8 to RouterOS byte-escaping. An Observable notebook.</p>
             </article>
             <article>
-                <header>
-                    <a href="https://tikoci.github.io/restraml/lookup.html">Command Lookup</a>
-                </header>
-                <p>Search RouterOS CLI and REST API commands across versions. Find paths, parameters, and structure.</p>
-            </article>
-            <article>
-                <header>
-                    <a href="https://tikoci.github.io/restraml">Schema Downloads</a>
-                </header>
-                <p>RouterOS REST API schemas (RAML, OpenAPI) arranged by version for Postman and other API tools.</p>
-            </article>
-            <article>
-                <header>
-                    <a href="https://observablehq.com/@a2m0/utf2rsc?collection=@a2m0/mikrotik">utf2rsc</a>
-                </header>
-                <p>Emoji and UTF-8 to RouterOS <code>string</code> byte-escaping (<code>\xx</code>) — Observable notebook.</p>
-            </article>
-            <article>
-                <header>
-                    <a href="https://observablehq.com/@a2m0/csv2rsc?collection=@a2m0/mikrotik">csv2rsc</a>
-                </header>
-                <p>CSV conversion into RouterOS <code>array</code> types — Observable notebook.</p>
+                <h4><a href="https://observablehq.com/@a2m0/csv2rsc?collection=@a2m0/mikrotik" target="_blank" rel="noopener">csv2rsc</a></h4>
+                <p>CSV to RouterOS array types. Another Observable notebook.</p>
             </article>
         </div>
 
@@ -317,8 +241,8 @@
                         <li><code>fat-chr</code> relies on scripts from @jaclaz and @kriznos, with @sindy providing QA, from a <a href="https://forum.mikrotik.com/viewtopic.php?t=184254&hilit=eufi">forum discussion</a>.</li>
                         <li><code>winbox-deb</code> borrows from @eworm and others&rsquo; <a href="https://aur.archlinux.org/packages/winbox">Arch winbox package</a>.</li>
                         <li><a href="https://en.wikipedia.org/wiki/Stuart_Feldman">Stuart Feldman</a>, creator of UNIX <code>make</code>. The <code>netinstall</code> container is just <a href="https://github.com/tikoci/netinstall/blob/master/Makefile">66 lines of Makefile</a>.</li>
-                        <li><code>traefik-wasm-grain</code> — WASM plugin built with <a href="https://grain-lang.org">Grain</a>; low-level HttpWasm bindings courtesy of <a href="https://github.com/ospencer">@ospencer</a>.</li>
-                        <li>MikroTik&rsquo;s <a href="https://forum.mikrotik.com/viewtopic.php?t=175564#p966543">@mrz</a> — source of the <code>/console/inspect</code> &ldquo;easter egg&rdquo;.</li>
+                        <li><code>traefik-wasm-grain</code> &mdash; WASM plugin built with <a href="https://grain-lang.org">Grain</a>; low-level HttpWasm bindings courtesy of <a href="https://github.com/ospencer">@ospencer</a>.</li>
+                        <li>MikroTik&rsquo;s <a href="https://forum.mikrotik.com/viewtopic.php?t=175564#p966543">@mrz</a> &mdash; source of the <code>/console/inspect</code> &ldquo;easter egg&rdquo;.</li>
                     </ul>
                 </article>
             </details>
@@ -330,10 +254,8 @@
                 <summary><strong>Disclaimers</strong></summary>
                 <article>
                     <p><strong>Use at your own risk.</strong> No guarantees or warranties.</p>
-                    <p><strong>Any trademarks and/or copyrights remain the property of their respective holders</strong>, unless specifically noted otherwise. Use of a term in this document should not be regarded as affecting the validity of any trademark or service mark. Naming of particular products or brands should not be seen as endorsements.</p>
-                    <p><small>Apple and Mac are registered trademarks of Apple Inc. MikroTik is a trademark of Mikrotik SIA. Python is a registered trademark of the PSF. UNIX is a registered trademark of The Open Group. Docker and the Docker logo are trademarks or registered trademarks of Docker, Inc.</small></p>
-                    <p><strong>Follow any links at your own risk.</strong> Links are not investigated, monitored, or checked for accuracy, adequacy, validity, reliability, availability, or completeness.</p>
-                    <p><strong>No liability can be accepted.</strong> No representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability, or completeness of any information is offered.</p>
+                    <p><strong>Any trademarks and/or copyrights remain the property of their respective holders</strong>, unless specifically noted otherwise.</p>
+                    <p><small>Apple and Mac are registered trademarks of Apple Inc. MikroTik is a trademark of Mikrotik SIA. Docker and the Docker logo are trademarks or registered trademarks of Docker, Inc.</small></p>
                 </article>
             </details>
         </section>
@@ -345,6 +267,15 @@
     </footer>
 
     <script src="shared.js"></script>
-    <script>initThemeSwitcher();</script>
+    <script>
+        initThemeSwitcher();
+        // Lazy-load GitHub repos on first dropdown open
+        const ghDropdown = document.getElementById('github-dropdown');
+        if (ghDropdown) {
+            ghDropdown.addEventListener('toggle', function () {
+                if (ghDropdown.open) initGitHubDropdown('github-repo-list');
+            }, { once: true });
+        }
+    </script>
 </body>
 </html>
