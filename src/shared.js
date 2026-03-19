@@ -309,25 +309,24 @@ const SITE_TOOLS = [
 // Call on first <details> open to avoid unnecessary API hits.
 
 /**
- * Fetch top repos by recent push and populate a dropdown list.
+ * Fetch repos with 3+ stars and populate a dropdown list, sorted by stars.
  * Falls back gracefully to the static link if the API is unavailable.
  *
  * @param {string} listId - ID of the <ul> element to populate
- * @param {number} [max=10] - Number of repos to show
  */
 // biome-ignore lint/correctness/noUnusedVariables: called from HTML pages
-function initGitHubDropdown(listId, max) {
-    max = max || 10;
+function initGitHubDropdown(listId) {
     const el = document.getElementById(listId);
     if (!el || el.dataset.loaded) return;
     el.dataset.loaded = '1';
     const allUrl = `https://github.com/orgs/${TIKOCI.owner}/repositories`;
-    fetch(`https://api.github.com/orgs/${TIKOCI.owner}/repos?sort=pushed&per_page=${max}`)
+    fetch(`https://api.github.com/search/repositories?q=org:${TIKOCI.owner}+stars:>=3&sort=stars&order=desc&per_page=30`)
         .then(r => {
             if (!r.ok) throw new Error(r.status);
             return r.json();
         })
-        .then(repos => {
+        .then(data => {
+            const repos = data.items;
             if (!Array.isArray(repos)) return;
             el.innerHTML = repos.map(r =>
                 `<li><a href="${escapeHtml(r.html_url)}" target="_blank" rel="noopener">${escapeHtml(r.name)}</a></li>`

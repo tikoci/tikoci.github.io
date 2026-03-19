@@ -494,6 +494,11 @@ dialog.share-modal .share-copy-btn {
 /* -----------------------------------------------------------------
  * 20. Nav dropdown buttons with icon (Tools, GitHub)
  * ----------------------------------------------------------------- */
+/* Prevent the <details> from stretching to fill its flex <li>,
+   so the absolutely-positioned dropdown <ul> stays near the button. */
+nav details.dropdown {
+    width: fit-content;
+}
 nav details.dropdown > summary[role="button"].nav-btn-icon {
     display: inline-flex;
     align-items: center;
