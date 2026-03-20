@@ -23,6 +23,7 @@ This is a multi-page static site for the TIKOCI GitHub org — MikroTik RouterOS
   (`readQueryParams`, `writeQueryParams`), and share button wiring (`initShareButton`).
 - No submit buttons — use `input`/`change` event listeners with debouncing.
 - Support shareable URLs via query params + `history.replaceState()`.
+- `mikropkl.html` — first on-site tool page (CHR image browser using GitHub Releases API).
 - See `CLAUDE.md` → "Interactive Tool Pages" for full patterns and skeleton.
 
 ## Commands

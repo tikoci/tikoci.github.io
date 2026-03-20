@@ -1,0 +1,985 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CHR Images — tikoci.github.io</title>
+    <meta name="description" content="Download pre-built MikroTik RouterOS CHR virtual machines for QEMU and UTM. Pick a version, architecture, and type — run in seconds.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Manrope:wght@200..800&display=swap">
+    <link rel="stylesheet" href="shared.css">
+    <script async src="https://plausible.io/js/pa-ubWop5eYckoDPVbIjXU4_.js"></script>
+    <script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)};plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>
+    <style>
+        /* --- Controls layout --- */
+        .chr-controls select { margin-bottom: 0; }
+        .chr-controls label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+        .variant-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+        .variant-row label { font-size: 0.85rem; font-weight: 600; letter-spacing: 0.02em; }
+        .variant-row select { margin-bottom: 0; }
+        .variant-desc {
+            font-size: 0.88rem;
+            padding: 0.6rem 0.8rem;
+            border-left: 3px solid var(--pico-primary);
+            border-radius: 0 var(--pico-border-radius) var(--pico-border-radius) 0;
+            background: var(--pico-form-element-background-color);
+            min-height: 3.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        /* --- Download card --- */
+        #download-card { margin: 0 0 1.5rem; }
+        #download-card > header { padding-bottom: 0.3rem; }
+        .download-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .download-actions a[role="button"],
+        .download-actions button {
+            font-size: 0.85rem;
+            padding: 0.35rem 0.8rem;
+        }
+        .download-actions a[role="button"] svg,
+        .download-actions button svg {
+            width: 1rem; height: 1rem;
+            vertical-align: -0.15em;
+            margin-right: 0.2rem;
+        }
+        .download-actions .share-link {
+            margin-left: auto;
+        }
+        .download-actions .share-link .btn-label { display: inline; }
+        .filename-mono {
+            font-family: var(--pico-font-family-monospace);
+            font-size: 0.82rem;
+            word-break: break-all;
+        }
+
+        /* --- Callouts --- */
+        .callout {
+            border-left: 4px solid var(--pico-primary);
+            padding: 0.5rem 1rem;
+            margin: 0.8rem 0 0;
+            font-size: 0.85rem;
+            background: var(--pico-form-element-background-color);
+            border-radius: 0 var(--pico-border-radius) var(--pico-border-radius) 0;
+        }
+        .callout.warning { border-left-color: #e49b0f; }
+
+        /* --- Instructions card --- */
+        #getting-started { margin: 0 0 1.5rem; }
+        #getting-started > header { padding-bottom: 0.3rem; }
+        #instructions-content h4 {
+            font-size: 0.95rem;
+            margin: 1rem 0 0.4rem;
+        }
+        #instructions-content h4:first-child { margin-top: 0; }
+        #instructions-content pre {
+            font-size: 0.78rem;
+            border-left: 3px solid var(--pico-primary);
+        }
+        #instructions-content ul, #instructions-content ol {
+            font-size: 0.9rem;
+        }
+
+        /* --- Prerelease toggle --- */
+        .prerelease-row {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 0.4rem;
+            margin-bottom: 0.5rem;
+        }
+        .prerelease-row label {
+            font-size: 0.78rem;
+            font-style: italic;
+            cursor: pointer;
+            margin-bottom: 0;
+        }
+        .prerelease-row input[role="switch"] { margin-bottom: 0; }
+
+        /* --- Page title in nav --- */
+        .nav-page-title {
+            font-weight: 400;
+            font-size: 0.9rem;
+            color: var(--pico-muted-color);
+            margin-left: 0.2rem;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .variant-row { grid-template-columns: 1fr; }
+            .variant-desc { margin-top: 0; }
+            .download-actions .share-link .btn-label { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <header class="container">
+        <nav>
+            <ul>
+                <li><strong><a href="index.html" class="brand-reverse">TIKOCI</a></strong> <span class="nav-page-title">CHR Images</span></li>
+            </ul>
+            <ul>
+                <li>
+                    <details class="dropdown">
+                        <summary role="button" class="outline nav-btn-icon">
+                            <svg class="nav-icon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <polygon points="10,100 35,20 60,5 85,20 110,100" fill="#e8594f" opacity="0.85"/>
+                                <polygon points="25,105 45,35 60,25 75,35 95,105" fill="#f4a236" opacity="0.8"/>
+                                <polygon points="40,95 48,45 60,35 72,45 80,95" fill="#3a3a3a"/>
+                                <circle cx="52" cy="58" r="6" fill="#f7e559"/>
+                                <circle cx="68" cy="55" r="7" fill="#5bc0eb"/>
+                                <circle cx="52" cy="58" r="2.5" fill="#1a1a1a"/>
+                                <circle cx="69" cy="55" r="3" fill="#1a1a1a"/>
+                                <polygon points="58,63 62,63 60,70" fill="#e8594f"/>
+                                <polygon points="38,48 48,45 43,30" fill="#5bc0eb" opacity="0.9"/>
+                                <polygon points="82,48 72,45 77,28" fill="#f4a236" opacity="0.9"/>
+                                <rect x="45" y="78" width="30" height="4" rx="1" fill="#f7e559" opacity="0.7"/>
+                                <line x1="60" y1="70" x2="60" y2="78" stroke="#f7e559" stroke-width="1.5"/>
+                            </svg>
+                            Tools
+                        </summary>
+                        <ul dir="rtl">
+                            <li><a href="chr-images.html" aria-current="page">CHR Images</a></li>
+                            <li><a href="https://tikoci.github.io/restraml/tikapp.html" target="_blank" rel="noopener">/app Editor</a></li>
+                            <li><a href="https://tikoci.github.io/restraml/tikapp-manual.html" target="_blank" rel="noopener">/app Manual</a></li>
+                            <li><a href="https://tikoci.github.io/restraml/diff.html" target="_blank" rel="noopener">Schema Diff</a></li>
+                            <li><a href="https://tikoci.github.io/restraml/lookup.html" target="_blank" rel="noopener">Command Lookup</a></li>
+                            <li><a href="https://tikoci.github.io/restraml" target="_blank" rel="noopener">Schema Downloads</a></li>
+                        </ul>
+                    </details>
+                </li>
+                <li>
+                    <details class="dropdown" id="github-dropdown">
+                        <summary role="button" class="outline nav-btn-icon">
+                            <svg class="nav-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" fill="currentColor"/></svg>
+                            GitHub
+                        </summary>
+                        <ul dir="rtl" id="github-repo-list">
+                            <li><a href="https://github.com/orgs/tikoci/repositories" target="_blank" rel="noopener">View all repositories</a></li>
+                        </ul>
+                    </details>
+                </li>
+                <li><a href="#" id="theme_switcher" aria-label="Toggle dark mode"></a></li>
+            </ul>
+        </nav>
+        <hgroup>
+            <h1>CHR <mark>Images</mark></h1>
+            <p>Pre-built RouterOS Cloud Hosted Router images &mdash; download, extract, run.</p>
+        </hgroup>
+    </header>
+
+    <main class="container">
+        <!-- Pre-release toggle -->
+        <div class="prerelease-row">
+            <label title="Include release candidates and beta versions">
+                <input type="checkbox" id="prerelease-toggle" role="switch">
+                Pre-releases
+            </label>
+        </div>
+
+        <!-- Row 1: Version, Arch, Type -->
+        <div class="grid chr-controls">
+            <label>
+                Version
+                <select id="version-select" title="RouterOS CHR version from mikropkl releases" aria-label="RouterOS version">
+                    <option>Loading&hellip;</option>
+                </select>
+            </label>
+            <label>
+                Architecture
+                <select id="arch-select" title="CPU architecture — aarch64 for ARM64 (Apple Silicon, ARM servers), x86_64 for Intel/AMD" aria-label="CPU architecture">
+                </select>
+            </label>
+            <label>
+                Type
+                <select id="type-select" title="QEMU: cross-platform emulation &amp; native virt. Apple: macOS Virtualization.framework via UTM (faster startup, fewer device options)" aria-label="Virtualization backend type">
+                </select>
+            </label>
+        </div>
+
+        <!-- Row 2: Variant (half) + description (half) -->
+        <div class="variant-row">
+            <label>
+                Variant
+                <select id="variant-select" title="Machine variant — determines disk layout and extras" aria-label="Machine variant">
+                </select>
+            </label>
+            <div id="variant-info" class="variant-desc">
+                <small>Loading&hellip;</small>
+            </div>
+        </div>
+
+        <!-- Download card -->
+        <article id="download-card">
+            <header>
+                <nav>
+                    <ul>
+                        <li><code class="filename-mono" id="filename-display">&mdash;</code></li>
+                    </ul>
+                    <ul>
+                        <li><small id="release-date"></small></li>
+                    </ul>
+                </nav>
+            </header>
+            <div class="download-actions">
+                <a id="download-btn" role="button" href="#" title="Download .utm.zip from GitHub Releases" style="display:none">
+                    <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="currentColor" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path fill="currentColor" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg>
+                    Download ZIP
+                </a>
+                <a id="utm-btn" role="button" href="#" title="Import into UTM via utm:// URL (macOS only)" style="display:none">
+                    <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="currentColor" d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zm8 0A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm-8 8A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm8 0A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3z"/></svg>
+                    Open in UTM
+                </a>
+                <button id="share-btn" class="outline share-link" style="display:none">
+                    <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="currentColor" d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/></svg>
+                    <span class="btn-label">Share</span>
+                </button>
+            </div>
+            <div id="callouts"></div>
+        </article>
+
+        <!-- Getting Started instructions -->
+        <article id="getting-started">
+            <header>
+                <nav>
+                    <ul><li><strong>Getting Started</strong></li></ul>
+                    <ul>
+                        <li id="method-selector" style="display:none">
+                            <label style="margin-bottom:0;font-size:0.82rem">
+                                Method
+                                <select id="method-select" class="inline-select" title="UTM app or QEMU command-line" aria-label="Virtualization method">
+                                    <option value="utm">UTM App</option>
+                                    <option value="qemu">QEMU CLI</option>
+                                </select>
+                            </label>
+                        </li>
+                        <li>
+                            <label style="margin-bottom:0;font-size:0.82rem">
+                                Platform
+                                <select id="platform-select" class="inline-select" title="Override platform for instructions — auto-detected from your browser" aria-label="Target platform for instructions">
+                                    <option value="mac">macOS</option>
+                                    <option value="linux">Linux</option>
+                                    <option value="windows">Windows</option>
+                                </select>
+                            </label>
+                        </li>
+                    </ul>
+                </nav>
+            </header>
+            <div id="instructions-content">
+                <p aria-busy="true">Loading release data&hellip;</p>
+            </div>
+        </article>
+
+        <!-- Page guide -->
+        <details class="page-guide" id="chr-guide">
+            <summary><b>About CHR Images</b> &hellip;</summary>
+            <article>
+                <header><strong>What is this?</strong></header>
+                <p><a href="https://github.com/tikoci/mikropkl" target="_blank" rel="noopener">mikropkl</a> builds
+                    ready-to-use <a href="https://help.mikrotik.com/docs/spaces/ROS/pages/18350234" target="_blank" rel="noopener">MikroTik CHR</a>
+                    virtual machine packages automatically using <a href="https://pkl-lang.org" target="_blank" rel="noopener">pkl</a>.
+                    Each release ZIP contains a CHR disk image, a QEMU config (<code>qemu.cfg</code>),
+                    and a launch script (<code>qemu.sh</code>) that handles platform detection automatically.
+                    On macOS, the same package also works as a UTM &ldquo;document&rdquo; bundle.</p>
+                <hr>
+                <header><strong>CHR Licensing</strong></header>
+                <p>CHR packages contain no license and run in &ldquo;free&rdquo; mode &mdash; <strong>1 Mb/s per interface</strong>,
+                    but all features are available. Register at
+                    <a href="https://www.mikrotik.com/client" target="_blank" rel="noopener">mikrotik.com</a> for a free trial
+                    that removes the speed limit for 60 days:</p>
+                <pre><code>/system/license/renew level=p10</code></pre>
+                <hr>
+                <header><strong>QEMU vs Apple Type</strong></header>
+                <p><strong>QEMU</strong> &mdash; Cross-platform. Supports both emulation and native hardware virtualization
+                    (KVM on Linux, HVF on macOS). Works everywhere QEMU runs: macOS, Linux, and WSL on Windows.
+                    The <code>qemu.sh</code> script auto-detects the best accelerator.</p>
+                <p><strong>Apple</strong> &mdash; Uses macOS <a href="https://docs.getutm.app/settings-apple/settings-apple/" target="_blank" rel="noopener">Virtualization.framework</a>
+                    via UTM. Faster startup, but limited device support and macOS-only.
+                    Uses a third-party EFI-bootable CHR image from <a href="https://github.com/tikoci/fat-chr" target="_blank" rel="noopener">tikoci/fat-chr</a>.</p>
+                <hr>
+                <header><strong>ROSE Variant</strong></header>
+                <p>The <code>rose.*</code> images are standard CHR plus 4&times;10 GB empty qcow2 disks
+                    for testing <a href="https://help.mikrotik.com/docs/x/HwCZEQ" target="_blank" rel="noopener">ROSE storage</a> features &mdash;
+                    BTRFS, RAID 1/10, snapshots, and SMB sharing. After first boot:</p>
+                <pre><code>/system/package { update/check-for-updates duration=10s; enable rose-storage; apply-changes }</code></pre>
+                <hr>
+                <div class="behind-curtain">
+                    <small><b>Behind the curtain</b> &mdash; Packages are built with
+                    <a href="https://pkl-lang.org" target="_blank" rel="noopener">pkl</a> manifests and assembled by GitHub Actions.
+                    Each <code>.utm</code> bundle is a folder containing <code>config.plist</code> (UTM),
+                    <code>qemu.cfg</code> + <code>qemu.sh</code> (QEMU), and a <code>Data/</code> directory
+                    with the CHR disk image. The naming scheme is
+                    <code>&lt;variant&gt;.&lt;arch&gt;.&lt;type&gt;.&lt;version&gt;.utm.zip</code>.
+                    </small>
+                </div>
+                <footer>
+                    <small>
+                        <a href="https://github.com/tikoci/mikropkl/issues" target="_blank" rel="noopener">Report an issue</a> &middot;
+                        <a href="https://github.com/tikoci/mikropkl" target="_blank" rel="noopener">Source code</a> &middot;
+                        <a href="https://github.com/tikoci/mikropkl/blob/main/Files/QEMU.md" target="_blank" rel="noopener">Full QEMU docs</a>
+                    </small>
+                </footer>
+            </article>
+        </details>
+    </main>
+
+    <footer class="container site-footer">
+        <small><em>Not affiliated with MikroTik, Apple, or UTM. CHR images contain software subject to
+            <a href="https://mikrotik.com/downloadterms.html" target="_blank" rel="noopener">MikroTik&rsquo;s license terms</a>.</em></small>
+        <small><a href="https://github.com/tikoci/mikropkl" target="_blank" rel="noopener">mikropkl on GitHub</a></small>
+    </footer>
+
+    <script src="shared.js"></script>
+    <script>
+        initThemeSwitcher()
+        initGitHubDropdown('github-repo-list')
+
+        // =====================================================================
+        // mikropkl CHR page — dynamic release browser
+        // =====================================================================
+
+        // --- Constants ---
+        const KNOWN_ARCHES = ['aarch64', 'x86_64']
+        const KNOWN_TYPES  = ['apple', 'qemu']
+        const ARCH_LABELS  = { aarch64: 'aarch64 (ARM64)', x86_64: 'x86_64 (Intel/AMD)' }
+        const TYPE_LABELS  = { qemu: 'QEMU', apple: 'Apple' }
+
+        const VARIANT_INFO = {
+            'chr': {
+                label: 'CHR',
+                desc: 'Standard Cloud Hosted Router &mdash; single disk, minimal configuration. Default login: <strong>admin</strong> with empty password.'
+            },
+            'rose.chr': {
+                label: 'ROSE',
+                desc: 'CHR + 4&times;10&thinsp;GB extra disks for <a href="https://help.mikrotik.com/docs/x/HwCZEQ" target="_blank" rel="noopener">ROSE storage</a> testing &mdash; BTRFS, RAID, SMB. Requires enabling <code>rose-storage</code> package after first boot.'
+            }
+        }
+
+        // --- Platform detection ---
+        function detectPlatform() {
+            const ua = navigator.userAgent.toLowerCase()
+            if (ua.includes('mac'))     return 'mac'
+            if (ua.includes('win'))     return 'windows'
+            if (ua.includes('android')) return 'linux'
+            return 'linux'
+        }
+        function detectArch() {
+            // Apple Silicon Macs are now the majority; default aarch64 on Mac
+            if (detectPlatform() === 'mac') return 'aarch64'
+            return 'x86_64'
+        }
+        const hostPlatform = detectPlatform()
+        const defaultArch  = detectArch()
+
+        // --- Asset parsing ---
+        // Name scheme: <variant>.<arch>.<type>.<version>.utm.zip
+        function versionFromTag(tag) { return tag.replace(/^chr-/, '') }
+
+        function parseAssetName(filename, version) {
+            if (!filename.endsWith('.utm.zip')) return null
+            const base = filename.slice(0, -8)  // strip .utm.zip
+            const verSuffix = '.' + version
+            if (!base.endsWith(verSuffix)) return null
+            const stem = base.slice(0, -verSuffix.length)
+            const parts = stem.split('.')
+            if (parts.length < 3) return null
+            const type = parts.pop()
+            const arch = parts.pop()
+            if (!KNOWN_ARCHES.includes(arch) || !KNOWN_TYPES.includes(type)) return null
+            return { variant: parts.join('.'), arch, type, version, filename }
+        }
+
+        function extractAssetsFromBody(body, version) {
+            const re = /releases\/download\/[^/\s]+\/(\S+\.utm\.zip)/g
+            const assets = [], seen = new Set()
+            let m
+            while ((m = re.exec(body)) !== null) {
+                if (seen.has(m[1])) continue
+                seen.add(m[1])
+                const a = parseAssetName(m[1], version)
+                if (a) assets.push(a)
+            }
+            return assets
+        }
+
+        // --- State ---
+        let allReleases   = []
+        let currentRelease = null
+        let currentAssets  = []
+
+        // --- DOM refs ---
+        const versionEl      = document.getElementById('version-select')
+        const archEl         = document.getElementById('arch-select')
+        const typeEl         = document.getElementById('type-select')
+        const variantEl      = document.getElementById('variant-select')
+        const variantInfoEl  = document.getElementById('variant-info')
+        const filenameEl     = document.getElementById('filename-display')
+        const downloadBtn    = document.getElementById('download-btn')
+        const utmBtn         = document.getElementById('utm-btn')
+        const shareBtn       = document.getElementById('share-btn')
+        const platformEl     = document.getElementById('platform-select')
+        const methodEl       = document.getElementById('method-select')
+        const methodSelector = document.getElementById('method-selector')
+        const instructionsEl = document.getElementById('instructions-content')
+        const calloutsEl     = document.getElementById('callouts')
+        const prereleaseEl   = document.getElementById('prerelease-toggle')
+        const releaseDateEl  = document.getElementById('release-date')
+
+        // --- Populate versions ---
+        function populateVersions(keepSelection) {
+            const showPre = prereleaseEl.checked
+            const filtered = showPre
+                ? allReleases
+                : allReleases.filter(r => !r.prerelease)
+            const prev = keepSelection ? versionEl.value : null
+            versionEl.innerHTML = filtered.map(r => {
+                const v = versionFromTag(r.tag_name)
+                const label = v + (r.prerelease ? ' (pre-release)' : '')
+                return '<option value="' + escapeHtml(r.tag_name) + '">' + escapeHtml(label) + '</option>'
+            }).join('')
+            if (prev && [...versionEl.options].some(o => o.value === prev)) {
+                versionEl.value = prev
+            }
+        }
+
+        // --- Select a release and parse its assets ---
+        function selectRelease(tagName) {
+            currentRelease = allReleases.find(r => r.tag_name === tagName)
+            if (!currentRelease) return
+            const version = versionFromTag(currentRelease.tag_name)
+            currentAssets = extractAssetsFromBody(currentRelease.body, version)
+
+            // Show release date
+            if (currentRelease.published_at) {
+                const d = new Date(currentRelease.published_at)
+                releaseDateEl.textContent = d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })
+            } else {
+                releaseDateEl.textContent = ''
+            }
+
+            // Unique arches and types from this release
+            const arches = [...new Set(currentAssets.map(a => a.arch))].sort()
+            const types  = [...new Set(currentAssets.map(a => a.type))].sort()
+
+            const prevArch = archEl.value
+            const prevType = typeEl.value
+
+            archEl.innerHTML = arches.map(a =>
+                '<option value="' + a + '">' + (ARCH_LABELS[a] || a) + '</option>'
+            ).join('')
+            typeEl.innerHTML = types.map(t =>
+                '<option value="' + t + '">' + (TYPE_LABELS[t] || t) + '</option>'
+            ).join('')
+
+            // Restore or apply defaults
+            if (arches.includes(prevArch)) archEl.value = prevArch
+            else if (arches.includes(defaultArch)) archEl.value = defaultArch
+
+            if (types.includes(prevType)) typeEl.value = prevType
+            else if (types.includes('qemu')) typeEl.value = 'qemu'
+
+            updateVariants()
+        }
+
+        // --- Filter variants by current arch+type, with smart fallback ---
+        function updateVariants() {
+            let arch = archEl.value, type = typeEl.value
+            let matching = currentAssets.filter(a => a.arch === arch && a.type === type)
+
+            // Fallback: if no assets for this type, try the other type
+            if (!matching.length && type === 'apple') {
+                const alt = 'qemu'
+                const altMatching = currentAssets.filter(a => a.arch === arch && a.type === alt)
+                if (altMatching.length && [...typeEl.options].some(o => o.value === alt)) {
+                    typeEl.value = alt
+                    type = alt
+                    matching = altMatching
+                }
+            } else if (!matching.length && type === 'qemu') {
+                const alt = 'apple'
+                const altMatching = currentAssets.filter(a => a.arch === arch && a.type === alt)
+                if (altMatching.length && [...typeEl.options].some(o => o.value === alt)) {
+                    typeEl.value = alt
+                    type = alt
+                    matching = altMatching
+                }
+            }
+
+            // Fallback: if still no assets, try the other arch with original type
+            if (!matching.length) {
+                const otherArch = KNOWN_ARCHES.find(a => a !== arch)
+                if (otherArch) {
+                    const altMatching = currentAssets.filter(a => a.arch === otherArch && a.type === type)
+                    if (altMatching.length && [...archEl.options].some(o => o.value === otherArch)) {
+                        archEl.value = otherArch
+                        arch = otherArch
+                        matching = altMatching
+                    }
+                }
+            }
+
+            const variants = [...new Set(matching.map(a => a.variant))].sort()
+            const prev = variantEl.value
+
+            if (variants.length) {
+                variantEl.innerHTML = variants.map(v =>
+                    '<option value="' + escapeHtml(v) + '">' + escapeHtml(v) + '</option>'
+                ).join('')
+                if (variants.includes(prev)) variantEl.value = prev
+                else if (variants.includes('chr')) variantEl.value = 'chr'
+            } else {
+                variantEl.innerHTML = '<option value="">No images for this combination</option>'
+            }
+            updateAll()
+        }
+
+        // --- Update everything downstream of selection ---
+        function updateAll() {
+            updateVariantInfo()
+            updateDownload()
+            renderInstructions()
+        }
+
+        function updateVariantInfo() {
+            const v = variantEl.value
+            const info = VARIANT_INFO[v]
+            if (info) {
+                variantInfoEl.innerHTML = '<small><strong>' + info.label + '</strong> &mdash; ' + info.desc + '</small>'
+            } else if (v) {
+                variantInfoEl.innerHTML = '<small><code>' + escapeHtml(v) + '</code> variant</small>'
+            } else {
+                variantInfoEl.innerHTML = '<small>No variant selected.</small>'
+            }
+        }
+
+        function getSelectedAsset() {
+            return currentAssets.find(a =>
+                a.arch === archEl.value && a.type === typeEl.value && a.variant === variantEl.value
+            )
+        }
+
+        function updateDownload() {
+            const asset = getSelectedAsset()
+            if (!asset || !currentRelease) {
+                filenameEl.textContent = '\u2014'
+                downloadBtn.style.display = 'none'
+                utmBtn.style.display = 'none'
+                shareBtn.style.display = 'none'
+                calloutsEl.innerHTML = ''
+                return
+            }
+            const tag = currentRelease.tag_name
+            const dlUrl = 'https://github.com/tikoci/mikropkl/releases/download/' + tag + '/' + asset.filename
+            const utmUrl = 'utm://downloadVM?url=' + encodeURIComponent(dlUrl)
+
+            filenameEl.textContent = asset.filename
+            downloadBtn.href = dlUrl
+            downloadBtn.style.display = ''
+            shareBtn.style.display = ''
+
+            // UTM button: only when viewing on Mac AND type supports UTM
+            if (hostPlatform === 'mac') {
+                utmBtn.href = utmUrl
+                utmBtn.style.display = ''
+            } else {
+                utmBtn.style.display = 'none'
+            }
+
+            renderCallouts(asset)
+            syncQueryParams()
+        }
+
+        function syncQueryParams() {
+            const asset = getSelectedAsset()
+            if (!asset) return
+            const params = {
+                v: asset.version,
+                arch: asset.arch,
+                type: asset.type,
+                variant: asset.variant,
+                os: platformEl.value !== hostPlatform ? platformEl.value : ''
+            }
+            if (platformEl.value === 'mac' && methodEl.value !== 'utm') {
+                params.method = methodEl.value
+            }
+            writeQueryParams(params)
+        }
+
+        // --- Callouts ---
+        function renderCallouts(asset) {
+            let html = ''
+            if (asset.type === 'apple') {
+                html += '<div class="callout warning"><small>'
+                    + '<strong>Apple Virtualization.framework</strong> &mdash; '
+                    + 'This image uses an EFI-bootable CHR disk from '
+                    + '<a href="https://github.com/tikoci/fat-chr" target="_blank" rel="noopener">tikoci/fat-chr</a> '
+                    + '(third-party build) to support UEFI boot required by Apple&rsquo;s virtualization framework. '
+                    + 'Requires macOS with <a href="https://mac.getutm.app" target="_blank" rel="noopener">UTM</a>.'
+                    + '</small></div>'
+            }
+            if (asset.variant.startsWith('rose')) {
+                html += '<div class="callout"><small>'
+                    + '<strong>ROSE variant</strong> &mdash; Includes 4&times;10&thinsp;GB extra disks. '
+                    + 'After booting, enable the storage package: '
+                    + '<code>/system/package { update/check-for-updates duration=10s; enable rose-storage; apply-changes }</code>'
+                    + '</small></div>'
+            }
+            calloutsEl.innerHTML = html
+        }
+
+        // --- Instruction rendering ---
+        function updateMethodSelector() {
+            // Show method selector only on Mac
+            if (platformEl.value === 'mac') {
+                methodSelector.style.display = ''
+            } else {
+                methodSelector.style.display = 'none'
+            }
+        }
+
+        function renderInstructions() {
+            const asset = getSelectedAsset()
+            const plat  = platformEl.value
+            const method = (plat === 'mac') ? methodEl.value : 'qemu'
+            updateMethodSelector()
+
+            if (!asset || !currentRelease) {
+                instructionsEl.innerHTML = '<p>Select a valid combination above.</p>'
+                return
+            }
+            const version = versionFromTag(currentRelease.tag_name)
+            const tag     = currentRelease.tag_name
+            const dlUrl   = 'https://github.com/tikoci/mikropkl/releases/download/' + tag + '/' + asset.filename
+            const dirname = asset.filename.replace(/\.zip$/, '')
+            const utmUrl  = 'utm://downloadVM?url=' + encodeURIComponent(dlUrl)
+            let html = ''
+
+            if (method === 'utm' && plat === 'mac') {
+                html += buildUtmInstructions(asset, dlUrl, dirname, utmUrl)
+            } else {
+                // Apple type on non-Mac: advisory
+                if (typeEl.value === 'apple' && plat !== 'mac') {
+                    html += '<div class="callout warning"><small>'
+                        + 'Apple Virtualization.framework is macOS-only. '
+                        + 'Showing QEMU-compatible instructions &mdash; consider switching <strong>Type</strong> to QEMU.'
+                        + '</small></div>'
+                }
+                html += buildQemuInstructions(plat, asset, dlUrl, dirname, version)
+            }
+
+            // REST API / WebFig access
+            if (method === 'utm' && plat === 'mac') {
+                html += '<h4>REST API &amp; WebFig</h4>'
+                    + '<p>The VM uses <strong>Shared</strong> networking by default &mdash; '
+                    + 'RouterOS gets an IP on the <code>192.168.64.0/24</code> vmnet subnet.</p>'
+                    + '<pre><code>'
+                    + '# Find the VM\'s IP from RouterOS console:\n'
+                    + '/ip/address/print\n\n'
+                    + '# Or check ARP from macOS Terminal:\n'
+                    + 'arp -an | grep 192.168.64'
+                    + '</code></pre>'
+                    + '<pre><code>'
+                    + '# System identity via REST API\n'
+                    + 'curl -u admin: http://192.168.64.x/rest/system/identity\n\n'
+                    + '# Open WebFig\n'
+                    + 'open http://192.168.64.x/'
+                    + '</code></pre>'
+                    + '<p><small>Replace <code>192.168.64.x</code> with the actual IP from <code>/ip/address/print</code>.</small></p>'
+            } else {
+                html += '<h4>REST API &amp; WebFig</h4>'
+                    + '<p>Port 80 inside the VM is forwarded to <code>localhost:9180</code> by default.</p>'
+                    + '<pre><code>'
+                    + '# System identity\n'
+                    + 'curl -u admin: http://localhost:9180/rest/system/identity\n\n'
+                    + '# Open WebFig in browser\n'
+                    + 'open http://localhost:9180/'
+                    + '</code></pre>'
+                    + '<p><small>Change the port with <code>./qemu.sh --port 8080</code></small></p>'
+            }
+
+            instructionsEl.innerHTML = html
+        }
+
+        function buildQemuInstructions(plat, asset, dlUrl, dirname, version) {
+            let h = ''
+
+            // Install QEMU
+            if (plat === 'mac') {
+                h += '<h4>Install QEMU</h4>'
+                    + '<pre><code>brew install qemu</code></pre>'
+            } else if (plat === 'linux') {
+                if (asset.arch === 'aarch64') {
+                    h += '<h4>Install QEMU</h4>'
+                        + '<pre><code># Ubuntu / Debian:\n'
+                        + 'sudo apt-get install qemu-system-arm qemu-efi-aarch64 qemu-utils\n\n'
+                        + '# Optional: KVM acceleration (bare-metal only)\n'
+                        + 'sudo apt-get install qemu-kvm\n'
+                        + 'sudo usermod -aG kvm "$USER"</code></pre>'
+                } else {
+                    h += '<h4>Install QEMU</h4>'
+                        + '<pre><code># Ubuntu / Debian:\n'
+                        + 'sudo apt-get install qemu-system-x86 qemu-utils\n\n'
+                        + '# Optional: KVM acceleration (bare-metal only)\n'
+                        + 'sudo apt-get install qemu-kvm\n'
+                        + 'sudo usermod -aG kvm "$USER"</code></pre>'
+                }
+            } else {
+                // Windows
+                h += '<h4>QEMU on Windows</h4>'
+                    + '<p>The included <code>qemu.sh</code> is a POSIX shell script. On Windows:</p>'
+                    + '<ul>'
+                    + '<li><strong>WSL 2</strong> (recommended) &mdash; QEMU scripts work natively in Windows Subsystem for Linux</li>'
+                    + '<li><strong>Native QEMU</strong> &mdash; install from '
+                    + '<a href="https://www.qemu.org/download/#windows" target="_blank" rel="noopener">qemu.org</a> '
+                    + 'and adapt <code>qemu.cfg</code> manually</li>'
+                    + '</ul>'
+            }
+
+            // Download & run
+            h += '<h4>Download &amp; Run</h4>'
+                + '<pre><code>'
+                + 'curl -fsSL -o ' + escapeHtml(asset.filename) + ' \\\n'
+                + '  ' + escapeHtml(dlUrl) + '\n'
+                + 'unzip ' + escapeHtml(asset.filename) + '\n'
+                + 'cd ' + escapeHtml(dirname) + '\n'
+                + './qemu.sh</code></pre>'
+                + '<p>Default login: <strong>admin</strong> with empty password (press Enter). '
+                + 'Type <kbd>/quit</kbd> to exit, or press <kbd>Ctrl-A</kbd> then <kbd>X</kbd>.</p>'
+
+            // Background mode
+            h += '<h4>Background Mode</h4>'
+                + '<pre><code>./qemu.sh --background</code></pre>'
+                + '<p>Connect to serial console:</p>'
+                + '<pre><code>socat - UNIX-CONNECT:/tmp/qemu-'
+                + escapeHtml(dirname.replace(/\.utm$/, ''))
+                + '-serial.sock</code></pre>'
+
+            // Platform-specific networking
+            if (plat === 'mac') {
+                h += '<h4>Bridge Networking <mark>macOS</mark></h4>'
+                    + '<p>Use Apple&rsquo;s <code>vmnet.framework</code> for real LAN access '
+                    + '(requires <code>sudo</code>):</p>'
+                    + '<pre><code>'
+                    + '# Shared NAT network:\n'
+                    + 'sudo ./qemu.sh --shared\n\n'
+                    + '# Bridge to physical interface (full LAN access):\n'
+                    + 'sudo ./qemu.sh --bridge en0</code></pre>'
+                    + '<p><small>The VM gets its own IP &mdash; access RouterOS directly, '
+                    + 'no port forwarding needed. Great for testing DHCP, OSPF, or BGP.</small></p>'
+            }
+            if (plat === 'linux') {
+                h += '<h4>Bridge Networking <mark>Linux</mark></h4>'
+                    + '<pre><code>'
+                    + '# Create bridge + tap interface:\n'
+                    + 'sudo ip link add br0 type bridge\n'
+                    + 'sudo ip tuntap add tap0 mode tap user "$USER"\n'
+                    + 'sudo ip link set tap0 master br0\n'
+                    + 'sudo ip link set tap0 up\n'
+                    + 'sudo ip link set br0 up\n\n'
+                    + '# Launch with tap:\n'
+                    + 'QEMU_NETDEV="tap,id=net0,ifname=tap0,script=no,downscript=no" ./qemu.sh'
+                    + '</code></pre>'
+            }
+
+            return h
+        }
+
+        function buildUtmInstructions(asset, dlUrl, dirname, utmUrl) {
+            let h = ''
+
+            // Install UTM
+            h += '<h4>Install UTM</h4>'
+                + '<p><a href="https://mac.getutm.app" target="_blank" rel="noopener">UTM</a> is a free, '
+                + 'open-source virtualisation app for macOS.</p>'
+                + '<ul>'
+                + '<li><strong>Free download</strong> &mdash; '
+                + '<a href="https://github.com/utmapp/UTM/releases/latest/download/UTM.dmg" target="_blank" rel="noopener">UTM.dmg from GitHub</a> '
+                + '(unsigned; drag to /Applications)</li>'
+                + '<li><strong>Mac App Store</strong> &mdash; '
+                + '<a href="https://apps.apple.com/us/app/utm-virtual-machines/id1538878817" target="_blank" rel="noopener">UTM Virtual Machines</a> '
+                + '(paid; auto-updates via App Store)</li>'
+                + '</ul>'
+                + '<p><small>Both editions run CHR identically. The App Store edition runs in a sandbox '
+                + 'which may affect VM storage location.</small></p>'
+
+            // Quick install via utm://
+            h += '<h4>Quick Install via <code>utm://</code></h4>'
+                + '<p>Run in Terminal or paste into a browser tab:</p>'
+                + '<pre><code>open \'' + escapeHtml(utmUrl) + '\'</code></pre>'
+                + '<p><small>UTM downloads and imports the VM into its managed store. '
+                + 'When you &ldquo;Remove&rdquo; in UTM, the files are deleted.</small></p>'
+
+            // Manual install
+            h += '<h4>Manual Install</h4>'
+                + '<ol>'
+                + '<li>Download the ZIP above (or <code>curl -fsSL -o ' + escapeHtml(asset.filename) + ' ' + escapeHtml(dlUrl) + '</code>)</li>'
+                + '<li>Extract &mdash; you get a <code>' + escapeHtml(dirname) + '</code> folder</li>'
+                + '<li>Double-click to open in UTM</li>'
+                + '</ol>'
+                + '<p><small>The machine appears as an alias &mdash; files stay where you extracted them. '
+                + 'To move into UTM&rsquo;s managed store, use the <code>utm://</code> URL instead.</small></p>'
+
+            // First boot
+            h += '<h4>First Boot</h4>'
+                + '<p>Start the VM from UTM&rsquo;s main window. A serial terminal opens automatically '
+                + 'with the RouterOS CLI.</p>'
+                + '<p>Default login: <strong>admin</strong> with empty password (press Enter).</p>'
+
+            // Networking
+            h += '<h4>Networking <mark>UTM</mark></h4>'
+                + '<p>All packages default to <strong>Shared</strong> networking via Apple&rsquo;s '
+                + '<code>vmnet.framework</code> &mdash; the VM gets a DHCP address on '
+                + '<code>192.168.64.0/24</code>. macOS can reach the VM directly; '
+                + 'outbound traffic is NATed through your active interface.</p>'
+                + '<p>To bridge to your physical LAN (VM gets its own real IP):</p>'
+                + '<ol>'
+                + '<li>Stop the VM</li>'
+                + '<li>VM settings &rarr; Devices &rarr; Network &rarr; Mode &rarr; <strong>Bridged</strong></li>'
+                + '<li>Select your network interface (e.g. <code>en0</code>)</li>'
+                + '<li>Start the VM &mdash; it gets a DHCP address from your router</li>'
+                + '</ol>'
+                + '<p><small>For multi-VM topologies, create a <strong>Host Network</strong> in '
+                + 'UTM Preferences (&#8984;+, &rarr; Network) and add interfaces to each VM. '
+                + 'See <a href="https://docs.getutm.app/settings-qemu/devices/network/" target="_blank" rel="noopener">UTM networking docs</a>.</small></p>'
+
+            // Console access
+            h += '<h4>Console &amp; Automation</h4>'
+                + '<p>Each VM also has a <strong>pseudo-TTY</strong> serial port. '
+                + 'Find the PTY path in UTM&rsquo;s details pane when the VM is running, then:</p>'
+                + '<pre><code>screen /dev/ttys014   # replace with actual PTY path</code></pre>'
+                + '<p><small>Control VMs from Terminal: '
+                + '<code>open "utm://start?name=' + escapeHtml(dirname.replace(/\.utm$/, '')) + '"</code>. '
+                + 'See <a href="https://docs.getutm.app/advanced/remote-control/" target="_blank" rel="noopener">UTM remote control docs</a> '
+                + 'for the full <code>utm://</code> URL scheme, <code>utmctl</code> CLI, and Shortcuts integration.</small></p>'
+
+            return h
+        }
+
+        // --- Event wiring ---
+        prereleaseEl.addEventListener('change', () => {
+            populateVersions(true)
+            // If current selection gone, pick first
+            if (!versionEl.value || ![...versionEl.options].some(o => o.value === versionEl.value)) {
+                versionEl.selectedIndex = 0
+            }
+            selectRelease(versionEl.value)
+        })
+        versionEl.addEventListener('change', () => selectRelease(versionEl.value))
+        archEl.addEventListener('change', updateVariants)
+        typeEl.addEventListener('change', updateVariants)
+        variantEl.addEventListener('change', updateAll)
+        platformEl.addEventListener('change', () => {
+            updateMethodSelector()
+            renderInstructions()
+            syncQueryParams()
+        })
+        methodEl.addEventListener('change', () => {
+            renderInstructions()
+            syncQueryParams()
+        })
+
+        // Share button
+        initShareButton('share-btn', () => syncQueryParams())
+
+        // --- Init ---
+        async function init() {
+            platformEl.value = hostPlatform
+            const params = readQueryParams()
+
+            try {
+                const res = await fetch(
+                    'https://api.github.com/repos/tikoci/mikropkl/releases?per_page=50'
+                )
+                if (!res.ok) throw new Error('GitHub API ' + res.status)
+                allReleases = await res.json()
+            } catch (e) {
+                instructionsEl.innerHTML =
+                    '<p>Could not load releases. <a href="https://github.com/tikoci/mikropkl/releases" '
+                    + 'target="_blank" rel="noopener">View on GitHub</a> instead.</p>'
+                versionEl.innerHTML = '<option>Error loading</option>'
+                return
+            }
+
+            if (!allReleases.length) {
+                instructionsEl.innerHTML = '<p>No releases found.</p>'
+                return
+            }
+
+            // If query param requests a prerelease version, enable toggle
+            if (params.v) {
+                const needsPre = allReleases.some(r =>
+                    versionFromTag(r.tag_name) === params.v && r.prerelease
+                )
+                if (needsPre) prereleaseEl.checked = true
+            }
+
+            populateVersions(false)
+
+            // Apply query params or defaults
+            let targetTag = versionEl.value // first in list = latest
+            if (params.v) {
+                const match = allReleases.find(r => versionFromTag(r.tag_name) === params.v)
+                if (match && [...versionEl.options].some(o => o.value === match.tag_name)) {
+                    targetTag = match.tag_name
+                }
+            }
+            versionEl.value = targetTag
+            selectRelease(targetTag)
+
+            // Override from query params
+            if (params.arch && [...archEl.options].some(o => o.value === params.arch)) {
+                archEl.value = params.arch
+            }
+            if (params.type && [...typeEl.options].some(o => o.value === params.type)) {
+                typeEl.value = params.type
+            }
+            updateVariants()  // re-filter after arch/type overrides
+
+            if (params.variant && [...variantEl.options].some(o => o.value === params.variant)) {
+                variantEl.value = params.variant
+                updateAll()
+            }
+            if (params.os && [...platformEl.options].some(o => o.value === params.os)) {
+                platformEl.value = params.os
+            }
+            updateMethodSelector()
+            if (params.method && [...methodEl.options].some(o => o.value === params.method)) {
+                methodEl.value = params.method
+            }
+            renderInstructions()
+
+            plausible('CHR Page Load', { props: { version: versionFromTag(targetTag), platform: hostPlatform } })
+        }
+
+        // Track downloads
+        downloadBtn.addEventListener('click', () => {
+            const a = getSelectedAsset()
+            if (a) plausible('CHR Download', { props: { file: a.filename, version: a.version } })
+        })
+        utmBtn.addEventListener('click', () => {
+            const a = getSelectedAsset()
+            if (a) plausible('CHR UTM Open', { props: { file: a.filename, version: a.version } })
+        })
+
+        init()
+    </script>
+</body>
+</html>

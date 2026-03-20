@@ -18,10 +18,13 @@
     <header class="container">
         <nav>
             <ul>
+                <li><strong><a href="index.html" class="brand-reverse">TIKOCI</a></strong> <span class="nav-page-title">Web Tools</span></li>
+            </ul>
+            <ul>
                 <li>
                     <details class="dropdown">
-                        <summary class="brand-icon" aria-label="Browse site sections">
-                            <svg viewBox="0 0 120 120" class="nav-potto" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <summary role="button" class="outline nav-btn-icon">
+                            <svg class="nav-icon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <polygon points="10,100 35,20 60,5 85,20 110,100" fill="#e8594f" opacity="0.85"/>
                                 <polygon points="25,105 45,35 60,25 75,35 95,105" fill="#f4a236" opacity="0.8"/>
                                 <polygon points="40,95 48,45 60,35 72,45 80,95" fill="#3a3a3a"/>
@@ -35,23 +38,10 @@
                                 <rect x="45" y="78" width="30" height="4" rx="1" fill="#f7e559" opacity="0.7"/>
                                 <line x1="60" y1="70" x2="60" y2="78" stroke="#f7e559" stroke-width="1.5"/>
                             </svg>
+                            Tools
                         </summary>
-                        <ul>
-                            <li><a href="dev-tools.html">VSCode Extensions</a></li>
-                            <li><a href="virtualization.html">Virtualization</a></li>
-                            <li><a href="containers.html">Containers</a></li>
-                            <li><a href="scripts.html">RouterOS Scripts</a></li>
-                            <li><a href="web-tools.html" aria-current="page">Web Tools</a></li>
-                        </ul>
-                    </details>
-                </li>
-                <li><strong><a href="index.html" class="brand-reverse">TIKOCI</a></strong></li>
-            </ul>
-            <ul>
-                <li>
-                    <details class="dropdown">
-                        <summary>Tools</summary>
                         <ul dir="rtl">
+                            <li><a href="chr-images.html">CHR Images</a></li>
                             <li><a href="https://tikoci.github.io/restraml/tikapp.html" target="_blank" rel="noopener">/app Editor</a></li>
                             <li><a href="https://tikoci.github.io/restraml/tikapp-manual.html" target="_blank" rel="noopener">/app Manual</a></li>
                             <li><a href="https://tikoci.github.io/restraml/diff.html" target="_blank" rel="noopener">Schema Diff</a></li>
@@ -61,20 +51,13 @@
                     </details>
                 </li>
                 <li>
-                    <a href="https://github.com/orgs/tikoci/repositories" target="_blank" rel="noopener" role="button" class="github-btn outline">
-                        <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" fill="currentColor"/></svg>
-                        Repos
-                    </a>
-                </li>
-                <li>
-                    <details class="dropdown">
-                        <summary class="mikrotik-icon" aria-label="MikroTik resources">
-                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2 19L7 5L12 13L17 5L22 19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></svg>
+                    <details class="dropdown" id="github-dropdown">
+                        <summary role="button" class="outline nav-btn-icon">
+                            <svg class="nav-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" fill="currentColor"/></svg>
+                            GitHub
                         </summary>
-                        <ul dir="rtl">
-                            <li><a href="https://mikrotik.com" target="_blank" rel="noopener">mikrotik.com</a></li>
-                            <li><a href="https://forum.mikrotik.com" target="_blank" rel="noopener">Forum</a></li>
-                            <li><a href="https://help.mikrotik.com" target="_blank" rel="noopener">Help &amp; Docs</a></li>
+                        <ul dir="rtl" id="github-repo-list">
+                            <li><a href="https://github.com/orgs/tikoci/repositories" target="_blank" rel="noopener">View all repositories</a></li>
                         </ul>
                     </details>
                 </li>
@@ -193,106 +176,9 @@
     </footer>
 
     <script src="shared.js"></script>
-    <script>initThemeSwitcher();</script>
-</body>
-</html>
-    <meta name="description" content="TIKOCI web tools for MikroTik RouterOS: schema diff, command lookup, API schema downloads, and Observable notebooks.">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Manrope:wght@200..800&display=swap">
-    <link rel="stylesheet" href="shared.css">
-    <link rel="stylesheet" href="cubist.css">
-    <script async src="https://plausible.io/js/pa-ubWop5eYckoDPVbIjXU4_.js"></script>
-    <script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)};plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>
-</head>
-<body>
-    <header class="container">
-        <nav>
-            <ul>
-                <li><strong><a href="index.html">TIKOCI</a></strong></li>
-            </ul>
-            <ul>
-                <li>
-                    <details class="dropdown">
-                        <summary>Categories</summary>
-                        <ul dir="rtl">
-                            <li><a href="dev-tools.html">Development Tools</a></li>
-                            <li><a href="virtualization.html">Virtualization</a></li>
-                            <li><a href="containers.html">Containers</a></li>
-                            <li><a href="scripts.html">RouterOS Scripts</a></li>
-                            <li><a href="web-tools.html" aria-current="page">Web Tools</a></li>
-                        </ul>
-                    </details>
-                </li>
-                <li><a href="https://github.com/orgs/tikoci/repositories" target="_blank" rel="noopener">GitHub</a></li>
-                <li><a href="#" id="theme_switcher" aria-label="Toggle dark mode"></a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main class="container">
-        <h1>Web Tools</h1>
-        <p>Browser-based tools for MikroTik RouterOS — all hosted on GitHub Pages, no backend required.</p>
-
-        <article>
-            <header>
-                <h2><a href="https://tikoci.github.io/restraml/diff.html">Schema Diff</a> <mark class="lang">TypeScript</mark></h2>
-            </header>
-            <p>Pick two RouterOS versions to see what commands have changed in the CLI or RouterOS APIs like REST. Runs entirely in the browser as a serverless single-page app — all diffing and logic happens client-side.</p>
-            <footer>
-                <a href="https://tikoci.github.io/restraml/diff.html">Open Schema Diff</a> &middot;
-                <a href="https://github.com/tikoci/restraml">GitHub</a>
-            </footer>
-        </article>
-
-        <article>
-            <header>
-                <h2><a href="https://tikoci.github.io/restraml/lookup.html">Command Lookup</a> <mark class="lang">TypeScript</mark></h2>
-            </header>
-            <p>Search RouterOS CLI and REST API commands across versions. Find paths, parameters, and command structure — useful for scripting and API integration.</p>
-            <footer>
-                <a href="https://tikoci.github.io/restraml/lookup.html">Open Command Lookup</a> &middot;
-                <a href="https://github.com/tikoci/restraml">GitHub</a>
-            </footer>
-        </article>
-
-        <article>
-            <header>
-                <h2><a href="https://tikoci.github.io/restraml">Schema Downloads</a> <mark class="lang">RAML</mark> <mark class="lang">OpenAPI</mark></h2>
-            </header>
-            <p>RouterOS REST API schemas (RAML, OpenAPI) arranged by version, for use in Postman and other API tools. For use with <a href="https://postman.com"><strong>Postman App</strong></a>, see the <a href="https://forum.mikrotik.com/viewtopic.php?t=199476">forum post on REST API schema for Postman</a>.</p>
-            <footer>
-                <a href="https://tikoci.github.io/restraml">Download Schemas</a>
-            </footer>
-        </article>
-
-        <article>
-            <header>
-                <h2><a href="https://observablehq.com/@a2m0/utf2rsc?collection=@a2m0/mikrotik">utf2rsc</a> <mark class="lang">JavaScript</mark></h2>
-            </header>
-            <p>Fun converter for emojis and UTF-8 into RouterOS <code>string</code> using byte-escaping (<code>\xx</code>). An Observable notebook — runs in the browser.</p>
-            <footer>
-                <a href="https://observablehq.com/@a2m0/utf2rsc?collection=@a2m0/mikrotik">Open utf2rsc</a>
-            </footer>
-        </article>
-
-        <article>
-            <header>
-                <h2><a href="https://observablehq.com/@a2m0/csv2rsc?collection=@a2m0/mikrotik">csv2rsc</a> <mark class="lang">JavaScript</mark></h2>
-            </header>
-            <p>CSV conversion into RouterOS <code>array</code> types. Also an example of using an Observable notebook to do pre-parsing of data and generate scripts.</p>
-            <footer>
-                <a href="https://observablehq.com/@a2m0/csv2rsc?collection=@a2m0/mikrotik">Open csv2rsc</a>
-            </footer>
-        </article>
-    </main>
-
-    <footer class="container">
-        <small>&copy; TIKOCI &mdash; <a href="index.html">Home</a></small>
-    </footer>
-
-    <script src="shared.js"></script>
-    <script>initThemeSwitcher();</script>
+    <script>
+        initThemeSwitcher();
+        initGitHubDropdown('github-repo-list');
+    </script>
 </body>
 </html>

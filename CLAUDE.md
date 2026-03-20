@@ -25,6 +25,7 @@ tikoci-website/
 │   ├── containers.html   # Containers category page
 │   ├── scripts.html      # RouterOS Scripts category page
 │   ├── web-tools.html    # Web Tools category page
+│   ├── mikropkl.html     # Interactive tool: mikropkl CHR image browser/downloader
 │   ├── shared.css        # Shared CSS (fonts, theme, utilities) — all pages include this
 │   └── shared.js         # Shared JS (theme switcher) — all pages include this
 ├── docs/                 # Legacy Observable Framework source (kept for images)
@@ -163,15 +164,19 @@ When adding a new tool page, add it to the Tools dropdown in **all** existing pa
 
 ## Interactive Tool Pages — Patterns and Conventions
 
-Beyond the portfolio category pages, this site hosts (or will host) interactive tool pages that
+Beyond the portfolio category pages, this site hosts interactive tool pages that
 pivot GitHub-hosted data into browser UIs. These follow the same patterns proven in
 [restraml](https://tikoci.github.io/restraml/)'s tool pages (lookup, diff, editor, etc.).
+
+The first on-site tool page is `mikropkl.html` — a dynamic CHR image browser that fetches
+release data from the GitHub Releases API and renders platform-specific instructions.
 
 ### Core Principles
 
 - **Client-side SPA** — all logic runs in the browser. No backend. GitHub Pages serves static files only.
 - **GitHub REST API** for dynamic data — directory listings, file contents, version discovery.
   Use `fetchGitHubContents()` and `fetchGitHubPagesFile()` from `shared.js`.
+  For releases data, use the GitHub Releases API directly (`/repos/:owner/:repo/releases`).
 - **No submit buttons** — prefer JS event listeners (`input`, `change`, `keydown`) over explicit
   submit/lookup buttons. Use `debounce()` (~400 ms) for text inputs; fire immediately on `change`
   events for checkboxes and `<select>` elements.
@@ -305,6 +310,45 @@ Tool pages include a collapsed `<details>` section for lightweight documentation
 </body>
 </html>
 ```
+
+### GitHub Releases API Pattern
+
+For pages that pivot release data (like `mikropkl.html`), fetch from the Releases API directly
+rather than through `fetchGitHubContents()`:
+
+```javascript
+const releases = await fetch(
+    `https://api.github.com/repos/${TIKOCI.owner}/${repo}/releases?per_page=50`
+).then(r => r.json())
+
+// Find latest non-prerelease
+const latest = releases.find(r => !r.prerelease)
+
+// Extract asset filenames from release body (download URLs)
+const assetPattern = /releases\/download\/[^/\s]+\/(\S+\.utm\.zip)/g
+```
+
+Parse asset names by stripping known suffixes and splitting on dots against known value lists
+(architectures, types) — keeps the parser resilient to new variants or name extensions.
+
+### Platform-Adaptive Content Pattern
+
+Tool pages can detect the user's platform and architecture to set smart defaults, while always
+allowing manual override via a dropdown:
+
+```javascript
+function detectPlatform() {
+    const ua = navigator.userAgent.toLowerCase()
+    if (ua.includes('mac')) return 'mac'
+    if (ua.includes('win')) return 'windows'
+    return 'linux'
+}
+// Set dropdown default from detection, override via query param
+platformEl.value = params.os || detectPlatform()
+```
+
+Render different instruction content (install commands, networking examples) based on the
+platform dropdown value, not just detection — so users can read instructions for other platforms.
 
 ### Relationship to restraml Tool Pages
 

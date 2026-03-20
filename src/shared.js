@@ -296,6 +296,7 @@ function escapeHtml(str) {
 
 // biome-ignore lint/correctness/noUnusedVariables: referenced by pages
 const SITE_TOOLS = [
+    { label: 'CHR Images', href: 'chr-images.html' },
     { label: '/app Editor', href: 'https://tikoci.github.io/restraml/tikapp.html' },
     { label: '/app Manual', href: 'https://tikoci.github.io/restraml/tikapp-manual.html' },
     { label: 'Schema Diff', href: 'https://tikoci.github.io/restraml/diff.html' },
