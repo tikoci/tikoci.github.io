@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Cubist potto ghost — optimized for favicon sizes (16–64px) -->
+  <!-- Outer body -->
+  <polygon points="8,56 20,12 32,4 44,12 56,56" fill="#e8594f" opacity="0.9"/>
+  <!-- Mid body -->
+  <polygon points="14,58 24,18 32,11 40,18 50,58" fill="#f4a236" opacity="0.85"/>
+  <!-- Inner dark body -->
+  <polygon points="21,52 27,22 32,17 37,22 43,52" fill="#3a3a3a"/>
+  <!-- Left ear -->
+  <polygon points="19,24 26,22 22,12" fill="#5bc0eb" opacity="0.9"/>
+  <!-- Right ear -->
+  <polygon points="45,24 38,22 42,11" fill="#f4a236" opacity="0.9"/>
+  <!-- Left eye -->
+  <circle cx="28" cy="30" r="5" fill="#f7e559"/>
+  <circle cx="28" cy="30" r="2.2" fill="#1a1a1a"/>
+  <!-- Right eye -->
+  <circle cx="37" cy="29" r="5.5" fill="#5bc0eb"/>
+  <circle cx="37" cy="29" r="2.5" fill="#1a1a1a"/>
+  <!-- Nose -->
+  <polygon points="31,34 34,34 32.5,38" fill="#e8594f"/>
+  <!-- Mouth -->
+  <rect x="26" y="42" width="12" height="3" rx="1" fill="#f7e559" opacity="0.7"/>
+  <line x1="32.5" y1="38" x2="32.5" y2="42" stroke="#f7e559" stroke-width="1.2"/>
+</svg>
