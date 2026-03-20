@@ -25,7 +25,7 @@ tikoci-website/
 │   ├── containers.html   # Containers category page
 │   ├── scripts.html      # RouterOS Scripts category page
 │   ├── web-tools.html    # Web Tools category page
-│   ├── mikropkl.html     # Interactive tool: mikropkl CHR image browser/downloader
+│   ├── chr-images.html   # Interactive tool: mikropkl CHR image browser/downloader
 │   ├── shared.css        # Shared CSS (fonts, theme, utilities) — all pages include this
 │   └── shared.js         # Shared JS (theme switcher) — all pages include this
 ├── docs/                 # Legacy Observable Framework source (kept for images)
@@ -168,7 +168,7 @@ Beyond the portfolio category pages, this site hosts interactive tool pages that
 pivot GitHub-hosted data into browser UIs. These follow the same patterns proven in
 [restraml](https://tikoci.github.io/restraml/)'s tool pages (lookup, diff, editor, etc.).
 
-The first on-site tool page is `mikropkl.html` — a dynamic CHR image browser that fetches
+The first on-site tool page is `chr-images.html` — a dynamic CHR image browser that fetches
 release data from the GitHub Releases API and renders platform-specific instructions.
 
 ### Core Principles
@@ -313,7 +313,7 @@ Tool pages include a collapsed `<details>` section for lightweight documentation
 
 ### GitHub Releases API Pattern
 
-For pages that pivot release data (like `mikropkl.html`), fetch from the Releases API directly
+For pages that pivot release data (like `chr-images.html`), fetch from the Releases API directly
 rather than through `fetchGitHubContents()`:
 
 ```javascript

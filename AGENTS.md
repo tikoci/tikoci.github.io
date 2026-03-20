@@ -103,7 +103,7 @@ Built with bun, styled with Pico CSS v2, deployed to GitHub Pages.
 | `src/containers.html` | Containers category |
 | `src/scripts.html` | RouterOS Scripts category |
 | `src/web-tools.html` | Web Tools category |
-| `src/mikropkl.html` | Interactive tool: mikropkl CHR image browser |
+| `src/chr-images.html` | Interactive tool: mikropkl CHR image browser/downloader |
 | `src/shared.css` | Shared CSS (fonts, theme, cards, utilities) |
 | `src/shared.js` | Shared JS (theme switcher) |
 | `dist/scripts/*.rsc` | Committed static RouterOS scripts (DO NOT DELETE) |

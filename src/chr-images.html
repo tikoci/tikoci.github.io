@@ -183,7 +183,7 @@
     <main class="container">
         <hgroup>
             <h1>CHR Images <small><small><i>from </i></small><a href="https://github.com/tikoci/mikropkl"><code>tikoci/mikropkl</code></a></small></h1>
-            <p>Pre-built RouterOS Cloud Hosted Router images &mdash; download, extract, run.</p>
+            <p>Pre-built MikroTik RouterOS CHR virtual machines for UTM and QEMU &mdash; open in UTM, <i>or</i> download, extract, run.</p>
         </hgroup>
 
         <!-- Pre-release toggle -->
@@ -298,7 +298,12 @@
                     virtual machine packages automatically using <a href="https://pkl-lang.org" target="_blank" rel="noopener">pkl</a>.
                     Each release ZIP contains a CHR disk image, a QEMU config (<code>qemu.cfg</code>),
                     and a launch script (<code>qemu.sh</code>) that handles platform detection automatically.
-                    On macOS, the same package also works as a UTM &ldquo;document&rdquo; bundle.</p>
+                    On macOS, the same package doubles as a
+                    <a href="https://mac.getutm.app" target="_blank" rel="noopener">UTM</a> document bundle &mdash;
+                    open it in Finder and UTM imports the VM directly.</p>
+                <p>Full deployment guides:
+                    <a href="https://github.com/tikoci/mikropkl/blob/main/Files/UTM.md" target="_blank" rel="noopener">UTM Guide</a> (macOS) &middot;
+                    <a href="https://github.com/tikoci/mikropkl/blob/main/Files/QEMU.md" target="_blank" rel="noopener">QEMU Guide</a> (macOS &amp; Linux)</p>
                 <hr>
                 <header><strong>CHR Licensing</strong></header>
                 <p>CHR packages contain no license and run in &ldquo;free&rdquo; mode &mdash; <strong>1 Mb/s per interface</strong>,
@@ -340,7 +345,8 @@
                     <small>
                         <a href="https://github.com/tikoci/mikropkl/issues" target="_blank" rel="noopener">Report an issue</a> &middot;
                         <a href="https://github.com/tikoci/mikropkl" target="_blank" rel="noopener">Source code</a> &middot;
-                        <a href="https://github.com/tikoci/mikropkl/blob/main/Files/QEMU.md" target="_blank" rel="noopener">Full QEMU docs</a>
+                        <a href="https://github.com/tikoci/mikropkl/blob/main/Files/UTM.md" target="_blank" rel="noopener">UTM Guide</a> &middot;
+                        <a href="https://github.com/tikoci/mikropkl/blob/main/Files/QEMU.md" target="_blank" rel="noopener">QEMU Guide</a>
                     </small>
                 </footer>
             </article>
@@ -731,6 +737,8 @@
             if (plat === 'mac') {
                 h += '<h4>Install QEMU</h4>'
                     + '<pre><code>brew install qemu</code></pre>'
+                    + '<p><small>No Homebrew? Install it first: '
+                    + '<a href="https://brew.sh" target="_blank" rel="noopener">brew.sh</a></small></p>'
             } else if (plat === 'linux') {
                 if (asset.arch === 'aarch64') {
                     h += '<h4>Install QEMU</h4>'
@@ -805,6 +813,15 @@
                     + '</code></pre>'
             }
 
+            // Full guide link
+            h += '<p><small>For multi-instance setups, disk snapshots, additional port forwarding, and more &mdash; see the '
+                + '<a href="https://github.com/tikoci/mikropkl/blob/main/Files/QEMU.md" target="_blank" rel="noopener">full QEMU guide</a>.'
+            if (plat === 'mac') {
+                h += ' Or use <a href="https://mac.getutm.app" target="_blank" rel="noopener">UTM</a> for a GUI experience &mdash; see the '
+                    + '<a href="https://github.com/tikoci/mikropkl/blob/main/Files/UTM.md" target="_blank" rel="noopener">UTM guide</a>.'
+            }
+            h += '</small></p>'
+
             return h
         }
 
@@ -813,18 +830,14 @@
 
             // Install UTM
             h += '<h4>Install UTM</h4>'
-                + '<p><a href="https://mac.getutm.app" target="_blank" rel="noopener">UTM</a> is a free, '
-                + 'open-source virtualisation app for macOS.</p>'
-                + '<ul>'
-                + '<li><strong>Free download</strong> &mdash; '
+                + '<pre><code>brew install --cask utm</code></pre>'
+                + '<p><small>No Homebrew? Install it first: '
+                + '<a href="https://brew.sh" target="_blank" rel="noopener">brew.sh</a>. '
+                + 'Alternatives: '
                 + '<a href="https://github.com/utmapp/UTM/releases/latest/download/UTM.dmg" target="_blank" rel="noopener">UTM.dmg from GitHub</a> '
-                + '(unsigned; drag to /Applications)</li>'
-                + '<li><strong>Mac App Store</strong> &mdash; '
-                + '<a href="https://apps.apple.com/us/app/utm-virtual-machines/id1538878817" target="_blank" rel="noopener">UTM Virtual Machines</a> '
-                + '(paid; auto-updates via App Store)</li>'
-                + '</ul>'
-                + '<p><small>Both editions run CHR identically. The App Store edition runs in a sandbox '
-                + 'which may affect VM storage location.</small></p>'
+                + '(free, unsigned) or '
+                + '<a href="https://apps.apple.com/us/app/utm-virtual-machines/id1538878817" target="_blank" rel="noopener">Mac App Store</a> '
+                + '(sandbox mode). All editions run CHR identically.</small></p>'
 
             // Quick install via utm://
             h += '<h4>Quick Install via <code>utm://</code></h4>'
@@ -875,6 +888,10 @@
                 + '<code>open "utm://start?name=' + escapeHtml(dirname.replace(/\.utm$/, '')) + '"</code>. '
                 + 'See <a href="https://docs.getutm.app/advanced/remote-control/" target="_blank" rel="noopener">UTM remote control docs</a> '
                 + 'for the full <code>utm://</code> URL scheme, <code>utmctl</code> CLI, and Shortcuts integration.</small></p>'
+
+            // Full guide link
+            h += '<p><small>For headless mode, multi-VM topologies, ROSE disk setup, and more &mdash; see the '
+                + '<a href="https://github.com/tikoci/mikropkl/blob/main/Files/UTM.md" target="_blank" rel="noopener">full UTM guide</a>.</small></p>'
 
             return h
         }
