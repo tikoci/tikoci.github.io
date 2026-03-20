@@ -160,7 +160,7 @@ details.dropdown ul li { direction: ltr; }
 a.brand-reverse:hover { opacity: 0.85; }
 
 /* -----------------------------------------------------------------
- * 11b. Nav brand link — "MikroTik by TIKOCI" constant header
+ * 11b. Nav brand link — MikroTik logo + "by TIKOCI" header
  * ----------------------------------------------------------------- */
 .nav-brand-link {
     display: inline-flex;
@@ -174,13 +174,20 @@ a.brand-reverse:hover { opacity: 0.85; }
     font-size: 0.9rem;
     padding: 0.05em 0.35em;
 }
-.nav-mt {
-    font-weight: 700;
-    font-size: 0.95rem;
-    background: var(--brand-gradient, linear-gradient(135deg, #3660B9, #5F2965));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+/* Full MikroTik logo (symbol + brand name) — desktop only */
+.nav-mt-full {
+    height: 1.4rem;
+    width: auto;
+    flex-shrink: 0;
+    color: var(--pico-color);
+}
+/* MikroTik symbol only — mobile only */
+.nav-mt-symbol {
+    height: 1.4rem;
+    width: auto;
+    flex-shrink: 0;
+    display: none;
+    color: var(--pico-color);
 }
 .nav-by {
     font-size: 0.78rem;
@@ -188,7 +195,8 @@ a.brand-reverse:hover { opacity: 0.85; }
     font-style: italic;
 }
 @media (max-width: 576px) {
-    .nav-mt, .nav-by { display: none; }
+    .nav-mt-full { display: none; }
+    .nav-mt-symbol { display: inline; }
 }
 
 

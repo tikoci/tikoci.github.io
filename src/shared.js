@@ -298,7 +298,6 @@ function escapeHtml(str) {
 const SITE_TOOLS = [
     { label: 'CHR Images', href: 'chr-images.html' },
     { label: '/app Editor', href: 'https://tikoci.github.io/restraml/tikapp.html' },
-    { label: '/app Manual', href: 'https://tikoci.github.io/restraml/tikapp-manual.html' },
     { label: 'Schema Diff', href: 'https://tikoci.github.io/restraml/diff.html' },
     { label: 'Command Lookup', href: 'https://tikoci.github.io/restraml/lookup.html' },
     { label: 'Schema Downloads', href: 'https://tikoci.github.io/restraml' },
