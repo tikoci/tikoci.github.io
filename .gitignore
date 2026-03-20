@@ -1,6 +1,5 @@
 .DS_Store
 dist/*
-!dist/logos/
 !dist/scripts/
 !dist/scripts/**
 !dist/media/

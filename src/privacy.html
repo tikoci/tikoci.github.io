@@ -4,14 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <title>Web Tools — TIKOCI</title>
-    <meta name="description" content="TIKOCI web tools for MikroTik RouterOS: /app YAML editor, schema diff, command lookup, API schema downloads, and more — all browser-based.">
+    <title>Privacy — TIKOCI</title>
+    <meta name="description" content="Privacy notice for tikoci.github.io — what data is collected, how it is used, and your California privacy rights.">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Manrope:wght@200..800&display=swap">
     <link rel="stylesheet" href="shared.css">
-    <link rel="stylesheet" href="cubist.css">
     <script async src="https://plausible.io/js/pa-ubWop5eYckoDPVbIjXU4_.js"></script>
     <script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)};plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>
 </head>
@@ -75,111 +74,98 @@
     </header>
 
     <main class="container">
-        <h1>Web Tools</h1>
-        <p>Browser-based tools for MikroTik RouterOS — all hosted on GitHub Pages, no installation required.</p>
+        <h1>Privacy Notice</h1>
+        <p><small>Last updated: March 2026</small></p>
 
-        <!-- restraml /app Editor — featured -->
-        <article>
-            <header>
-                <h2><a href="https://tikoci.github.io/restraml/tikapp.html" target="_blank" rel="noopener">/app Editor</a> <mark class="new">NEW</mark> <mark class="lang">TypeScript</mark></h2>
-                <small>Browser-based YAML editor for RouterOS <code>/app</code> container definitions &mdash; from <a href="https://github.com/tikoci/restraml">restraml</a></small>
-            </header>
+        <p>This notice covers <strong>tikoci.github.io</strong> and its subpaths, operated by the
+            <a href="https://github.com/tikoci" target="_blank" rel="noopener">TIKOCI</a> GitHub organization.
+            The site is a collection of open source MikroTik RouterOS projects &mdash; source code is
+            <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener">MIT-licensed</a> on GitHub.</p>
 
-            <p>RouterOS 7.22+ introduced <code>/app</code> — a YAML-based format for packaging and deploying containerized applications directly on a MikroTik router. Think of it as a lightweight <code>docker-compose</code>, but RouterOS-specific: its own networking model, placeholder system, and deployment lifecycle. The <strong>/app Editor</strong> is a browser-based Monaco editor (the same engine that powers VS Code) with live JSON Schema validation against your chosen RouterOS version.</p>
+        <h2>What We Collect</h2>
 
-            <p>Browse MikroTik&rsquo;s growing library of built-in apps — Home Assistant, code-server, Pi-hole, and more — then customize one and deploy it. The YAML is validated in real time as you type. Errors are pinpointed inline; click any error message to jump to that line.</p>
+        <h3>Website Analytics (Plausible)</h3>
+        <p>We use <a href="https://plausible.io" target="_blank" rel="noopener">Plausible Analytics</a>,
+            a privacy-focused, cookie-free analytics service. Plausible does not collect personal data or
+            personally identifiable information. No cookies are set. No cross-device or cross-site tracking occurs.
+            All data is aggregate only.</p>
+        <p>What Plausible records for each page view:</p>
+        <ul>
+            <li>Page URL (query parameters stripped except UTM tags)</li>
+            <li>HTTP Referrer</li>
+            <li>Browser and operating system (derived from User-Agent; full User-Agent is discarded)</li>
+            <li>Device type (desktop, mobile, tablet)</li>
+            <li>Country, region, and city (derived from IP address; <strong>IP addresses are not stored</strong>)</li>
+        </ul>
+        <p>Plausible generates a daily hash from your IP address, User-Agent, and a rotating salt to count
+            unique visitors. The salt is deleted every 24 hours &mdash; there is no way to reconstruct individual
+            visitor identity or track anyone across days.</p>
+        <p>Plausible is open source, EU-hosted (Hetzner, Germany), and GDPR/CCPA-compliant by design.
+            See Plausible&rsquo;s <a href="https://plausible.io/data-policy" target="_blank" rel="noopener">data policy</a>
+            for full details.</p>
 
-            <h3>What it does</h3>
-            <ul>
-                <li><strong>Live validation</strong> — JSON Schema, per RouterOS version, loaded from <a href="https://github.com/tikoci/restraml">tikoci/restraml</a></li>
-                <li><strong>Example picker</strong> — browse and load any of MikroTik&rsquo;s built-in app definitions</li>
-                <li><strong>Monaco editor</strong> — YAML autocompletion, <kbd>Ctrl+Space</kbd> for suggestions, full keyboard shortcuts</li>
-                <li><strong>Copy <code>/app/add</code></strong> — copies a ready-to-paste RouterOS CLI command to deploy the app</li>
-                <li><strong>Download &amp; Share</strong> — save as <code>.tikapp.yaml</code> or generate a shareable URL encoding the full editor state</li>
-                <li><strong>App store mode</strong> — toggle to edit the array format used by <code>/app set app-store-urls=</code></li>
-                <li><strong>Autosave</strong> — every keystroke is saved to <code>localStorage</code>; your work survives a page reload</li>
-            </ul>
+        <h3>Transparency: Our Dashboard Is Public</h3>
+        <p>All analytics data collected by Plausible for this site is published openly at:<br>
+            <a href="https://plausible.io/tikoci.github.io" target="_blank" rel="noopener"><strong>plausible.io/tikoci.github.io</strong></a></p>
+        <p>You can see exactly the same data we see &mdash; nothing more exists.</p>
 
-            <div class="vscode-install-group">
-                <a href="https://tikoci.github.io/restraml/tikapp.html" target="_blank" rel="noopener" role="button">/app Editor &rarr;</a>
-                <a href="https://tikoci.github.io/restraml/tikapp-manual.html" target="_blank" rel="noopener" role="button" class="outline">User Manual</a>
-                <a href="https://github.com/tikoci/restraml" target="_blank" rel="noopener" role="button" class="outline">GitHub</a>
-            </div>
+        <h3>Why We Track Anything</h3>
+        <p>We use analytics solely to understand:</p>
+        <ul>
+            <li>Where in the world people use MikroTik tools (geographic reach of the RouterOS community)</li>
+            <li>Which tools and features are actually used (e.g., does anyone use the side-by-side control in Schema Diff?)</li>
+            <li>Basic traffic trends to prioritize open source development effort</li>
+        </ul>
+        <p>We do <strong>not</strong> use analytics for advertising, marketing, profiling, or selling data.</p>
 
-            <details>
-                <summary>Behind the scenes — how the schema gets here</summary>
-                <article>
-                    <p>The validation schema is generated automatically: when MikroTik releases a new RouterOS version, a GitHub Actions workflow boots a RouterOS CHR image using QEMU, queries <code>GET /rest/app</code> to extract all built-in <code>/app</code> definitions, then generates and publishes per-version JSON Schemas to GitHub Pages. The editor loads those schemas at runtime — no server, no backend.</p>
-                    <p>The same schemas are available as stable public URLs, making them suitable for use with the <a href="https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml" target="_blank" rel="noopener">VS Code YAML extension</a> for local <code>.tikapp.yaml</code> editing — see the <a href="https://github.com/tikoci/restraml#using-the-app-yaml-schema-in-vscode" target="_blank" rel="noopener">restraml README</a> for setup details.</p>
-                </article>
-            </details>
+        <h2>GitHub Pages Hosting</h2>
+        <p>This site is hosted on <a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a>.
+            When you visit, GitHub logs your IP address for security purposes, regardless of whether you have a
+            GitHub account. This is GitHub&rsquo;s standard infrastructure behavior and is outside our control.</p>
+        <p>See GitHub&rsquo;s <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener">Privacy Statement</a>
+            for details on their data practices.</p>
 
-            <footer>
-                <a href="https://tikoci.github.io/restraml/tikapp.html" target="_blank" rel="noopener">Open /app Editor</a> &middot;
-                <a href="https://tikoci.github.io/restraml/tikapp-manual.html" target="_blank" rel="noopener">Manual</a> &middot;
-                <a href="https://github.com/tikoci/restraml" target="_blank" rel="noopener">GitHub</a>
-            </footer>
-        </article>
+        <h2>GitHub API Requests</h2>
+        <p>Some interactive tool pages (such as CHR Images) make client-side requests to the
+            <a href="https://docs.github.com/en/rest" target="_blank" rel="noopener">GitHub REST API</a>
+            directly from your browser. These requests are subject to
+            <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener">GitHub&rsquo;s privacy practices</a>,
+            not ours. No GitHub API data passes through our servers (we have none).</p>
 
-        <!-- Schema Diff -->
-        <article>
-            <header>
-                <h2><a href="https://tikoci.github.io/restraml/diff.html" target="_blank" rel="noopener">Schema Diff</a> <mark class="lang">TypeScript</mark></h2>
-            </header>
-            <p>Pick two RouterOS versions to see what commands have changed in the CLI or RouterOS APIs like REST. Runs entirely in the browser as a serverless single-page app — all diffing and logic happens client-side.</p>
-            <footer>
-                <a href="https://tikoci.github.io/restraml/diff.html" target="_blank" rel="noopener">Open Schema Diff</a> &middot;
-                <a href="https://github.com/tikoci/restraml" target="_blank" rel="noopener">GitHub</a>
-            </footer>
-        </article>
+        <h2>What We Do Not Do</h2>
+        <ul>
+            <li>We do not use cookies</li>
+            <li>We do not collect names, email addresses, or account information</li>
+            <li>We do not sell, share, or monetize any data</li>
+            <li>We do not run advertising</li>
+            <li>We do not operate any backend servers &mdash; this is a static site</li>
+        </ul>
 
-        <!-- Command Lookup -->
-        <article>
-            <header>
-                <h2><a href="https://tikoci.github.io/restraml/lookup.html" target="_blank" rel="noopener">Command Lookup</a> <mark class="lang">TypeScript</mark></h2>
-            </header>
-            <p>Search RouterOS CLI and REST API commands across versions. Find paths, parameters, and command structure — useful for scripting and API integration.</p>
-            <footer>
-                <a href="https://tikoci.github.io/restraml/lookup.html" target="_blank" rel="noopener">Open Command Lookup</a> &middot;
-                <a href="https://github.com/tikoci/restraml" target="_blank" rel="noopener">GitHub</a>
-            </footer>
-        </article>
+        <h2>California Privacy Rights (CCPA)</h2>
+        <p>Under the California Consumer Privacy Act, California residents have the right to know what personal
+            information is collected and to request its deletion. Because we do not collect personal information
+            that identifies individuals, there is nothing to disclose, delete, or opt out of. Plausible&rsquo;s
+            cookie-free, aggregate-only design means no personal information (as defined by the CCPA) is collected
+            in the first place.</p>
+        <p>If you have questions or concerns, you can still contact us and we will respond.</p>
 
-        <!-- Schema Downloads -->
-        <article>
-            <header>
-                <h2><a href="https://tikoci.github.io/restraml" target="_blank" rel="noopener">Schema Downloads</a> <mark class="lang">RAML</mark> <mark class="lang">OpenAPI</mark></h2>
-            </header>
-            <p>RouterOS REST API schemas (RAML, OpenAPI) arranged by version, for use in Postman and other API tools. For use with <a href="https://postman.com" target="_blank" rel="noopener"><strong>Postman</strong></a>, see the <a href="https://forum.mikrotik.com/viewtopic.php?t=199476" target="_blank" rel="noopener">forum post on REST API schema for Postman</a>.</p>
-            <footer>
-                <a href="https://tikoci.github.io/restraml" target="_blank" rel="noopener">Download Schemas</a>
-            </footer>
-        </article>
+        <h2>Third-Party Links</h2>
+        <p>This site links to external services (GitHub, MikroTik, Observable, Google Fonts). Those sites have their
+            own privacy policies. We load Google Fonts via <code>fonts.googleapis.com</code>; see
+            <a href="https://developers.google.com/fonts/faq/privacy" target="_blank" rel="noopener">Google Fonts privacy info</a>.</p>
 
-        <!-- Observable notebooks -->
-        <article>
-            <header>
-                <h2><a href="https://observablehq.com/@a2m0/utf2rsc?collection=@a2m0/mikrotik" target="_blank" rel="noopener">utf2rsc</a> <mark class="lang">JavaScript</mark></h2>
-            </header>
-            <p>Fun converter for emojis and UTF-8 into RouterOS <code>string</code> using byte-escaping (<code>\xx</code>). An Observable notebook — runs in the browser.</p>
-            <footer>
-                <a href="https://observablehq.com/@a2m0/utf2rsc?collection=@a2m0/mikrotik" target="_blank" rel="noopener">Open utf2rsc</a>
-            </footer>
-        </article>
+        <h2>Open Source</h2>
+        <p>Most projects hosted under TIKOCI are released under the
+            <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener">MIT License</a>.
+            The source code for this website is available at
+            <a href="https://github.com/tikoci/tikoci.github.io" target="_blank" rel="noopener">github.com/tikoci/tikoci.github.io</a>.</p>
 
-        <article>
-            <header>
-                <h2><a href="https://observablehq.com/@a2m0/csv2rsc?collection=@a2m0/mikrotik" target="_blank" rel="noopener">csv2rsc</a> <mark class="lang">JavaScript</mark></h2>
-            </header>
-            <p>CSV conversion into RouterOS <code>array</code> types. Also an example of using an Observable notebook to do pre-parsing of data and generate scripts.</p>
-            <footer>
-                <a href="https://observablehq.com/@a2m0/csv2rsc?collection=@a2m0/mikrotik" target="_blank" rel="noopener">Open csv2rsc</a>
-            </footer>
-        </article>
+        <h2>Contact</h2>
+        <p>For privacy questions: <a href="mailto:tikoci.repos@gmail.com">tikoci.repos@gmail.com</a></p>
     </main>
 
     <footer class="container site-footer">
-        <small>&copy; TIKOCI &mdash; <a href="index.html">Home</a> &middot; <a href="privacy.html">Privacy</a></small>
+        <small>&copy; TIKOCI &mdash; <a href="index.html">Home</a></small>
         <small>Not affiliated with or endorsed by <a href="https://mikrotik.com" target="_blank" rel="noopener">MikroTik</a>. All trademarks are property of their respective owners.</small>
     </footer>
 
