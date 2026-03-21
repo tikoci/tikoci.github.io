@@ -15,7 +15,7 @@ const SRC = join(ROOT, "src");
 const DIST = join(ROOT, "dist");
 
 // Directories in dist/ that are committed static assets — never delete these
-const PRESERVED_DIRS = ["scripts", "media"];
+const PRESERVED_DIRS = ["scripts", "media", "logos"];
 
 // Step 1: Clean dist/ except preserved directories
 console.log("Cleaning dist/ (preserving scripts/, media/)...");
