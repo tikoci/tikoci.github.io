@@ -179,7 +179,6 @@ a.brand-reverse:hover { opacity: 0.85; }
     height: 1.4rem;
     width: auto;
     flex-shrink: 0;
-    color: var(--pico-color);
 }
 /* MikroTik symbol only — mobile only */
 .nav-mt-symbol {
@@ -187,7 +186,21 @@ a.brand-reverse:hover { opacity: 0.85; }
     width: auto;
     flex-shrink: 0;
     display: none;
-    color: var(--pico-color);
+}
+/* MikroTik logo: black in light, white in dark (not link-blue) */
+.nav-mt-full,
+.nav-mt-symbol {
+    color: #000;
+}
+[data-theme=dark] .nav-mt-full,
+[data-theme=dark] .nav-mt-symbol {
+    color: #fff;
+}
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme=light]) .nav-mt-full,
+    :root:not([data-theme=light]) .nav-mt-symbol {
+        color: #fff;
+    }
 }
 .nav-by {
     font-size: 0.78rem;
