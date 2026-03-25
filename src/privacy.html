@@ -47,14 +47,7 @@
                             </svg>
                             Tools
                         </summary>
-                        <ul dir="rtl">
-                            <li><a href="chr-images.html">CHR Images</a></li>
-                            <li><a href="https://github.com/tikoci/netinstall" target="_blank" rel="noopener">Netinstall</a></li>
-                            <li><a href="https://tikoci.github.io/restraml/tikapp.html" target="_blank" rel="noopener">/app Editor</a></li>
-                            <li><a href="https://tikoci.github.io/restraml/diff.html" target="_blank" rel="noopener">Schema Diff</a></li>
-                            <li><a href="https://tikoci.github.io/restraml/lookup.html" target="_blank" rel="noopener">Command Lookup</a></li>
-                            <li><a href="https://tikoci.github.io/restraml" target="_blank" rel="noopener">Schema Downloads</a></li>
-                        </ul>
+                        <ul dir="rtl" id="tools-list"></ul>
                     </details>
                 </li>
                 <li>
@@ -172,6 +165,7 @@
     <script src="shared.js"></script>
     <script>
         initThemeSwitcher();
+        initToolsDropdown('tools-list');
         initGitHubDropdown('github-repo-list');
     </script>
 </body>

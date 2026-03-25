@@ -291,17 +291,38 @@ function escapeHtml(str) {
 
 // --- Site navigation data ------------------------------------------------
 // Central tools list so nav menus stay in sync across pages.
-// When adding a tool, update this array — pages that build menus from it
-// will pick it up automatically.
+// To add/remove a tool, update this array — all pages render from it.
 
-// biome-ignore lint/correctness/noUnusedVariables: referenced by pages
 const SITE_TOOLS = [
     { label: 'CHR Images', href: 'chr-images.html' },
+    { label: 'Netinstall', href: 'https://github.com/tikoci/netinstall' },
     { label: '/app Editor', href: 'https://tikoci.github.io/restraml/tikapp.html' },
     { label: 'Schema Diff', href: 'https://tikoci.github.io/restraml/diff.html' },
     { label: 'Command Lookup', href: 'https://tikoci.github.io/restraml/lookup.html' },
     { label: 'Schema Downloads', href: 'https://tikoci.github.io/restraml' },
 ];
+
+/**
+ * Populate the Tools dropdown <ul> from the SITE_TOOLS array.
+ * Marks the current page with aria-current="page".
+ * Call once from each page after shared.js loads.
+ *
+ * @param {string} listId - ID of the <ul> element to populate
+ */
+// biome-ignore lint/correctness/noUnusedVariables: called from HTML pages
+function initToolsDropdown(listId) {
+    const el = document.getElementById(listId);
+    if (!el) return;
+    const current = location.pathname.split('/').pop() || 'index.html';
+    el.innerHTML = SITE_TOOLS.map(t => {
+        const isLocal = !t.href.startsWith('http');
+        const isCurrent = isLocal && t.href === current;
+        const attrs = isLocal
+            ? (isCurrent ? ' aria-current="page"' : '')
+            : ' target="_blank" rel="noopener"';
+        return `<li><a href="${escapeHtml(t.href)}"${attrs}>${escapeHtml(t.label)}</a></li>`;
+    }).join('');
+}
 
 
 // --- GitHub repos dropdown -----------------------------------------------

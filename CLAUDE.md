@@ -101,6 +101,9 @@ All pages include `shared.js` before page-specific scripts. It provides:
 - `initThemeSwitcher(id?)` — 3-state dark mode toggle (auto → light → dark → auto)
 - Theme icon SVGs (sun, moon, half-circle)
 - `TIKOCI` — org-level constants (`owner`, `pagesUrl`)
+- `SITE_TOOLS` — central tools list array; rendered by `initToolsDropdown()`
+- `initToolsDropdown(listId)` — populates the Tools nav dropdown from `SITE_TOOLS`, auto-marks current page with `aria-current="page"`. **To add/remove a tool link, edit `SITE_TOOLS` in shared.js — all pages render from it.**
+- `initGitHubDropdown(listId)` — lazily fetches tikoci repos and populates the GitHub dropdown
 - `fetchGitHubContents(repo, path)` — fetch directory listings from GitHub Contents API
 - `fetchGitHubPagesFile(repo, path)` — fetch raw files from GitHub Pages (no rate limit)
 - `debounce(fn, ms)` — debounce wrapper for text input event handlers
@@ -158,7 +161,7 @@ All pages share a consistent nav header with:
 
 On each category page, the current page is marked with `aria-current="page"` in the dropdown.
 
-When adding a new tool page, add it to the Tools dropdown in **all** existing pages.
+When adding a new tool page, add it to the `SITE_TOOLS` array in `shared.js` — all pages render from it via `initToolsDropdown()`.
 
 ---
 
