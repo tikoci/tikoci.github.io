@@ -294,6 +294,7 @@ function escapeHtml(str) {
 // To add/remove a tool, update this array — all pages render from it.
 
 const SITE_TOOLS = [
+    { label: 'Project Map', href: 'project-map.html' },
     { label: 'CHR Images', href: 'chr-images.html' },
     { label: 'Netinstall', href: 'https://github.com/tikoci/netinstall' },
     { label: 'API Explorer', href: 'https://tikoci.github.io/restraml/openapi.html' },

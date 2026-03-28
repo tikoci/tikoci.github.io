@@ -3,12 +3,15 @@
  *
  * Copies src/ → dist/, preserving pre-existing static files in dist/
  * (scripts/, media/) that are committed to the repo and linked externally.
+ * Fetches GitHub repo data and generates per-repo landing pages + map data.
  *
  * Usage: bun run build.ts
  */
 
-import { existsSync, mkdirSync, readdirSync, rmSync, statSync, copyFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, rmSync, statSync, copyFileSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
+import { fetchGitHubData, buildGraphData } from "./fetch-github-data";
+import { generatePages } from "./generate-pages";
 
 const ROOT = resolve(import.meta.dirname);
 const SRC = join(ROOT, "src");
@@ -44,6 +47,26 @@ if (existsSync(DOCS_IMAGES)) {
         if (file === "PLACEHOLDER") continue;
         copyFileSync(join(DOCS_IMAGES, file), join(DIST_IMAGES, file));
     }
+}
+
+// Step 4: Fetch GitHub data and generate pages
+console.log("Fetching GitHub repo data...");
+const repos = await fetchGitHubData(DIST);
+
+console.log("Generating per-repo landing pages...");
+generatePages(repos, DIST);
+
+// Step 5: Embed graph data into project-map.html
+console.log("Embedding graph data into project-map.html...");
+const graphData = buildGraphData(repos);
+const mapPath = join(DIST, "project-map.html");
+if (existsSync(mapPath)) {
+    let mapHtml = readFileSync(mapPath, "utf-8");
+    const placeholder = '<script type="application/json" id="graph-data">{}</script>';
+    const replacement = `<script type="application/json" id="graph-data">${JSON.stringify(graphData)}</script>`;
+    mapHtml = mapHtml.replace(placeholder, replacement);
+    writeFileSync(mapPath, mapHtml, "utf-8");
+    console.log(`  Embedded ${graphData.nodes.length} nodes, ${graphData.links.length} links`);
 }
 
 console.log("Build complete. Output in dist/");

@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <title>Project Map — tikoci.github.io</title>
+    <meta name="description" content="Interactive map of all TIKOCI open source MikroTik RouterOS projects — explore connections between tools, containers, scripts, and more.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Manrope:wght@200..800&display=swap">
+    <link rel="stylesheet" href="shared.css">
+    <script async src="https://plausible.io/js/pa-ubWop5eYckoDPVbIjXU4_.js"></script>
+    <script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)};plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>
+    <style>
+        /* Full-screen layout */
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        header.container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        /* Light mode header bg */
+        header.container {
+            background: rgba(255, 255, 255, 0.85);
+        }
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme=light]) header.container {
+                background: rgba(13, 17, 23, 0.85);
+            }
+        }
+        [data-theme=dark] header.container {
+            background: rgba(13, 17, 23, 0.85);
+        }
+        header nav {
+            margin-bottom: 0;
+        }
+
+        /* Graph canvas */
+        #graph-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* Light mode canvas */
+        #graph-canvas { background: #f8f9fa; }
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme=light]) #graph-canvas { background: #0d1117; }
+        }
+        [data-theme=dark] #graph-canvas { background: #0d1117; }
+        [data-theme=light] #graph-canvas { background: #f8f9fa; }
+
+        /* Links */
+        .link {
+            stroke-opacity: 0.25;
+            stroke-width: 1.5;
+        }
+        .link.dependency { stroke-dasharray: 6 3; }
+        .link.ecosystem { stroke-dasharray: none; }
+        .link.sibling { stroke-dasharray: 2 2; }
+        .link.topic { stroke-dasharray: 10 5; stroke-opacity: 0.12; }
+
+        /* Light link colors */
+        .link { stroke: #999; }
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme=light]) .link { stroke: #444; }
+        }
+        [data-theme=dark] .link { stroke: #444; }
+
+        /* Node symbols */
+        .node .symbol {
+            font-family: "JetBrains Mono", "Noto Sans Symbols 2", "Segoe UI Symbol", monospace;
+            text-anchor: middle;
+            dominant-baseline: central;
+            cursor: pointer;
+            transition: filter 0.2s, transform 0.15s;
+            paint-order: stroke;
+            stroke-width: 0;
+        }
+        .node:hover .symbol {
+            filter: drop-shadow(0 0 8px currentColor) brightness(1.15);
+        }
+
+        /* Dark mode glow on symbols */
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme=light]) .node .symbol {
+                filter: drop-shadow(0 0 4px currentColor);
+            }
+            :root:not([data-theme=light]) .node:hover .symbol {
+                filter: drop-shadow(0 0 12px currentColor) brightness(1.3);
+            }
+        }
+        [data-theme=dark] .node .symbol {
+            filter: drop-shadow(0 0 4px currentColor);
+        }
+        [data-theme=dark] .node:hover .symbol {
+            filter: drop-shadow(0 0 12px currentColor) brightness(1.3);
+        }
+
+        /* Orbit ring behind each symbol */
+        .node .orbit {
+            fill: none;
+            stroke-opacity: 0.08;
+            stroke-width: 1;
+        }
+        .node:hover .orbit {
+            stroke-opacity: 0.25;
+            stroke-dasharray: 4 4;
+            animation: orbit-spin 8s linear infinite;
+        }
+        @keyframes orbit-spin {
+            to { stroke-dashoffset: -40; }
+        }
+
+        /* Labels */
+        .node .label {
+            font-family: "JetBrains Mono", monospace;
+            font-size: 10px;
+            pointer-events: none;
+            text-anchor: middle;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .node:hover .label,
+        .node.highlighted .label {
+            opacity: 1;
+        }
+        /* Show-labels mode */
+        .labels-visible .node .label { opacity: 0.85; }
+        .labels-visible .node .star-count { opacity: 0.6; }
+
+        .node .label { fill: #1a1a1a; }
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme=light]) .node .label { fill: #e6edf3; }
+        }
+        [data-theme=dark] .node .label { fill: #e6edf3; }
+
+        /* Star count below label */
+        .node .star-count {
+            font-family: "JetBrains Mono", monospace;
+            font-size: 8px;
+            pointer-events: none;
+            text-anchor: middle;
+            opacity: 0;
+        }
+        .node:hover .star-count,
+        .node.highlighted .star-count {
+            opacity: 0.6;
+        }
+
+        /* Dimmed state for search filtering */
+        .node.dimmed .symbol { opacity: 0.1; }
+        .node.dimmed .orbit { opacity: 0; }
+        .node.dimmed .label { opacity: 0 !important; }
+        .node.dimmed .star-count { opacity: 0 !important; }
+        .link.dimmed { stroke-opacity: 0.03; }
+
+        /* Tooltip */
+        #tooltip {
+            position: fixed;
+            pointer-events: none;
+            padding: 0.6rem 0.85rem;
+            border-radius: 0.5rem;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 0.78rem;
+            line-height: 1.4;
+            max-width: 280px;
+            z-index: 200;
+            opacity: 0;
+            transition: opacity 0.15s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        #tooltip { background: #fff; color: #1a1a1a; border: 1px solid #ddd; }
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme=light]) #tooltip {
+                background: #161b22; color: #e6edf3; border-color: #30363d;
+            }
+        }
+        [data-theme=dark] #tooltip {
+            background: #161b22; color: #e6edf3; border-color: #30363d;
+        }
+        #tooltip .tt-symbol { font-size: 1.4rem; vertical-align: middle; margin-right: 0.3rem; }
+        #tooltip .tt-name { font-weight: 700; font-size: 0.88rem; }
+        #tooltip .tt-desc { margin-top: 0.25rem; opacity: 0.8; }
+        #tooltip .tt-meta { margin-top: 0.35rem; display: flex; gap: 0.5rem; font-size: 0.72rem; }
+        #tooltip .tt-lang {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+
+        /* Controls panel */
+        #controls {
+            position: fixed;
+            top: 4.5rem;
+            right: 1rem;
+            z-index: 150;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            width: 200px;
+        }
+        #controls input[type="search"] {
+            font-size: 0.82rem;
+            padding: 0.35rem 0.5rem;
+            margin-bottom: 0;
+        }
+        #zoom-controls {
+            display: flex;
+            gap: 0.25rem;
+        }
+        #zoom-controls button {
+            flex: 1;
+            padding: 0.25rem;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        #label-toggle {
+            font-size: 0.78rem;
+            padding: 0.2rem 0.4rem;
+        }
+
+        /* Legend */
+        #legend {
+            position: fixed;
+            bottom: 1rem;
+            left: 1rem;
+            z-index: 150;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 0.72rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem 0.8rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            max-width: 420px;
+        }
+        #legend { background: rgba(255,255,255,0.85); backdrop-filter: blur(8px); }
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme=light]) #legend { background: rgba(22,27,34,0.85); }
+        }
+        [data-theme=dark] #legend { background: rgba(22,27,34,0.85); }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* Title watermark */
+        #watermark {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            z-index: 50;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 0.68rem;
+            opacity: 0.35;
+            pointer-events: none;
+            text-align: right;
+        }
+        #watermark { color: #666; }
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme=light]) #watermark { color: #555; }
+        }
+        [data-theme=dark] #watermark { color: #555; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            #controls { width: 140px; top: 4rem; right: 0.5rem; }
+            #legend { bottom: 0.5rem; left: 0.5rem; font-size: 0.65rem; max-width: 300px; }
+            #watermark { font-size: 0.6rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="container">
+        <nav>
+            <ul>
+                <li>
+                    <a href="index.html" class="nav-brand-link">
+                        <svg class="nav-mt-symbol" viewBox="0 0 41.83 44.62" xmlns="http://www.w3.org/2000/svg" aria-label="MikroTik"><path d="M41.83,13.83c0-1.77-.96-3.4-2.5-4.26L23.3.62c-1.48-.83-3.28-.83-4.76,0L2.5,9.57c-1.54.86-2.5,2.49-2.5,4.26v17.08c0,1.78.97,3.42,2.53,4.28l16.04,8.82c1.46.81,3.24.81,4.7,0l16.04-8.82c1.56-.86,2.53-2.5,2.53-4.28V13.83ZM12.03,30.78c0,.4-.43.65-.78.46l-2.68-1.48c-.56-.31-.9-.89-.9-1.53v-8.07c0-.4.43-.65.78-.46l2.95,1.63c.39.21.63.62.63,1.07v8.38ZM34.16,28.19c0,.63-.34,1.22-.9,1.53l-2.68,1.48c-.35.19-.78-.06-.78-.46v-10.32c0-.4-.43-.65-.78-.46l-4.95,2.73c-.56.31-.9.89-.9,1.53v10.55c0,.32-.17.61-.45.76l-1.01.56c-.52.29-1.16.29-1.69,0l-.94-.52c-.28-.15-.45-.45-.45-.76v-10.66c0-.63-.34-1.22-.9-1.53l-9.81-5.42c-.17-.09-.27-.27-.27-.46v-.42c0-.63.34-1.22.9-1.53l1.4-.77c.52-.29,1.16-.29,1.69,0l8.48,4.69c.52.29,1.16.29,1.69,0l3.81-2.11c.36-.2.36-.72,0-.92l-8.51-4.7c-.36-.2-.36-.72,0-.92l2.9-1.6c.52-.29,1.16-.29,1.69,0l11.55,6.38c.56.31.9.89.9,1.53v11.81Z" fill="currentColor"/></svg>
+                        <strong class="brand-reverse">TIKOCI</strong>
+                    </a>
+                </li>
+            </ul>
+            <ul>
+                <li><a href="index.html" role="button" class="outline" style="font-size:0.85rem;padding:0.3rem 0.65rem">Home</a></li>
+                <li><a href="#" id="theme_switcher" aria-label="Toggle dark mode"></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <svg id="graph-canvas"></svg>
+
+    <div id="controls">
+        <input type="search" id="search-input" placeholder="Search projects…" aria-label="Search projects">
+        <button id="label-toggle" class="outline">Show Labels</button>
+        <div id="zoom-controls">
+            <button id="zoom-in" class="outline" aria-label="Zoom in">+</button>
+            <button id="zoom-out" class="outline" aria-label="Zoom out">&minus;</button>
+            <button id="zoom-reset" class="outline" aria-label="Reset zoom" style="font-size:0.75rem">Fit</button>
+        </div>
+    </div>
+
+    <div id="legend"></div>
+    <div id="tooltip"></div>
+    <div id="watermark">APL symbols &mdash; tikoci projects</div>
+
+    <!-- Graph data embedded at build time -->
+    <script type="application/json" id="graph-data">{}</script>
+
+    <script src="shared.js"></script>
+    <script type="module">
+        import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
+
+        initThemeSwitcher();
+
+        // --- Language colors (GitHub-style) ---
+        const LANG_COLORS = {
+            TypeScript: '#3178c6',
+            Shell: '#89e051',
+            Python: '#3572A5',
+            Go: '#00ADD8',
+            Makefile: '#427819',
+            C: '#555555',
+            Dockerfile: '#384d54',
+            JavaScript: '#f1e05a',
+            PKL: '#6B4C9A',
+            HTML: '#e34c26',
+            WebAssembly: '#654FF0',
+            'RouterOS Script': '#DE3941',
+        };
+        const DEFAULT_COLOR = '#888';
+
+        // --- Load graph data ---
+        const graphData = JSON.parse(document.getElementById('graph-data').textContent);
+        const nodes = graphData.nodes || [];
+        const links = graphData.links || [];
+
+        if (!nodes.length) {
+            document.getElementById('graph-canvas').innerHTML =
+                '<text x="50%" y="50%" text-anchor="middle" fill="currentColor" font-size="16">No project data available. Run build with GitHub API access.</text>';
+        }
+
+        // --- SVG setup ---
+        const svg = d3.select('#graph-canvas');
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        svg.attr('viewBox', [0, 0, width, height]);
+
+        const g = svg.append('g');
+
+        // --- Zoom behavior ---
+        const zoom = d3.zoom()
+            .scaleExtent([0.3, 5])
+            .on('zoom', (event) => g.attr('transform', event.transform));
+        svg.call(zoom);
+
+        // --- Symbol font size based on stars ---
+        function symbolSize(d) {
+            return Math.max(22, Math.log2((d.stars || 0) + 1) * 9 + 10);
+        }
+        function orbitRadius(d) {
+            return symbolSize(d) * 0.7;
+        }
+
+        // --- Force simulation ---
+        const simulation = d3.forceSimulation(nodes)
+            .force('link', d3.forceLink(links).id(d => d.id).distance(140).strength(0.4))
+            .force('charge', d3.forceManyBody().strength(-350))
+            .force('center', d3.forceCenter(width / 2, height / 2))
+            .force('collision', d3.forceCollide().radius(d => symbolSize(d) * 0.8 + 10))
+            .force('x', d3.forceX(width / 2).strength(0.03))
+            .force('y', d3.forceY(height / 2).strength(0.03));
+
+        // --- Render links ---
+        const link = g.append('g')
+            .selectAll('line')
+            .data(links)
+            .join('line')
+            .attr('class', d => `link ${d.type}`);
+
+        // --- Render nodes ---
+        const node = g.append('g')
+            .selectAll('g')
+            .data(nodes)
+            .join('g')
+            .attr('class', 'node')
+            .call(d3.drag()
+                .on('start', dragstarted)
+                .on('drag', dragged)
+                .on('end', dragended));
+
+        // Orbit ring
+        node.append('circle')
+            .attr('class', 'orbit')
+            .attr('r', orbitRadius)
+            .attr('stroke', d => LANG_COLORS[d.language] || DEFAULT_COLOR);
+
+        // APL symbol
+        node.append('text')
+            .attr('class', 'symbol')
+            .attr('font-size', d => symbolSize(d) + 'px')
+            .attr('fill', d => LANG_COLORS[d.language] || DEFAULT_COLOR)
+            .style('color', d => LANG_COLORS[d.language] || DEFAULT_COLOR)
+            .text(d => d.symbol);
+
+        // Name label
+        node.append('text')
+            .attr('class', 'label')
+            .attr('dy', d => symbolSize(d) * 0.55 + 14)
+            .text(d => d.name);
+
+        // Star count
+        node.append('text')
+            .attr('class', 'star-count')
+            .attr('dy', d => symbolSize(d) * 0.55 + 24)
+            .text(d => `\u2B50 ${d.stars}`);
+
+        // --- Click to navigate ---
+        node.on('click', (event, d) => {
+            event.stopPropagation();
+            window.location.href = d.pageUrl;
+            plausible('Map Click', { props: { repo: d.name } });
+        });
+
+        // --- Tooltip ---
+        const tooltip = document.getElementById('tooltip');
+        node.on('mouseenter', (event, d) => {
+            const langDot = d.language
+                ? `<span class="tt-lang" style="background:${LANG_COLORS[d.language] || DEFAULT_COLOR}"></span> ${escapeHtml(d.language)}`
+                : '';
+            tooltip.innerHTML = `
+                <div class="tt-name"><span class="tt-symbol">${d.symbol}</span>${escapeHtml(d.name)}</div>
+                <div class="tt-desc">${escapeHtml(d.description || '')}</div>
+                <div class="tt-meta">
+                    ${langDot}
+                    <span>\u2B50 ${d.stars}</span>
+                </div>
+            `;
+            tooltip.style.opacity = '1';
+        });
+        node.on('mousemove', (event) => {
+            tooltip.style.left = (event.clientX + 15) + 'px';
+            tooltip.style.top = (event.clientY - 10) + 'px';
+        });
+        node.on('mouseleave', () => {
+            tooltip.style.opacity = '0';
+        });
+
+        // --- Simulation tick ---
+        simulation.on('tick', () => {
+            link
+                .attr('x1', d => d.source.x)
+                .attr('y1', d => d.source.y)
+                .attr('x2', d => d.target.x)
+                .attr('y2', d => d.target.y);
+            node.attr('transform', d => `translate(${d.x},${d.y})`);
+        });
+
+        // --- Entrance animation: symbols bloom from center ---
+        for (const n of nodes) {
+            n.x = width / 2 + (Math.random() - 0.5) * 60;
+            n.y = height / 2 + (Math.random() - 0.5) * 60;
+        }
+        node.selectAll('.symbol')
+            .attr('opacity', 0)
+            .attr('font-size', '0px')
+            .transition()
+            .duration(600)
+            .delay((d, i) => i * 50)
+            .attr('opacity', 1)
+            .attr('font-size', d => symbolSize(d) + 'px');
+
+        node.selectAll('.orbit')
+            .attr('opacity', 0)
+            .transition()
+            .duration(800)
+            .delay((d, i) => i * 50 + 200)
+            .attr('opacity', 1);
+
+        // --- Drag handlers ---
+        function dragstarted(event) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            event.subject.fx = event.subject.x;
+            event.subject.fy = event.subject.y;
+        }
+        function dragged(event) {
+            event.subject.fx = event.x;
+            event.subject.fy = event.y;
+        }
+        function dragended(event) {
+            if (!event.active) simulation.alphaTarget(0);
+            event.subject.fx = null;
+            event.subject.fy = null;
+        }
+
+        // --- Search / filter ---
+        const searchInput = document.getElementById('search-input');
+        searchInput.addEventListener('input', debounce(() => {
+            const q = searchInput.value.trim().toLowerCase();
+            if (!q) {
+                node.classed('dimmed', false).classed('highlighted', false);
+                link.classed('dimmed', false);
+                return;
+            }
+            const matchIds = new Set();
+            for (const n of nodes) {
+                if (n.name.toLowerCase().includes(q) ||
+                    (n.description || '').toLowerCase().includes(q) ||
+                    (n.language || '').toLowerCase().includes(q) ||
+                    (n.topics || []).some(t => t.toLowerCase().includes(q))) {
+                    matchIds.add(n.id);
+                }
+            }
+            node.classed('dimmed', d => !matchIds.has(d.id));
+            node.classed('highlighted', d => matchIds.has(d.id));
+            link.classed('dimmed', d => !matchIds.has(d.source.id) && !matchIds.has(d.target.id));
+        }, 250));
+
+        // --- Show Labels toggle ---
+        const labelBtn = document.getElementById('label-toggle');
+        let labelsVisible = false;
+        labelBtn.addEventListener('click', () => {
+            labelsVisible = !labelsVisible;
+            g.classed('labels-visible', labelsVisible);
+            labelBtn.textContent = labelsVisible ? 'Hide Labels' : 'Show Labels';
+            labelBtn.classList.toggle('contrast', labelsVisible);
+        });
+
+        // --- Zoom controls ---
+        document.getElementById('zoom-in').addEventListener('click', () => {
+            svg.transition().duration(300).call(zoom.scaleBy, 1.5);
+        });
+        document.getElementById('zoom-out').addEventListener('click', () => {
+            svg.transition().duration(300).call(zoom.scaleBy, 0.67);
+        });
+        document.getElementById('zoom-reset').addEventListener('click', () => {
+            svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity);
+        });
+
+        // --- Legend ---
+        const usedLangs = [...new Set(nodes.map(n => n.language).filter(Boolean))];
+        usedLangs.sort();
+        const legendEl = document.getElementById('legend');
+        legendEl.innerHTML = usedLangs.map(lang =>
+            `<span class="legend-item"><span class="legend-dot" style="background:${LANG_COLORS[lang] || DEFAULT_COLOR}"></span>${escapeHtml(lang)}</span>`
+        ).join('');
+
+        // --- Handle window resize ---
+        window.addEventListener('resize', () => {
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+            svg.attr('viewBox', [0, 0, w, h]);
+            simulation.force('center', d3.forceCenter(w / 2, h / 2));
+            simulation.force('x', d3.forceX(w / 2).strength(0.03));
+            simulation.force('y', d3.forceY(h / 2).strength(0.03));
+            simulation.alpha(0.3).restart();
+        });
+    </script>
+</body>
+</html>

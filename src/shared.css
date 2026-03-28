@@ -639,3 +639,39 @@ nav details.dropdown > summary.nav-btn-icon svg.nav-icon {
     font-size: 1.15rem;
     font-weight: 700;
 }
+
+
+/* -----------------------------------------------------------------
+ * 23. README content styling (for per-repo landing pages)
+ *     GitHub's rendered HTML uses internal class names — these rules
+ *     ensure it renders cleanly under Pico CSS.
+ * ----------------------------------------------------------------- */
+.readme-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.25rem;
+}
+.readme-content pre {
+    overflow-x: auto;
+}
+.readme-content table {
+    width: 100%;
+}
+.readme-content h1:first-child,
+.readme-content h2:first-child {
+    display: none;
+}
+.readme-content .markdown-alert {
+    padding: 0.5rem 1rem;
+    margin: 1rem 0;
+    border-left: 4px solid var(--pico-primary);
+    border-radius: 0.25rem;
+}
+.readme-content .highlight pre {
+    padding: 1rem;
+    border-radius: 0.25rem;
+}
+/* Hide GitHub's click-to-copy anchor link icons (paperclip SVGs) */
+.readme-content a.anchor {
+    display: none;
+}
