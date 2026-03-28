@@ -183,6 +183,12 @@ function renderPage(repo: RepoData, allRepos: RepoData[]): string {
                 </li>
             </ul>
             <ul>
+                <li>
+                    <details class="dropdown">
+                        <summary role="button" class="outline" style="font-size:0.85rem;padding:0.3rem 0.65rem">Tools</summary>
+                        <ul dir="rtl" id="tools-list"></ul>
+                    </details>
+                </li>
                 <li><a href="../project-map.html" role="button" class="outline" style="font-size:0.85rem;padding:0.3rem 0.65rem">Project Map</a></li>
                 <li><a href="#" id="theme_switcher" aria-label="Toggle dark mode"></a></li>
             </ul>
@@ -220,7 +226,10 @@ function renderPage(repo: RepoData, allRepos: RepoData[]): string {
     </footer>
 
     <script src="../shared.js"></script>
-    <script>initThemeSwitcher()</script>
+    <script>
+        initThemeSwitcher()
+        initToolsDropdown('tools-list', { exclude: ['project-map.html'] })
+    </script>
 </body>
 </html>`;
 }

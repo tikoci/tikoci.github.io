@@ -398,6 +398,12 @@
                 </li>
             </ul>
             <ul>
+                <li>
+                    <details class="dropdown">
+                        <summary role="button" class="outline" style="font-size:0.85rem;padding:0.3rem 0.65rem">Tools</summary>
+                        <ul dir="rtl" id="tools-list"></ul>
+                    </details>
+                </li>
                 <li><a href="index.html" role="button" class="outline" style="font-size:0.85rem;padding:0.3rem 0.65rem">Home</a></li>
                 <li><a href="#" id="theme_switcher" aria-label="Toggle dark mode"></a></li>
             </ul>
@@ -430,6 +436,7 @@
         import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 
         initThemeSwitcher();
+        initToolsDropdown('tools-list', { exclude: ['project-map.html'] });
 
         // --- Language colors (GitHub-style) ---
         const LANG_COLORS = {

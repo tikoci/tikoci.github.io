@@ -310,20 +310,25 @@ const SITE_TOOLS = [
  * Call once from each page after shared.js loads.
  *
  * @param {string} listId - ID of the <ul> element to populate
+ * @param {object} [opts]
+ * @param {string[]} [opts.exclude] - hrefs to omit from the list
  */
 // biome-ignore lint/correctness/noUnusedVariables: called from HTML pages
-function initToolsDropdown(listId) {
+function initToolsDropdown(listId, opts) {
     const el = document.getElementById(listId);
     if (!el) return;
+    const excludeSet = new Set(opts?.exclude || []);
     const current = location.pathname.split('/').pop() || 'index.html';
-    el.innerHTML = SITE_TOOLS.map(t => {
-        const isLocal = !t.href.startsWith('http');
-        const isCurrent = isLocal && t.href === current;
-        const attrs = isLocal
-            ? (isCurrent ? ' aria-current="page"' : '')
-            : ' target="_blank" rel="noopener"';
-        return `<li><a href="${escapeHtml(t.href)}"${attrs}>${escapeHtml(t.label)}</a></li>`;
-    }).join('');
+    el.innerHTML = SITE_TOOLS
+        .filter(t => !excludeSet.has(t.href))
+        .map(t => {
+            const isLocal = !t.href.startsWith('http');
+            const isCurrent = isLocal && t.href === current;
+            const attrs = isLocal
+                ? (isCurrent ? ' aria-current="page"' : '')
+                : ' target="_blank" rel="noopener"';
+            return `<li><a href="${escapeHtml(t.href)}"${attrs}>${escapeHtml(t.label)}</a></li>`;
+        }).join('');
 }
 
 
