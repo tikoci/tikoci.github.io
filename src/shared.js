@@ -296,6 +296,7 @@ function escapeHtml(str) {
 const SITE_TOOLS = [
     { label: 'CHR Images', href: 'chr-images.html' },
     { label: 'Netinstall', href: 'https://github.com/tikoci/netinstall' },
+    { label: 'API Explorer', href: 'https://tikoci.github.io/restraml/openapi.html' },
     { label: '/app Editor', href: 'https://tikoci.github.io/restraml/tikapp.html' },
     { label: 'Schema Diff', href: 'https://tikoci.github.io/restraml/diff.html' },
     { label: 'Command Lookup', href: 'https://tikoci.github.io/restraml/lookup.html' },
