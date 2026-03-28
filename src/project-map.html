@@ -141,6 +141,9 @@
         /* Show-labels mode */
         .labels-visible .node .label { opacity: 0.85; }
         .labels-visible .node .star-count { opacity: 0.6; }
+        /* Show labels for popular (high-star) projects by default */
+        .node.popular .label { opacity: 0.7; }
+        .node.popular .star-count { opacity: 0.4; }
 
         .node .label { fill: #1a1a1a; }
         @media (prefers-color-scheme: dark) {
@@ -167,6 +170,96 @@
         .node.dimmed .label { opacity: 0 !important; }
         .node.dimmed .star-count { opacity: 0 !important; }
         .link.dimmed { stroke-opacity: 0.03; }
+
+        /* Search match — enhanced glow + pulse */
+        .node.search-match .symbol {
+            animation: match-pulse 2s ease-in-out infinite alternate;
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+        .node.search-match .orbit {
+            stroke-opacity: 0.5;
+            stroke-dasharray: 4 4;
+            animation: orbit-spin 3s linear infinite;
+        }
+        .node.search-match .label {
+            opacity: 1 !important;
+            font-weight: 700;
+        }
+        .node.search-match .star-count { opacity: 0.7 !important; }
+        @keyframes match-pulse {
+            0% { filter: drop-shadow(0 0 4px currentColor); transform: scale(1); }
+            100% { filter: drop-shadow(0 0 20px currentColor) brightness(1.25); transform: scale(1.12); }
+        }
+
+        /* Neighbor highlight on hover */
+        .node.neighbor-glow .symbol {
+            filter: drop-shadow(0 0 6px currentColor) brightness(1.1);
+            transition: filter 0.3s;
+        }
+        .node.neighbor-glow .orbit {
+            stroke-opacity: 0.25;
+            transition: stroke-opacity 0.3s;
+        }
+        .node.neighbor-glow .label { opacity: 0.7; }
+        .link.neighbor-link {
+            stroke-opacity: 0.5 !important;
+            stroke-width: 2.5;
+            transition: stroke-opacity 0.3s, stroke-width 0.3s;
+        }
+
+        /* Legend clickable filter */
+        #legend .legend-item { cursor: pointer; transition: opacity 0.2s; user-select: none; }
+        #legend .legend-item:hover { opacity: 0.75; }
+        #legend .legend-item.active {
+            outline: 2px solid currentColor;
+            outline-offset: 2px;
+            border-radius: 4px;
+            padding: 1px 3px;
+        }
+
+        /* Match count indicator */
+        #match-count {
+            font-family: "JetBrains Mono", monospace;
+            font-size: 0.7rem;
+            opacity: 0;
+            text-align: center;
+            transition: opacity 0.3s;
+            min-height: 1.1em;
+        }
+        #match-count.visible { opacity: 0.65; }
+
+        /* Match info card */
+        #match-info {
+            font-family: "JetBrains Mono", monospace;
+            font-size: 0.73rem;
+            line-height: 1.35;
+            border-radius: 0.4rem;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.35s ease, padding 0.35s ease, opacity 0.3s;
+            padding: 0 0.5rem;
+        }
+        #match-info.visible {
+            padding: 0.5rem;
+            max-height: 280px;
+            opacity: 1;
+            overflow-y: auto;
+        }
+        #match-info { background: rgba(255,255,255,0.9); border: 1px solid #ddd; }
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme=light]) #match-info { background: rgba(22,27,34,0.9); border-color: #30363d; }
+        }
+        [data-theme=dark] #match-info { background: rgba(22,27,34,0.9); border-color: #30363d; }
+        #match-info .mi-item { margin-bottom: 0.35rem; }
+        #match-info .mi-item:last-child { margin-bottom: 0; }
+        #match-info .mi-item + .mi-item { border-top: 1px solid rgba(128,128,128,0.15); padding-top: 0.35rem; }
+        #match-info .mi-symbol { font-size: 1rem; vertical-align: middle; margin-right: 0.2rem; }
+        #match-info .mi-name { font-weight: 700; }
+        #match-info .mi-name a { text-decoration: none; }
+        #match-info .mi-desc { opacity: 0.65; font-size: 0.68rem; margin-top: 0.1rem; }
+        #match-info .mi-meta { font-size: 0.63rem; opacity: 0.5; margin-top: 0.1rem; }
 
         /* Tooltip */
         #tooltip {
@@ -217,7 +310,7 @@
         }
         #controls input[type="search"] {
             font-size: 0.82rem;
-            padding: 0.35rem 0.5rem;
+            padding: 0.35rem 0.5rem 0.35rem 1.6rem;
             margin-bottom: 0;
         }
         #zoom-controls {
@@ -315,12 +408,14 @@
 
     <div id="controls">
         <input type="search" id="search-input" placeholder="Search projects…" aria-label="Search projects">
+        <div id="match-count"></div>
         <button id="label-toggle" class="outline">Show Labels</button>
         <div id="zoom-controls">
             <button id="zoom-in" class="outline" aria-label="Zoom in">+</button>
             <button id="zoom-out" class="outline" aria-label="Zoom out">&minus;</button>
             <button id="zoom-reset" class="outline" aria-label="Reset zoom" style="font-size:0.75rem">Fit</button>
         </div>
+        <div id="match-info"></div>
     </div>
 
     <div id="legend"></div>
@@ -438,6 +533,61 @@
             .attr('dy', d => symbolSize(d) * 0.55 + 24)
             .text(d => `\u2B50 ${d.stars}`);
 
+        // Show labels for popular (high-star) projects by default
+        node.classed('popular', d => (d.stars || 0) >= 5);
+
+        // --- Build adjacency map for neighbor highlighting ---
+        const adjacency = new Map();
+        for (const n of nodes) adjacency.set(n.id, new Set());
+        for (const l of links) {
+            adjacency.get(l.source.id).add(l.target.id);
+            adjacency.get(l.target.id).add(l.source.id);
+        }
+
+        // --- Zoom-to-fit utility ---
+        function zoomToFitNodes(targetNodes, duration = 700, maxScale = 2.5) {
+            if (!targetNodes.length) return;
+            const pad = 120;
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+            const xs = targetNodes.map(d => d.x);
+            const ys = targetNodes.map(d => d.y);
+            const x0 = Math.min(...xs) - pad;
+            const y0 = Math.min(...ys) - pad;
+            const x1 = Math.max(...xs) + pad;
+            const y1 = Math.max(...ys) + pad;
+            const dx = (x1 - x0) || 1;
+            const dy = (y1 - y0) || 1;
+            const scale = Math.min(w / dx, h / dy, maxScale);
+            const tx = w / 2 - ((x0 + x1) / 2) * scale;
+            const ty = h / 2 - ((y0 + y1) / 2) * scale;
+            svg.transition()
+                .duration(duration)
+                .ease(d3.easeCubicOut)
+                .call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+        }
+
+        // --- Ripple effect on search match ---
+        function fireRipples(matchedData) {
+            const intense = matchedData.length <= 3;
+            for (const d of matchedData) {
+                g.append('circle')
+                    .attr('cx', d.x).attr('cy', d.y)
+                    .attr('r', orbitRadius(d))
+                    .attr('fill', 'none')
+                    .attr('stroke', LANG_COLORS[d.language] || DEFAULT_COLOR)
+                    .attr('stroke-opacity', intense ? 0.8 : 0.5)
+                    .attr('stroke-width', intense ? 3 : 2)
+                    .transition()
+                    .duration(intense ? 1000 : 700)
+                    .ease(d3.easeExpOut)
+                    .attr('r', orbitRadius(d) + (intense ? 60 : 35))
+                    .attr('stroke-opacity', 0)
+                    .attr('stroke-width', 0.5)
+                    .remove();
+            }
+        }
+
         // --- Click to navigate ---
         node.on('click', (event, d) => {
             event.stopPropagation();
@@ -448,6 +598,12 @@
         // --- Tooltip ---
         const tooltip = document.getElementById('tooltip');
         node.on('mouseenter', (event, d) => {
+            // Highlight neighbors and their connecting links
+            const nbs = adjacency.get(d.id) || new Set();
+            node.classed('neighbor-glow', n => nbs.has(n.id));
+            link.classed('neighbor-link', l =>
+                l.source.id === d.id || l.target.id === d.id);
+
             const langDot = d.language
                 ? `<span class="tt-lang" style="background:${LANG_COLORS[d.language] || DEFAULT_COLOR}"></span> ${escapeHtml(d.language)}`
                 : '';
@@ -466,6 +622,8 @@
             tooltip.style.top = (event.clientY - 10) + 'px';
         });
         node.on('mouseleave', () => {
+            node.classed('neighbor-glow', false);
+            link.classed('neighbor-link', false);
             tooltip.style.opacity = '0';
         });
 
@@ -518,13 +676,64 @@
 
         // --- Search / filter ---
         const searchInput = document.getElementById('search-input');
+        const matchCountEl = document.getElementById('match-count');
+        const matchInfoEl = document.getElementById('match-info');
+        let activeLangFilter = null;
+
+        function hideMatchInfo() {
+            matchInfoEl.innerHTML = '';
+            matchInfoEl.classList.remove('visible');
+        }
+
+        function showMatchInfo(matched) {
+            if (matched.length > 5) { hideMatchInfo(); return; }
+            matchInfoEl.innerHTML = matched.map(d => {
+                const color = LANG_COLORS[d.language] || DEFAULT_COLOR;
+                const langDot = d.language
+                    ? `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${color};vertical-align:middle;margin-right:3px"></span>${escapeHtml(d.language)} `
+                    : '';
+                return `<div class="mi-item">
+                    <div><span class="mi-symbol">${d.symbol}</span><span class="mi-name"><a href="${d.pageUrl}">${escapeHtml(d.name)}</a></span></div>
+                    ${d.description ? `<div class="mi-desc">${escapeHtml(d.description)}</div>` : ''}
+                    <div class="mi-meta">${langDot}\u2B50 ${d.stars}</div>
+                </div>`;
+            }).join('');
+            matchInfoEl.classList.add('visible');
+        }
+
+        function clearFilter() {
+            node.classed('dimmed', false).classed('highlighted', false).classed('search-match', false);
+            link.classed('dimmed', false);
+            matchCountEl.textContent = '';
+            matchCountEl.classList.remove('visible');
+            hideMatchInfo();
+            activeLangFilter = null;
+            for (const el of document.querySelectorAll('.legend-item'))
+                el.classList.remove('active');
+            zoomToFitNodes(nodes, 600, 1.2);
+        }
+
+        function applyFilter(matchIds) {
+            const matched = nodes.filter(d => matchIds.has(d.id));
+            node.classed('dimmed', d => !matchIds.has(d.id));
+            node.classed('highlighted', d => matchIds.has(d.id));
+            node.classed('search-match', d => matchIds.has(d.id));
+            link.classed('dimmed', d => !matchIds.has(d.source.id) && !matchIds.has(d.target.id));
+
+            matchCountEl.textContent = `${matched.length} match${matched.length !== 1 ? 'es' : ''}`;
+            matchCountEl.classList.add('visible');
+
+            showMatchInfo(matched);
+            fireRipples(matched);
+            zoomToFitNodes(matched, 700, matched.length === 1 ? 2.5 : 1.8);
+        }
+
         searchInput.addEventListener('input', debounce(() => {
             const q = searchInput.value.trim().toLowerCase();
-            if (!q) {
-                node.classed('dimmed', false).classed('highlighted', false);
-                link.classed('dimmed', false);
-                return;
-            }
+            activeLangFilter = null;
+            for (const el of document.querySelectorAll('.legend-item'))
+                el.classList.remove('active');
+            if (!q) { clearFilter(); return; }
             const matchIds = new Set();
             for (const n of nodes) {
                 if (n.name.toLowerCase().includes(q) ||
@@ -534,10 +743,24 @@
                     matchIds.add(n.id);
                 }
             }
-            node.classed('dimmed', d => !matchIds.has(d.id));
-            node.classed('highlighted', d => matchIds.has(d.id));
-            link.classed('dimmed', d => !matchIds.has(d.source.id) && !matchIds.has(d.target.id));
+            if (!matchIds.size) {
+                node.classed('dimmed', true).classed('highlighted', false).classed('search-match', false);
+                link.classed('dimmed', true);
+                matchCountEl.textContent = 'no matches';
+                matchCountEl.classList.add('visible');
+                hideMatchInfo();
+                return;
+            }
+            applyFilter(matchIds);
         }, 250));
+
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                searchInput.value = '';
+                clearFilter();
+                searchInput.blur();
+            }
+        });
 
         // --- Show Labels toggle ---
         const labelBtn = document.getElementById('label-toggle');
@@ -557,16 +780,35 @@
             svg.transition().duration(300).call(zoom.scaleBy, 0.67);
         });
         document.getElementById('zoom-reset').addEventListener('click', () => {
-            svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity);
+            zoomToFitNodes(nodes, 500, 1.2);
         });
 
-        // --- Legend ---
+        // --- Legend (clickable language filter) ---
         const usedLangs = [...new Set(nodes.map(n => n.language).filter(Boolean))];
         usedLangs.sort();
         const legendEl = document.getElementById('legend');
         legendEl.innerHTML = usedLangs.map(lang =>
-            `<span class="legend-item"><span class="legend-dot" style="background:${LANG_COLORS[lang] || DEFAULT_COLOR}"></span>${escapeHtml(lang)}</span>`
+            `<span class="legend-item" data-lang="${escapeHtml(lang)}"><span class="legend-dot" style="background:${LANG_COLORS[lang] || DEFAULT_COLOR}"></span>${escapeHtml(lang)}</span>`
         ).join('');
+
+        legendEl.addEventListener('click', (event) => {
+            const item = event.target.closest('.legend-item');
+            if (!item) return;
+            const lang = item.dataset.lang;
+            if (activeLangFilter === lang) {
+                clearFilter();
+                searchInput.value = '';
+                return;
+            }
+            activeLangFilter = lang;
+            searchInput.value = '';
+            for (const el of document.querySelectorAll('.legend-item'))
+                el.classList.remove('active');
+            item.classList.add('active');
+            const matchIds = new Set(nodes.filter(d => d.language === lang).map(d => d.id));
+            applyFilter(matchIds);
+            plausible('Map Legend Filter', { props: { language: lang } });
+        });
 
         // --- Handle window resize ---
         window.addEventListener('resize', () => {
