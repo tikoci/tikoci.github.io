@@ -15,7 +15,10 @@ The site is a **multi-page static site** built with bun and deployed to GitHub P
 
 ```
 tikoci-website/
-├── build.ts              # Build script: copies src/ → dist/, preserves static assets
+├── build.ts              # Build script: src/ → dist/, fetches GitHub data, generates pages
+├── fetch-github-data.ts  # GitHub API: fetches repo metadata, builds graph data for project map
+├── generate-pages.ts     # Generates per-repo landing pages (dist/p/*.html) from repo data
+├── repo-config.ts        # Per-repo overrides: APL symbols, categories, link relationships
 ├── package.json          # bun project config with build/lint/dev scripts
 ├── biome.json            # Biome v2.x linter config (formatter disabled)
 ├── src/                  # Source HTML, CSS, JS files
@@ -26,16 +29,25 @@ tikoci-website/
 │   ├── scripts.html      # RouterOS Scripts category page
 │   ├── web-tools.html    # Web Tools category page
 │   ├── chr-images.html   # Interactive tool: mikropkl CHR image browser/downloader
+│   ├── project-map.html  # Interactive D3 force graph of all projects (data embedded at build)
+│   ├── privacy.html      # Privacy policy page
+│   ├── sitemap.xml       # Sitemap template (per-repo URLs injected at build time)
+│   ├── robots.txt        # Robots.txt
+│   ├── favicon.svg       # Site favicon
+│   ├── cubist.css        # Cubist-style CSS for index page hero
 │   ├── shared.css        # Shared CSS (fonts, theme, utilities) — all pages include this
-│   └── shared.js         # Shared JS (theme switcher) — all pages include this
+│   └── shared.js         # Shared JS (theme switcher, GitHub API helpers) — all pages include this
 ├── docs/                 # Legacy Observable Framework source (kept for images)
 │   └── images/           # Site images (copied to dist/images/ during build)
 ├── dist/                 # Build output (deployed to GitHub Pages)
+│   ├── p/                # Generated per-repo landing pages (built from repo data, not committed)
+│   ├── data/             # Cached GitHub API data (repos.json, .cache.json)
 │   ├── scripts/          # Committed static files: .rsc scripts (linked externally)
 │   │   ├── autovlan.rsc
 │   │   ├── hello.rsc
 │   │   ├── lsbridge.rsc
 │   │   └── traefik.yaml
+│   ├── logos/             # Committed static files: MikroTik SVG logos
 │   └── media/            # Committed static files: videos (linked externally)
 ├── CLAUDE.md             # This file — full architecture guide for AI agents
 ├── AGENTS.md             # GitHub Copilot agent-specific instructions
@@ -59,15 +71,19 @@ tikoci-website/
 | `bun run dev` | Build + serve locally on port 3000 |
 
 ### How build.ts works
-1. Cleans `dist/` except `scripts/` and `media/` directories (these are committed static assets linked externally — never delete them)
+1. Cleans `dist/` except preserved directories (`scripts/`, `media/`, `logos/`)
 2. Copies all files from `src/` to `dist/`
 3. Copies images from `docs/images/` to `dist/images/`
-4. Prints a file listing
+4. Fetches GitHub repo data via API → caches in `dist/data/repos.json`
+5. Generates per-repo landing pages → `dist/p/{repo-name}.html`
+6. Builds graph data and embeds it into `dist/project-map.html`
+7. Injects per-repo URLs into `dist/sitemap.xml`
+8. Prints a file listing
 
-The build is intentionally simple — a single TypeScript file using only Node.js built-in APIs. No template engine, no bundler, no minifier.
+The build uses bun with Node.js built-in APIs. No template engine, no bundler, no minifier. The GitHub data fetching and page generation are in separate modules (`fetch-github-data.ts`, `generate-pages.ts`) with per-repo configuration in `repo-config.ts`.
 
 ### Static asset preservation
-`dist/scripts/` and `dist/media/` contain files that are **committed to git** and **linked externally** from forum posts and other sites. The build script never deletes these directories. The GitHub Actions workflow also runs `git restore dist/scripts dist/media` after build to ensure they survive.
+`dist/scripts/`, `dist/media/`, and `dist/logos/` contain files that are **committed to git** and **linked externally** from forum posts and other sites. The build script never deletes these directories. The GitHub Actions workflow also runs `git restore dist/scripts dist/media` after build to ensure they survive.
 
 ---
 
@@ -364,6 +380,48 @@ Current state: both repos have independent shared files with the same core patte
 dark mode CSS, font overrides, page guide, utility classes). The generic GitHub API helpers and
 event-driven UI utilities now live in this repo's `shared.js` and can be used by any tool page
 regardless of which tikoci project's data it visualizes.
+
+---
+
+## Project Map (`project-map.html`)
+
+An interactive D3 force-directed graph visualizing all tikoci projects and their relationships.
+Each node uses an APL symbol (configured in `repo-config.ts`) colored by primary language.
+
+### How it works
+- **Build time**: `build.ts` calls `buildGraphData()` to produce a JSON graph (nodes + links)
+  and embeds it into the `<script type="application/json" id="graph-data">` placeholder.
+- **Runtime**: D3 v7 (ESM import from CDN) renders the force simulation, zoom/pan, search,
+  and all interactions. All JS is inline in the single HTML file.
+- **No shared.js dependencies** beyond `initThemeSwitcher()` and `escapeHtml()` — the page
+  uses a minimal nav (Home + theme switcher) rather than the full category/tools dropdowns.
+
+### Key interactions
+- **Search**: filters + zooms to matched nodes with animated transitions and ripple effects
+- **Legend**: clickable language filter — highlights and zooms to all nodes of that language
+- **Hover**: neighbor highlighting (connected nodes glow, links brighten) + tooltip
+- **Click**: navigates to the project's per-repo landing page (`/p/{name}.html`)
+- **Labels**: shown by default for projects with 5+ stars; toggle all with Show Labels button
+
+### Adding/modifying projects
+Project data is fetched from the GitHub API at build time. To customize a project's
+appearance on the map, edit `repo-config.ts` — it controls APL symbols, categories, and
+the link relationships between projects.
+
+---
+
+## Per-Repo Landing Pages (`dist/p/`)
+
+Build-time generated pages — one per qualifying repo (1+ stars). Generated by
+`generate-pages.ts` using data from `fetch-github-data.ts`.
+
+Each page includes:
+- Project description and metadata (stars, language, topics)
+- README content (fetched from GitHub API, rendered as-is)
+- Links to GitHub repo and the project map
+
+These pages are **not committed to git** — they're regenerated on every build. The sitemap
+is also updated at build time with per-repo URLs.
 
 ---
 

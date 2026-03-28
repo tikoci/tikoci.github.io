@@ -104,10 +104,16 @@ Built with bun, styled with Pico CSS v2, deployed to GitHub Pages.
 | `src/scripts.html` | RouterOS Scripts category |
 | `src/web-tools.html` | Web Tools category |
 | `src/chr-images.html` | Interactive tool: mikropkl CHR image browser/downloader |
+| `src/project-map.html` | Interactive D3 force graph of all projects (data embedded at build) |
 | `src/shared.css` | Shared CSS (fonts, theme, cards, utilities) |
-| `src/shared.js` | Shared JS (theme switcher) |
+| `src/shared.js` | Shared JS (theme switcher, GitHub API helpers) |
+| `fetch-github-data.ts` | GitHub API: fetches repo metadata, builds graph data |
+| `generate-pages.ts` | Generates per-repo landing pages (`dist/p/*.html`) |
+| `repo-config.ts` | Per-repo overrides: APL symbols, categories, link relationships |
+| `dist/p/` | Generated per-repo landing pages (NOT committed — built from GitHub data) |
 | `dist/scripts/*.rsc` | Committed static RouterOS scripts (DO NOT DELETE) |
 | `dist/media/` | Committed static media files (DO NOT DELETE) |
+| `dist/logos/` | Committed static SVG logos (DO NOT DELETE) |
 | `CLAUDE.md` | Full architecture guide for AI agents |
 | `AGENTS.md` | This file — agent-specific instructions |
 | `.github/copilot-instructions.md` | Concise Copilot chat instructions |

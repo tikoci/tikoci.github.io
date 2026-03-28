@@ -23,7 +23,9 @@ This is a multi-page static site for the TIKOCI GitHub org — MikroTik RouterOS
   (`readQueryParams`, `writeQueryParams`), and share button wiring (`initShareButton`).
 - No submit buttons — use `input`/`change` event listeners with debouncing.
 - Support shareable URLs via query params + `history.replaceState()`.
-- `mikropkl.html` — first on-site tool page (CHR image browser using GitHub Releases API).
+- `chr-images.html` — CHR image browser/downloader (GitHub Releases API).
+- `project-map.html` — interactive D3 force graph of all projects (data embedded at build time).
+- Per-repo landing pages generated at build time in `dist/p/` — see `CLAUDE.md` for details.
 - See `CLAUDE.md` → "Interactive Tool Pages" for full patterns and skeleton.
 
 ## Commands
