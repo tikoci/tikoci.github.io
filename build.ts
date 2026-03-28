@@ -69,6 +69,27 @@ if (existsSync(mapPath)) {
     console.log(`  Embedded ${graphData.nodes.length} nodes, ${graphData.links.length} links`);
 }
 
+// Step 6: Inject per-repo URLs into sitemap.xml
+if (repos.length) {
+    console.log("Updating sitemap.xml with per-repo pages...");
+    const sitemapPath = join(DIST, "sitemap.xml");
+    if (existsSync(sitemapPath)) {
+        let sitemap = readFileSync(sitemapPath, "utf-8");
+        const marker = "<!-- Per-repo project pages (auto-generated at build time below this line) -->";
+        const repoUrls = repos.map(r => [
+            "    <url>",
+            `        <loc>https://tikoci.github.io/p/${r.name}.html</loc>`,
+            `        <lastmod>${r.updated_at.split("T")[0]}</lastmod>`,
+            "        <changefreq>weekly</changefreq>",
+            `        <priority>${r.stars >= 10 ? "0.7" : "0.5"}</priority>`,
+            "    </url>",
+        ].join("\n")).join("\n");
+        sitemap = sitemap.replace(marker, `${marker}\n${repoUrls}`);
+        writeFileSync(sitemapPath, sitemap, "utf-8");
+        console.log(`  Added ${repos.length} repo URLs to sitemap`);
+    }
+}
+
 console.log("Build complete. Output in dist/");
 
 // List output files

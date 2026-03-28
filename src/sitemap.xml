@@ -37,10 +37,16 @@
         <priority>0.5</priority>
     </url>
     <url>
+        <loc>https://tikoci.github.io/project-map.html</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://tikoci.github.io/privacy.html</loc>
         <changefreq>yearly</changefreq>
         <priority>0.2</priority>
     </url>
+    <!-- Per-repo project pages (auto-generated at build time below this line) -->
     <!-- restraml tool pages -->
     <url>
         <loc>https://tikoci.github.io/restraml/</loc>
