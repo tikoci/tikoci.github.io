@@ -1,4 +1,5 @@
 .DS_Store
+.github-cache.json
 dist/*
 !dist/scripts/
 !dist/scripts/**

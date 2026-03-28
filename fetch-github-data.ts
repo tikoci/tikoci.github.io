@@ -156,7 +156,9 @@ function writeCache(cachePath: string, repos: RepoData[]) {
 export async function fetchGitHubData(distDir: string): Promise<RepoData[]> {
     const dataDir = join(distDir, "data");
     mkdirSync(dataDir, { recursive: true });
-    const cachePath = join(dataDir, ".cache.json");
+    // Cache lives outside dist/ so it survives the dist/ clean step between builds.
+    // This prevents repeated builds from exhausting the anonymous GitHub API rate limit.
+    const cachePath = join(import.meta.dirname, ".github-cache.json");
 
     // Try cache first (dev mode optimization)
     const forceRefresh = !!process.env.CI || process.argv.includes("--fresh");
