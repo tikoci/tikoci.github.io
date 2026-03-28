@@ -57,14 +57,20 @@ const _THEME_ICONS = {
 };
 
 // biome-ignore lint/correctness/noUnusedVariables: called from HTML pages via <script>
-function initThemeSwitcher(id) {
+function initThemeSwitcher(id, defaultTheme) {
     id = id || "theme_switcher";
     const html = document.documentElement;
     const el = document.getElementById(id);
     if (!el) return;
     let state = "auto";
 
-    el.innerHTML = _THEME_ICONS.osDefault;
+    if (defaultTheme === "dark" || defaultTheme === "light") {
+        state = defaultTheme;
+        html.setAttribute("data-theme", defaultTheme);
+        el.innerHTML = defaultTheme === "dark" ? _THEME_ICONS.moon : _THEME_ICONS.sun;
+    } else {
+        el.innerHTML = _THEME_ICONS.osDefault;
+    }
 
     el.addEventListener("click", (e) => {
         e.preventDefault();
