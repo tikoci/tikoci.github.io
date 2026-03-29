@@ -9,6 +9,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import type { RepoData } from "./fetch-github-data";
 import { RELATIONSHIPS } from "./repo-config";
+import type { ExternalLink } from "./repo-config";
 
 const OWNER = "tikoci";
 
@@ -47,13 +48,16 @@ function renderTopics(topics: string[]): string {
     return topics.map(t => `<kbd>${escapeHtml(t)}</kbd>`).join(" ");
 }
 
-function renderBonusDocs(docs: RepoData["bonusDocs"]): string {
-    if (!docs.length) return "";
+function renderBonusDocs(docs: RepoData["bonusDocs"], viewableFileContents: RepoData["viewableFileContents"]): string {
+    // If all bonus docs have viewable content, skip the separate links section
+    const viewableNames = new Set(viewableFileContents.map(v => v.name));
+    const nonViewableDocs = docs.filter(d => !viewableNames.has(d.name));
+    if (!nonViewableDocs.length) return "";
     return `
         <section class="bonus-docs">
             <h3>Additional Documentation</h3>
             <ul>
-                ${docs.map(d => `<li><a href="${escapeHtml(d.url)}" target="_blank" rel="noopener">${escapeHtml(d.name)}</a></li>`).join("\n                ")}
+                ${nonViewableDocs.map(d => `<li><a href="${escapeHtml(d.url)}" target="_blank" rel="noopener">${escapeHtml(d.name)}</a></li>`).join("\n                ")}
             </ul>
         </section>`;
 }
@@ -77,12 +81,153 @@ function renderRelated(related: RepoData[]): string {
         </section>`;
 }
 
+/** VS Code "Install in VS Code" CTA with marketplace link */
+function renderVscodeInstall(extensionId: string): string {
+    const marketplaceUrl = `https://marketplace.visualstudio.com/items?itemName=${encodeURIComponent(extensionId)}`;
+    const installUrl = `vscode:extension/${encodeURIComponent(extensionId)}`;
+    return `
+        <article class="install-card">
+            <header>
+                <h3>
+                    <svg class="vscode-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17.583.063a1.5 1.5 0 0 0-1.032.392 1.5 1.5 0 0 0-.001 0L7.04 9.018 2.905 5.903a1 1 0 0 0-1.29.058l-1.3 1.19a1 1 0 0 0-.002 1.462L4.39 12l-4.076 3.387a1 1 0 0 0 .002 1.462l1.3 1.19a1 1 0 0 0 1.29.058l4.134-3.116 9.51 8.564a1.5 1.5 0 0 0 1.033.392 1.5 1.5 0 0 0 .453-.073l4.5-1.5a1.5 1.5 0 0 0 1.014-1.42V1.556a1.5 1.5 0 0 0-1.014-1.42l-4.5-1.5a1.5 1.5 0 0 0-.453-.073zm.167 3.2V20.74l-7-6.304V9.563z" fill="currentColor"/></svg>
+                    Install in VS Code
+                </h3>
+            </header>
+            <div class="install-actions">
+                <a href="${installUrl}" role="button" class="install-btn">
+                    <svg class="btn-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 1a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 7.293V1.5A.5.5 0 0 1 8 1zM2.5 10a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 12.5v-2a.5.5 0 0 1 .5-.5z" fill="currentColor"/></svg>
+                    Install Extension
+                </a>
+                <a href="${escapeHtml(marketplaceUrl)}" role="button" class="outline" target="_blank" rel="noopener">
+                    View on Marketplace
+                </a>
+            </div>
+            <footer>
+                <small><code>${escapeHtml(extensionId)}</code> &middot; Free &middot; \u2605 5.0</small>
+            </footer>
+        </article>`;
+}
+
+/** Docker Hub image links section */
+function renderDockerImages(images: string[]): string {
+    if (!images.length) return "";
+    return `
+        <article class="docker-card">
+            <header>
+                <h3>
+                    <svg class="docker-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M13.983 11.078h2.119a.186.186 0 0 0 .186-.185V9.006a.186.186 0 0 0-.186-.186h-2.119a.186.186 0 0 0-.187.186v1.887c0 .102.084.185.187.185m-2.954-5.43h2.118a.186.186 0 0 0 .187-.185V3.574a.186.186 0 0 0-.187-.185h-2.118a.185.185 0 0 0-.186.185v1.888c0 .102.083.185.186.185m0 2.716h2.118a.187.187 0 0 0 .187-.186V6.29a.186.186 0 0 0-.187-.185h-2.118a.185.185 0 0 0-.186.185v1.887c0 .102.083.186.186.186m-2.93 0h2.12a.186.186 0 0 0 .184-.186V6.29a.185.185 0 0 0-.185-.185H8.1a.185.185 0 0 0-.185.185v1.887c0 .102.083.186.185.186m-2.964 0h2.119a.186.186 0 0 0 .185-.186V6.29a.185.185 0 0 0-.185-.185H5.136a.186.186 0 0 0-.186.185v1.887c0 .102.084.186.186.186m5.893 2.715h2.118a.186.186 0 0 0 .186-.185V9.006a.186.186 0 0 0-.186-.186h-2.118a.185.185 0 0 0-.186.186v1.887c0 .102.084.185.186.185m-2.93 0h2.12a.185.185 0 0 0 .184-.185V9.006a.185.185 0 0 0-.184-.186h-2.12a.185.185 0 0 0-.184.186v1.887c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 0 0 .185-.185V9.006a.185.185 0 0 0-.185-.186H5.136a.186.186 0 0 0-.186.186v1.887c0 .102.084.185.186.185m-2.92 0h2.12a.185.185 0 0 0 .184-.185V9.006a.185.185 0 0 0-.184-.186h-2.12a.185.185 0 0 0-.184.186v1.887c0 .102.082.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.227.328c-.287.438-.49.922-.602 1.43-.138.64-.124 1.318.04 1.946-.492.282-1.297.35-1.488.36H.88a.88.88 0 0 0-.88.882c-.003 1.612.237 3.214.712 4.748.554 1.672 1.38 2.9 2.456 3.648 1.203.836 3.16 1.314 5.37 1.314.965.002 1.93-.083 2.882-.253a12.2 12.2 0 0 0 3.622-1.316 10.8 10.8 0 0 0 2.64-2.2c1.248-1.39 1.992-2.948 2.588-4.304h.225c1.396 0 2.254-.558 2.73-1.025a2.6 2.6 0 0 0 .7-1.05l.098-.33z" fill="currentColor"/></svg>
+                    Docker Hub
+                </h3>
+            </header>
+            <div class="docker-images">
+                ${images.map(img => {
+                    const hubUrl = `https://hub.docker.com/r/${encodeURIComponent(img.split("/")[0])}/${encodeURIComponent(img.split("/")[1] || img)}`;
+                    return `
+                <div class="docker-image-row">
+                    <code>docker pull ${escapeHtml(img)}</code>
+                    <a href="${escapeHtml(hubUrl)}" role="button" class="outline" target="_blank" rel="noopener">View on Docker Hub</a>
+                </div>`;
+                }).join("")}
+            </div>
+        </article>`;
+}
+
+/** External links rendered as a row of buttons */
+function renderExternalLinks(links: ExternalLink[]): string {
+    if (!links.length) return "";
+    return `
+        <section class="external-links">
+            <h3>Tools &amp; Resources</h3>
+            <div class="external-links-grid">
+                ${links.map(link => `
+                <a href="${escapeHtml(link.url)}" role="button" class="${link.style === "primary" ? "" : "outline"}" target="_blank" rel="noopener">
+                    ${escapeHtml(link.label)}${link.description ? `<br><small>${escapeHtml(link.description)}</small>` : ""}
+                </a>`).join("")}
+            </div>
+        </section>`;
+}
+
+/** Viewable file modals (for markdown docs rendered at build time) */
+function renderViewableFiles(files: RepoData["viewableFileContents"], repoName: string, defaultBranch: string): string {
+    if (!files.length) return "";
+    const displayName = (path: string) => path.split("/").pop() || path;
+    const modals = files.map((f, i) => {
+        const modalId = `modal-${repoName}-${i}`;
+        const githubUrl = `https://github.com/${OWNER}/${repoName}/blob/${defaultBranch}/${f.name}`;
+        return `
+        <dialog id="${modalId}" class="doc-modal">
+            <article>
+                <header>
+                    <button aria-label="Close" rel="prev" onclick="document.getElementById('${modalId}').close()"></button>
+                    <h3>${escapeHtml(displayName(f.name))}</h3>
+                </header>
+                <div class="readme-content modal-body">
+                    ${f.html}
+                </div>
+                <footer>
+                    <a href="${escapeHtml(githubUrl)}" target="_blank" rel="noopener">View on GitHub</a>
+                </footer>
+            </article>
+        </dialog>`;
+    }).join("\n");
+
+    const buttons = files.map((f, i) => {
+        const modalId = `modal-${repoName}-${i}`;
+        return `<button class="outline" onclick="document.getElementById('${modalId}').showModal()">
+                    <svg class="btn-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5L9.5 0H4zm5 0v4h4L9 0zM4.5 7a.5.5 0 0 1 0-1h5a.5.5 0 0 1 0 1h-5zm0 2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zm0 2a.5.5 0 0 1 0-1h3a.5.5 0 0 1 0 1h-3z" fill="currentColor"/></svg>
+                    Read ${escapeHtml(displayName(f.name))}
+                </button>`;
+    }).join("\n                ");
+
+    return `
+        <section class="viewable-docs">
+            <h3>Documentation</h3>
+            <div class="viewable-docs-actions">
+                ${buttons}
+            </div>
+        </section>
+        ${modals}`;
+}
+
+/** Dockerfile viewer modal */
+function renderDockerfileViewer(content: string, repoName: string, defaultBranch: string): string {
+    const githubUrl = `https://github.com/${OWNER}/${repoName}/blob/${defaultBranch}/Dockerfile`;
+    return `
+        <dialog id="modal-dockerfile" class="doc-modal">
+            <article>
+                <header>
+                    <button aria-label="Close" rel="prev" onclick="document.getElementById('modal-dockerfile').close()"></button>
+                    <h3>Dockerfile</h3>
+                </header>
+                <div class="modal-body">
+                    <pre><code>${escapeHtml(content)}</code></pre>
+                </div>
+                <footer>
+                    <a href="${escapeHtml(githubUrl)}" target="_blank" rel="noopener">View on GitHub</a>
+                </footer>
+            </article>
+        </dialog>`;
+}
+
 function renderPage(repo: RepoData, allRepos: RepoData[]): string {
     const related = findRelated(repo.name, allRepos);
     const langBadge = repo.language
         ? `<mark class="lang" style="--lang-color: ${LANG_COLORS[repo.language] || "#888"}">${escapeHtml(repo.language)}</mark>`
         : "";
     const canonicalUrl = `https://tikoci.github.io/p/${repo.name}.html`;
+
+    // Build the "quick actions" section — prominent CTAs above the README
+    const hasVscode = !!repo.vscodeExtensionId;
+    const hasDocker = !!repo.dockerImages?.length;
+    const hasExternalLinks = !!repo.externalLinks?.length;
+    const hasViewableFiles = !!repo.viewableFileContents?.length;
+    const hasDockerfile = repo.hasDockerfile && !!repo.dockerfileContent;
+    const hasQuickActions = hasVscode || hasDocker || hasExternalLinks || hasViewableFiles || hasDockerfile;
+
+    // Homepage link (if repo has one set and it's not the GitHub Pages URL)
+    const homepageLink = repo.homepage && !repo.homepage.includes("tikoci.github.io/p/")
+        ? `<a href="${escapeHtml(repo.homepage)}" role="button" class="outline" target="_blank" rel="noopener">\u{1F310} Homepage</a>`
+        : "";
 
     return `<!doctype html>
 <html lang="en">
@@ -93,6 +238,10 @@ function renderPage(repo: RepoData, allRepos: RepoData[]): string {
     <title>${escapeHtml(repo.name)} \u2014 tikoci.github.io</title>
     <meta name="description" content="${escapeHtml(repo.description)}">
     <link rel="canonical" href="${canonicalUrl}">
+    <meta property="og:title" content="${escapeHtml(repo.name)} \u2014 tikoci.github.io">
+    <meta property="og:description" content="${escapeHtml(repo.description)}">
+    <meta property="og:url" content="${canonicalUrl}">
+    <meta property="og:type" content="website">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -133,9 +282,148 @@ function renderPage(repo: RepoData, allRepos: RepoData[]): string {
             flex-wrap: wrap;
             margin-bottom: 1.5rem;
         }
-        .repo-actions a[role="button"] {
+        .repo-actions a[role="button"],
+        .repo-actions button {
             font-size: 0.95rem;
         }
+
+        /* Quick Actions grid */
+        .quick-actions {
+            margin-bottom: 2rem;
+        }
+
+        /* VS Code install card */
+        .install-card {
+            border-left: 4px solid #007ACC;
+        }
+        .install-card header h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0;
+        }
+        .vscode-icon {
+            width: 1.3em;
+            height: 1.3em;
+            color: #007ACC;
+            flex-shrink: 0;
+        }
+        .install-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .install-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        .btn-icon {
+            width: 1em;
+            height: 1em;
+            flex-shrink: 0;
+        }
+
+        /* Docker card */
+        .docker-card {
+            border-left: 4px solid #2496ED;
+        }
+        .docker-card header h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0;
+        }
+        .docker-icon {
+            width: 1.3em;
+            height: 1.3em;
+            color: #2496ED;
+            flex-shrink: 0;
+        }
+        .docker-images {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .docker-image-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .docker-image-row code {
+            flex: 1;
+            min-width: 0;
+            font-size: 0.88rem;
+        }
+        .docker-image-row a[role="button"] {
+            font-size: 0.85rem;
+            white-space: nowrap;
+            margin-bottom: 0;
+        }
+
+        /* External links */
+        .external-links {
+            margin-bottom: 1.5rem;
+        }
+        .external-links-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .external-links-grid a[role="button"] {
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        .external-links-grid a[role="button"] small {
+            opacity: 0.75;
+            font-size: 0.78rem;
+            display: block;
+        }
+
+        /* Viewable docs */
+        .viewable-docs {
+            margin-bottom: 1.5rem;
+        }
+        .viewable-docs-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .viewable-docs-actions button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.9rem;
+        }
+
+        /* Doc modals */
+        dialog.doc-modal {
+            max-width: min(900px, 95vw);
+            max-height: 90vh;
+        }
+        dialog.doc-modal article {
+            margin: 0;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+        }
+        dialog.doc-modal .modal-body {
+            overflow-y: auto;
+            flex: 1;
+        }
+        dialog.doc-modal .modal-body pre {
+            overflow-x: auto;
+            max-height: none;
+        }
+
+        /* Dockerfile button in actions bar */
+        .dockerfile-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
         .readme-content {
             overflow-x: auto;
         }
@@ -208,22 +496,36 @@ function renderPage(repo: RepoData, allRepos: RepoData[]): string {
             <p>${escapeHtml(repo.description)}</p>
             <div class="repo-actions">
                 <a href="${escapeHtml(repo.html_url)}" role="button" target="_blank" rel="noopener">View on GitHub</a>
+                ${homepageLink}
                 <a href="../project-map.html" role="button" class="outline">Project Map</a>
+                ${hasDockerfile ? `<button class="outline dockerfile-btn" onclick="document.getElementById('modal-dockerfile').showModal()">
+                    <svg class="btn-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5L9.5 0H4zm5 0v4h4L9 0zM4.5 7a.5.5 0 0 1 0-1h5a.5.5 0 0 1 0 1h-5zm0 2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zm0 2a.5.5 0 0 1 0-1h3a.5.5 0 0 1 0 1h-3z" fill="currentColor"/></svg>
+                    View Dockerfile
+                </button>` : ""}
             </div>
         </section>
+
+        ${hasQuickActions ? `<section class="quick-actions">` : ""}
+        ${hasVscode ? renderVscodeInstall(repo.vscodeExtensionId!) : ""}
+        ${hasDocker ? renderDockerImages(repo.dockerImages!) : ""}
+        ${hasExternalLinks ? renderExternalLinks(repo.externalLinks!) : ""}
+        ${hasViewableFiles ? renderViewableFiles(repo.viewableFileContents, repo.name, repo.default_branch) : ""}
+        ${hasQuickActions ? `</section>` : ""}
 
         ${repo.readmeHtml ? `
         <article class="readme-content">
             ${repo.readmeHtml}
         </article>` : ""}
 
-        ${renderBonusDocs(repo.bonusDocs)}
+        ${renderBonusDocs(repo.bonusDocs, repo.viewableFileContents)}
         ${renderRelated(related)}
     </main>
 
     <footer class="container">
         <small><em>This page is auto-generated from the <a href="${escapeHtml(repo.html_url)}" target="_blank" rel="noopener">${escapeHtml(repo.name)}</a> repository. Content is sourced from the project README.</em></small>
     </footer>
+
+    ${hasDockerfile ? renderDockerfileViewer(repo.dockerfileContent!, repo.name, repo.default_branch) : ""}
 
     <script src="../shared.js"></script>
     <script>

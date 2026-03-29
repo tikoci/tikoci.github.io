@@ -7,6 +7,15 @@
  *   - exclude: repos to skip even if they meet the star threshold
  */
 
+export interface ExternalLink {
+    label: string;
+    url: string;
+    /** Button style: "primary" renders as solid, "outline" as outline (default: "outline") */
+    style?: "primary" | "outline";
+    /** Optional short description shown below the button */
+    description?: string;
+}
+
 export interface RepoOverride {
     /** Extra markdown files in the repo to link as resources */
     bonusDocs?: string[];
@@ -14,6 +23,14 @@ export interface RepoOverride {
     tagline?: string;
     /** Category for graph clustering */
     category?: string;
+    /** VS Code Marketplace extension ID (e.g. "TIKOCI.tikbook") — enables "Install in VS Code" button */
+    vscodeExtensionId?: string;
+    /** Docker Hub image names (e.g. ["ammo74/make.d"]) — enables Docker Hub links */
+    dockerImages?: string[];
+    /** External links/buttons shown in the actions area (catalogs, tools, manuals) */
+    externalLinks?: ExternalLink[];
+    /** Files to fetch at build time and make viewable in a modal on the landing page */
+    viewableFiles?: string[];
 }
 
 export interface Relationship {
@@ -68,38 +85,53 @@ export const DEFAULT_SYMBOL = "\u2370";  // ⍰ quad question — unknown, disco
 /** Per-repo overrides keyed by repo name */
 export const REPO_OVERRIDES: Record<string, RepoOverride> = {
     mikropkl: {
-        bonusDocs: ["UTM.md", "QEMU.md"],
+        bonusDocs: ["Files/UTM.md", "Files/QEMU.md"],
         category: "virtualization",
+        viewableFiles: ["Files/UTM.md", "Files/QEMU.md"],
     },
     "fat-chr": {
         category: "virtualization",
     },
     restraml: {
         category: "web-tools",
+        externalLinks: [
+            { label: "Schema Downloads", url: "https://tikoci.github.io/restraml/", style: "primary", description: "Browse & download RouterOS API schemas" },
+            { label: "Command Lookup", url: "https://tikoci.github.io/restraml/lookup.html", style: "outline" },
+            { label: "Schema Diff", url: "https://tikoci.github.io/restraml/diff.html", style: "outline" },
+            { label: "API Explorer", url: "https://tikoci.github.io/restraml/openapi.html", style: "outline" },
+            { label: "/app Editor", url: "https://tikoci.github.io/restraml/tikapp.html", style: "outline" },
+            { label: "User Manual", url: "https://tikoci.github.io/restraml/app", style: "primary", description: "Full /app documentation" },
+        ],
     },
     rosetta: {
         category: "dev-tools",
     },
     "lsp-routeros-ts": {
         category: "dev-tools",
+        vscodeExtensionId: "TIKOCI.lsp-routeros-ts",
     },
     "vscode-tikbook": {
         category: "dev-tools",
+        vscodeExtensionId: "TIKOCI.tikbook",
     },
     "winbox-deb": {
         category: "dev-tools",
     },
     "make.d": {
         category: "containers",
+        dockerImages: ["ammo74/make.d", "ammo74/make.d-max"],
     },
     netinstall: {
         category: "containers",
+        dockerImages: ["ammo74/netinstall"],
     },
     serial2http: {
         category: "containers",
+        dockerImages: ["ammo74/serial2http"],
     },
     cligames: {
         category: "containers",
+        dockerImages: ["ammo74/cligames"],
     },
     "mikrotik-gpl": {
         category: "scripts",
@@ -115,6 +147,9 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
     },
     "traefik-wasm-grain": {
         category: "containers",
+        externalLinks: [
+            { label: "Traefik Plugin Catalog", url: "https://plugins.traefik.io/plugins/666374dee8d831193077b35b/example-wasm-plugin-using-grain", style: "primary", description: "Published on the official Traefik plugin marketplace" },
+        ],
     },
     netserver: {
         category: "scripts",

@@ -70,6 +70,17 @@ tikoci-website/
 | `bun run lint:fix` | Auto-fix lint issues |
 | `bun run dev` | Build + serve locally on port 3000 |
 
+### GitHub API Authentication
+The build fetches repo data from the GitHub API. Without a token, the anonymous rate limit
+(60 requests/hour) can be exhausted quickly during development.
+
+**Token resolution order** (automatic — no manual setup needed if `gh` is installed):
+1. `GITHUB_TOKEN` env var — used in CI and when set explicitly
+2. `gh auth token` — auto-detected if the [GitHub CLI](https://cli.github.com/) is installed and authenticated
+3. Anonymous — falls back to cached data on rate-limit failure
+
+To set up locally: `gh auth login` (one-time). The build will find the token automatically.
+
 ### How build.ts works
 1. Cleans `dist/` except preserved directories (`scripts/`, `media/`, `logos/`)
 2. Copies all files from `src/` to `dist/`

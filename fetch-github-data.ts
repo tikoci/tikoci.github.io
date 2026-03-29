@@ -2,17 +2,37 @@
  * fetch-github-data.ts — Fetch repo metadata + README HTML from GitHub API
  *
  * Called during build to produce repos.json for the project map and
- * per-repo landing pages. Uses GITHUB_TOKEN env var when available
- * (CI) for higher rate limits. Falls back to cached data when API
- * fails (dev mode).
+ * per-repo landing pages. Auth token resolution order:
+ *   1. GITHUB_TOKEN env var (CI / explicit)
+ *   2. `gh auth token` CLI fallback (local dev)
+ *   3. Anonymous (60 req/hr rate limit — falls back to cache on failure)
  */
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { execSync } from "node:child_process";
 import { join } from "node:path";
 import { REPO_OVERRIDES, EXCLUDE_REPOS, MIN_STARS, RELATIONSHIPS, REPO_SYMBOLS, DEFAULT_SYMBOL } from "./repo-config";
+import type { ExternalLink } from "./repo-config";
 
 const OWNER = "tikoci";
 const CACHE_MAX_AGE_MS = 60 * 60 * 1000; // 1 hour
+
+/** Resolve a GitHub token: GITHUB_TOKEN env → gh CLI fallback → undefined */
+function resolveGitHubToken(): string | undefined {
+    if (process.env.GITHUB_TOKEN) return process.env.GITHUB_TOKEN;
+    try {
+        const token = execSync("gh auth token", { encoding: "utf-8", stdio: ["pipe", "pipe", "pipe"] }).trim();
+        if (token) {
+            console.log("  Using token from gh CLI");
+            return token;
+        }
+    } catch {
+        // gh not installed or not authenticated — continue without token
+    }
+    return undefined;
+}
+
+const GITHUB_TOKEN = resolveGitHubToken();
 
 export interface RepoData {
     name: string;
@@ -28,6 +48,18 @@ export interface RepoData {
     readmeHtml: string;
     bonusDocs: { name: string; path: string; url: string }[];
     category?: string;
+    /** VS Code Marketplace extension ID (passthrough from config) */
+    vscodeExtensionId?: string;
+    /** Docker Hub image names (passthrough from config) */
+    dockerImages?: string[];
+    /** External links (passthrough from config) */
+    externalLinks?: ExternalLink[];
+    /** Whether the repo has a Dockerfile in the root */
+    hasDockerfile: boolean;
+    /** Dockerfile raw content (if present and fetchable) */
+    dockerfileContent?: string;
+    /** Viewable file contents fetched at build time (markdown rendered to HTML) */
+    viewableFileContents: { name: string; html: string }[];
 }
 
 export interface GraphData {
@@ -55,9 +87,8 @@ function githubHeaders(): Record<string, string> {
         Accept: "application/vnd.github+json",
         "User-Agent": "tikoci-website-build",
     };
-    const token = process.env.GITHUB_TOKEN;
-    if (token) {
-        headers.Authorization = `Bearer ${token}`;
+    if (GITHUB_TOKEN) {
+        headers.Authorization = `Bearer ${GITHUB_TOKEN}`;
     }
     return headers;
 }
@@ -67,9 +98,8 @@ function readmeHeaders(): Record<string, string> {
         Accept: "application/vnd.github.html+json",
         "User-Agent": "tikoci-website-build",
     };
-    const token = process.env.GITHUB_TOKEN;
-    if (token) {
-        headers.Authorization = `Bearer ${token}`;
+    if (GITHUB_TOKEN) {
+        headers.Authorization = `Bearer ${GITHUB_TOKEN}`;
     }
     return headers;
 }
@@ -97,6 +127,29 @@ async function checkBonusDoc(repo: string, path: string, defaultBranch: string):
         path,
         url: `https://github.com/${OWNER}/${repo}/blob/${defaultBranch}/${path}`,
     };
+}
+
+/** Check if a file exists in a repo's root */
+async function fileExists(repo: string, path: string): Promise<boolean> {
+    const url = `https://api.github.com/repos/${OWNER}/${repo}/contents/${path}`;
+    const resp = await fetch(url, { headers: githubHeaders(), method: "HEAD" });
+    return resp.ok;
+}
+
+/** Fetch raw text content of a file from a repo */
+async function fetchRawFile(repo: string, path: string, defaultBranch: string): Promise<string | null> {
+    const url = `https://raw.githubusercontent.com/${OWNER}/${repo}/${defaultBranch}/${path}`;
+    const resp = await fetch(url);
+    if (!resp.ok) return null;
+    return resp.text();
+}
+
+/** Fetch a markdown file and get GitHub-rendered HTML */
+async function fetchFileAsHtml(repo: string, path: string): Promise<string | null> {
+    const url = `https://api.github.com/repos/${OWNER}/${repo}/contents/${path}`;
+    const resp = await fetch(url, { headers: readmeHeaders() });
+    if (!resp.ok) return null;
+    return resp.text();
 }
 
 /**
@@ -196,7 +249,7 @@ export async function fetchGitHubData(distDir: string): Promise<RepoData[]> {
 
     console.log(`  ${filtered.length} repos qualify (${MIN_STARS}+ stars)`);
 
-    // Fetch README + bonus docs for each repo
+    // Fetch README + bonus docs + enrichments for each repo
     const repos: RepoData[] = [];
     for (const r of filtered) {
         const override = REPO_OVERRIDES[r.name] || {};
@@ -214,6 +267,29 @@ export async function fetchGitHubData(distDir: string): Promise<RepoData[]> {
             }
         }
 
+        // Detect Dockerfile in root
+        let hasDockerfile = false;
+        let dockerfileContent: string | undefined;
+        if (await fileExists(r.name, "Dockerfile")) {
+            hasDockerfile = true;
+            const raw = await fetchRawFile(r.name, "Dockerfile", r.default_branch);
+            if (raw) dockerfileContent = raw;
+            console.log(`    Dockerfile detected in ${r.name}`);
+        }
+
+        // Fetch viewable file contents (rendered as HTML for markdown)
+        const viewableFileContents: { name: string; html: string }[] = [];
+        if (override.viewableFiles) {
+            for (const filePath of override.viewableFiles) {
+                const html = await fetchFileAsHtml(r.name, filePath);
+                if (html) {
+                    const cleanViewable = sanitizeReadmeHtml(html, r.name, r.default_branch);
+                    viewableFileContents.push({ name: filePath, html: cleanViewable });
+                    console.log(`    Fetched viewable: ${filePath}`);
+                }
+            }
+        }
+
         repos.push({
             name: r.name,
             description: r.description || "",
@@ -228,6 +304,12 @@ export async function fetchGitHubData(distDir: string): Promise<RepoData[]> {
             readmeHtml: cleanHtml,
             bonusDocs,
             category: override.category,
+            vscodeExtensionId: override.vscodeExtensionId,
+            dockerImages: override.dockerImages,
+            externalLinks: override.externalLinks,
+            hasDockerfile,
+            dockerfileContent,
+            viewableFileContents,
         });
     }
 

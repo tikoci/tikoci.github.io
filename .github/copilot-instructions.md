@@ -29,6 +29,6 @@ This is a multi-page static site for the TIKOCI GitHub org — MikroTik RouterOS
 - See `CLAUDE.md` → "Interactive Tool Pages" for full patterns and skeleton.
 
 ## Commands
-- `bun run build` — build site to dist/
+- `bun run build` — build site to dist/ (auto-detects `gh` CLI token for GitHub API)
 - `bun run lint` — lint with Biome
 - `bun run dev` — build + serve locally
