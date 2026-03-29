@@ -76,9 +76,9 @@
         /* Light link colors */
         .link { stroke: #999; }
         @media (prefers-color-scheme: dark) {
-            :root:not([data-theme=light]) .link { stroke: #444; }
+            :root:not([data-theme=light]) .link { stroke: #666; }
         }
-        [data-theme=dark] .link { stroke: #444; }
+        [data-theme=dark] .link { stroke: #666; }
 
         /* Node symbols */
         .node .symbol {
@@ -243,7 +243,7 @@
         }
         #match-info.visible {
             padding: 0.5rem;
-            max-height: 280px;
+            max-height: calc(100vh - 16rem);
             opacity: 1;
             overflow-y: auto;
         }
@@ -306,12 +306,13 @@
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
-            width: 200px;
+            width: clamp(160px, 18vw, 260px);
         }
         #controls input[type="search"] {
             font-size: 0.82rem;
-            padding: 0.35rem 0.5rem 0.35rem 1.6rem;
+            padding: 0.4rem 0.5rem 0.4rem 2.5rem;
             margin-bottom: 0;
+            background-position: 0.7rem center;
         }
         #zoom-controls {
             display: flex;
@@ -379,10 +380,21 @@
         [data-theme=dark] #watermark { color: #555; }
 
         /* Responsive */
+        @media (min-width: 1400px) {
+            #controls { width: 280px; }
+        }
         @media (max-width: 768px) {
-            #controls { width: 140px; top: 4rem; right: 0.5rem; }
+            #controls { width: 160px; top: 4rem; right: 0.5rem; }
+            #controls input[type="search"] { font-size: 0.75rem; padding-left: 2.2rem; }
             #legend { bottom: 0.5rem; left: 0.5rem; font-size: 0.65rem; max-width: 300px; }
             #watermark { font-size: 0.6rem; }
+        }
+        @media (max-width: 480px) {
+            #controls { width: 130px; top: 3.5rem; right: 0.4rem; }
+            #controls input[type="search"] { font-size: 0.72rem; padding-left: 2rem; }
+            #zoom-controls button { font-size: 0.85rem; padding: 0.2rem; }
+            #label-toggle { font-size: 0.7rem; }
+            #legend { max-width: 220px; font-size: 0.6rem; padding: 0.35rem 0.5rem; }
         }
     </style>
 </head>
@@ -413,7 +425,7 @@
     <svg id="graph-canvas"></svg>
 
     <div id="controls">
-        <input type="search" id="search-input" placeholder="Search projects…" aria-label="Search projects">
+        <input type="search" id="search-input" placeholder="Search…" aria-label="Search projects">
         <div id="match-count"></div>
         <button id="label-toggle" class="outline">Show Labels</button>
         <div id="zoom-controls">
@@ -693,7 +705,7 @@
         }
 
         function showMatchInfo(matched) {
-            if (matched.length > 5) { hideMatchInfo(); return; }
+            if (matched.length > 20) { hideMatchInfo(); return; }
             matchInfoEl.innerHTML = matched.map(d => {
                 const color = LANG_COLORS[d.language] || DEFAULT_COLOR;
                 const langDot = d.language
