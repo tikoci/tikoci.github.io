@@ -301,6 +301,7 @@ function escapeHtml(str) {
 
 const SITE_TOOLS = [
     { label: 'For AI Agents', href: '/llm.html' },
+    { label: 'Rosetta AI MCP', href: '/p/rosetta' },
     { label: 'Project Map', href: '/project-map.html' },
     { label: 'CHR Images', href: '/chr-images.html' },
     { label: 'Netinstall', href: 'https://tikoci.github.io/p/netinstall' },

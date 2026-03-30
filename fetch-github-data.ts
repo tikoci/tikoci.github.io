@@ -202,6 +202,25 @@ function writeCache(cachePath: string, repos: RepoData[]) {
 }
 
 /**
+ * Re-apply config-driven overrides (externalLinks, dockerImages, etc.) over
+ * cached repo data so that changes to repo-config.ts take effect without
+ * requiring a full GitHub API re-fetch.
+ */
+function applyConfigOverrides(repos: RepoData[]): RepoData[] {
+    return repos.map(repo => {
+        const override = REPO_OVERRIDES[repo.name];
+        if (!override) return repo;
+        return {
+            ...repo,
+            category: override.category ?? repo.category,
+            vscodeExtensionId: override.vscodeExtensionId ?? repo.vscodeExtensionId,
+            dockerImages: override.dockerImages ?? repo.dockerImages,
+            externalLinks: override.externalLinks ?? repo.externalLinks,
+        };
+    });
+}
+
+/**
  * Main entry: fetch all repo data and produce repos.json + graph data.
  * @param distDir - The dist/ output directory
  * @returns The full array of RepoData for page generation
@@ -219,8 +238,9 @@ export async function fetchGitHubData(distDir: string): Promise<RepoData[]> {
         const cached = readCache(cachePath);
         if (cached) {
             console.log("  Using cached GitHub data (< 1 hour old)");
-            writeReposJson(dataDir, cached);
-            return cached;
+            const repos = applyConfigOverrides(cached);
+            writeReposJson(dataDir, repos);
+            return repos;
         }
     }
 
@@ -233,8 +253,9 @@ export async function fetchGitHubData(distDir: string): Promise<RepoData[]> {
         const cached = readCache(cachePath);
         if (cached) {
             console.log("  Falling back to stale cache");
-            writeReposJson(dataDir, cached);
-            return cached;
+            const repos = applyConfigOverrides(cached);
+            writeReposJson(dataDir, repos);
+            return repos;
         }
         console.warn("  No cache available — building with empty repo data");
         writeReposJson(dataDir, []);
