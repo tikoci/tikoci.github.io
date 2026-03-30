@@ -300,8 +300,6 @@ function escapeHtml(str) {
 // To add/remove a tool, update this array — all pages render from it.
 
 const SITE_TOOLS = [
-    { label: 'For AI Agents', href: '/llm.html' },
-    { label: 'Rosetta AI MCP', href: '/p/rosetta' },
     { label: 'Project Map', href: '/project-map.html' },
     { label: 'CHR Images', href: '/chr-images.html' },
     { label: 'Netinstall', href: 'https://tikoci.github.io/p/netinstall' },
@@ -310,6 +308,8 @@ const SITE_TOOLS = [
     { label: 'Schema Diff', href: 'https://tikoci.github.io/restraml/diff.html' },
     { label: 'Command Lookup', href: 'https://tikoci.github.io/restraml/lookup.html' },
     { label: 'Schema Downloads', href: 'https://tikoci.github.io/restraml' },
+    { label: 'RouterOS KB MCP', href: '/p/rosetta' },
+    { label: 'For Agents Only', href: '/llm.html' },
 ];
 
 /**
