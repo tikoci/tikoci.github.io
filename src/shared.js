@@ -300,9 +300,9 @@ function escapeHtml(str) {
 // To add/remove a tool, update this array — all pages render from it.
 
 const SITE_TOOLS = [
-    { label: 'For AI Agents', href: 'llm.html' },
-    { label: 'Project Map', href: 'project-map.html' },
-    { label: 'CHR Images', href: 'chr-images.html' },
+    { label: 'For AI Agents', href: '/llm.html' },
+    { label: 'Project Map', href: '/project-map.html' },
+    { label: 'CHR Images', href: '/chr-images.html' },
     { label: 'Netinstall', href: 'https://tikoci.github.io/p/netinstall' },
     { label: 'API Explorer', href: 'https://tikoci.github.io/restraml/openapi.html' },
     { label: '/app Editor', href: 'https://tikoci.github.io/restraml/tikapp.html' },
@@ -330,7 +330,7 @@ function initToolsDropdown(listId, opts) {
         .filter(t => !excludeSet.has(t.href))
         .map(t => {
             const isLocal = !t.href.startsWith('http');
-            const isCurrent = isLocal && t.href === current;
+            const isCurrent = isLocal && t.href.split('/').pop() === current;
             const attrs = isLocal
                 ? (isCurrent ? ' aria-current="page"' : '')
                 : ' target="_blank" rel="noopener"';
