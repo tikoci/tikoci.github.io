@@ -50,6 +50,7 @@ export const REPO_SYMBOLS: Record<string, string> = {
     // === API & Schema Tools ===
     "restraml":           "\u234B",  // ⍋ grade up — organizing API schemas
     "rosetta":            "\u2373",  // ⍳ iota/index of — MCP lookup/translation
+    "routeros-skills":    "\u2261",  // ≡ depth/match — structured knowledge layers
 
     // === Development Tools ===
     "lsp-routeros-ts":    "\u2395",  // ⎕ quad — system function, language server
@@ -104,6 +105,9 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
         ],
     },
     rosetta: {
+        category: "dev-tools",
+    },
+    "routeros-skills": {
         category: "dev-tools",
     },
     "lsp-routeros-ts": {
@@ -191,6 +195,7 @@ export const RELATIONSHIPS: Relationship[] = [
 
     // MCP/AI layer
     { source: "rosetta", target: "lsp-routeros-ts", type: "topic" },
+    { source: "rosetta", target: "routeros-skills", type: "ecosystem" },
 
     // Network scripts family
     { source: "netserver", target: "netinstall", type: "topic" },
