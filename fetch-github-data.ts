@@ -156,10 +156,16 @@ async function fetchFileAsHtml(repo: string, path: string): Promise<string | nul
  * Sanitize GitHub-rendered README HTML:
  * - Strip <script> tags (defense-in-depth)
  * - Rewrite relative image URLs to absolute raw.githubusercontent.com URLs
+ * - Downshift headings (h1→h2 … h5→h6) so README h1s don't compete with the page h1
+ * - Add alt="" to any <img> missing an alt attribute
  */
 function sanitizeReadmeHtml(html: string, repo: string, defaultBranch: string): string {
     // Strip script tags
     let clean = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
+    // Downshift headings so README h1 doesn't clash with page h1 (SEO/a11y)
+    clean = clean.replace(/<(\/?)h([1-5])(\s|>)/gi, (_, slash, level, rest) =>
+        `<${slash}h${Number(level) + 1}${rest}`
+    );
     // Rewrite relative image src to absolute
     const rawBase = `https://raw.githubusercontent.com/${OWNER}/${repo}/${defaultBranch}`;
     clean = clean.replace(
@@ -169,6 +175,8 @@ function sanitizeReadmeHtml(html: string, repo: string, defaultBranch: string): 
             return `${pre}${rawBase}/${cleanSrc}${post}`;
         }
     );
+    // Add alt="" to images that are missing an alt attribute
+    clean = clean.replace(/<img\b(?![^>]*\balt=)([^>]*?)(\s*\/?>)/gi, '<img alt=""$1$2');
     // Also rewrite relative href for links to images/docs
     clean = clean.replace(
         /(<a\s[^>]*href=")(?!https?:\/\/|#|mailto:)([^"]+)(")/gi,

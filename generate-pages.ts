@@ -26,6 +26,13 @@ const LANG_COLORS: Record<string, string> = {
     PKL: "#6B4C9A",
 };
 
+/** Shift heading levels down by 1 (h1→h2 … h5→h6) so README headings don't compete with page h1 */
+function downshiftHeadings(html: string): string {
+    return html.replace(/<(\/?)h([1-5])(\s|>)/gi, (_, slash, level, rest) =>
+        `<${slash}h${Number(level) + 1}${rest}`
+    );
+}
+
 function escapeHtml(str: string): string {
     return str
         .replace(/&/g, "&amp;")
@@ -162,7 +169,7 @@ function renderViewableFiles(files: RepoData["viewableFileContents"], repoName: 
                     <h3>${escapeHtml(displayName(f.name))}</h3>
                 </header>
                 <div class="readme-content modal-body">
-                    ${f.html}
+                    ${downshiftHeadings(f.html)}
                 </div>
                 <footer>
                     <a href="${escapeHtml(githubUrl)}" target="_blank" rel="noopener">View on GitHub</a>
@@ -229,6 +236,8 @@ function renderPage(repo: RepoData, allRepos: RepoData[]): string {
         ? `<a href="${escapeHtml(repo.homepage)}" role="button" class="outline" target="_blank" rel="noopener">\u{1F310} Homepage</a>`
         : "";
 
+    const description = repo.description || `${repo.name} — open source MikroTik RouterOS project by TIKOCI`;
+
     return `<!doctype html>
 <html lang="en">
 <head>
@@ -236,10 +245,10 @@ function renderPage(repo: RepoData, allRepos: RepoData[]): string {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <title>${escapeHtml(repo.name)} \u2014 tikoci.github.io</title>
-    <meta name="description" content="${escapeHtml(repo.description)}">
+    <meta name="description" content="${escapeHtml(description)}">
     <link rel="canonical" href="${canonicalUrl}">
     <meta property="og:title" content="${escapeHtml(repo.name)} \u2014 tikoci.github.io">
-    <meta property="og:description" content="${escapeHtml(repo.description)}">
+    <meta property="og:description" content="${escapeHtml(description)}">
     <meta property="og:url" content="${canonicalUrl}">
     <meta property="og:type" content="website">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
@@ -514,7 +523,7 @@ function renderPage(repo: RepoData, allRepos: RepoData[]): string {
 
         ${repo.readmeHtml ? `
         <article class="readme-content">
-            ${repo.readmeHtml}
+            ${downshiftHeadings(repo.readmeHtml)}
         </article>` : ""}
 
         ${renderBonusDocs(repo.bonusDocs, repo.viewableFileContents)}
