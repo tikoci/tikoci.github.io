@@ -1,5 +1,6 @@
 .DS_Store
 .github-cache.json
+.cache/
 dist/*
 !dist/scripts/
 !dist/scripts/**
@@ -9,5 +10,6 @@ dist/*
 !dist/fat-chr/**
 docs/.observablehq/cache/
 node_modules/
+package-lock.json
 yarn-error.log
 .local

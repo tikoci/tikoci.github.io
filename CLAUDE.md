@@ -64,10 +64,11 @@ tikoci-website/
 ### Commands
 | Command | What it does |
 |---------|-------------|
-| `bun install` | Install dependencies (only @biomejs/biome) |
+| `bun install` | Install dependencies |
 | `bun run build` | Run `build.ts` → produces static site in `dist/` |
-| `bun run lint` | Lint with Biome v2.x |
-| `bun run lint:fix` | Auto-fix lint issues |
+| `bun run typecheck` | TypeScript type check via `tsc --noEmit` (uses `tsconfig.json`) |
+| `bun run lint` | Type check + Biome lint + build |
+| `bun run lint:fix` | Auto-fix Biome lint issues |
 | `bun run dev` | Build + serve locally on port 3000 |
 
 ### GitHub API Authentication
@@ -87,9 +88,10 @@ To set up locally: `gh auth login` (one-time). The build will find the token aut
 3. Copies images from `docs/images/` to `dist/images/`
 4. Fetches GitHub repo data via API → caches in `dist/data/repos.json`
 5. Generates per-repo landing pages → `dist/p/{repo-name}.html`
-6. Builds graph data and embeds it into `dist/project-map.html`
-7. Injects per-repo URLs into `dist/sitemap.xml`
-8. Prints a file listing
+6. Generates per-repo symbol images → `dist/p/{repo-name}.svg` and `.png` (from `REPO_SYMBOLS` in `repo-config.ts`, rendered with JetBrains Mono via opentype.js + sharp)
+7. Builds graph data and embeds it into `dist/project-map.html`
+8. Injects per-repo URLs into `dist/sitemap.xml`
+9. Prints a file listing
 
 The build uses bun with Node.js built-in APIs. No template engine, no bundler, no minifier. The GitHub data fetching and page generation are in separate modules (`fetch-github-data.ts`, `generate-pages.ts`) with per-repo configuration in `repo-config.ts`.
 
@@ -483,12 +485,15 @@ All pages include the Plausible snippet in `<head>`:
 | Dependency | Version | Purpose |
 |-----------|---------|---------|
 | Pico CSS | v2 (CDN) | CSS framework — semantic HTML styling |
-| JetBrains Mono | (Google Fonts) | Primary body font |
+| JetBrains Mono | (Google Fonts) | Primary body font; also downloaded as TTF at build time for symbol generation |
 | Manrope | (Google Fonts) | Sans-serif fallback font |
 | @biomejs/biome | v2.x (devDep) | Linter (formatter disabled) |
+| opentype.js | v1.x (devDep) | Font parsing — renders APL glyphs to SVG paths at build time |
+| sharp | v0.34 (devDep) | Image processing — converts SVG symbols to PNG at build time |
+| playwright | v1.x (devDep) | Browser testing — **not used by the build**. Available for agents to run e2e/visual tests locally or in CI. Not a build dependency. |
 | Plausible | (external script) | Privacy-friendly analytics |
 
-No runtime dependencies for the site. No build tools beyond bun itself.
+No runtime dependencies for the site. Build tools: bun + opentype.js + sharp (for symbol generation).
 
 ---
 
