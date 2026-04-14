@@ -246,13 +246,30 @@ export function generateRouterOSFetch(requestLike, options = {}) {
     if (request.body?.mode === "file") {
         problems.push("* direct local file uploads need manual adaptation before they can run on RouterOS");
     }
-    if (request.body?.mode === "formdata" && request.body.formdata.some((item) => item.type === "file" && item.disabled !== true)) {
-        problems.push("* multipart file uploads expect the referenced file to already exist on the RouterOS device");
+    const hasMultipartFiles =
+        request.body?.mode === "formdata" &&
+        request.body.formdata.some((item) => item.type === "file" && item.disabled !== true);
+    if (hasMultipartFiles) {
+        problems.push(
+            "* multipart file upload via /tool/fetch requires manual adaptation: the referenced file must already exist on the RouterOS device as a plain-text file. " +
+                "RouterOS /tool/fetch has no native file-upload support; the generated $[/file get <name> contents] expression reads the file at script runtime. " +
+                "For binary files or more complex payloads, consider using [:convert] and newer /file commands to construct the multipart body manually.",
+        );
     }
 
     const body = request.body ? getBody(request) : "";
     if (body) {
-        attrs.set("http-data", escapeRouterOSString(body));
+        let escapedBody = escapeRouterOSString(body);
+        // $[/file get ...] is a RouterOS expression that must be interpolated at runtime;
+        // escapeRouterOSString escapes '$' → '\$' globally (see its char === "$" branch),
+        // so we restore '\$[/file get ' → '$[/file get ' — scoped to only the exact RouterOS
+        // /file get expression that buildFormDataBody emits for file parts, leaving any
+        // literal '$[' in text field values correctly escaped.
+        // NOTE: if buildFormDataBody's file expression format changes, update this regex.
+        if (hasMultipartFiles) {
+            escapedBody = escapedBody.replace(/\\\$\[\/file get /g, "$[/file get ");
+        }
+        attrs.set("http-data", escapedBody);
         const contentEncoding = getHeaderValue(effectiveHeaders, "Content-Encoding");
         if (contentEncoding?.startsWith("gzip")) {
             attrs.set("http-content-encoding", "gzip");

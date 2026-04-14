@@ -406,7 +406,7 @@
                     <ul>
                         <li><code>-L</code> / <code>--location</code> &mdash; <code>/tool/fetch</code> does not follow redirects.</li>
                         <li><code>--compressed</code> &mdash; no automatic decompression support.</li>
-                        <li>Local file uploads (<code>-F @file</code>) &mdash; the file must already exist on the RouterOS device.</li>
+                        <li>Local file uploads (<code>-F @file</code>) &mdash; <code>/tool/fetch</code> has no native file-upload support. The generated script uses <code>$[/file get &hellip; contents]</code> to read a <strong>plain-text</strong> file that must already exist on the RouterOS device. Binary files and complex payloads require manually constructing the multipart body using <code>[:convert]</code> and <code>/file</code> commands.</li>
                         <li>HTTP methods beyond GET, HEAD, POST, PUT, DELETE, PATCH.</li>
                     </ul>
                     <hr>

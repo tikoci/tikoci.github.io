@@ -132,15 +132,45 @@ describe("routeros fetch generator", () => {
 
         expect(warnings).toEqual([]);
 
-        const snippet = generateRouterOSFetchSnippet(normalizeCurlConverterRequest(request), {
+        const result = generateRouterOSFetch(normalizeCurlConverterRequest(request), {
             style: "plain",
             commentary: "none",
         });
 
-        expect(snippet).toContain('http-header-field="Content-Type: multipart/form-data; boundary=----FormDataVariable"');
-        expect(snippet).toContain('Content-Disposition: form-data; name=\\"name\\"');
-        expect(snippet).toContain('name=\\"file\\"; filename=\\"test.txt\\"');
-        expect(snippet).toContain("\\$[/file get test.txt contents]");
+        expect(result.snippet).toContain('http-header-field="Content-Type: multipart/form-data; boundary=----FormDataVariable"');
+        expect(result.snippet).toContain('Content-Disposition: form-data; name=\\"name\\"');
+        expect(result.snippet).toContain('name=\\"file\\"; filename=\\"test.txt\\"');
+        // $[/file get ...] must not be escaped — RouterOS needs to interpolate the expression at runtime
+        expect(result.snippet).toContain("$[/file get test.txt contents]");
+        expect(result.snippet).not.toContain("\\$[/file get test.txt contents]");
+        // warning should mention RouterOS limitations for file uploads
+        expect(result.problems.join(" ")).toContain("RouterOS /tool/fetch has no native file-upload support");
+        expect(result.problems.join(" ")).toContain("plain-text file");
+    });
+
+    test("keeps literal $[ in text form fields escaped when multipart files are present", () => {
+        // A text field whose value contains $[ must remain escaped (\$[) so RouterOS does not
+        // evaluate it as a command-substitution expression — only $[/file get ...] from file
+        // parts should be unescaped.
+        const result = generateRouterOSFetch(
+            {
+                method: "POST",
+                url: "https://example.com",
+                body: {
+                    mode: "formdata",
+                    formdata: [
+                        { key: "expr", value: "$[some expression]", type: "text" },
+                        { key: "upload", type: "file", src: "data.txt" },
+                    ],
+                },
+            },
+            { style: "plain", commentary: "none" },
+        );
+
+        // file expression must be interpolatable
+        expect(result.snippet).toContain("$[/file get data.txt contents]");
+        // text field with $[ must still be escaped so RouterOS treats it as a literal string
+        expect(result.snippet).toContain("\\$[some expression]");
     });
 
     test("supports modern curlconverter flags such as --json and -L", () => {
