@@ -68,8 +68,8 @@ _See https://forum.mikrotik.com/viewtopic.php?t=214189#p1123276 for code and mor
   > The [tikoci/restraml](https://github.com/tikoci/restraml) project provides a web page that allows picking two RouterOS versions to see what commands have changed in the CLI or RouterOS APIs like REST.  
 
 * #### `curl2rsc` - Convert `curl` to `/tool/fetch` 
-  ##### https://tikoci.github.io/postman-code-generators
-  > The project is mainly code for Postman's "Code Snippet" to support `/tool/fetch` - but hosts a web page to convert "most" `curl` commands into the right RouterOS command using `/tool/fetch`.  Various "output styles" are supported to provide examples of using `/tool/fetch` in various use cases.
+  ##### https://tikoci.github.io/curl2rsc.html
+  > The browser-side `curl2rsc` tool converts "most" `curl` commands into RouterOS `/tool/fetch` snippets without any backend. Various output styles are supported to provide examples of using `/tool/fetch` in different scripting use cases.
 
 * #### Observable Notebook _Mikrotik Collection_   
   ##### https://observablehq.com/collection/@a2m0/mikrotik
@@ -107,8 +107,8 @@ Not all project in tikoci are containers. Projects below generally re-package, i
 * **[tikoci/restraml](https://github.com/tikoci/restraml)** is not a container, but builds API schemas for any RouterOS version, using [CHR in GitHub Action](https://github.com/tikoci/restraml/actions/workflows/manual-using-extra-docker-in-docker.yaml) to dynamically create API schemas from RouterOS's `/console/inspect` command.  The generated schemes can be used in Postman and other API tools to enable [RouterOS's REST API](https://help.mikrotik.com/docs/display/ROS/REST+API) software development.  
   > This project also "hosts" the [RouterOS Command `diff` Tool](https://tikoci.github.io/restraml) via GitHub Pages, and is implemented as a "serverless, single page app" - so all the "diff'ing" and other app logic is happening in the browser without any backend server.  
 
-* **[tikoci/postman-code-generators](https://github.com/tikoci/postman-code-generators)** contains fork from Postman adding RouterOS `/tool/fetch` snippet support & also the [`curl2rsc` website](https://tikoci.github.io/postman-code-generators)
-  > The `curl2rsc` webpage takes a different approach than `restraml`.  It uses [HTMX](https://htmx.org), instead of local JavaScript events to handle UI logic.  With HTMX using a [glitch.com](https://glitch.com) backend providing a `/curl` endpoint that utilizes this project's [RouterOS "codegen" library](https://github.com/tikoci/postman-code-generators/tree/develop/codegens/routeros-fetch), with [curl-to-postman] module, to do code generation on the backend.
+* **[tikoci/postman-code-generators](https://github.com/tikoci/postman-code-generators)** contains the original Postman fork that added RouterOS `/tool/fetch` snippet support and supplied the historical `curl2rsc` implementation.
+  > The current `curl2rsc` page on `tikoci.github.io` is now a browser-side SPA that reuses RouterOS generator logic locally instead of depending on the retired HTMX + Glitch backend.
 
 * **[tikoci/winbox-deb](https://github.com/tikoci/winbox-deb)** uses `Makefile` to create a `.deb` linux package with WinBox 4.0, including adding icon to desktop.  Provided mainly as an _example for others_ wanting to package WinBox 4.0 for various distros and "app stores".  
   > The `.deb` built is **not intended for wide redistribution** – more a template for future winbox packaging. 
@@ -179,7 +179,7 @@ Various repos make use of great work by others.  Specifically, and in no order:
   * [json-diff](https://github.com/andreyvit/json-diff)
   * [jsonpath](https://github.com/dchester/jsonpath)
 * Many repos here use RouterOS scripts.  While specific contributions are noted in the specific scripts/projects, thanks [@rextended](https://forum.mikrotik.com/viewtopic.php?t=177551) & others on Mikrotik scripting forum for the many examples. 
-* `curl2rsc` webpage in [`tikoci/postman-code-generator`](https://github.com/tikoci/postman-code-generator/index.html) uses [HTMX](https://htmx.org), with [glitch.com](https://glitch.com) providing a backend web service needed to run Postman's `curl-to-postman` and `postman-collection` modules under nodeJS.
+* The old `curl2rsc` webpage in [`tikoci/postman-code-generator`](https://github.com/tikoci/postman-code-generator/index.html) used [HTMX](https://htmx.org) with a [glitch.com](https://glitch.com) backend to run Postman's `curl-to-postman` flow under nodeJS. The current version on `tikoci.github.io` now runs fully in the browser using `curlconverter`, Tree-sitter WASM, and a local RouterOS generator.
 * [EvilFreelancer/docker-routeros](https://github.com/EvilFreelancer/docker-routeros)'s "CHR+QEMU-in-Docker" project is used to in extracting RouterOS `/console/inspect` data from a CHR running within a [GitHub Action](https://github.com/tikoci/restraml/blob/bda495263bb4ec6c11ab460054ca2e90777104a1/.github/workflows/manual-using-extra-docker-in-docker.yaml#L37) and used by `tikoci/restraml`'s schema generation code.
 * `tikoci/fat-chr` just re-builds a CHR image but relies on a script with some incantation of `qemu-img`/`gdisk` - but the scripts themselves come from @jaclaz and @kriznos, with @sindy providing QA+mgmt, in a Mikrotik [forum discussion](https://forum.mikrotik.com/viewtopic.php?t=184254&hilit=eufi).
 * `tikoci.github.io` uses the [Observable Framework](https://observablehq.com/framework/) and GitHub Pages to build the TIKOCI website, which will be developed more in future. 

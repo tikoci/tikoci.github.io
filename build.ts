@@ -21,6 +21,17 @@ const ROOT = resolve(import.meta.dirname);
 const SRC = join(ROOT, "src");
 const DIST = join(ROOT, "dist");
 const CACHE = join(ROOT, ".cache", "jetbrains-mono");
+const CURLCONVERTER_ENTRY = join(SRC, "curlconverter.js");
+const CURLCONVERTER_WASM_ASSETS = [
+    {
+        src: join(ROOT, "node_modules", "web-tree-sitter", "tree-sitter.wasm"),
+        dest: join(DIST, "tree-sitter.wasm"),
+    },
+    {
+        src: join(ROOT, "node_modules", "curlconverter", "dist", "tree-sitter-bash.wasm"),
+        dest: join(DIST, "tree-sitter-bash.wasm"),
+    },
+] as const;
 
 async function getJetBrainsMonoTtfPath() {
     const targetPath = join(CACHE, "JetBrainsMono-Regular.ttf");
@@ -67,6 +78,38 @@ if (existsSync(DIST)) {
 // Step 2: Copy src/ contents to dist/
 console.log("Copying src/ → dist/...");
 copyDir(SRC, DIST);
+
+// Step 2.5: Bundle browser-side curl parser helper and copy its WASM assets
+if (existsSync(CURLCONVERTER_ENTRY)) {
+    console.log("Bundling curlconverter browser helper...");
+    const result = await Bun.build({
+        entrypoints: [CURLCONVERTER_ENTRY],
+        outdir: DIST,
+        root: SRC,
+        target: "browser",
+        format: "esm",
+        packages: "bundle",
+        sourcemap: "none",
+        naming: {
+            entry: "[name].[ext]",
+        },
+    });
+
+    if (!result.success) {
+        for (const log of result.logs) {
+            console.error(log);
+        }
+        throw new Error("Failed to bundle curlconverter browser helper");
+    }
+}
+
+console.log("Copying curlconverter WASM assets...");
+for (const asset of CURLCONVERTER_WASM_ASSETS) {
+    if (!existsSync(asset.src)) {
+        throw new Error(`Missing curlconverter asset: ${asset.src}`);
+    }
+    copyFileSync(asset.src, asset.dest);
+}
 
 // Step 3: Copy images from docs/images/ to dist/images/
 const DOCS_IMAGES = join(ROOT, "docs", "images");
