@@ -53,3 +53,14 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Submit to IndexNow
+        if: success()
+        run: |
+          KEY="ea4945a834b24a54bd1970f28dc64b22"
+          HOST="tikoci.github.io"
+          URLS=$(grep -oP '(?<=<loc>)[^<]+' dist/sitemap.xml | jq -R . | jq -s .)
+          echo "Submitting $(echo $URLS | jq length) URLs to IndexNow..."
+          curl -s -w "\nHTTP %{http_code}" -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "{\"host\":\"$HOST\",\"key\":\"$KEY\",\"keyLocation\":\"https://$HOST/$KEY.txt\",\"urlList\":$URLS}"
