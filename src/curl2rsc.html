@@ -4,8 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <title>curl2rsc — tikoci.github.io</title>
-    <meta name="description" content="Convert curl commands into MikroTik RouterOS /tool/fetch snippets directly in the browser, with live parsing, warnings, and shareable URLs.">
+    <title>curl2rsc — Convert curl to MikroTik RouterOS /tool/fetch</title>
+    <meta name="description" content="Convert curl commands to MikroTik RouterOS /tool/fetch scripting (.rsc) directly in the browser. Supports --json, auth, multipart, and all output styles.">
+    <meta property="og:title" content="curl2rsc — curl to RouterOS /tool/fetch converter">
+    <meta property="og:description" content="Paste a curl command, get a RouterOS /tool/fetch snippet. Browser-side, no backend.">
+    <meta property="og:url" content="https://tikoci.github.io/curl2rsc.html">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <link rel="canonical" href="https://tikoci.github.io/curl2rsc.html">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,87 +20,216 @@
     <script async src="https://plausible.io/js/pa-ubWop5eYckoDPVbIjXU4_.js"></script>
     <script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)};plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>
     <style>
-        .tool-grid {
-            display: grid;
-            grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.8fr);
-            gap: 1rem;
-            align-items: start;
-        }
+        /* — Curl input — */
         #curl-input {
-            min-height: 16rem;
-            margin-bottom: 0.4rem;
+            min-height: 10rem;
             font-size: 0.88rem;
+            margin-bottom: 0;
+            resize: vertical;
         }
-        .status-pill {
-            display: inline-flex;
+        /* — Examples row — */
+        .examples-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 0.3rem;
+            font-size: 0.82rem;
+            margin-bottom: 0.6rem;
+        }
+        .examples-row a { white-space: nowrap; }
+        .examples-row .sep { color: var(--pico-muted-color); }
+        /* — Error area below input — */
+        #error-area {
+            margin-top: 0.4rem;
+            font-size: 0.85rem;
+        }
+        #error-area:empty { display: none; }
+        .error-msg {
+            color: #d92d20;
+            padding: 0.5rem 0.7rem;
+            border-left: 4px solid #d92d20;
+            border-radius: 0 var(--pico-border-radius) var(--pico-border-radius) 0;
+            background: color-mix(in srgb, #d92d20 6%, transparent);
+            margin-bottom: 0.4rem;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme=light]) .error-msg {
+                background: color-mix(in srgb, #d92d20 12%, transparent);
+            }
+        }
+        [data-theme=dark] .error-msg {
+            background: color-mix(in srgb, #d92d20 12%, transparent);
+        }
+        .warn-msg {
+            color: #b45309;
+            padding: 0.4rem 0.7rem;
+            border-left: 4px solid #e49b0f;
+            border-radius: 0 var(--pico-border-radius) var(--pico-border-radius) 0;
+            background: color-mix(in srgb, #e49b0f 6%, transparent);
+            margin-bottom: 0.3rem;
+            font-size: 0.82rem;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme=light]) .warn-msg {
+                color: #fbbf24;
+                background: color-mix(in srgb, #e49b0f 12%, transparent);
+            }
+        }
+        [data-theme=dark] .warn-msg {
+            color: #fbbf24;
+            background: color-mix(in srgb, #e49b0f 12%, transparent);
+        }
+        .credential-warn {
+            color: #b45309;
+            padding: 0.4rem 0.7rem;
+            border-left: 4px solid #f59e0b;
+            border-radius: 0 var(--pico-border-radius) var(--pico-border-radius) 0;
+            background: color-mix(in srgb, #f59e0b 6%, transparent);
+            font-size: 0.82rem;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme=light]) .credential-warn {
+                color: #fbbf24;
+                background: color-mix(in srgb, #f59e0b 12%, transparent);
+            }
+        }
+        [data-theme=dark] .credential-warn {
+            color: #fbbf24;
+            background: color-mix(in srgb, #f59e0b 12%, transparent);
+        }
+        /* — Controls row — */
+        .controls-row {
+            display: flex;
+            flex-wrap: wrap;
             align-items: center;
-            border: 1px solid var(--pico-form-element-border-color);
-            border-radius: 999px;
-            padding: 0.15rem 0.65rem;
-            font-size: 0.78rem;
+            gap: 0.6rem;
+            margin: 1.2rem 0 0.5rem;
+        }
+        .controls-row label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 0;
             white-space: nowrap;
         }
-        .status-pill.pending { color: var(--pico-muted-color); }
-        .status-pill.ok { color: var(--pico-primary); }
-        .status-pill.error { color: #b42318; }
-        .panel-stack > * + * { margin-top: 0.8rem; }
+        .controls-row select {
+            width: auto;
+            margin: 0;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.85rem;
+        }
+        .controls-row .spacer { flex: 1; }
+        /* — Output block — */
+        #output-section { position: relative; }
+        #fetch-output {
+            min-height: 3.5rem;
+            margin-bottom: 0;
+            font-size: 0.82rem;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        #fetch-output:empty::after {
+            content: 'RouterOS output appears here…';
+            color: var(--pico-muted-color);
+        }
+        .copy-row {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.3rem;
+        }
+        .copy-row button {
+            font-size: 0.82rem;
+            padding: 0.25rem 0.6rem;
+            margin: 0;
+        }
+        /* — Notes/tips below output — */
+        #notes-area {
+            margin-top: 0.6rem;
+            font-size: 0.85rem;
+        }
+        #notes-area:empty { display: none; }
+        .tip-block {
+            padding: 0.5rem 0.7rem;
+            border-left: 4px solid var(--pico-primary);
+            border-radius: 0 var(--pico-border-radius) var(--pico-border-radius) 0;
+            background: color-mix(in srgb, var(--pico-primary) 6%, transparent);
+            margin-bottom: 0.4rem;
+            font-size: 0.85rem;
+        }
+        .tip-block pre {
+            font-size: 0.78rem;
+            margin: 0.4rem 0 0;
+            padding: 0.5rem 0.6rem;
+            border-left: none;
+        }
+        /* — JSON deserialize example — */
+        .json-example-block {
+            padding: 0.5rem 0.7rem;
+            border-left: 4px solid var(--pico-primary);
+            border-radius: 0 var(--pico-border-radius) var(--pico-border-radius) 0;
+            background: color-mix(in srgb, var(--pico-primary) 6%, transparent);
+            margin-top: 0.5rem;
+        }
+        .json-example-block summary {
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        .json-example-block pre {
+            font-size: 0.78rem;
+            margin: 0.4rem 0 0;
+            padding: 0.5rem 0.6rem;
+            border-left: none;
+        }
+        /* — Folded help sections — */
+        .help-sections { margin-top: 1.5rem; }
+        .help-sections > details { margin-bottom: 0.5rem; }
+        .help-sections > details > summary {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .help-sections > details > article {
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+        }
+        .browser-tabs {
+            display: flex;
+            gap: 0.4rem;
+            margin-bottom: 0.6rem;
+        }
+        .browser-tabs button {
+            font-size: 0.8rem;
+            padding: 0.2rem 0.6rem;
+            margin: 0;
+        }
+        .browser-tab-content { display: none; }
+        .browser-tab-content.active { display: block; }
+        /* — Debug details panel — */
         .request-facts {
             display: grid;
             grid-template-columns: auto 1fr;
-            gap: 0.4rem 1rem;
-            font-size: 0.9rem;
-            margin: 0;
+            gap: 0.3rem 0.8rem;
+            font-size: 0.85rem;
+            margin: 0 0 0.6rem;
         }
         .request-facts dt { font-weight: 700; }
-        .request-facts dd {
-            margin: 0;
-            word-break: break-word;
-        }
-        .callout {
-            border-left: 4px solid var(--pico-primary);
-            padding: 0.7rem 0.9rem;
-            border-radius: 0 var(--pico-border-radius) var(--pico-border-radius) 0;
-            background: var(--pico-form-element-background-color);
-        }
-        .callout.warning { border-left-color: #e49b0f; }
-        .callout.error { border-left-color: #d92d20; }
-        .item-list {
-            padding-left: 1.1rem;
-            margin-bottom: 0;
-            font-size: 0.9rem;
-        }
-        .item-list li + li { margin-top: 0.35rem; }
+        .request-facts dd { margin: 0; word-break: break-word; }
         #json-preview {
-            min-height: 14rem;
-            margin-bottom: 0;
-            font-size: 0.8rem;
-            border-left: 3px solid var(--pico-primary);
-        }
-        #style-select {
-            margin-bottom: 0.6rem;
-        }
-        #fetch-output {
-            min-height: 16rem;
-            margin-bottom: 0.4rem;
-            font-size: 0.82rem;
-        }
-        #copy-output-btn {
-            font-size: 0.85rem;
-            padding: 0.35rem 0.8rem;
+            font-size: 0.78rem;
+            max-height: 20rem;
+            overflow: auto;
         }
         #json-preview code {
             white-space: pre-wrap;
             word-break: break-word;
         }
-        .muted-output { color: var(--pico-muted-color); }
-        .share-row {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 1rem;
+        /* — Status indicator — */
+        .status-label {
+            font-size: 0.78rem;
+            color: var(--pico-muted-color);
         }
-        @media (max-width: 900px) {
-            .tool-grid { grid-template-columns: 1fr; }
-        }
+        .status-label.ready { color: var(--pico-primary); }
+        .status-label.error { color: #d92d20; }
     </style>
 </head>
 <body>
@@ -147,107 +282,164 @@
                 <li><a href="#" id="theme_switcher" aria-label="Toggle dark mode"></a></li>
             </ul>
         </nav>
+
+        <hgroup>
+            <h1>curl<mark>2rsc</mark></h1>
+            <p>Convert <code>curl</code> commands to MikroTik RouterOS <code>/tool/fetch</code> scripting (<code>.rsc</code>)</p>
+        </hgroup>
     </header>
 
     <main class="container">
-        <hgroup>
-            <h1>curl2rsc <small>browser-side <code>/tool/fetch</code> generator</small></h1>
-            <p>Paste a <code>curl</code> command and convert it into RouterOS <code>/tool/fetch</code> output without leaving the browser.</p>
-        </hgroup>
 
-        <div class="share-row">
+        <!-- Examples row -->
+        <div class="examples-row">
+            <span>Examples:</span>
+            <a href="#" id="ex-get">GET</a> <span class="sep">&middot;</span>
+            <a href="#" id="ex-post">POST JSON</a> <span class="sep">&middot;</span>
+            <a href="#" id="ex-auth">Basic Auth</a> <span class="sep">&middot;</span>
+            <a href="#" id="ex-form">Form</a> <span class="sep">&middot;</span>
+            <a href="#" id="ex-headers">Custom Headers</a>
+        </div>
+
+        <!-- Curl input -->
+        <textarea id="curl-input" spellcheck="false" autocorrect="off" autocapitalize="none"
+                  placeholder="curl https://example.com/api -H 'Accept: application/json'"
+                  aria-label="curl command"></textarea>
+
+        <!-- Errors/warnings appear below input -->
+        <div id="error-area" aria-live="polite"></div>
+
+        <!-- Output controls row -->
+        <div class="controls-row">
+            <label for="style-select">Output style</label>
+            <select id="style-select" aria-label="RouterOS output style">
+                <option value="plain">/tool/fetch (simple)</option>
+                <option value="outputToConsole">:put to terminal</option>
+                <option value="outputToVariable">Save to variable</option>
+                <option value="outputToVariableWithHeaders">Variable + headers</option>
+                <option value="outputToFile">Output to file</option>
+            </select>
+            <span class="spacer"></span>
+            <span id="status-label" class="status-label">Loading&hellip;</span>
             <button id="share-btn" class="outline share-link">Share</button>
         </div>
 
-        <details class="page-guide">
-            <summary><b>How to use this tool?</b> &hellip;</summary>
-            <article>
-                <header><strong>What works today</strong></header>
-                <p>Paste or edit a <code>curl</code> command. The page parses it live, shows warnings, and generates RouterOS <code>/tool/fetch</code> output entirely in your browser.</p>
-                <hr>
-                <header><strong>What to watch for</strong></header>
-                <p>Modern curl options like <code>--json</code> are handled directly. Redirect-following, compressed responses, and local file uploads are called out when RouterOS cannot mirror curl exactly.</p>
-                <hr>
-                <header><strong>Sharing safely</strong></header>
-                <p>The share button copies the current URL, including the <code>curl</code> text in query params. Redact passwords, tokens, or cookies before sharing.</p>
-                <hr>
-                <div class="behind-curtain">
-                    <small><b>Behind the curtain</b> &mdash; parsing and RouterOS generation both happen fully in the browser using the bundled <code>curlconverter</code> wrapper, Tree-sitter WASM assets, and a local RouterOS generator extracted from the old Postman-based implementation. No conversion backend is contacted.</small>
-                </div>
-                <footer>
-                    <small><a href="https://github.com/tikoci/tikoci.github.io/issues" target="_blank" rel="noopener">Report an issue</a> &middot; <a href="https://github.com/tikoci/postman2rsc" target="_blank" rel="noopener">Historical curl2rsc UX reference</a></small>
-                </footer>
-            </article>
-        </details>
-
-        <section class="tool-grid mt-1">
-            <article>
-                <header>
-                    <strong>Paste cURL</strong>
-                </header>
-                <label for="curl-input">
-                    Command
-                    <textarea id="curl-input" spellcheck="false" placeholder="curl https://example.com/api -H 'Accept: application/json'"></textarea>
-                </label>
-                <small>Live parsing runs after a short pause. Example: <code>curl -X GET -G https://wttr.in/@mikrotik.com -d 'format=4'</code></small>
-            </article>
-
-            <article>
-                <header>
-                    <nav>
-                        <ul><li><strong>Parser status</strong></li></ul>
-                        <ul><li><span id="parser-status" class="status-pill pending">Loading parser&hellip;</span></li></ul>
-                    </nav>
-                </header>
-                <div id="summary-panel" class="panel-stack" aria-live="polite">
-                    <p class="muted-output">Paste a command to preview the normalized request.</p>
-                </div>
-            </article>
+        <!-- RouterOS output -->
+        <section id="output-section">
+            <pre id="fetch-output"><code></code></pre>
+            <div class="copy-row">
+                <button id="copy-btn" class="outline" disabled>Copy</button>
+            </div>
         </section>
 
-        <section class="tool-grid mt-1">
-            <article>
-                <header><strong>Normalized request</strong></header>
-                <div id="request-panel" class="panel-stack">
-                    <p class="muted-output">Method, URL, headers, auth, and body details will appear here after parsing succeeds.</p>
-                </div>
-            </article>
+        <!-- Generation notes (problems/tips rendered as HTML) -->
+        <div id="notes-area" aria-live="polite"></div>
 
-            <article>
-                <header><strong>RouterOS output</strong></header>
-                <div id="conversion-panel" class="panel-stack">
-                    <label for="style-select">
-                        Style
-                        <select id="style-select" aria-label="RouterOS output style">
-                            <option value="plain">Simple</option>
-                            <option value="outputToConsole">Output to terminal</option>
-                            <option value="outputToVariable">Save to global variable</option>
-                            <option value="outputToVariableWithHeaders">Save to variable, with response headers</option>
-                            <option value="outputToFile">Send output to file</option>
-                        </select>
-                    </label>
-                    <label for="fetch-output">
-                        Generated <code>/tool/fetch</code>
-                        <textarea id="fetch-output" spellcheck="false" readonly placeholder="/tool/fetch url=https://example.com http-method=get"></textarea>
-                    </label>
-                    <p class="text-right">
-                        <button id="copy-output-btn" class="outline" disabled>Copy output</button>
-                    </p>
-                    <div id="conversion-notes" class="panel-stack">
-                        <p class="muted-output">Generated RouterOS output will appear here after parsing succeeds.</p>
+        <!-- Help sections (all folded) -->
+        <div class="help-sections">
+
+            <!-- Browser curl help -->
+            <details id="browser-guide">
+                <summary>How to get a <code>curl</code> command from your browser</summary>
+                <article>
+                    <div class="browser-tabs" id="browser-tabs">
+                        <button class="outline" data-browser="chrome">Chrome</button>
+                        <button class="outline" data-browser="safari">Safari</button>
+                        <button class="outline" data-browser="firefox">Firefox</button>
                     </div>
-                </div>
-            </article>
-        </section>
+                    <div id="tab-chrome" class="browser-tab-content active">
+                        <ol>
+                            <li>Open the <a href="https://developer.chrome.com/docs/devtools/network/" target="_blank" rel="noopener">Network</a> tab in <a href="https://developer.chrome.com/docs/devtools/overview/" target="_blank" rel="noopener">DevTools</a></li>
+                            <li>Right-click (or Ctrl-click) a request</li>
+                            <li>Click <b>Copy</b> &rarr; <b>Copy as cURL</b></li>
+                            <li>Paste it in the box above</li>
+                        </ol>
+                    </div>
+                    <div id="tab-safari" class="browser-tab-content">
+                        <ol>
+                            <li>Open the <a href="https://support.apple.com/en-us/guide/safari-developer/dev1f3525e58/mac" target="_blank" rel="noopener">Network</a> tab in <a href="https://support.apple.com/en-us/guide/safari-developer/dev073038698/mac" target="_blank" rel="noopener">Developer Tools</a></li>
+                            <li>Right-click (or Ctrl-click) a request</li>
+                            <li>Click <b>Copy as cURL</b></li>
+                            <li>Paste it in the box above</li>
+                        </ol>
+                    </div>
+                    <div id="tab-firefox" class="browser-tab-content">
+                        <ol>
+                            <li>Open the <a href="https://developer.mozilla.org/en-US/docs/Tools/Network_Monitor" target="_blank" rel="noopener">Network Monitor</a> in <a href="https://developer.mozilla.org/en-US/docs/Tools" target="_blank" rel="noopener">Developer Tools</a></li>
+                            <li>Right-click (or Ctrl-click) a request</li>
+                            <li>Click <b>Copy</b> &rarr; <b>Copy as cURL</b></li>
+                            <li>Paste it in the box above</li>
+                        </ol>
+                    </div>
+                    <footer>
+                        <small><strong>Warning:</strong> The copied command may contain cookies, tokens, or other credentials. Redact secrets before sharing.</small>
+                    </footer>
+                </article>
+            </details>
 
-        <article class="mt-1">
-            <header><strong>Parsed JSON preview</strong></header>
-            <pre id="json-preview"><code class="muted-output">Awaiting parsed request object&hellip;</code></pre>
-        </article>
+            <!-- Output styles & RouterOS help -->
+            <details id="routeros-guide" class="page-guide">
+                <summary>Output styles &amp; RouterOS notes</summary>
+                <article>
+                    <header><strong>Output styles</strong></header>
+                    <dl>
+                        <dt><code>/tool/fetch</code> (simple)</dt>
+                        <dd>Bare <code>/tool/fetch</code> command &mdash; run directly in terminal or script.</dd>
+                        <dt><code>:put</code> to terminal</dt>
+                        <dd>Wraps in <code>:put</code> to print the response body to the terminal.</dd>
+                        <dt>Save to variable</dt>
+                        <dd>Stores the response in a global variable <code>$resp</code> for further scripting.</dd>
+                        <dt>Variable + headers</dt>
+                        <dd>Like &ldquo;Save to variable&rdquo; but also captures response headers.</dd>
+                        <dt>Output to file</dt>
+                        <dd>Writes the response body to a file on the RouterOS filesystem.</dd>
+                    </dl>
+                    <hr>
+                    <header><strong>JSON responses &amp; <code>:deserialize</code></strong></header>
+                    <p>When the request targets a JSON API, RouterOS can parse the response natively:</p>
+                    <pre><code>:global resp [/tool/fetch url=&hellip; as-value output=user]
+:global json [:deserialize ($resp->"data") from=json]
+:put $json</code></pre>
+                    <p><code>:deserialize</code> is available in all current RouterOS releases (long-term and newer).</p>
+                    <hr>
+                    <header><strong>What curl2rsc cannot convert</strong></header>
+                    <ul>
+                        <li><code>-L</code> / <code>--location</code> &mdash; <code>/tool/fetch</code> does not follow redirects.</li>
+                        <li><code>--compressed</code> &mdash; no automatic decompression support.</li>
+                        <li>Local file uploads (<code>-F @file</code>) &mdash; the file must already exist on the RouterOS device.</li>
+                        <li>HTTP methods beyond GET, HEAD, POST, PUT, DELETE, PATCH.</li>
+                    </ul>
+                    <hr>
+                    <div class="behind-curtain">
+                        <small><b>Behind the curtain</b> &mdash; parsing uses <a href="https://github.com/curlconverter/curlconverter" target="_blank" rel="noopener">curlconverter</a> with Tree-sitter WASM, entirely in the browser. The RouterOS generator is extracted from <a href="https://github.com/tikoci/postman-code-generators" target="_blank" rel="noopener">tikoci/postman-code-generators</a>. No server is contacted.</small>
+                    </div>
+                    <footer>
+                        <small>
+                            <a href="https://help.mikrotik.com/docs/spaces/ROS/pages/328131/Fetch" target="_blank" rel="noopener">MikroTik <code>/tool/fetch</code> docs</a> &middot;
+                            <a href="https://github.com/tikoci/tikoci.github.io/issues" target="_blank" rel="noopener">Report an issue</a>
+                        </small>
+                    </footer>
+                </article>
+            </details>
+
+            <!-- Debug / request details (folded) -->
+            <details id="debug-details">
+                <summary>Request details</summary>
+                <article>
+                    <div id="request-panel">
+                        <p class="status-label">Parse a curl command to see request details.</p>
+                    </div>
+                    <hr>
+                    <strong>Parsed JSON</strong>
+                    <pre id="json-preview"><code>Awaiting input&hellip;</code></pre>
+                </article>
+            </details>
+        </div>
+
     </main>
 
     <footer class="container site-footer">
-        <small><em>Status: browser-side conversion is active. Review warnings before running generated RouterOS commands.</em></small>
+        <small><em>Review warnings before running generated RouterOS commands.</em></small>
         <small><a href="https://github.com/tikoci/tikoci.github.io" target="_blank" rel="noopener">Source</a> &middot; <a href="privacy.html">Privacy</a></small>
     </footer>
 
@@ -257,236 +449,272 @@
         window.initToolsDropdown('tools-list')
         window.initGitHubDropdown('github-repo-list')
 
-        const readParams = window.readQueryParams
-        const writeParams = window.writeQueryParams
+        const escape = (v) => window.escapeHtml(String(v ?? ''))
         const debounceInput = window.debounce
         const nextToken = window.createCancelToken()
-        const escape = (value) => window.escapeHtml(String(value))
-        const EXAMPLE_COMMAND = "curl -X GET -G https://wttr.in/@mikrotik.com -d 'format=4'"
-        const VALID_STYLES = new Set([
-            'plain',
-            'outputToConsole',
-            'outputToVariable',
-            'outputToVariableWithHeaders',
-            'outputToFile',
-        ])
+
+        const VALID_STYLES = new Set(['plain', 'outputToConsole', 'outputToVariable', 'outputToVariableWithHeaders', 'outputToFile'])
+
+        const EXAMPLES = {
+            get: "curl -X GET -G https://wttr.in/@mikrotik.com -d 'format=4'",
+            post: "curl https://httpbin.org/post --json '{\"name\":\"RouterOS\",\"version\":7}'",
+            auth: "curl -u admin:password https://192.168.88.1/rest/system/resource",
+            form: "curl -X POST https://httpbin.org/post -F 'file=@config.rsc' -F 'description=backup'",
+            headers: "curl https://api.github.com/repos/mikrotik/routeros -H 'Accept: application/vnd.github.v3+json' -H 'User-Agent: RouterOS-Script'",
+        }
 
         const curlInput = document.getElementById('curl-input')
-        const parserStatus = document.getElementById('parser-status')
-        const summaryPanel = document.getElementById('summary-panel')
-        const requestPanel = document.getElementById('request-panel')
-        const conversionPanel = document.getElementById('conversion-panel')
-        const conversionNotes = document.getElementById('conversion-notes')
+        const errorArea = document.getElementById('error-area')
         const styleSelect = document.getElementById('style-select')
-        const fetchOutput = document.getElementById('fetch-output')
-        const copyOutputBtn = document.getElementById('copy-output-btn')
+        const statusLabel = document.getElementById('status-label')
+        const fetchOutput = document.getElementById('fetch-output').querySelector('code')
+        const copyBtn = document.getElementById('copy-btn')
+        const notesArea = document.getElementById('notes-area')
+        const requestPanel = document.getElementById('request-panel')
         const jsonPreview = document.getElementById('json-preview')
-        let runtimeReady = false
-        let runtimeFailed = false
 
+        let runtimeReady = false
+        let currentGeneration = null
+
+        // — Runtime loading —
         const runtimePromise = Promise.all([
             import('./curlconverter.js'),
             import('./routeros-fetch.js'),
-        ])
-            .then(([parserMod, generatorMod]) => {
-                runtimeReady = true
-                setParserStatus('Ready in browser', 'ok')
-                return { parserMod, generatorMod }
-            })
-            .catch((error) => {
-                runtimeFailed = true
-                setParserStatus('Runtime failed to load', 'error')
-                renderError(error, false)
-                throw error
-            })
+        ]).then(([parserMod, generatorMod]) => {
+            runtimeReady = true
+            setStatus('Ready', 'ready')
+            curlInput.removeAttribute('disabled')
+            return { parserMod, generatorMod }
+        }).catch((err) => {
+            setStatus('Failed to load', 'error')
+            showError(err.message, false)
+            throw err
+        })
 
-        function setParserStatus(label, tone) {
-            parserStatus.textContent = label
-            parserStatus.className = `status-pill ${tone || 'pending'}`
+        function setStatus(text, tone) {
+            statusLabel.textContent = text
+            statusLabel.className = `status-label ${tone || ''}`
         }
 
-        function getSelectedStyle() {
+        function getStyle() {
             return VALID_STYLES.has(styleSelect.value) ? styleSelect.value : 'plain'
         }
 
-        function syncQueryParams() {
-            writeParams({
+        function syncParams() {
+            window.writeQueryParams({
                 cmd: curlInput.value.trim(),
-                style: getSelectedStyle() === 'plain' ? '' : getSelectedStyle(),
+                style: getStyle() === 'plain' ? '' : getStyle(),
             })
         }
 
-        function updateCopyButton(label, disabled = false) {
-            copyOutputBtn.textContent = label
-            copyOutputBtn.disabled = disabled
+        // — Error/warning rendering (below input) —
+        function showError(message, isParseError = true) {
+            errorArea.innerHTML = `<div class="error-msg"><strong>${isParseError ? 'Parse error' : 'Error'}</strong>: ${escape(message)}</div>`
         }
 
-        function formatDataPreview(value) {
-            if (value === undefined) return 'None'
-            if (typeof value === 'string') return value
-            return JSON.stringify(value, null, 2)
-        }
+        function clearError() { errorArea.innerHTML = '' }
 
-        function formatWarning(warning) {
-            if (Array.isArray(warning)) {
-                return warning.map((part) => String(part)).join(': ')
+        function renderWarnings(warnings, credentialRisk) {
+            let html = ''
+            if (credentialRisk) {
+                html += `<div class="credential-warn">\u26A0 ${escape(credentialRisk)} Redact secrets before sharing.</div>`
             }
-            return String(warning)
+            for (const w of warnings) {
+                const text = Array.isArray(w) ? w.map(String).join(': ') : String(w)
+                html += `<div class="warn-msg">${escape(text)}</div>`
+            }
+            errorArea.innerHTML = html
         }
 
-        function detectCredentialRisk(request) {
-            if (request?.auth?.password) return 'Credentials detected in basic auth.'
-            const authHeader = request?.headers?.Authorization
-            if (typeof authHeader === 'string' && authHeader.trim()) return 'Authorization header detected.'
-            const cookieHeader = request?.headers?.Cookie
-            if (typeof cookieHeader === 'string' && cookieHeader.trim()) return 'Cookie header detected.'
-            return ''
+        // — Notes rendering (problems/tips below output) —
+        function renderNotes(generation) {
+            let html = ''
+
+            for (const problem of generation.problems) {
+                const text = problem.replace(/^\*\s*/, '')
+                html += `<div class="warn-msg">${escape(text)}</div>`
+            }
+
+            for (const tip of generation.tips) {
+                html += `<div class="tip-block">${escape(tip)}</div>`
+            }
+
+            if (generation.jsonDeserializeExample) {
+                html += `<details class="json-example-block" open>
+                    <summary><strong>Tip:</strong> Parse JSON with <code>:deserialize</code></summary>
+                    <pre><code>${escape(generation.jsonDeserializeExample)}</code></pre>
+                </details>`
+            }
+
+            notesArea.innerHTML = html
         }
 
-        function renderIdle() {
-            summaryPanel.innerHTML = '<p class="muted-output">Paste a command to preview the normalized request.</p>'
-            requestPanel.innerHTML = '<p class="muted-output">Method, URL, headers, auth, and body details will appear here after parsing succeeds.</p>'
-            fetchOutput.value = ''
-            conversionNotes.innerHTML = '<p class="muted-output">Generated RouterOS output will appear here after parsing succeeds.</p>'
-            updateCopyButton('Copy output', true)
-            jsonPreview.innerHTML = '<code class="muted-output">Awaiting parsed request object&hellip;</code>'
-        }
-
-        function renderError(error, isParseError = true) {
-            const message = error instanceof Error ? error.message : String(error)
-            summaryPanel.innerHTML = `
-                <div class="callout error">
-                    <strong>${isParseError ? 'Parse failed' : 'Startup failed'}</strong><br>
-                    <small>${escape(message)}</small>
-                </div>
-                <p class="muted-output">Fix the command and keep typing &mdash; parsing will retry automatically.</p>
-            `
-            requestPanel.innerHTML = '<p class="muted-output">No normalized request available yet.</p>'
-            fetchOutput.value = ''
-            conversionNotes.innerHTML = `
-                <div class="callout warning">
-                    <small>The RouterOS stage cannot run until parsing succeeds.</small>
-                </div>
-            `
-            updateCopyButton('Copy output', true)
-            jsonPreview.innerHTML = `<code class="muted-output">${escape(message)}</code>`
-        }
-
-        function renderSuccess(request, warnings, generation) {
-            const method = request.method ? request.method.toUpperCase() : 'GET'
+        // — Request details (debug panel) —
+        function renderRequestDetails(request) {
+            const method = (request.method || 'GET').toUpperCase()
             const url = request.raw_url || request.url || '—'
             const headers = Object.entries(request.headers || {})
             const authType = request.auth_type || 'none'
-            const bodyType = request.data === undefined
-                ? 'none'
-                : Array.isArray(request.data)
-                    ? 'array'
-                    : typeof request.data
-            const credentialRisk = detectCredentialRisk(request)
-
-            summaryPanel.innerHTML = `
-                <div class="callout">
-                    <strong>${escape(method)}</strong> &mdash; <code>${escape(url)}</code>
-                </div>
-                ${credentialRisk ? `<div class="callout warning"><small>${escape(credentialRisk)} Share URLs include the original command, so redact secrets first.</small></div>` : ''}
-                ${warnings.length ? `<div><strong>Parser warnings</strong><ul class="item-list">${warnings.map((warning) => `<li>${escape(formatWarning(warning))}</li>`).join('')}</ul></div>` : '<p class="muted-output">No parser warnings.</p>'}
-            `
+            const bodyDesc = request.data === undefined ? 'none'
+                : typeof request.data === 'string' ? `string (${request.data.length} chars)`
+                : Array.isArray(request.data) ? `array (${request.data.length} items)`
+                : `object`
 
             requestPanel.innerHTML = `
                 <dl class="request-facts">
                     <dt>Method</dt><dd>${escape(method)}</dd>
                     <dt>URL</dt><dd><code>${escape(url)}</code></dd>
-                    <dt>Headers</dt><dd>${headers.length}</dd>
+                    <dt>Headers</dt><dd>${headers.length} header${headers.length !== 1 ? 's' : ''}</dd>
                     <dt>Auth</dt><dd>${escape(authType)}</dd>
-                    <dt>Body</dt><dd>${escape(bodyType)}</dd>
+                    <dt>Body</dt><dd>${escape(bodyDesc)}</dd>
                 </dl>
-                <div>
-                    <strong>Headers</strong>
-                    ${headers.length ? `<ul class="item-list">${headers.map(([name, value]) => `<li><code>${escape(name)}</code>: ${escape(value)}</li>`).join('')}</ul>` : '<p class="muted-output">No explicit headers.</p>'}
-                </div>
-                <div>
-                    <strong>Body preview</strong>
-                    <pre><code>${escape(formatDataPreview(request.data))}</code></pre>
-                </div>
+                ${headers.length ? `<details><summary>Headers (${headers.length})</summary><ul>${headers.map(([n, v]) => `<li><code>${escape(n)}</code>: ${escape(v)}</li>`).join('')}</ul></details>` : ''}
             `
-
-            fetchOutput.value = generation.snippet
-            updateCopyButton('Copy output')
-            conversionNotes.innerHTML = `
-                ${generation.problems.length ? `<div class="callout warning"><strong>Generator warnings</strong><ul class="item-list">${generation.problems.map((problem) => `<li>${escape(problem)}</li>`).join('')}</ul></div>` : '<p class="muted-output">No RouterOS generator warnings.</p>'}
-                ${generation.tips.length ? `<div class="callout"><strong>Tips</strong><ul class="item-list">${generation.tips.map((tip) => `<li>${escape(tip)}</li>`).join('')}</ul></div>` : ''}
-            `
-
             jsonPreview.innerHTML = `<code>${escape(JSON.stringify(request, null, 2))}</code>`
         }
 
+        // — Credential detection —
+        function detectCredentialRisk(request) {
+            if (request?.auth?.password) return 'Credentials detected in basic auth.'
+            const auth = request?.headers?.Authorization
+            if (typeof auth === 'string' && auth.trim()) return 'Authorization header detected.'
+            const cookie = request?.headers?.Cookie
+            if (typeof cookie === 'string' && cookie.trim()) return 'Cookie header detected.'
+            return ''
+        }
+
+        // — Core parse + render —
         async function parseAndRender() {
             const token = nextToken.next()
-            const command = curlInput.value.trim()
-            syncQueryParams()
+            const cmd = curlInput.value.trim()
+            syncParams()
 
-            if (!command) {
-                if (runtimeFailed) setParserStatus('Runtime unavailable', 'error')
-                else if (runtimeReady) setParserStatus('Ready in browser', 'ok')
-                renderIdle()
+            if (!cmd) {
+                clearError()
+                fetchOutput.textContent = ''
+                notesArea.innerHTML = ''
+                copyBtn.disabled = true
+                currentGeneration = null
+                if (runtimeReady) setStatus('Ready', 'ready')
+                requestPanel.innerHTML = '<p class="status-label">Parse a curl command to see request details.</p>'
+                jsonPreview.innerHTML = '<code>Awaiting input\u2026</code>'
                 return
             }
 
-            setParserStatus('Parsing locally&hellip;', 'pending')
+            setStatus('Parsing\u2026', '')
 
             try {
                 const { parserMod, generatorMod } = await runtimePromise
                 if (token !== nextToken.current) return
 
-                const { request, warnings } = parserMod.parseCurlCommand(command)
+                const { request, warnings } = parserMod.parseCurlCommand(cmd)
                 if (token !== nextToken.current) return
 
                 const generation = generatorMod.generateRouterOSFetch(request, {
-                    style: getSelectedStyle(),
-                    commentary: 'all',
+                    style: getStyle(),
+                    commentary: 'none',
                 })
                 if (token !== nextToken.current) return
 
-                setParserStatus('Generated in browser', 'ok')
-                renderSuccess(request, warnings, generation)
-            } catch (error) {
-                if (token !== nextToken.current) return
+                currentGeneration = generation
+                setStatus('Converted', 'ready')
 
+                const credentialRisk = detectCredentialRisk(request)
+                renderWarnings(warnings, credentialRisk)
+
+                fetchOutput.textContent = generation.snippet
+                copyBtn.disabled = false
+
+                renderNotes(generation)
+                renderRequestDetails(request)
+
+                plausible('curl2rsc', { props: { style: getStyle() } })
+            } catch (err) {
+                if (token !== nextToken.current) return
                 const runtime = await runtimePromise.catch(() => null)
-                const isParseError = Boolean(runtime?.parserMod?.CCError && error instanceof runtime.parserMod.CCError)
-                setParserStatus(isParseError ? 'Parse error' : 'Runtime unavailable', 'error')
-                renderError(error, isParseError)
+                const isParseErr = Boolean(runtime?.parserMod?.CCError && err instanceof runtime.parserMod.CCError)
+                setStatus(isParseErr ? 'Parse error' : 'Error', 'error')
+                showError(err.message, isParseErr)
+                fetchOutput.textContent = ''
+                notesArea.innerHTML = ''
+                copyBtn.disabled = true
+                currentGeneration = null
             }
         }
 
-        copyOutputBtn.addEventListener('click', () => {
-            if (!fetchOutput.value) return
-            navigator.clipboard.writeText(fetchOutput.value).then(() => {
-                updateCopyButton('\u2713 Copied!')
-                setTimeout(() => updateCopyButton('Copy output'), 1800)
+        // — Copy button —
+        copyBtn.addEventListener('click', () => {
+            const text = fetchOutput.textContent
+            if (!text) return
+            navigator.clipboard.writeText(text).then(() => {
+                copyBtn.textContent = '\u2713 Copied!'
+                setTimeout(() => { copyBtn.textContent = 'Copy' }, 1800)
             }).catch(() => {
-                fetchOutput.focus()
-                fetchOutput.select()
-                updateCopyButton('Select text to copy')
-                setTimeout(() => updateCopyButton('Copy output'), 1800)
+                const range = document.createRange()
+                range.selectNodeContents(fetchOutput)
+                const sel = window.getSelection()
+                sel.removeAllRanges()
+                sel.addRange(range)
             })
         })
 
-        window.initShareButton('share-btn', () => syncQueryParams())
-        curlInput.addEventListener('input', debounceInput(() => parseAndRender(), 350))
-        styleSelect.addEventListener('change', () => parseAndRender())
+        // — Share button —
+        window.initShareButton('share-btn', () => syncParams())
 
-        const params = readParams()
+        // — Events —
+        curlInput.addEventListener('input', debounceInput(() => parseAndRender(), 350))
+        styleSelect.addEventListener('change', () => {
+            plausible('curl2rsc:style', { props: { style: getStyle() } })
+            parseAndRender()
+        })
+
+        // — Example links —
+        for (const [key, cmd] of Object.entries(EXAMPLES)) {
+            const el = document.getElementById(`ex-${key}`)
+            if (!el) continue
+            el.addEventListener('click', (e) => {
+                e.preventDefault()
+                curlInput.value = cmd
+                plausible('curl2rsc:example', { props: { example: key } })
+                parseAndRender()
+            })
+        }
+
+        // — Browser guide tabs —
+        const browserTabs = document.getElementById('browser-tabs')
+        browserTabs.addEventListener('click', (e) => {
+            const btn = e.target.closest('[data-browser]')
+            if (!btn) return
+            const browser = btn.dataset.browser
+            for (const b of browserTabs.querySelectorAll('button')) {
+                b.classList.toggle('contrast', b.dataset.browser === browser)
+                b.classList.toggle('outline', b.dataset.browser !== browser)
+            }
+            for (const tab of document.querySelectorAll('.browser-tab-content')) {
+                tab.classList.toggle('active', tab.id === `tab-${browser}`)
+            }
+        })
+        // Auto-detect browser for default tab
+        ;(function detectBrowser() {
+            const ua = navigator.userAgent.toLowerCase()
+            let browser = 'chrome'
+            if (ua.includes('firefox')) browser = 'firefox'
+            else if (ua.includes('safari') && !ua.includes('chrome')) browser = 'safari'
+            const btn = browserTabs.querySelector(`[data-browser="${browser}"]`)
+            if (btn) btn.click()
+        })()
+
+        // — Init from query params —
+        const params = window.readQueryParams()
         if (params.style && VALID_STYLES.has(params.style)) {
             styleSelect.value = params.style
         }
         if (params.cmd) {
             curlInput.value = params.cmd
         } else {
-            curlInput.value = EXAMPLE_COMMAND
+            curlInput.value = EXAMPLES.get
         }
 
-        renderIdle()
         parseAndRender()
     </script>
 </body>

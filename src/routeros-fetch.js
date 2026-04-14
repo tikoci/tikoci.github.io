@@ -305,17 +305,24 @@ export function generateRouterOSFetch(requestLike, options = {}) {
     }
 
     const contentType = getHeaderValue(effectiveHeaders, "Content-Type");
-    if (contentType === "application/json" && logLevel > 1) {
+    if (contentType === "application/json") {
         tips.push('RouterOS can parse JSON responses with :deserialize (($resp->"data") from=json).');
-        snippet += "#\t\t*** TIPS: Parsing JSON ***\r\n";
-        snippet += "#  Your request may return a JSON response.\r\n";
-        snippet += "#  RouterOS has support to parse the JSON string data returned into RouterOS array.\r\n";
-        snippet += "#  For example,\r\n";
-        snippet += `#\t${styles.outputToVariable}\r\n`;
-        snippet += '#\t:global json [:deserialize ($resp->"data") from=json]\r\n';
-        snippet += "#\t:put $json\r\n";
-        snippet += "\r\n";
+        if (logLevel > 1) {
+            snippet += "#\t\t*** TIPS: Parsing JSON ***\r\n";
+            snippet += "#  Your request may return a JSON response.\r\n";
+            snippet += "#  RouterOS has support to parse the JSON string data returned into RouterOS array.\r\n";
+            snippet += "#  For example,\r\n";
+            snippet += `#\t${styles.outputToVariable}\r\n`;
+            snippet += '#\t:global json [:deserialize ($resp->"data") from=json]\r\n';
+            snippet += "#\t:put $json\r\n";
+            snippet += "\r\n";
+        }
     }
+
+    const isJsonRequest = contentType === "application/json";
+    const jsonDeserializeExample = isJsonRequest
+        ? `:global resp [${command.join(" ")} as-value output=user]\r\n:global json [:deserialize ($resp->"data") from=json]\r\n:put $json`
+        : "";
 
     return {
         snippet: `${snippet}${styles[sanitizedOptions.style]}`,
@@ -323,6 +330,8 @@ export function generateRouterOSFetch(requestLike, options = {}) {
         tips,
         request,
         options: sanitizedOptions,
+        styles,
+        jsonDeserializeExample,
     };
 }
 
