@@ -251,6 +251,8 @@ function renderPage(repo: RepoData, allRepos: RepoData[]): string {
     <meta property="og:description" content="${escapeHtml(description)}">
     <meta property="og:url" content="${canonicalUrl}">
     <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <link rel="alternate" type="application/atom+xml" href="https://tikoci.github.io/atom.xml" title="TIKOCI Projects">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

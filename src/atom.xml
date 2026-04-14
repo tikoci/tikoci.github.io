@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>TIKOCI Open Source Projects</title>
+    <subtitle>Open source MikroTik RouterOS tools, containers, scripts, and more from the TIKOCI GitHub organization</subtitle>
+    <link href="https://tikoci.github.io/" rel="alternate" type="text/html"/>
+    <link href="https://tikoci.github.io/atom.xml" rel="self" type="application/atom+xml"/>
+    <id>https://tikoci.github.io/</id>
+    <updated><!-- ATOM_BUILD_DATE_PLACEHOLDER --></updated>
+    <author>
+        <name>TIKOCI</name>
+        <uri>https://github.com/tikoci</uri>
+    </author>
+    <!-- Per-repo entries (auto-generated at build time below this line) -->
+</feed>

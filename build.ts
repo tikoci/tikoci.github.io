@@ -230,6 +230,35 @@ if (repos.length) {
     }
 }
 
+// Step 7: Generate atom.xml Atom feed
+if (repos.length) {
+    console.log("Generating atom.xml feed...");
+    const atomPath = join(DIST, "atom.xml");
+    if (existsSync(atomPath)) {
+        let atom = readFileSync(atomPath, "utf-8");
+        const buildDate = new Date().toISOString();
+        atom = atom.replace("<!-- ATOM_BUILD_DATE_PLACEHOLDER -->", buildDate);
+        const atomMarker = "<!-- Per-repo entries (auto-generated at build time below this line) -->";
+        const escapeXml = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+        const entries = repos.map(r => {
+            const url = `https://tikoci.github.io/p/${r.name}.html`;
+            const summary = r.description || `${r.name} — open source MikroTik RouterOS project`;
+            return [
+                "    <entry>",
+                `        <title>${escapeXml(r.name)}</title>`,
+                `        <link href="${url}" rel="alternate" type="text/html"/>`,
+                `        <id>${url}</id>`,
+                `        <updated>${r.updated_at}</updated>`,
+                `        <summary type="text">${escapeXml(summary)}</summary>`,
+                "    </entry>",
+            ].join("\n");
+        }).join("\n");
+        atom = atom.replace(atomMarker, `${atomMarker}\n${entries}`);
+        writeFileSync(atomPath, atom, "utf-8");
+        console.log(`  Generated atom.xml with ${repos.length} entries`);
+    }
+}
+
 console.log("Build complete. Output in dist/");
 
 // List output files
