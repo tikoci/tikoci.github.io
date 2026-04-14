@@ -148,6 +148,31 @@ describe("routeros fetch generator", () => {
         expect(result.problems.join(" ")).toContain("plain-text file");
     });
 
+    test("keeps literal $[ in text form fields escaped when multipart files are present", () => {
+        // A text field whose value contains $[ must remain escaped (\$[) so RouterOS does not
+        // evaluate it as a command-substitution expression — only $[/file get ...] from file
+        // parts should be unescaped.
+        const result = generateRouterOSFetch(
+            {
+                method: "POST",
+                url: "https://example.com",
+                body: {
+                    mode: "formdata",
+                    formdata: [
+                        { key: "expr", value: "$[some expression]", type: "text" },
+                        { key: "upload", type: "file", src: "data.txt" },
+                    ],
+                },
+            },
+            { style: "plain", commentary: "none" },
+        );
+
+        // file expression must be interpolatable
+        expect(result.snippet).toContain("$[/file get data.txt contents]");
+        // text field with $[ must still be escaped so RouterOS treats it as a literal string
+        expect(result.snippet).toContain("\\$[some expression]");
+    });
+
     test("supports modern curlconverter flags such as --json and -L", () => {
         const { request, warnings } = parseCurlCommand(
             `curl -L --compressed -X PATCH --json "{\\"x\\":1}" https://example.com/item/1`,

@@ -262,10 +262,12 @@ export function generateRouterOSFetch(requestLike, options = {}) {
         let escapedBody = escapeRouterOSString(body);
         // $[/file get ...] is a RouterOS expression that must be interpolated at runtime;
         // escapeRouterOSString escapes '$' → '\$' globally (see its char === "$" branch),
-        // so we must restore '\$[' → '$[' for RouterOS command-substitution expressions.
-        // NOTE: if escapeRouterOSString's '$' handling changes, update this regex accordingly.
+        // so we restore '\$[/file get ' → '$[/file get ' — scoped to only the exact RouterOS
+        // /file get expression that buildFormDataBody emits for file parts, leaving any
+        // literal '$[' in text field values correctly escaped.
+        // NOTE: if buildFormDataBody's file expression format changes, update this regex.
         if (hasMultipartFiles) {
-            escapedBody = escapedBody.replace(/\\\$\[/g, "$[");
+            escapedBody = escapedBody.replace(/\\\$\[\/file get /g, "$[/file get ");
         }
         attrs.set("http-data", escapedBody);
         const contentEncoding = getHeaderValue(effectiveHeaders, "Content-Encoding");
