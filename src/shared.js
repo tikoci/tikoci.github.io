@@ -286,12 +286,13 @@ function initShareModal(opts) {
 // --- HTML escaping ---------------------------------------------------
 
 /**
- * Escape HTML special characters for safe innerHTML insertion.
+ * Escape HTML special characters for safe insertion into HTML text and attributes.
+ * Escapes &, <, >, and " so output is safe in both text nodes and double-quoted attributes.
  * @param {string} str
  * @returns {string}
  */
 function escapeHtml(str) {
-    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 

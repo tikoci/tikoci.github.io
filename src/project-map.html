@@ -631,7 +631,10 @@
         // --- Click to navigate ---
         node.on('click', (event, d) => {
             event.stopPropagation();
-            window.location.href = d.pageUrl;
+            // pageUrl is build-time generated (p/{name}.html) — validate before navigating
+            if (/^p\/[\w.-]+\.html$/.test(d.pageUrl)) {
+                window.location.href = d.pageUrl;
+            }
             plausible('Map Click', { props: { repo: d.name } });
         });
 
@@ -733,7 +736,7 @@
                     ? `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${color};vertical-align:middle;margin-right:3px"></span>${escapeHtml(d.language)} `
                     : '';
                 return `<div class="mi-item">
-                    <div><span class="mi-symbol">${d.symbol}</span><span class="mi-name"><a href="${d.pageUrl}">${escapeHtml(d.name)}</a></span></div>
+                    <div><span class="mi-symbol">${d.symbol}</span><span class="mi-name"><a href="${escapeHtml(d.pageUrl)}">${escapeHtml(d.name)}</a></span></div>
                     ${d.description ? `<div class="mi-desc">${escapeHtml(d.description)}</div>` : ''}
                     <div class="mi-meta">${langDot}\u2B50 ${d.stars}</div>
                 </div>`;

@@ -497,10 +497,10 @@
             const prevType = typeEl.value
 
             archEl.innerHTML = arches.map(a =>
-                '<option value="' + a + '">' + (ARCH_LABELS[a] || a) + '</option>'
+                '<option value="' + escapeHtml(a) + '">' + escapeHtml(ARCH_LABELS[a] || a) + '</option>'
             ).join('')
             typeEl.innerHTML = types.map(t =>
-                '<option value="' + t + '">' + (TYPE_LABELS[t] || t) + '</option>'
+                '<option value="' + escapeHtml(t) + '">' + escapeHtml(TYPE_LABELS[t] || t) + '</option>'
             ).join('')
 
             // Restore or apply defaults
