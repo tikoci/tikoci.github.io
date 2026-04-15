@@ -57,7 +57,7 @@ jobs:
       - name: Submit to IndexNow
         if: success()
         run: |
-          KEY="ea4945a834b24a54bd1970f28dc64b22"
+          KEY="bc99e60ea772475f868eddd308972472"
           HOST="tikoci.github.io"
           URLS=$(grep -oP '(?<=<loc>)[^<]+' dist/sitemap.xml | jq -R . | jq -s .)
           echo "Submitting $(echo $URLS | jq length) URLs to IndexNow..."
