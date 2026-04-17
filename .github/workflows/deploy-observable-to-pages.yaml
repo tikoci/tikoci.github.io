@@ -57,10 +57,10 @@ jobs:
       - name: Submit to IndexNow
         if: success()
         run: |
-          KEY="bc99e60ea772475f868eddd308972472"
+          KEY="9246d183073a4fd6aac0fbda63e29add"
           HOST="tikoci.github.io"
           URLS=$(grep -oP '(?<=<loc>)[^<]+' dist/sitemap.xml | jq -R . | jq -s .)
           echo "Submitting $(echo $URLS | jq length) URLs to IndexNow..."
           curl -s -w "\nHTTP %{http_code}" -X POST "https://api.indexnow.org/indexnow" \
             -H "Content-Type: application/json; charset=utf-8" \
-            -d "{\"host\":\"$HOST\",\"key\":\"$KEY\",\"keyLocation\":\"https://$HOST/$KEY.txt\",\"urlList\":$URLS}"
+            -d "{\"host\":\"$HOST\",\"key\":\"$KEY\",\"keyLocation\":\"https://$HOST/bing.txt\",\"urlList\":$URLS}"
