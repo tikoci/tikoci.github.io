@@ -161,10 +161,23 @@
                 <p class="tile-detail"><a href="dev-tools.html">Details &rarr;</a></p>
             </article>
 
+            <!-- quickchr -->
+            <article>
+                <header>
+                    <h3><a href="https://github.com/tikoci/quickchr">quickchr</a> <mark class="new">NEW</mark></h3>
+                </header>
+                <p>Launch RouterOS CHR in QEMU with one command. Handles firmware, acceleration, and networking modes &mdash; then provisions and runs RouterOS CLI commands via REST.</p>
+                <div class="tile-actions">
+                    <a href="https://github.com/tikoci/quickchr" target="_blank" rel="noopener" role="button">GitHub</a>
+                    <a href="virtualization.html" role="button" class="outline">Virtualization &rarr;</a>
+                </div>
+                <p class="tile-detail"><a href="p/quickchr.html">Details &rarr;</a></p>
+            </article>
+
             <!-- Containers — netinstall -->
             <article>
                 <header>
-                    <h3><a href="https://github.com/tikoci/netinstall">netinstall</a> <mark class="new">NEW</mark></h3>
+                    <h3><a href="https://github.com/tikoci/netinstall">netinstall</a></h3>
                 </header>
                 <p>Flash MikroTik devices without a PC &mdash; <code>netinstall</code> runs as a RouterOS container, a macOS QEMU bridge, or natively on Linux. All automated by <code>make</code>.</p>
                 <div class="tile-actions">
@@ -203,7 +216,7 @@
             <!-- /app Editor -->
             <article>
                 <header>
-                    <h3><a href="https://tikoci.github.io/restraml/tikapp.html" target="_blank" rel="noopener">/app Editor</a> <mark class="new">NEW</mark></h3>
+                    <h3><a href="https://tikoci.github.io/restraml/tikapp.html" target="_blank" rel="noopener">/app Editor</a></h3>
                 </header>
                 <p>Write and validate <code>/app</code> YAML in the browser. Live schema checking, built-in examples, one-click deploy commands.</p>
                 <div class="tile-actions">
@@ -212,25 +225,15 @@
                 </div>
             </article>
 
-            <!-- Schema Diff -->
+            <!-- Schema Diff + Command Lookup -->
             <article>
                 <header>
-                    <h3><a href="https://tikoci.github.io/restraml/diff.html" target="_blank" rel="noopener">Schema Diff</a></h3>
+                    <h3><a href="https://tikoci.github.io/restraml/" target="_blank" rel="noopener">Schema Tools</a></h3>
                 </header>
-                <p>What changed? Pick two RouterOS versions, see every difference &mdash; commands, parameters, structure.</p>
+                <p>Two tools in one: <strong>Schema Diff</strong> shows every change between RouterOS versions, and <strong>Command Lookup</strong> searches paths, parameters, and types &mdash; CLI to REST.</p>
                 <div class="tile-actions">
-                    <a href="https://tikoci.github.io/restraml/diff.html" target="_blank" rel="noopener" role="button" class="outline">Open Diff</a>
-                </div>
-            </article>
-
-            <!-- Command Lookup -->
-            <article>
-                <header>
-                    <h3><a href="https://tikoci.github.io/restraml/lookup.html" target="_blank" rel="noopener">Command Lookup</a></h3>
-                </header>
-                <p>Search any RouterOS command across versions. Paths, parameters, types &mdash; CLI to REST.</p>
-                <div class="tile-actions">
-                    <a href="https://tikoci.github.io/restraml/lookup.html" target="_blank" rel="noopener" role="button" class="outline">Open Lookup</a>
+                    <a href="https://tikoci.github.io/restraml/diff.html" target="_blank" rel="noopener" role="button" class="outline">Schema Diff</a>
+                    <a href="https://tikoci.github.io/restraml/lookup.html" target="_blank" rel="noopener" role="button" class="outline">Command Lookup</a>
                 </div>
             </article>
 
@@ -248,7 +251,7 @@
             <!-- API Explorer -->
             <article>
                 <header>
-                    <h3><a href="https://tikoci.github.io/restraml/openapi.html" target="_blank" rel="noopener">API Explorer</a> <mark class="new">NEW</mark></h3>
+                    <h3><a href="https://tikoci.github.io/restraml/openapi.html" target="_blank" rel="noopener">API Explorer</a></h3>
                 </header>
                 <p>Browse 5,000+ RouterOS REST endpoints interactively. Powered by the OpenAPI 3.0 schemas published since 7.22.1.</p>
                 <div class="tile-actions">
@@ -286,6 +289,18 @@
             <article>
                 <h4><a href="https://github.com/tikoci/serial2http" target="_blank" rel="noopener">serial2http</a></h4>
                 <p>HTTP bridge for RouterOS serial ports, packaged as a container.</p>
+            </article>
+            <article>
+                <h4><a href="https://github.com/tikoci/routeros-skills" target="_blank" rel="noopener">routeros-skills</a></h4>
+                <p>Drop-in <kbd>SKILL.md</kbd> files for GitHub Copilot and Claude &mdash; RouterOS fundamentals, containers, QEMU CHR, command tree, and more.</p>
+            </article>
+            <article>
+                <h4><a href="https://github.com/tikoci/donny" target="_blank" rel="noopener">donny</a></h4>
+                <p>RouterOS automation and scripting tooling. See the <a href="https://github.com/tikoci/donny" target="_blank" rel="noopener">GitHub repo</a> for details.</p>
+            </article>
+            <article>
+                <h4><a href="https://github.com/tikoci/fat-chr" target="_blank" rel="noopener">fat-chr</a></h4>
+                <p>Rebuilds RouterOS CHR <code>.raw</code> images into UEFI-bootable images using a FAT EFI partition &mdash; required for UTM, Apple Silicon, and UEFI-strict platforms.</p>
             </article>
             <article>
                 <h4><a href="https://github.com/tikoci/winbox-deb" target="_blank" rel="noopener">winbox-deb</a></h4>

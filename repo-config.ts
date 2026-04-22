@@ -61,6 +61,8 @@ export const REPO_SYMBOLS: Record<string, string> = {
     "mikropkl":           "\u235F",  // ⍟ circle star — PKL config, disk images
     "fat-chr":            "\u2338",  // ⌸ key — building CHR images
     "chr-utm":            "\u2283",  // ⊃ disclose — unpacking virtual machines
+    "quickchr":           "\u234F",  // ⍏ up-tack overbar — boot/launch CHR
+    "donny":              "\u2360",  // ⍠ quad colon — variant/configuration
 
     // === Containers ===
     "make.d":             "\u2218",  // ∘ jot/compose — Docker compose operator
@@ -92,6 +94,21 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
     },
     "fat-chr": {
         category: "virtualization",
+        externalLinks: [
+            { label: "UEFI CHR Releases", url: "https://github.com/tikoci/fat-chr/releases", style: "primary", description: "Download UEFI-bootable CHR images" },
+        ],
+    },
+    "quickchr": {
+        category: "virtualization",
+        externalLinks: [
+            { label: "GitHub", url: "https://github.com/tikoci/quickchr", style: "primary", description: "Source, releases, and docs" },
+        ],
+    },
+    "donny": {
+        category: "dev-tools",
+        externalLinks: [
+            { label: "GitHub", url: "https://github.com/tikoci/donny", style: "primary", description: "Source and releases" },
+        ],
     },
     restraml: {
         category: "web-tools",
@@ -196,6 +213,8 @@ export const RELATIONSHIPS: Relationship[] = [
     // Virtualization family
     { source: "mikropkl", target: "fat-chr", type: "sibling" },
     { source: "mikropkl", target: "chr-utm", type: "sibling" },
+    { source: "quickchr", target: "fat-chr", type: "sibling" },
+    { source: "quickchr", target: "mikropkl", type: "ecosystem" },
 
     // API schema ecosystem
     { source: "restraml", target: "rosetta", type: "ecosystem" },
@@ -204,6 +223,7 @@ export const RELATIONSHIPS: Relationship[] = [
     // MCP/AI layer
     { source: "rosetta", target: "lsp-routeros-ts", type: "topic" },
     { source: "rosetta", target: "routeros-skills", type: "ecosystem" },
+    { source: "routeros-skills", target: "donny", type: "sibling" },
 
     // Network scripts family
     { source: "netserver", target: "netinstall", type: "topic" },
