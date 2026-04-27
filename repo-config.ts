@@ -21,6 +21,8 @@ export interface RepoOverride {
     bonusDocs?: string[];
     /** Short tagline override (when GitHub description is too long/vague) */
     tagline?: string;
+    /** SEO meta description override (120–160 chars for Bing/Google) */
+    metaDescription?: string;
     /** Category for graph clustering */
     category?: string;
     /** VS Code Marketplace extension ID (e.g. "TIKOCI.tikbook") — enables "Install in VS Code" button */
@@ -94,6 +96,7 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
     },
     "fat-chr": {
         category: "virtualization",
+        metaDescription: "Build UEFI-bootable MikroTik RouterOS CHR images with extra-packages pre-installed — ready for QEMU, UTM, and other hypervisors by TIKOCI.",
         externalLinks: [
             { label: "UEFI CHR Releases", url: "https://github.com/tikoci/fat-chr/releases", style: "primary", description: "Download UEFI-bootable CHR images" },
         ],
@@ -137,10 +140,12 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
     },
     "lsp-routeros-ts": {
         category: "dev-tools",
+        metaDescription: "RouterOS Language Server (LSP) for VS Code, NeoVim, and other editors — syntax checking and accurate code completions for MikroTik scripting.",
         vscodeExtensionId: "TIKOCI.lsp-routeros-ts",
     },
     "vscode-tikbook": {
         category: "dev-tools",
+        metaDescription: "TikBook adds MikroTik RouterOS notebook support to VS Code — write, run, and share RouterOS scripts as interactive cells from your editor.",
         vscodeExtensionId: "TIKOCI.tikbook",
     },
     "winbox-deb": {
@@ -167,9 +172,11 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
     },
     "chr-utm": {
         category: "virtualization",
+        metaDescription: "Run MikroTik RouterOS as a VM on Intel macOS — pre-built UTM bundle for Cloud Hosted Router (CHR) with networking support included by TIKOCI.",
     },
     nginx: {
         category: "containers",
+        metaDescription: "nginx container for MikroTik RouterOS with CORS headers and X.509 certificate handling — deploy as a reverse proxy using the RouterOS /container subsystem.",
     },
     "traefik-wabt": {
         category: "containers",

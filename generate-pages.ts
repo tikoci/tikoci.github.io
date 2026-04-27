@@ -236,7 +236,9 @@ function renderPage(repo: RepoData, allRepos: RepoData[]): string {
         ? `<a href="${escapeHtml(repo.homepage)}" role="button" class="outline" target="_blank" rel="noopener">\u{1F310} Homepage</a>`
         : "";
 
-    const description = repo.description || `${repo.name} — open source MikroTik RouterOS project by TIKOCI`;
+    const description = repo.metaDescription
+        || repo.description
+        || `${repo.name} — open source MikroTik RouterOS project by TIKOCI`;
 
     return `<!doctype html>
 <html lang="en">

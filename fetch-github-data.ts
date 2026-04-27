@@ -60,6 +60,8 @@ export interface RepoData {
     dockerfileContent?: string;
     /** Viewable file contents fetched at build time (markdown rendered to HTML) */
     viewableFileContents: { name: string; html: string }[];
+    /** SEO meta description override from repo-config (120–160 chars) */
+    metaDescription?: string;
 }
 
 export interface GraphData {
@@ -224,6 +226,7 @@ function applyConfigOverrides(repos: RepoData[]): RepoData[] {
             vscodeExtensionId: override.vscodeExtensionId ?? repo.vscodeExtensionId,
             dockerImages: override.dockerImages ?? repo.dockerImages,
             externalLinks: override.externalLinks ?? repo.externalLinks,
+            metaDescription: override.metaDescription ?? repo.metaDescription,
         };
     });
 }
@@ -339,6 +342,7 @@ export async function fetchGitHubData(distDir: string): Promise<RepoData[]> {
             hasDockerfile,
             dockerfileContent,
             viewableFileContents,
+            metaDescription: override.metaDescription,
         });
     }
 
