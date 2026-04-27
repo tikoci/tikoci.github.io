@@ -118,7 +118,7 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
             { label: "Schema Diff", url: "https://tikoci.github.io/restraml/diff.html", style: "outline" },
             { label: "API Explorer", url: "https://tikoci.github.io/restraml/openapi.html", style: "outline" },
             { label: "/app Editor", url: "https://tikoci.github.io/restraml/tikapp.html", style: "outline" },
-            { label: "User Manual", url: "https://tikoci.github.io/restraml/app", style: "primary", description: "Full /app documentation" },
+            { label: "User Manual", url: "https://tikoci.github.io/restraml/tikapp-manual.html", style: "primary", description: "Full /app documentation" },
         ],
     },
     rosetta: {

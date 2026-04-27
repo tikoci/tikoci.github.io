@@ -36,8 +36,8 @@ Key problems tikoci solves for RouterOS administrators:
 - [Schema Diff](https://tikoci.github.io/restraml/diff.html): Compare two RouterOS versions side-by-side — see every command, property, and API change between releases. Useful for upgrade planning and finding new features.
 - [Command Lookup](https://tikoci.github.io/restraml/lookup.html): Search RouterOS CLI and REST commands across versions — find the REST path for any CLI command, see available parameters, check version availability.
 - [/app Editor](https://tikoci.github.io/restraml/tikapp.html): Browser-based YAML editor for RouterOS `/app` container definitions — live JSON Schema validation, example picker, Monaco editor, copy deploy commands. For RouterOS 7.22+.
-- [Schema Downloads](https://tikoci.github.io/restraml): Download versioned RAML and OpenAPI schemas for RouterOS — import into Postman, generate client libraries, or use for API documentation. Covers stable, long-term, and testing channels.
-- [/app User Manual](https://tikoci.github.io/restraml/app): Full /app YAML documentation for RouterOS container apps — services, configs, volumes, built-in apps, and app store structure.
+- [Schema Downloads](https://tikoci.github.io/restraml/): Download versioned RAML and OpenAPI schemas for RouterOS — import into Postman, generate client libraries, or use for API documentation. Covers stable, long-term, and testing channels.
+- [/app User Manual](https://tikoci.github.io/restraml/tikapp-manual.html): Full /app YAML documentation for RouterOS container apps — services, configs, volumes, built-in apps, and app store structure.
 
 ## Virtualization
 

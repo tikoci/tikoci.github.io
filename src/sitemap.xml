@@ -52,11 +52,6 @@
         <priority>0.5</priority>
     </url>
     <url>
-        <loc>https://tikoci.github.io/llms.txt</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.4</priority>
-    </url>
-    <url>
         <loc>https://tikoci.github.io/privacy.html</loc>
         <changefreq>yearly</changefreq>
         <priority>0.2</priority>
