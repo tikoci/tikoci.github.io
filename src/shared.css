@@ -381,6 +381,20 @@ mark.lang {
     margin-left: 0.25rem;
 }
 
+/* Cross-cutting membership tags (next to a tile title) */
+mark.tag {
+    background-color: var(--pico-secondary-background);
+    color: var(--pico-secondary);
+    font-size: 0.6rem;
+    font-weight: 600;
+    margin-left: 0.25rem;
+}
+/* biome-ignore lint/style/noDescendingSpecificity: tag-badge link, different context than .project-grid selectors */
+mark.tag a {
+    color: inherit;
+    text-decoration: none;
+}
+
 /* restraml callout */
 .restraml-callout {
     border-left: 4px solid var(--pico-primary);
@@ -638,6 +652,62 @@ nav details.dropdown > summary.nav-btn-icon svg.nav-icon {
     border-bottom: 2px solid var(--pico-primary);
     font-size: 1.15rem;
     font-weight: 700;
+}
+/* "in map →" deep-link in a section heading */
+.section-label .map-link {
+    float: right;
+    font-size: 0.7rem;
+    font-weight: 400;
+    text-decoration: none;
+    margin-top: 0.35rem;
+    color: var(--pico-muted-color);
+}
+.section-label .map-link:hover {
+    color: var(--pico-primary);
+}
+/* One-line blurb under a section heading */
+.section-blurb {
+    margin-top: -0.4rem;
+    margin-bottom: 0.85rem;
+    font-size: 0.85rem;
+    color: var(--pico-muted-color);
+}
+/* Live stars / symbol / language footer on a feature tile */
+.tile-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--pico-muted-color);
+}
+.tile-meta .tile-symbol {
+    font-size: 1rem;
+    line-height: 1;
+}
+/* Umbrella sub-project tiles (e.g. restraml web tools) */
+.subtile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    gap: 0.4rem;
+    margin-top: 0.6rem;
+}
+/* biome-ignore lint/style/noDescendingSpecificity: sub-tile link, different context than .project-grid selectors */
+.subtile-grid a {
+    display: block;
+    padding: 0.4rem 0.6rem;
+    border: 1px solid var(--pico-muted-border-color);
+    border-radius: 0.25rem;
+    text-decoration: none;
+    font-size: 0.82rem;
+}
+.subtile-grid a strong {
+    display: block;
+    font-weight: 600;
+}
+.subtile-grid a small {
+    color: var(--pico-muted-color);
+    font-size: 0.72rem;
 }
 
 

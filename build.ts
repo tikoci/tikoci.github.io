@@ -14,6 +14,7 @@ import { join, resolve } from "node:path";
 import opentype from "opentype.js";
 import sharp from "sharp";
 import { buildGraphData, fetchGitHubData } from "./fetch-github-data";
+import { renderHomepageSections } from "./generate-homepage";
 import { generatePages } from "./generate-pages";
 import { REPO_SYMBOLS } from "./repo-config";
 
@@ -130,7 +131,20 @@ const repos = await fetchGitHubData(DIST);
 console.log("Generating per-repo landing pages...");
 generatePages(repos, DIST);
 
-// Step 4.5: Generate per-repo SVG and PNG in dist/p/
+// Step 4.5: Inject data-driven homepage sections into index.html
+console.log("Embedding homepage sections into index.html...");
+const indexPath = join(DIST, "index.html");
+const homepagePlaceholder = "<!-- HOMEPAGE_SECTIONS_PLACEHOLDER -->";
+const indexHtml = readFileSync(indexPath, "utf-8");
+if (!indexHtml.includes(homepagePlaceholder)) {
+    throw new Error(`Homepage placeholder ${homepagePlaceholder} not found in ${indexPath} — cannot inject sections`);
+}
+// Callback form avoids $-pattern substitution in the rendered HTML.
+const updatedIndex = indexHtml.replace(homepagePlaceholder, () => renderHomepageSections(repos));
+writeFileSync(indexPath, updatedIndex, "utf-8");
+console.log("  Injected homepage sections");
+
+// Step 4.6: Generate per-repo SVG and PNG in dist/p/
 console.log("Generating per-repo symbols (SVG + PNG)...");
 const P_DIR = join(DIST, "p");
 mkdirSync(P_DIR, { recursive: true });
