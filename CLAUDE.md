@@ -18,11 +18,13 @@ tikoci-website/
 ├── build.ts              # Build script: src/ → dist/, fetches GitHub data, generates pages
 ├── fetch-github-data.ts  # GitHub API: fetches repo metadata, builds graph data for project map
 ├── generate-pages.ts     # Generates per-repo landing pages (dist/p/*.html) from repo data
+├── generate-homepage.ts  # Renders the homepage catalog sections/tiles (injected into index.html)
+├── homepage-config.ts    # Data-driven homepage catalog: sections, tiles, sub-tiles, cross-cutting tags
 ├── repo-config.ts        # Per-repo overrides: APL symbols, categories, link relationships
 ├── package.json          # bun project config with build/lint/dev scripts
 ├── biome.json            # Biome v2.x linter config (formatter disabled)
 ├── src/                  # Source HTML, CSS, JS files
-│   ├── index.html        # Landing page with all project categories
+│   ├── index.html        # Landing page — catalog sections injected at build from homepage-config.ts
 │   ├── dev-tools.html    # Development Tools category page
 │   ├── virtualization.html  # Virtualization category page
 │   ├── containers.html   # Containers category page
@@ -88,12 +90,13 @@ To set up locally: `gh auth login` (one-time). The build will find the token aut
 3. Copies images from `docs/images/` to `dist/images/`
 4. Fetches GitHub repo data via API → caches in `dist/data/repos.json`
 5. Generates per-repo landing pages → `dist/p/{repo-name}.html`
-6. Generates per-repo symbol images → `dist/p/{repo-name}.svg` and `.png` (from `REPO_SYMBOLS` in `repo-config.ts`, rendered with JetBrains Mono via opentype.js + sharp)
-7. Builds graph data and embeds it into `dist/project-map.html`
-8. Injects per-repo URLs into `dist/sitemap.xml`
-9. Prints a file listing
+6. Renders the homepage catalog (`generate-homepage.ts` ← `homepage-config.ts`) and injects it into `dist/index.html` at the `<!-- HOMEPAGE_SECTIONS_PLACEHOLDER -->`, enriching repo-linked tiles with live stars/symbol/language
+7. Generates per-repo symbol images → `dist/p/{repo-name}.svg` and `.png` (from `REPO_SYMBOLS` in `repo-config.ts`, rendered with JetBrains Mono via opentype.js + sharp)
+8. Builds graph data and embeds it into `dist/project-map.html`
+9. Injects per-repo URLs into `dist/sitemap.xml`
+10. Prints a file listing
 
-The build uses bun with Node.js built-in APIs. No template engine, no bundler, no minifier. The GitHub data fetching and page generation are in separate modules (`fetch-github-data.ts`, `generate-pages.ts`) with per-repo configuration in `repo-config.ts`.
+The build uses bun with Node.js built-in APIs. No template engine, no bundler, no minifier. The GitHub data fetching and page generation are in separate modules (`fetch-github-data.ts`, `generate-pages.ts`, `generate-homepage.ts`) with per-repo configuration in `repo-config.ts` and homepage catalog content in `homepage-config.ts`.
 
 ### Static asset preservation
 `dist/scripts/`, `dist/media/`, and `dist/logos/` contain files that are **committed to git** and **linked externally** from forum posts and other sites. The build script never deletes these directories. The GitHub Actions workflow also runs `git restore dist/scripts dist/media` after build to ensure they survive.
@@ -452,7 +455,11 @@ All pages include the Plausible snippet in `<head>`:
 
 1. Determine which category it belongs to
 2. Add a project card `<article>` to the relevant category page in `src/`
-3. If it should appear on the index page, add a card there too in the matching category section
+3. If it should appear on the homepage, add a `Tile` to the matching `Section` in `homepage-config.ts`
+   (the homepage is **data-driven** — do NOT hand-edit tiles in `src/index.html`; everything below
+   the hero is generated from `homepage-config.ts` and injected at build). Set `repo: "<name>"` to
+   auto-link the tile to `p/<name>.html` and show live stars/symbol/language. Use `tags` for
+   cross-cutting membership and `subtiles` for umbrella projects.
 4. Run `bun run lint` to verify
 5. Run `bun run build` to verify build output
 

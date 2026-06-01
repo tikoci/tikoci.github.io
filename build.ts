@@ -14,6 +14,7 @@ import { join, resolve } from "node:path";
 import opentype from "opentype.js";
 import sharp from "sharp";
 import { buildGraphData, fetchGitHubData } from "./fetch-github-data";
+import { renderHomepageSections } from "./generate-homepage";
 import { generatePages } from "./generate-pages";
 import { REPO_SYMBOLS } from "./repo-config";
 
@@ -129,6 +130,18 @@ const repos = await fetchGitHubData(DIST);
 
 console.log("Generating per-repo landing pages...");
 generatePages(repos, DIST);
+
+// Step 4.6: Inject data-driven homepage sections into index.html
+console.log("Embedding homepage sections into index.html...");
+const indexPath = join(DIST, "index.html");
+if (existsSync(indexPath)) {
+    const indexHtml = readFileSync(indexPath, "utf-8");
+    const placeholder = "<!-- HOMEPAGE_SECTIONS_PLACEHOLDER -->";
+    // Callback form avoids $-pattern substitution in the rendered HTML.
+    const updated = indexHtml.replace(placeholder, () => renderHomepageSections(repos));
+    writeFileSync(indexPath, updated, "utf-8");
+    console.log("  Injected homepage sections");
+}
 
 // Step 4.5: Generate per-repo SVG and PNG in dist/p/
 console.log("Generating per-repo symbols (SVG + PNG)...");

@@ -853,6 +853,24 @@
             plausible('Map Legend Filter', { props: { language: lang } });
         });
 
+        // --- Deep-link: ?category=<cat> highlights a homepage section's projects ---
+        const categoryParam = new URLSearchParams(window.location.search).get('category');
+        if (categoryParam) {
+            const catIds = new Set(nodes.filter(d => d.category === categoryParam).map(d => d.id));
+            if (catIds.size) {
+                let applied = false;
+                const applyCategory = () => {
+                    if (applied) return;
+                    applied = true;
+                    applyFilter(catIds);
+                    plausible('Map Category Deep-link', { props: { category: categoryParam } });
+                };
+                // Wait for the force layout to settle so node positions exist for zoom-to-fit.
+                simulation.on('end.deeplink', applyCategory);
+                setTimeout(applyCategory, 2500);  // fallback if 'end' is slow
+            }
+        }
+
         // --- Handle window resize ---
         window.addEventListener('resize', () => {
             const w = window.innerWidth;

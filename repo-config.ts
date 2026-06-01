@@ -129,14 +129,14 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
         ],
     },
     rosetta: {
-        category: "dev-tools",
+        category: "ai",
         externalLinks: [
             { label: "Latest Release", url: "https://github.com/tikoci/rosetta/releases/latest", style: "primary", description: "Current build & changelog" },
             { label: "Current Database", url: "https://github.com/tikoci/rosetta/releases/latest/download/ros-help.db.gz", style: "outline", description: "Download ros-help.db.gz" },
         ],
     },
     "routeros-skills": {
-        category: "dev-tools",
+        category: "ai",
         externalLinks: [
             { label: "Latest Release", url: "https://github.com/tikoci/routeros-skills/releases", style: "primary", description: "Releases on GitHub" },
             { label: "SkillStore.io", url: "https://skillstore.io/skills?q=tikoci", style: "outline", description: "Published on SkillStore" },
@@ -205,7 +205,7 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
         tagline: "Multi-protocol RouterOS API library for TypeScript with built-in CLI",
     },
     "bench-routeros-tools": {
-        category: "dev-tools",
+        category: "ai",
         tagline: "Benchmark AI agent RouterOS support across MCPs, skills, and retrieval",
         externalLinks: [
             { label: "GitHub", url: "https://github.com/tikoci/bench-routeros-tools", style: "primary", description: "Benchmarks and results" },
