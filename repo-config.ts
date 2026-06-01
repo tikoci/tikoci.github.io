@@ -82,6 +82,10 @@ export const REPO_SYMBOLS: Record<string, string> = {
     // === Adventures (the "plants" 🌱) ===
     "adventure":          "\u2207",  // ∇ del/nabla — explore, descend into the unknown
     "wargames":           "\u2363",  // ⍣ power operator — shall we play a game?
+
+    // === TypeScript/Python Developer Libraries ===
+    "centrs":                "\u2355",  // ⍕ format — multi-protocol API surface
+    "bench-routeros-tools":  "\u2374",  // ⍴ rho/shape — measuring and comparing strategies
 };
 
 /** Fallback symbol for repos not in the mapping */
@@ -196,6 +200,17 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
     wargames: {
         category: "containers",
     },
+    centrs: {
+        category: "dev-tools",
+        tagline: "Multi-protocol RouterOS API library for TypeScript with built-in CLI",
+    },
+    "bench-routeros-tools": {
+        category: "dev-tools",
+        tagline: "Benchmark AI agent RouterOS support across MCPs, skills, and retrieval",
+        externalLinks: [
+            { label: "GitHub", url: "https://github.com/tikoci/bench-routeros-tools", style: "primary", description: "Benchmarks and results" },
+        ],
+    },
 };
 
 /** Graph edges between repos */
@@ -234,6 +249,14 @@ export const RELATIONSHIPS: Relationship[] = [
 
     // Network scripts family
     { source: "netserver", target: "netinstall", type: "topic" },
+
+    // TypeScript API layer
+    { source: "centrs", target: "rosetta", type: "ecosystem" },
+    { source: "centrs", target: "lsp-routeros-ts", type: "sibling" },
+
+    // AI benchmarking
+    { source: "bench-routeros-tools", target: "rosetta", type: "topic" },
+    { source: "bench-routeros-tools", target: "routeros-skills", type: "topic" },
 ];
 
 /** Repos to exclude even if they have stars */

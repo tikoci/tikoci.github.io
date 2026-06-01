@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <title>VSCode Extensions — TIKOCI</title>
-    <meta name="description" content="TIKOCI VSCode extensions for MikroTik RouterOS: RouterOS LSP language server and TikBook notebook toolkit — install directly from the VS Code Marketplace.">
+    <title>Developer Tools — TIKOCI</title>
+    <meta name="description" content="TIKOCI developer tools for MikroTik RouterOS: VS Code extensions, TypeScript API libraries, and AI benchmarking — open source tools for RouterOS developers.">
     <link rel="canonical" href="https://tikoci.github.io/dev-tools.html">
-    <meta property="og:title" content="VSCode Extensions — TIKOCI">
-    <meta property="og:description" content="TIKOCI VSCode extensions for MikroTik RouterOS: RouterOS LSP language server and TikBook notebook toolkit — install directly from the VS Code Marketplace.">
+    <meta property="og:title" content="Developer Tools — TIKOCI">
+    <meta property="og:description" content="TIKOCI developer tools for MikroTik RouterOS: VS Code extensions, TypeScript API libraries, and AI benchmarking — open source tools for RouterOS developers.">
     <meta property="og:url" content="https://tikoci.github.io/dev-tools.html">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary">
@@ -75,8 +75,10 @@
     </header>
 
     <main class="container">
-        <h1>VSCode Extensions</h1>
-        <p>Two purpose-built Visual Studio Code extensions for working with MikroTik RouterOS — syntax intelligence, a notebook interface, and a growing set of RouterOS-specific tools, all wired directly to a live router.</p>
+        <h1>Developer Tools</h1>
+        <p>Open source tools for working with MikroTik RouterOS — VS Code extensions for syntax intelligence and notebooks, TypeScript libraries for API access and automation, and benchmarking for AI agent strategies.</p>
+
+        <h2>VS Code Extensions</h2>
 
         <blockquote>
             <p><strong>If you write RouterOS scripts or work with RouterOS configuration from a computer, these extensions are worth trying.</strong> Install RouterOS LSP for syntax checking and completions in any <code>.rsc</code> file, then add TikBook for a full notebook and tooling experience. Both are free, open source, and on the VS Code Marketplace.</p>
@@ -223,6 +225,41 @@
             <p>Packages WinBox 4.0 as a <kbd>.deb</kbd> for Linux, with a desktop icon. Provided as a template for packaging WinBox on various Linux distributions, rather than for wide redistribution.</p>
             <footer>
                 <a href="https://github.com/tikoci/winbox-deb">GitHub</a>
+            </footer>
+        </article>
+
+        <h2>Libraries &amp; CLI Tools</h2>
+
+        <!-- centrs -->
+        <article>
+            <header>
+                <h2><a href="https://github.com/tikoci/centrs">centrs</a> <mark class="new">NEW</mark> <mark class="lang">TypeScript</mark></h2>
+            </header>
+            <p>Modern multi-protocol RouterOS API library for TypeScript. Provides a unified interface across RouterOS&rsquo;s multiple API protocols &mdash; REST, WebSocket, and the binary API &mdash; plus a ready-to-run CLI for scripting and automation without writing any setup code.</p>
+            <footer>
+                <a href="https://github.com/tikoci/centrs" target="_blank" rel="noopener">GitHub</a>
+            </footer>
+        </article>
+
+        <!-- donny -->
+        <article>
+            <header>
+                <h2><a href="https://github.com/tikoci/donny">donny</a> <mark class="lang">TypeScript</mark></h2>
+            </header>
+            <p>Experimental TypeScript library and CLI for <strong>MikroTik The Dude</strong> &mdash; the network monitoring and management application from MikroTik. Provides programmatic access to The Dude&rsquo;s SQLite database (<code>dude.db</code>) for reading device topology, monitoring history, and network maps.</p>
+            <footer>
+                <a href="https://github.com/tikoci/donny" target="_blank" rel="noopener">GitHub</a>
+            </footer>
+        </article>
+
+        <!-- bench-routeros-tools -->
+        <article>
+            <header>
+                <h2><a href="https://github.com/tikoci/bench-routeros-tools">bench-routeros-tools</a> <mark class="new">NEW</mark> <mark class="lang">Python</mark></h2>
+            </header>
+            <p>Benchmarks RouterOS AI agent-support strategies across MCPs, skills, and retrieval methods. Useful for comparing how well different AI tooling configurations handle RouterOS tasks, measuring quality and latency across approaches like <a href="https://github.com/tikoci/rosetta" target="_blank" rel="noopener">rosetta</a> MCP and <a href="https://github.com/tikoci/routeros-skills" target="_blank" rel="noopener">routeros-skills</a>.</p>
+            <footer>
+                <a href="https://github.com/tikoci/bench-routeros-tools" target="_blank" rel="noopener">GitHub</a>
             </footer>
         </article>
     </main>
