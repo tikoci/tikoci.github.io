@@ -407,6 +407,12 @@
         // Name scheme: <variant>.<arch>.<type>.<version>.utm.zip
         function versionFromTag(tag) { return tag.replace(/^chr-/, '') }
 
+        function isRouterOSPrerelease(release) {
+            // mikropkl marks stable images as GitHub prereleases too; use the RouterOS version.
+            const match = versionFromTag(release.tag_name).match(/^\d+\.\d+(?:\.\d+)?(?:(beta|rc)\d+)?$/)
+            return match ? Boolean(match[1]) : release.prerelease
+        }
+
         function parseAssetName(filename, version) {
             if (!filename.endsWith('.utm.zip')) return null
             const base = filename.slice(0, -8)  // strip .utm.zip
@@ -462,11 +468,11 @@
             const showPre = prereleaseEl.checked
             const filtered = showPre
                 ? allReleases
-                : allReleases.filter(r => !r.prerelease)
+                : allReleases.filter(r => !isRouterOSPrerelease(r))
             const prev = keepSelection ? versionEl.value : null
             versionEl.innerHTML = filtered.map(r => {
                 const v = versionFromTag(r.tag_name)
-                const label = v + (r.prerelease ? ' (pre-release)' : '')
+                const label = v + (isRouterOSPrerelease(r) ? ' (pre-release)' : '')
                 return '<option value="' + escapeHtml(r.tag_name) + '">' + escapeHtml(label) + '</option>'
             }).join('')
             if (prev && [...versionEl.options].some(o => o.value === prev)) {
