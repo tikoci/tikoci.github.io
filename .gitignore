@@ -1,5 +1,6 @@
 .DS_Store
 .github-cache.json
+.dashboard-cache.json
 .cache/
 dist/*
 !dist/scripts/

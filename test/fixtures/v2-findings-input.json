@@ -1,0 +1,590 @@
+{
+  "comment": "Synthetic v2 repo signals for deriveFindings tests. Each repo exercises specific rules; values invented.",
+  "rosCurrent": {
+    "stable": {
+      "state": "ok",
+      "version": "7.25",
+      "raw": "7.25 1792678320"
+    },
+    "testing": {
+      "state": "ok",
+      "version": "7.25",
+      "raw": "7.25 1792678320"
+    },
+    "development": {
+      "state": "ok",
+      "version": "7.26beta4",
+      "raw": "7.26beta4 1793093144"
+    },
+    "long-term": {
+      "state": "error",
+      "version": null,
+      "raw": null,
+      "error": "HTTP 500 for feed"
+    }
+  },
+  "repos": {
+    "ci-mess": {
+      "name": "ci-mess",
+      "groups": [
+        "ci-health"
+      ],
+      "detail": "data/dashboard/ci-mess.json",
+      "ci": {
+        "state": "ok",
+        "defaultBranch": "main",
+        "headSha": "aaa0001",
+        "headUrl": "https://github.com/tikoci/ci-mess/commit/aaa0001",
+        "workflows": [
+          {
+            "configured": "Test",
+            "name": "Test",
+            "path": ".github/workflows/test.yml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "failure",
+            "lastConclusion": "failure",
+            "headBranch": "main",
+            "headSha": "aaa0001",
+            "event": "push",
+            "runStartedAt": "2026-10-28T10:00:00Z",
+            "lastUpdatedAt": "2026-10-28T10:05:00Z",
+            "lastUrl": "https://github.com/tikoci/ci-mess/actions/runs/1",
+            "isHead": true
+          },
+          {
+            "configured": "Release",
+            "name": "Release",
+            "path": ".github/workflows/release.yml",
+            "present": true,
+            "state": "ok",
+            "status": "in_progress",
+            "conclusion": null,
+            "lastConclusion": null,
+            "headBranch": "main",
+            "headSha": "aaa0001",
+            "event": "push",
+            "runStartedAt": "2026-10-28T12:00:00Z",
+            "lastUpdatedAt": "2026-10-28T12:01:00Z",
+            "lastUrl": "https://github.com/tikoci/ci-mess/actions/runs/3",
+            "isHead": true
+          },
+          {
+            "configured": "Old",
+            "name": "Old",
+            "path": ".github/workflows/old.yml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "main",
+            "headSha": "zzz9999",
+            "event": "schedule",
+            "runStartedAt": "2026-10-20T10:00:00Z",
+            "lastUpdatedAt": "2026-10-20T10:05:00Z",
+            "lastUrl": "https://github.com/tikoci/ci-mess/actions/runs/9",
+            "isHead": false
+          },
+          {
+            "configured": "NeverRan",
+            "name": "NeverRan",
+            "path": ".github/workflows/never.yml",
+            "present": true,
+            "state": "unknown",
+            "status": null,
+            "conclusion": null,
+            "lastConclusion": null,
+            "headBranch": null,
+            "headSha": null,
+            "event": null,
+            "runStartedAt": null,
+            "lastUpdatedAt": null,
+            "lastUrl": null,
+            "isHead": null,
+            "error": "no runs on default branch main"
+          },
+          {
+            "configured": "Renamed",
+            "name": null,
+            "path": null,
+            "present": false,
+            "state": "unknown",
+            "status": null,
+            "conclusion": null,
+            "lastConclusion": null,
+            "headBranch": null,
+            "headSha": null,
+            "event": null,
+            "runStartedAt": null,
+            "lastUpdatedAt": null,
+            "lastUrl": null,
+            "isHead": null,
+            "error": "configured workflow Renamed not found among 4 active workflows"
+          }
+        ]
+      }
+    },
+    "ci-broken-list": {
+      "name": "ci-broken-list",
+      "groups": [
+        "ci-health"
+      ],
+      "detail": "data/dashboard/ci-broken-list.json",
+      "ci": {
+        "state": "error",
+        "defaultBranch": "main",
+        "headSha": null,
+        "headUrl": null,
+        "workflows": [],
+        "error": "HTTP 403 for workflows list"
+      }
+    },
+    "ros-gap": {
+      "name": "ros-gap",
+      "groups": [
+        "ros-tracking",
+        "ros-lag"
+      ],
+      "detail": "data/dashboard/ros-gap.json",
+      "ros": {
+        "state": "ok",
+        "locator": "github-tags:",
+        "kind": "tagged",
+        "coverage": [
+          "7.24.5",
+          "7.24.4"
+        ],
+        "totalKnown": 2,
+        "truncated": false,
+        "channels": {
+          "stable": {
+            "version": "7.25",
+            "covered": false
+          },
+          "long-term": {
+            "version": null,
+            "covered": null
+          }
+        }
+      },
+      "rosLag": {
+        "state": "unknown",
+        "artifactVersion": null,
+        "stableVersion": "7.25",
+        "error": "no manifest configured"
+      }
+    },
+    "ros-broken": {
+      "name": "ros-broken",
+      "groups": [
+        "ros-tracking"
+      ],
+      "detail": "data/dashboard/ros-broken.json",
+      "ros": {
+        "state": "error",
+        "locator": "contents-dirs:docs",
+        "kind": "published",
+        "coverage": [],
+        "totalKnown": 0,
+        "truncated": false,
+        "channels": {},
+        "error": "HTTP 404 for contents docs"
+      }
+    },
+    "pkg-mixed": {
+      "name": "pkg-mixed",
+      "groups": [
+        "npm",
+        "releases"
+      ],
+      "detail": "data/dashboard/pkg-mixed.json",
+      "npm": {
+        "state": "ok",
+        "package": "@tikoci/fixture",
+        "published": true,
+        "repoVersion": "0.12.0-next",
+        "repoPrerelease": true,
+        "latestVersion": "0.11.3",
+        "distTags": {
+          "latest": "0.11.3",
+          "next": "0.12.0-next.5"
+        },
+        "repoVersionPublished": false,
+        "publishedAt": "2026-10-05T08:29:47.049Z",
+        "assessment": "prerelease-channel",
+        "behind": true,
+        "expected": true
+      },
+      "release": {
+        "state": "ok",
+        "latestTag": "v0.12.0-next.123",
+        "latestDate": "2026-10-21T17:15:47Z",
+        "latestUrl": "https://github.com/tikoci/pkg-mixed/releases/tag/v0.12.0-next.123",
+        "prerelease": true,
+        "stable": {
+          "tag": "v0.11.3",
+          "date": "2026-10-05T08:29:47Z",
+          "url": "https://github.com/tikoci/pkg-mixed/releases/tag/v0.11.3",
+          "prerelease": false
+        },
+        "newest": {
+          "tag": "v0.12.0-next.123",
+          "date": "2026-10-21T17:15:47Z",
+          "url": "https://github.com/tikoci/pkg-mixed/releases/tag/v0.12.0-next.123",
+          "prerelease": true
+        },
+        "prereleaseChannel": true,
+        "windowFetched": 2
+      }
+    },
+    "pkg-pending": {
+      "name": "pkg-pending",
+      "groups": [
+        "npm",
+        "releases"
+      ],
+      "detail": "data/dashboard/pkg-pending.json",
+      "npm": {
+        "state": "ok",
+        "package": "@tikoci/pending",
+        "published": true,
+        "repoVersion": "0.7.4",
+        "repoPrerelease": false,
+        "latestVersion": "0.7.3",
+        "distTags": {
+          "latest": "0.7.3"
+        },
+        "repoVersionPublished": false,
+        "publishedAt": "2026-04-25T04:43:24.417Z",
+        "assessment": "pending-publish",
+        "behind": true,
+        "expected": true
+      },
+      "release": {
+        "state": "ok",
+        "latestTag": null,
+        "latestDate": null,
+        "latestUrl": null,
+        "prerelease": null,
+        "stable": null,
+        "newest": null,
+        "prereleaseChannel": null,
+        "windowFetched": 0
+      }
+    },
+    "pkg-dark": {
+      "name": "pkg-dark",
+      "groups": [
+        "npm",
+        "releases"
+      ],
+      "detail": "data/dashboard/pkg-dark.json",
+      "npm": {
+        "state": "error",
+        "package": "@tikoci/dark",
+        "published": null,
+        "repoVersion": "1.0.0",
+        "repoPrerelease": false,
+        "latestVersion": null,
+        "distTags": {},
+        "repoVersionPublished": null,
+        "publishedAt": null,
+        "assessment": "unknown",
+        "behind": null,
+        "error": "HTTP 500 for registry packument",
+        "expected": true
+      },
+      "release": {
+        "state": "error",
+        "latestTag": null,
+        "latestDate": null,
+        "latestUrl": null,
+        "prerelease": null,
+        "stable": null,
+        "newest": null,
+        "prereleaseChannel": null,
+        "windowFetched": 0,
+        "error": "HTTP 403 for releases"
+      }
+    },
+    "pkg-unpublished": {
+      "name": "pkg-unpublished",
+      "groups": [
+        "npm"
+      ],
+      "detail": "data/dashboard/pkg-unpublished.json",
+      "npm": {
+        "state": "ok",
+        "package": "@tikoci/unpublished",
+        "published": false,
+        "repoVersion": "0.1.0",
+        "repoPrerelease": false,
+        "latestVersion": null,
+        "distTags": {},
+        "repoVersionPublished": false,
+        "publishedAt": null,
+        "assessment": "not-published",
+        "behind": null,
+        "expected": true
+      }
+    },
+    "work-busy": {
+      "name": "work-busy",
+      "groups": [
+        "community"
+      ],
+      "detail": "data/dashboard/work-busy.json",
+      "community": {
+        "state": "partial",
+        "openIssues": 3,
+        "openPRs": 2,
+        "totalIssues": 60,
+        "totalPRs": 40,
+        "truncated": true,
+        "byLabel": {
+          "bug": 2
+        },
+        "byMilestone": {},
+        "newest": []
+      },
+      "work": {
+        "state": "partial",
+        "counts": {
+          "issues": {
+            "total": 60,
+            "owner": 55,
+            "external": 3,
+            "bot": 2
+          },
+          "prs": {
+            "total": 40,
+            "owner": 37,
+            "external": 2,
+            "bot": 1,
+            "ownerReady": 30,
+            "ownerDraft": 7,
+            "draftUnknown": false
+          }
+        },
+        "page": {
+          "fetched": 100,
+          "perPage": 100,
+          "truncated": true,
+          "countsAreLowerBounds": true
+        },
+        "pullsEnriched": true,
+        "items": [
+          {
+            "number": 200,
+            "title": "Owner feature PR",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/work-busy/pull/200",
+            "createdAt": "2026-10-27T10:00:00Z",
+            "updatedAt": "2026-10-27T11:00:00Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 199,
+            "title": "External fix PR",
+            "author": "contributor",
+            "authorClass": "external",
+            "url": "https://github.com/tikoci/work-busy/pull/199",
+            "createdAt": "2026-10-26T10:00:00Z",
+            "updatedAt": "2026-10-26T11:00:00Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [],
+            "milestone": null
+          }
+        ]
+      }
+    },
+    "work-dark": {
+      "name": "work-dark",
+      "groups": [
+        "community"
+      ],
+      "detail": "data/dashboard/work-dark.json",
+      "community": {
+        "state": "error",
+        "openIssues": 0,
+        "openPRs": 0,
+        "totalIssues": 0,
+        "totalPRs": 0,
+        "truncated": false,
+        "byLabel": {},
+        "byMilestone": {},
+        "newest": [],
+        "error": "HTTP 403 for issues"
+      },
+      "work": {
+        "state": "error",
+        "counts": {
+          "issues": {
+            "total": 0,
+            "owner": 0,
+            "external": 0,
+            "bot": 0
+          },
+          "prs": {
+            "total": 0,
+            "owner": 0,
+            "external": 0,
+            "bot": 0,
+            "ownerReady": 0,
+            "ownerDraft": 0,
+            "draftUnknown": true
+          }
+        },
+        "page": {
+          "fetched": 0,
+          "perPage": 100,
+          "truncated": false,
+          "countsAreLowerBounds": false
+        },
+        "pullsEnriched": false,
+        "items": [],
+        "error": "HTTP 403 for issues"
+      }
+    },
+    "clean": {
+      "name": "clean",
+      "groups": [
+        "ci-health",
+        "ros-tracking",
+        "npm",
+        "releases",
+        "community"
+      ],
+      "detail": "data/dashboard/clean.json",
+      "ci": {
+        "state": "ok",
+        "defaultBranch": "main",
+        "headSha": "aaa0001",
+        "headUrl": "https://github.com/tikoci/clean/commit/aaa0001",
+        "workflows": [
+          {
+            "configured": "CI",
+            "name": "CI",
+            "path": ".github/workflows/ci.yml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "main",
+            "headSha": "aaa0001",
+            "event": "push",
+            "runStartedAt": "2026-10-28T10:00:00Z",
+            "lastUpdatedAt": "2026-10-28T10:05:00Z",
+            "lastUrl": "https://github.com/tikoci/clean/actions/runs/1",
+            "isHead": true
+          }
+        ]
+      },
+      "ros": {
+        "state": "ok",
+        "locator": "github-releases:",
+        "kind": "published",
+        "coverage": [
+          "7.26beta4",
+          "7.25"
+        ],
+        "totalKnown": 2,
+        "truncated": false,
+        "channels": {
+          "stable": {
+            "version": "7.25",
+            "covered": true
+          },
+          "development": {
+            "version": "7.26beta4",
+            "covered": true
+          }
+        }
+      },
+      "npm": {
+        "state": "ok",
+        "package": "@tikoci/clean",
+        "published": true,
+        "repoVersion": "1.2.3",
+        "repoPrerelease": false,
+        "latestVersion": "1.2.3",
+        "distTags": {
+          "latest": "1.2.3"
+        },
+        "repoVersionPublished": true,
+        "publishedAt": "2026-10-27T00:00:00.000Z",
+        "assessment": "in-sync",
+        "behind": false,
+        "expected": true
+      },
+      "release": {
+        "state": "ok",
+        "latestTag": "v1.2.3",
+        "latestDate": "2026-10-27T00:00:00Z",
+        "latestUrl": "https://github.com/tikoci/clean/releases/tag/v1.2.3",
+        "prerelease": false,
+        "stable": {
+          "tag": "v1.2.3",
+          "date": "2026-10-27T00:00:00Z",
+          "url": "https://github.com/tikoci/clean/releases/tag/v1.2.3",
+          "prerelease": false
+        },
+        "newest": {
+          "tag": "v1.2.3",
+          "date": "2026-10-27T00:00:00Z",
+          "url": "https://github.com/tikoci/clean/releases/tag/v1.2.3",
+          "prerelease": false
+        },
+        "prereleaseChannel": false,
+        "windowFetched": 1
+      },
+      "community": {
+        "state": "ok",
+        "openIssues": 0,
+        "openPRs": 0,
+        "totalIssues": 0,
+        "totalPRs": 0,
+        "truncated": false,
+        "byLabel": {},
+        "byMilestone": {},
+        "newest": []
+      },
+      "work": {
+        "state": "ok",
+        "counts": {
+          "issues": {
+            "total": 0,
+            "owner": 0,
+            "external": 0,
+            "bot": 0
+          },
+          "prs": {
+            "total": 0,
+            "owner": 0,
+            "external": 0,
+            "bot": 0,
+            "ownerReady": 0,
+            "ownerDraft": 0,
+            "draftUnknown": false
+          }
+        },
+        "page": {
+          "fetched": 0,
+          "perPage": 100,
+          "truncated": false,
+          "countsAreLowerBounds": false
+        },
+        "pullsEnriched": true,
+        "items": []
+      }
+    }
+  }
+}

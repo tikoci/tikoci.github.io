@@ -82,6 +82,31 @@ Key problems tikoci solves for RouterOS administrators:
 - [adventure](https://github.com/tikoci/adventure): Classic Colossal Cave Adventure as RouterOS container
 - [wargames](https://github.com/tikoci/wargames): WarGames WOPR terminal simulation as RouterOS container
 
+## Cross-Repo Status Data
+
+Hourly build-time snapshot of versions, builds, packages, and work tracking
+across TIKOCI repos. Entrypoint: `data/dashboard.json` (schema v2, one
+fetch). Per-repo detail (full issue/PR index, full ROS coverage):
+`data/dashboard/<repo>.json`. Channel versions alone:
+`data/ros-versions.json` (one fetch). Schema reference:
+`dashboard-schema.md`. Human rendering: `status.html` (dense monospace
+board). Repos can declare
+their own status via the well-known `.tikoci/status.json` file —
+contract: `tikoci-status-spec.md` (proposal; dashboard consumer pending).
+
+Interpretation: every signal has `state` (`ok`, `partial`, `unknown`,
+`error`); `error` explains `unknown`/`error` states. `collection.mode` tells
+fresh from cached data. `findings` (stable IDs, severity
+failure/pending/info/gap, evidence pointers) answer "what needs
+investigation" — open issues are never failures. CI means latest run on the
+default branch only, with head-commit alignment (`isHead`). ROS coverage
+`kind` distinguishes `tagged` (tag exists, build status unknown),
+`published`, and `tested`. npm `assessment` separates `pending-publish`
+from routine `prerelease-channel` work; `published: false` is a confirmed
+registry 404. Counts from full 100-item pages should be treated as lower bounds.
+Relationships are curated and currently unverified — no edge implies a
+blocker. Tag existence never proves an artifact passed testing.
+
 ## Optional
 
 - [utf2rsc](https://observablehq.com/@a2m0/utf2rsc?collection=@a2m0/mikrotik): Observable notebook — UTF-8/emoji to RouterOS string byte-escape converter
@@ -89,3 +114,4 @@ Key problems tikoci solves for RouterOS administrators:
 - [tikoci.github.io](https://github.com/tikoci/tikoci.github.io): This portfolio site — source code, build pipeline, per-repo landing pages
 - [Skillstore listing](https://skillstore.io/skills?q=tikoci&tools=claude): All 6 RouterOS skills on Skillstore with one-click install for Claude
 - [Project Map](https://tikoci.github.io/project-map.html): Interactive D3 force-directed graph showing all projects and their relationships
+- [Status](https://tikoci.github.io/status.html): TUI-style status board — RouterOS version tracking, CI health, npm publish state, and community attention. Hourly build-time snapshot, no live data.

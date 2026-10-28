@@ -39,6 +39,14 @@ export interface Relationship {
     source: string;
     target: string;
     type: "dependency" | "ecosystem" | "sibling" | "topic";
+    /** Readiness meaning for the dashboard. Defaults: "dependency" for
+     *  dependency edges, "association" otherwise. "artifact-consumption"
+     *  must always be set explicitly with a verifiedNote. */
+    readiness?: "dependency" | "artifact-consumption" | "association";
+    /** Evidence for the readiness claim (e.g. "child Dockerfiles build FROM
+     *  the base image"). Absent = curated but unverified; the dashboard
+     *  exports verified:false and derives no blockers from the edge. */
+    verifiedNote?: string;
 }
 
 /**
@@ -215,11 +223,14 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
 
 /** Graph edges between repos */
 export const RELATIONSHIPS: Relationship[] = [
-    // Container base → children
-    { source: "make.d", target: "netinstall", type: "dependency" },
-    { source: "make.d", target: "serial2http", type: "dependency" },
-    { source: "make.d", target: "cligames", type: "dependency" },
-    { source: "make.d", target: "nginx", type: "dependency" },
+    // make.d lineage: a shared concept/recipes, not a build dependency —
+    // the consumers' Dockerfiles build FROM stock bases and no Makefile or
+    // workflow references make.d (surveyed 2026-10-28). Association on the
+    // dashboard; `type` keeps the map's visual styling untouched.
+    { source: "make.d", target: "netinstall", type: "dependency", readiness: "association" },
+    { source: "make.d", target: "serial2http", type: "dependency", readiness: "association" },
+    { source: "make.d", target: "cligames", type: "dependency", readiness: "association" },
+    { source: "make.d", target: "nginx", type: "dependency", readiness: "association" },
 
     // Traefik Wasm siblings
     { source: "traefik-wabt", target: "traefik-wasm-grain", type: "sibling" },
@@ -267,3 +278,181 @@ export const EXCLUDE_REPOS: string[] = [
 
 /** Minimum star count to include a repo */
 export const MIN_STARS = 1;
+
+// ---------------------------------------------------------------------------
+// Dashboard configuration (consumed by fetch-dashboard-data.ts)
+// ---------------------------------------------------------------------------
+
+/** Signal groups a repo can subscribe to. Not one-size-fits-all: each repo
+ *  declares only the groups that answer "where we at" for it. */
+export type DashboardGroup =
+    | "ros-tracking"  // ROS versions built/published vs MikroTik channels
+    | "ros-lag"       // derived-artifact version (e.g. ros-help.db) vs stable
+    | "ci-health"     // latest run conclusion per tracked workflow
+    | "community"     // open issues/PRs from non-owner, non-bot authors
+    | "npm"           // registry publish state vs repo package.json
+    | "releases";     // newest GitHub release tag/date
+
+/** How to locate ROS versions (or a derived version) for a repo */
+export interface RosLocator {
+    kind: "github-tags" | "github-releases" | "contents-dirs" | "raw-json" | "raw-text";
+    /** For contents-dirs/raw-*: path within the repo */
+    path?: string;
+    /** For raw-*: branch or ref to read from (default: "main") */
+    ref?: string;
+    /** Regex with a capture group (or full match) extracting "X.Y[.Z]" */
+    pattern: string;
+}
+
+/** What a ros-tracking coverage list claims. "tagged" claims only that the
+ *  version tag exists — it says nothing about build or test status (join
+ *  with ci-health before calling a version "built"). "published" claims a
+ *  versioned artifact was published (release, schema dir, source snapshot).
+ *  "tested" claims the repo's own harness recorded the version as tested. */
+export type RosCoverageKind = "tagged" | "published" | "tested";
+
+export interface DashboardOverride {
+    groups: DashboardGroup[];
+    /** ROS coverage locator (required for ros-tracking) */
+    rosLocator?: RosLocator;
+    /** What ros-tracking coverage claims for this repo (default: "published") */
+    rosCoverageKind?: RosCoverageKind;
+    /** MikroTik channels this repo is expected to cover (default: ROS_CHANNELS).
+     *  Only expected channels yield missing-channel findings. */
+    rosChannels?: string[];
+    /** Artifact-version locator (required for ros-lag; e.g. rosetta DB manifest) */
+    rosLagLocator?: RosLocator;
+    /** Workflow file basenames to track, e.g. ["auto.yaml"] (for ci-health) */
+    trackedWorkflows?: string[];
+    /** npm registry package name, e.g. "@tikoci/centrs" (for npm) */
+    npmPackage?: string;
+    /** Whether the package is expected on npm (default: true). When false,
+     *  confirmed absence is recorded in the signal but raises no finding. */
+    npmExpected?: boolean;
+    /** Path to the package.json that produces npmPackage (default: "package.json").
+     *  Needed when the published artifact lives in a subdirectory. */
+    npmPackagePath?: string;
+}
+
+/** MikroTik release channels polled as ROS ground truth */
+export const ROS_CHANNELS = ["stable", "testing", "development", "long-term"];
+
+/** Authors excluded from the community signal (owners); bots always excluded */
+export const COMMUNITY_EXCLUDE_AUTHORS = ["Amm0Bot", "mobileskyfi"];
+
+/** Matches a bare ROS version: 7.25, 7.24.5, 7.26beta4, 7.25rc1 */
+const ROS_VERSION = String.raw`^(\d+\.\d+(?:\.\d+)?(?:beta\d+|rc\d+)?)$`;
+
+/**
+ * Per-repo dashboard coverage (surveyed 2026-10-28).
+ *
+ * Signal groups are deliberately per-repo, not uniform: each entry declares
+ * only what answers "where we at" for that repo. Conventions:
+ *   - trackedWorkflows match by workflow display name, or by path suffix
+ *     when the workflow has no display name (e.g. make.d's build.yaml).
+ *     Path-suffix matching uses endsWith, so suffix entries must include
+ *     the extension ("build.yaml", never bare "build").
+ *   - Poller workflows (issue #14) are always tracked where present.
+ *   - Never-run / noise-only workflows are omitted (serial2http, bench, m2ir
+ *     have no ci-health group for that reason).
+ */
+export const DASHBOARD_REPOS: Record<string, DashboardOverride> = {
+    // === ROS version trackers (issue #14 pollers) ===
+    restraml: {
+        // No tags/releases — coverage comes from version dirs under docs/
+        groups: ["ros-tracking", "ci-health", "community"],
+        rosLocator: { kind: "contents-dirs", path: "docs", pattern: ROS_VERSION },
+        trackedWorkflows: ["Auto-Build New RouterOS Versions", "Build: Base Schema", "Build: Deep-Inspect Multi-Arch"],
+    },
+    mikropkl: {
+        groups: ["ros-tracking", "ci-health", "community", "releases"],
+        rosLocator: { kind: "github-tags", pattern: String.raw`^chr-(\d+\.\d+(?:\.\d+)?(?:beta\d+|rc\d+)?)$` },
+        // Tags only — join with the Streamlined Build CI state before
+        // calling a version "built".
+        rosCoverageKind: "tagged",
+        trackedWorkflows: ["Streamlined Build", "CHR Packages", "Tests"],
+    },
+    "fat-chr": {
+        // Releases, NOT tags: the tags endpoint is polluted with BuildNNNNN-* CI tags
+        groups: ["ros-tracking", "ci-health", "community", "releases"],
+        rosLocator: { kind: "github-releases", pattern: ROS_VERSION },
+        trackedWorkflows: ["Streamlined Build"],
+    },
+    quickchr: {
+        // Coverage from tested-versions.json keys on the ci-data branch
+        groups: ["ros-tracking", "ci-health", "community", "npm", "releases"],
+        rosLocator: { kind: "raw-json", ref: "ci-data", path: "tested-versions.json", pattern: ROS_VERSION },
+        rosCoverageKind: "tested",
+        trackedWorkflows: ["CI", "Release", "RouterOS Versions"],
+        npmPackage: "@tikoci/quickchr",
+    },
+    "mikrotik-gpl": {
+        groups: ["ros-tracking", "ci-health", "community", "releases"],
+        rosLocator: { kind: "github-tags", pattern: ROS_VERSION },
+        // GPL source snapshots track releases, not prerelease channels
+        rosChannels: ["stable", "long-term"],
+        trackedWorkflows: ["Request GPL Source"],
+    },
+    // === Derived-version lag (no automatic cadence) ===
+    rosetta: {
+        // No rosLagLocator: rosetta publishes no machine-readable DB version
+        // (see survey 2026-10-28). Signal reports honest unknown until the
+        // rosetta-side versions.json manifest exists.
+        groups: ["ros-lag", "ci-health", "community", "npm", "releases"],
+        trackedWorkflows: ["Test", "Release", "QA", "Device Map Refresh"],
+        npmPackage: "@tikoci/rosetta",
+    },
+    // === Published libraries ===
+    centrs: {
+        groups: ["ci-health", "community", "npm", "releases"],
+        trackedWorkflows: ["CI", "Release", "QA"],
+        npmPackage: "@tikoci/centrs",
+    },
+    "lsp-routeros-ts": {
+        // Published artifact is server/package.json (@tikoci/routeroslsp);
+        // the root package is the vsix-only VS Code extension, not on npm.
+        groups: ["ci-health", "community", "npm", "releases"],
+        trackedWorkflows: ["CI", "Build and Release"],
+        npmPackage: "@tikoci/routeroslsp",
+        npmPackagePath: "server/package.json",
+    },
+    donny: {
+        // Working code reused in part, not a library/CLI anyone installs —
+        // absence from npm is correct (confirmed 2026-10-28), so it is
+        // recorded but raises no finding.
+        groups: ["ci-health", "community", "npm", "releases"],
+        trackedWorkflows: ["CI"],
+        npmPackage: "@tikoci/donny",
+        npmExpected: false,
+    },
+    // === Editors, skills, containers, misc ===
+    "vscode-tikbook": {
+        groups: ["ci-health", "community", "releases"],
+        trackedWorkflows: ["Build and Release", "Update GitHub Pages"],
+    },
+    "routeros-skills": {
+        groups: ["ci-health", "community", "releases"],
+        trackedWorkflows: ["CI"],
+    },
+    netinstall: {
+        groups: ["ci-health", "community", "releases"],
+        trackedWorkflows: ["repo-as-web"],
+    },
+    serial2http: {
+        // build-on-commit has zero lifetime runs — no ci-health to track
+        groups: ["community", "releases"],
+    },
+    "make.d": {
+        // Workflow has no display name, so track by path suffix; red since March
+        groups: ["ci-health", "community", "releases"],
+        trackedWorkflows: ["build.yaml"],
+    },
+    "bench-routeros-tools": {
+        // Noise-only workflows (CodeQL disabled, Dependency Review)
+        groups: ["community", "releases"],
+    },
+    m2ir: {
+        // No workflows at all
+        groups: ["community", "releases"],
+    },
+};

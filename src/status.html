@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIKOCI Status — tikoci.github.io</title>
+    <meta name="description" content="TIKOCI Status: RouterOS version tracking, CI health, npm publish state, and community attention across all important repos. Hourly build-time snapshot.">
+    <link rel="canonical" href="https://tikoci.github.io/status.html">
+    <meta property="og:title" content="TIKOCI Status — tikoci.github.io">
+    <meta property="og:description" content="TIKOCI Status: RouterOS versions, CI health, npm state, community attention. Hourly snapshot.">
+    <meta property="og:url" content="https://tikoci.github.io/status.html">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate" type="application/atom+xml" href="https://tikoci.github.io/atom.xml" title="TIKOCI Projects">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+    <script async src="https://plausible.io/js/pa-ubWop5eYckoDPVbIjXU4_.js"></script>
+    <script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)};plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        :root {
+            color-scheme: light;
+            --bg: #fafbfc; --fg: #242b35; --muted: #596575;
+            --rule: #cdd4dc; --stripe: #f0f3f6; --link: #175ca4;
+            --red: #b42318; --green: #23713b; --yellow: #865800;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme=light]) {
+                color-scheme: dark;
+                --bg: #171b21; --fg: #dce2ea; --muted: #a0acbb;
+                --rule: #39434f; --stripe: #20262e; --link: #8cbfff;
+                --red: #ff9a91; --green: #8bd6a0; --yellow: #e9c176;
+            }
+        }
+        [data-theme=dark] {
+            color-scheme: dark;
+            --bg: #171b21; --fg: #dce2ea; --muted: #a0acbb;
+            --rule: #39434f; --stripe: #20262e; --link: #8cbfff;
+            --red: #ff9a91; --green: #8bd6a0; --yellow: #e9c176;
+        }
+        * { box-sizing: border-box; }
+        html { scroll-padding-top: 1rem; }
+        body { margin: 0; background: var(--bg); color: var(--fg);
+            font: 13px/1.45 "JetBrains Mono", ui-monospace, monospace; }
+        a { color: var(--link); text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 3px; }
+        a:hover { text-decoration-color: currentColor; }
+        :focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
+        .topbar { display: flex; align-items: center; gap: 1rem; padding: .5rem 1rem; border-bottom: 1px solid var(--rule); }
+        .brand { color: var(--fg); font-weight: 800; text-decoration: none; }
+        .topbar nav { flex: 1; overflow-x: auto; white-space: nowrap; }
+        .tools { display: flex; gap: 1rem; list-style: none; padding: 0; margin: 0; }
+        .tools a { color: var(--muted); }
+        .tools a[aria-current=page] { color: var(--fg); font-weight: 700; }
+        #theme_switcher { display: inline-flex; color: var(--fg); padding: .25rem; }
+        #theme_switcher svg { width: 18px; height: 18px; }
+        main, footer.pagefoot { max-width: 1600px; margin: auto; padding: .75rem 1rem; }
+        .page-heading { display: flex; flex-wrap: wrap; gap: .3rem 1.5rem; align-items: baseline; margin-bottom: .5rem; }
+        h1 { font-size: 1.2rem; margin: 0; }
+        .page-heading p { margin: 0; color: var(--muted); }
+        .jump-links { display: flex; flex-wrap: wrap; gap: .4rem 1rem; margin: .5rem 0 .75rem; }
+        .dashboard-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .75rem 1.25rem; }
+        .dashboard-grid > section { min-width: 0; }
+        .wide { grid-column: 1 / -1; }
+        .sect { font-size: 13px; margin: 0 0 .3rem; padding: .35rem 0;
+            border-top: 2px solid var(--rule); font-weight: 700; }
+        .line { overflow-wrap: anywhere; }
+        .metadata { display: flex; flex-wrap: wrap; gap: .3rem 1.5rem; margin-bottom: .6rem; }
+        .scroll-x { overflow-x: auto; }
+        table.t { border-collapse: collapse; width: 100%; margin: 0; font-size: inherit; }
+        table.t th, table.t td { text-align: left; vertical-align: top; padding: .2rem .6rem .2rem .35rem;
+            white-space: nowrap; border-bottom: 1px solid var(--rule); }
+        table.t th { color: var(--muted); font-weight: 500; font-size: 12px; }
+        table.t tr:hover td { background: var(--stripe); }
+        table.t td.wrap, table.t th.wrap { white-space: normal; overflow-wrap: anywhere; }
+        .community-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 1rem; }
+        .repo-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem 1.25rem; }
+        .repo-head { font-size: 13px; margin: 0; padding: .25rem 0; }
+        .repo-links { display: flex; flex-wrap: wrap; gap: .65rem; font-size: 12px; }
+        .kv { display: grid; grid-template-columns: 7ch minmax(0, 1fr); gap: .15rem .5rem; margin: .4rem 0 0; }
+        .kv dt { color: var(--muted); }
+        .kv dd { margin: 0; overflow-wrap: anywhere; }
+        .c-red { color: var(--red); }
+        .c-green { color: var(--green); }
+        .c-yellow { color: var(--yellow); }
+        .c-blue, .c-mag, .c-cyan { color: var(--link); }
+        .c-dim { color: var(--muted); }
+        .c-bold { font-weight: 700; }
+        footer.pagefoot { color: var(--muted); border-top: 1px solid var(--rule); font-size: 12px; }
+        @media (max-width: 1350px) { .dashboard-grid { grid-template-columns: minmax(0, 1fr); } }
+        @media (max-width: 1100px) { .repo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        @media (max-width: 800px) {
+            .dashboard-grid, .repo-grid, .community-grid { grid-template-columns: minmax(0, 1fr); }
+            main, footer.pagefoot { padding: .65rem; }
+            .topbar { gap: .65rem; padding: .5rem .65rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="index.html"><strong>TIKOCI</strong></a>
+        <nav aria-label="Tools"><ul id="tools-list" class="tools"></ul></nav>
+        <a href="#" id="theme_switcher" aria-label="Toggle dark mode"></a>
+    </header>
+    <main>
+        <header class="page-heading">
+            <h1>Development status</h1>
+            <p>Versions, builds, packages, and community across TIKOCI</p>
+        </header>
+        <nav class="jump-links" aria-label="Dashboard sections">
+            <a href="#attention">Attention</a><a href="#coverage">RouterOS</a>
+            <a href="#packages">Packages</a><a href="#community">Community</a><a href="#repositories">Repositories</a>
+            <a href="data/dashboard.json">Snapshot JSON</a>
+        </nav>
+        <div id="dashboard" aria-live="polite">
+            <p id="loading">Loading status snapshot…</p>
+        </div>
+    </main>
+    <footer class="pagefoot">
+        <small>Hourly build-time snapshot — no live data. <a href="https://github.com/tikoci/tikoci.github.io/issues/15">About this status page</a>.</small>
+    </footer>
+    <script src="shared.js"></script>
+    <script>
+        initThemeSwitcher()
+        initToolsDropdown('tools-list')
+
+        // Anchor ids are `repo-<name>` — the project-map hook (#16) links here.
+        const REPO_ANCHOR = (name) => `repo-${name}`
+        const esc = (s) => escapeHtml(String(s ?? ''))
+        const span = (cls, s) => `<span class="${cls}">${esc(s)}</span>`
+        const link = (href, text, cls) => `<a href="${esc(href)}"${cls ? ` class="${cls}"` : ''}>${esc(text)}</a>`
+        const ghLink = (text) => link(`https://github.com/tikoci/${text}`, text, 'c-mag')
+        const OK = span('c-green', 'covered')
+        const MISS = span('c-red', 'missing')
+
+        const ciClass = (conclusion) => conclusion === 'success' ? 'c-green'
+            : (conclusion === 'cancelled' || conclusion === 'skipped' || conclusion === 'neutral') ? 'c-yellow'
+            : conclusion ? 'c-red' : 'c-yellow'
+        const fmtDate = (iso) => iso ? iso.slice(0, 10) : '—'
+        // v2: r.ci is { defaultBranch, headSha, workflows[] }; tolerate the v1 bare array
+        const ciOf = (r) => Array.isArray(r.ci) ? r.ci : (r.ci?.workflows || [])
+        const ciName = (w) => w.name || w.configured || '(unknown workflow)'
+
+        function ageInfo(generatedAt) {
+            const mins = Math.max(0, Math.round((Date.now() - new Date(generatedAt).getTime()) / 60000))
+            const label = mins < 60 ? `${mins}m ago` : mins < 1440 ? `${Math.round(mins / 60)}h ago` : `${Math.round(mins / 1440)}d ago`
+            const cls = mins < 120 ? 'c-green' : mins < 1440 ? 'c-yellow' : 'c-red'
+            return { label, cls }
+        }
+
+        // Mirror of the #16 "needs attention" boolean: non-success CI, community
+        // items, npm behind/not-published, ROS coverage missing current stable,
+        // or an unresolved error on a subscribed signal.
+        function attentionFor(name, r, stable) {
+            const items = []
+            for (const w of ciOf(r)) {
+                if (w.error) items.push({ kind: 'ci', text: `${ciName(w)}: ${w.error}`, url: w.lastUrl || `https://github.com/tikoci/${name}/actions` })
+                else if (w.lastConclusion && w.lastConclusion !== 'success') {
+                    items.push({ kind: 'ci', text: `${ciName(w)}: ${w.lastConclusion}`, url: w.lastUrl || `https://github.com/tikoci/${name}/actions` })
+                }
+            }
+            for (const [kind, signal] of [['community', r.community], ['release', r.release]]) {
+                if (signal?.error) items.push({ kind, text: signal.error, url: `https://github.com/tikoci/${name}/${kind === 'release' ? 'releases' : 'issues'}` })
+            }
+            const comm = (r.community?.openIssues || 0) + (r.community?.openPRs || 0)
+            if (comm > 0) items.push({ kind: 'community', text: `${comm}${r.community.truncated ? ' or more' : ''} open from non-owners`, url: `https://github.com/tikoci/${name}/issues?q=${NON_OWNER_Q}` })
+            if (r.npm) {
+                const n = r.npm
+                const url = `https://www.npmjs.com/package/${n.package}`
+                if (n.assessment === 'pending-publish') items.push({ kind: 'npm', text: `${n.repoVersion} ahead of registry ${n.latestVersion} — publish pending`, url })
+                else if (n.assessment === 'prerelease-channel') items.push({ kind: 'npm', text: `${n.repoVersion} on prerelease channel (registry latest ${n.latestVersion || 'none'})`, url })
+                else if (n.assessment === 'not-published' && n.expected !== false) items.push({ kind: 'npm', text: `not published on npm as ${n.package}`, url })
+                else if (n.assessment === 'registry-ahead') items.push({ kind: 'npm', text: `registry ${n.latestVersion} ahead of repo ${n.repoVersion}`, url })
+                else if (n.error || n.behind || n.assessment === 'unknown') items.push({ kind: 'npm', text: n.error || (n.assessment === 'unknown' ? `npm state unknown for ${n.package}` : `${n.repoVersion} ahead of registry ${n.latestVersion}`), url })
+            }
+            if (r.ros) {
+                // v2: judge the precomputed channel verdict (respects rosChannels);
+                // v1 fallback judges capped coverage directly
+                const stableCovered = r.ros.channels ? r.ros.channels.stable?.covered : (stable ? r.ros.coverage.includes(stable) : null)
+                if (r.ros.error || stableCovered === false) {
+                    items.push({ kind: 'ros', text: r.ros.error || `missing stable ${stable}`, url: `https://github.com/tikoci/${name}/actions` })
+                }
+            }
+            if (r.rosLag && !r.rosLag.artifactVersion) {
+                items.push({ kind: 'ros-lag', text: r.rosLag.error || 'lag unknown', url: 'https://github.com/tikoci/rosetta/issues/230' })
+            }
+            return items
+        }
+
+        function renderMeta(d) {
+            const age = ageInfo(d.generatedAt)
+            const chans = Object.entries(d.rosCurrent).map(([ch, s]) =>
+                `${span('c-dim', ch)} ${s.version ? span('c-bold', s.version) : span('c-red', 'unreachable')}`).join(' · ')
+            const mode = d.collection?.mode || 'fresh'
+            const modeCell = mode === 'fresh' ? span('c-green', 'fresh') : span('c-yellow', esc(mode))
+            return `<div class="metadata"><div class="line">Snapshot: ${esc(d.generatedAt)} (${span(age.cls, age.label)}) · schema v${esc(String(d.schemaVersion || 1))} · ${modeCell}</div>` +
+                `<div class="line">RouterOS: ${chans}</div></div>`
+        }
+
+        // v2 npm assessment → badge; falls back to legacy behind/error booleans
+        function npmBadge(n) {
+            if (n.assessment === 'in-sync') return span('c-green', 'IN SYNC')
+            if (n.assessment === 'pending-publish') return span('c-red', 'BEHIND')
+            if (n.assessment === 'prerelease-channel') return span('c-yellow', 'PRERELEASE')
+            if (n.assessment === 'not-published') return span('c-yellow', 'UNPUBLISHED')
+            if (n.assessment === 'registry-ahead') return span('c-yellow', 'REGISTRY AHEAD')
+            if (n.assessment === 'unknown' || n.error) return span('c-yellow', 'UNKNOWN')
+            if (n.behind) return span('c-red', 'BEHIND')
+            if (n.behind === null) return span('c-yellow', 'UNKNOWN')
+            return span('c-green', 'IN SYNC')
+        }
+
+        function renderAttention(d, stable) {
+            const rows = []
+            for (const [name, r] of Object.entries(d.repos)) {
+                for (const a of attentionFor(name, r, stable)) {
+                    rows.push({ name, ...a })
+                }
+            }
+            let html = `<h2 class="sect">Attention · ${rows.length}</h2>`
+            if (!rows.length) {
+                return html + `<div class="line">${span('c-green', 'No attention flags in the collected signals')}</div>`
+            }
+            html += '<div class="scroll-x"><table class="t"><tr><th>repo</th><th>signal</th><th class="wrap">detail</th></tr>'
+            for (const row of rows) {
+                const detail = row.url ? link(row.url, row.text) : esc(row.text)
+                html += `<tr><td><a href="#${REPO_ANCHOR(row.name)}">${esc(row.name)}</a></td><td>${span('c-yellow', row.kind)}</td><td class="wrap">${detail}</td></tr>`
+            }
+            return html + '</table></div>'
+        }
+
+        function renderRos(d, stable) {
+            const tracked = Object.entries(d.repos).filter(([, r]) => r.ros)
+            if (!tracked.length) return ''
+            const chans = Object.entries(d.rosCurrent)
+            let html = `<h2 class="sect">RouterOS coverage</h2>`
+            html += '<div class="scroll-x"><table class="t"><tr><th>repo</th><th class="wrap">newest coverage</th>'
+            for (const [ch] of chans) html += `<th>${esc(ch)}</th>`
+            html += '<th>ci</th></tr>'
+            for (const [name, r] of tracked) {
+                const covList = r.ros.coverage.slice(0, 4).join(', ')
+                const cov = covList ? esc(covList) : (r.ros.error ? span('c-red', r.ros.error) : '—')
+                let ciCell = span('c-dim', '—')
+                const runs = ciOf(r)
+                if (runs.length) {
+                    ciCell = runs.some((w) => w.error || (w.lastConclusion && w.lastConclusion !== 'success'))
+                        ? span('c-red', 'FAIL')
+                        : runs.some((w) => !w.lastConclusion)
+                            ? span('c-yellow', 'RUN')
+                            : span('c-green', 'OK')
+                }
+                html += `<tr><td><a href="#${REPO_ANCHOR(name)}">${esc(name)}</a></td><td class="wrap">${cov}</td>`
+                for (const [ch, s] of chans) {
+                    // v2: precomputed verdicts (full list, expected channels only);
+                    // v1 fallback judges capped coverage directly
+                    const verdict = r.ros.channels?.[ch]
+                    let cell
+                    if (verdict) cell = verdict.covered === true ? OK : verdict.covered === false ? MISS : span('c-dim', '?')
+                    else if (r.ros.channels) cell = span('c-dim', '—')
+                    else cell = s.version ? (r.ros.coverage.includes(s.version) ? OK : MISS) : span('c-dim', '?')
+                    html += `<td>${cell}</td>`
+                }
+                html += `<td><a href="https://github.com/tikoci/${esc(name)}/actions">${ciCell}</a></td></tr>`
+            }
+            return html + '</table></div>'
+        }
+
+        const ghIssues = (name, query) => `https://github.com/tikoci/${name}/issues?q=${query}`
+        const ghPulls = (name, query) => `https://github.com/tikoci/${name}/pulls?q=${query}`
+        const NON_OWNER_Q = 'is%3Aopen+-author%3AAmm0Bot+-author%3Amobileskyfi'
+
+        function renderCommunity(d) {
+            const rows = Object.entries(d.repos).filter(([, r]) => r.community)
+            let html = `<h2 class="sect">Community · open total / non-owner</h2><div class="community-grid">`
+            html += '<div class="scroll-x"><table class="t"><tr><th>repo</th><th>issues</th><th>prs</th></tr>'
+            for (const [name, r] of rows) {
+                const c = r.community
+                if (c.error && !c.totalIssues && !c.totalPRs) {
+                    html += `<tr><td><a href="#${REPO_ANCHOR(name)}">${esc(name)}</a></td><td colspan="2">${span('c-red', c.error)}</td></tr>`
+                    continue
+                }
+                const iss = `${link(ghIssues(name, 'is%3Aopen+is%3Aissue'), String(c.totalIssues))}/` +
+                    (c.openIssues > 0
+                        ? `<a href="${esc(ghIssues(name, `is%3Aissue+${NON_OWNER_Q}`))}" class="c-bold">${c.openIssues}</a>`
+                        : link(ghIssues(name, `is%3Aissue+${NON_OWNER_Q}`), String(c.openIssues)))
+                const prs = `${link(ghPulls(name, 'is%3Aopen+is%3Apr'), String(c.totalPRs))}/` +
+                    (c.openPRs > 0
+                        ? `<a href="${esc(ghPulls(name, `is%3Apr+${NON_OWNER_Q}`))}" class="c-bold">${c.openPRs}</a>`
+                        : link(ghPulls(name, `is%3Apr+${NON_OWNER_Q}`), String(c.openPRs)))
+                html += `<tr><td><a href="#${REPO_ANCHOR(name)}">${esc(name)}</a></td><td>${iss}${c.truncated ? ' (partial)' : ''}</td><td>${prs}${c.truncated ? ' (partial)' : ''}</td></tr>`
+            }
+            html += '</table></div>'
+            const withNewest = rows.filter(([, r]) => r.community.newest.length)
+            if (withNewest.length) {
+                html += `<div><div class="line c-dim">Newest from non-owners (bots excluded)</div>`
+                for (const [name, r] of withNewest) {
+                    for (const item of r.community.newest) {
+                        const kind = item.isPR ? span('c-mag', 'PR ') : span('c-cyan', 'ISS')
+                        html += `<div class="line">  ${span('c-dim', name)} ${kind}${link(item.url, `#${item.number} ${item.title}`)} ` +
+                            ` ${span('c-dim', `— ${item.author} ${fmtDate(item.createdAt)}`)}</div>`
+                    }
+                }
+                html += '</div>'
+            }
+            return html + '</div>'
+        }
+
+        function renderNpm(d) {
+            const pubs = Object.entries(d.repos).filter(([, r]) => r.npm)
+            if (!pubs.length) return ''
+            let html = `<h2 class="sect">Packages</h2>`
+            html += '<div class="scroll-x"><table class="t"><tr><th>repo</th><th>package</th><th>repo → registry</th><th>latest pub</th><th>status</th></tr>'
+            for (const [name, r] of pubs) {
+                const n = r.npm
+                const status = npmBadge(n)
+                html += `<tr><td><a href="#${REPO_ANCHOR(name)}">${esc(name)}</a></td>` +
+                    `<td>${link(`https://www.npmjs.com/package/${n.package}`, n.package)}</td>` +
+                    `<td>${esc(n.repoVersion || '?')} → ${esc(n.latestVersion || '?')}</td>` +
+                    `<td>${fmtDate(n.publishedAt)}</td><td class="wrap">${status}${n.error ? ` · ${esc(n.error)}` : ''}</td></tr>`
+            }
+            return html + '</table></div>'
+        }
+
+        function renderRepos(d) {
+            let html = `<h2 class="sect">Repositories</h2>`
+            html += '<div class="repo-grid">'
+            for (const [name, r] of Object.entries(d.repos)) {
+                html += `<section id="${REPO_ANCHOR(name)}"><h3 class="repo-head">${ghLink(name)}</h3>` +
+                    `<nav class="repo-links" aria-label="${esc(name)} links">${link(`https://github.com/tikoci/${name}/actions`, 'Actions')} ${link(`https://github.com/tikoci/${name}/issues`, 'Issues')} ${link(`https://github.com/tikoci/${name}/pulls`, 'PRs')} ${link(`https://github.com/tikoci/${name}/releases`, 'Releases')}${r.detail ? ` ${link(r.detail, 'Detail JSON')}` : ''}</nav><dl class="kv">`
+                if (r.ros) {
+                    const cov = r.ros.coverage.join(', ')
+                    html += `<dt>ros</dt><dd>${cov ? esc(cov) : span('c-red', r.ros.error || 'none')}</dd>`
+                }
+                if (r.rosLag) {
+                    html += `<dt>ros-lag</dt><dd>` + (r.rosLag.artifactVersion
+                        ? `${esc(r.rosLag.artifactVersion)} vs stable ${esc(r.rosLag.stableVersion || '?')}`
+                        : `${span('c-yellow', r.rosLag.error || 'unknown')} ${link('https://github.com/tikoci/rosetta/issues/230', '(manifest issue)')}`) + '</dd>'
+                }
+                if (ciOf(r).length) {
+                    const runs = ciOf(r).map((w) => {
+                        const st = w.error ? span('c-red', w.error) : span(ciClass(w.lastConclusion), (w.lastConclusion || w.lastUpdatedAt) ? `${w.lastConclusion || 'running'} ${fmtDate(w.lastUpdatedAt)}` : 'never run')
+                        const stale = w.isHead === false ? ` ${span('c-yellow', '(not head)')}` : ''
+                        const nm = link(w.lastUrl || `https://github.com/tikoci/${name}/actions`, ciName(w))
+                        return `${nm}: ${st}${stale}`
+                    }).join('<br>')
+                    html += `<dt>ci</dt><dd>${runs}</dd>`
+                }
+                if (r.npm) {
+                    const n = r.npm
+                    const st = n.error && !n.assessment ? span('c-yellow', n.error) : npmBadge(n)
+                    html += `<dt>npm</dt><dd>${link(`https://www.npmjs.com/package/${n.package}`, n.package)} ${esc(n.repoVersion || '?')} → ${esc(n.latestVersion || '?')} ${st}</dd>`
+                }
+                if (r.community && !r.community.error) {
+                    const c = r.community
+                    const lbls = Object.entries(c.byLabel).map(([l, n2]) => `${l}×${n2}`).join(', ')
+                    const miles = Object.entries(c.byMilestone).map(([m, n2]) => `${m}×${n2}`).join(', ')
+                    html += `<dt>github</dt><dd>${c.totalIssues} issues (${c.openIssues} non-owner), ` +
+                        `${c.totalPRs} PRs (${c.openPRs} non-owner)${c.truncated ? ' · partial counts' : ''}` +
+                        (lbls ? ` ${span('c-dim', `[${lbls}]`)}` : '') + (miles ? ` ${span('c-dim', `milestone:[${miles}]`)}` : '') + '</dd>'
+                } else if (r.community?.error) {
+                    html += `<dt>github</dt><dd>${span('c-red', r.community.error)}</dd>`
+                }
+                if (r.release) {
+                    const rel = r.release
+                    const stableBit = rel.prereleaseChannel && rel.stable ? ` ${span('c-dim', `(stable ${rel.stable.tag})`)}` : ''
+                    html += `<dt>release</dt><dd>` + (rel.error ? span('c-red', rel.error)
+                        : rel.latestTag ? `${rel.latestUrl ? link(rel.latestUrl, rel.latestTag) : esc(rel.latestTag)} ${span('c-dim', fmtDate(rel.latestDate))}${rel.prerelease ? ` ${span('c-yellow', '(prerelease)')}` : ''}${stableBit}`
+                        : span('c-dim', 'no releases')) + '</dd>'
+                }
+                html += '</dl></section>'
+            }
+            return html + '</div>'
+        }
+
+        const dashboard = document.getElementById('dashboard')
+        fetch('data/dashboard.json')
+            .then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status} for data/dashboard.json`) ; return r.json() })
+            .then((d) => {
+                document.getElementById('loading')?.remove()
+                const stable = d.rosCurrent?.stable?.version || null
+                dashboard.insertAdjacentHTML('beforeend',
+                    renderMeta(d) + '<div class="dashboard-grid">' +
+                    `<section id="attention" class="wide">${renderAttention(d, stable)}</section>` +
+                    `<section id="coverage">${renderRos(d, stable)}</section>` +
+                    `<section id="packages">${renderNpm(d)}</section>` +
+                    `<section id="community" class="wide">${renderCommunity(d)}</section>` +
+                    `<section id="repositories" class="wide">${renderRepos(d)}</section></div>`)
+            })
+            .catch((err) => {
+                document.getElementById('loading')?.remove()
+                dashboard.insertAdjacentHTML('beforeend',
+                    `<div class="line">${span('c-red', `error: ${err.message}`)}</div>` +
+                    `<div class="line c-dim">dashboard data is generated at build time — run the site build first.</div>`)
+            })
+    </script>
+</body>
+</html>

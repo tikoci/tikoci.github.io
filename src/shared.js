@@ -302,6 +302,7 @@ function escapeHtml(str) {
 
 const SITE_TOOLS = [
     { label: 'Project Map', href: '/project-map.html' },
+    { label: 'Status', href: '/status.html' },
     { label: 'CHR Images', href: '/chr-images.html' },
     { label: 'curl2rsc', href: '/curl2rsc.html' },
     { label: 'Netinstall', href: 'https://tikoci.github.io/p/netinstall' },

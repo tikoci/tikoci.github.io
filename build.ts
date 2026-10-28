@@ -14,6 +14,7 @@ import { join, resolve } from "node:path";
 import opentype from "opentype.js";
 import sharp from "sharp";
 import { buildGraphData, fetchGitHubData } from "./fetch-github-data";
+import { fetchDashboardData } from "./fetch-dashboard-data";
 import { renderHomepageSections } from "./generate-homepage";
 import { generatePages } from "./generate-pages";
 import { REPO_SYMBOLS } from "./repo-config";
@@ -130,6 +131,11 @@ const repos = await fetchGitHubData(DIST);
 
 console.log("Generating per-repo landing pages...");
 generatePages(repos, DIST);
+
+// Step 4b: Collect dashboard signals → dist/data/dashboard.json
+// (non-fatal: per-signal errors are captured in the JSON, never thrown)
+console.log("Collecting dashboard signals...");
+await fetchDashboardData(DIST);
 
 // Step 4.5: Inject data-driven homepage sections into index.html
 console.log("Embedding homepage sections into index.html...");

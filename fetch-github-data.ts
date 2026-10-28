@@ -84,7 +84,8 @@ export interface GraphData {
     }[];
 }
 
-function githubHeaders(): Record<string, string> {
+/** Shared auth headers for GitHub API calls (also used by fetch-dashboard-data.ts) */
+export function githubHeaders(): Record<string, string> {
     const headers: Record<string, string> = {
         Accept: "application/vnd.github+json",
         "User-Agent": "tikoci-website-build",

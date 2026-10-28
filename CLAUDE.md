@@ -89,6 +89,7 @@ To set up locally: `gh auth login` (one-time). The build will find the token aut
 2. Copies all files from `src/` to `dist/`
 3. Copies images from `docs/images/` to `dist/images/`
 4. Fetches GitHub repo data via API → caches in `dist/data/repos.json`
+4b. Collects dashboard signals via API → `dist/data/dashboard.json` (see "Dashboard data" below)
 5. Generates per-repo landing pages → `dist/p/{repo-name}.html`
 6. Renders the homepage catalog (`generate-homepage.ts` ← `homepage-config.ts`) and injects it into `dist/index.html` at the `<!-- HOMEPAGE_SECTIONS_PLACEHOLDER -->`, enriching repo-linked tiles with live stars/symbol/language
 7. Generates per-repo symbol images → `dist/p/{repo-name}.svg` and `.png` (from `REPO_SYMBOLS` in `repo-config.ts`, rendered with JetBrains Mono via opentype.js + sharp)
@@ -423,6 +424,33 @@ Each node uses an APL symbol (configured in `repo-config.ts`) colored by primary
 Project data is fetched from the GitHub API at build time. To customize a project's
 appearance on the map, edit `repo-config.ts` — it controls APL symbols, categories, and
 the link relationships between projects.
+
+---
+
+## Dashboard data (`dist/data/dashboard.json`, schema v2)
+
+Build-time collector for the TIKOCI status data. `fetch-dashboard-data.ts`
+runs on every build (hourly via the deploy workflow's schedule trigger) and
+writes per-repo status signals for the repos in `DASHBOARD_REPOS` (`repo-config.ts`),
+plus per-repo detail files (`dist/data/dashboard/<repo>.json`) and build-time
+`findings`. Full contract: `src/dashboard-schema.md`.
+
+Signal groups (per-repo, not uniform): `ros-tracking` (tagged/published/tested
+ROS versions vs MikroTik `NEWESTa7` channels, with per-channel verdicts),
+`ros-lag` (derived-artifact version vs stable), `ci-health` (latest
+*default-branch* run per tracked workflow, with head-commit alignment),
+`community` (external-author filter view, v1-compatible), `work` (full open
+issue/PR index, all authors, draft flags, no bodies), `npm` (registry
+dist-tags vs repo version, prerelease-aware assessment), `releases` (newest +
+latest stable). Every signal has an explicit `state` (ok/partial/unknown/error);
+collectors are non-fatal — failures land as per-signal `error` strings, never
+thrown. Local dev caches for 1 hour (`.dashboard-cache.json`, gitignored);
+CI always refreshes; incompatible caches are invalidated via `schemaVersion`.
+Rendered by `src/status.html` ("TIKOCI Status", compact monospace dashboard).
+
+Pure mapping/derivation lives alongside the collectors so the contract is
+fixture-tested without network: `test/dashboard-contract.test.js` (+
+`test/dashboard-versions.test.js`, run via `bun test test/`).
 
 ---
 

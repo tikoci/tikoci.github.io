@@ -11,6 +11,19 @@ Built with bun, styled with Pico CSS v2, deployed to GitHub Pages.
 
 ---
 
+## Repository Direction
+
+This site is becoming the **keeper of cross-repo dev state** — the single home
+for TIKOCI work that spans repos — not just a pretty presentation of projects.
+Concretely: build-time data collection (`fetch-*.ts` → `dist/data/*.json`,
+refreshed hourly by the deploy workflow) is a first-class concern, on par with
+pages. When adding a cross-repo feature (dashboard signals, version triggers,
+org-wide indexes), land the **data layer first** and get the data reviewed
+before rendering HTML with it. Keep collectors non-fatal (per-signal `error`
+strings, never thrown) so a flake never breaks deploy.
+
+---
+
 ## Agent Ground Rules
 
 1. **Read `CLAUDE.md` first** — it has the full architecture, conventions, and common task guides.
@@ -108,8 +121,12 @@ Built with bun, styled with Pico CSS v2, deployed to GitHub Pages.
 | `src/shared.css` | Shared CSS (fonts, theme, cards, utilities) |
 | `src/shared.js` | Shared JS (theme switcher, GitHub API helpers) |
 | `fetch-github-data.ts` | GitHub API: fetches repo metadata, builds graph data |
+| `fetch-dashboard-data.ts` | Dashboard signals → `dist/data/dashboard.json` + `dist/data/dashboard/*.json` (ROS, CI, npm, work, releases, findings) |
+| `src/dashboard-schema.md` | Concise v2 schema/endpoints reference (published to site root) |
+| `src/tikoci-status-spec.md` | Well-known `.tikoci/status.json` contract for repos (proposal; consumer pending) |
+| `test/dashboard-contract.test.js` | Fixture tests for the dashboard contract (`bun test test/`) |
 | `generate-pages.ts` | Generates per-repo landing pages (`dist/p/*.html`) |
-| `repo-config.ts` | Per-repo overrides: APL symbols, categories, link relationships |
+| `repo-config.ts` | Per-repo overrides: APL symbols, categories, link relationships, dashboard coverage |
 | `dist/p/` | Generated per-repo landing pages (NOT committed — built from GitHub data) |
 | `dist/scripts/*.rsc` | Committed static RouterOS scripts (DO NOT DELETE) |
 | `dist/media/` | Committed static media files (DO NOT DELETE) |

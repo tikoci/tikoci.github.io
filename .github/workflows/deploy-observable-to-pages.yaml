@@ -4,6 +4,10 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: ["main"]
+  # Hourly refresh so build-time data (dashboard.json, repo metadata) stays
+  # current without requiring commits. Offset :17 past the hour.
+  schedule:
+    - cron: "17 * * * *"
   workflow_dispatch:
 
 permissions:
