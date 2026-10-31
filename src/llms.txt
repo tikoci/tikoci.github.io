@@ -1,28 +1,33 @@
 # tikoci — MikroTik RouterOS Open Source Tools
 
-> tikoci is an open source GitHub organization providing developer tools, API schemas, AI integrations, containers, and virtualization utilities for MikroTik RouterOS v7. Not affiliated with or endorsed by MikroTik. All projects target RouterOS 7.x (long-term and newer). The tools help network administrators write scripts, explore APIs, run virtual routers, deploy containers, and give their AI assistants deep RouterOS knowledge.
+> tikoci is an open source GitHub organization providing developer tools, API schemas, AI integrations, containers, and virtualization utilities for MikroTik RouterOS. Not affiliated with or endorsed by MikroTik. Most projects focus on RouterOS v7; consult each project for supported versions. Protocol research may include older releases. The tools help network administrators write scripts, explore APIs, run virtual routers, deploy containers, and give their AI assistants deep RouterOS knowledge.
 
-RouterOS is NOT GNU/Linux — it runs a Linux kernel but uses MikroTik's proprietary "nova" system above it. There is no bash, no coreutils, no apt/pkg, no FHS filesystem layout. AI agents frequently fail on RouterOS because they apply Linux assumptions. The tikoci ecosystem exists to bridge this gap — providing structured knowledge, language tooling, and API schemas that let humans and AI assistants work effectively with RouterOS.
+RouterOS runs a Linux kernel, but its management CLI is not a Linux shell: do not send it bash, coreutils, or apt commands. Containers and offline firmware analysis are separate contexts. AI agents frequently fail on RouterOS because they apply Linux assumptions. The tikoci ecosystem exists to bridge this gap — providing structured knowledge, language tooling, and API schemas that let humans and AI assistants work effectively with RouterOS.
 
 Key problems tikoci solves for RouterOS administrators:
 
 - **Writing RouterOS scripts?** → VS Code language server (lsp-routeros-ts) + notebook (TikBook) + routeros-fundamentals skill
 - **Understanding the REST API?** → restraml schema tools (API Explorer, Command Lookup, Schema Diff, OpenAPI/RAML downloads)
 - **Setting up containers on RouterOS?** → routeros-container skill + make.d base image + /app Editor + routeros-app-yaml skill
-- **Running CHR in a VM for testing?** → mikropkl (declarative CHR VMs) + fat-chr (UEFI images) + routeros-qemu-chr skill
+- **Running CHR for testing or protocol research?** → quickchr (CLI/library for disposable CHR labs); mikropkl for declarative VM builds, fat-chr for UEFI images
 - **Flashing/provisioning devices?** → netinstall container + routeros-netinstall skill
-- **Training your AI assistant on RouterOS?** → rosetta MCP server + routeros-skills (6 Copilot skills)
+- **Giving your AI assistant RouterOS context?** → rosetta MCP server + routeros-skills
+- **Reading or changing router state?** → centrs (validated multi-protocol CLI/library)
+- **Investigating WinBox, M2 TLVs, or WinBox 3 compatibility?** → [m2ir reading map](https://raw.githubusercontent.com/tikoci/m2ir/main/llms.txt)
 
 ## AI Integration
 
-- [rosetta — MCP Server for MikroTik Documentation](https://github.com/tikoci/rosetta): Model Context Protocol server that indexes 317 MikroTik documentation pages, 4,800+ command properties, and 40,000+ commands into SQLite FTS5 for AI-powered search. Uses a "SQL-as-RAG" pattern — full-text search with BM25 ranking replaces vector embeddings. Provides 11 MCP tools including `routeros_search` (docs), `routeros_search_properties` (command args), `routeros_command_tree` (hierarchy), `routeros_device_lookup` (hardware specs), and `routeros_current_versions` (release channels). Install via `npx -y tikoci-rosetta` or `bunx tikoci-rosetta`. Works with Claude Desktop, VS Code Copilot, Cursor, and any MCP-compatible client. See [CLAUDE.md](https://github.com/tikoci/rosetta/blob/main/CLAUDE.md) for full architecture.
-- [routeros-skills — Copilot Skills for RouterOS](https://github.com/tikoci/routeros-skills): Collection of 6 structured knowledge files (SKILL.md format) that teach AI coding agents RouterOS-specific patterns. Published on [Skillstore](https://skillstore.io/skills?q=tikoci&tools=claude). Each skill covers a domain where AI agents commonly fail on RouterOS. Can be installed in VS Code Copilot, Claude Code, or read directly from GitHub. Skills listed below:
-- [routeros-fundamentals](https://github.com/tikoci/routeros-skills/tree/main/routeros-fundamentals/SKILL.md): Core RouterOS v7 knowledge — CLI path syntax, REST API patterns (`/rest/` endpoint, verb mapping), scripting language (`.rsc`), and critical differences from Linux (no bash, no FHS, no coreutils). Prevents the most common AI mistakes when configuring RouterOS.
-- [routeros-container](https://github.com/tikoci/routeros-skills/tree/main/routeros-container/SKILL.md): RouterOS `/container` subsystem — device-mode prerequisites, OCI container lifecycle, VETH/bridge networking, NAT configuration, storage and architecture requirements (ARM/ARM64/x86).
-- [routeros-app-yaml](https://github.com/tikoci/routeros-skills/tree/main/routeros-app-yaml/SKILL.md): RouterOS `/app` YAML format (7.21+ builtin, 7.22+ custom) — MikroTik's alternative to docker-compose for defining container applications with services, volumes, networks, and configs. Covers `.tikapp.yaml` naming, app stores, and differences from docker-compose.
-- [routeros-command-tree](https://github.com/tikoci/routeros-skills/tree/main/routeros-command-tree/SKILL.md): `/console/inspect` API for programmatic command tree traversal — node types (dir, path, cmd, arg), CLI-to-REST mapping, schema generation patterns used by restraml and rosetta.
-- [routeros-qemu-chr](https://github.com/tikoci/routeros-skills/tree/main/routeros-qemu-chr/SKILL.md): Running RouterOS CHR (Cloud Hosted Router) in QEMU — x86_64 SeaBIOS vs aarch64 UEFI boot, fat-chr UEFI variant, acceleration selection (KVM on Linux, HVF on macOS, TCG fallback), disk layout, VirtIO drivers, port forwarding for REST API access.
-- [routeros-netinstall](https://github.com/tikoci/routeros-skills/tree/main/routeros-netinstall/SKILL.md): `netinstall-cli` automation — BOOTP/TFTP device flashing, configure scripts (persistent config) vs mode scripts (one-time first-boot, sets device-mode), license key installation, multi-device provisioning with `-m` flag.
+- [rosetta — MCP Server for MikroTik Documentation](https://raw.githubusercontent.com/tikoci/rosetta/main/README.md): Search RouterOS documentation, CLI Reference fields, versioned command trees, hardware specifications, and video transcripts with source links. Uses SQLite FTS5 retrieval. Consult the README for installation and available tools; `routeros_stats` reports the corpus in the running database.
+- [routeros-skills — RouterOS knowledge for coding agents](https://raw.githubusercontent.com/tikoci/routeros-skills/main/README.md): Current skill catalog and installation instructions. Skills cover configuration, scripting, protocol research, and live validation. Selected entrypoints follow; read each skill's version scope and supporting references.
+- [routeros-fundamentals](https://raw.githubusercontent.com/tikoci/routeros-skills/main/routeros-fundamentals/SKILL.md): Core RouterOS v7 knowledge — CLI path syntax, REST API patterns (`/rest/` endpoint, verb mapping), scripting language (`.rsc`), and critical differences from Linux (no bash, no FHS, no coreutils). Prevents the most common AI mistakes when configuring RouterOS.
+- [routeros-container](https://raw.githubusercontent.com/tikoci/routeros-skills/main/routeros-container/SKILL.md): RouterOS `/container` subsystem — device-mode prerequisites, OCI container lifecycle, VETH/bridge networking, NAT configuration, storage and architecture requirements (ARM/ARM64/x86).
+- [routeros-app-yaml](https://raw.githubusercontent.com/tikoci/routeros-skills/main/routeros-app-yaml/SKILL.md): RouterOS `/app` YAML format (7.21+ builtin, 7.22+ custom) — MikroTik's alternative to docker-compose for defining container applications with services, volumes, networks, and configs. Covers `.tikapp.yaml` naming, app stores, and differences from docker-compose.
+- [routeros-command-tree](https://raw.githubusercontent.com/tikoci/routeros-skills/main/routeros-command-tree/SKILL.md): `/console/inspect` API for programmatic command tree traversal — node types (dir, path, cmd, arg), CLI-to-REST mapping, schema generation patterns used by restraml and rosetta.
+- [routeros-qemu-chr](https://raw.githubusercontent.com/tikoci/routeros-skills/main/routeros-qemu-chr/SKILL.md): Running RouterOS CHR (Cloud Hosted Router) in QEMU — x86_64 SeaBIOS vs aarch64 UEFI boot, fat-chr UEFI variant, acceleration selection (KVM on Linux, HVF on macOS, TCG fallback), disk layout, VirtIO drivers, port forwarding for REST API access.
+- [routeros-netinstall](https://raw.githubusercontent.com/tikoci/routeros-skills/main/routeros-netinstall/SKILL.md): `netinstall-cli` automation — BOOTP/TFTP device flashing, configure scripts (persistent config) vs mode scripts (one-time first-boot, sets device-mode), license key installation, multi-device provisioning with `-m` flag.
+- [routeros-centrs](https://raw.githubusercontent.com/tikoci/routeros-skills/main/routeros-centrs/SKILL.md): Resolve targets and validate RouterOS operations through centrs.
+- [routeros-quickchr-cli](https://raw.githubusercontent.com/tikoci/routeros-skills/main/routeros-quickchr-cli/SKILL.md): Boot and manage disposable CHR labs from the shell.
+- [routeros-scripting](https://raw.githubusercontent.com/tikoci/routeros-skills/main/routeros-scripting/SKILL.md): RouterOS scripting syntax and configuration idioms.
 
 ## VS Code Extensions
 
@@ -31,16 +36,23 @@ Key problems tikoci solves for RouterOS administrators:
 
 ## API & Schema Tools
 
-- [restraml — RouterOS API Schema Engine](https://github.com/tikoci/restraml): Generates RAML and OpenAPI 3.0 schemas from live RouterOS instances via GitHub Actions. Boots CHR images, crawls `/console/inspect`, and produces versioned schemas covering 5,000+ REST endpoints. Powers the web tools below. Schemas are published for Postman import, client code generation, and API documentation. See [CLAUDE.md](https://github.com/tikoci/restraml/blob/main/CLAUDE.md) for full architecture.
-- [API Explorer](https://tikoci.github.io/restraml/openapi.html): Browse all 5,000+ RouterOS REST API endpoints interactively — search commands, view parameters, see request/response schemas. Powered by OpenAPI 3.0 spec generated by restraml.
+- [restraml — RouterOS API Schema Engine](https://github.com/tikoci/restraml): Generates RAML and OpenAPI 3.0 schemas from live RouterOS instances via GitHub Actions. Boots CHR images, crawls `/console/inspect`, and produces versioned schemas for the collected RouterOS versions. Powers the web tools below. Schemas are published for Postman import, client code generation, and API documentation. See [CLAUDE.md](https://github.com/tikoci/restraml/blob/main/CLAUDE.md) for full architecture.
+- [API Explorer](https://tikoci.github.io/restraml/openapi.html): Browse versioned RouterOS REST API endpoints interactively — search commands, view parameters, see request/response schemas. Powered by OpenAPI 3.0 spec generated by restraml.
 - [Schema Diff](https://tikoci.github.io/restraml/diff.html): Compare two RouterOS versions side-by-side — see every command, property, and API change between releases. Useful for upgrade planning and finding new features.
 - [Command Lookup](https://tikoci.github.io/restraml/lookup.html): Search RouterOS CLI and REST commands across versions — find the REST path for any CLI command, see available parameters, check version availability.
 - [/app Editor](https://tikoci.github.io/restraml/tikapp.html): Browser-based YAML editor for RouterOS `/app` container definitions — live JSON Schema validation, example picker, Monaco editor, copy deploy commands. For RouterOS 7.22+.
 - [Schema Downloads](https://tikoci.github.io/restraml/): Download versioned RAML and OpenAPI schemas for RouterOS — import into Postman, generate client libraries, or use for API documentation. Covers stable, long-term, and testing channels.
 - [/app User Manual](https://tikoci.github.io/restraml/tikapp-manual.html): Full /app YAML documentation for RouterOS container apps — services, configs, volumes, built-in apps, and app store structure.
 
+## Router access and protocol research
+
+- [centrs](https://raw.githubusercontent.com/tikoci/centrs/main/README.md): Bun/TypeScript CLI and library for validated RouterOS operations across multiple transports. Consult its [capability matrix](https://raw.githubusercontent.com/tikoci/centrs/main/docs/MATRIX.md) before assuming a command/transport combination is implemented.
+- [m2ir reading map](https://raw.githubusercontent.com/tikoci/m2ir/main/llms.txt): Start here for WinBox transport, EC-SRP5, session crypto, M2 TLVs, and selected management handlers. Canonical YAML records evidence, confidence, and version scope; exploratory research is separate. Successful native queries on RouterOS 7.25 do not establish full WinBox 3 compatibility.
+- [m2ir overview](https://raw.githubusercontent.com/tikoci/m2ir/main/README.md): Human introduction, coverage, research context, and contribution pointers.
+
 ## Virtualization
 
+- [quickchr](https://raw.githubusercontent.com/tikoci/quickchr/main/README.md): CLI and library to download, launch, and manage MikroTik CHR virtual machines through QEMU. Use disposable labs to validate RouterOS behavior; see the [manual](https://raw.githubusercontent.com/tikoci/quickchr/main/MANUAL.md) for setup and lifecycle details.
 - [mikropkl — Declarative CHR Virtual Machines](https://github.com/tikoci/mikropkl): Define RouterOS CHR virtual machines in Apple's PKL language, run `make`, get ready-to-boot VMs. Supports macOS UTM (`utm://` links), QEMU, and cross-architecture builds (x86_64, aarch64). Automates image download, disk preparation, and QEMU launch scripts. See [CLAUDE.md](https://github.com/tikoci/mikropkl/blob/main/CLAUDE.md) for architecture including pkl patterns, boot track selection (SeaBIOS vs EFI/VirtIO), and CI strategies.
 - [fat-chr — UEFI-Enabled CHR Images](https://github.com/tikoci/fat-chr): Rebuilds RouterOS CHR `.raw` disk images with a FAT16 EFI system partition — enables UEFI boot on UTM, Apple Virtualization.framework, and other platforms that don't support SeaBIOS. Published as GitHub Releases.
 - [chr-utm — CHR UTM Templates](https://github.com/tikoci/chr-utm): Pre-built UTM virtual machine packages for RouterOS CHR on macOS.
@@ -59,24 +71,14 @@ Key problems tikoci solves for RouterOS administrators:
 - [lsbridge.rsc](https://tikoci.github.io/scripts/lsbridge.rsc): Bridge VLAN visualization TUI — displays bridge port and VLAN configuration in a readable table format. Forum: [MikroTik Forum post](https://forum.mikrotik.com/viewtopic.php?t=207724).
 - [autovlan.rsc](https://tikoci.github.io/scripts/autovlan.rsc): VLAN automation functions (`$mkvlan`, `$rmvlan`, `$catvlan`) — create, remove, and display VLANs with associated interfaces and IP addressing.
 
-## All Repositories
+## More repositories
 
-- [restraml](https://github.com/tikoci/restraml): RouterOS API schema engine — generates RAML & OpenAPI from live instances via GitHub Actions
-- [rosetta](https://github.com/tikoci/rosetta): MCP server for MikroTik documentation — SQLite FTS5 search over 317 pages, 4,800+ properties
-- [routeros-skills](https://github.com/tikoci/routeros-skills): 6 Copilot skills for RouterOS — fundamentals, containers, /app YAML, command tree, QEMU CHR, netinstall
-- [lsp-routeros-ts](https://github.com/tikoci/lsp-routeros-ts): RouterOS Language Server — diagnostics, completions, hover, semantic tokens for VS Code/NeoVim
-- [vscode-tikbook](https://github.com/tikoci/vscode-tikbook): TikBook VS Code notebook — run RouterOS scripts, CSV viewers, Copilot integration
-- [mikropkl](https://github.com/tikoci/mikropkl): Declarative CHR VMs in PKL — macOS UTM, QEMU, cross-architecture builds
-- [fat-chr](https://github.com/tikoci/fat-chr): UEFI-enabled CHR disk images — FAT16 EFI partition for Apple/UTM boot
-- [chr-utm](https://github.com/tikoci/chr-utm): Pre-built UTM packages for RouterOS CHR on macOS
-- [make.d](https://github.com/tikoci/make.d): Alpine multiprocess container base — 150+ Makefile recipes, foundation for tikoci containers
-- [netinstall](https://github.com/tikoci/netinstall): Netinstall-cli as RouterOS container — QEMU emulation for ARM/ARM64 device flashing
-- [serial2http](https://github.com/tikoci/serial2http): Go HTTP bridge for RouterOS serial ports — REST API for /dev/ttyUSBx
-- [cligames](https://github.com/tikoci/cligames): 30+ classic BSD games as RouterOS container — retro telnet gaming
+The sections above are curated starting points. The [GitHub organization](https://github.com/tikoci) is the complete repository listing.
+
 - [nginx](https://github.com/tikoci/nginx): Nginx container optimized for RouterOS
 - [traefik-wasm-grain](https://github.com/tikoci/traefik-wasm-grain): Traefik WASM plugin built with Grain language — published on official Traefik plugin marketplace
 - [traefik-wabt](https://github.com/tikoci/traefik-wabt): WebAssembly Binary Toolkit for building Traefik WASM plugins
-- [winbox-deb](https://github.com/tikoci/winbox-deb): WinBox 4.0 packaged as .deb for Linux — template-style distribution
+- [winbox-deb](https://github.com/tikoci/winbox-deb): WinBox packaged as .deb for Linux — template-style distribution
 - [mikrotik-gpl](https://github.com/tikoci/mikrotik-gpl): MikroTik GPL source releases and scripts
 - [netserver](https://github.com/tikoci/netserver): Network server scripts for RouterOS
 - [adventure](https://github.com/tikoci/adventure): Classic Colossal Cave Adventure as RouterOS container
@@ -84,15 +86,14 @@ Key problems tikoci solves for RouterOS administrators:
 
 ## Cross-Repo Status Data
 
-Hourly build-time snapshot of versions, builds, packages, and work tracking
-across TIKOCI repos. Entrypoint: `data/dashboard.json` (schema v2, one
-fetch). Per-repo detail (full issue/PR index, full ROS coverage):
-`data/dashboard/<repo>.json`. Channel versions alone:
-`data/ros-versions.json` (one fetch). Schema reference:
-`dashboard-schema.md`. Human rendering: `status.html` (dense monospace
-board). Repos can declare
-their own status via the well-known `.tikoci/status.json` file —
-contract: `tikoci-status-spec.md` (proposal; dashboard consumer pending).
+Hourly build-time snapshots of versions, builds, packages, and work tracking.
+Check timestamps and collection state before using a snapshot as current status.
+
+- [Dashboard data](https://tikoci.dev/data/dashboard.json): Bounded entrypoint with signals, relationships, and findings.
+- [RouterOS channel versions](https://tikoci.dev/data/ros-versions.json): Channel-version snapshot.
+- [Dashboard schema](https://tikoci.dev/dashboard-schema.md): Endpoint and field reference; per-repo detail is at `https://tikoci.dev/data/dashboard/<repo>.json`.
+- [Repository status proposal](https://tikoci.dev/tikoci-status-spec.md): Contract for `.tikoci/status.json`; dashboard consumer pending.
+- [Status board](https://tikoci.dev/status.html): Human rendering of the collected data.
 
 Interpretation: every signal has `state` (`ok`, `partial`, `unknown`,
 `error`); `error` explains `unknown`/`error` states. `collection.mode` tells
@@ -112,6 +113,6 @@ blocker. Tag existence never proves an artifact passed testing.
 - [utf2rsc](https://observablehq.com/@a2m0/utf2rsc?collection=@a2m0/mikrotik): Observable notebook — UTF-8/emoji to RouterOS string byte-escape converter
 - [csv2rsc](https://observablehq.com/@a2m0/csv2rsc?collection=@a2m0/mikrotik): Observable notebook — CSV to RouterOS array converter
 - [tikoci.github.io](https://github.com/tikoci/tikoci.github.io): This portfolio site — source code, build pipeline, per-repo landing pages
-- [Skillstore listing](https://skillstore.io/skills?q=tikoci&tools=claude): All 6 RouterOS skills on Skillstore with one-click install for Claude
+- [Skillstore listing](https://skillstore.io/skills?q=tikoci&tools=claude): Third-party skill directory; use the source repository for the current catalog and installation instructions
 - [Project Map](https://tikoci.github.io/project-map.html): Interactive D3 force-directed graph showing all projects and their relationships
 - [Status](https://tikoci.github.io/status.html): TUI-style status board — RouterOS version tracking, CI health, npm publish state, and community attention. Hourly build-time snapshot, no live data.
