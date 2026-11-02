@@ -1,0 +1,351 @@
+{
+  "schemaVersion": 2,
+  "repo": "routeros-skills",
+  "generatedAt": "2026-11-02T19:42:23.944Z",
+  "collection": {
+    "mode": "fresh",
+    "cacheWrittenAt": null
+  },
+  "work": {
+    "counts": {
+      "issues": {
+        "total": 18,
+        "owner": 18,
+        "external": 0,
+        "bot": 0
+      },
+      "prs": {
+        "total": 3,
+        "owner": 2,
+        "external": 1,
+        "bot": 0,
+        "ownerReady": 1,
+        "ownerDraft": 1,
+        "draftUnknown": false
+      }
+    },
+    "page": {
+      "fetched": 21,
+      "perPage": 100,
+      "truncated": false,
+      "countsAreLowerBounds": false
+    },
+    "pullsEnriched": true,
+    "items": [
+      {
+        "number": 52,
+        "title": "New skill: routeros-certificates",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/52",
+        "createdAt": "2026-11-02T02:26:23Z",
+        "updatedAt": "2026-11-02T13:31:54Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "triage:accepted",
+          "skill:new"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 51,
+        "title": "New skill: routeros-users-aaa",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/51",
+        "createdAt": "2026-11-02T02:26:21Z",
+        "updatedAt": "2026-11-02T13:31:53Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "triage:accepted",
+          "skill:new"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 50,
+        "title": "New skill: routeros-routing-v7",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/50",
+        "createdAt": "2026-11-02T02:26:20Z",
+        "updatedAt": "2026-11-02T13:31:51Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "triage:accepted",
+          "skill:new"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 49,
+        "title": "New skill: routeros-bridge-vlan",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/49",
+        "createdAt": "2026-11-02T02:26:19Z",
+        "updatedAt": "2026-11-02T13:31:50Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "triage:accepted",
+          "skill:new"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 48,
+        "title": "New skill: routeros-wifi (incl. CAPsMAN v2)",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/48",
+        "createdAt": "2026-11-02T02:26:17Z",
+        "updatedAt": "2026-11-02T13:31:49Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "triage:accepted",
+          "skill:new"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 47,
+        "title": "Config-skill triage — decided (do not re-triage)",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/47",
+        "createdAt": "2026-11-02T02:25:32Z",
+        "updatedAt": "2026-11-02T02:26:29Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "triage:accepted"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 44,
+        "title": "routeros-centrs: refresh for centrs 0.1.8 / 0.1.9-next (wait/until, --query, --cmr, stderr envelopes, closed rough edges)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/44",
+        "createdAt": "2026-10-26T04:07:06Z",
+        "updatedAt": "2026-10-26T04:07:06Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 40,
+        "title": "Coverage gaps: AAA/users and routing; plus a skill-discovery meta-skill idea",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/40",
+        "createdAt": "2026-10-19T19:12:47Z",
+        "updatedAt": "2026-11-02T02:26:30Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "triage:reference-only"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 39,
+        "title": "API operational details gap (vs wiresage/routeros-api)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/39",
+        "createdAt": "2026-10-19T19:12:37Z",
+        "updatedAt": "2026-11-02T02:25:52Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "triage:reference-only"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 38,
+        "title": "References pipeline: build skill references/ from rosetta export",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/38",
+        "createdAt": "2026-10-19T19:12:26Z",
+        "updatedAt": "2026-11-02T13:32:39Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "triage:accepted"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 37,
+        "title": "routeros-quickchr-cli skill: no /app-on-CHR path (container.npk, extra disk, REST add, use-https gotcha)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/37",
+        "createdAt": "2026-10-19T02:30:20Z",
+        "updatedAt": "2026-11-02T02:25:45Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "skill:refresh"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 36,
+        "title": "Field gotchas from adelomer12/routeros-inverterscout → app-yaml skill candidates",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/36",
+        "createdAt": "2026-10-19T01:49:25Z",
+        "updatedAt": "2026-11-02T02:25:43Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "skill:refresh"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 34,
+        "title": "routeros-cmr: a controller login is not the limit; watching a long fleet script",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/pull/34",
+        "createdAt": "2026-10-15T11:34:20Z",
+        "updatedAt": "2026-10-15T16:23:54Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 33,
+        "title": "Scripting field findings (7.24.5): snmp-get aborts scripts past on-error, :execute + global function silent under limited policy, ~60 KB file write cap, gmt-offset in seconds",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/33",
+        "createdAt": "2026-10-07T18:17:46Z",
+        "updatedAt": "2026-10-07T18:17:46Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 32,
+        "title": "routeros-centrs: teach NDJSON outcome consumption after centrs #400",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/32",
+        "createdAt": "2026-10-06T23:18:38Z",
+        "updatedAt": "2026-10-07T21:12:42Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 29,
+        "title": "feat(skills): routeros-w60g; remote etherboot arming; PoE device-mode confirmation",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/pull/29",
+        "createdAt": "2026-09-24T15:43:32Z",
+        "updatedAt": "2026-11-02T14:07:28Z",
+        "isPR": true,
+        "draft": true,
+        "labels": [
+          "blocked:grounding"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 28,
+        "title": "routeros-container / routeros-app-yaml: add references/ for testing with quickchr + centrs",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/28",
+        "createdAt": "2026-09-21T15:36:05Z",
+        "updatedAt": "2026-09-21T15:36:05Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "documentation"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 27,
+        "title": "routeros-container: 7.24/7.25 refresh + example command lines (companion to #18)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/27",
+        "createdAt": "2026-09-21T15:36:03Z",
+        "updatedAt": "2026-09-21T15:36:03Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "documentation"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 25,
+        "title": "routeros-netinstall: add 7.24 Netinstall package, split generic process from host tooling, add \"when is netinstall needed\"",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/25",
+        "createdAt": "2026-09-21T15:35:59Z",
+        "updatedAt": "2026-09-21T15:35:59Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "documentation"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 19,
+        "title": "feat: add routeros-capsman skill",
+        "author": "rewkong1150",
+        "authorClass": "external",
+        "url": "https://github.com/tikoci/routeros-skills/pull/19",
+        "createdAt": "2026-08-11T09:34:17Z",
+        "updatedAt": "2026-11-02T14:07:44Z",
+        "isPR": true,
+        "draft": true,
+        "labels": [
+          "blocked:grounding"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 18,
+        "title": "routeros-app-yaml SKILL needs \"refresh\"",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/18",
+        "createdAt": "2026-07-18T17:31:53Z",
+        "updatedAt": "2026-09-21T15:36:09Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      }
+    ]
+  }
+}

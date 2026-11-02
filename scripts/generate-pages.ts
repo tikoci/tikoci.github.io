@@ -1,3 +1,4 @@
+import { SITE_ORIGIN } from "../data/site-config";
 /**
  * generate-pages.ts — Build-time generator for per-repo landing pages
  *
@@ -8,8 +9,8 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import type { RepoData } from "./fetch-github-data";
-import { RELATIONSHIPS } from "./repo-config";
-import type { ExternalLink } from "./repo-config";
+import { RELATIONSHIPS } from "../data/repo-config";
+import type { ExternalLink } from "../data/repo-config";
 
 const OWNER = "tikoci";
 
@@ -221,7 +222,7 @@ function renderPage(repo: RepoData, allRepos: RepoData[]): string {
     const langBadge = repo.language
         ? `<mark class="lang" style="--lang-color: ${LANG_COLORS[repo.language] || "#888"}">${escapeHtml(repo.language)}</mark>`
         : "";
-    const canonicalUrl = `https://tikoci.github.io/p/${repo.name}.html`;
+    const canonicalUrl = `${SITE_ORIGIN}/p/${repo.name}.html`;
 
     // Build the "quick actions" section — prominent CTAs above the README
     const hasVscode = !!repo.vscodeExtensionId;
@@ -254,7 +255,7 @@ function renderPage(repo: RepoData, allRepos: RepoData[]): string {
     <meta property="og:url" content="${canonicalUrl}">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary">
-    <link rel="alternate" type="application/atom+xml" href="https://tikoci.github.io/atom.xml" title="TIKOCI Projects">
+    <link rel="alternate" type="application/atom+xml" href="${SITE_ORIGIN}/atom.xml" title="TIKOCI Projects">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

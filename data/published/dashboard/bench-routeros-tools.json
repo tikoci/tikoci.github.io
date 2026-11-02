@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 2,
+  "repo": "bench-routeros-tools",
+  "generatedAt": "2026-11-02T19:42:23.944Z",
+  "collection": {
+    "mode": "fresh",
+    "cacheWrittenAt": null
+  },
+  "work": {
+    "counts": {
+      "issues": {
+        "total": 1,
+        "owner": 1,
+        "external": 0,
+        "bot": 0
+      },
+      "prs": {
+        "total": 1,
+        "owner": 1,
+        "external": 0,
+        "bot": 0,
+        "ownerReady": 1,
+        "ownerDraft": 0,
+        "draftUnknown": false
+      }
+    },
+    "page": {
+      "fetched": 2,
+      "perPage": 100,
+      "truncated": false,
+      "countsAreLowerBounds": false
+    },
+    "pullsEnriched": true,
+    "items": [
+      {
+        "number": 2,
+        "title": "Roadmap: wiresage condition, gold-set expansion, muse backend, Tier-2 device run",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/bench-routeros-tools/issues/2",
+        "createdAt": "2026-10-19T20:29:37Z",
+        "updatedAt": "2026-10-19T20:29:37Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 1,
+        "title": "chore: cleanup pass — refresh skills snapshot (12→18), fix stale copy",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/bench-routeros-tools/pull/1",
+        "createdAt": "2026-10-19T20:09:38Z",
+        "updatedAt": "2026-10-19T20:29:45Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [],
+        "milestone": null
+      }
+    ]
+  }
+}

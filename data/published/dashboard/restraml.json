@@ -1,0 +1,409 @@
+{
+  "schemaVersion": 2,
+  "repo": "restraml",
+  "generatedAt": "2026-11-02T19:42:23.944Z",
+  "collection": {
+    "mode": "fresh",
+    "cacheWrittenAt": null
+  },
+  "ros": {
+    "locator": "contents-dirs:docs",
+    "kind": "published",
+    "coverage": [
+      "7.26beta5",
+      "7.26beta4",
+      "7.26beta3",
+      "7.26beta1",
+      "7.25",
+      "7.25rc3",
+      "7.25rc2",
+      "7.25rc1",
+      "7.25beta5",
+      "7.25beta4",
+      "7.25beta3",
+      "7.24.6",
+      "7.24.5",
+      "7.24.4",
+      "7.24.2",
+      "7.24.1",
+      "7.24",
+      "7.23.8",
+      "7.23.7",
+      "7.23.5",
+      "7.23.4",
+      "7.23.3",
+      "7.23.2",
+      "7.23.1",
+      "7.23",
+      "7.22.3",
+      "7.22.2",
+      "7.22.1",
+      "7.22",
+      "7.22rc4",
+      "7.21.5",
+      "7.21.4",
+      "7.21.3",
+      "7.21.2",
+      "7.21.1",
+      "7.21",
+      "7.20.8",
+      "7.20.7",
+      "7.20.6",
+      "7.20.5",
+      "7.20.4",
+      "7.20.2",
+      "7.20.1",
+      "7.20",
+      "7.19.6",
+      "7.19.4",
+      "7.19.3",
+      "7.19.2",
+      "7.19.1",
+      "7.19",
+      "7.18.2",
+      "7.18.1",
+      "7.18",
+      "7.17.1",
+      "7.17",
+      "7.16.2",
+      "7.16.1",
+      "7.16",
+      "7.15.3",
+      "7.15.2",
+      "7.15.1",
+      "7.15",
+      "7.14.3",
+      "7.13.5",
+      "7.12.2",
+      "7.11.3",
+      "7.10.2",
+      "7.9.2",
+      "7.9"
+    ],
+    "totalKnown": 69,
+    "truncated": true,
+    "channels": {
+      "stable": {
+        "version": "7.25",
+        "covered": true
+      },
+      "testing": {
+        "version": "7.25",
+        "covered": true
+      },
+      "development": {
+        "version": "7.26beta5",
+        "covered": true
+      },
+      "long-term": {
+        "version": "7.24.6",
+        "covered": true
+      }
+    }
+  },
+  "work": {
+    "counts": {
+      "issues": {
+        "total": 15,
+        "owner": 12,
+        "external": 0,
+        "bot": 3
+      },
+      "prs": {
+        "total": 4,
+        "owner": 1,
+        "external": 0,
+        "bot": 3,
+        "ownerReady": 1,
+        "ownerDraft": 0,
+        "draftUnknown": false
+      }
+    },
+    "page": {
+      "fetched": 19,
+      "perPage": 100,
+      "truncated": false,
+      "countsAreLowerBounds": false
+    },
+    "pullsEnriched": true,
+    "items": [
+      {
+        "number": 122,
+        "title": "openapi.html test requests: link CORS note to a reverse-proxy-on-MikroTik setup guide",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/restraml/issues/122",
+        "createdAt": "2026-10-28T16:35:53Z",
+        "updatedAt": "2026-10-28T16:35:53Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 120,
+        "title": "publish-with-retry: retry's reset --hard silently discards a later step's outputs (lost 7.26beta* schemas)",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/restraml/issues/120",
+        "createdAt": "2026-10-27T17:34:36Z",
+        "updatedAt": "2026-10-27T17:34:36Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 119,
+        "title": "tikapp.html: no Monaco marker for errors on quoted YAML keys (e.g. RouterOS 7.25 re-emitted YAML)",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/restraml/issues/119",
+        "createdAt": "2026-10-27T16:49:03Z",
+        "updatedAt": "2026-10-27T16:49:03Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "app-yaml-schema"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 118,
+        "title": "Make tikoci tools available to Claude Code cloud sessions (rosetta MCP, quickchr, MikroTik hosts)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/restraml/issues/118",
+        "createdAt": "2026-10-27T15:42:13Z",
+        "updatedAt": "2026-10-27T15:42:13Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 116,
+        "title": "RouterOS 7.26beta3: /app YAML schema validation failures",
+        "author": "github-actions[bot]",
+        "authorClass": "bot",
+        "url": "https://github.com/tikoci/restraml/issues/116",
+        "createdAt": "2026-10-27T14:50:30Z",
+        "updatedAt": "2026-10-27T14:50:30Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "app-yaml-schema"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 115,
+        "title": "RouterOS 7.26beta1: /app YAML schema validation failures",
+        "author": "github-actions[bot]",
+        "authorClass": "bot",
+        "url": "https://github.com/tikoci/restraml/issues/115",
+        "createdAt": "2026-10-27T14:42:47Z",
+        "updatedAt": "2026-10-27T14:42:47Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "app-yaml-schema"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 114,
+        "title": "Document and automate the beta/RC retention policy for docs/{version}/",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/restraml/issues/114",
+        "createdAt": "2026-10-27T14:41:38Z",
+        "updatedAt": "2026-10-27T14:41:38Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 113,
+        "title": "RouterOS 7.25: /app YAML schema validation failures",
+        "author": "github-actions[bot]",
+        "authorClass": "bot",
+        "url": "https://github.com/tikoci/restraml/issues/113",
+        "createdAt": "2026-10-27T14:38:41Z",
+        "updatedAt": "2026-10-27T14:38:41Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "app-yaml-schema"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 112,
+        "title": "Remove nightly (ab) build support — MikroTik no longer publishes nightly builds",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/restraml/issues/112",
+        "createdAt": "2026-10-27T14:02:45Z",
+        "updatedAt": "2026-10-27T14:02:45Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 108,
+        "title": "app-yaml schema: sync descriptions with new manual.mikrotik.com Apps doc — supported-archs / compatible-boards are documented but rejected",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/restraml/issues/108",
+        "createdAt": "2026-10-25T16:19:43Z",
+        "updatedAt": "2026-10-25T16:19:43Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "app-yaml-schema"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 107,
+        "title": "fix(app-yaml): reject IP-prefixed port strings in strict patterns",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/restraml/pull/107",
+        "createdAt": "2026-10-19T23:48:21Z",
+        "updatedAt": "2026-10-27T16:41:19Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 106,
+        "title": "app-yaml strict schema accepts IP-prefixed port strings that RouterOS mis-parses",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/restraml/issues/106",
+        "createdAt": "2026-10-19T02:30:37Z",
+        "updatedAt": "2026-10-19T02:30:37Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "app-yaml-schema"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 105,
+        "title": "ros-api-protocol: _parseSentences drops sentences split across TCP chunks (the native-API completion 'drops' and 'hangs')",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/restraml/issues/105",
+        "createdAt": "2026-10-05T17:56:09Z",
+        "updatedAt": "2026-10-06T21:19:27Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 104,
+        "title": "Disable nightly UI and daily nightly CI (mt.lv/nightly-build gone)",
+        "author": "Copilot",
+        "authorClass": "bot",
+        "url": "https://github.com/tikoci/restraml/pull/104",
+        "createdAt": "2026-09-16T18:39:07Z",
+        "updatedAt": "2026-10-27T16:43:55Z",
+        "isPR": true,
+        "draft": true,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 103,
+        "title": "Bump the npm group across 1 directory with 2 updates",
+        "author": "dependabot[bot]",
+        "authorClass": "bot",
+        "url": "https://github.com/tikoci/restraml/pull/103",
+        "createdAt": "2026-09-08T15:05:12Z",
+        "updatedAt": "2026-10-27T16:43:26Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [
+          "dependencies",
+          "javascript"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 90,
+        "title": "Nightly / ab builds from mt.lv/nightly-build — single overwritten slot (strawman + viability notes)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/restraml/issues/90",
+        "createdAt": "2026-08-13T13:43:25Z",
+        "updatedAt": "2026-09-16T18:39:01Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 89,
+        "title": "Bump the github-actions group across 1 directory with 2 updates",
+        "author": "dependabot[bot]",
+        "authorClass": "bot",
+        "url": "https://github.com/tikoci/restraml/pull/89",
+        "createdAt": "2026-08-11T15:06:35Z",
+        "updatedAt": "2026-10-27T16:43:54Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [
+          "dependencies",
+          "github_actions"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 86,
+        "title": "heads-up: quickchr's ChrInstance.descriptor()/MachineDescriptor shape changed (breaking, pre-1.0)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/restraml/issues/86",
+        "createdAt": "2026-07-10T01:01:31Z",
+        "updatedAt": "2026-07-10T01:01:31Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 85,
+        "title": "Heads-up: rosetta's Docusaurus migration will change ros-help.db page identity (page_id)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/restraml/issues/85",
+        "createdAt": "2026-07-07T21:07:17Z",
+        "updatedAt": "2026-07-07T21:07:17Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      }
+    ]
+  }
+}

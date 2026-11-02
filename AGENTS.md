@@ -1,138 +1,29 @@
-# AGENTS.md — GitHub Copilot Agent Instructions for tikoci.github.io
+# Agent instructions
 
-> This file provides instructions for GitHub Copilot coding agents (Claude Sonnet) working on
-> this repository via GitHub Actions. For the full architecture reference, see `CLAUDE.md`.
+Read CLAUDE.md first. This repo keeps TIKOCI-wide metadata, conventions and
+observations at durable public URLs, alongside its static project site.
 
-## What This Repository Does
+- Work in small focused changes; no new dependencies without need. Use Bun and
+  Biome (formatter disabled), semantic HTML and vanilla browser code.
+- Preserve appearance: current styling uses Pico v2, JetBrains Mono and Manrope.
+  Remove `data-theme` for auto mode; Pico v2 does not support `auto`.
+- `src/` owns pages/styles/browser code; `public/` owns unchanged static assets;
+  `scripts/` owns collectors/generators; `data/` owns authored config and durable
+  snapshots; `docs/` owns maintainer recipes; `dist/` is entirely disposable.
+- Never remove public assets or change deployed URLs casually. In particular
+  `/scripts/`, `/media/`, `/logos/` and `/images/` have external consumers.
+- Data first: define/review a dataset contract before adding its UI. Collection
+  failures retain useful evidence and explicit errors; invalid contracts fail.
+- Ordinary builds must not collect remotely. Snapshots are committed for durable
+  persistence, including CI refreshes. Do not store credentials or private data.
+- Canonical origin comes from `src/CNAME` via `data/site-config.ts`. Review sitemap,
+  Atom/canonical/OG links, robots and workflow IndexNow host/key location when it
+  changes. Plausible configuration and sibling GitHub Pages URLs are independently
+  owned integrations: do not blanket-replace their origins.
+- Homepage tiles live in `data/homepage-config.ts`; per-repo overrides in
+  `data/repo-config.ts`. Tools navigation lives in `src/shared.js` (`SITE_TOOLS`).
+- Run `bun run lint`, `bun test test/`, and `bun run build` before committing.
+  PR descriptions include a checklist; commits use short imperative subjects.
 
-**tikoci.github.io** is a multi-page static portfolio site for the
-[TIKOCI GitHub organization](https://github.com/tikoci) — open source MikroTik RouterOS projects.
-Built with bun, styled with Pico CSS v2, deployed to GitHub Pages.
-
----
-
-## Repository Direction
-
-This site is becoming the **keeper of cross-repo dev state** — the single home
-for TIKOCI work that spans repos — not just a pretty presentation of projects.
-Concretely: build-time data collection (`fetch-*.ts` → `dist/data/*.json`,
-refreshed hourly by the deploy workflow) is a first-class concern, on par with
-pages. When adding a cross-repo feature (dashboard signals, version triggers,
-org-wide indexes), land the **data layer first** and get the data reviewed
-before rendering HTML with it. Keep collectors non-fatal (per-signal `error`
-strings, never thrown) so a flake never breaks deploy.
-
----
-
-## Agent Ground Rules
-
-1. **Read `CLAUDE.md` first** — it has the full architecture, conventions, and common task guides.
-2. **Make the smallest possible change** that fully addresses the issue or PR feedback.
-3. **Do not break the build** — run `bun run lint` and `bun run build` before committing.
-4. **Do not commit secrets** — never hardcode tokens, passwords, or credentials.
-5. **No new dependencies unless absolutely necessary** — the site has zero runtime dependencies.
-
----
-
-## Technology Constraints
-
-| Allowed | Forbidden |
-|---------|-----------|
-| Pico CSS v2 (CDN) | Bootstrap, Tailwind, any other CSS framework |
-| JetBrains Mono + Manrope (Google Fonts) | Other font families |
-| Bun for build/lint/dev | npm, node, yarn, pnpm |
-| Biome v2.x for linting | Prettier, ESLint, any other linter/formatter |
-| Vanilla HTML/CSS/JS | React, Vue, Svelte, Angular, any web framework |
-| Static files only | Backend, server-side rendering, APIs |
-| Semantic HTML elements | `<div>` soup with utility classes |
-
-### Critical Gotchas
-- **`data-theme="auto"` is NOT valid in Pico CSS v2** — it silently forces light mode. Remove the attribute for auto state.
-- **`dist/scripts/` and `dist/media/` are committed static files** — never delete them. They're linked externally from forum posts.
-- **Biome formatter is disabled** — lint only. Do not add Prettier.
-- **Build is a single `build.ts`** — keep it simple. An AI agent should understand the entire build by reading one file.
-
----
-
-## Common Agent Tasks
-
-### Add a new project
-1. Determine the category (dev-tools, virtualization, containers, scripts, web-tools)
-2. Add an `<article>` card to the appropriate `src/{category}.html` page
-3. Optionally add a summary card to `src/index.html` in the matching category section
-4. Run `bun run lint` and `bun run build`
-
-### Update an existing project description
-1. Find the project's `<article>` in the relevant `src/{category}.html`
-2. Edit the description text
-3. If it also appears on `src/index.html`, update there too
-4. Run `bun run lint` and `bun run build`
-
-### Add a new category
-1. Create `src/new-category.html` following existing category page patterns
-2. Add to the Categories dropdown in ALL page nav sections (`index.html` + all category pages)
-3. Add a category section with `.category-header` and `.project-grid` on `src/index.html`
-4. Run `bun run lint` and `bun run build`
-
-### Fix a CSS/styling issue
-1. Check if the fix belongs in `src/shared.css` (affects all pages) or inline in one page
-2. Prefer shared.css for anything used on multiple pages
-3. Use Pico CSS semantic elements before adding custom CSS
-4. Test dark mode (auto, light, dark states)
-
-### Create an interactive tool page
-
-1. Create `src/tool-name.html` using the skeleton in `CLAUDE.md` → "New Tool Page Skeleton"
-2. Include `shared.css` (after Pico) and `shared.js` (before page script)
-3. Call `initThemeSwitcher()` immediately
-4. Use `fetchGitHubContents()` / `fetchGitHubPagesFile()` for data fetching
-5. Wire controls with `debounce()` + `createCancelToken()` (no submit buttons)
-6. Support shareable URLs with `readQueryParams()` / `writeQueryParams()`
-7. Add the page to the Tools dropdown in **all** existing pages
-8. Keep all JS inline in the single `.html` file
-9. Run `bun run lint` and `bun run build`
-
----
-
-## PR Conventions
-
-- Branch naming: `copilot/{short-description}` (auto-created by Copilot agent)
-- Commit messages: imperative mood, short, descriptive (e.g., "Add serial2http to containers page")
-- PR description: include a checklist of changes made
-- Do not modify unrelated files or fix unrelated issues
-
----
-
-## Key File Reference
-
-| File | Purpose |
-|------|---------|
-| `build.ts` | Build script: src/ → dist/ (bun runtime) |
-| `package.json` | Project config with bun scripts |
-| `biome.json` | Biome v2.x linter config |
-| `src/index.html` | Landing page with all categories |
-| `src/dev-tools.html` | Development Tools category |
-| `src/virtualization.html` | Virtualization category |
-| `src/containers.html` | Containers category |
-| `src/scripts.html` | RouterOS Scripts category |
-| `src/web-tools.html` | Web Tools category |
-| `src/chr-images.html` | Interactive tool: mikropkl CHR image browser/downloader |
-| `src/project-map.html` | Interactive D3 force graph of all projects (data embedded at build) |
-| `src/shared.css` | Shared CSS (fonts, theme, cards, utilities) |
-| `src/shared.js` | Shared JS (theme switcher, GitHub API helpers) |
-| `fetch-github-data.ts` | GitHub API: fetches repo metadata, builds graph data |
-| `fetch-dashboard-data.ts` | Dashboard signals → `dist/data/dashboard.json` + `dist/data/dashboard/*.json` (ROS, CI, npm, work, releases, findings) |
-| `src/dashboard-schema.md` | Concise v2 schema/endpoints reference (published to site root) |
-| `src/tikoci-status-spec.md` | Well-known `.tikoci/status.json` contract for repos (proposal; consumer pending) |
-| `test/dashboard-contract.test.js` | Fixture tests for the dashboard contract (`bun test test/`) |
-| `repo-github-pages.ts` | On-demand survey: Pages+Plausible inventory → `repo-github-pages.json` (`bun run survey:pages`) |
-| `repo-github-pages.json` | Committed Pages+Plausible survey (v1 schema, re-run after Pages/tag changes) |
-| `generate-pages.ts` | Generates per-repo landing pages (`dist/p/*.html`) |
-| `repo-config.ts` | Per-repo overrides: APL symbols, categories, link relationships, dashboard coverage |
-| `dist/p/` | Generated per-repo landing pages (NOT committed — built from GitHub data) |
-| `dist/scripts/*.rsc` | Committed static RouterOS scripts (DO NOT DELETE) |
-| `dist/media/` | Committed static media files (DO NOT DELETE) |
-| `dist/logos/` | Committed static SVG logos (DO NOT DELETE) |
-| `CLAUDE.md` | Full architecture guide for AI agents |
-| `AGENTS.md` | This file — agent-specific instructions |
-| `.github/copilot-instructions.md` | Concise Copilot chat instructions |
+Recipes: docs/add-dataset.md, docs/add-page.md, docs/refresh-data.md.
+Future shared presentation direction: docs/presentation.md. No packaging yet.

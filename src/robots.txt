@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://tikoci.github.io/sitemap.xml
-Sitemap: https://tikoci.github.io/atom.xml
+Sitemap: {{SITE_ORIGIN}}/sitemap.xml
+Sitemap: {{SITE_ORIGIN}}/atom.xml

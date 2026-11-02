@@ -1,0 +1,3821 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-02T19:42:23.944Z",
+  "collection": {
+    "mode": "fresh",
+    "cacheWrittenAt": null
+  },
+  "budgets": {
+    "githubApiCalls": 121,
+    "otherHttpCalls": 10,
+    "maxConcurrency": 4,
+    "timeoutMsPerRequest": 15000,
+    "rateLimitRemaining": 4881
+  },
+  "sources": {
+    "ros-current": "https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel> (MikroTik upgrade feed; body \"<version> <build-ts>\")",
+    "ros-tracking": "per-repo locator, see signal.locator: github-tags (?per_page=100) | github-releases (?per_page=100) | contents-dirs (one listing) | raw-json (one file); first page only",
+    "ros-lag": "per-repo manifest locator, see repo-config.ts rosLagLocator (raw file, or newest release notes for github-releases)",
+    "ci-health": "GitHub Actions API: /actions/workflows (?per_page=100, first page only) + /actions/workflows/{id}/runs?branch=<defaultBranch>&per_page=1",
+    "community": "GitHub Issues API: /issues?state=open&per_page=100&sort=created&direction=desc, external-author filter (owners: Amm0Bot, mobileskyfi)",
+    "work": "GitHub Issues API (same page as community, all authors) + Pulls API /pulls?state=open&per_page=100 for draft flags; no bodies/comments",
+    "npm": "GitHub contents API for package.json + npm registry packument https://registry.npmjs.org/<pkg> (dist-tags, versions, time)",
+    "releases": "GitHub Releases API: /releases?per_page=5 (newest first)"
+  },
+  "coverage": {
+    "repos": [
+      "restraml",
+      "mikropkl",
+      "fat-chr",
+      "quickchr",
+      "mikrotik-gpl",
+      "rosetta",
+      "centrs",
+      "lsp-routeros-ts",
+      "donny",
+      "vscode-tikbook",
+      "routeros-skills",
+      "netinstall",
+      "serial2http",
+      "make.d",
+      "bench-routeros-tools",
+      "m2ir"
+    ],
+    "note": "Only DASHBOARD_REPOS entries (repo-config.ts) are collected. Single 100-item pages: counts from a full page should be treated as lower bounds."
+  },
+  "rosCurrent": {
+    "stable": {
+      "state": "ok",
+      "version": "7.25",
+      "raw": "7.25 1792678320"
+    },
+    "testing": {
+      "state": "ok",
+      "version": "7.25",
+      "raw": "7.25 1792678320"
+    },
+    "development": {
+      "state": "ok",
+      "version": "7.26beta5",
+      "raw": "7.26beta5 1793358835"
+    },
+    "long-term": {
+      "state": "ok",
+      "version": "7.24.6",
+      "raw": "7.24.6 1793348669"
+    }
+  },
+  "repos": {
+    "restraml": {
+      "name": "restraml",
+      "groups": [
+        "ros-tracking",
+        "ci-health",
+        "community"
+      ],
+      "detail": "data/dashboard/restraml.json",
+      "ros": {
+        "state": "ok",
+        "locator": "contents-dirs:docs",
+        "kind": "published",
+        "coverage": [
+          "7.26beta5",
+          "7.26beta4",
+          "7.26beta3",
+          "7.26beta1",
+          "7.25",
+          "7.25rc3",
+          "7.25rc2",
+          "7.25rc1",
+          "7.25beta5",
+          "7.25beta4",
+          "7.25beta3",
+          "7.24.6",
+          "7.24.5",
+          "7.24.4",
+          "7.24.2"
+        ],
+        "totalKnown": 69,
+        "truncated": true,
+        "channels": {
+          "stable": {
+            "version": "7.25",
+            "covered": true
+          },
+          "testing": {
+            "version": "7.25",
+            "covered": true
+          },
+          "development": {
+            "version": "7.26beta5",
+            "covered": true
+          },
+          "long-term": {
+            "version": "7.24.6",
+            "covered": true
+          }
+        }
+      },
+      "ci": {
+        "state": "ok",
+        "defaultBranch": "main",
+        "headSha": "433d1c1f0a345f481583f69fb2ea31606dd5e627",
+        "headUrl": "https://github.com/tikoci/restraml/commit/433d1c1f0a345f481583f69fb2ea31606dd5e627",
+        "workflows": [
+          {
+            "configured": "Auto-Build New RouterOS Versions",
+            "name": "Auto-Build New RouterOS Versions",
+            "path": ".github/workflows/auto.yaml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "main",
+            "headSha": "a0d627d281bb0cc6760ed345b0364631793693d8",
+            "event": "workflow_dispatch",
+            "runStartedAt": "2026-11-02T12:49:28Z",
+            "lastUpdatedAt": "2026-11-02T12:51:05Z",
+            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/41447828833",
+            "isHead": false
+          },
+          {
+            "configured": "Build: Base Schema",
+            "name": "Build: Base Schema",
+            "path": ".github/workflows/manual-using-docker-in-docker.yaml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "main",
+            "headSha": "a0d627d281bb0cc6760ed345b0364631793693d8",
+            "event": "workflow_dispatch",
+            "runStartedAt": "2026-11-02T12:51:02Z",
+            "lastUpdatedAt": "2026-11-02T12:56:02Z",
+            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/41448035336",
+            "isHead": false
+          },
+          {
+            "configured": "Build: Deep-Inspect Multi-Arch",
+            "name": "Build: Deep-Inspect Multi-Arch",
+            "path": ".github/workflows/deep-inspect-multi-arch.yaml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "main",
+            "headSha": "a0d627d281bb0cc6760ed345b0364631793693d8",
+            "event": "workflow_dispatch",
+            "runStartedAt": "2026-11-02T12:51:02Z",
+            "lastUpdatedAt": "2026-11-02T13:12:37Z",
+            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/41448035924",
+            "isHead": false
+          }
+        ]
+      },
+      "work": {
+        "state": "ok",
+        "counts": {
+          "issues": {
+            "total": 15,
+            "owner": 12,
+            "external": 0,
+            "bot": 3
+          },
+          "prs": {
+            "total": 4,
+            "owner": 1,
+            "external": 0,
+            "bot": 3,
+            "ownerReady": 1,
+            "ownerDraft": 0,
+            "draftUnknown": false
+          }
+        },
+        "page": {
+          "fetched": 19,
+          "perPage": 100,
+          "truncated": false,
+          "countsAreLowerBounds": false
+        },
+        "pullsEnriched": true,
+        "items": [
+          {
+            "number": 122,
+            "title": "openapi.html test requests: link CORS note to a reverse-proxy-on-MikroTik setup guide",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/restraml/issues/122",
+            "createdAt": "2026-10-28T16:35:53Z",
+            "updatedAt": "2026-10-28T16:35:53Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 120,
+            "title": "publish-with-retry: retry's reset --hard silently discards a later step's outputs (lost 7.26beta* schemas)",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/restraml/issues/120",
+            "createdAt": "2026-10-27T17:34:36Z",
+            "updatedAt": "2026-10-27T17:34:36Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 119,
+            "title": "tikapp.html: no Monaco marker for errors on quoted YAML keys (e.g. RouterOS 7.25 re-emitted YAML)",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/restraml/issues/119",
+            "createdAt": "2026-10-27T16:49:03Z",
+            "updatedAt": "2026-10-27T16:49:03Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug",
+              "app-yaml-schema"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 118,
+            "title": "Make tikoci tools available to Claude Code cloud sessions (rosetta MCP, quickchr, MikroTik hosts)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/restraml/issues/118",
+            "createdAt": "2026-10-27T15:42:13Z",
+            "updatedAt": "2026-10-27T15:42:13Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 116,
+            "title": "RouterOS 7.26beta3: /app YAML schema validation failures",
+            "author": "github-actions[bot]",
+            "authorClass": "bot",
+            "url": "https://github.com/tikoci/restraml/issues/116",
+            "createdAt": "2026-10-27T14:50:30Z",
+            "updatedAt": "2026-10-27T14:50:30Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug",
+              "app-yaml-schema"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 115,
+            "title": "RouterOS 7.26beta1: /app YAML schema validation failures",
+            "author": "github-actions[bot]",
+            "authorClass": "bot",
+            "url": "https://github.com/tikoci/restraml/issues/115",
+            "createdAt": "2026-10-27T14:42:47Z",
+            "updatedAt": "2026-10-27T14:42:47Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug",
+              "app-yaml-schema"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 114,
+            "title": "Document and automate the beta/RC retention policy for docs/{version}/",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/restraml/issues/114",
+            "createdAt": "2026-10-27T14:41:38Z",
+            "updatedAt": "2026-10-27T14:41:38Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 113,
+            "title": "RouterOS 7.25: /app YAML schema validation failures",
+            "author": "github-actions[bot]",
+            "authorClass": "bot",
+            "url": "https://github.com/tikoci/restraml/issues/113",
+            "createdAt": "2026-10-27T14:38:41Z",
+            "updatedAt": "2026-10-27T14:38:41Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug",
+              "app-yaml-schema"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 112,
+            "title": "Remove nightly (ab) build support — MikroTik no longer publishes nightly builds",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/restraml/issues/112",
+            "createdAt": "2026-10-27T14:02:45Z",
+            "updatedAt": "2026-10-27T14:02:45Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 108,
+            "title": "app-yaml schema: sync descriptions with new manual.mikrotik.com Apps doc — supported-archs / compatible-boards are documented but rejected",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/restraml/issues/108",
+            "createdAt": "2026-10-25T16:19:43Z",
+            "updatedAt": "2026-10-25T16:19:43Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug",
+              "app-yaml-schema"
+            ],
+            "milestone": null
+          }
+        ]
+      },
+      "community": {
+        "state": "ok",
+        "openIssues": 0,
+        "openPRs": 0,
+        "totalIssues": 15,
+        "totalPRs": 4,
+        "truncated": false,
+        "byLabel": {},
+        "byMilestone": {},
+        "newest": []
+      }
+    },
+    "mikropkl": {
+      "name": "mikropkl",
+      "groups": [
+        "ros-tracking",
+        "ci-health",
+        "community",
+        "releases"
+      ],
+      "detail": "data/dashboard/mikropkl.json",
+      "ros": {
+        "state": "ok",
+        "locator": "github-tags:",
+        "kind": "tagged",
+        "coverage": [
+          "7.26beta5",
+          "7.26beta4",
+          "7.26beta3",
+          "7.26beta1",
+          "7.25",
+          "7.25rc3",
+          "7.25rc2",
+          "7.25rc1",
+          "7.25beta5",
+          "7.25beta4",
+          "7.25beta3",
+          "7.24.6",
+          "7.24.5",
+          "7.24.4",
+          "7.24.2"
+        ],
+        "totalKnown": 95,
+        "truncated": true,
+        "channels": {
+          "stable": {
+            "version": "7.25",
+            "covered": true
+          },
+          "testing": {
+            "version": "7.25",
+            "covered": true
+          },
+          "development": {
+            "version": "7.26beta5",
+            "covered": true
+          },
+          "long-term": {
+            "version": "7.24.6",
+            "covered": true
+          }
+        }
+      },
+      "ci": {
+        "state": "ok",
+        "defaultBranch": "main",
+        "headSha": "e568f7a3bc6a6265499d3189afc72f2f3e2dbc1d",
+        "headUrl": "https://github.com/tikoci/mikropkl/commit/e568f7a3bc6a6265499d3189afc72f2f3e2dbc1d",
+        "workflows": [
+          {
+            "configured": "Streamlined Build",
+            "name": "Streamlined Build",
+            "path": ".github/workflows/auto.yaml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "main",
+            "headSha": "e568f7a3bc6a6265499d3189afc72f2f3e2dbc1d",
+            "event": "workflow_dispatch",
+            "runStartedAt": "2026-11-02T12:50:34Z",
+            "lastUpdatedAt": "2026-11-02T12:52:43Z",
+            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/41447976933",
+            "isHead": true
+          },
+          {
+            "configured": "CHR Packages",
+            "name": "CHR Packages",
+            "path": ".github/workflows/chr.yaml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "main",
+            "headSha": "e568f7a3bc6a6265499d3189afc72f2f3e2dbc1d",
+            "event": "workflow_dispatch",
+            "runStartedAt": "2026-11-02T12:52:40Z",
+            "lastUpdatedAt": "2026-11-02T12:56:56Z",
+            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/41448250316",
+            "isHead": true
+          },
+          {
+            "configured": "Tests",
+            "name": "Tests",
+            "path": ".github/workflows/test.yaml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "main",
+            "headSha": "e568f7a3bc6a6265499d3189afc72f2f3e2dbc1d",
+            "event": "push",
+            "runStartedAt": "2026-09-16T18:28:10Z",
+            "lastUpdatedAt": "2026-09-16T18:28:25Z",
+            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/35134586120",
+            "isHead": true
+          }
+        ]
+      },
+      "work": {
+        "state": "ok",
+        "counts": {
+          "issues": {
+            "total": 3,
+            "owner": 1,
+            "external": 2,
+            "bot": 0
+          },
+          "prs": {
+            "total": 0,
+            "owner": 0,
+            "external": 0,
+            "bot": 0,
+            "ownerReady": 0,
+            "ownerDraft": 0,
+            "draftUnknown": false
+          }
+        },
+        "page": {
+          "fetched": 3,
+          "perPage": 100,
+          "truncated": false,
+          "countsAreLowerBounds": false
+        },
+        "pullsEnriched": true,
+        "items": [
+          {
+            "number": 14,
+            "title": "Stable builds still show (pre-release) is UI",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/mikropkl/issues/14",
+            "createdAt": "2026-09-03T13:07:57Z",
+            "updatedAt": "2026-10-09T12:27:30Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 13,
+            "title": "aarch64 CHR image backed by UTM with Virtualization.Framework does not work on Apple Silicon",
+            "author": "iskanred",
+            "authorClass": "external",
+            "url": "https://github.com/tikoci/mikropkl/issues/13",
+            "createdAt": "2026-08-01T18:34:21Z",
+            "updatedAt": "2026-09-03T13:04:52Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 4,
+            "title": "Release chr-7.21.3 for aarch64: /system/check-installation yields \"damaged system package: bad image\"",
+            "author": "dave-rr",
+            "authorClass": "external",
+            "url": "https://github.com/tikoci/mikropkl/issues/4",
+            "createdAt": "2026-02-24T21:14:32Z",
+            "updatedAt": "2026-04-10T02:39:27Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          }
+        ]
+      },
+      "community": {
+        "state": "ok",
+        "openIssues": 2,
+        "openPRs": 0,
+        "totalIssues": 3,
+        "totalPRs": 0,
+        "truncated": false,
+        "byLabel": {},
+        "byMilestone": {},
+        "newest": [
+          {
+            "number": 13,
+            "title": "aarch64 CHR image backed by UTM with Virtualization.Framework does not work on Apple Silicon",
+            "author": "iskanred",
+            "url": "https://github.com/tikoci/mikropkl/issues/13",
+            "createdAt": "2026-08-01T18:34:21Z",
+            "isPR": false,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 4,
+            "title": "Release chr-7.21.3 for aarch64: /system/check-installation yields \"damaged system package: bad image\"",
+            "author": "dave-rr",
+            "url": "https://github.com/tikoci/mikropkl/issues/4",
+            "createdAt": "2026-02-24T21:14:32Z",
+            "isPR": false,
+            "labels": [],
+            "milestone": null
+          }
+        ]
+      },
+      "release": {
+        "state": "ok",
+        "latestTag": "chr-7.25",
+        "latestDate": "2026-10-23T11:08:47Z",
+        "latestUrl": "https://github.com/tikoci/mikropkl/releases/tag/chr-7.25",
+        "prerelease": false,
+        "stable": {
+          "tag": "chr-7.25",
+          "date": "2026-10-23T11:08:47Z",
+          "url": "https://github.com/tikoci/mikropkl/releases/tag/chr-7.25",
+          "prerelease": false
+        },
+        "newest": {
+          "tag": "chr-7.25",
+          "date": "2026-10-23T11:08:47Z",
+          "url": "https://github.com/tikoci/mikropkl/releases/tag/chr-7.25",
+          "prerelease": false
+        },
+        "prereleaseChannel": false,
+        "windowFetched": 5
+      }
+    },
+    "fat-chr": {
+      "name": "fat-chr",
+      "groups": [
+        "ros-tracking",
+        "ci-health",
+        "community",
+        "releases"
+      ],
+      "detail": "data/dashboard/fat-chr.json",
+      "ros": {
+        "state": "ok",
+        "locator": "github-releases:",
+        "kind": "published",
+        "coverage": [
+          "7.26beta5",
+          "7.26beta4",
+          "7.26beta3",
+          "7.26beta1",
+          "7.25",
+          "7.25rc3",
+          "7.25rc2",
+          "7.25rc1",
+          "7.25beta5",
+          "7.25beta4",
+          "7.25beta3",
+          "7.24.6",
+          "7.24.5",
+          "7.24.4",
+          "7.24.2"
+        ],
+        "totalKnown": 100,
+        "truncated": true,
+        "channels": {
+          "stable": {
+            "version": "7.25",
+            "covered": true
+          },
+          "testing": {
+            "version": "7.25",
+            "covered": true
+          },
+          "development": {
+            "version": "7.26beta5",
+            "covered": true
+          },
+          "long-term": {
+            "version": "7.24.6",
+            "covered": true
+          }
+        }
+      },
+      "ci": {
+        "state": "ok",
+        "defaultBranch": "main",
+        "headSha": "acd6566c090b9b8060a6bec849e8ad2ca8db5380",
+        "headUrl": "https://github.com/tikoci/fat-chr/commit/acd6566c090b9b8060a6bec849e8ad2ca8db5380",
+        "workflows": [
+          {
+            "configured": "Streamlined Build",
+            "name": "Streamlined Build",
+            "path": ".github/workflows/auto.yaml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "main",
+            "headSha": "acd6566c090b9b8060a6bec849e8ad2ca8db5380",
+            "event": "workflow_dispatch",
+            "runStartedAt": "2026-11-02T12:51:06Z",
+            "lastUpdatedAt": "2026-11-02T12:52:19Z",
+            "lastUrl": "https://github.com/tikoci/fat-chr/actions/runs/41448045048",
+            "isHead": true
+          }
+        ]
+      },
+      "work": {
+        "state": "ok",
+        "counts": {
+          "issues": {
+            "total": 0,
+            "owner": 0,
+            "external": 0,
+            "bot": 0
+          },
+          "prs": {
+            "total": 1,
+            "owner": 0,
+            "external": 0,
+            "bot": 1,
+            "ownerReady": 0,
+            "ownerDraft": 0,
+            "draftUnknown": false
+          }
+        },
+        "page": {
+          "fetched": 1,
+          "perPage": 100,
+          "truncated": false,
+          "countsAreLowerBounds": false
+        },
+        "pullsEnriched": true,
+        "items": [
+          {
+            "number": 10,
+            "title": "Harden Streamlined Build workflow against intermittent download and nbd-lock failures",
+            "author": "Copilot",
+            "authorClass": "bot",
+            "url": "https://github.com/tikoci/fat-chr/pull/10",
+            "createdAt": "2026-09-16T20:56:01Z",
+            "updatedAt": "2026-09-16T21:08:58Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [],
+            "milestone": null
+          }
+        ]
+      },
+      "community": {
+        "state": "ok",
+        "openIssues": 0,
+        "openPRs": 0,
+        "totalIssues": 0,
+        "totalPRs": 1,
+        "truncated": false,
+        "byLabel": {},
+        "byMilestone": {},
+        "newest": []
+      },
+      "release": {
+        "state": "ok",
+        "latestTag": "7.25",
+        "latestDate": "2026-10-23T11:06:56Z",
+        "latestUrl": "https://github.com/tikoci/fat-chr/releases/tag/7.25",
+        "prerelease": false,
+        "stable": {
+          "tag": "7.25",
+          "date": "2026-10-23T11:06:56Z",
+          "url": "https://github.com/tikoci/fat-chr/releases/tag/7.25",
+          "prerelease": false
+        },
+        "newest": {
+          "tag": "7.25",
+          "date": "2026-10-23T11:06:56Z",
+          "url": "https://github.com/tikoci/fat-chr/releases/tag/7.25",
+          "prerelease": false
+        },
+        "prereleaseChannel": false,
+        "windowFetched": 5
+      }
+    },
+    "quickchr": {
+      "name": "quickchr",
+      "groups": [
+        "ros-tracking",
+        "ci-health",
+        "community",
+        "npm",
+        "releases"
+      ],
+      "detail": "data/dashboard/quickchr.json",
+      "ros": {
+        "state": "ok",
+        "locator": "raw-json:ci-data:tested-versions.json",
+        "kind": "tested",
+        "coverage": [
+          "7.26beta5",
+          "7.26beta4",
+          "7.26beta3",
+          "7.26beta1",
+          "7.25",
+          "7.25rc3",
+          "7.25rc2",
+          "7.25rc1",
+          "7.25beta5",
+          "7.25beta4",
+          "7.25beta3",
+          "7.24.6",
+          "7.24.5",
+          "7.24.4",
+          "7.24.2"
+        ],
+        "totalKnown": 32,
+        "truncated": true,
+        "channels": {
+          "stable": {
+            "version": "7.25",
+            "covered": true
+          },
+          "testing": {
+            "version": "7.25",
+            "covered": true
+          },
+          "development": {
+            "version": "7.26beta5",
+            "covered": true
+          },
+          "long-term": {
+            "version": "7.24.6",
+            "covered": true
+          }
+        }
+      },
+      "ci": {
+        "state": "ok",
+        "defaultBranch": "main",
+        "headSha": "9a5b9acf3f39472f8239904053a8910956a274cf",
+        "headUrl": "https://github.com/tikoci/quickchr/commit/9a5b9acf3f39472f8239904053a8910956a274cf",
+        "workflows": [
+          {
+            "configured": "CI",
+            "name": "CI",
+            "path": ".github/workflows/ci.yml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "main",
+            "headSha": "9a5b9acf3f39472f8239904053a8910956a274cf",
+            "event": "push",
+            "runStartedAt": "2026-11-01T05:08:35Z",
+            "lastUpdatedAt": "2026-11-01T05:11:33Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/41275759211",
+            "isHead": true
+          },
+          {
+            "configured": "Release",
+            "name": "Release",
+            "path": ".github/workflows/release.yml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "main",
+            "headSha": "9a5b9acf3f39472f8239904053a8910956a274cf",
+            "event": "workflow_dispatch",
+            "runStartedAt": "2026-11-01T05:08:42Z",
+            "lastUpdatedAt": "2026-11-01T05:11:24Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/41275767657",
+            "isHead": true
+          },
+          {
+            "configured": "RouterOS Versions",
+            "name": "RouterOS Versions",
+            "path": ".github/workflows/ros-versions.yml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "main",
+            "headSha": "9a5b9acf3f39472f8239904053a8910956a274cf",
+            "event": "schedule",
+            "runStartedAt": "2026-11-02T12:26:59Z",
+            "lastUpdatedAt": "2026-11-02T12:27:54Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/41444783226",
+            "isHead": true
+          }
+        ]
+      },
+      "work": {
+        "state": "ok",
+        "counts": {
+          "issues": {
+            "total": 42,
+            "owner": 42,
+            "external": 0,
+            "bot": 0
+          },
+          "prs": {
+            "total": 2,
+            "owner": 0,
+            "external": 0,
+            "bot": 2,
+            "ownerReady": 0,
+            "ownerDraft": 0,
+            "draftUnknown": false
+          }
+        },
+        "page": {
+          "fetched": 44,
+          "perPage": 100,
+          "truncated": false,
+          "countsAreLowerBounds": false
+        },
+        "pullsEnriched": true,
+        "items": [
+          {
+            "number": 250,
+            "title": "chore(deps): bump actions/setup-node from 5 to 7",
+            "author": "dependabot[bot]",
+            "authorClass": "bot",
+            "url": "https://github.com/tikoci/quickchr/pull/250",
+            "createdAt": "2026-11-02T15:19:15Z",
+            "updatedAt": "2026-11-02T15:19:20Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [
+              "dependencies",
+              "github_actions"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 249,
+            "title": "chore(deps): bump actions/github-script from 8.0.0 to 9.0.0",
+            "author": "dependabot[bot]",
+            "authorClass": "bot",
+            "url": "https://github.com/tikoci/quickchr/pull/249",
+            "createdAt": "2026-11-02T15:19:12Z",
+            "updatedAt": "2026-11-02T15:19:16Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [
+              "dependencies",
+              "github_actions"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 243,
+            "title": "Cloud sessions: decide whether to provide an alternative CHR image mirror",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/243",
+            "createdAt": "2026-10-30T20:27:23Z",
+            "updatedAt": "2026-10-30T20:27:23Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement",
+              "area:library-api",
+              "needs-decision"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 232,
+            "title": "Confirm proxy refusal error shapes against a live refusing proxy",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/232",
+            "createdAt": "2026-10-29T17:32:05Z",
+            "updatedAt": "2026-10-30T20:28:29Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 230,
+            "title": "examples/dude: switch CLI/Python to the post-boot set --package path",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/230",
+            "createdAt": "2026-10-29T17:32:03Z",
+            "updatedAt": "2026-10-30T20:28:21Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": "next"
+          },
+          {
+            "number": 228,
+            "title": "Triage zizmor findings before adopting as CI gate",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/228",
+            "createdAt": "2026-10-29T16:39:30Z",
+            "updatedAt": "2026-10-30T20:28:44Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 216,
+            "title": "CLI: design a full QEMU argv preview beyond dry-run options JSON",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/216",
+            "createdAt": "2026-10-28T22:03:21Z",
+            "updatedAt": "2026-10-30T20:28:34Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 210,
+            "title": "Cloud sessions: finish proxy diagnostics and doctor guidance",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/210",
+            "createdAt": "2026-10-27T15:41:58Z",
+            "updatedAt": "2026-10-30T20:28:17Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": "next"
+          },
+          {
+            "number": 169,
+            "title": "networking: probe for denied UDP sends and refuse mcast instead of booting into silent loss",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/169",
+            "createdAt": "2026-09-20T18:53:44Z",
+            "updatedAt": "2026-10-30T20:28:45Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement",
+              "area:networking",
+              "area:cli",
+              "P2"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 167,
+            "title": "networking: no N-way rootless L2 on macOS — QEMU's mcast netdev omits SO_REUSEPORT",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/167",
+            "createdAt": "2026-09-20T17:34:20Z",
+            "updatedAt": "2026-09-20T19:03:43Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "area:qemu",
+              "area:networking",
+              "P3",
+              "research",
+              "needs-decision",
+              "platform:mac"
+            ],
+            "milestone": null
+          }
+        ]
+      },
+      "community": {
+        "state": "ok",
+        "openIssues": 0,
+        "openPRs": 0,
+        "totalIssues": 42,
+        "totalPRs": 2,
+        "truncated": false,
+        "byLabel": {},
+        "byMilestone": {},
+        "newest": []
+      },
+      "npm": {
+        "package": "@tikoci/quickchr",
+        "expected": true,
+        "repoVersion": "0.5.5",
+        "repoPrerelease": false,
+        "latestVersion": "0.5.4",
+        "distTags": {
+          "latest": "0.5.4",
+          "next": "0.5.4"
+        },
+        "repoVersionPublished": false,
+        "publishedAt": "2026-10-30T08:18:31.840Z",
+        "behind": true,
+        "state": "ok",
+        "published": true,
+        "assessment": "pending-publish"
+      },
+      "release": {
+        "state": "ok",
+        "latestTag": "v0.5.4",
+        "latestDate": "2026-10-30T08:14:08Z",
+        "latestUrl": "https://github.com/tikoci/quickchr/releases/tag/v0.5.4",
+        "prerelease": false,
+        "stable": {
+          "tag": "v0.5.4",
+          "date": "2026-10-30T08:14:08Z",
+          "url": "https://github.com/tikoci/quickchr/releases/tag/v0.5.4",
+          "prerelease": false
+        },
+        "newest": {
+          "tag": "v0.5.4",
+          "date": "2026-10-30T08:14:08Z",
+          "url": "https://github.com/tikoci/quickchr/releases/tag/v0.5.4",
+          "prerelease": false
+        },
+        "prereleaseChannel": false,
+        "windowFetched": 5
+      }
+    },
+    "mikrotik-gpl": {
+      "name": "mikrotik-gpl",
+      "groups": [
+        "ros-tracking",
+        "ci-health",
+        "community",
+        "releases"
+      ],
+      "detail": "data/dashboard/mikrotik-gpl.json",
+      "ros": {
+        "state": "ok",
+        "locator": "github-tags:",
+        "kind": "published",
+        "coverage": [
+          "7.25",
+          "7.24.5",
+          "7.24.4",
+          "7.24.2",
+          "7.24.1",
+          "7.24",
+          "7.23.3",
+          "7.23.2",
+          "7.23.1",
+          "7.23",
+          "7.22.3",
+          "7.22.2",
+          "7.22.1"
+        ],
+        "totalKnown": 62,
+        "truncated": true,
+        "channels": {
+          "stable": {
+            "version": "7.25",
+            "covered": true
+          },
+          "long-term": {
+            "version": "7.24.6",
+            "covered": false
+          }
+        }
+      },
+      "ci": {
+        "state": "ok",
+        "defaultBranch": "main",
+        "headSha": "3f8863249e7d944c935b3a58bcbebb1e9b307b58",
+        "headUrl": "https://github.com/tikoci/mikrotik-gpl/commit/3f8863249e7d944c935b3a58bcbebb1e9b307b58",
+        "workflows": [
+          {
+            "configured": "Request GPL Source",
+            "name": "Request GPL Source",
+            "path": ".github/workflows/gpl-nag-email.yaml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "main",
+            "headSha": "c3e110db1d35886c96ee14e16fc5a06bcac59692",
+            "event": "schedule",
+            "runStartedAt": "2026-10-31T09:28:37Z",
+            "lastUpdatedAt": "2026-10-31T09:29:01Z",
+            "lastUrl": "https://github.com/tikoci/mikrotik-gpl/actions/runs/41188839588",
+            "isHead": false
+          }
+        ]
+      },
+      "work": {
+        "state": "ok",
+        "counts": {
+          "issues": {
+            "total": 0,
+            "owner": 0,
+            "external": 0,
+            "bot": 0
+          },
+          "prs": {
+            "total": 0,
+            "owner": 0,
+            "external": 0,
+            "bot": 0,
+            "ownerReady": 0,
+            "ownerDraft": 0,
+            "draftUnknown": false
+          }
+        },
+        "page": {
+          "fetched": 0,
+          "perPage": 100,
+          "truncated": false,
+          "countsAreLowerBounds": false
+        },
+        "pullsEnriched": true,
+        "items": []
+      },
+      "community": {
+        "state": "ok",
+        "openIssues": 0,
+        "openPRs": 0,
+        "totalIssues": 0,
+        "totalPRs": 0,
+        "truncated": false,
+        "byLabel": {},
+        "byMilestone": {},
+        "newest": []
+      },
+      "release": {
+        "state": "ok",
+        "latestTag": "7.25",
+        "latestDate": "2026-10-24T08:01:00Z",
+        "latestUrl": "https://github.com/tikoci/mikrotik-gpl/releases/tag/7.25",
+        "prerelease": false,
+        "stable": {
+          "tag": "7.25",
+          "date": "2026-10-24T08:01:00Z",
+          "url": "https://github.com/tikoci/mikrotik-gpl/releases/tag/7.25",
+          "prerelease": false
+        },
+        "newest": {
+          "tag": "7.25",
+          "date": "2026-10-24T08:01:00Z",
+          "url": "https://github.com/tikoci/mikrotik-gpl/releases/tag/7.25",
+          "prerelease": false
+        },
+        "prereleaseChannel": false,
+        "windowFetched": 5
+      }
+    },
+    "rosetta": {
+      "name": "rosetta",
+      "groups": [
+        "ros-lag",
+        "ci-health",
+        "community",
+        "npm",
+        "releases"
+      ],
+      "detail": "data/dashboard/rosetta.json",
+      "rosLag": {
+        "state": "unknown",
+        "artifactVersion": null,
+        "stableVersion": "7.25",
+        "error": "no manifest configured"
+      },
+      "ci": {
+        "state": "ok",
+        "defaultBranch": "main",
+        "headSha": "a51b2014d3d94661842225c61f9f7666cd9f54c5",
+        "headUrl": "https://github.com/tikoci/rosetta/commit/a51b2014d3d94661842225c61f9f7666cd9f54c5",
+        "workflows": [
+          {
+            "configured": "Test",
+            "name": "Test",
+            "path": ".github/workflows/test.yml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "main",
+            "headSha": "a51b2014d3d94661842225c61f9f7666cd9f54c5",
+            "event": "push",
+            "runStartedAt": "2026-10-31T03:16:44Z",
+            "lastUpdatedAt": "2026-10-31T03:18:11Z",
+            "lastUrl": "https://github.com/tikoci/rosetta/actions/runs/41163671325",
+            "isHead": true
+          },
+          {
+            "configured": "Release",
+            "name": "Release",
+            "path": ".github/workflows/release.yml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "main",
+            "headSha": "6b6397d7739a563b894f9b07f7ac2f6b1ad7f4bf",
+            "event": "workflow_dispatch",
+            "runStartedAt": "2026-10-30T21:16:51Z",
+            "lastUpdatedAt": "2026-10-30T21:40:39Z",
+            "lastUrl": "https://github.com/tikoci/rosetta/actions/runs/41129834224",
+            "isHead": false
+          },
+          {
+            "configured": "QA",
+            "name": "QA",
+            "path": ".github/workflows/qa.yml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "failure",
+            "lastConclusion": "failure",
+            "headBranch": "main",
+            "headSha": "54d5e4b5718f67757309bd7e784810694da1fd71",
+            "event": "workflow_dispatch",
+            "runStartedAt": "2026-10-27T22:49:57Z",
+            "lastUpdatedAt": "2026-10-27T23:09:49Z",
+            "lastUrl": "https://github.com/tikoci/rosetta/actions/runs/40597758516",
+            "isHead": false
+          },
+          {
+            "configured": "Device Map Refresh",
+            "name": "Device Map Refresh",
+            "path": ".github/workflows/device-map-refresh.yml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "failure",
+            "lastConclusion": "failure",
+            "headBranch": "main",
+            "headSha": "a51b2014d3d94661842225c61f9f7666cd9f54c5",
+            "event": "schedule",
+            "runStartedAt": "2026-11-02T19:29:07Z",
+            "lastUpdatedAt": "2026-11-02T19:37:01Z",
+            "lastUrl": "https://github.com/tikoci/rosetta/actions/runs/41510353061",
+            "isHead": true
+          }
+        ]
+      },
+      "work": {
+        "state": "ok",
+        "counts": {
+          "issues": {
+            "total": 30,
+            "owner": 29,
+            "external": 0,
+            "bot": 1
+          },
+          "prs": {
+            "total": 0,
+            "owner": 0,
+            "external": 0,
+            "bot": 0,
+            "ownerReady": 0,
+            "ownerDraft": 0,
+            "draftUnknown": false
+          }
+        },
+        "page": {
+          "fetched": 30,
+          "perPage": 100,
+          "truncated": false,
+          "countsAreLowerBounds": false
+        },
+        "pullsEnriched": true,
+        "items": [
+          {
+            "number": 252,
+            "title": "Scheduled device-map refresh: committed artifacts drifted from live sources",
+            "author": "github-actions[bot]",
+            "authorClass": "bot",
+            "url": "https://github.com/tikoci/rosetta/issues/252",
+            "createdAt": "2026-11-02T19:36:58Z",
+            "updatedAt": "2026-11-02T19:36:58Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 251,
+            "title": "Research per-device factory-default configuration sources and expose grounded lookup provenance",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/rosetta/issues/251",
+            "createdAt": "2026-11-02T16:25:09Z",
+            "updatedAt": "2026-11-02T16:25:09Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 250,
+            "title": "Filtered rosetta export (per-section slice) for references consumers",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/rosetta/issues/250",
+            "createdAt": "2026-11-02T02:32:46Z",
+            "updatedAt": "2026-11-02T03:22:17Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 247,
+            "title": "List rosetta on the official MCP Registry as dev.tikoci/rosetta",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/rosetta/issues/247",
+            "createdAt": "2026-10-30T22:56:51Z",
+            "updatedAt": "2026-10-30T22:59:12Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement"
+            ],
+            "milestone": "next"
+          },
+          {
+            "number": 239,
+            "title": "Automate the product-matrix CSV fetch (currently a manual browser export)",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/rosetta/issues/239",
+            "createdAt": "2026-10-30T05:42:55Z",
+            "updatedAt": "2026-10-30T05:42:55Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 237,
+            "title": "Track real MikroTik release channels per RouterOS version",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/rosetta/issues/237",
+            "createdAt": "2026-10-29T23:19:09Z",
+            "updatedAt": "2026-10-29T23:19:09Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 235,
+            "title": "Antenna beamwidth from MikroTik's numeric pattern files — grounding first",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/rosetta/issues/235",
+            "createdAt": "2026-10-29T21:12:46Z",
+            "updatedAt": "2026-10-29T21:13:00Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 234,
+            "title": "FCC ID per device, from MikroTik's own grant PDFs",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/rosetta/issues/234",
+            "createdAt": "2026-10-29T21:12:11Z",
+            "updatedAt": "2026-10-29T21:12:11Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement",
+              "agent-ready"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 233,
+            "title": "device_documents: keep every labeled product-page attachment, verbatim",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/rosetta/issues/233",
+            "createdAt": "2026-10-29T21:11:48Z",
+            "updatedAt": "2026-10-29T21:12:58Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement",
+              "agent-ready"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 230,
+            "title": "Publish a machine-readable DB version manifest",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/rosetta/issues/230",
+            "createdAt": "2026-10-28T19:20:34Z",
+            "updatedAt": "2026-10-28T19:20:34Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          }
+        ]
+      },
+      "community": {
+        "state": "ok",
+        "openIssues": 0,
+        "openPRs": 0,
+        "totalIssues": 30,
+        "totalPRs": 0,
+        "truncated": false,
+        "byLabel": {},
+        "byMilestone": {},
+        "newest": []
+      },
+      "npm": {
+        "package": "@tikoci/rosetta",
+        "expected": true,
+        "repoVersion": "0.12.0",
+        "repoPrerelease": false,
+        "latestVersion": "0.12.0",
+        "distTags": {
+          "latest": "0.12.0",
+          "next": "0.12.0"
+        },
+        "repoVersionPublished": true,
+        "publishedAt": "2026-10-30T21:39:42.170Z",
+        "behind": false,
+        "state": "ok",
+        "published": true,
+        "assessment": "in-sync"
+      },
+      "release": {
+        "state": "ok",
+        "latestTag": "v0.12.0",
+        "latestDate": "2026-10-30T21:37:57Z",
+        "latestUrl": "https://github.com/tikoci/rosetta/releases/tag/v0.12.0",
+        "prerelease": false,
+        "stable": {
+          "tag": "v0.12.0",
+          "date": "2026-10-30T21:37:57Z",
+          "url": "https://github.com/tikoci/rosetta/releases/tag/v0.12.0",
+          "prerelease": false
+        },
+        "newest": {
+          "tag": "v0.12.0",
+          "date": "2026-10-30T21:37:57Z",
+          "url": "https://github.com/tikoci/rosetta/releases/tag/v0.12.0",
+          "prerelease": false
+        },
+        "prereleaseChannel": false,
+        "windowFetched": 5
+      }
+    },
+    "centrs": {
+      "name": "centrs",
+      "groups": [
+        "ci-health",
+        "community",
+        "npm",
+        "releases"
+      ],
+      "detail": "data/dashboard/centrs.json",
+      "ci": {
+        "state": "ok",
+        "defaultBranch": "main",
+        "headSha": "8f576acff8aa9e49947dad87c7480cbf33e413c8",
+        "headUrl": "https://github.com/tikoci/centrs/commit/8f576acff8aa9e49947dad87c7480cbf33e413c8",
+        "workflows": [
+          {
+            "configured": "CI",
+            "name": "CI",
+            "path": ".github/workflows/ci.yaml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "main",
+            "headSha": "8f576acff8aa9e49947dad87c7480cbf33e413c8",
+            "event": "push",
+            "runStartedAt": "2026-11-02T18:36:05Z",
+            "lastUpdatedAt": "2026-11-02T18:39:28Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/41502122679",
+            "isHead": true
+          },
+          {
+            "configured": "Release",
+            "name": "Release",
+            "path": ".github/workflows/release.yaml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "main",
+            "headSha": "fb8635cbea5e1797afed8a7f2d8db6810a690429",
+            "event": "workflow_dispatch",
+            "runStartedAt": "2026-10-28T22:17:29Z",
+            "lastUpdatedAt": "2026-10-28T22:53:47Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/40778814147",
+            "isHead": false
+          },
+          {
+            "configured": "QA",
+            "name": "QA",
+            "path": ".github/workflows/qa.yaml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "cancelled",
+            "lastConclusion": "cancelled",
+            "headBranch": "main",
+            "headSha": "8f576acff8aa9e49947dad87c7480cbf33e413c8",
+            "event": "push",
+            "runStartedAt": "2026-11-02T18:36:05Z",
+            "lastUpdatedAt": "2026-11-02T19:14:23Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/41502122790",
+            "isHead": true
+          }
+        ]
+      },
+      "work": {
+        "state": "ok",
+        "counts": {
+          "issues": {
+            "total": 74,
+            "owner": 74,
+            "external": 0,
+            "bot": 0
+          },
+          "prs": {
+            "total": 2,
+            "owner": 2,
+            "external": 0,
+            "bot": 0,
+            "ownerReady": 2,
+            "ownerDraft": 0,
+            "draftUnknown": false
+          }
+        },
+        "page": {
+          "fetched": 76,
+          "perPage": 100,
+          "truncated": false,
+          "countsAreLowerBounds": false
+        },
+        "pullsEnriched": true,
+        "items": [
+          {
+            "number": 599,
+            "title": "transfer: map a CDB record's via= transport to a transfer method (#591)",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/pull/599",
+            "createdAt": "2026-11-02T18:35:22Z",
+            "updatedAt": "2026-11-02T18:44:38Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [
+              "bug",
+              "cmd-transfer",
+              "proto-ssh",
+              "from-routeros-muse"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 598,
+            "title": "resolver: --match selects among CDB records on every target command (#583)",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/pull/598",
+            "createdAt": "2026-11-02T18:27:04Z",
+            "updatedAt": "2026-11-02T18:28:39Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [
+              "bug",
+              "UX",
+              "cmd-execute",
+              "cmd-retrieve",
+              "cmd-transfer",
+              "cmd-api",
+              "cmd-devices",
+              "from-routeros-muse"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 595,
+            "title": "Design: supported path from uploaded HTML/assets to an owner-accessible URL",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/595",
+            "createdAt": "2026-11-02T16:25:00Z",
+            "updatedAt": "2026-11-02T17:44:11Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement",
+              "needs-decision",
+              "from-routeros-muse"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 594,
+            "title": "transfer: directory upload for multi-file dashboard assets",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/594",
+            "createdAt": "2026-11-02T16:24:59Z",
+            "updatedAt": "2026-11-02T17:44:09Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement",
+              "cmd-transfer",
+              "from-routeros-muse"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 593,
+            "title": "MCP: expose transfer operations for agent file workflows",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/593",
+            "createdAt": "2026-11-02T16:24:58Z",
+            "updatedAt": "2026-11-02T17:44:06Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement",
+              "needs-decision",
+              "MCP",
+              "cmd-transfer",
+              "from-routeros-muse"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 592,
+            "title": "execute SSH: surface effective timeout and partial-run uncertainty when a long script is cut off",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/592",
+            "createdAt": "2026-11-02T16:24:56Z",
+            "updatedAt": "2026-11-02T17:44:02Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "UX",
+              "cmd-execute",
+              "proto-ssh",
+              "needs-research",
+              "from-routeros-muse"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 591,
+            "title": "transfer: reconcile CDB via=ssh with transfer's sftp transport name",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/591",
+            "createdAt": "2026-11-02T16:24:55Z",
+            "updatedAt": "2026-11-02T17:44:00Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "needs-decision",
+              "cmd-transfer",
+              "proto-ssh",
+              "from-routeros-muse"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 589,
+            "title": "transfer REST upload: investigate first upload leaving a zero-byte file",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/589",
+            "createdAt": "2026-11-02T16:24:53Z",
+            "updatedAt": "2026-11-02T17:43:54Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug",
+              "cmd-transfer",
+              "proto-rest-api",
+              "needs-research",
+              "from-routeros-muse"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 588,
+            "title": "Auto transport selection: refused native API ends attempt without trying available transports",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/588",
+            "createdAt": "2026-11-02T16:24:52Z",
+            "updatedAt": "2026-11-02T17:43:50Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "needs-decision",
+              "cmd-execute",
+              "cmd-retrieve",
+              "needs-research",
+              "from-routeros-muse"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 587,
+            "title": "settings get <key>: text renderer crashes on the single-entry shape (typed.source.key), exits 0",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/587",
+            "createdAt": "2026-11-02T14:49:35Z",
+            "updatedAt": "2026-11-02T14:49:35Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          }
+        ]
+      },
+      "community": {
+        "state": "ok",
+        "openIssues": 0,
+        "openPRs": 0,
+        "totalIssues": 74,
+        "totalPRs": 2,
+        "truncated": false,
+        "byLabel": {},
+        "byMilestone": {},
+        "newest": []
+      },
+      "npm": {
+        "package": "@tikoci/centrs",
+        "expected": true,
+        "repoVersion": "0.1.9-next",
+        "repoPrerelease": true,
+        "latestVersion": "0.1.8",
+        "distTags": {
+          "latest": "0.1.8",
+          "next": "0.1.9-next.24"
+        },
+        "repoVersionPublished": false,
+        "publishedAt": "2026-10-12T22:55:16.585Z",
+        "behind": true,
+        "state": "ok",
+        "published": true,
+        "assessment": "prerelease-channel"
+      },
+      "release": {
+        "state": "ok",
+        "latestTag": null,
+        "latestDate": null,
+        "latestUrl": null,
+        "prerelease": null,
+        "stable": null,
+        "newest": null,
+        "prereleaseChannel": null,
+        "windowFetched": 0
+      }
+    },
+    "lsp-routeros-ts": {
+      "name": "lsp-routeros-ts",
+      "groups": [
+        "ci-health",
+        "community",
+        "npm",
+        "releases"
+      ],
+      "detail": "data/dashboard/lsp-routeros-ts.json",
+      "ci": {
+        "state": "ok",
+        "defaultBranch": "main",
+        "headSha": "1d0999f69e4f062c8a6cc08f9977f2ae84bc87c1",
+        "headUrl": "https://github.com/tikoci/lsp-routeros-ts/commit/1d0999f69e4f062c8a6cc08f9977f2ae84bc87c1",
+        "workflows": [
+          {
+            "configured": "CI",
+            "name": "CI",
+            "path": ".github/workflows/ci.yaml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "main",
+            "headSha": "1d0999f69e4f062c8a6cc08f9977f2ae84bc87c1",
+            "event": "push",
+            "runStartedAt": "2026-10-17T23:07:22Z",
+            "lastUpdatedAt": "2026-10-17T23:08:02Z",
+            "lastUrl": "https://github.com/tikoci/lsp-routeros-ts/actions/runs/39077779491",
+            "isHead": true
+          },
+          {
+            "configured": "Build and Release",
+            "name": "Build and Release",
+            "path": ".github/workflows/build.yaml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "main",
+            "headSha": "e89ece92b29b5dffef344efe7b66cab6aa6d7875",
+            "event": "workflow_dispatch",
+            "runStartedAt": "2026-04-25T04:40:32Z",
+            "lastUpdatedAt": "2026-04-25T04:43:29Z",
+            "lastUrl": "https://github.com/tikoci/lsp-routeros-ts/actions/runs/24922776315",
+            "isHead": false
+          }
+        ]
+      },
+      "work": {
+        "state": "ok",
+        "counts": {
+          "issues": {
+            "total": 6,
+            "owner": 5,
+            "external": 1,
+            "bot": 0
+          },
+          "prs": {
+            "total": 4,
+            "owner": 0,
+            "external": 0,
+            "bot": 4,
+            "ownerReady": 0,
+            "ownerDraft": 0,
+            "draftUnknown": false
+          }
+        },
+        "page": {
+          "fetched": 10,
+          "perPage": 100,
+          "truncated": false,
+          "countsAreLowerBounds": false
+        },
+        "pullsEnriched": true,
+        "items": [
+          {
+            "number": 38,
+            "title": "corpus: forum importers double-decode entities and can introduce variable interpolation",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/lsp-routeros-ts/issues/38",
+            "createdAt": "2026-09-22T00:54:00Z",
+            "updatedAt": "2026-09-22T00:54:00Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 36,
+            "title": "corpus: preserve upstream imports and add explicit synthetic MAC variants for value-aware analysis",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/lsp-routeros-ts/issues/36",
+            "createdAt": "2026-09-21T12:34:21Z",
+            "updatedAt": "2026-09-22T00:57:42Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 35,
+            "title": "corpus: align captures to the current RouterOS channels — long-term 7.23.5 is uncovered, and parseIL/highlight sit on disjoint version sets",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/lsp-routeros-ts/issues/35",
+            "createdAt": "2026-09-14T16:49:23Z",
+            "updatedAt": "2026-09-14T16:49:23Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 34,
+            "title": "LSP incorrectly applies warning squiggles across remaining file content after a syntax error at the end of file",
+            "author": "newwlfz",
+            "authorClass": "external",
+            "url": "https://github.com/tikoci/lsp-routeros-ts/issues/34",
+            "createdAt": "2026-08-30T10:31:46Z",
+            "updatedAt": "2026-10-17T01:14:26Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 31,
+            "title": "build(deps): bump the github-actions group across 1 directory with 2 updates",
+            "author": "dependabot[bot]",
+            "authorClass": "bot",
+            "url": "https://github.com/tikoci/lsp-routeros-ts/pull/31",
+            "createdAt": "2026-07-16T08:23:57Z",
+            "updatedAt": "2026-08-13T08:24:43Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [
+              "dependencies",
+              "github_actions"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 30,
+            "title": "build(deps-dev): bump the bun-root group across 1 directory with 7 updates",
+            "author": "dependabot[bot]",
+            "authorClass": "bot",
+            "url": "https://github.com/tikoci/lsp-routeros-ts/pull/30",
+            "createdAt": "2026-07-09T08:24:48Z",
+            "updatedAt": "2026-08-13T08:25:15Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [
+              "dependencies",
+              "javascript"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 29,
+            "title": "build(deps): bump the bun-client group across 1 directory with 3 updates",
+            "author": "dependabot[bot]",
+            "authorClass": "bot",
+            "url": "https://github.com/tikoci/lsp-routeros-ts/pull/29",
+            "createdAt": "2026-07-02T08:23:42Z",
+            "updatedAt": "2026-08-13T08:24:35Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [
+              "dependencies",
+              "javascript"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 28,
+            "title": "build(deps): bump the bun-server group across 1 directory with 3 updates",
+            "author": "dependabot[bot]",
+            "authorClass": "bot",
+            "url": "https://github.com/tikoci/lsp-routeros-ts/pull/28",
+            "createdAt": "2026-06-25T08:24:24Z",
+            "updatedAt": "2026-08-13T08:25:09Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [
+              "dependencies",
+              "javascript"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 6,
+            "title": "Setting and/or `#pragma` comments needed to disable warning on scripts >32K",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/lsp-routeros-ts/issues/6",
+            "createdAt": "2026-04-10T20:00:10Z",
+            "updatedAt": "2026-04-10T20:00:59Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 5,
+            "title": "LSP should check and apply semantic token colors automatically, without requiring the \"Apply Semantic Color Overrides to Settings\"",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/lsp-routeros-ts/issues/5",
+            "createdAt": "2026-04-10T18:56:05Z",
+            "updatedAt": "2026-04-10T18:56:05Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          }
+        ]
+      },
+      "community": {
+        "state": "ok",
+        "openIssues": 1,
+        "openPRs": 0,
+        "totalIssues": 6,
+        "totalPRs": 4,
+        "truncated": false,
+        "byLabel": {},
+        "byMilestone": {},
+        "newest": [
+          {
+            "number": 34,
+            "title": "LSP incorrectly applies warning squiggles across remaining file content after a syntax error at the end of file",
+            "author": "newwlfz",
+            "url": "https://github.com/tikoci/lsp-routeros-ts/issues/34",
+            "createdAt": "2026-08-30T10:31:46Z",
+            "isPR": false,
+            "labels": [],
+            "milestone": null
+          }
+        ]
+      },
+      "npm": {
+        "package": "@tikoci/routeroslsp",
+        "expected": true,
+        "repoVersion": "0.7.4",
+        "repoPrerelease": false,
+        "latestVersion": "0.7.3",
+        "distTags": {
+          "latest": "0.7.3"
+        },
+        "repoVersionPublished": false,
+        "publishedAt": "2026-04-25T04:43:24.417Z",
+        "behind": true,
+        "state": "ok",
+        "published": true,
+        "assessment": "pending-publish"
+      },
+      "release": {
+        "state": "ok",
+        "latestTag": "v0.7.3",
+        "latestDate": "2026-04-25T04:42:40Z",
+        "latestUrl": "https://github.com/tikoci/lsp-routeros-ts/releases/tag/v0.7.3",
+        "prerelease": true,
+        "stable": {
+          "tag": "v0.6.0",
+          "date": "2026-02-21T17:22:39Z",
+          "url": "https://github.com/tikoci/lsp-routeros-ts/releases/tag/v0.6.0",
+          "prerelease": false
+        },
+        "newest": {
+          "tag": "v0.7.3",
+          "date": "2026-04-25T04:42:40Z",
+          "url": "https://github.com/tikoci/lsp-routeros-ts/releases/tag/v0.7.3",
+          "prerelease": true
+        },
+        "prereleaseChannel": true,
+        "windowFetched": 5
+      }
+    },
+    "donny": {
+      "name": "donny",
+      "groups": [
+        "ci-health",
+        "community",
+        "npm",
+        "releases"
+      ],
+      "detail": "data/dashboard/donny.json",
+      "ci": {
+        "state": "ok",
+        "defaultBranch": "main",
+        "headSha": "aec932da468351d1e13626db901b244d98362f39",
+        "headUrl": "https://github.com/tikoci/donny/commit/aec932da468351d1e13626db901b244d98362f39",
+        "workflows": [
+          {
+            "configured": "CI",
+            "name": "CI",
+            "path": ".github/workflows/ci.yml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "main",
+            "headSha": "aec932da468351d1e13626db901b244d98362f39",
+            "event": "push",
+            "runStartedAt": "2026-04-28T21:47:21Z",
+            "lastUpdatedAt": "2026-04-28T21:47:37Z",
+            "lastUrl": "https://github.com/tikoci/donny/actions/runs/25079408013",
+            "isHead": true
+          }
+        ]
+      },
+      "work": {
+        "state": "ok",
+        "counts": {
+          "issues": {
+            "total": 1,
+            "owner": 1,
+            "external": 0,
+            "bot": 0
+          },
+          "prs": {
+            "total": 0,
+            "owner": 0,
+            "external": 0,
+            "bot": 0,
+            "ownerReady": 0,
+            "ownerDraft": 0,
+            "draftUnknown": false
+          }
+        },
+        "page": {
+          "fetched": 1,
+          "perPage": 100,
+          "truncated": false,
+          "countsAreLowerBounds": false
+        },
+        "pullsEnriched": true,
+        "items": [
+          {
+            "number": 1,
+            "title": "heads-up: quickchr's ChrInstance.descriptor()/MachineDescriptor shape changed (breaking, pre-1.0)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/donny/issues/1",
+            "createdAt": "2026-07-10T01:01:32Z",
+            "updatedAt": "2026-07-10T01:01:32Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          }
+        ]
+      },
+      "community": {
+        "state": "ok",
+        "openIssues": 0,
+        "openPRs": 0,
+        "totalIssues": 1,
+        "totalPRs": 0,
+        "truncated": false,
+        "byLabel": {},
+        "byMilestone": {},
+        "newest": []
+      },
+      "npm": {
+        "package": "@tikoci/donny",
+        "expected": false,
+        "repoVersion": "0.1.0",
+        "repoPrerelease": false,
+        "latestVersion": null,
+        "distTags": {},
+        "repoVersionPublished": false,
+        "publishedAt": null,
+        "behind": null,
+        "state": "ok",
+        "published": false,
+        "assessment": "not-published"
+      },
+      "release": {
+        "state": "ok",
+        "latestTag": null,
+        "latestDate": null,
+        "latestUrl": null,
+        "prerelease": null,
+        "stable": null,
+        "newest": null,
+        "prereleaseChannel": null,
+        "windowFetched": 0
+      }
+    },
+    "vscode-tikbook": {
+      "name": "vscode-tikbook",
+      "groups": [
+        "ci-health",
+        "community",
+        "releases"
+      ],
+      "detail": "data/dashboard/vscode-tikbook.json",
+      "ci": {
+        "state": "ok",
+        "defaultBranch": "main",
+        "headSha": "c8fddd232a66680a1ce30393836c05f538e364c2",
+        "headUrl": "https://github.com/tikoci/vscode-tikbook/commit/c8fddd232a66680a1ce30393836c05f538e364c2",
+        "workflows": [
+          {
+            "configured": "Build and Release",
+            "name": "Build and Release",
+            "path": ".github/workflows/build.yaml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "main",
+            "headSha": "0f1b8223b86f033475fc6f2d43bd83f713441f8f",
+            "event": "workflow_dispatch",
+            "runStartedAt": "2026-02-21T18:32:02Z",
+            "lastUpdatedAt": "2026-02-21T18:32:55Z",
+            "lastUrl": "https://github.com/tikoci/vscode-tikbook/actions/runs/22262061889",
+            "isHead": false
+          },
+          {
+            "configured": "Update GitHub Pages",
+            "name": "Update GitHub Pages",
+            "path": ".github/workflows/pages-expose-repo-as-web.yml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "main",
+            "headSha": "c8fddd232a66680a1ce30393836c05f538e364c2",
+            "event": "push",
+            "runStartedAt": "2026-05-31T17:26:01Z",
+            "lastUpdatedAt": "2026-05-31T17:26:19Z",
+            "lastUrl": "https://github.com/tikoci/vscode-tikbook/actions/runs/26719402532",
+            "isHead": true
+          }
+        ]
+      },
+      "work": {
+        "state": "ok",
+        "counts": {
+          "issues": {
+            "total": 1,
+            "owner": 0,
+            "external": 1,
+            "bot": 0
+          },
+          "prs": {
+            "total": 0,
+            "owner": 0,
+            "external": 0,
+            "bot": 0,
+            "ownerReady": 0,
+            "ownerDraft": 0,
+            "draftUnknown": false
+          }
+        },
+        "page": {
+          "fetched": 1,
+          "perPage": 100,
+          "truncated": false,
+          "countsAreLowerBounds": false
+        },
+        "pullsEnriched": true,
+        "items": [
+          {
+            "number": 2,
+            "title": "Hope to add script formatting capabilities",
+            "author": "wy16W2pIilK1xgqN",
+            "authorClass": "external",
+            "url": "https://github.com/tikoci/vscode-tikbook/issues/2",
+            "createdAt": "2026-05-04T02:42:44Z",
+            "updatedAt": "2026-06-17T03:01:53Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          }
+        ]
+      },
+      "community": {
+        "state": "ok",
+        "openIssues": 1,
+        "openPRs": 0,
+        "totalIssues": 1,
+        "totalPRs": 0,
+        "truncated": false,
+        "byLabel": {},
+        "byMilestone": {},
+        "newest": [
+          {
+            "number": 2,
+            "title": "Hope to add script formatting capabilities",
+            "author": "wy16W2pIilK1xgqN",
+            "url": "https://github.com/tikoci/vscode-tikbook/issues/2",
+            "createdAt": "2026-05-04T02:42:44Z",
+            "isPR": false,
+            "labels": [],
+            "milestone": null
+          }
+        ]
+      },
+      "release": {
+        "state": "ok",
+        "latestTag": "v0.5.1",
+        "latestDate": "2026-02-21T18:32:29Z",
+        "latestUrl": "https://github.com/tikoci/vscode-tikbook/releases/tag/v0.5.1",
+        "prerelease": true,
+        "stable": {
+          "tag": "v0.4.0",
+          "date": "2026-02-21T04:14:19Z",
+          "url": "https://github.com/tikoci/vscode-tikbook/releases/tag/v0.4.0",
+          "prerelease": false
+        },
+        "newest": {
+          "tag": "v0.5.1",
+          "date": "2026-02-21T18:32:29Z",
+          "url": "https://github.com/tikoci/vscode-tikbook/releases/tag/v0.5.1",
+          "prerelease": true
+        },
+        "prereleaseChannel": true,
+        "windowFetched": 5
+      }
+    },
+    "routeros-skills": {
+      "name": "routeros-skills",
+      "groups": [
+        "ci-health",
+        "community",
+        "releases"
+      ],
+      "detail": "data/dashboard/routeros-skills.json",
+      "ci": {
+        "state": "ok",
+        "defaultBranch": "main",
+        "headSha": "55941deb75fb02be34a802a214c669a3c7228227",
+        "headUrl": "https://github.com/tikoci/routeros-skills/commit/55941deb75fb02be34a802a214c669a3c7228227",
+        "workflows": [
+          {
+            "configured": "CI",
+            "name": "CI",
+            "path": ".github/workflows/ci.yml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "main",
+            "headSha": "55941deb75fb02be34a802a214c669a3c7228227",
+            "event": "push",
+            "runStartedAt": "2026-11-02T00:29:17Z",
+            "lastUpdatedAt": "2026-11-02T00:29:34Z",
+            "lastUrl": "https://github.com/tikoci/routeros-skills/actions/runs/41367405558",
+            "isHead": true
+          }
+        ]
+      },
+      "work": {
+        "state": "ok",
+        "counts": {
+          "issues": {
+            "total": 18,
+            "owner": 18,
+            "external": 0,
+            "bot": 0
+          },
+          "prs": {
+            "total": 3,
+            "owner": 2,
+            "external": 1,
+            "bot": 0,
+            "ownerReady": 1,
+            "ownerDraft": 1,
+            "draftUnknown": false
+          }
+        },
+        "page": {
+          "fetched": 21,
+          "perPage": 100,
+          "truncated": false,
+          "countsAreLowerBounds": false
+        },
+        "pullsEnriched": true,
+        "items": [
+          {
+            "number": 52,
+            "title": "New skill: routeros-certificates",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/issues/52",
+            "createdAt": "2026-11-02T02:26:23Z",
+            "updatedAt": "2026-11-02T13:31:54Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "triage:accepted",
+              "skill:new"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 51,
+            "title": "New skill: routeros-users-aaa",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/issues/51",
+            "createdAt": "2026-11-02T02:26:21Z",
+            "updatedAt": "2026-11-02T13:31:53Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "triage:accepted",
+              "skill:new"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 50,
+            "title": "New skill: routeros-routing-v7",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/issues/50",
+            "createdAt": "2026-11-02T02:26:20Z",
+            "updatedAt": "2026-11-02T13:31:51Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "triage:accepted",
+              "skill:new"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 49,
+            "title": "New skill: routeros-bridge-vlan",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/issues/49",
+            "createdAt": "2026-11-02T02:26:19Z",
+            "updatedAt": "2026-11-02T13:31:50Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "triage:accepted",
+              "skill:new"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 48,
+            "title": "New skill: routeros-wifi (incl. CAPsMAN v2)",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/issues/48",
+            "createdAt": "2026-11-02T02:26:17Z",
+            "updatedAt": "2026-11-02T13:31:49Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "triage:accepted",
+              "skill:new"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 47,
+            "title": "Config-skill triage — decided (do not re-triage)",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/issues/47",
+            "createdAt": "2026-11-02T02:25:32Z",
+            "updatedAt": "2026-11-02T02:26:29Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "triage:accepted"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 44,
+            "title": "routeros-centrs: refresh for centrs 0.1.8 / 0.1.9-next (wait/until, --query, --cmr, stderr envelopes, closed rough edges)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/issues/44",
+            "createdAt": "2026-10-26T04:07:06Z",
+            "updatedAt": "2026-10-26T04:07:06Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 40,
+            "title": "Coverage gaps: AAA/users and routing; plus a skill-discovery meta-skill idea",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/issues/40",
+            "createdAt": "2026-10-19T19:12:47Z",
+            "updatedAt": "2026-11-02T02:26:30Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement",
+              "triage:reference-only"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 39,
+            "title": "API operational details gap (vs wiresage/routeros-api)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/issues/39",
+            "createdAt": "2026-10-19T19:12:37Z",
+            "updatedAt": "2026-11-02T02:25:52Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement",
+              "triage:reference-only"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 38,
+            "title": "References pipeline: build skill references/ from rosetta export",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/issues/38",
+            "createdAt": "2026-10-19T19:12:26Z",
+            "updatedAt": "2026-11-02T13:32:39Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement",
+              "triage:accepted"
+            ],
+            "milestone": null
+          }
+        ]
+      },
+      "community": {
+        "state": "ok",
+        "openIssues": 0,
+        "openPRs": 1,
+        "totalIssues": 18,
+        "totalPRs": 3,
+        "truncated": false,
+        "byLabel": {
+          "blocked:grounding": 1
+        },
+        "byMilestone": {},
+        "newest": [
+          {
+            "number": 19,
+            "title": "feat: add routeros-capsman skill",
+            "author": "rewkong1150",
+            "url": "https://github.com/tikoci/routeros-skills/pull/19",
+            "createdAt": "2026-08-11T09:34:17Z",
+            "isPR": true,
+            "labels": [
+              "blocked:grounding"
+            ],
+            "milestone": null
+          }
+        ]
+      },
+      "release": {
+        "state": "ok",
+        "latestTag": null,
+        "latestDate": null,
+        "latestUrl": null,
+        "prerelease": null,
+        "stable": null,
+        "newest": null,
+        "prereleaseChannel": null,
+        "windowFetched": 0
+      }
+    },
+    "netinstall": {
+      "name": "netinstall",
+      "groups": [
+        "ci-health",
+        "community",
+        "releases"
+      ],
+      "detail": "data/dashboard/netinstall.json",
+      "ci": {
+        "state": "ok",
+        "defaultBranch": "master",
+        "headSha": "0c13a683bfc66ac888db0345ca3839549c51bed6",
+        "headUrl": "https://github.com/tikoci/netinstall/commit/0c13a683bfc66ac888db0345ca3839549c51bed6",
+        "workflows": [
+          {
+            "configured": "repo-as-web",
+            "name": "repo-as-web",
+            "path": ".github/workflows/repo-as-web.yaml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "master",
+            "headSha": "0c13a683bfc66ac888db0345ca3839549c51bed6",
+            "event": "push",
+            "runStartedAt": "2026-03-30T19:39:57Z",
+            "lastUpdatedAt": "2026-03-30T19:40:18Z",
+            "lastUrl": "https://github.com/tikoci/netinstall/actions/runs/23764019575",
+            "isHead": true
+          }
+        ]
+      },
+      "work": {
+        "state": "ok",
+        "counts": {
+          "issues": {
+            "total": 0,
+            "owner": 0,
+            "external": 0,
+            "bot": 0
+          },
+          "prs": {
+            "total": 0,
+            "owner": 0,
+            "external": 0,
+            "bot": 0,
+            "ownerReady": 0,
+            "ownerDraft": 0,
+            "draftUnknown": false
+          }
+        },
+        "page": {
+          "fetched": 0,
+          "perPage": 100,
+          "truncated": false,
+          "countsAreLowerBounds": false
+        },
+        "pullsEnriched": true,
+        "items": []
+      },
+      "community": {
+        "state": "ok",
+        "openIssues": 0,
+        "openPRs": 0,
+        "totalIssues": 0,
+        "totalPRs": 0,
+        "truncated": false,
+        "byLabel": {},
+        "byMilestone": {},
+        "newest": []
+      },
+      "release": {
+        "state": "ok",
+        "latestTag": null,
+        "latestDate": null,
+        "latestUrl": null,
+        "prerelease": null,
+        "stable": null,
+        "newest": null,
+        "prereleaseChannel": null,
+        "windowFetched": 0
+      }
+    },
+    "serial2http": {
+      "name": "serial2http",
+      "groups": [
+        "community",
+        "releases"
+      ],
+      "detail": "data/dashboard/serial2http.json",
+      "work": {
+        "state": "ok",
+        "counts": {
+          "issues": {
+            "total": 0,
+            "owner": 0,
+            "external": 0,
+            "bot": 0
+          },
+          "prs": {
+            "total": 0,
+            "owner": 0,
+            "external": 0,
+            "bot": 0,
+            "ownerReady": 0,
+            "ownerDraft": 0,
+            "draftUnknown": false
+          }
+        },
+        "page": {
+          "fetched": 0,
+          "perPage": 100,
+          "truncated": false,
+          "countsAreLowerBounds": false
+        },
+        "pullsEnriched": true,
+        "items": []
+      },
+      "community": {
+        "state": "ok",
+        "openIssues": 0,
+        "openPRs": 0,
+        "totalIssues": 0,
+        "totalPRs": 0,
+        "truncated": false,
+        "byLabel": {},
+        "byMilestone": {},
+        "newest": []
+      },
+      "release": {
+        "state": "ok",
+        "latestTag": "v0.1.1",
+        "latestDate": "2023-03-07T15:30:11Z",
+        "latestUrl": "https://github.com/tikoci/serial2http/releases/tag/v0.1.1",
+        "prerelease": false,
+        "stable": {
+          "tag": "v0.1.1",
+          "date": "2023-03-07T15:30:11Z",
+          "url": "https://github.com/tikoci/serial2http/releases/tag/v0.1.1",
+          "prerelease": false
+        },
+        "newest": {
+          "tag": "v0.1.1",
+          "date": "2023-03-07T15:30:11Z",
+          "url": "https://github.com/tikoci/serial2http/releases/tag/v0.1.1",
+          "prerelease": false
+        },
+        "prereleaseChannel": false,
+        "windowFetched": 2
+      }
+    },
+    "make.d": {
+      "name": "make.d",
+      "groups": [
+        "ci-health",
+        "community",
+        "releases"
+      ],
+      "detail": "data/dashboard/make.d.json",
+      "ci": {
+        "state": "ok",
+        "defaultBranch": "main",
+        "headSha": "d312428c12079a629de9c1f2b65548e8df8b7223",
+        "headUrl": "https://github.com/tikoci/make.d/commit/d312428c12079a629de9c1f2b65548e8df8b7223",
+        "workflows": [
+          {
+            "configured": "build.yaml",
+            "name": ".github/workflows/build.yaml",
+            "path": ".github/workflows/build.yaml",
+            "present": true,
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "failure",
+            "lastConclusion": "failure",
+            "headBranch": "main",
+            "headSha": "d312428c12079a629de9c1f2b65548e8df8b7223",
+            "event": "push",
+            "runStartedAt": "2026-03-30T21:19:49Z",
+            "lastUpdatedAt": "2026-03-30T21:19:49Z",
+            "lastUrl": "https://github.com/tikoci/make.d/actions/runs/23768303863",
+            "isHead": true
+          }
+        ]
+      },
+      "work": {
+        "state": "ok",
+        "counts": {
+          "issues": {
+            "total": 0,
+            "owner": 0,
+            "external": 0,
+            "bot": 0
+          },
+          "prs": {
+            "total": 0,
+            "owner": 0,
+            "external": 0,
+            "bot": 0,
+            "ownerReady": 0,
+            "ownerDraft": 0,
+            "draftUnknown": false
+          }
+        },
+        "page": {
+          "fetched": 0,
+          "perPage": 100,
+          "truncated": false,
+          "countsAreLowerBounds": false
+        },
+        "pullsEnriched": true,
+        "items": []
+      },
+      "community": {
+        "state": "ok",
+        "openIssues": 0,
+        "openPRs": 0,
+        "totalIssues": 0,
+        "totalPRs": 0,
+        "truncated": false,
+        "byLabel": {},
+        "byMilestone": {},
+        "newest": []
+      },
+      "release": {
+        "state": "ok",
+        "latestTag": null,
+        "latestDate": null,
+        "latestUrl": null,
+        "prerelease": null,
+        "stable": null,
+        "newest": null,
+        "prereleaseChannel": null,
+        "windowFetched": 0
+      }
+    },
+    "bench-routeros-tools": {
+      "name": "bench-routeros-tools",
+      "groups": [
+        "community",
+        "releases"
+      ],
+      "detail": "data/dashboard/bench-routeros-tools.json",
+      "work": {
+        "state": "ok",
+        "counts": {
+          "issues": {
+            "total": 1,
+            "owner": 1,
+            "external": 0,
+            "bot": 0
+          },
+          "prs": {
+            "total": 1,
+            "owner": 1,
+            "external": 0,
+            "bot": 0,
+            "ownerReady": 1,
+            "ownerDraft": 0,
+            "draftUnknown": false
+          }
+        },
+        "page": {
+          "fetched": 2,
+          "perPage": 100,
+          "truncated": false,
+          "countsAreLowerBounds": false
+        },
+        "pullsEnriched": true,
+        "items": [
+          {
+            "number": 2,
+            "title": "Roadmap: wiresage condition, gold-set expansion, muse backend, Tier-2 device run",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/bench-routeros-tools/issues/2",
+            "createdAt": "2026-10-19T20:29:37Z",
+            "updatedAt": "2026-10-19T20:29:37Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 1,
+            "title": "chore: cleanup pass — refresh skills snapshot (12→18), fix stale copy",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/bench-routeros-tools/pull/1",
+            "createdAt": "2026-10-19T20:09:38Z",
+            "updatedAt": "2026-10-19T20:29:45Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [],
+            "milestone": null
+          }
+        ]
+      },
+      "community": {
+        "state": "ok",
+        "openIssues": 0,
+        "openPRs": 0,
+        "totalIssues": 1,
+        "totalPRs": 1,
+        "truncated": false,
+        "byLabel": {},
+        "byMilestone": {},
+        "newest": []
+      },
+      "release": {
+        "state": "ok",
+        "latestTag": null,
+        "latestDate": null,
+        "latestUrl": null,
+        "prerelease": null,
+        "stable": null,
+        "newest": null,
+        "prereleaseChannel": null,
+        "windowFetched": 0
+      }
+    },
+    "m2ir": {
+      "name": "m2ir",
+      "groups": [
+        "community",
+        "releases"
+      ],
+      "detail": "data/dashboard/m2ir.json",
+      "work": {
+        "state": "ok",
+        "counts": {
+          "issues": {
+            "total": 0,
+            "owner": 0,
+            "external": 0,
+            "bot": 0
+          },
+          "prs": {
+            "total": 0,
+            "owner": 0,
+            "external": 0,
+            "bot": 0,
+            "ownerReady": 0,
+            "ownerDraft": 0,
+            "draftUnknown": false
+          }
+        },
+        "page": {
+          "fetched": 0,
+          "perPage": 100,
+          "truncated": false,
+          "countsAreLowerBounds": false
+        },
+        "pullsEnriched": true,
+        "items": []
+      },
+      "community": {
+        "state": "ok",
+        "openIssues": 0,
+        "openPRs": 0,
+        "totalIssues": 0,
+        "totalPRs": 0,
+        "truncated": false,
+        "byLabel": {},
+        "byMilestone": {},
+        "newest": []
+      },
+      "release": {
+        "state": "ok",
+        "latestTag": null,
+        "latestDate": null,
+        "latestUrl": null,
+        "prerelease": null,
+        "stable": null,
+        "newest": null,
+        "prereleaseChannel": null,
+        "windowFetched": 0
+      }
+    }
+  },
+  "relationships": [
+    {
+      "source": "make.d",
+      "target": "netinstall",
+      "type": "dependency",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
+      "source": "make.d",
+      "target": "serial2http",
+      "type": "dependency",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
+      "source": "make.d",
+      "target": "cligames",
+      "type": "dependency",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
+      "source": "make.d",
+      "target": "nginx",
+      "type": "dependency",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
+      "source": "traefik-wabt",
+      "target": "traefik-wasm-grain",
+      "type": "sibling",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
+      "source": "adventure",
+      "target": "wargames",
+      "type": "sibling",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
+      "source": "adventure",
+      "target": "cligames",
+      "type": "topic",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
+      "source": "wargames",
+      "target": "cligames",
+      "type": "topic",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
+      "source": "lsp-routeros-ts",
+      "target": "vscode-tikbook",
+      "type": "sibling",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
+      "source": "mikropkl",
+      "target": "fat-chr",
+      "type": "sibling",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
+      "source": "mikropkl",
+      "target": "chr-utm",
+      "type": "sibling",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
+      "source": "quickchr",
+      "target": "fat-chr",
+      "type": "sibling",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
+      "source": "quickchr",
+      "target": "mikropkl",
+      "type": "ecosystem",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
+      "source": "restraml",
+      "target": "rosetta",
+      "type": "ecosystem",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
+      "source": "restraml",
+      "target": "lsp-routeros-ts",
+      "type": "ecosystem",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
+      "source": "rosetta",
+      "target": "lsp-routeros-ts",
+      "type": "topic",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
+      "source": "rosetta",
+      "target": "routeros-skills",
+      "type": "ecosystem",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
+      "source": "routeros-skills",
+      "target": "donny",
+      "type": "sibling",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
+      "source": "netserver",
+      "target": "netinstall",
+      "type": "topic",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
+      "source": "centrs",
+      "target": "rosetta",
+      "type": "ecosystem",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
+      "source": "centrs",
+      "target": "lsp-routeros-ts",
+      "type": "sibling",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
+      "source": "bench-routeros-tools",
+      "target": "rosetta",
+      "type": "topic",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
+      "source": "bench-routeros-tools",
+      "target": "routeros-skills",
+      "type": "topic",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    }
+  ],
+  "findings": [
+    {
+      "id": "ci-default-branch-failing:make.d:build-yaml",
+      "rule": "ci-default-branch-failing",
+      "severity": "failure",
+      "category": "ci",
+      "repos": [
+        "make.d"
+      ],
+      "summary": "make.d: build.yaml failure on main",
+      "detail": "The latest default-branch run completed with a failing conclusion. Only default-branch runs count here; PR-branch runs are excluded at collection time.",
+      "evidence": [
+        "repos.make.d.ci.workflows[build.yaml].conclusion=failure",
+        "repos.make.d.ci.workflows[build.yaml].headSha=d312428c12079a629de9c1f2b65548e8df8b7223"
+      ],
+      "urls": [
+        "https://github.com/tikoci/make.d/actions/runs/23768303863"
+      ]
+    },
+    {
+      "id": "ci-default-branch-failing:rosetta:Device-Map-Refresh",
+      "rule": "ci-default-branch-failing",
+      "severity": "failure",
+      "category": "ci",
+      "repos": [
+        "rosetta"
+      ],
+      "summary": "rosetta: Device Map Refresh failure on main",
+      "detail": "The latest default-branch run completed with a failing conclusion. Only default-branch runs count here; PR-branch runs are excluded at collection time.",
+      "evidence": [
+        "repos.rosetta.ci.workflows[Device Map Refresh].conclusion=failure",
+        "repos.rosetta.ci.workflows[Device Map Refresh].headSha=a51b2014d3d94661842225c61f9f7666cd9f54c5"
+      ],
+      "urls": [
+        "https://github.com/tikoci/rosetta/actions/runs/41510353061"
+      ]
+    },
+    {
+      "id": "ci-default-branch-failing:rosetta:QA",
+      "rule": "ci-default-branch-failing",
+      "severity": "failure",
+      "category": "ci",
+      "repos": [
+        "rosetta"
+      ],
+      "summary": "rosetta: QA failure on main",
+      "detail": "The latest default-branch run completed with a failing conclusion. Only default-branch runs count here; PR-branch runs are excluded at collection time.",
+      "evidence": [
+        "repos.rosetta.ci.workflows[QA].conclusion=failure",
+        "repos.rosetta.ci.workflows[QA].headSha=54d5e4b5718f67757309bd7e784810694da1fd71"
+      ],
+      "urls": [
+        "https://github.com/tikoci/rosetta/actions/runs/40597758516"
+      ]
+    },
+    {
+      "id": "ros-lag-unknown:rosetta",
+      "rule": "ros-lag-unknown",
+      "severity": "gap",
+      "category": "ros",
+      "repos": [
+        "rosetta"
+      ],
+      "summary": "rosetta: derived-artifact ROS version unknown (no manifest configured)",
+      "detail": "Nothing machine-readable states which ROS version the derived artifact (e.g. ros-help.db) was built from. Upstream requirement: publish a machine-readable manifest in the repo (proposed: the well-known .tikoci/status.json — see dashboard-schema.md) stating the artifact's source ROS version, so the lag signal can compare against stable. See rosetta#230.",
+      "evidence": [
+        "repos.rosetta.rosLag.state=unknown",
+        "repos.rosetta.rosLag.artifactVersion=null"
+      ],
+      "urls": [
+        "https://github.com/tikoci/rosetta/issues/230"
+      ]
+    },
+    {
+      "id": "ci-run-unresolved:centrs:QA",
+      "rule": "ci-run-unresolved",
+      "severity": "pending",
+      "category": "ci",
+      "repos": [
+        "centrs"
+      ],
+      "summary": "centrs: QA concluded cancelled",
+      "detail": "The latest default-branch run completed without success or classified failure (e.g. cancelled, skipped, neutral). Needs a human triage call; it is not passing evidence.",
+      "evidence": [
+        "repos.centrs.ci.workflows[QA].conclusion=cancelled"
+      ],
+      "urls": [
+        "https://github.com/tikoci/centrs/actions/runs/41502122790"
+      ]
+    },
+    {
+      "id": "npm-pending-publish:lsp-routeros-ts",
+      "rule": "npm-pending-publish",
+      "severity": "pending",
+      "category": "packages",
+      "repos": [
+        "lsp-routeros-ts"
+      ],
+      "summary": "lsp-routeros-ts: 0.7.4 ahead of registry 0.7.3 — publish pending",
+      "detail": "The repo's package.json carries a stable version newer than the registry's latest tag. Either cut a release or confirm the bump is intentional and unreleased.",
+      "evidence": [
+        "repos.lsp-routeros-ts.npm.repoVersion=0.7.4",
+        "repos.lsp-routeros-ts.npm.latestVersion=0.7.3"
+      ],
+      "urls": [
+        "https://www.npmjs.com/package/@tikoci/routeroslsp"
+      ]
+    },
+    {
+      "id": "npm-pending-publish:quickchr",
+      "rule": "npm-pending-publish",
+      "severity": "pending",
+      "category": "packages",
+      "repos": [
+        "quickchr"
+      ],
+      "summary": "quickchr: 0.5.5 ahead of registry 0.5.4 — publish pending",
+      "detail": "The repo's package.json carries a stable version newer than the registry's latest tag. Either cut a release or confirm the bump is intentional and unreleased.",
+      "evidence": [
+        "repos.quickchr.npm.repoVersion=0.5.5",
+        "repos.quickchr.npm.latestVersion=0.5.4"
+      ],
+      "urls": [
+        "https://www.npmjs.com/package/@tikoci/quickchr"
+      ]
+    },
+    {
+      "id": "ros-missing-channel:mikrotik-gpl:long-term",
+      "rule": "ros-missing-channel",
+      "severity": "pending",
+      "category": "ros",
+      "repos": [
+        "mikrotik-gpl"
+      ],
+      "summary": "mikrotik-gpl: missing long-term 7.24.6 (published coverage)",
+      "detail": "The current long-term version is absent from this repo's published coverage list. Work to do (usually picked up by the polling workflow), not a failure. Only channels listed in rosChannels are judged.",
+      "evidence": [
+        "repos.mikrotik-gpl.ros.channels.long-term=missing 7.24.6"
+      ],
+      "urls": [
+        "https://github.com/tikoci/mikrotik-gpl/actions"
+      ]
+    },
+    {
+      "id": "work-maintainer-prs:bench-routeros-tools",
+      "rule": "work-maintainer-prs",
+      "severity": "pending",
+      "category": "work",
+      "repos": [
+        "bench-routeros-tools"
+      ],
+      "summary": "bench-routeros-tools: 1 open maintainer PR",
+      "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
+      "evidence": [
+        "repos.bench-routeros-tools.work.counts.prs.ownerReady=1"
+      ],
+      "urls": [
+        "https://github.com/tikoci/bench-routeros-tools/pulls"
+      ]
+    },
+    {
+      "id": "work-maintainer-prs:centrs",
+      "rule": "work-maintainer-prs",
+      "severity": "pending",
+      "category": "work",
+      "repos": [
+        "centrs"
+      ],
+      "summary": "centrs: 2 open maintainer PRs",
+      "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
+      "evidence": [
+        "repos.centrs.work.counts.prs.ownerReady=2"
+      ],
+      "urls": [
+        "https://github.com/tikoci/centrs/pulls"
+      ]
+    },
+    {
+      "id": "work-maintainer-prs:restraml",
+      "rule": "work-maintainer-prs",
+      "severity": "pending",
+      "category": "work",
+      "repos": [
+        "restraml"
+      ],
+      "summary": "restraml: 1 open maintainer PR",
+      "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
+      "evidence": [
+        "repos.restraml.work.counts.prs.ownerReady=1"
+      ],
+      "urls": [
+        "https://github.com/tikoci/restraml/pulls"
+      ]
+    },
+    {
+      "id": "work-external-prs:routeros-skills",
+      "rule": "work-external-prs",
+      "severity": "pending",
+      "category": "work",
+      "repos": [
+        "routeros-skills"
+      ],
+      "summary": "routeros-skills: 1 open external PR",
+      "detail": "External pull requests await maintainer review. Review queue depth, not an alert.",
+      "evidence": [
+        "repos.routeros-skills.work.counts.prs.external=1"
+      ],
+      "urls": [
+        "https://github.com/tikoci/routeros-skills/pulls"
+      ]
+    },
+    {
+      "id": "work-maintainer-prs:routeros-skills",
+      "rule": "work-maintainer-prs",
+      "severity": "pending",
+      "category": "work",
+      "repos": [
+        "routeros-skills"
+      ],
+      "summary": "routeros-skills: 1 open maintainer PR (1 draft excluded)",
+      "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
+      "evidence": [
+        "repos.routeros-skills.work.counts.prs.ownerReady=1"
+      ],
+      "urls": [
+        "https://github.com/tikoci/routeros-skills/pulls"
+      ]
+    },
+    {
+      "id": "ci-run-not-head:centrs:Release",
+      "rule": "ci-run-not-head",
+      "severity": "info",
+      "category": "ci",
+      "repos": [
+        "centrs"
+      ],
+      "summary": "centrs: Release latest run is not on the current head commit",
+      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
+      "evidence": [
+        "repos.centrs.ci.workflows[Release].headSha=fb8635cbea5e1797afed8a7f2d8db6810a690429",
+        "repos.centrs.ci.headSha=8f576acff8aa9e49947dad87c7480cbf33e413c8"
+      ],
+      "urls": [
+        "https://github.com/tikoci/centrs/actions/runs/40778814147"
+      ]
+    },
+    {
+      "id": "ci-run-not-head:lsp-routeros-ts:Build-and-Release",
+      "rule": "ci-run-not-head",
+      "severity": "info",
+      "category": "ci",
+      "repos": [
+        "lsp-routeros-ts"
+      ],
+      "summary": "lsp-routeros-ts: Build and Release latest run is not on the current head commit",
+      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
+      "evidence": [
+        "repos.lsp-routeros-ts.ci.workflows[Build and Release].headSha=e89ece92b29b5dffef344efe7b66cab6aa6d7875",
+        "repos.lsp-routeros-ts.ci.headSha=1d0999f69e4f062c8a6cc08f9977f2ae84bc87c1"
+      ],
+      "urls": [
+        "https://github.com/tikoci/lsp-routeros-ts/actions/runs/24922776315"
+      ]
+    },
+    {
+      "id": "ci-run-not-head:mikrotik-gpl:Request-GPL-Source",
+      "rule": "ci-run-not-head",
+      "severity": "info",
+      "category": "ci",
+      "repos": [
+        "mikrotik-gpl"
+      ],
+      "summary": "mikrotik-gpl: Request GPL Source latest run is not on the current head commit",
+      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
+      "evidence": [
+        "repos.mikrotik-gpl.ci.workflows[Request GPL Source].headSha=c3e110db1d35886c96ee14e16fc5a06bcac59692",
+        "repos.mikrotik-gpl.ci.headSha=3f8863249e7d944c935b3a58bcbebb1e9b307b58"
+      ],
+      "urls": [
+        "https://github.com/tikoci/mikrotik-gpl/actions/runs/41188839588"
+      ]
+    },
+    {
+      "id": "ci-run-not-head:restraml:Auto-Build-New-RouterOS-Versions",
+      "rule": "ci-run-not-head",
+      "severity": "info",
+      "category": "ci",
+      "repos": [
+        "restraml"
+      ],
+      "summary": "restraml: Auto-Build New RouterOS Versions latest run is not on the current head commit",
+      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
+      "evidence": [
+        "repos.restraml.ci.workflows[Auto-Build New RouterOS Versions].headSha=a0d627d281bb0cc6760ed345b0364631793693d8",
+        "repos.restraml.ci.headSha=433d1c1f0a345f481583f69fb2ea31606dd5e627"
+      ],
+      "urls": [
+        "https://github.com/tikoci/restraml/actions/runs/41447828833"
+      ]
+    },
+    {
+      "id": "ci-run-not-head:restraml:Build-Base-Schema",
+      "rule": "ci-run-not-head",
+      "severity": "info",
+      "category": "ci",
+      "repos": [
+        "restraml"
+      ],
+      "summary": "restraml: Build: Base Schema latest run is not on the current head commit",
+      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
+      "evidence": [
+        "repos.restraml.ci.workflows[Build: Base Schema].headSha=a0d627d281bb0cc6760ed345b0364631793693d8",
+        "repos.restraml.ci.headSha=433d1c1f0a345f481583f69fb2ea31606dd5e627"
+      ],
+      "urls": [
+        "https://github.com/tikoci/restraml/actions/runs/41448035336"
+      ]
+    },
+    {
+      "id": "ci-run-not-head:restraml:Build-Deep-Inspect-Multi-Arch",
+      "rule": "ci-run-not-head",
+      "severity": "info",
+      "category": "ci",
+      "repos": [
+        "restraml"
+      ],
+      "summary": "restraml: Build: Deep-Inspect Multi-Arch latest run is not on the current head commit",
+      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
+      "evidence": [
+        "repos.restraml.ci.workflows[Build: Deep-Inspect Multi-Arch].headSha=a0d627d281bb0cc6760ed345b0364631793693d8",
+        "repos.restraml.ci.headSha=433d1c1f0a345f481583f69fb2ea31606dd5e627"
+      ],
+      "urls": [
+        "https://github.com/tikoci/restraml/actions/runs/41448035924"
+      ]
+    },
+    {
+      "id": "ci-run-not-head:rosetta:QA",
+      "rule": "ci-run-not-head",
+      "severity": "info",
+      "category": "ci",
+      "repos": [
+        "rosetta"
+      ],
+      "summary": "rosetta: QA latest run is not on the current head commit",
+      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
+      "evidence": [
+        "repos.rosetta.ci.workflows[QA].headSha=54d5e4b5718f67757309bd7e784810694da1fd71",
+        "repos.rosetta.ci.headSha=a51b2014d3d94661842225c61f9f7666cd9f54c5"
+      ],
+      "urls": [
+        "https://github.com/tikoci/rosetta/actions/runs/40597758516"
+      ]
+    },
+    {
+      "id": "ci-run-not-head:rosetta:Release",
+      "rule": "ci-run-not-head",
+      "severity": "info",
+      "category": "ci",
+      "repos": [
+        "rosetta"
+      ],
+      "summary": "rosetta: Release latest run is not on the current head commit",
+      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
+      "evidence": [
+        "repos.rosetta.ci.workflows[Release].headSha=6b6397d7739a563b894f9b07f7ac2f6b1ad7f4bf",
+        "repos.rosetta.ci.headSha=a51b2014d3d94661842225c61f9f7666cd9f54c5"
+      ],
+      "urls": [
+        "https://github.com/tikoci/rosetta/actions/runs/41129834224"
+      ]
+    },
+    {
+      "id": "ci-run-not-head:vscode-tikbook:Build-and-Release",
+      "rule": "ci-run-not-head",
+      "severity": "info",
+      "category": "ci",
+      "repos": [
+        "vscode-tikbook"
+      ],
+      "summary": "vscode-tikbook: Build and Release latest run is not on the current head commit",
+      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
+      "evidence": [
+        "repos.vscode-tikbook.ci.workflows[Build and Release].headSha=0f1b8223b86f033475fc6f2d43bd83f713441f8f",
+        "repos.vscode-tikbook.ci.headSha=c8fddd232a66680a1ce30393836c05f538e364c2"
+      ],
+      "urls": [
+        "https://github.com/tikoci/vscode-tikbook/actions/runs/22262061889"
+      ]
+    },
+    {
+      "id": "npm-prerelease-channel:centrs",
+      "rule": "npm-prerelease-channel",
+      "severity": "info",
+      "category": "packages",
+      "repos": [
+        "centrs"
+      ],
+      "summary": "centrs: 0.1.9-next rides a prerelease channel (registry latest 0.1.8)",
+      "detail": "The repo version is a prerelease ahead of registry latest. Routine for -next development lines; not a behind-registry failure. Dist-tags in the signal show the published channels.",
+      "evidence": [
+        "repos.centrs.npm.repoVersion=0.1.9-next",
+        "repos.centrs.npm.latestVersion=0.1.8"
+      ],
+      "urls": [
+        "https://www.npmjs.com/package/@tikoci/centrs"
+      ]
+    },
+    {
+      "id": "release-none:bench-routeros-tools",
+      "rule": "release-none",
+      "severity": "info",
+      "category": "releases",
+      "repos": [
+        "bench-routeros-tools"
+      ],
+      "summary": "bench-routeros-tools: no GitHub releases",
+      "detail": "The repo has no releases in the listing window. Normal for libraries published only to npm or containers published only to Docker Hub.",
+      "evidence": [
+        "repos.bench-routeros-tools.release.windowFetched=0"
+      ],
+      "urls": [
+        "https://github.com/tikoci/bench-routeros-tools/releases"
+      ]
+    },
+    {
+      "id": "release-none:centrs",
+      "rule": "release-none",
+      "severity": "info",
+      "category": "releases",
+      "repos": [
+        "centrs"
+      ],
+      "summary": "centrs: no GitHub releases",
+      "detail": "The repo has no releases in the listing window. Normal for libraries published only to npm or containers published only to Docker Hub.",
+      "evidence": [
+        "repos.centrs.release.windowFetched=0"
+      ],
+      "urls": [
+        "https://github.com/tikoci/centrs/releases"
+      ]
+    },
+    {
+      "id": "release-none:donny",
+      "rule": "release-none",
+      "severity": "info",
+      "category": "releases",
+      "repos": [
+        "donny"
+      ],
+      "summary": "donny: no GitHub releases",
+      "detail": "The repo has no releases in the listing window. Normal for libraries published only to npm or containers published only to Docker Hub.",
+      "evidence": [
+        "repos.donny.release.windowFetched=0"
+      ],
+      "urls": [
+        "https://github.com/tikoci/donny/releases"
+      ]
+    },
+    {
+      "id": "release-prerelease-newest:lsp-routeros-ts",
+      "rule": "release-prerelease-newest",
+      "severity": "info",
+      "category": "releases",
+      "repos": [
+        "lsp-routeros-ts"
+      ],
+      "summary": "lsp-routeros-ts: newest release v0.7.3 is a prerelease (stable v0.6.0)",
+      "detail": "The newest release is flagged prerelease while a stable release exists. Routine for repos that ship -next builds; the stable tag is the installable one.",
+      "evidence": [
+        "repos.lsp-routeros-ts.release.newest.tag=v0.7.3",
+        "repos.lsp-routeros-ts.release.stable.tag=v0.6.0"
+      ],
+      "urls": [
+        "https://github.com/tikoci/lsp-routeros-ts/releases/tag/v0.7.3"
+      ]
+    },
+    {
+      "id": "release-none:m2ir",
+      "rule": "release-none",
+      "severity": "info",
+      "category": "releases",
+      "repos": [
+        "m2ir"
+      ],
+      "summary": "m2ir: no GitHub releases",
+      "detail": "The repo has no releases in the listing window. Normal for libraries published only to npm or containers published only to Docker Hub.",
+      "evidence": [
+        "repos.m2ir.release.windowFetched=0"
+      ],
+      "urls": [
+        "https://github.com/tikoci/m2ir/releases"
+      ]
+    },
+    {
+      "id": "release-none:make.d",
+      "rule": "release-none",
+      "severity": "info",
+      "category": "releases",
+      "repos": [
+        "make.d"
+      ],
+      "summary": "make.d: no GitHub releases",
+      "detail": "The repo has no releases in the listing window. Normal for libraries published only to npm or containers published only to Docker Hub.",
+      "evidence": [
+        "repos.make.d.release.windowFetched=0"
+      ],
+      "urls": [
+        "https://github.com/tikoci/make.d/releases"
+      ]
+    },
+    {
+      "id": "release-none:netinstall",
+      "rule": "release-none",
+      "severity": "info",
+      "category": "releases",
+      "repos": [
+        "netinstall"
+      ],
+      "summary": "netinstall: no GitHub releases",
+      "detail": "The repo has no releases in the listing window. Normal for libraries published only to npm or containers published only to Docker Hub.",
+      "evidence": [
+        "repos.netinstall.release.windowFetched=0"
+      ],
+      "urls": [
+        "https://github.com/tikoci/netinstall/releases"
+      ]
+    },
+    {
+      "id": "release-none:routeros-skills",
+      "rule": "release-none",
+      "severity": "info",
+      "category": "releases",
+      "repos": [
+        "routeros-skills"
+      ],
+      "summary": "routeros-skills: no GitHub releases",
+      "detail": "The repo has no releases in the listing window. Normal for libraries published only to npm or containers published only to Docker Hub.",
+      "evidence": [
+        "repos.routeros-skills.release.windowFetched=0"
+      ],
+      "urls": [
+        "https://github.com/tikoci/routeros-skills/releases"
+      ]
+    },
+    {
+      "id": "release-prerelease-newest:vscode-tikbook",
+      "rule": "release-prerelease-newest",
+      "severity": "info",
+      "category": "releases",
+      "repos": [
+        "vscode-tikbook"
+      ],
+      "summary": "vscode-tikbook: newest release v0.5.1 is a prerelease (stable v0.4.0)",
+      "detail": "The newest release is flagged prerelease while a stable release exists. Routine for repos that ship -next builds; the stable tag is the installable one.",
+      "evidence": [
+        "repos.vscode-tikbook.release.newest.tag=v0.5.1",
+        "repos.vscode-tikbook.release.stable.tag=v0.4.0"
+      ],
+      "urls": [
+        "https://github.com/tikoci/vscode-tikbook/releases/tag/v0.5.1"
+      ]
+    },
+    {
+      "id": "work-external-issues:lsp-routeros-ts",
+      "rule": "work-external-issues",
+      "severity": "info",
+      "category": "work",
+      "repos": [
+        "lsp-routeros-ts"
+      ],
+      "summary": "lsp-routeros-ts: 1 open external issue",
+      "detail": "Open issues from non-maintainers. Ordinary backlog volume, not an urgency signal — triage at will.",
+      "evidence": [
+        "repos.lsp-routeros-ts.work.counts.issues.external=1"
+      ],
+      "urls": [
+        "https://github.com/tikoci/lsp-routeros-ts/issues"
+      ]
+    },
+    {
+      "id": "work-external-issues:mikropkl",
+      "rule": "work-external-issues",
+      "severity": "info",
+      "category": "work",
+      "repos": [
+        "mikropkl"
+      ],
+      "summary": "mikropkl: 2 open external issues",
+      "detail": "Open issues from non-maintainers. Ordinary backlog volume, not an urgency signal — triage at will.",
+      "evidence": [
+        "repos.mikropkl.work.counts.issues.external=2"
+      ],
+      "urls": [
+        "https://github.com/tikoci/mikropkl/issues"
+      ]
+    },
+    {
+      "id": "work-external-issues:vscode-tikbook",
+      "rule": "work-external-issues",
+      "severity": "info",
+      "category": "work",
+      "repos": [
+        "vscode-tikbook"
+      ],
+      "summary": "vscode-tikbook: 1 open external issue",
+      "detail": "Open issues from non-maintainers. Ordinary backlog volume, not an urgency signal — triage at will.",
+      "evidence": [
+        "repos.vscode-tikbook.work.counts.issues.external=1"
+      ],
+      "urls": [
+        "https://github.com/tikoci/vscode-tikbook/issues"
+      ]
+    }
+  ]
+}

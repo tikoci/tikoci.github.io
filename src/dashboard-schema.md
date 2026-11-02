@@ -1,7 +1,7 @@
 # TIKOCI dashboard data — schema reference (v2)
 
-Build-time cross-repo status snapshot. Collector: `fetch-dashboard-data.ts`
-driven by `DASHBOARD_REPOS` in `repo-config.ts`; refreshed hourly by the
+Explicitly collected cross-repo status snapshot. Collector: `scripts/fetch-dashboard-data.ts`
+driven by `DASHBOARD_REPOS` in `data/repo-config.ts`; refreshed hourly by the
 deploy workflow. Rendered (in part) by `status.html`.
 
 ## Endpoints
@@ -127,3 +127,8 @@ config stays as override/fallback; the file is the repo's voice.
 - `success` on an old commit (`isHead: false`) may not describe the tree.
 - `not-published` intent (reserved/planned/abandoned) is not in the data.
 - Non-`fresh` collection mode dates every verdict to `cacheWrittenAt`.
+
+Failed error/unknown signals may include additive `lastKnownGood: { observedAt, value }`
+evidence from a prior successful signal. Current state/error remains authoritative;
+the retained timestamp is never advanced on failure. `/data/collection.json` records
+the hourly attempt separately from repository observation time.

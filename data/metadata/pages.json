@@ -1,0 +1,442 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-02T19:42:50.020Z",
+  "attemptedAt": "2026-11-02T19:42:44.722Z",
+  "error": null,
+  "provenance": {
+    "collector": "scripts/repo-github-pages.ts",
+    "scope": "Anonymous public repository allowlist; Pages settings may be token-scoped",
+    "sources": {
+      "pagesApi": "GET repos/{owner}/{repo}/pages (404 = off; 401/403 = unknown)",
+      "deploy": "GET repos/{repo}/deployments?environment=github-pages (workflow) | GET repos/{repo}/pages/builds/latest (legacy)",
+      "serve": "HTTP GET of html_url as an anonymous visitor (+ README.md/package.json/index.html probes when root 404s)",
+      "plausible": "HTTP GET of published HTML: root + same-origin *.html depth-1 crawl (cap 10 pages/site); multiline scan for plausible.io script tags + plausible('Event') calls"
+    }
+  },
+  "repos": {
+    ".github": {
+      "name": ".github",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    },
+    "adventure": {
+      "name": "adventure",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    },
+    "bench-routeros-tools": {
+      "name": "bench-routeros-tools",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    },
+    "bun-declare-call-erasure-repro": {
+      "name": "bun-declare-call-erasure-repro",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    },
+    "centrs": {
+      "name": "centrs",
+      "hasPages": true,
+      "state": "ok",
+      "htmlUrl": "https://tikoci.dev/centrs/",
+      "serve": {
+        "kind": "site",
+        "root": 200,
+        "title": "centrs docs",
+        "probeFile": null
+      },
+      "plausible": {
+        "present": false,
+        "script": null,
+        "dataDomain": null,
+        "dataDomains": [],
+        "pagesChecked": [
+          "/centrs/",
+          "/centrs/api/",
+          "/centrs/errors/"
+        ],
+        "pagesWithSnippet": [],
+        "truncated": false,
+        "events": []
+      }
+    },
+    "chr-armed": {
+      "name": "chr-armed",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    },
+    "chr-utm": {
+      "name": "chr-utm",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    },
+    "cligames": {
+      "name": "cligames",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    },
+    "donny": {
+      "name": "donny",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    },
+    "enbeep": {
+      "name": "enbeep",
+      "hasPages": true,
+      "state": "ok",
+      "htmlUrl": "http://tikoci.dev/enbeep/",
+      "serve": {
+        "kind": "site",
+        "root": 200,
+        "title": "enbeep — Live Acoustic Decoder",
+        "probeFile": null
+      },
+      "plausible": {
+        "present": false,
+        "script": null,
+        "dataDomain": null,
+        "dataDomains": [],
+        "pagesChecked": [
+          "/enbeep/"
+        ],
+        "pagesWithSnippet": [],
+        "truncated": false,
+        "events": []
+      }
+    },
+    "fat-chr": {
+      "name": "fat-chr",
+      "hasPages": true,
+      "state": "ok",
+      "htmlUrl": "https://tikoci.dev/fat-chr/",
+      "serve": {
+        "kind": "empty",
+        "root": 404,
+        "title": "Site not found · GitHub Pages",
+        "probeFile": null
+      },
+      "plausible": null
+    },
+    "flent": {
+      "name": "flent",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    },
+    "grpcurl": {
+      "name": "grpcurl",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    },
+    "lsp-routeros-ts": {
+      "name": "lsp-routeros-ts",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    },
+    "m2ir": {
+      "name": "m2ir",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    },
+    "make.d": {
+      "name": "make.d",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    },
+    "midimonster": {
+      "name": "midimonster",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    },
+    "mikropkl": {
+      "name": "mikropkl",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    },
+    "mikrotik-gpl": {
+      "name": "mikrotik-gpl",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    },
+    "netinstall": {
+      "name": "netinstall",
+      "hasPages": true,
+      "state": "ok",
+      "htmlUrl": "https://tikoci.dev/netinstall/",
+      "serve": {
+        "kind": "repo-as-web",
+        "root": 404,
+        "title": "Page not found · GitHub Pages",
+        "probeFile": "/README.md"
+      },
+      "plausible": null
+    },
+    "netserver": {
+      "name": "netserver",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    },
+    "nginx": {
+      "name": "nginx",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    },
+    "postman-code-generators": {
+      "name": "postman-code-generators",
+      "hasPages": true,
+      "state": "ok",
+      "htmlUrl": "https://tikoci.dev/postman-code-generators/",
+      "serve": {
+        "kind": "site",
+        "root": 200,
+        "title": "curl2rsc moved",
+        "probeFile": null
+      },
+      "plausible": {
+        "present": true,
+        "script": "script.tagged-events.js",
+        "dataDomain": "tikoci.github.io/restraml",
+        "dataDomains": [
+          "tikoci.github.io/restraml"
+        ],
+        "pagesChecked": [
+          "/postman-code-generators/"
+        ],
+        "pagesWithSnippet": [
+          "/postman-code-generators/"
+        ],
+        "truncated": false,
+        "events": []
+      }
+    },
+    "quickchr": {
+      "name": "quickchr",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    },
+    "restraml": {
+      "name": "restraml",
+      "hasPages": true,
+      "state": "ok",
+      "htmlUrl": "https://tikoci.dev/restraml/",
+      "serve": {
+        "kind": "site",
+        "root": 200,
+        "title": "RouterOS API Schema & CLI Tools — restraml",
+        "probeFile": null
+      },
+      "plausible": {
+        "present": true,
+        "script": "pa-hash",
+        "dataDomain": null,
+        "dataDomains": [],
+        "pagesChecked": [
+          "/restraml/",
+          "/restraml/diff.html",
+          "/restraml/lookup.html",
+          "/restraml/openapi.html",
+          "/restraml/tikapp.html"
+        ],
+        "pagesWithSnippet": [
+          "/restraml/",
+          "/restraml/diff.html",
+          "/restraml/lookup.html",
+          "/restraml/openapi.html",
+          "/restraml/tikapp.html"
+        ],
+        "truncated": false,
+        "events": [
+          "Diff Run",
+          "Lookup Run",
+          "Lookup Share",
+          "OpenAPI Explorer",
+          "SideBySideDiff",
+          "SideBySideDiff Share"
+        ]
+      }
+    },
+    "rosetta": {
+      "name": "rosetta",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    },
+    "routeros-skills": {
+      "name": "routeros-skills",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    },
+    "serial2http": {
+      "name": "serial2http",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    },
+    "tikoci.github.io": {
+      "name": "tikoci.github.io",
+      "hasPages": true,
+      "state": "ok",
+      "htmlUrl": "http://tikoci.dev/",
+      "serve": {
+        "kind": "site",
+        "root": 200,
+        "title": "TIKOCI — Open Source RouterOS Toolkit",
+        "probeFile": null
+      },
+      "plausible": {
+        "present": true,
+        "script": "pa-hash",
+        "dataDomain": null,
+        "dataDomains": [],
+        "pagesChecked": [
+          "/",
+          "/chr-images.html",
+          "/containers.html",
+          "/dev-tools.html",
+          "/p/bench-routeros-tools.html",
+          "/p/centrs.html",
+          "/p/cligames.html",
+          "/p/donny.html",
+          "/p/fat-chr.html",
+          "/p/make.d.html"
+        ],
+        "pagesWithSnippet": [
+          "/",
+          "/chr-images.html",
+          "/containers.html",
+          "/dev-tools.html",
+          "/p/bench-routeros-tools.html",
+          "/p/centrs.html",
+          "/p/cligames.html",
+          "/p/donny.html",
+          "/p/fat-chr.html",
+          "/p/make.d.html"
+        ],
+        "truncated": true,
+        "events": [
+          "CHR Download",
+          "CHR Page Load",
+          "CHR UTM Open"
+        ]
+      }
+    },
+    "traefik-wabt": {
+      "name": "traefik-wabt",
+      "hasPages": true,
+      "state": "ok",
+      "htmlUrl": "https://tikoci.dev/traefik-wabt/",
+      "serve": {
+        "kind": "repo-as-web",
+        "root": 404,
+        "title": "Page not found · GitHub Pages",
+        "probeFile": "/README.md"
+      },
+      "plausible": null
+    },
+    "traefik-wasm-grain": {
+      "name": "traefik-wasm-grain",
+      "hasPages": true,
+      "state": "ok",
+      "htmlUrl": "https://tikoci.dev/traefik-wasm-grain/",
+      "serve": {
+        "kind": "repo-as-web",
+        "root": 404,
+        "title": "Page not found · GitHub Pages",
+        "probeFile": "/README.md"
+      },
+      "plausible": null
+    },
+    "vscode-tikbook": {
+      "name": "vscode-tikbook",
+      "hasPages": true,
+      "state": "ok",
+      "htmlUrl": "https://tikoci.dev/vscode-tikbook/",
+      "serve": {
+        "kind": "repo-as-web",
+        "root": 404,
+        "title": "Page not found · GitHub Pages",
+        "probeFile": "/README.md"
+      },
+      "plausible": null
+    },
+    "wargames": {
+      "name": "wargames",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    },
+    "winbox-deb": {
+      "name": "winbox-deb",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    }
+  }
+}

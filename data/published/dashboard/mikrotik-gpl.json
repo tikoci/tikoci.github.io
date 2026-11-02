@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 2,
+  "repo": "mikrotik-gpl",
+  "generatedAt": "2026-11-02T19:42:23.944Z",
+  "collection": {
+    "mode": "fresh",
+    "cacheWrittenAt": null
+  },
+  "ros": {
+    "locator": "github-tags:",
+    "kind": "published",
+    "coverage": [
+      "7.25",
+      "7.24.5",
+      "7.24.4",
+      "7.24.2",
+      "7.24.1",
+      "7.24",
+      "7.23.3",
+      "7.23.2",
+      "7.23.1",
+      "7.23",
+      "7.22.3",
+      "7.22.2",
+      "7.22.1",
+      "7.21.2",
+      "7.21.1",
+      "7.21",
+      "7.21rc6",
+      "7.21rc5",
+      "7.21rc4",
+      "7.21rc3",
+      "7.21rc2",
+      "7.21rc1",
+      "7.21beta11",
+      "7.21beta9",
+      "7.21beta8",
+      "7.21beta7",
+      "7.21beta5",
+      "7.21beta4",
+      "7.21beta3",
+      "7.21beta2",
+      "7.20.6",
+      "7.20.5",
+      "7.20.4",
+      "7.20.2",
+      "7.20.1",
+      "7.20",
+      "7.20rc5",
+      "7.20rc4",
+      "7.20rc3",
+      "7.20rc2",
+      "7.20rc1",
+      "7.20beta9",
+      "7.20beta8",
+      "7.20beta7",
+      "7.20beta6",
+      "7.20beta5",
+      "7.20beta4",
+      "7.20beta2",
+      "7.19.6",
+      "7.19.4",
+      "7.19.3",
+      "7.19.2",
+      "7.19.1",
+      "7.19",
+      "7.19rc3",
+      "7.19rc2",
+      "7.19rc1",
+      "7.19beta8",
+      "7.19beta7",
+      "7.19beta6",
+      "7.19beta5",
+      "7.18.2"
+    ],
+    "totalKnown": 62,
+    "truncated": true,
+    "channels": {
+      "stable": {
+        "version": "7.25",
+        "covered": true
+      },
+      "long-term": {
+        "version": "7.24.6",
+        "covered": false
+      }
+    }
+  },
+  "work": {
+    "counts": {
+      "issues": {
+        "total": 0,
+        "owner": 0,
+        "external": 0,
+        "bot": 0
+      },
+      "prs": {
+        "total": 0,
+        "owner": 0,
+        "external": 0,
+        "bot": 0,
+        "ownerReady": 0,
+        "ownerDraft": 0,
+        "draftUnknown": false
+      }
+    },
+    "page": {
+      "fetched": 0,
+      "perPage": 100,
+      "truncated": false,
+      "countsAreLowerBounds": false
+    },
+    "pullsEnriched": true,
+    "items": []
+  }
+}

@@ -8,7 +8,7 @@ import {
     extractTitle,
     isStaleDomain,
     scanPlausibleHtml,
-} from "../repo-github-pages";
+} from "../scripts/repo-github-pages";
 
 describe("pages survey version", () => {
     test("schema version is 1", () => {

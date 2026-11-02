@@ -1,7 +1,7 @@
 /**
  * fetch-github-data.ts — Fetch repo metadata + README HTML from GitHub API
  *
- * Called during build to produce repos.json for the project map and
+ * Called only by explicit collection to produce repos.json for the project map and
  * per-repo landing pages. Auth token resolution order:
  *   1. TIKOCI_GITHUB_TOKEN env var (CI override secret, when set)
  *   2. GITHUB_TOKEN env var (CI / explicit)
@@ -12,8 +12,8 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { join } from "node:path";
-import { REPO_OVERRIDES, EXCLUDE_REPOS, MIN_STARS, RELATIONSHIPS, REPO_SYMBOLS, DEFAULT_SYMBOL } from "./repo-config";
-import type { ExternalLink } from "./repo-config";
+import { REPO_OVERRIDES, EXCLUDE_REPOS, MIN_STARS, RELATIONSHIPS, REPO_SYMBOLS, DEFAULT_SYMBOL } from "../data/repo-config";
+import type { ExternalLink } from "../data/repo-config";
 
 const OWNER = "tikoci";
 const CACHE_MAX_AGE_MS = 60 * 60 * 1000; // 1 hour
@@ -39,7 +39,12 @@ function resolveGitHubToken(): string | undefined {
     return undefined;
 }
 
-const GITHUB_TOKEN = resolveGitHubToken();
+let resolvedToken: string | undefined;
+let tokenResolved = false;
+function getGitHubToken() {
+    if (!tokenResolved) { resolvedToken = resolveGitHubToken(); tokenResolved = true; }
+    return resolvedToken;
+}
 
 export interface RepoData {
     name: string;
@@ -97,8 +102,9 @@ export function githubHeaders(): Record<string, string> {
         Accept: "application/vnd.github+json",
         "User-Agent": "tikoci-website-build",
     };
-    if (GITHUB_TOKEN) {
-        headers.Authorization = `Bearer ${GITHUB_TOKEN}`;
+    const token = getGitHubToken();
+    if (token) {
+        headers.Authorization = `Bearer ${token}`;
     }
     return headers;
 }
@@ -108,8 +114,9 @@ function readmeHeaders(): Record<string, string> {
         Accept: "application/vnd.github.html+json",
         "User-Agent": "tikoci-website-build",
     };
-    if (GITHUB_TOKEN) {
-        headers.Authorization = `Bearer ${GITHUB_TOKEN}`;
+    const token = getGitHubToken();
+    if (token) {
+        headers.Authorization = `Bearer ${token}`;
     }
     return headers;
 }
@@ -203,11 +210,11 @@ interface CacheData {
     repos: RepoData[];
 }
 
-function readCache(cachePath: string): RepoData[] | null {
+function readCache(cachePath: string, allowStale = false): RepoData[] | null {
     if (!existsSync(cachePath)) return null;
     try {
         const data: CacheData = JSON.parse(readFileSync(cachePath, "utf-8"));
-        if (Date.now() - data.timestamp < CACHE_MAX_AGE_MS) {
+        if (allowStale || Date.now() - data.timestamp < CACHE_MAX_AGE_MS) {
             return data.repos;
         }
     } catch { /* cache corrupt, refetch */ }
@@ -224,7 +231,7 @@ function writeCache(cachePath: string, repos: RepoData[]) {
  * cached repo data so that changes to repo-config.ts take effect without
  * requiring a full GitHub API re-fetch.
  */
-function applyConfigOverrides(repos: RepoData[]): RepoData[] {
+export function applyConfigOverrides(repos: RepoData[]): RepoData[] {
     return repos.map(repo => {
         const override = REPO_OVERRIDES[repo.name];
         if (!override) return repo;
@@ -245,11 +252,11 @@ function applyConfigOverrides(repos: RepoData[]): RepoData[] {
  * @returns The full array of RepoData for page generation
  */
 export async function fetchGitHubData(distDir: string): Promise<RepoData[]> {
-    const dataDir = join(distDir, "data");
+    const dataDir = join(distDir, "published");
     mkdirSync(dataDir, { recursive: true });
     // Cache lives outside dist/ so it survives the dist/ clean step between builds.
     // This prevents repeated builds from exhausting the anonymous GitHub API rate limit.
-    const cachePath = join(import.meta.dirname, ".github-cache.json");
+    const cachePath = join(import.meta.dirname, "../data/.github-cache.json");
 
     // Try cache first (dev mode optimization)
     const forceRefresh = !!process.env.CI || process.argv.includes("--fresh");
@@ -269,7 +276,7 @@ export async function fetchGitHubData(distDir: string): Promise<RepoData[]> {
         rawRepos = await fetchRepoList();
     } catch (err) {
         console.warn(`  GitHub API fetch failed: ${err}`);
-        const cached = readCache(cachePath);
+        const cached = readCache(cachePath, true);
         if (cached) {
             console.log("  Falling back to stale cache");
             const repos = applyConfigOverrides(cached);
@@ -361,7 +368,7 @@ export async function fetchGitHubData(distDir: string): Promise<RepoData[]> {
     return repos;
 }
 
-function writeReposJson(dataDir: string, repos: RepoData[]) {
+export function writeReposJson(dataDir: string, repos: RepoData[]) {
     // Write a slimmed version for the map (no readmeHtml to keep size small)
     const slim = repos.map(r => ({
         name: r.name,

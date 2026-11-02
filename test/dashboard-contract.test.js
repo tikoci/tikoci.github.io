@@ -19,7 +19,7 @@ import {
     summarizeReleases,
     summarizeWorkIssues,
     writeDashboardCache,
-} from "../fetch-dashboard-data";
+} from "../scripts/fetch-dashboard-data";
 import apiPayloads from "./fixtures/v2-api-payloads.json";
 import findingsInput from "./fixtures/v2-findings-input.json";
 

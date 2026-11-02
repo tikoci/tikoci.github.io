@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 2,
+  "repo": "donny",
+  "generatedAt": "2026-11-02T19:42:23.944Z",
+  "collection": {
+    "mode": "fresh",
+    "cacheWrittenAt": null
+  },
+  "work": {
+    "counts": {
+      "issues": {
+        "total": 1,
+        "owner": 1,
+        "external": 0,
+        "bot": 0
+      },
+      "prs": {
+        "total": 0,
+        "owner": 0,
+        "external": 0,
+        "bot": 0,
+        "ownerReady": 0,
+        "ownerDraft": 0,
+        "draftUnknown": false
+      }
+    },
+    "page": {
+      "fetched": 1,
+      "perPage": 100,
+      "truncated": false,
+      "countsAreLowerBounds": false
+    },
+    "pullsEnriched": true,
+    "items": [
+      {
+        "number": 1,
+        "title": "heads-up: quickchr's ChrInstance.descriptor()/MachineDescriptor shape changed (breaking, pre-1.0)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/donny/issues/1",
+        "createdAt": "2026-07-10T01:01:32Z",
+        "updatedAt": "2026-07-10T01:01:32Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      }
+    ]
+  }
+}
