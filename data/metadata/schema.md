@@ -24,3 +24,21 @@ Additive fields are compatible. Removing/renaming fields or changing meanings
 requires a dataset schema version bump and a documented migration. Consumers must
 ignore unknown fields and examine state/error plus timestamps before using data.
 Legacy `/data/` dashboard endpoints remain independently versioned and compatible.
+
+## Collection evidence
+
+Dashboard v2 detail `work` and `ros` groups may include the same dated
+`lastKnownGood` envelope as summary signals. Their summary state or detail error
+identifies a failed attempt; empty current lists do not erase retained evidence.
+CI workflow entries retain observations by the stable `configured` selector,
+independently of array order. Recovery removes retained envelopes.
+
+The durable rendering input `data/repos.json` may include per-repository
+`enrichment: { observedAt, error, retainedObservedAt? }`. `observedAt` dates the
+latest enrichment attempt; `retainedObservedAt` conservatively dates retained
+content and never advances across repeated failures. Individual failed README,
+doc, Dockerfile or viewable-file requests retain their prior values while other
+fields can refresh. HTTP 404 means absent content; other HTTP failures and
+network failures are explicit partial errors in `published/collection.json`.
+Successful empty responses replace prior content. This enrichment bookkeeping is
+not included in the slim public repository map projection.

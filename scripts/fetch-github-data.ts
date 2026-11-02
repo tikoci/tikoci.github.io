@@ -58,6 +58,7 @@ export interface RepoData {
     updated_at: string;
     default_branch: string;
     readmeHtml: string;
+    enrichment?: { observedAt: string; error: string | null; retainedObservedAt?: string };
     bonusDocs: { name: string; path: string; url: string }[];
     category?: string;
     /** VS Code Marketplace extension ID (passthrough from config) */
@@ -131,14 +132,16 @@ async function fetchRepoList(): Promise<any[]> {
 async function fetchReadmeHtml(repo: string): Promise<string> {
     const url = `https://api.github.com/repos/${OWNER}/${repo}/readme`;
     const resp = await fetch(url, { headers: readmeHeaders() });
-    if (!resp.ok) return "";
+    if (resp.status === 404) return "";
+    if (!resp.ok) throw new Error(`README HTTP ${resp.status}`);
     return resp.text();
 }
 
 async function checkBonusDoc(repo: string, path: string, defaultBranch: string): Promise<{ name: string; path: string; url: string } | null> {
     const url = `https://api.github.com/repos/${OWNER}/${repo}/contents/${path}`;
     const resp = await fetch(url, { headers: githubHeaders() });
-    if (!resp.ok) return null;
+    if (resp.status === 404) return null;
+    if (!resp.ok) throw new Error(`Content HTTP ${resp.status}`);
     return {
         name: path,
         path,
@@ -150,14 +153,17 @@ async function checkBonusDoc(repo: string, path: string, defaultBranch: string):
 async function fileExists(repo: string, path: string): Promise<boolean> {
     const url = `https://api.github.com/repos/${OWNER}/${repo}/contents/${path}`;
     const resp = await fetch(url, { headers: githubHeaders(), method: "HEAD" });
-    return resp.ok;
+    if (resp.status === 404) return false;
+    if (!resp.ok) throw new Error(`File probe HTTP ${resp.status}`);
+    return true;
 }
 
 /** Fetch raw text content of a file from a repo */
 async function fetchRawFile(repo: string, path: string, defaultBranch: string): Promise<string | null> {
     const url = `https://raw.githubusercontent.com/${OWNER}/${repo}/${defaultBranch}/${path}`;
     const resp = await fetch(url);
-    if (!resp.ok) return null;
+    if (resp.status === 404) return null;
+    if (!resp.ok) throw new Error(`Content HTTP ${resp.status}`);
     return resp.text();
 }
 
@@ -165,7 +171,8 @@ async function fetchRawFile(repo: string, path: string, defaultBranch: string): 
 async function fetchFileAsHtml(repo: string, path: string): Promise<string | null> {
     const url = `https://api.github.com/repos/${OWNER}/${repo}/contents/${path}`;
     const resp = await fetch(url, { headers: readmeHeaders() });
-    if (!resp.ok) return null;
+    if (resp.status === 404) return null;
+    if (!resp.ok) throw new Error(`Content HTTP ${resp.status}`);
     return resp.text();
 }
 
@@ -251,12 +258,12 @@ export function applyConfigOverrides(repos: RepoData[]): RepoData[] {
  * @param distDir - The dist/ output directory
  * @returns The full array of RepoData for page generation
  */
-export async function fetchGitHubData(distDir: string): Promise<RepoData[]> {
+export async function fetchGitHubData(distDir: string, onPartialFailure: (message: string) => void = () => {}): Promise<RepoData[]> {
     const dataDir = join(distDir, "published");
     mkdirSync(dataDir, { recursive: true });
     // Cache lives outside dist/ so it survives the dist/ clean step between builds.
     // This prevents repeated builds from exhausting the anonymous GitHub API rate limit.
-    const cachePath = join(import.meta.dirname, "../data/.github-cache.json");
+    const cachePath = join(distDir, ".github-cache.json");
 
     // Try cache first (dev mode optimization)
     const forceRefresh = !!process.env.CI || process.argv.includes("--fresh");
@@ -296,20 +303,28 @@ export async function fetchGitHubData(distDir: string): Promise<RepoData[]> {
 
     console.log(`  ${filtered.length} repos qualify (${MIN_STARS}+ stars)`);
 
+    const prior = readCache(cachePath, true) ?? [];
+    const priorTimestamp = prior.length ? JSON.parse(readFileSync(cachePath, "utf-8")).timestamp : null;
     // Fetch README + bonus docs + enrichments for each repo
     const repos: RepoData[] = [];
     for (const r of filtered) {
         const override = REPO_OVERRIDES[r.name] || {};
         console.log(`  Fetching README for ${r.name}...`);
 
-        const readmeHtml = await fetchReadmeHtml(r.name);
-        const cleanHtml = sanitizeReadmeHtml(readmeHtml, r.name, r.default_branch);
+        const old = prior.find(repo => repo.name === r.name);
+        let failed = false;
+        const attempt = async <T>(request: () => Promise<T>, fallback: T): Promise<T> => {
+            try { return await request(); }
+            catch { failed = true; onPartialFailure("Repository enrichment partially failed; retained available prior content"); return fallback; }
+        };
+        const readmeHtml = await attempt(() => fetchReadmeHtml(r.name), old?.readmeHtml ?? "");
+        const cleanHtml = readmeHtml === old?.readmeHtml ? readmeHtml : sanitizeReadmeHtml(readmeHtml, r.name, r.default_branch);
 
         // Check bonus docs
         const bonusDocs: { name: string; path: string; url: string }[] = [];
         if (override.bonusDocs) {
             for (const docPath of override.bonusDocs) {
-                const doc = await checkBonusDoc(r.name, docPath, r.default_branch);
+                const doc = await attempt(() => checkBonusDoc(r.name, docPath, r.default_branch), old?.bonusDocs.find(doc => doc.path === docPath) ?? null);
                 if (doc) bonusDocs.push(doc);
             }
         }
@@ -317,9 +332,9 @@ export async function fetchGitHubData(distDir: string): Promise<RepoData[]> {
         // Detect Dockerfile in root
         let hasDockerfile = false;
         let dockerfileContent: string | undefined;
-        if (await fileExists(r.name, "Dockerfile")) {
+        if (await attempt(() => fileExists(r.name, "Dockerfile"), old?.hasDockerfile ?? false)) {
             hasDockerfile = true;
-            const raw = await fetchRawFile(r.name, "Dockerfile", r.default_branch);
+            const raw = await attempt(() => fetchRawFile(r.name, "Dockerfile", r.default_branch), old?.dockerfileContent ?? null);
             if (raw) dockerfileContent = raw;
             console.log(`    Dockerfile detected in ${r.name}`);
         }
@@ -328,9 +343,9 @@ export async function fetchGitHubData(distDir: string): Promise<RepoData[]> {
         const viewableFileContents: { name: string; html: string }[] = [];
         if (override.viewableFiles) {
             for (const filePath of override.viewableFiles) {
-                const html = await fetchFileAsHtml(r.name, filePath);
+                const html = await attempt(() => fetchFileAsHtml(r.name, filePath), old?.viewableFileContents.find(file => file.name === filePath)?.html ?? null);
                 if (html) {
-                    const cleanViewable = sanitizeReadmeHtml(html, r.name, r.default_branch);
+                    const cleanViewable = html === old?.viewableFileContents.find(file => file.name === filePath)?.html ? html : sanitizeReadmeHtml(html, r.name, r.default_branch);
                     viewableFileContents.push({ name: filePath, html: cleanViewable });
                     console.log(`    Fetched viewable: ${filePath}`);
                 }
@@ -349,6 +364,8 @@ export async function fetchGitHubData(distDir: string): Promise<RepoData[]> {
             updated_at: r.updated_at,
             default_branch: r.default_branch,
             readmeHtml: cleanHtml,
+            enrichment: { observedAt: new Date().toISOString(), error: failed ? "Partial enrichment failure; retained available prior content" : null,
+                ...(failed && old ? { retainedObservedAt: old.enrichment?.retainedObservedAt ?? old.enrichment?.observedAt ?? new Date(priorTimestamp).toISOString() } : {}) },
             bonusDocs,
             category: override.category,
             vscodeExtensionId: override.vscodeExtensionId,

@@ -1,8 +1,9 @@
+import { fileURLToPath } from "node:url";
 import { retainObservations } from "./retain-observations";
 /** Public allowlist is established anonymously, independently of token scope. */
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { main, type PagesRepoSurvey, type PagesSurveyFile } from "./repo-github-pages";
-const root = new URL("../data/", import.meta.url).pathname;
+const root = fileURLToPath(new URL("../data/", import.meta.url));
 mkdirSync(`${root}/metadata`, { recursive: true });
 const path = `${root}/metadata/pages.json`;
 const attemptedAt = new Date().toISOString();

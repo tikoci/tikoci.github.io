@@ -1,5 +1,6 @@
+import { fileURLToPath } from "node:url";
 import { readFileSync } from "node:fs";
-export function validateSnapshots(root = new URL("../data/", import.meta.url).pathname) {
+export function validateSnapshots(root = fileURLToPath(new URL("../data/", import.meta.url))) {
     const read = (path: string) => JSON.parse(readFileSync(`${root}/${path}`, "utf-8"));
     const repos = read("repos.json");
     if (!Array.isArray(repos) || !repos.length || repos.some(r => typeof r.name !== "string" || typeof r.readmeHtml !== "string" || !r.updated_at)) throw new Error("Invalid repository snapshot");
