@@ -145,3 +145,22 @@ test("partial Pages probes retain dated evidence across failures and recovery", 
     expect(retainObservations(good, second, "2026-05-01")).toEqual(good);
     expect(retainObservations(partial, undefined, "2026-01-01")).toEqual(partial);
 });
+
+test("partial CI parents retain each workflow's latest successful evidence", () => {
+    const a1 = { configured: "a", state: "ok", lastUrl: "a-1" };
+    const b1 = { configured: "b", state: "ok", lastUrl: "b-1" };
+    const good = { state: "ok", workflows: [a1, b1] };
+    const a2 = { ...a1, lastUrl: "a-2" };
+    const first = retainObservations({ state: "partial", workflows: [a2, { configured: "b", state: "error" }] }, good, "2026-01-01");
+    expect(first.workflows[0]).toEqual(a2);
+    expect(first.workflows[1].lastKnownGood).toEqual({ observedAt: "2026-01-01", value: b1 });
+    expect(first.lastKnownGood).toEqual({ observedAt: "2026-01-01", value: good });
+    const failure = { state: "partial", workflows: [{ configured: "b", state: "error" }, { configured: "a", state: "error" }] };
+    const second = retainObservations(failure, first, "2026-02-01");
+    expect(second.workflows[0].lastKnownGood).toEqual(first.workflows[1].lastKnownGood);
+    expect(second.workflows[1].lastKnownGood).toEqual({ observedAt: "2026-02-01", value: a2 });
+    expect(second.lastKnownGood).toEqual(first.lastKnownGood);
+    const third = retainObservations(failure, second, "2026-03-01");
+    expect(third).toEqual(second);
+    expect(retainObservations(good, third, "2026-04-01")).toEqual(good);
+});

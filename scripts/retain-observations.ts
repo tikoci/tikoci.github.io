@@ -8,13 +8,15 @@ export function retainObservations(current: unknown, previous: unknown, observed
             ? retainObservations(value, previous.find(old => old?.configured === value.configured), observedAt)
             : value);
     }
-    const next = current as Record<string, unknown>;
     const old = previous as Record<string, unknown>;
+    // Retain each child independently before attaching aggregate evidence.
+    const next = Object.fromEntries(Object.entries(current).map(([key, value]) =>
+        [key, key === "lastKnownGood" ? value : retainObservations(value, old[key], observedAt)]));
     if ((next.state === "error" || next.state === "unknown" || next.state === "partial") && old.state === "ok") {
         return { ...next, lastKnownGood: { observedAt, value: old } };
     }
     if ((next.state === "error" || next.state === "unknown" || next.state === "partial") && old.lastKnownGood) return { ...next, lastKnownGood: old.lastKnownGood };
-    return Object.fromEntries(Object.entries(next).map(([key, value]) => [key, retainObservations(value, old[key], observedAt)]));
+    return next;
 }
 
 /** Detail groups have no state of their own; use their associated summary signals. */
