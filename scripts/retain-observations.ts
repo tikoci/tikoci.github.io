@@ -10,10 +10,10 @@ export function retainObservations(current: unknown, previous: unknown, observed
     }
     const next = current as Record<string, unknown>;
     const old = previous as Record<string, unknown>;
-    if ((next.state === "error" || next.state === "unknown") && old.state === "ok") {
+    if ((next.state === "error" || next.state === "unknown" || next.state === "partial") && old.state === "ok") {
         return { ...next, lastKnownGood: { observedAt, value: old } };
     }
-    if ((next.state === "error" || next.state === "unknown") && old.lastKnownGood) return { ...next, lastKnownGood: old.lastKnownGood };
+    if ((next.state === "error" || next.state === "unknown" || next.state === "partial") && old.lastKnownGood) return { ...next, lastKnownGood: old.lastKnownGood };
     return Object.fromEntries(Object.entries(next).map(([key, value]) => [key, retainObservations(value, old[key], observedAt)]));
 }
 

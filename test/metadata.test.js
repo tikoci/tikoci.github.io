@@ -130,3 +130,18 @@ test("enrichment retains content on HTTP and network failures, then accepts empt
         rmSync(root, { recursive: true, force: true });
     }
 });
+
+test("partial Pages probes retain dated evidence across failures and recovery", () => {
+    const good = { state: "ok", serve: { kind: "site", root: 200 }, plausible: { present: true } };
+    const partial = { state: "partial", serve: { kind: "unknown", root: null }, plausible: { present: null } };
+    const first = retainObservations(partial, good, "2026-01-01");
+    const second = retainObservations(partial, first, "2026-02-01");
+    expect(first.lastKnownGood).toEqual({ observedAt: "2026-01-01", value: good });
+    expect(second.lastKnownGood).toEqual(first.lastKnownGood);
+    expect(second.state).toBe("partial");
+    expect(second.serve).toEqual(partial.serve);
+    const failed = retainObservations({ state: "error" }, second, "2026-03-01");
+    expect(retainObservations(partial, failed, "2026-04-01").lastKnownGood).toEqual(first.lastKnownGood);
+    expect(retainObservations(good, second, "2026-05-01")).toEqual(good);
+    expect(retainObservations(partial, undefined, "2026-01-01")).toEqual(partial);
+});

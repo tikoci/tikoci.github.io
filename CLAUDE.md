@@ -58,7 +58,7 @@ are auto (attribute absent), light and dark. Preserve existing appearance.
 
 Dashboard v2 remains at `/data/dashboard.json`, `/data/dashboard/<repo>.json` and
 `/data/ros-versions.json`; its contract is src/dashboard-schema.md. Existing
-per-signal state/error fields remain authoritative. Failed error/unknown signals
+per-signal state/error fields remain authoritative. Failed error/unknown/partial signals
 can carry additive lastKnownGood evidence with its original observedAt. The latest
 attempt is separate from that evidence. Pages metadata has its own v1 contract;
 see `/metadata/schema.md`. Schema versions are not freshness timestamps.
