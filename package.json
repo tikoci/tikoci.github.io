@@ -8,6 +8,7 @@
     "serve": "bun --bun x serve dist -l 3000",
     "typecheck": "bunx tsc",
     "test": "bun test test/",
+    "survey:pages": "bun run repo-github-pages.ts",
     "lint": "bunx tsc && bunx @biomejs/biome lint . && bun run build",
     "lint:fix": "bunx @biomejs/biome lint --fix ."
   },

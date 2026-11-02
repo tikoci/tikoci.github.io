@@ -125,6 +125,8 @@ strings, never thrown) so a flake never breaks deploy.
 | `src/dashboard-schema.md` | Concise v2 schema/endpoints reference (published to site root) |
 | `src/tikoci-status-spec.md` | Well-known `.tikoci/status.json` contract for repos (proposal; consumer pending) |
 | `test/dashboard-contract.test.js` | Fixture tests for the dashboard contract (`bun test test/`) |
+| `repo-github-pages.ts` | On-demand survey: Pages+Plausible inventory → `repo-github-pages.json` (`bun run survey:pages`) |
+| `repo-github-pages.json` | Committed Pages+Plausible survey (v1 schema, re-run after Pages/tag changes) |
 | `generate-pages.ts` | Generates per-repo landing pages (`dist/p/*.html`) |
 | `repo-config.ts` | Per-repo overrides: APL symbols, categories, link relationships, dashboard coverage |
 | `dist/p/` | Generated per-repo landing pages (NOT committed — built from GitHub data) |

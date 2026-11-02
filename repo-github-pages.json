@@ -1,0 +1,625 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-02T16:42:00.450Z",
+  "generatedBy": "repo-github-pages.ts (manual survey — re-run: bun run survey:pages)",
+  "collection": {
+    "mode": "manual",
+    "auth": "token",
+    "note": "On-demand durable survey, committed beside the script. Re-run after Pages/plausible changes; no CI schedule (setups change rarely). Coverage is token-scoped: anonymous runs omit private repos and 404 their Pages settings."
+  },
+  "budgets": {
+    "githubApiCalls": 55,
+    "otherHttpCalls": 32,
+    "maxConcurrency": 4,
+    "timeoutMsPerRequest": 15000,
+    "rateLimitRemaining": 4671
+  },
+  "sources": {
+    "pagesApi": "GET repos/{owner}/{repo}/pages (404 = off; 401/403 = unknown)",
+    "deploy": "GET repos/{repo}/deployments?environment=github-pages (workflow) | GET repos/{repo}/pages/builds/latest (legacy)",
+    "serve": "HTTP GET of html_url as an anonymous visitor (+ README.md/package.json/index.html probes when root 404s)",
+    "plausible": "HTTP GET of published HTML: root + same-origin *.html depth-1 crawl (cap 10 pages/site); multiline scan for plausible.io script tags + plausible('Event') calls"
+  },
+  "coverage": {
+    "repos": [
+      ".github",
+      ".github-private",
+      "adventure",
+      "bench-routeros-tools",
+      "bun-declare-call-erasure-repro",
+      "centrs",
+      "chr-armed",
+      "chr-utm",
+      "cligames",
+      "donny",
+      "enbeep",
+      "fat-chr",
+      "flent",
+      "grpcurl",
+      "lsp-routeros-ts",
+      "m2ir",
+      "make.d",
+      "midimonster",
+      "mikropkl",
+      "mikrotik-gpl",
+      "netinstall",
+      "netserver",
+      "nginx",
+      "postman-code-generators",
+      "quickchr",
+      "restraml",
+      "rosetta",
+      "routeros-skills",
+      "serial2http",
+      "tikdns",
+      "tikoci.github.io",
+      "traefik-wabt",
+      "traefik-wasm-grain",
+      "vscode-tikbook",
+      "wargames",
+      "winbox-deb"
+    ],
+    "withPages": 10,
+    "note": "36 org repos surveyed; 10 with Pages. The plausible block exists only where a sweep ran (live sites); truncated flags cap-cut sweeps."
+  },
+  "repos": {
+    ".github": {
+      "name": ".github",
+      "hasPages": false,
+      "state": "ok"
+    },
+    ".github-private": {
+      "name": ".github-private",
+      "hasPages": false,
+      "state": "ok"
+    },
+    "adventure": {
+      "name": "adventure",
+      "hasPages": false,
+      "state": "ok"
+    },
+    "bench-routeros-tools": {
+      "name": "bench-routeros-tools",
+      "hasPages": false,
+      "state": "ok"
+    },
+    "bun-declare-call-erasure-repro": {
+      "name": "bun-declare-call-erasure-repro",
+      "hasPages": false,
+      "state": "ok"
+    },
+    "centrs": {
+      "name": "centrs",
+      "hasPages": true,
+      "state": "ok",
+      "buildType": "workflow",
+      "source": {
+        "branch": "main",
+        "path": "/"
+      },
+      "htmlUrl": "https://tikoci.dev/centrs/",
+      "status": null,
+      "cname": null,
+      "custom404": false,
+      "httpsEnforced": true,
+      "public": true,
+      "serve": {
+        "kind": "site",
+        "root": 200,
+        "title": "centrs docs",
+        "probeFile": null
+      },
+      "latestDeploy": {
+        "at": "2026-11-01T10:54:01Z",
+        "ref": "main",
+        "sha": "ccbfd93",
+        "state": "success"
+      },
+      "plausible": {
+        "present": false,
+        "script": null,
+        "dataDomain": null,
+        "dataDomains": [],
+        "pagesChecked": [
+          "/centrs/",
+          "/centrs/api/",
+          "/centrs/errors/"
+        ],
+        "pagesWithSnippet": [],
+        "truncated": false,
+        "events": []
+      }
+    },
+    "chr-armed": {
+      "name": "chr-armed",
+      "hasPages": false,
+      "state": "ok"
+    },
+    "chr-utm": {
+      "name": "chr-utm",
+      "hasPages": false,
+      "state": "ok"
+    },
+    "cligames": {
+      "name": "cligames",
+      "hasPages": false,
+      "state": "ok"
+    },
+    "donny": {
+      "name": "donny",
+      "hasPages": false,
+      "state": "ok"
+    },
+    "enbeep": {
+      "name": "enbeep",
+      "hasPages": true,
+      "state": "ok",
+      "buildType": "workflow",
+      "source": {
+        "branch": "main",
+        "path": "/"
+      },
+      "htmlUrl": "http://tikoci.dev/enbeep/",
+      "status": null,
+      "cname": null,
+      "custom404": false,
+      "httpsEnforced": false,
+      "public": true,
+      "serve": {
+        "kind": "site",
+        "root": 200,
+        "title": "enbeep — Live Acoustic Decoder",
+        "probeFile": null
+      },
+      "latestDeploy": {
+        "at": "2026-10-29T21:10:35Z",
+        "ref": "main",
+        "sha": "03619b9",
+        "state": "success"
+      },
+      "plausible": {
+        "present": false,
+        "script": null,
+        "dataDomain": null,
+        "dataDomains": [],
+        "pagesChecked": [
+          "/enbeep/"
+        ],
+        "pagesWithSnippet": [],
+        "truncated": false,
+        "events": []
+      }
+    },
+    "fat-chr": {
+      "name": "fat-chr",
+      "hasPages": true,
+      "state": "ok",
+      "buildType": "workflow",
+      "source": {
+        "branch": "main",
+        "path": "/"
+      },
+      "htmlUrl": "https://tikoci.dev/fat-chr/",
+      "status": null,
+      "cname": null,
+      "custom404": false,
+      "httpsEnforced": true,
+      "public": true,
+      "serve": {
+        "kind": "empty",
+        "root": 404,
+        "title": "Site not found · GitHub Pages",
+        "probeFile": null
+      },
+      "latestDeploy": null
+    },
+    "flent": {
+      "name": "flent",
+      "hasPages": false,
+      "state": "ok"
+    },
+    "grpcurl": {
+      "name": "grpcurl",
+      "hasPages": false,
+      "state": "ok"
+    },
+    "lsp-routeros-ts": {
+      "name": "lsp-routeros-ts",
+      "hasPages": false,
+      "state": "ok"
+    },
+    "m2ir": {
+      "name": "m2ir",
+      "hasPages": false,
+      "state": "ok"
+    },
+    "make.d": {
+      "name": "make.d",
+      "hasPages": false,
+      "state": "ok"
+    },
+    "midimonster": {
+      "name": "midimonster",
+      "hasPages": false,
+      "state": "ok"
+    },
+    "mikropkl": {
+      "name": "mikropkl",
+      "hasPages": false,
+      "state": "ok"
+    },
+    "mikrotik-gpl": {
+      "name": "mikrotik-gpl",
+      "hasPages": false,
+      "state": "ok"
+    },
+    "netinstall": {
+      "name": "netinstall",
+      "hasPages": true,
+      "state": "ok",
+      "buildType": "workflow",
+      "source": {
+        "branch": "master",
+        "path": "/"
+      },
+      "htmlUrl": "https://tikoci.dev/netinstall/",
+      "status": null,
+      "cname": null,
+      "custom404": false,
+      "httpsEnforced": true,
+      "public": true,
+      "serve": {
+        "kind": "repo-as-web",
+        "root": 404,
+        "title": "Page not found · GitHub Pages",
+        "probeFile": "/README.md"
+      },
+      "latestDeploy": {
+        "at": "2026-03-30T19:39:57Z",
+        "ref": "master",
+        "sha": "0c13a68",
+        "state": "success"
+      }
+    },
+    "netserver": {
+      "name": "netserver",
+      "hasPages": false,
+      "state": "ok"
+    },
+    "nginx": {
+      "name": "nginx",
+      "hasPages": false,
+      "state": "ok"
+    },
+    "postman-code-generators": {
+      "name": "postman-code-generators",
+      "hasPages": true,
+      "state": "ok",
+      "buildType": "workflow",
+      "source": {
+        "branch": "develop",
+        "path": "/"
+      },
+      "htmlUrl": "https://tikoci.dev/postman-code-generators/",
+      "status": null,
+      "cname": null,
+      "custom404": false,
+      "httpsEnforced": true,
+      "public": true,
+      "serve": {
+        "kind": "site",
+        "root": 200,
+        "title": "curl2rsc moved",
+        "probeFile": null
+      },
+      "latestDeploy": {
+        "at": "2026-04-14T19:28:46Z",
+        "ref": "develop",
+        "sha": "ca90a70",
+        "state": "success"
+      },
+      "plausible": {
+        "present": true,
+        "script": "script.tagged-events.js",
+        "dataDomain": "tikoci.github.io/restraml",
+        "dataDomains": [
+          "tikoci.github.io/restraml"
+        ],
+        "pagesChecked": [
+          "/postman-code-generators/"
+        ],
+        "pagesWithSnippet": [
+          "/postman-code-generators/"
+        ],
+        "truncated": false,
+        "events": []
+      }
+    },
+    "quickchr": {
+      "name": "quickchr",
+      "hasPages": false,
+      "state": "ok"
+    },
+    "restraml": {
+      "name": "restraml",
+      "hasPages": true,
+      "state": "ok",
+      "buildType": "legacy",
+      "source": {
+        "branch": "main",
+        "path": "/docs"
+      },
+      "htmlUrl": "https://tikoci.dev/restraml/",
+      "status": "built",
+      "cname": null,
+      "custom404": false,
+      "httpsEnforced": true,
+      "public": true,
+      "serve": {
+        "kind": "site",
+        "root": 200,
+        "title": "RouterOS API Schema & CLI Tools — restraml",
+        "probeFile": null
+      },
+      "latestDeploy": {
+        "at": "2026-11-02T13:12:22Z",
+        "ref": "(legacy build)",
+        "sha": "433d1c1",
+        "state": "built"
+      },
+      "plausible": {
+        "present": true,
+        "script": "pa-hash",
+        "dataDomain": null,
+        "dataDomains": [],
+        "pagesChecked": [
+          "/restraml/",
+          "/restraml/diff.html",
+          "/restraml/lookup.html",
+          "/restraml/openapi.html",
+          "/restraml/tikapp.html"
+        ],
+        "pagesWithSnippet": [
+          "/restraml/",
+          "/restraml/diff.html",
+          "/restraml/lookup.html",
+          "/restraml/openapi.html",
+          "/restraml/tikapp.html"
+        ],
+        "truncated": false,
+        "events": [
+          "Diff Run",
+          "Lookup Run",
+          "Lookup Share",
+          "OpenAPI Explorer",
+          "SideBySideDiff",
+          "SideBySideDiff Share"
+        ]
+      }
+    },
+    "rosetta": {
+      "name": "rosetta",
+      "hasPages": false,
+      "state": "ok"
+    },
+    "routeros-skills": {
+      "name": "routeros-skills",
+      "hasPages": false,
+      "state": "ok"
+    },
+    "serial2http": {
+      "name": "serial2http",
+      "hasPages": false,
+      "state": "ok"
+    },
+    "tikdns": {
+      "name": "tikdns",
+      "hasPages": false,
+      "state": "ok"
+    },
+    "tikoci.github.io": {
+      "name": "tikoci.github.io",
+      "hasPages": true,
+      "state": "ok",
+      "buildType": "workflow",
+      "source": {
+        "branch": "main",
+        "path": "/"
+      },
+      "htmlUrl": "http://tikoci.dev/",
+      "status": null,
+      "cname": "tikoci.dev",
+      "custom404": false,
+      "httpsEnforced": false,
+      "public": true,
+      "serve": {
+        "kind": "site",
+        "root": 200,
+        "title": "TIKOCI — Open Source RouterOS Toolkit",
+        "probeFile": null
+      },
+      "latestDeploy": {
+        "at": "2026-11-02T12:43:56Z",
+        "ref": "main",
+        "sha": "83824a6",
+        "state": "success"
+      },
+      "plausible": {
+        "present": true,
+        "script": "pa-hash",
+        "dataDomain": null,
+        "dataDomains": [],
+        "pagesChecked": [
+          "/",
+          "/chr-images.html",
+          "/containers.html",
+          "/dev-tools.html",
+          "/p/bench-routeros-tools.html",
+          "/p/centrs.html",
+          "/p/cligames.html",
+          "/p/donny.html",
+          "/p/fat-chr.html",
+          "/p/make.d.html"
+        ],
+        "pagesWithSnippet": [
+          "/",
+          "/chr-images.html",
+          "/containers.html",
+          "/dev-tools.html",
+          "/p/bench-routeros-tools.html",
+          "/p/centrs.html",
+          "/p/cligames.html",
+          "/p/donny.html",
+          "/p/fat-chr.html",
+          "/p/make.d.html"
+        ],
+        "truncated": true,
+        "events": [
+          "CHR Download",
+          "CHR Page Load",
+          "CHR UTM Open"
+        ]
+      }
+    },
+    "traefik-wabt": {
+      "name": "traefik-wabt",
+      "hasPages": true,
+      "state": "ok",
+      "buildType": "workflow",
+      "source": {
+        "branch": "main",
+        "path": "/"
+      },
+      "htmlUrl": "https://tikoci.dev/traefik-wabt/",
+      "status": null,
+      "cname": null,
+      "custom404": false,
+      "httpsEnforced": true,
+      "public": true,
+      "serve": {
+        "kind": "repo-as-web",
+        "root": 404,
+        "title": "Page not found · GitHub Pages",
+        "probeFile": "/README.md"
+      },
+      "latestDeploy": {
+        "at": "2024-06-07T00:58:39Z",
+        "ref": "main",
+        "sha": "ff4a208",
+        "state": "success"
+      }
+    },
+    "traefik-wasm-grain": {
+      "name": "traefik-wasm-grain",
+      "hasPages": true,
+      "state": "ok",
+      "buildType": "workflow",
+      "source": {
+        "branch": "main",
+        "path": "/"
+      },
+      "htmlUrl": "https://tikoci.dev/traefik-wasm-grain/",
+      "status": null,
+      "cname": null,
+      "custom404": false,
+      "httpsEnforced": true,
+      "public": true,
+      "serve": {
+        "kind": "repo-as-web",
+        "root": 404,
+        "title": "Page not found · GitHub Pages",
+        "probeFile": "/README.md"
+      },
+      "latestDeploy": {
+        "at": "2026-03-28T10:44:43Z",
+        "ref": "main",
+        "sha": "c9cfc04",
+        "state": "success"
+      }
+    },
+    "vscode-tikbook": {
+      "name": "vscode-tikbook",
+      "hasPages": true,
+      "state": "ok",
+      "buildType": "workflow",
+      "source": {
+        "branch": "main",
+        "path": "/"
+      },
+      "htmlUrl": "https://tikoci.dev/vscode-tikbook/",
+      "status": null,
+      "cname": null,
+      "custom404": false,
+      "httpsEnforced": true,
+      "public": true,
+      "serve": {
+        "kind": "repo-as-web",
+        "root": 404,
+        "title": "Page not found · GitHub Pages",
+        "probeFile": "/README.md"
+      },
+      "latestDeploy": {
+        "at": "2026-05-31T17:26:02Z",
+        "ref": "main",
+        "sha": "c8fddd2",
+        "state": "success"
+      }
+    },
+    "wargames": {
+      "name": "wargames",
+      "hasPages": false,
+      "state": "ok"
+    },
+    "winbox-deb": {
+      "name": "winbox-deb",
+      "hasPages": false,
+      "state": "ok"
+    }
+  },
+  "findings": [
+    {
+      "id": "pages-never-deployed",
+      "rule": "pages-never-deployed",
+      "severity": "gap",
+      "repos": [
+        "fat-chr"
+      ],
+      "summary": "fat-chr has Pages enabled but no deployment has ever run",
+      "detail": "Pages is enabled (workflow build) but the repo has zero github-pages deployments, so the site serves GitHub's 'Site not found' page. Either deploy content or disable Pages to remove the dead site."
+    },
+    {
+      "id": "plausible-stale-domain",
+      "rule": "plausible-stale-domain",
+      "severity": "pending",
+      "repos": [
+        "postman-code-generators"
+      ],
+      "summary": "postman-code-generators tracks to another repo's Plausible domain",
+      "detail": "A Plausible tag on the site reports to a data-domain naming a different tikoci repo — almost certainly a copy-paste leftover. Its pageviews land in the wrong dashboard (or are dropped), so this page's traffic is unattributed. See plausible.dataDomains on each repo."
+    },
+    {
+      "id": "plausible-missing",
+      "rule": "plausible-missing",
+      "severity": "info",
+      "repos": [
+        "centrs",
+        "enbeep"
+      ],
+      "summary": "centrs, enbeep serve Pages with no Plausible tag",
+      "detail": "Live Pages sites with real content but no Plausible snippet anywhere in the surveyed HTML, so their usage is invisible to our analytics."
+    },
+    {
+      "id": "pages-repo-as-web",
+      "rule": "pages-repo-as-web",
+      "severity": "info",
+      "repos": [
+        "netinstall",
+        "traefik-wabt",
+        "traefik-wasm-grain",
+        "vscode-tikbook"
+      ],
+      "summary": "4 repos use the repo-as-web pattern (root 404, files serve)",
+      "detail": "These repos publish their whole tree as the Pages artifact (upload-pages-artifact path '.'). No index.html at root, so / 404s while individual files serve with 200. Deliberate pattern, recorded so the root-404 is not misread as breakage."
+    }
+  ]
+}

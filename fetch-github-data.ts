@@ -3,9 +3,10 @@
  *
  * Called during build to produce repos.json for the project map and
  * per-repo landing pages. Auth token resolution order:
- *   1. GITHUB_TOKEN env var (CI / explicit)
- *   2. `gh auth token` CLI fallback (local dev)
- *   3. Anonymous (60 req/hr rate limit — falls back to cache on failure)
+ *   1. TIKOCI_GITHUB_TOKEN env var (CI override secret, when set)
+ *   2. GITHUB_TOKEN env var (CI / explicit)
+ *   3. `gh auth token` CLI fallback (local dev)
+ *   4. Anonymous (60 req/hr rate limit — falls back to cache on failure)
  */
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -17,8 +18,14 @@ import type { ExternalLink } from "./repo-config";
 const OWNER = "tikoci";
 const CACHE_MAX_AGE_MS = 60 * 60 * 1000; // 1 hour
 
-/** Resolve a GitHub token: GITHUB_TOKEN env → gh CLI fallback → undefined */
+/**
+ * Resolve a GitHub token: TIKOCI_GITHUB_TOKEN → GITHUB_TOKEN → gh CLI → undefined.
+ * The first name is the repo-wide CI override: if the default github.token ever
+ * proves unable to read cross-repo settings, setting a TIKOCI_GITHUB_TOKEN repo
+ * secret fixes collection with no code change.
+ */
 function resolveGitHubToken(): string | undefined {
+    if (process.env.TIKOCI_GITHUB_TOKEN) return process.env.TIKOCI_GITHUB_TOKEN;
     if (process.env.GITHUB_TOKEN) return process.env.GITHUB_TOKEN;
     try {
         const token = execSync("gh auth token", { encoding: "utf-8", stdio: ["pipe", "pipe", "pipe"] }).trim();
