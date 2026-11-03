@@ -53,6 +53,10 @@ these coverage limits.
   that need discussion get a GitHub issue. Track small nits in TODO.md, not as
   issues. Act on substantive automatic PR review findings, not prose or style
   nitpicks.
+- PRs use squash merge with the PR title and description as the commit message.
+  `.github/workflows/check-pr.yaml` runs lint, Bun tests and the offline build on
+  PRs targeting `main`. These checks are advisory while `main` is unprotected;
+  direct pushes remain available.
 - Keep changes small and focused, and add no dependencies without need. Use Bun
   and Biome (formatter disabled), semantic HTML and vanilla browser code. Commits
   use short imperative subjects.
