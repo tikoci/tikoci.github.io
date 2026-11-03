@@ -12,8 +12,8 @@
 
 import type { RepoData } from "./fetch-github-data";
 import { escapeHtml } from "./generate-pages";
-import { DEFAULT_SYMBOL, REPO_SYMBOLS } from "./repo-config";
-import { HOMEPAGE_SECTIONS, type Section, type SubTile, type Tile, type TileAction } from "./homepage-config";
+import { DEFAULT_SYMBOL, REPO_SYMBOLS } from "../data/repo-config";
+import { HOMEPAGE_SECTIONS, type Section, type SubTile, type Tile, type TileAction } from "../data/homepage-config";
 
 /** Maps a cross-cutting tag to the homepage section anchor it points at. */
 const TAG_ANCHORS: Record<string, string> = {

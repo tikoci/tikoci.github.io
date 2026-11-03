@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "datasets": [
+    {
+      "id": "pages",
+      "url": "/metadata/pages.json",
+      "schemaVersion": 1,
+      "schema": "/metadata/schema.md",
+      "cadence": "weekly and manual",
+      "provenance": "GitHub Pages API and anonymous published HTML; public repositories only"
+    }
+  ]
+}

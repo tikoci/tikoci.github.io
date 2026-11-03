@@ -1,0 +1,378 @@
+[
+  {
+    "name": "centrs",
+    "description": "Multi-protocol (REST, native API, mac-telnet, SSH) CLI and TypeScript interface to RouterOS, with rich help and validation",
+    "stars": 5,
+    "language": "TypeScript",
+    "topics": [
+      "ai",
+      "ai-tools",
+      "btest",
+      "bun",
+      "mac-telnet",
+      "mikrotik",
+      "mndp",
+      "routeros",
+      "routeros-api",
+      "routeros-node",
+      "tikoci",
+      "typescript"
+    ],
+    "html_url": "https://github.com/tikoci/centrs",
+    "category": "dev-tools"
+  },
+  {
+    "name": "m2ir",
+    "description": "Unified YAML schema (CC0) for MikroTik RouterOS binary formats — M2/nv::message, WinBox app protocol & CDB, MNDP, Dude object store, RoMON. A reference knowledge base.",
+    "stars": 2,
+    "language": "TypeScript",
+    "topics": [],
+    "html_url": "https://github.com/tikoci/m2ir"
+  },
+  {
+    "name": "restraml",
+    "description": "RouterOS Web Tools (`diff`, /app YAML Editor, command lookup by version, REST API Explorer)   + Schemas (RAML 1.0, OpenAPI 3.0, RouterOS /app YAML) & more",
+    "stars": 74,
+    "language": "TypeScript",
+    "topics": [
+      "diff2html",
+      "mikrotik",
+      "monoco-editor",
+      "oas3",
+      "oas30",
+      "openapi-specification",
+      "openapi3",
+      "picocss",
+      "postman",
+      "raml",
+      "rest",
+      "routeros",
+      "routeros-v7",
+      "schema"
+    ],
+    "html_url": "https://github.com/tikoci/restraml",
+    "category": "web-tools"
+  },
+  {
+    "name": "routeros-skills",
+    "description": "Custom instruction SKILL.md for MikroTik RouterOS v7",
+    "stars": 85,
+    "language": "Shell",
+    "topics": [
+      "claude",
+      "claude-skills",
+      "copilot-enabled",
+      "copilot-instructions",
+      "copilot-skills",
+      "mikrotik",
+      "routeros",
+      "routeros-api",
+      "routeros-v7",
+      "skills",
+      "tikoci"
+    ],
+    "html_url": "https://github.com/tikoci/routeros-skills",
+    "category": "ai"
+  },
+  {
+    "name": "quickchr",
+    "description": "`quickchr` - Fastest path to MikroTik RouterOS CHR instance for testing and scripts -– agent ready, human friendly",
+    "stars": 8,
+    "language": "TypeScript",
+    "topics": [
+      "ai",
+      "automation",
+      "bun",
+      "chr",
+      "claude-ai",
+      "cli",
+      "copilot-enabled",
+      "mikrotik",
+      "routeros",
+      "testing-library",
+      "testing-tools",
+      "tikoci",
+      "wizard"
+    ],
+    "html_url": "https://github.com/tikoci/quickchr",
+    "category": "virtualization"
+  },
+  {
+    "name": "rosetta",
+    "description": "MCP Server with RouterOS docs + commands + products + changelogs, using SQLite-as-RAG, sourced from MikroTik",
+    "stars": 54,
+    "language": "TypeScript",
+    "topics": [
+      "ai",
+      "bun",
+      "claude-code",
+      "copilot",
+      "mcp",
+      "mcp-server",
+      "mikrotik",
+      "routeros",
+      "typescript"
+    ],
+    "html_url": "https://github.com/tikoci/rosetta",
+    "category": "ai"
+  },
+  {
+    "name": "mikrotik-gpl",
+    "description": "Collection of GPL Source Code in RouterOS",
+    "stars": 49,
+    "language": "C",
+    "topics": [],
+    "html_url": "https://github.com/tikoci/mikrotik-gpl",
+    "category": "scripts"
+  },
+  {
+    "name": "fat-chr",
+    "description": "Builder for CHR images with UEFI support (testing)",
+    "stars": 62,
+    "language": "Shell",
+    "topics": [
+      "chr",
+      "routeros",
+      "uefi"
+    ],
+    "html_url": "https://github.com/tikoci/fat-chr",
+    "category": "virtualization"
+  },
+  {
+    "name": "enbeep",
+    "description": "One-way text announcements from a RouterOS beeper to a nearby mic",
+    "stars": 1,
+    "language": "TypeScript",
+    "topics": [],
+    "html_url": "https://github.com/tikoci/enbeep"
+  },
+  {
+    "name": "lsp-routeros-ts",
+    "description": "RouterOS LSP for syntax checking and accurate completions in VSCode, NeoVim, and others.",
+    "stars": 32,
+    "language": "RouterOS Script",
+    "topics": [
+      "lsp",
+      "mikrotik",
+      "neovim-plugin",
+      "routeros",
+      "vscode",
+      "vscode-extension",
+      "vscode-language"
+    ],
+    "html_url": "https://github.com/tikoci/lsp-routeros-ts",
+    "category": "dev-tools"
+  },
+  {
+    "name": "serial2http",
+    "description": "RouterOS container that proxies serial port via HTTP using TCP serial (RFC-2217)",
+    "stars": 9,
+    "language": "RouterOS Script",
+    "topics": [
+      "container",
+      "routeros",
+      "serial"
+    ],
+    "html_url": "https://github.com/tikoci/serial2http",
+    "category": "containers"
+  },
+  {
+    "name": "netinstall",
+    "description": "Make RouterOS Netinstall easy!  Use a /container or `make` on desktop (even Mac), including automatic downloads",
+    "stars": 19,
+    "language": "Shell",
+    "topics": [
+      "containers",
+      "makefile",
+      "mikrotik",
+      "netinstall",
+      "routeros"
+    ],
+    "html_url": "https://github.com/tikoci/netinstall",
+    "category": "containers"
+  },
+  {
+    "name": "mikropkl",
+    "description": "`pkl` packaged UTM virtual machines, including RouterOS CHR",
+    "stars": 55,
+    "language": "Python",
+    "topics": [
+      "chr",
+      "mikrotik",
+      "pkl",
+      "pkl-lang",
+      "routeros",
+      "utm"
+    ],
+    "html_url": "https://github.com/tikoci/mikropkl",
+    "category": "virtualization"
+  },
+  {
+    "name": "wargames",
+    "description": "Wargames Simulator (Wargames Movie, 1983) by Andy Glenn - WOPR, Union Marine Bank, Pan-AM, School Computer, Tic-Tac-Toe Programs included in project ",
+    "stars": 2,
+    "language": "C",
+    "topics": [
+      "container"
+    ],
+    "html_url": "https://github.com/tikoci/wargames",
+    "category": "containers"
+  },
+  {
+    "name": "netserver",
+    "description": "netperf's \"netserver\" for use with Flent speed tests",
+    "stars": 2,
+    "language": "RouterOS Script",
+    "topics": [
+      "container"
+    ],
+    "html_url": "https://github.com/tikoci/netserver",
+    "category": "scripts"
+  },
+  {
+    "name": "vscode-tikbook",
+    "description": "VSCode Notebook and Tools for RouterOS — a literate way to work with scripts & configuration",
+    "stars": 10,
+    "language": "TypeScript",
+    "topics": [
+      "lsp",
+      "mikrotik",
+      "notebook",
+      "notebooks",
+      "routeros",
+      "rsc",
+      "tikbook",
+      "tikoci",
+      "vscode",
+      "vscode-extension"
+    ],
+    "html_url": "https://github.com/tikoci/vscode-tikbook",
+    "category": "dev-tools"
+  },
+  {
+    "name": "cligames",
+    "description": "Container with CLI games from bsdgames and nbsdgames available via telnet",
+    "stars": 4,
+    "language": "Dockerfile",
+    "topics": [
+      "container",
+      "games",
+      "mikrotik",
+      "retro",
+      "routeros",
+      "unix"
+    ],
+    "html_url": "https://github.com/tikoci/cligames",
+    "category": "containers"
+  },
+  {
+    "name": "bench-routeros-tools",
+    "description": "Benchmark RouterOS agent-support strategies across MCPs, skills, and retrieval.",
+    "stars": 2,
+    "language": "Python",
+    "topics": [],
+    "html_url": "https://github.com/tikoci/bench-routeros-tools",
+    "category": "ai"
+  },
+  {
+    "name": "donny",
+    "description": "Experimental: TypeScript library and CLI for MikroTik The Dude network monitoring database (dude.db)",
+    "stars": 3,
+    "language": "TypeScript",
+    "topics": [],
+    "html_url": "https://github.com/tikoci/donny",
+    "category": "dev-tools"
+  },
+  {
+    "name": "make.d",
+    "description": "RouterOS-friendly Alpine /container, managed by `make`",
+    "stars": 2,
+    "language": "Makefile",
+    "topics": [
+      "alpine",
+      "container",
+      "makefile",
+      "routeros"
+    ],
+    "html_url": "https://github.com/tikoci/make.d",
+    "category": "containers"
+  },
+  {
+    "name": "winbox-deb",
+    "description": "Debian `.deb` Package for Mikrotik WinBox4",
+    "stars": 8,
+    "language": "Makefile",
+    "topics": [
+      "debian-packages",
+      "dpkg",
+      "mikrotik",
+      "routeros",
+      "ubuntu-packages",
+      "winbox"
+    ],
+    "html_url": "https://github.com/tikoci/winbox-deb",
+    "category": "dev-tools"
+  },
+  {
+    "name": "traefik-wasm-grain",
+    "description": "🧪 Traefik WASM plugin using Grain and http-wasm ABI",
+    "stars": 2,
+    "language": "Go",
+    "topics": [
+      "grain-lang",
+      "traefik",
+      "traefik-plugin",
+      "wasm"
+    ],
+    "html_url": "https://github.com/tikoci/traefik-wasm-grain",
+    "category": "containers"
+  },
+  {
+    "name": "adventure",
+    "description": "Classic Colossal Cave Adventure Game",
+    "stars": 1,
+    "language": "C",
+    "topics": [
+      "container"
+    ],
+    "html_url": "https://github.com/tikoci/adventure",
+    "category": "containers"
+  },
+  {
+    "name": "nginx",
+    "description": "nginx + CORS/X.509 for use in a Mikrotik container",
+    "stars": 1,
+    "language": "Shell",
+    "topics": [
+      "container"
+    ],
+    "html_url": "https://github.com/tikoci/nginx",
+    "category": "containers"
+  },
+  {
+    "name": "traefik-wabt",
+    "description": "Experimental Traefik 3.0 container for exploring WASM-based plugins",
+    "stars": 1,
+    "language": "WebAssembly",
+    "topics": [
+      "container"
+    ],
+    "html_url": "https://github.com/tikoci/traefik-wabt",
+    "category": "containers"
+  },
+  {
+    "name": "chr-utm",
+    "description": "RouterOS Cloud Hosted Router (CHR), packaged for UTM, for Intel macOS",
+    "stars": 6,
+    "language": "Shell",
+    "topics": [
+      "chr",
+      "macos",
+      "mikrotik",
+      "routeros",
+      "utm"
+    ],
+    "html_url": "https://github.com/tikoci/chr-utm",
+    "category": "virtualization"
+  }
+]

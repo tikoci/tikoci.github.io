@@ -1,28 +1,18 @@
-/**
- * build.ts — Static site builder for tikoci.github.io
- *
- * Copies src/ → dist/, preserving pre-existing static files in dist/
- * (scripts/, media/) that are committed to the repo and linked externally.
- * Fetches GitHub repo data and generates per-repo landing pages + map data.
- *
- * Usage: bun run build.ts
- */
-
-import { spawnSync } from "node:child_process";
+import { validateSnapshots } from "./scripts/validate-snapshots";
+import { SITE_ORIGIN } from "./data/site-config";
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import opentype from "opentype.js";
 import sharp from "sharp";
-import { buildGraphData, fetchGitHubData } from "./fetch-github-data";
-import { fetchDashboardData } from "./fetch-dashboard-data";
-import { renderHomepageSections } from "./generate-homepage";
-import { generatePages } from "./generate-pages";
-import { REPO_SYMBOLS } from "./repo-config";
+import { applyConfigOverrides, buildGraphData, type RepoData } from "./scripts/fetch-github-data";
+import { renderHomepageSections } from "./scripts/generate-homepage";
+import { generatePages } from "./scripts/generate-pages";
+import { REPO_SYMBOLS } from "./data/repo-config";
 
 const ROOT = resolve(import.meta.dirname);
 const SRC = join(ROOT, "src");
 const DIST = join(ROOT, "dist");
-const CACHE = join(ROOT, ".cache", "jetbrains-mono");
+
 const CURLCONVERTER_ENTRY = join(SRC, "curlconverter.js");
 const CURLCONVERTER_WASM_ASSETS = [
     {
@@ -35,47 +25,23 @@ const CURLCONVERTER_WASM_ASSETS = [
     },
 ] as const;
 
-async function getJetBrainsMonoTtfPath() {
-    const targetPath = join(CACHE, "JetBrainsMono-Regular.ttf");
-    if (existsSync(targetPath)) return targetPath;
+validateSnapshots();
 
-    console.log("Downloading JetBrains Mono font from GitHub...");
-    const releaseUrl = "https://github.com/JetBrains/JetBrainsMono/releases/download/v2.304/JetBrainsMono-2.304.zip";
-    const res = await fetch(releaseUrl);
-    if (!res.ok) throw new Error(`Failed to download JetBrainsMono zip: ${res.status} ${res.statusText}`);
-
-    mkdirSync(CACHE, { recursive: true });
-    const archivePath = join(CACHE, "JetBrainsMono-2.304.zip");
-    writeFileSync(archivePath, Buffer.from(await res.arrayBuffer()));
-
-    const extractDir = join(CACHE, "JetBrainsMono-2.304");
-    mkdirSync(extractDir, { recursive: true });
-    const result = spawnSync("unzip", ["-o", archivePath, "-d", extractDir], { stdio: "ignore" });
-    if (result.status !== 0) throw new Error("Failed to unzip JetBrainsMono archive");
-
-    const extractedTtf = join(extractDir, "fonts", "ttf", "JetBrainsMono-Regular.ttf");
-    if (!existsSync(extractedTtf)) {
-        throw new Error(`JetBrainsMono-Regular.ttf not found after extracting ${extractDir}`);
-    }
-    copyFileSync(extractedTtf, targetPath);
-    return targetPath;
-}
-
-// Directories in dist/ that are committed static assets — never delete these
-const PRESERVED_DIRS = ["scripts", "media", "logos"];
-
-// Step 1: Clean dist/ except preserved directories
-console.log("Cleaning dist/ (preserving scripts/, media/)...");
-
-if (existsSync(DIST)) {
-    for (const entry of readdirSync(DIST)) {
-        if (PRESERVED_DIRS.includes(entry)) continue;
-        const fullPath = join(DIST, entry);
-        rmSync(fullPath, { recursive: true, force: true });
-    }
-} else {
-    mkdirSync(DIST, { recursive: true });
-}
+// dist is disposable; all unchanged assets originate in public/.
+rmSync(DIST, { recursive: true, force: true });
+mkdirSync(DIST, { recursive: true });
+copyDir(join(ROOT, "public"), DIST);
+copyDir(join(ROOT, "data", "published"), join(DIST, "data"));
+copyDir(join(ROOT, "data", "metadata"), join(DIST, "metadata"));
+const discovery = JSON.parse(readFileSync(join(ROOT, "data/metadata/index.json"), "utf-8"));
+const metadataLinks = discovery.datasets.map((dataset: { id: string; url: string; schema: string }) =>
+    `<li><a href="${dataset.url}">${dataset.id}</a> — <a href="${dataset.schema}">schema</a></li>`).join("\n");
+writeFileSync(join(DIST, "metadata/index.html"), `<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TIKOCI metadata</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"><link rel="stylesheet" href="/shared.css"></head>
+<body><main class="container"><nav><a href="/">TIKOCI</a></nav><h1>Metadata</h1>
+<p>Public cross-repository observations. <a href="index.json">Machine-readable discovery</a></p><ul>${metadataLinks}</ul>
+<p>Check each dataset’s observation time, latest attempt and errors before use.</p></main></body></html>`);
 
 // Step 2: Copy src/ contents to dist/
 console.log("Copying src/ → dist/...");
@@ -113,30 +79,13 @@ for (const asset of CURLCONVERTER_WASM_ASSETS) {
     copyFileSync(asset.src, asset.dest);
 }
 
-// Step 3: Copy images from docs/images/ to dist/images/
-const DOCS_IMAGES = join(ROOT, "docs", "images");
-const DIST_IMAGES = join(DIST, "images");
-if (existsSync(DOCS_IMAGES)) {
-    console.log("Copying docs/images/ → dist/images/...");
-    mkdirSync(DIST_IMAGES, { recursive: true });
-    for (const file of readdirSync(DOCS_IMAGES)) {
-        if (file === "PLACEHOLDER") continue;
-        copyFileSync(join(DOCS_IMAGES, file), join(DIST_IMAGES, file));
-    }
-}
-
-// Step 4: Fetch GitHub data and generate pages
-console.log("Fetching GitHub repo data...");
-const repos = await fetchGitHubData(DIST);
-
-console.log("Generating per-repo landing pages...");
+const repos: RepoData[] = applyConfigOverrides(JSON.parse(readFileSync(join(ROOT, "data", "repos.json"), "utf-8")));
+if (!Array.isArray(repos) || !repos.length) throw new Error("Missing repository snapshot; see docs/refresh-data.md");
 generatePages(repos, DIST);
-
-// Step 4b: Collect dashboard signals → dist/data/dashboard.json
-// (non-fatal: per-signal errors are captured in the JSON, never thrown)
-console.log("Collecting dashboard signals...");
-await fetchDashboardData(DIST);
-
+for (const file of ["sitemap.xml", "atom.xml", "robots.txt"]) {
+    const path = join(DIST, file);
+    writeFileSync(path, readFileSync(path, "utf-8").replaceAll("{{SITE_ORIGIN}}", SITE_ORIGIN));
+}
 // Step 4.5: Inject data-driven homepage sections into index.html
 console.log("Embedding homepage sections into index.html...");
 const indexPath = join(DIST, "index.html");
@@ -192,7 +141,7 @@ function glyphSvgPath(font: opentype.Font, sym: string, canvasSize = 256, glyphF
 
 let font: opentype.Font;
 try {
-    const jetbrainsFontPath = await getJetBrainsMonoTtfPath();
+    const jetbrainsFontPath = join(ROOT, "data", "fonts", "JetBrainsMono-Regular.ttf");
     font = opentype.loadSync(jetbrainsFontPath);
 } catch (err) {
     throw new Error(`Failed to load JetBrains Mono font: ${err}`);
@@ -238,7 +187,7 @@ if (repos.length) {
         const marker = "<!-- Per-repo project pages (auto-generated at build time below this line) -->";
         const repoUrls = repos.map(r => [
             "    <url>",
-            `        <loc>https://tikoci.github.io/p/${r.name}.html</loc>`,
+            `        <loc>${SITE_ORIGIN}/p/${r.name}.html</loc>`,
             `        <lastmod>${r.updated_at.split("T")[0]}</lastmod>`,
             "        <changefreq>weekly</changefreq>",
             `        <priority>${r.stars >= 10 ? "0.7" : "0.5"}</priority>`,
@@ -256,12 +205,12 @@ if (repos.length) {
     const atomPath = join(DIST, "atom.xml");
     if (existsSync(atomPath)) {
         let atom = readFileSync(atomPath, "utf-8");
-        const buildDate = new Date().toISOString();
+        const buildDate = repos.map(r => r.updated_at).sort().at(-1) ?? "1970-01-01T00:00:00Z";
         atom = atom.replace("<!-- ATOM_BUILD_DATE_PLACEHOLDER -->", buildDate);
         const atomMarker = "<!-- Per-repo entries (auto-generated at build time below this line) -->";
         const escapeXml = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
         const entries = repos.map(r => {
-            const url = `https://tikoci.github.io/p/${r.name}.html`;
+            const url = `${SITE_ORIGIN}/p/${r.name}.html`;
             const summary = r.description || `${r.name} — open source MikroTik RouterOS project`;
             return [
                 "    <entry>",

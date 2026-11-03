@@ -1,0 +1,102 @@
+# Deploy static site to GitHub Pages using bun
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  # A few explicit cadences; every run publishes the complete site.
+  schedule:
+    - cron: "17 * * * *"
+    - cron: "43 3 * * 0"
+  workflow_dispatch:
+    inputs:
+      pages:
+        description: Refresh Pages survey too
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Lint
+        run: bun run lint
+
+      - name: Collect hourly snapshots
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: bun run collect
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          TIKOCI_GITHUB_TOKEN: ${{ secrets.TIKOCI_GITHUB_TOKEN }}
+
+      - name: Collect weekly Pages inventory
+        if: github.event.schedule == '43 3 * * 0' || inputs.pages == true
+        run: bun run survey:pages
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          TIKOCI_GITHUB_TOKEN: ${{ secrets.TIKOCI_GITHUB_TOKEN }}
+
+      - name: Contract tests
+        run: bun test test/
+
+      - name: Build
+        run: bun run build
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Persist validated snapshots
+        if: github.event_name != 'push'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/
+          if ! git diff --cached --quiet; then
+            git commit -m "Refresh collected metadata snapshots"
+            git push origin HEAD:main
+          fi
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Submit to IndexNow
+        if: success()
+        run: |
+          KEY="9246d183073a4fd6aac0fbda63e29add"
+          HOST="$(cat src/CNAME | tr -d '\n\r')"
+          URLS=$(grep -oP '(?<=<loc>)[^<]+' dist/sitemap.xml | jq -R . | jq -s --arg origin "https://$HOST/" 'map(select(startswith($origin)))')
+          echo "Submitting $(echo $URLS | jq length) URLs to IndexNow..."
+          curl -s -w "\nHTTP %{http_code}" -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "{\"host\":\"$HOST\",\"key\":\"$KEY\",\"keyLocation\":\"https://$HOST/bing.txt\",\"urlList\":$URLS}"

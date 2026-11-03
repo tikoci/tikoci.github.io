@@ -1,0 +1,469 @@
+{
+  "schemaVersion": 2,
+  "repo": "rosetta",
+  "generatedAt": "2026-11-02T19:42:23.944Z",
+  "collection": {
+    "mode": "fresh",
+    "cacheWrittenAt": null
+  },
+  "work": {
+    "counts": {
+      "issues": {
+        "total": 30,
+        "owner": 29,
+        "external": 0,
+        "bot": 1
+      },
+      "prs": {
+        "total": 0,
+        "owner": 0,
+        "external": 0,
+        "bot": 0,
+        "ownerReady": 0,
+        "ownerDraft": 0,
+        "draftUnknown": false
+      }
+    },
+    "page": {
+      "fetched": 30,
+      "perPage": 100,
+      "truncated": false,
+      "countsAreLowerBounds": false
+    },
+    "pullsEnriched": true,
+    "items": [
+      {
+        "number": 252,
+        "title": "Scheduled device-map refresh: committed artifacts drifted from live sources",
+        "author": "github-actions[bot]",
+        "authorClass": "bot",
+        "url": "https://github.com/tikoci/rosetta/issues/252",
+        "createdAt": "2026-11-02T19:36:58Z",
+        "updatedAt": "2026-11-02T19:36:58Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 251,
+        "title": "Research per-device factory-default configuration sources and expose grounded lookup provenance",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/251",
+        "createdAt": "2026-11-02T16:25:09Z",
+        "updatedAt": "2026-11-02T16:25:09Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 250,
+        "title": "Filtered rosetta export (per-section slice) for references consumers",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/250",
+        "createdAt": "2026-11-02T02:32:46Z",
+        "updatedAt": "2026-11-02T03:22:17Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 247,
+        "title": "List rosetta on the official MCP Registry as dev.tikoci/rosetta",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/247",
+        "createdAt": "2026-10-30T22:56:51Z",
+        "updatedAt": "2026-10-30T22:59:12Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement"
+        ],
+        "milestone": "next"
+      },
+      {
+        "number": 239,
+        "title": "Automate the product-matrix CSV fetch (currently a manual browser export)",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/239",
+        "createdAt": "2026-10-30T05:42:55Z",
+        "updatedAt": "2026-10-30T05:42:55Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 237,
+        "title": "Track real MikroTik release channels per RouterOS version",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/237",
+        "createdAt": "2026-10-29T23:19:09Z",
+        "updatedAt": "2026-10-29T23:19:09Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 235,
+        "title": "Antenna beamwidth from MikroTik's numeric pattern files — grounding first",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/235",
+        "createdAt": "2026-10-29T21:12:46Z",
+        "updatedAt": "2026-10-29T21:13:00Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 234,
+        "title": "FCC ID per device, from MikroTik's own grant PDFs",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/234",
+        "createdAt": "2026-10-29T21:12:11Z",
+        "updatedAt": "2026-10-29T21:12:11Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "agent-ready"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 233,
+        "title": "device_documents: keep every labeled product-page attachment, verbatim",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/233",
+        "createdAt": "2026-10-29T21:11:48Z",
+        "updatedAt": "2026-10-29T21:12:58Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "agent-ready"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 230,
+        "title": "Publish a machine-readable DB version manifest",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/230",
+        "createdAt": "2026-10-28T19:20:34Z",
+        "updatedAt": "2026-10-28T19:20:34Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 224,
+        "title": "TUI named-path arg gaps from the #54 parity inventory (candidate work)",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/224",
+        "createdAt": "2026-10-28T18:42:41Z",
+        "updatedAt": "2026-10-28T18:42:41Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 223,
+        "title": "browse `.routeros_stats` omits the `skills` block the MCP tool returns",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/223",
+        "createdAt": "2026-10-28T18:42:30Z",
+        "updatedAt": "2026-10-28T18:42:30Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 221,
+        "title": "Agent-first CLI: rosetta <tool> with single-source registry (tool == CLI)",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/221",
+        "createdAt": "2026-10-28T03:10:54Z",
+        "updatedAt": "2026-10-28T03:36:00Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": "next"
+      },
+      {
+        "number": 220,
+        "title": "Rename routeros_explain_command to routeros_lookup_command (centrs owns live explain)",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/220",
+        "createdAt": "2026-10-28T03:10:52Z",
+        "updatedAt": "2026-10-28T03:10:52Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": "next"
+      },
+      {
+        "number": 219,
+        "title": "Retire Dude MCP tools into a dude-legacy skill (CMR era)",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/219",
+        "createdAt": "2026-10-28T03:10:50Z",
+        "updatedAt": "2026-10-28T03:24:29Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "priority:low"
+        ],
+        "milestone": "next"
+      },
+      {
+        "number": 211,
+        "title": "Investigate non-blocking self-supervised section recall regression in fresh QA corpus",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/211",
+        "createdAt": "2026-10-27T20:14:38Z",
+        "updatedAt": "2026-10-27T20:54:49Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "priority:low"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 206,
+        "title": "Windows install/lifecycle tests time out on unchanged runtime source",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/206",
+        "createdAt": "2026-10-23T17:02:40Z",
+        "updatedAt": "2026-10-30T05:30:57Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 203,
+        "title": "Decide how existing answers consume CLI Reference standard properties and type descriptions",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/203",
+        "createdAt": "2026-10-23T16:41:00Z",
+        "updatedAt": "2026-10-23T16:41:00Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 186,
+        "title": "Extract per-version manual prose: versioned docs (7.24/7.25) now expose .md + llms.txt",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/186",
+        "createdAt": "2026-10-20T19:21:06Z",
+        "updatedAt": "2026-10-23T16:42:27Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": "next"
+      },
+      {
+        "number": 174,
+        "title": "routeros_stats: one version range hides that each data kind covers different RouterOS versions",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/174",
+        "createdAt": "2026-10-05T02:16:07Z",
+        "updatedAt": "2026-10-23T16:42:25Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement"
+        ],
+        "milestone": "0.12 — MCP surface"
+      },
+      {
+        "number": 173,
+        "title": "Publish rosetta export datasets at stable URLs; retire hand-made CSVs",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/173",
+        "createdAt": "2026-10-05T02:14:11Z",
+        "updatedAt": "2026-10-23T16:42:23Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "export-audit"
+        ],
+        "milestone": "0.12 — MCP surface"
+      },
+      {
+        "number": 168,
+        "title": "Missing exact-version DB asset silently falls back to releases/latest under a version-pinned filename",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/168",
+        "createdAt": "2026-10-04T18:51:48Z",
+        "updatedAt": "2026-10-23T16:45:51Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 167,
+        "title": "First-run DB download blocks the MCP handshake (~1 min); clients may mark rosetta failed",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/167",
+        "createdAt": "2026-10-04T18:51:46Z",
+        "updatedAt": "2026-10-23T16:45:52Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 116,
+        "title": "Treat RouterOS version strings as first-class query tokens across routeros_search",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/116",
+        "createdAt": "2026-07-17T19:54:12Z",
+        "updatedAt": "2026-07-17T20:05:56Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement"
+        ],
+        "milestone": "0.12 — MCP surface"
+      },
+      {
+        "number": 104,
+        "title": "Export dataset chunks: E4 per-fragment doc tables and E3 products",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/104",
+        "createdAt": "2026-07-16T16:32:13Z",
+        "updatedAt": "2026-10-23T16:42:22Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "export-audit"
+        ],
+        "milestone": "0.12 — MCP surface"
+      },
+      {
+        "number": 100,
+        "title": "Ground routing-filter rule-language tables and decide safe property attachment",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/100",
+        "createdAt": "2026-07-16T05:42:41Z",
+        "updatedAt": "2026-10-23T16:46:01Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "area:docusaurus",
+          "export-audit"
+        ],
+        "milestone": "0.12 — MCP surface"
+      },
+      {
+        "number": 70,
+        "title": "Phase 2B/C: off-matrix device search + kind-taxonomy consolidation + &-module cross-links",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/70",
+        "createdAt": "2026-07-13T19:42:55Z",
+        "updatedAt": "2026-10-23T16:42:18Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement"
+        ],
+        "milestone": "0.12 — MCP surface"
+      },
+      {
+        "number": 25,
+        "title": "Decide arch fallback and declared-manual-version provenance in runtime answers",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/25",
+        "createdAt": "2026-07-10T18:08:17Z",
+        "updatedAt": "2026-10-23T16:45:59Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": "0.12 — MCP surface"
+      },
+      {
+        "number": 21,
+        "title": "Video transcript-source classification and quality-signal presentation",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/21",
+        "createdAt": "2026-07-10T18:07:22Z",
+        "updatedAt": "2026-10-23T16:46:04Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": "0.12 — MCP surface"
+      },
+      {
+        "number": 5,
+        "title": "canonicalize.ts remaining hardening: H1/H2/H3/H5 prose and script handling",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/5",
+        "createdAt": "2026-04-26T01:26:23Z",
+        "updatedAt": "2026-10-23T16:46:03Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement"
+        ],
+        "milestone": "0.12 — MCP surface"
+      }
+    ]
+  }
+}

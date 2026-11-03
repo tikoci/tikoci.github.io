@@ -1,71 +1,7 @@
-/**
- * repo-github-pages.ts — Durable survey: which tikoci repos use GitHub Pages,
- * what each site is configured to do, and what Plausible tracking its
- * published HTML declares.
- *
- * THE IDEA: this repo (tikoci.github.io) is the keeper of cross-repo dev
- * state. GitHub Pages settings and Plausible coverage are exactly that kind
- * of state: they span the whole org, no single repo owns the overview, and
- * without a survey nobody notices when a site silently breaks, never gets
- * deployed, or reports analytics to the wrong domain. This script IS the
- * survey — run it on demand (Pages setups change rarely, so there is no CI
- * schedule; see "WHEN TO RE-RUN" below) and it rewrites the committed
- * `repo-github-pages.json` next to it. The JSON is the durable artifact;
- * the script is the reproducible method plus this spec.
- *
- * WHAT WE COLLECT PER REPO (three independent signals):
- *   1. pagesApi — GET /repos/{owner}/{repo}/pages. 200 gives the site
- *      config: build_type (legacy branch-build vs workflow Actions deploy),
- *      source branch/path, html_url, build status, cname, custom_404,
- *      https_enforced, public. 404 means Pages is off. 401/403 means the
- *      token cannot tell (recorded as unknown, never as off).
- *   2. serve — HTTP GET of the published html_url, like a visitor. This is
- *      what the API cannot say: does the site actually serve? Root 200 with
- *      a real <title> is a `site`. Root 404 with repo files serving (we
- *      probe README.md / package.json / index.html) is the deliberate
- *      `repo-as-web` pattern (whole tree published via upload-pages-artifact
- *      path '.', no index). Root 404 with nothing serving and zero
- *      github-pages deployments is `empty` (enabled but never deployed).
- *      Latest deployment state comes from ?environment=github-pages for
- *      workflow sites, /pages/builds/latest for legacy sites.
- *   3. plausible — fetched from the PUBLISHED HTML, never from Plausible's
- *      API (no Plausible account, token, or traffic data involved — out of
- *      scope by design). For `site` kinds we fetch the root page plus
- *      same-origin *.html links found on it (depth 1, capped) and record:
- *      snippet presence, script build (our `pa-<hash>.js` install vs the
- *      generic `script.tagged-events.js` vs other), every distinct
- *      data-domain seen, and custom `plausible('Event Name')` call sites.
- *      Only pages carrying the snippet get per-page detail; the rest
- *      collapse to counts; `truncated` flags cap-cut sweeps. The scanner
- *      is multiline-, case-, and quote-style-tolerant, and ignores HTML
- *      comments.
- *
- * FINDINGS (derived, grouped by rule):
- *   - pages-never-deployed (gap): Pages on, zero deployments ever.
- *   - plausible-stale-domain (pending): the tag's data-domain names a
- *     DIFFERENT tikoci repo than the one serving it (copy-paste drift —
- *     observed in the wild: postman-code-generators reporting to restraml).
- *   - plausible-missing (info): a live `site` with no snippet anywhere.
- *   - pages-repo-as-web (info): documents the deliberate no-index pattern
- *     so a root 404 is never misread as breakage.
- *
- * AUTH: shared resolver from fetch-github-data.ts (TIKOCI_GITHUB_TOKEN ->
- * GITHUB_TOKEN -> `gh auth token` -> anonymous). The first name is the
- * repo-wide CI override: if the default github.token ever proves unable to
- * read cross-repo Pages settings, setting a TIKOCI_GITHUB_TOKEN repo secret
- * fixes collection with no code change. The auth mode is recorded in
- * `collection.auth` because anonymous org listings omit private repos —
- * coverage is always token-scoped.
- *
- * BOUNDS: 4 concurrent requests, 15s per-request timeout, 10 published
- * pages max per site, org repo listing paginated to completion. Every repo
- * is non-fatal: failures land as state/error on that repo, never thrown.
- *
- * WHEN TO RE-RUN: after adding/removing a Pages site, changing a deploy
- * workflow, or touching Plausible tags anywhere in the org — then commit
- * the refreshed JSON beside the change.
- *
- * Usage: bun run repo-github-pages.ts   (or: bun run survey:pages)
+/** Detailed maintainer survey; invoked by collect-pages.ts, which publishes a
+ * public field projection. Durable source: data/repo-github-pages.json.
+ * Weekly/manual refresh: bun run survey:pages. See docs/refresh-data.md.
+ * Per-repo failures stay explicit; listing failure retains the prior snapshot.
  */
 
 import { writeFileSync } from "node:fs";
@@ -77,7 +13,7 @@ const OWNER = "tikoci";
 /** Current repo-github-pages.json contract version. Bump on breaking shape changes. */
 export const PAGES_SURVEY_SCHEMA_VERSION = 1;
 
-const OUTFILE = join(import.meta.dirname, "repo-github-pages.json");
+const OUTFILE = join(import.meta.dirname, "../data/repo-github-pages.json");
 
 const MAX_CONCURRENCY = 4;
 const REQUEST_TIMEOUT_MS = 15_000;
@@ -467,7 +403,7 @@ async function listOrgRepos(): Promise<string[]> {
             throw new Error(`org repo listing failed: HTTP ${resp.status}`);
         }
         if (!Array.isArray(json)) throw new Error("org repo listing failed: expected a JSON array");
-        names.push(...(json as { name: string }[]).map((r) => r.name));
+        names.push(...(json as { name: string; private: boolean }[]).filter(r => !r.private).map((r) => r.name));
         url = /<([^>]+)>;\s*rel="next"/.exec(resp.headers.get("link") ?? "")?.[1] ?? null;
     }
     return names.sort();
@@ -648,7 +584,7 @@ async function collectOneRepo(repo: string): Promise<PagesRepoSurvey> {
 // Main
 // ---------------------------------------------------------------------------
 
-async function main() {
+export async function main() {
     console.log("Surveying tikoci org repos for GitHub Pages + Plausible...");
     const orgRepos = await listOrgRepos();
     console.log(`  ${orgRepos.length} repos in org`);
@@ -670,11 +606,11 @@ async function main() {
     const file: PagesSurveyFile = {
         schemaVersion: PAGES_SURVEY_SCHEMA_VERSION,
         generatedAt: new Date().toISOString(),
-        generatedBy: "repo-github-pages.ts (manual survey — re-run: bun run survey:pages)",
+        generatedBy: "scripts/repo-github-pages.ts (weekly/manual — bun run survey:pages)",
         collection: {
             mode: "manual",
             auth: AUTH_MODE,
-            note: "On-demand durable survey, committed beside the script. Re-run after Pages/plausible changes; no CI schedule (setups change rarely). Coverage is token-scoped: anonymous runs omit private repos and 404 their Pages settings.",
+            note: "Durable public-repository survey under data/. Refreshed weekly and manually. Pages settings remain token-scoped; inaccessible settings can return 404.",
         },
         budgets: {
             githubApiCalls: stats.githubApiCalls,

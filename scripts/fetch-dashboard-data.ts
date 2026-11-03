@@ -36,7 +36,7 @@ import {
     type DashboardOverride,
     type RosCoverageKind,
     type RosLocator,
-} from "./repo-config";
+} from "../data/repo-config";
 import { githubHeaders } from "./fetch-github-data";
 
 const OWNER = "tikoci";
@@ -1874,10 +1874,10 @@ async function collectOneRepo(repo: string, cfg: DashboardOverride, ctx: RepoCol
  * or fall back to cache.
  */
 export async function fetchDashboardData(distDir: string): Promise<DashboardData> {
-    const dataDir = join(distDir, "data");
+    const dataDir = join(distDir, "published");
     const detailDir = join(dataDir, "dashboard");
     mkdirSync(detailDir, { recursive: true });
-    const cachePath = join(import.meta.dirname, ".dashboard-cache.json");
+    const cachePath = join(import.meta.dirname, "../data/.dashboard-cache.json");
 
     const writeOutputs = (data: DashboardData, details: Record<string, RepoDetailFile>) => {
         writeFileSync(join(dataDir, "dashboard.json"), JSON.stringify(data, null, 2), "utf-8");

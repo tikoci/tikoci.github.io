@@ -1,0 +1,843 @@
+{
+  "schemaVersion": 2,
+  "repo": "quickchr",
+  "generatedAt": "2026-11-02T19:42:23.944Z",
+  "collection": {
+    "mode": "fresh",
+    "cacheWrittenAt": null
+  },
+  "ros": {
+    "locator": "raw-json:ci-data:tested-versions.json",
+    "kind": "tested",
+    "coverage": [
+      "7.26beta5",
+      "7.26beta4",
+      "7.26beta3",
+      "7.26beta1",
+      "7.25",
+      "7.25rc3",
+      "7.25rc2",
+      "7.25rc1",
+      "7.25beta5",
+      "7.25beta4",
+      "7.25beta3",
+      "7.24.6",
+      "7.24.5",
+      "7.24.4",
+      "7.24.2",
+      "7.24.1",
+      "7.24",
+      "7.24rc4",
+      "7.24rc3",
+      "7.24rc2",
+      "7.24rc1",
+      "7.24beta3",
+      "7.23.8",
+      "7.23.7",
+      "7.23.5",
+      "7.23.4",
+      "7.23.3",
+      "7.23.2",
+      "7.23.1",
+      "7.21.5",
+      "7.21.4",
+      "7.20.8"
+    ],
+    "totalKnown": 32,
+    "truncated": true,
+    "channels": {
+      "stable": {
+        "version": "7.25",
+        "covered": true
+      },
+      "testing": {
+        "version": "7.25",
+        "covered": true
+      },
+      "development": {
+        "version": "7.26beta5",
+        "covered": true
+      },
+      "long-term": {
+        "version": "7.24.6",
+        "covered": true
+      }
+    }
+  },
+  "work": {
+    "counts": {
+      "issues": {
+        "total": 42,
+        "owner": 42,
+        "external": 0,
+        "bot": 0
+      },
+      "prs": {
+        "total": 2,
+        "owner": 0,
+        "external": 0,
+        "bot": 2,
+        "ownerReady": 0,
+        "ownerDraft": 0,
+        "draftUnknown": false
+      }
+    },
+    "page": {
+      "fetched": 44,
+      "perPage": 100,
+      "truncated": false,
+      "countsAreLowerBounds": false
+    },
+    "pullsEnriched": true,
+    "items": [
+      {
+        "number": 250,
+        "title": "chore(deps): bump actions/setup-node from 5 to 7",
+        "author": "dependabot[bot]",
+        "authorClass": "bot",
+        "url": "https://github.com/tikoci/quickchr/pull/250",
+        "createdAt": "2026-11-02T15:19:15Z",
+        "updatedAt": "2026-11-02T15:19:20Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [
+          "dependencies",
+          "github_actions"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 249,
+        "title": "chore(deps): bump actions/github-script from 8.0.0 to 9.0.0",
+        "author": "dependabot[bot]",
+        "authorClass": "bot",
+        "url": "https://github.com/tikoci/quickchr/pull/249",
+        "createdAt": "2026-11-02T15:19:12Z",
+        "updatedAt": "2026-11-02T15:19:16Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [
+          "dependencies",
+          "github_actions"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 243,
+        "title": "Cloud sessions: decide whether to provide an alternative CHR image mirror",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/243",
+        "createdAt": "2026-10-30T20:27:23Z",
+        "updatedAt": "2026-10-30T20:27:23Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "area:library-api",
+          "needs-decision"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 232,
+        "title": "Confirm proxy refusal error shapes against a live refusing proxy",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/232",
+        "createdAt": "2026-10-29T17:32:05Z",
+        "updatedAt": "2026-10-30T20:28:29Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 230,
+        "title": "examples/dude: switch CLI/Python to the post-boot set --package path",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/230",
+        "createdAt": "2026-10-29T17:32:03Z",
+        "updatedAt": "2026-10-30T20:28:21Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": "next"
+      },
+      {
+        "number": 228,
+        "title": "Triage zizmor findings before adopting as CI gate",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/228",
+        "createdAt": "2026-10-29T16:39:30Z",
+        "updatedAt": "2026-10-30T20:28:44Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 216,
+        "title": "CLI: design a full QEMU argv preview beyond dry-run options JSON",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/216",
+        "createdAt": "2026-10-28T22:03:21Z",
+        "updatedAt": "2026-10-30T20:28:34Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 210,
+        "title": "Cloud sessions: finish proxy diagnostics and doctor guidance",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/210",
+        "createdAt": "2026-10-27T15:41:58Z",
+        "updatedAt": "2026-10-30T20:28:17Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": "next"
+      },
+      {
+        "number": 169,
+        "title": "networking: probe for denied UDP sends and refuse mcast instead of booting into silent loss",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/169",
+        "createdAt": "2026-09-20T18:53:44Z",
+        "updatedAt": "2026-10-30T20:28:45Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "area:networking",
+          "area:cli",
+          "P2"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 167,
+        "title": "networking: no N-way rootless L2 on macOS — QEMU's mcast netdev omits SO_REUSEPORT",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/167",
+        "createdAt": "2026-09-20T17:34:20Z",
+        "updatedAt": "2026-09-20T19:03:43Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "area:qemu",
+          "area:networking",
+          "P3",
+          "research",
+          "needs-decision",
+          "platform:mac"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 160,
+        "title": "cache: bound the cache while warming it (--prune-to) + a machine-readable cache report",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/160",
+        "createdAt": "2026-09-19T23:54:56Z",
+        "updatedAt": "2026-09-19T23:54:56Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "area:cli",
+          "area:library-api",
+          "P4"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 153,
+        "title": "CI: Bun 1.4.2 segfaults mid-file on windows-x86 and the ledger records it as test-failure",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/153",
+        "createdAt": "2026-09-19T21:06:11Z",
+        "updatedAt": "2026-10-23T16:52:20Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "area:ci",
+          "P2",
+          "platform:windows"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 151,
+        "title": "ci: gate integrity & failure notice — running log toward a CI-improvements phase",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/151",
+        "createdAt": "2026-09-18T17:30:05Z",
+        "updatedAt": "2026-10-22T21:03:55Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "area:ci",
+          "P2"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 146,
+        "title": "research(download): determine whether cdn.mikrotik.com is a safe artifact origin or failover",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/146",
+        "createdAt": "2026-09-17T06:59:44Z",
+        "updatedAt": "2026-09-17T07:00:22Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "area:library-api",
+          "area:ci",
+          "P3",
+          "research"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 145,
+        "title": "examples: recover safely from teardown failures after Windows removal errors",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/145",
+        "createdAt": "2026-09-16T21:14:34Z",
+        "updatedAt": "2026-10-30T20:28:27Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "area:qemu",
+          "area:examples",
+          "P2",
+          "platform:windows"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 141,
+        "title": "API: live extra port forwards via monitor hostfwd_add (no restart)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/141",
+        "createdAt": "2026-08-12T23:55:03Z",
+        "updatedAt": "2026-10-21T13:58:37Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "area:networking",
+          "area:library-api",
+          "P4"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 135,
+        "title": "exec: repair auto transport fallback with replay-safe failure handling",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/135",
+        "createdAt": "2026-08-03T21:28:43Z",
+        "updatedAt": "2026-10-30T20:28:15Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "area:examples",
+          "area:ci",
+          "P3",
+          "research"
+        ],
+        "milestone": "next"
+      },
+      {
+        "number": 125,
+        "title": "ci: classify infra-download / infra-cache / operation-timeout outcomes — #77 §4's unclaimed half",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/125",
+        "createdAt": "2026-08-02T16:57:08Z",
+        "updatedAt": "2026-09-19T21:30:53Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "area:ci",
+          "P3"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 120,
+        "title": "download: resume with Range, and coalesce concurrent transfers of one artifact",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/120",
+        "createdAt": "2026-07-31T19:06:09Z",
+        "updatedAt": "2026-10-30T20:28:37Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "area:library-api",
+          "P3"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 110,
+        "title": "CI reliability program: make cross-platform failures bounded, attributable, and reproducible (umbrella)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/110",
+        "createdAt": "2026-07-30T17:13:10Z",
+        "updatedAt": "2026-10-31T23:27:48Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "area:ci",
+          "P1"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 106,
+        "title": "CI: retune oversized boot envelopes from path-specific timing data without losing forensic headroom",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/106",
+        "createdAt": "2026-07-28T21:18:07Z",
+        "updatedAt": "2026-10-31T20:37:54Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "area:qemu",
+          "area:ci",
+          "P2"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 97,
+        "title": "arm64 CHR panics under HVF on all Apple Silicon — CHR image requires AArch32 userspace that Apple CPUs do not implement",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/97",
+        "createdAt": "2026-07-24T17:27:00Z",
+        "updatedAt": "2026-08-01T18:13:54Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "area:qemu",
+          "P3",
+          "research"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 79,
+        "title": "QEMU/RouterOS: post-clean() relaunch leaves www nonresponsive on linux-arm64 (7.21.5)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/79",
+        "createdAt": "2026-07-06T00:54:41Z",
+        "updatedAt": "2026-07-31T15:39:14Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "area:qemu",
+          "area:ci",
+          "P3",
+          "research"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 76,
+        "title": "CI: macos-x86 full suite wedges at position 10 in provisioning.test.ts — host-level runner loss, mechanism unexplained (HVF)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/76",
+        "createdAt": "2026-07-05T18:57:47Z",
+        "updatedAt": "2026-10-22T03:58:18Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "area:qemu",
+          "area:ci",
+          "P1",
+          "platform:mac"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 73,
+        "title": "examples: show centrs consuming a quickchr machine",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/73",
+        "createdAt": "2026-07-05T14:21:18Z",
+        "updatedAt": "2026-10-21T13:59:24Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "area:examples",
+          "area:docs",
+          "P4",
+          "consumer:centrs"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 72,
+        "title": "CLI/docs: steer quickchr users to centrs for validated RouterOS operations",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/72",
+        "createdAt": "2026-07-05T14:21:00Z",
+        "updatedAt": "2026-10-30T20:28:19Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "area:cli",
+          "area:wizard",
+          "area:docs",
+          "P4",
+          "consumer:centrs"
+        ],
+        "milestone": "next"
+      },
+      {
+        "number": 69,
+        "title": "REST: first request with freshly created credentials intermittently resets or returns 401",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/69",
+        "createdAt": "2026-07-05T04:32:42Z",
+        "updatedAt": "2026-10-31T23:28:51Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "area:provisioning",
+          "area:rest",
+          "area:ci",
+          "P2"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 58,
+        "title": "decision: split desired config from runtime state in machine.json",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/58",
+        "createdAt": "2026-07-03T16:45:02Z",
+        "updatedAt": "2026-07-03T23:06:10Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "area:library-api",
+          "P3",
+          "needs-decision"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 57,
+        "title": "decision: fixed service-block redesign (Windows +6..+8 IPC collision)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/57",
+        "createdAt": "2026-07-03T16:45:00Z",
+        "updatedAt": "2026-07-04T19:04:34Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "area:networking",
+          "P3",
+          "needs-decision",
+          "platform:windows"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 56,
+        "title": "decision: move off the fixed 9100 port base",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/56",
+        "createdAt": "2026-07-03T16:44:58Z",
+        "updatedAt": "2026-07-03T22:52:30Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "area:qemu",
+          "P3",
+          "needs-decision"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 55,
+        "title": "examples: multi-CHR topologies (OSPF / migration / container / VRRP)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/55",
+        "createdAt": "2026-07-03T16:44:55Z",
+        "updatedAt": "2026-09-20T21:28:18Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "area:examples",
+          "P4"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 54,
+        "title": "CLI: error diagnostics chain (grounded error codes to structured errors)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/54",
+        "createdAt": "2026-07-03T16:44:53Z",
+        "updatedAt": "2026-10-22T19:55:22Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "area:cli",
+          "P3",
+          "research"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 52,
+        "title": "networking: actionable Linux TAP preflight and privilege diagnostics",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/52",
+        "createdAt": "2026-07-03T16:44:48Z",
+        "updatedAt": "2026-10-30T20:28:24Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "area:networking",
+          "P3"
+        ],
+        "milestone": "next"
+      },
+      {
+        "number": 49,
+        "title": "Wizard: remediation + preflight",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/49",
+        "createdAt": "2026-07-03T16:44:40Z",
+        "updatedAt": "2026-10-30T20:28:39Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "area:wizard",
+          "P3"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 47,
+        "title": "CLI: doctor enhancement + --export bug-report bundle",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/47",
+        "createdAt": "2026-07-03T16:44:36Z",
+        "updatedAt": "2026-10-21T13:57:54Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "area:cli",
+          "P3"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 45,
+        "title": "QEMU watch-items (boot respawn-once, arm64 QGA)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/45",
+        "createdAt": "2026-07-03T16:44:31Z",
+        "updatedAt": "2026-07-04T19:36:56Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "area:qemu",
+          "P3",
+          "research"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 44,
+        "title": "CLI/UX polish & follow-ups (umbrella)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/44",
+        "createdAt": "2026-07-03T16:44:29Z",
+        "updatedAt": "2026-10-21T13:59:18Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "area:cli",
+          "P4"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 43,
+        "title": "REST behaviour: standalone lab grounding (blocking / async / error edges)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/43",
+        "createdAt": "2026-07-03T16:44:26Z",
+        "updatedAt": "2026-10-22T03:40:20Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "area:rest",
+          "P3",
+          "research"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 42,
+        "title": "Cross-platform validation matrix (Linux host, completions, disk sizing)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/42",
+        "createdAt": "2026-07-03T16:44:24Z",
+        "updatedAt": "2026-07-04T19:36:31Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "area:qemu",
+          "area:ci",
+          "P3"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 41,
+        "title": "Platform gaps: host networking (macOS / Linux) (umbrella)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/41",
+        "createdAt": "2026-07-03T16:44:21Z",
+        "updatedAt": "2026-09-20T18:54:30Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "area:networking",
+          "P3",
+          "research"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 40,
+        "title": "Windows support: first-class support research and alignment (umbrella)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/40",
+        "createdAt": "2026-07-03T16:44:19Z",
+        "updatedAt": "2026-07-05T18:57:24Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "area:networking",
+          "P3",
+          "research",
+          "platform:windows"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 36,
+        "title": "agent setup: follow-up cleanup decisions after Codex/Copilot review",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/36",
+        "createdAt": "2026-07-03T05:44:29Z",
+        "updatedAt": "2026-10-30T20:28:41Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "documentation",
+          "enhancement",
+          "area:docs",
+          "P4"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 27,
+        "title": "examples: troubleshooting-oriented RouterOS data-collection example",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/27",
+        "createdAt": "2026-06-27T03:51:06Z",
+        "updatedAt": "2026-07-03T11:26:34Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "documentation",
+          "enhancement",
+          "area:examples",
+          "P4"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 25,
+        "title": "examples: `rootless-l2` / `socket-lan` — two CHRs on a named socket L2 segment",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/25",
+        "createdAt": "2026-06-27T00:00:49Z",
+        "updatedAt": "2026-09-20T21:28:16Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "area:examples",
+          "P4"
+        ],
+        "milestone": null
+      }
+    ]
+  }
+}

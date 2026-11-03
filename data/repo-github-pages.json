@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-02T16:42:00.450Z",
-  "generatedBy": "repo-github-pages.ts (manual survey — re-run: bun run survey:pages)",
+  "generatedAt": "2026-11-02T19:42:50.020Z",
+  "generatedBy": "scripts/repo-github-pages.ts (weekly/manual — bun run survey:pages)",
   "collection": {
     "mode": "manual",
     "auth": "token",
-    "note": "On-demand durable survey, committed beside the script. Re-run after Pages/plausible changes; no CI schedule (setups change rarely). Coverage is token-scoped: anonymous runs omit private repos and 404 their Pages settings."
+    "note": "Durable public-repository survey under data/. Refreshed weekly and manually. Pages settings remain token-scoped; inaccessible settings can return 404."
   },
   "budgets": {
-    "githubApiCalls": 55,
+    "githubApiCalls": 53,
     "otherHttpCalls": 32,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4671
+    "rateLimitRemaining": 4828
   },
   "sources": {
     "pagesApi": "GET repos/{owner}/{repo}/pages (404 = off; 401/403 = unknown)",
@@ -23,7 +23,6 @@
   "coverage": {
     "repos": [
       ".github",
-      ".github-private",
       "adventure",
       "bench-routeros-tools",
       "bun-declare-call-erasure-repro",
@@ -51,7 +50,6 @@
       "rosetta",
       "routeros-skills",
       "serial2http",
-      "tikdns",
       "tikoci.github.io",
       "traefik-wabt",
       "traefik-wasm-grain",
@@ -60,16 +58,11 @@
       "winbox-deb"
     ],
     "withPages": 10,
-    "note": "36 org repos surveyed; 10 with Pages. The plausible block exists only where a sweep ran (live sites); truncated flags cap-cut sweeps."
+    "note": "34 org repos surveyed; 10 with Pages. The plausible block exists only where a sweep ran (live sites); truncated flags cap-cut sweeps."
   },
   "repos": {
     ".github": {
       "name": ".github",
-      "hasPages": false,
-      "state": "ok"
-    },
-    ".github-private": {
-      "name": ".github-private",
       "hasPages": false,
       "state": "ok"
     },
@@ -110,9 +103,9 @@
         "probeFile": null
       },
       "latestDeploy": {
-        "at": "2026-11-01T10:54:01Z",
+        "at": "2026-11-02T18:36:56Z",
         "ref": "main",
-        "sha": "ccbfd93",
+        "sha": "8f576ac",
         "state": "success"
       },
       "plausible": {
@@ -412,11 +405,6 @@
       "hasPages": false,
       "state": "ok"
     },
-    "tikdns": {
-      "name": "tikdns",
-      "hasPages": false,
-      "state": "ok"
-    },
     "tikoci.github.io": {
       "name": "tikoci.github.io",
       "hasPages": true,
@@ -439,9 +427,9 @@
         "probeFile": null
       },
       "latestDeploy": {
-        "at": "2026-11-02T12:43:56Z",
+        "at": "2026-11-02T18:27:13Z",
         "ref": "main",
-        "sha": "83824a6",
+        "sha": "1004eb7",
         "state": "success"
       },
       "plausible": {

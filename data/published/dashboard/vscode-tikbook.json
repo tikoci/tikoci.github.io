@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 2,
+  "repo": "vscode-tikbook",
+  "generatedAt": "2026-11-02T19:42:23.944Z",
+  "collection": {
+    "mode": "fresh",
+    "cacheWrittenAt": null
+  },
+  "work": {
+    "counts": {
+      "issues": {
+        "total": 1,
+        "owner": 0,
+        "external": 1,
+        "bot": 0
+      },
+      "prs": {
+        "total": 0,
+        "owner": 0,
+        "external": 0,
+        "bot": 0,
+        "ownerReady": 0,
+        "ownerDraft": 0,
+        "draftUnknown": false
+      }
+    },
+    "page": {
+      "fetched": 1,
+      "perPage": 100,
+      "truncated": false,
+      "countsAreLowerBounds": false
+    },
+    "pullsEnriched": true,
+    "items": [
+      {
+        "number": 2,
+        "title": "Hope to add script formatting capabilities",
+        "author": "wy16W2pIilK1xgqN",
+        "authorClass": "external",
+        "url": "https://github.com/tikoci/vscode-tikbook/issues/2",
+        "createdAt": "2026-05-04T02:42:44Z",
+        "updatedAt": "2026-06-17T03:01:53Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      }
+    ]
+  }
+}

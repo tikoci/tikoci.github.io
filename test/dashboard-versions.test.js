@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 
-import { compareVersions, sortVersionsDesc } from "../fetch-dashboard-data";
+import { compareVersions, sortVersionsDesc } from "../scripts/fetch-dashboard-data";
 
 describe("compareVersions", () => {
     test("orders plain versions numerically", () => {

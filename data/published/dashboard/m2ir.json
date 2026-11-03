@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 2,
+  "repo": "m2ir",
+  "generatedAt": "2026-11-02T19:42:23.944Z",
+  "collection": {
+    "mode": "fresh",
+    "cacheWrittenAt": null
+  },
+  "work": {
+    "counts": {
+      "issues": {
+        "total": 0,
+        "owner": 0,
+        "external": 0,
+        "bot": 0
+      },
+      "prs": {
+        "total": 0,
+        "owner": 0,
+        "external": 0,
+        "bot": 0,
+        "ownerReady": 0,
+        "ownerDraft": 0,
+        "draftUnknown": false
+      }
+    },
+    "page": {
+      "fetched": 0,
+      "perPage": 100,
+      "truncated": false,
+      "countsAreLowerBounds": false
+    },
+    "pullsEnriched": true,
+    "items": []
+  }
+}

@@ -1,0 +1,181 @@
+{
+  "schemaVersion": 2,
+  "repo": "lsp-routeros-ts",
+  "generatedAt": "2026-11-02T19:42:23.944Z",
+  "collection": {
+    "mode": "fresh",
+    "cacheWrittenAt": null
+  },
+  "work": {
+    "counts": {
+      "issues": {
+        "total": 6,
+        "owner": 5,
+        "external": 1,
+        "bot": 0
+      },
+      "prs": {
+        "total": 4,
+        "owner": 0,
+        "external": 0,
+        "bot": 4,
+        "ownerReady": 0,
+        "ownerDraft": 0,
+        "draftUnknown": false
+      }
+    },
+    "page": {
+      "fetched": 10,
+      "perPage": 100,
+      "truncated": false,
+      "countsAreLowerBounds": false
+    },
+    "pullsEnriched": true,
+    "items": [
+      {
+        "number": 38,
+        "title": "corpus: forum importers double-decode entities and can introduce variable interpolation",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/lsp-routeros-ts/issues/38",
+        "createdAt": "2026-09-22T00:54:00Z",
+        "updatedAt": "2026-09-22T00:54:00Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 36,
+        "title": "corpus: preserve upstream imports and add explicit synthetic MAC variants for value-aware analysis",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/lsp-routeros-ts/issues/36",
+        "createdAt": "2026-09-21T12:34:21Z",
+        "updatedAt": "2026-09-22T00:57:42Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 35,
+        "title": "corpus: align captures to the current RouterOS channels — long-term 7.23.5 is uncovered, and parseIL/highlight sit on disjoint version sets",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/lsp-routeros-ts/issues/35",
+        "createdAt": "2026-09-14T16:49:23Z",
+        "updatedAt": "2026-09-14T16:49:23Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 34,
+        "title": "LSP incorrectly applies warning squiggles across remaining file content after a syntax error at the end of file",
+        "author": "newwlfz",
+        "authorClass": "external",
+        "url": "https://github.com/tikoci/lsp-routeros-ts/issues/34",
+        "createdAt": "2026-08-30T10:31:46Z",
+        "updatedAt": "2026-10-17T01:14:26Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 31,
+        "title": "build(deps): bump the github-actions group across 1 directory with 2 updates",
+        "author": "dependabot[bot]",
+        "authorClass": "bot",
+        "url": "https://github.com/tikoci/lsp-routeros-ts/pull/31",
+        "createdAt": "2026-07-16T08:23:57Z",
+        "updatedAt": "2026-08-13T08:24:43Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [
+          "dependencies",
+          "github_actions"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 30,
+        "title": "build(deps-dev): bump the bun-root group across 1 directory with 7 updates",
+        "author": "dependabot[bot]",
+        "authorClass": "bot",
+        "url": "https://github.com/tikoci/lsp-routeros-ts/pull/30",
+        "createdAt": "2026-07-09T08:24:48Z",
+        "updatedAt": "2026-08-13T08:25:15Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [
+          "dependencies",
+          "javascript"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 29,
+        "title": "build(deps): bump the bun-client group across 1 directory with 3 updates",
+        "author": "dependabot[bot]",
+        "authorClass": "bot",
+        "url": "https://github.com/tikoci/lsp-routeros-ts/pull/29",
+        "createdAt": "2026-07-02T08:23:42Z",
+        "updatedAt": "2026-08-13T08:24:35Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [
+          "dependencies",
+          "javascript"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 28,
+        "title": "build(deps): bump the bun-server group across 1 directory with 3 updates",
+        "author": "dependabot[bot]",
+        "authorClass": "bot",
+        "url": "https://github.com/tikoci/lsp-routeros-ts/pull/28",
+        "createdAt": "2026-06-25T08:24:24Z",
+        "updatedAt": "2026-08-13T08:25:09Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [
+          "dependencies",
+          "javascript"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 6,
+        "title": "Setting and/or `#pragma` comments needed to disable warning on scripts >32K",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/lsp-routeros-ts/issues/6",
+        "createdAt": "2026-04-10T20:00:10Z",
+        "updatedAt": "2026-04-10T20:00:59Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 5,
+        "title": "LSP should check and apply semantic token colors automatically, without requiring the \"Apply Semantic Color Overrides to Settings\"",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/lsp-routeros-ts/issues/5",
+        "createdAt": "2026-04-10T18:56:05Z",
+        "updatedAt": "2026-04-10T18:56:05Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      }
+    ]
+  }
+}
