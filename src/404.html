@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <title>Page not found — TIKOCI</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="/shared.css">
+    <style>
+        body { min-height: 100vh; display: grid; place-items: center; }
+        main { text-align: center; padding: 1rem; overflow-wrap: anywhere; }
+        p { margin: 0; }
+    </style>
+</head>
+<body>
+    <main><!-- REDIRECT_MESSAGE --><p>Page not found. <a href="/">Return to TIKOCI</a></p><!-- /REDIRECT_MESSAGE --></main>
+    <script src="/shared.js"></script>
+    <script>
+        initThemeSwitcher();
+        (() => {
+            // Only this namespace redirects; ordinary missing pages stay missing.
+            const match = /^\/r\/([A-Za-z0-9_.-]{1,100})\/?$/.exec(location.pathname);
+            if (!match || match[1] === '.' || match[1] === '..') return;
+            const repo = match[1];
+            const fragment = '#readme-ov-file';
+            const target = `https://github.com/${TIKOCI.owner}/${repo}${fragment}`;
+            const link = document.createElement('a');
+            link.href = target;
+            link.textContent = `${TIKOCI.owner}/${repo}${fragment}`;
+            const message = document.createElement('p');
+            message.append('Redirecting to: ', link);
+            document.querySelector('main').replaceChildren(message);
+            document.title = `Redirecting to ${TIKOCI.owner}/${repo}`;
+
+            let redirected = false;
+            function redirect() {
+                if (redirected) return;
+                redirected = true;
+                location.replace(target);
+            }
+            // A blocked or slow tracker must never prevent navigation.
+            setTimeout(redirect, 800);
+            window.plausible = window.plausible || function () {
+                (window.plausible.q = window.plausible.q || []).push(arguments);
+            };
+            window.plausible.init = window.plausible.init || function (options) {
+                window.plausible.o = options || {};
+            };
+            window.plausible.init();
+            window.plausible('Redirect', {
+                props: { kind: 'readme', repo: `${TIKOCI.owner}/${repo}` },
+                callback: redirect,
+            });
+            const tracker = document.createElement('script');
+            tracker.async = true;
+            tracker.src = 'https://plausible.io/js/pa-ubWop5eYckoDPVbIjXU4_.js';
+            tracker.onerror = redirect;
+            document.head.append(tracker);
+        })();
+    </script>
+</body>
+</html>

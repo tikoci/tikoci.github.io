@@ -10,5 +10,8 @@ category menus on all full-nav pages only when adding a category. Update the
 sitemap template with {{SITE_ORIGIN}} for this site's URLs. Keep sibling-site
 URLs as authored. Put unchanged assets in public/ at their intended URL path.
 
+README short links use `/r/<repo>`; see [redirects.md](redirects.md) for routing,
+tracking and adding durable routes outside the collected project list.
+
 Run bun run lint, bun test test/, bun run build. Check auto/light/dark for visual
 changes. Dataset additions follow add-dataset.md before introducing rendering.
