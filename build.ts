@@ -7,6 +7,7 @@ import sharp from "sharp";
 import { applyConfigOverrides, buildGraphData, type RepoData } from "./scripts/fetch-github-data";
 import { renderHomepageSections } from "./scripts/generate-homepage";
 import { generatePages } from "./scripts/generate-pages";
+import { generateReadmeRedirects } from "./scripts/generate-redirects";
 import { REPO_SYMBOLS } from "./data/repo-config";
 
 const ROOT = resolve(import.meta.dirname);
@@ -82,6 +83,7 @@ for (const asset of CURLCONVERTER_WASM_ASSETS) {
 const repos: RepoData[] = applyConfigOverrides(JSON.parse(readFileSync(join(ROOT, "data", "repos.json"), "utf-8")));
 if (!Array.isArray(repos) || !repos.length) throw new Error("Missing repository snapshot; see docs/refresh-data.md");
 generatePages(repos, DIST);
+generateReadmeRedirects(repos, DIST);
 for (const file of ["sitemap.xml", "atom.xml", "robots.txt"]) {
     const path = join(DIST, file);
     writeFileSync(path, readFileSync(path, "utf-8").replaceAll("{{SITE_ORIGIN}}", SITE_ORIGIN));
