@@ -26,16 +26,16 @@ Add detail as indented lines only when needed. Move finished items to *Done* (or
 - [ ] [scripts] Make `scripts/collect.ts` readable: drop the `process.argv.push("--fresh")`
       hack, read `.github-cache.json` once instead of three times on one line, and replace
       the fake-cache success detection with an explicit return value. (PR #17 review)
-- [ ] [docs] Restore a short reference list of the `src/shared.js` helpers (theme switcher,
-      `SITE_TOOLS`, fetch helpers, `debounce`, cancel token, query params, share button,
-      `escapeHtml`) in `CLAUDE.md`. #17 cut it. (PR #17 review)
 - [ ] [lint] Replace the `any` types in `scripts/retain-observations.ts` (Biome warnings
       went from 21 to 25). (PR #17 review)
 - [ ] [settings] Turn on "Enforce HTTPS" in the repo's Pages settings: `tikoci.github.io`
       currently redirects to `http://tikoci.dev`. (PR #17 review)
-- [ ] [docs] After #17 merges, add a one-line pointer to this file in `AGENTS.md` / `CLAUDE.md`.
 - [ ] [git] Check the local `fix/pr17-reviews` worktree branch (at the PR #17 head `e1b4cbf`,
       no extra commits): delete it, or finish what it was for.
 
 ## Done
 
+- [x] [docs] Restore a short reference list of the `src/shared.js` helpers (theme switcher,
+      `SITE_TOOLS`, fetch helpers, `debounce`, cancel token, query params, share button,
+      `escapeHtml`) — now in `AGENTS.md`. #17 cut it. (PR #17 review)
+- [x] [docs] After #17 merges, add a one-line pointer to this file in `AGENTS.md`.
