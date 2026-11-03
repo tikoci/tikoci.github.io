@@ -6,7 +6,7 @@ import { runInNewContext } from "node:vm";
 import { generateReadmeRedirects } from "../scripts/generate-redirects";
 
 const template = readFileSync(new URL("../src/404.html", import.meta.url), "utf-8");
-const script = template.match(/<script>\s*([\s\S]*?)<\/script>/)[1];
+const script = template.match(/<script>\s*([\s\S]*?)<\/script>/i)[1];
 
 function visit(pathname, hash = "") {
     const navigations = [];
