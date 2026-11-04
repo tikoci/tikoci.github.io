@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-04T06:33:13.979Z",
+  "generatedAt": "2026-11-04T15:29:07.089Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -132,12 +132,12 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "433d1c1f0a345f481583f69fb2ea31606dd5e627",
+            "headSha": "0e476cea72d28ef8564a78acdd063553b72fd95e",
             "event": "schedule",
-            "runStartedAt": "2026-11-03T11:34:40Z",
-            "lastUpdatedAt": "2026-11-03T11:36:04Z",
-            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/41628645344",
-            "isHead": false
+            "runStartedAt": "2026-11-04T11:49:39Z",
+            "lastUpdatedAt": "2026-11-04T11:51:06Z",
+            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/41824077674",
+            "isHead": true
           },
           {
             "configured": "Build: Base Schema",
@@ -429,9 +429,9 @@
             "headBranch": "main",
             "headSha": "e568f7a3bc6a6265499d3189afc72f2f3e2dbc1d",
             "event": "schedule",
-            "runStartedAt": "2026-11-03T11:41:55Z",
-            "lastUpdatedAt": "2026-11-03T11:43:53Z",
-            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/41629614568",
+            "runStartedAt": "2026-11-04T11:54:39Z",
+            "lastUpdatedAt": "2026-11-04T11:55:02Z",
+            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/41824758365",
             "isHead": true
           },
           {
@@ -847,9 +847,9 @@
             "headBranch": "main",
             "headSha": "24b14b55c0b794c945f478a91c9c62c4468786ff",
             "event": "schedule",
-            "runStartedAt": "2026-11-03T11:56:48Z",
-            "lastUpdatedAt": "2026-11-03T11:57:07Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/41631598869",
+            "runStartedAt": "2026-11-04T12:10:15Z",
+            "lastUpdatedAt": "2026-11-04T12:10:33Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/41826949021",
             "isHead": true
           }
         ]
@@ -1103,6 +1103,7 @@
         "locator": "github-tags:",
         "kind": "published",
         "coverage": [
+          "7.25.1",
           "7.25",
           "7.24.5",
           "7.24.4",
@@ -1116,12 +1117,12 @@
           "7.22.3",
           "7.22.2"
         ],
-        "totalKnown": 62,
+        "totalKnown": 63,
         "truncated": true,
         "channels": {
           "stable": {
             "version": "7.25.1",
-            "covered": false
+            "covered": true
           },
           "long-term": {
             "version": "7.24.6",
@@ -1145,12 +1146,12 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "c3e110db1d35886c96ee14e16fc5a06bcac59692",
+            "headSha": "3f8863249e7d944c935b3a58bcbebb1e9b307b58",
             "event": "schedule",
-            "runStartedAt": "2026-10-31T09:28:37Z",
-            "lastUpdatedAt": "2026-10-31T09:29:01Z",
-            "lastUrl": "https://github.com/tikoci/mikrotik-gpl/actions/runs/41188839588",
-            "isHead": false
+            "runStartedAt": "2026-11-04T10:32:41Z",
+            "lastUpdatedAt": "2026-11-04T10:33:44Z",
+            "lastUrl": "https://github.com/tikoci/mikrotik-gpl/actions/runs/41814874448",
+            "isHead": true
           }
         ]
       },
@@ -1195,20 +1196,20 @@
       },
       "release": {
         "state": "ok",
-        "latestTag": "7.25",
-        "latestDate": "2026-10-24T08:01:00Z",
-        "latestUrl": "https://github.com/tikoci/mikrotik-gpl/releases/tag/7.25",
+        "latestTag": "7.25.1",
+        "latestDate": "2026-11-04T10:33:36Z",
+        "latestUrl": "https://github.com/tikoci/mikrotik-gpl/releases/tag/7.25.1",
         "prerelease": false,
         "stable": {
-          "tag": "7.25",
-          "date": "2026-10-24T08:01:00Z",
-          "url": "https://github.com/tikoci/mikrotik-gpl/releases/tag/7.25",
+          "tag": "7.25.1",
+          "date": "2026-11-04T10:33:36Z",
+          "url": "https://github.com/tikoci/mikrotik-gpl/releases/tag/7.25.1",
           "prerelease": false
         },
         "newest": {
-          "tag": "7.25",
-          "date": "2026-10-24T08:01:00Z",
-          "url": "https://github.com/tikoci/mikrotik-gpl/releases/tag/7.25",
+          "tag": "7.25.1",
+          "date": "2026-11-04T10:33:36Z",
+          "url": "https://github.com/tikoci/mikrotik-gpl/releases/tag/7.25.1",
           "prerelease": false
         },
         "prereleaseChannel": false,
@@ -1540,8 +1541,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "a03e3cb814fbbc2633eaaf447819381cab588fd1",
-        "headUrl": "https://github.com/tikoci/centrs/commit/a03e3cb814fbbc2633eaaf447819381cab588fd1",
+        "headSha": "a9b16145c97db0f4f1222fbb22dcf218ad1c2cd3",
+        "headUrl": "https://github.com/tikoci/centrs/commit/a9b16145c97db0f4f1222fbb22dcf218ad1c2cd3",
         "workflows": [
           {
             "configured": "CI",
@@ -1558,7 +1559,7 @@
             "runStartedAt": "2026-11-03T19:23:17Z",
             "lastUpdatedAt": "2026-11-03T19:25:42Z",
             "lastUrl": "https://github.com/tikoci/centrs/actions/runs/41702785571",
-            "isHead": true
+            "isHead": false
           },
           {
             "configured": "Release",
@@ -1592,7 +1593,7 @@
             "runStartedAt": "2026-11-03T19:23:17Z",
             "lastUpdatedAt": "2026-11-03T20:01:08Z",
             "lastUrl": "https://github.com/tikoci/centrs/actions/runs/41702785923",
-            "isHead": true
+            "isHead": false
           }
         ]
       },
@@ -1606,17 +1607,17 @@
             "bot": 0
           },
           "prs": {
-            "total": 3,
-            "owner": 3,
+            "total": 2,
+            "owner": 2,
             "external": 0,
             "bot": 0,
-            "ownerReady": 3,
+            "ownerReady": 2,
             "ownerDraft": 0,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 85,
+          "fetched": 84,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
@@ -1689,19 +1690,6 @@
             "milestone": null
           },
           {
-            "number": 619,
-            "title": "feat(resolver): CDB per-service port keys (#618)",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/pull/619",
-            "createdAt": "2026-11-04T01:29:29Z",
-            "updatedAt": "2026-11-04T05:12:04Z",
-            "isPR": true,
-            "draft": false,
-            "labels": [],
-            "milestone": null
-          },
-          {
             "number": 618,
             "title": "CDB per-service port keys (www-port, api-port, ssh-port, …)",
             "author": "Amm0Bot",
@@ -1721,7 +1709,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/centrs/pull/617",
             "createdAt": "2026-11-03T21:03:14Z",
-            "updatedAt": "2026-11-04T00:33:09Z",
+            "updatedAt": "2026-11-04T10:54:56Z",
             "isPR": true,
             "draft": false,
             "labels": [],
@@ -1734,7 +1722,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/centrs/pull/615",
             "createdAt": "2026-11-03T17:44:06Z",
-            "updatedAt": "2026-11-03T17:55:34Z",
+            "updatedAt": "2026-11-04T15:29:02Z",
             "isPR": true,
             "draft": false,
             "labels": [],
@@ -1752,6 +1740,23 @@
             "draft": null,
             "labels": [],
             "milestone": null
+          },
+          {
+            "number": 612,
+            "title": "CI: pilot snapshot-isolated CHR reuse for default integration fixtures",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/612",
+            "createdAt": "2026-11-03T05:46:27Z",
+            "updatedAt": "2026-11-04T00:33:10Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "QA",
+              "CI",
+              "provider-quickchr"
+            ],
+            "milestone": null
           }
         ]
       },
@@ -1760,7 +1765,7 @@
         "openIssues": 0,
         "openPRs": 0,
         "totalIssues": 82,
-        "totalPRs": 3,
+        "totalPRs": 2,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -3304,23 +3309,6 @@
       ]
     },
     {
-      "id": "ros-missing-channel:mikrotik-gpl:stable",
-      "rule": "ros-missing-channel",
-      "severity": "pending",
-      "category": "ros",
-      "repos": [
-        "mikrotik-gpl"
-      ],
-      "summary": "mikrotik-gpl: missing stable 7.25.1 (published coverage)",
-      "detail": "The current stable version is absent from this repo's published coverage list. Work to do (usually picked up by the polling workflow), not a failure. Only channels listed in rosChannels are judged.",
-      "evidence": [
-        "repos.mikrotik-gpl.ros.channels.stable=missing 7.25.1"
-      ],
-      "urls": [
-        "https://github.com/tikoci/mikrotik-gpl/actions"
-      ]
-    },
-    {
       "id": "work-maintainer-prs:bench-routeros-tools",
       "rule": "work-maintainer-prs",
       "severity": "pending",
@@ -3345,10 +3333,10 @@
       "repos": [
         "centrs"
       ],
-      "summary": "centrs: 3 open maintainer PRs",
+      "summary": "centrs: 2 open maintainer PRs",
       "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
       "evidence": [
-        "repos.centrs.work.counts.prs.ownerReady=3"
+        "repos.centrs.work.counts.prs.ownerReady=2"
       ],
       "urls": [
         "https://github.com/tikoci/centrs/pulls"
@@ -3406,6 +3394,42 @@
       ]
     },
     {
+      "id": "ci-run-not-head:centrs:CI",
+      "rule": "ci-run-not-head",
+      "severity": "info",
+      "category": "ci",
+      "repos": [
+        "centrs"
+      ],
+      "summary": "centrs: CI latest run is not on the current head commit",
+      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
+      "evidence": [
+        "repos.centrs.ci.workflows[CI].headSha=a03e3cb814fbbc2633eaaf447819381cab588fd1",
+        "repos.centrs.ci.headSha=a9b16145c97db0f4f1222fbb22dcf218ad1c2cd3"
+      ],
+      "urls": [
+        "https://github.com/tikoci/centrs/actions/runs/41702785571"
+      ]
+    },
+    {
+      "id": "ci-run-not-head:centrs:QA",
+      "rule": "ci-run-not-head",
+      "severity": "info",
+      "category": "ci",
+      "repos": [
+        "centrs"
+      ],
+      "summary": "centrs: QA latest run is not on the current head commit",
+      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
+      "evidence": [
+        "repos.centrs.ci.workflows[QA].headSha=a03e3cb814fbbc2633eaaf447819381cab588fd1",
+        "repos.centrs.ci.headSha=a9b16145c97db0f4f1222fbb22dcf218ad1c2cd3"
+      ],
+      "urls": [
+        "https://github.com/tikoci/centrs/actions/runs/41702785923"
+      ]
+    },
+    {
       "id": "ci-run-not-head:centrs:Release",
       "rule": "ci-run-not-head",
       "severity": "info",
@@ -3417,7 +3441,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.centrs.ci.workflows[Release].headSha=03192966ce516f67da857cd47077a2f9881b2829",
-        "repos.centrs.ci.headSha=a03e3cb814fbbc2633eaaf447819381cab588fd1"
+        "repos.centrs.ci.headSha=a9b16145c97db0f4f1222fbb22dcf218ad1c2cd3"
       ],
       "urls": [
         "https://github.com/tikoci/centrs/actions/runs/41639465287"
@@ -3439,42 +3463,6 @@
       ],
       "urls": [
         "https://github.com/tikoci/lsp-routeros-ts/actions/runs/24922776315"
-      ]
-    },
-    {
-      "id": "ci-run-not-head:mikrotik-gpl:Request-GPL-Source",
-      "rule": "ci-run-not-head",
-      "severity": "info",
-      "category": "ci",
-      "repos": [
-        "mikrotik-gpl"
-      ],
-      "summary": "mikrotik-gpl: Request GPL Source latest run is not on the current head commit",
-      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
-      "evidence": [
-        "repos.mikrotik-gpl.ci.workflows[Request GPL Source].headSha=c3e110db1d35886c96ee14e16fc5a06bcac59692",
-        "repos.mikrotik-gpl.ci.headSha=3f8863249e7d944c935b3a58bcbebb1e9b307b58"
-      ],
-      "urls": [
-        "https://github.com/tikoci/mikrotik-gpl/actions/runs/41188839588"
-      ]
-    },
-    {
-      "id": "ci-run-not-head:restraml:Auto-Build-New-RouterOS-Versions",
-      "rule": "ci-run-not-head",
-      "severity": "info",
-      "category": "ci",
-      "repos": [
-        "restraml"
-      ],
-      "summary": "restraml: Auto-Build New RouterOS Versions latest run is not on the current head commit",
-      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
-      "evidence": [
-        "repos.restraml.ci.workflows[Auto-Build New RouterOS Versions].headSha=433d1c1f0a345f481583f69fb2ea31606dd5e627",
-        "repos.restraml.ci.headSha=0e476cea72d28ef8564a78acdd063553b72fd95e"
-      ],
-      "urls": [
-        "https://github.com/tikoci/restraml/actions/runs/41628645344"
       ]
     },
     {
