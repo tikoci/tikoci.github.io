@@ -9,6 +9,27 @@
     "category": "ai"
   },
   {
+    "name": "routeros-skills",
+    "description": "Custom instruction SKILL.md for MikroTik RouterOS v7",
+    "stars": 87,
+    "language": "Shell",
+    "topics": [
+      "claude",
+      "claude-skills",
+      "copilot-enabled",
+      "copilot-instructions",
+      "copilot-skills",
+      "mikrotik",
+      "routeros",
+      "routeros-api",
+      "routeros-v7",
+      "skills",
+      "tikoci"
+    ],
+    "html_url": "https://github.com/tikoci/routeros-skills",
+    "category": "ai"
+  },
+  {
     "name": "centrs",
     "description": "Multi-protocol (REST, native API, mac-telnet, SSH) CLI and TypeScript interface to RouterOS, with rich help and validation",
     "stars": 5,
@@ -77,27 +98,6 @@
     "topics": [],
     "html_url": "https://github.com/tikoci/mikrotik-gpl",
     "category": "scripts"
-  },
-  {
-    "name": "routeros-skills",
-    "description": "Custom instruction SKILL.md for MikroTik RouterOS v7",
-    "stars": 86,
-    "language": "Shell",
-    "topics": [
-      "claude",
-      "claude-skills",
-      "copilot-enabled",
-      "copilot-instructions",
-      "copilot-skills",
-      "mikrotik",
-      "routeros",
-      "routeros-api",
-      "routeros-v7",
-      "skills",
-      "tikoci"
-    ],
-    "html_url": "https://github.com/tikoci/routeros-skills",
-    "category": "ai"
   },
   {
     "name": "restraml",

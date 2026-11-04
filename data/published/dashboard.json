@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-04T17:47:14.657Z",
+  "generatedAt": "2026-11-04T21:55:57.849Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,7 +10,7 @@
     "otherHttpCalls": 11,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4514
+    "rateLimitRemaining": 4879
   },
   "sources": {
     "ros-current": "https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel> (MikroTik upgrade feed; body \"<version> <build-ts>\")",
@@ -1825,10 +1825,10 @@
       ],
       "detail": "data/dashboard/routeros-muse.json",
       "ci": {
-        "state": "partial",
+        "state": "ok",
         "defaultBranch": "main",
-        "headSha": "4361fbe6db15ca39001c9c7d3ac58e48dccd48e2",
-        "headUrl": "https://github.com/tikoci/routeros-muse/commit/4361fbe6db15ca39001c9c7d3ac58e48dccd48e2",
+        "headSha": "f8663c061df1ff72a34877369249ffc713ffd072",
+        "headUrl": "https://github.com/tikoci/routeros-muse/commit/f8663c061df1ff72a34877369249ffc713ffd072",
         "workflows": [
           {
             "configured": "CI",
@@ -1836,15 +1836,15 @@
             "path": ".github/workflows/ci.yml",
             "present": true,
             "state": "ok",
-            "status": "queued",
-            "conclusion": null,
-            "lastConclusion": null,
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "4361fbe6db15ca39001c9c7d3ac58e48dccd48e2",
+            "headSha": "f8663c061df1ff72a34877369249ffc713ffd072",
             "event": "push",
-            "runStartedAt": "2026-11-04T17:41:11Z",
-            "lastUpdatedAt": "2026-11-04T17:41:11Z",
-            "lastUrl": "https://github.com/tikoci/routeros-muse/actions/runs/41879516283",
+            "runStartedAt": "2026-11-04T20:45:39Z",
+            "lastUpdatedAt": "2026-11-04T20:49:16Z",
+            "lastUrl": "https://github.com/tikoci/routeros-muse/actions/runs/41909650007",
             "isHead": true
           },
           {
@@ -1852,18 +1852,17 @@
             "name": "Release",
             "path": ".github/workflows/release.yml",
             "present": true,
-            "state": "unknown",
-            "status": null,
-            "conclusion": null,
-            "lastConclusion": null,
-            "headBranch": null,
-            "headSha": null,
-            "event": null,
-            "runStartedAt": null,
-            "lastUpdatedAt": null,
-            "lastUrl": null,
-            "isHead": null,
-            "error": "no runs on the default branch"
+            "state": "ok",
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
+            "headBranch": "main",
+            "headSha": "2ca6ef081389206a6e539942d4d33ee12e8ee81d",
+            "event": "workflow_dispatch",
+            "runStartedAt": "2026-11-04T19:30:40Z",
+            "lastUpdatedAt": "2026-11-04T19:37:03Z",
+            "lastUrl": "https://github.com/tikoci/routeros-muse/actions/runs/41897614583",
+            "isHead": false
           }
         ]
       },
@@ -1877,23 +1876,36 @@
             "bot": 0
           },
           "prs": {
-            "total": 1,
-            "owner": 0,
+            "total": 2,
+            "owner": 1,
             "external": 0,
             "bot": 1,
-            "ownerReady": 0,
+            "ownerReady": 1,
             "ownerDraft": 0,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 1,
+          "fetched": 2,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 5,
+            "title": "npm release readiness: hoisted tool bundle, repository field, README @next (T177)",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-muse/pull/5",
+            "createdAt": "2026-11-04T20:52:36Z",
+            "updatedAt": "2026-11-04T21:12:27Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [],
+            "milestone": null
+          },
           {
             "number": 1,
             "title": "build(deps): bump marked from 16.4.2 to 18.1.2 in the bun group",
@@ -1917,7 +1929,7 @@
         "openIssues": 0,
         "openPRs": 0,
         "totalIssues": 0,
-        "totalPRs": 1,
+        "totalPRs": 2,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -3401,23 +3413,6 @@
       ]
     },
     {
-      "id": "ci-no-default-runs:routeros-muse:Release",
-      "rule": "ci-no-default-runs",
-      "severity": "gap",
-      "category": "ci",
-      "repos": [
-        "routeros-muse"
-      ],
-      "summary": "routeros-muse: Release never ran on main",
-      "detail": "The workflow exists but has no runs on the default branch. There is no passing evidence either way — this answers 'is CI passing?' with unknown, not yes.",
-      "evidence": [
-        "repos.routeros-muse.ci.workflows[Release].state=unknown"
-      ],
-      "urls": [
-        "https://github.com/tikoci/routeros-muse/actions"
-      ]
-    },
-    {
       "id": "ros-lag-unknown:rosetta",
       "rule": "ros-lag-unknown",
       "severity": "gap",
@@ -3433,23 +3428,6 @@
       ],
       "urls": [
         "https://github.com/tikoci/rosetta/issues/230"
-      ]
-    },
-    {
-      "id": "ci-run-in-progress:routeros-muse:CI",
-      "rule": "ci-run-in-progress",
-      "severity": "pending",
-      "category": "ci",
-      "repos": [
-        "routeros-muse"
-      ],
-      "summary": "routeros-muse: CI queued on main",
-      "detail": "The latest default-branch run has not completed, so the current-commit verdict is pending. Re-check after it finishes.",
-      "evidence": [
-        "repos.routeros-muse.ci.workflows[CI].status=queued"
-      ],
-      "urls": [
-        "https://github.com/tikoci/routeros-muse/actions/runs/41879516283"
       ]
     },
     {
@@ -3554,6 +3532,23 @@
       ],
       "urls": [
         "https://github.com/tikoci/restraml/pulls"
+      ]
+    },
+    {
+      "id": "work-maintainer-prs:routeros-muse",
+      "rule": "work-maintainer-prs",
+      "severity": "pending",
+      "category": "work",
+      "repos": [
+        "routeros-muse"
+      ],
+      "summary": "routeros-muse: 1 open maintainer PR",
+      "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
+      "evidence": [
+        "repos.routeros-muse.work.counts.prs.ownerReady=1"
+      ],
+      "urls": [
+        "https://github.com/tikoci/routeros-muse/pulls"
       ]
     },
     {
@@ -3696,6 +3691,24 @@
       ],
       "urls": [
         "https://github.com/tikoci/rosetta/actions/runs/41129834224"
+      ]
+    },
+    {
+      "id": "ci-run-not-head:routeros-muse:Release",
+      "rule": "ci-run-not-head",
+      "severity": "info",
+      "category": "ci",
+      "repos": [
+        "routeros-muse"
+      ],
+      "summary": "routeros-muse: Release latest run is not on the current head commit",
+      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
+      "evidence": [
+        "repos.routeros-muse.ci.workflows[Release].headSha=2ca6ef081389206a6e539942d4d33ee12e8ee81d",
+        "repos.routeros-muse.ci.headSha=f8663c061df1ff72a34877369249ffc713ffd072"
+      ],
+      "urls": [
+        "https://github.com/tikoci/routeros-muse/actions/runs/41897614583"
       ]
     },
     {
