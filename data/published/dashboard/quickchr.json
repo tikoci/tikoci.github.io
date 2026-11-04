@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-02T19:42:23.944Z",
+  "generatedAt": "2026-11-04T00:00:44.031Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -14,6 +14,7 @@
       "7.26beta4",
       "7.26beta3",
       "7.26beta1",
+      "7.25.1",
       "7.25",
       "7.25rc3",
       "7.25rc2",
@@ -43,15 +44,15 @@
       "7.21.4",
       "7.20.8"
     ],
-    "totalKnown": 32,
+    "totalKnown": 33,
     "truncated": true,
     "channels": {
       "stable": {
-        "version": "7.25",
+        "version": "7.25.1",
         "covered": true
       },
       "testing": {
-        "version": "7.25",
+        "version": "7.25.1",
         "covered": true
       },
       "development": {
@@ -91,6 +92,23 @@
     "pullsEnriched": true,
     "items": [
       {
+        "number": 253,
+        "title": "Managed SSH key can only be created at first boot; no way to add one to a running machine",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/253",
+        "createdAt": "2026-11-03T16:40:37Z",
+        "updatedAt": "2026-11-03T22:30:45Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "area:provisioning",
+          "consumer:centrs"
+        ],
+        "milestone": null
+      },
+      {
         "number": 250,
         "title": "chore(deps): bump actions/setup-node from 5 to 7",
         "author": "dependabot[bot]",
@@ -129,7 +147,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/243",
         "createdAt": "2026-10-30T20:27:23Z",
-        "updatedAt": "2026-10-30T20:27:23Z",
+        "updatedAt": "2026-11-03T22:28:12Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -137,19 +155,6 @@
           "area:library-api",
           "needs-decision"
         ],
-        "milestone": null
-      },
-      {
-        "number": 232,
-        "title": "Confirm proxy refusal error shapes against a live refusing proxy",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/232",
-        "createdAt": "2026-10-29T17:32:05Z",
-        "updatedAt": "2026-10-30T20:28:29Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [],
         "milestone": null
       },
       {

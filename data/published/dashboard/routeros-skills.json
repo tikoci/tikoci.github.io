@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "routeros-skills",
-  "generatedAt": "2026-11-02T19:42:23.944Z",
+  "generatedAt": "2026-11-04T00:00:44.031Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -15,23 +15,36 @@
         "bot": 0
       },
       "prs": {
-        "total": 3,
-        "owner": 2,
+        "total": 4,
+        "owner": 3,
         "external": 1,
         "bot": 0,
-        "ownerReady": 1,
+        "ownerReady": 2,
         "ownerDraft": 1,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 21,
+      "fetched": 22,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 54,
+        "title": "docs(routeros-centrs): refresh for centrs 0.1.9",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/pull/54",
+        "createdAt": "2026-11-03T04:33:54Z",
+        "updatedAt": "2026-11-03T06:51:16Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [],
+        "milestone": null
+      },
       {
         "number": 52,
         "title": "New skill: routeros-certificates",
@@ -226,10 +239,12 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/pull/34",
         "createdAt": "2026-10-15T11:34:20Z",
-        "updatedAt": "2026-10-15T16:23:54Z",
+        "updatedAt": "2026-11-03T04:33:45Z",
         "isPR": true,
         "draft": false,
-        "labels": [],
+        "labels": [
+          "blocked:grounding"
+        ],
         "milestone": null
       },
       {

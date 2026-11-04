@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "centrs",
-  "generatedAt": "2026-11-02T19:42:23.944Z",
+  "generatedAt": "2026-11-04T00:00:44.031Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,8 +9,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 74,
-        "owner": 74,
+        "total": 76,
+        "owner": 76,
         "external": 0,
         "bot": 0
       },
@@ -25,7 +25,7 @@
       }
     },
     "page": {
-      "fetched": 76,
+      "fetched": 78,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
@@ -33,41 +33,157 @@
     "pullsEnriched": true,
     "items": [
       {
-        "number": 599,
-        "title": "transfer: map a CDB record's via= transport to a transfer method (#591)",
+        "number": 617,
+        "title": "test(integration): reuse one snapshot-restored CHR within a file (#612, PR 1)",
         "author": "Amm0Bot",
         "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/pull/599",
-        "createdAt": "2026-11-02T18:35:22Z",
-        "updatedAt": "2026-11-02T18:44:38Z",
+        "url": "https://github.com/tikoci/centrs/pull/617",
+        "createdAt": "2026-11-03T21:03:14Z",
+        "updatedAt": "2026-11-03T21:25:51Z",
         "isPR": true,
         "draft": false,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 615,
+        "title": "terminal: accept a single --quickchr target; add quickchr/ssh-auth-unavailable (#610)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/pull/615",
+        "createdAt": "2026-11-03T17:44:06Z",
+        "updatedAt": "2026-11-03T17:55:34Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 614,
+        "title": "Dockerfile: run the container as the non-root bun user",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/issues/614",
+        "createdAt": "2026-11-03T12:46:37Z",
+        "updatedAt": "2026-11-03T12:46:37Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 612,
+        "title": "CI: pilot snapshot-isolated CHR reuse for default integration fixtures",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/issues/612",
+        "createdAt": "2026-11-03T05:46:27Z",
+        "updatedAt": "2026-11-03T21:04:06Z",
+        "isPR": false,
+        "draft": null,
         "labels": [
-          "bug",
-          "cmd-transfer",
-          "proto-ssh",
+          "QA",
+          "CI",
+          "provider-quickchr"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 610,
+        "title": "terminal --quickchr rejects a single machine as unsupported fan-out",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/issues/610",
+        "createdAt": "2026-11-03T04:39:45Z",
+        "updatedAt": "2026-11-03T04:39:45Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "CLI",
+          "provider-quickchr"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 606,
+        "title": "MCP: pin the tool contract (--list-tools snapshot + annotation tests) and document CLI↔MCP parity",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/issues/606",
+        "createdAt": "2026-11-03T01:31:55Z",
+        "updatedAt": "2026-11-03T01:31:55Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "hardening",
+          "MCP",
           "from-routeros-muse"
         ],
         "milestone": null
       },
       {
-        "number": 598,
-        "title": "resolver: --match selects among CDB records on every target command (#583)",
+        "number": 605,
+        "title": "MCP: set isError, return structuredContent/outputSchema, and bound result size",
         "author": "Amm0Bot",
         "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/pull/598",
-        "createdAt": "2026-11-02T18:27:04Z",
-        "updatedAt": "2026-11-02T18:28:39Z",
-        "isPR": true,
-        "draft": false,
+        "url": "https://github.com/tikoci/centrs/issues/605",
+        "createdAt": "2026-11-03T01:31:32Z",
+        "updatedAt": "2026-11-03T01:31:32Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "MCP",
+          "UX",
+          "from-routeros-muse"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 604,
+        "title": "MCP: allowlist gate and core dial read the CDB separately — authorize and dial one snapshot",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/issues/604",
+        "createdAt": "2026-11-03T01:31:09Z",
+        "updatedAt": "2026-11-03T01:31:09Z",
+        "isPR": false,
+        "draft": null,
         "labels": [
           "bug",
-          "UX",
-          "cmd-execute",
-          "cmd-retrieve",
-          "cmd-transfer",
-          "cmd-api",
-          "cmd-devices",
+          "hardening",
+          "MCP"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 603,
+        "title": "MCP/CDB: unlock-password channel for hosts that don't pass env (password command or file, fetched per load)",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/issues/603",
+        "createdAt": "2026-11-03T01:30:57Z",
+        "updatedAt": "2026-11-03T01:30:57Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "needs-decision",
+          "hardening",
+          "MCP",
+          "from-routeros-muse"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 602,
+        "title": "routeros-muse: pressing centrs items (CLI now, MCP after)",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/issues/602",
+        "createdAt": "2026-11-03T01:02:44Z",
+        "updatedAt": "2026-11-03T01:32:33Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
           "from-routeros-muse"
         ],
         "milestone": null
@@ -145,24 +261,6 @@
         "milestone": null
       },
       {
-        "number": 591,
-        "title": "transfer: reconcile CDB via=ssh with transfer's sftp transport name",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/591",
-        "createdAt": "2026-11-02T16:24:55Z",
-        "updatedAt": "2026-11-02T17:44:00Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "needs-decision",
-          "cmd-transfer",
-          "proto-ssh",
-          "from-routeros-muse"
-        ],
-        "milestone": null
-      },
-      {
         "number": 589,
         "title": "transfer REST upload: investigate first upload leaving a zero-byte file",
         "author": "mobileskyfi",
@@ -201,19 +299,6 @@
         "milestone": null
       },
       {
-        "number": 587,
-        "title": "settings get <key>: text renderer crashes on the single-entry shape (typed.source.key), exits 0",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/587",
-        "createdAt": "2026-11-02T14:49:35Z",
-        "updatedAt": "2026-11-02T14:49:35Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [],
-        "milestone": null
-      },
-      {
         "number": 585,
         "title": "execute/terminal --via mac-telnet: bare-MAC target cannot resolve CDB credentials",
         "author": "Amm0Bot",
@@ -234,38 +319,6 @@
         "url": "https://github.com/tikoci/centrs/issues/584",
         "createdAt": "2026-11-02T00:53:30Z",
         "updatedAt": "2026-11-02T02:00:15Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 583,
-        "title": "Retrieve-side multi-user record selection missing; remediation text advises rejected --match",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/583",
-        "createdAt": "2026-11-01T16:54:04Z",
-        "updatedAt": "2026-11-02T17:43:46Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "UX",
-          "cmd-retrieve",
-          "cmd-devices",
-          "from-routeros-muse"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 582,
-        "title": "devices set/add record password needs a non-argv channel (env/stdin)",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/582",
-        "createdAt": "2026-11-01T16:03:05Z",
-        "updatedAt": "2026-11-01T16:03:05Z",
         "isPR": false,
         "draft": null,
         "labels": [],
@@ -363,32 +416,6 @@
           "UX",
           "proto-mac-telnet"
         ],
-        "milestone": "next"
-      },
-      {
-        "number": 558,
-        "title": "devices: add-encryption command (upgrade unencrypted CDB to encrypted)",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/558",
-        "createdAt": "2026-10-28T06:26:01Z",
-        "updatedAt": "2026-11-01T13:42:26Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 551,
-        "title": "devices show prints record passwords in cleartext by default",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/551",
-        "createdAt": "2026-10-28T02:25:28Z",
-        "updatedAt": "2026-10-28T21:11:20Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [],
         "milestone": "next"
       },
       {
@@ -546,7 +573,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/464",
         "createdAt": "2026-10-13T17:55:25Z",
-        "updatedAt": "2026-10-13T17:55:25Z",
+        "updatedAt": "2026-11-03T23:44:35Z",
         "isPR": false,
         "draft": null,
         "labels": [

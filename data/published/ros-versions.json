@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-02T19:42:23.944Z",
+  "generatedAt": "2026-11-04T00:00:44.031Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -8,13 +8,13 @@
   "channels": {
     "stable": {
       "state": "ok",
-      "version": "7.25",
-      "raw": "7.25 1792678320"
+      "version": "7.25.1",
+      "raw": "7.25.1 1793623193"
     },
     "testing": {
       "state": "ok",
-      "version": "7.25",
-      "raw": "7.25 1792678320"
+      "version": "7.25.1",
+      "raw": "7.25.1 1793623193"
     },
     "development": {
       "state": "ok",

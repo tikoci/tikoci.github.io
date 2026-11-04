@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "mikropkl",
-  "generatedAt": "2026-11-02T19:42:23.944Z",
+  "generatedAt": "2026-11-04T00:00:44.031Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -14,6 +14,7 @@
       "7.26beta4",
       "7.26beta3",
       "7.26beta1",
+      "7.25.1",
       "7.25",
       "7.25rc3",
       "7.25rc2",
@@ -106,15 +107,15 @@
       "7.18.2",
       "7.18.1"
     ],
-    "totalKnown": 95,
+    "totalKnown": 96,
     "truncated": true,
     "channels": {
       "stable": {
-        "version": "7.25",
+        "version": "7.25.1",
         "covered": true
       },
       "testing": {
-        "version": "7.25",
+        "version": "7.25.1",
         "covered": true
       },
       "development": {

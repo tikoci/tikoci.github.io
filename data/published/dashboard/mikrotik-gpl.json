@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "mikrotik-gpl",
-  "generatedAt": "2026-11-02T19:42:23.944Z",
+  "generatedAt": "2026-11-04T00:00:44.031Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -77,8 +77,8 @@
     "truncated": true,
     "channels": {
       "stable": {
-        "version": "7.25",
-        "covered": true
+        "version": "7.25.1",
+        "covered": false
       },
       "long-term": {
         "version": "7.24.6",
