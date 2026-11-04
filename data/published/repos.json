@@ -1,5 +1,36 @@
 [
   {
+    "name": "routeros-muse",
+    "description": "RouterOS AI Console, for Meta Muse Code — applying coding agents and tooling to network management.  Prototype of web interface around TIKOCI RouterOS tooling, built as part of Meta Global AI Developer Hackathon '26.",
+    "stars": 1,
+    "language": "TypeScript",
+    "topics": [],
+    "html_url": "https://github.com/tikoci/routeros-muse",
+    "category": "ai"
+  },
+  {
+    "name": "centrs",
+    "description": "Multi-protocol (REST, native API, mac-telnet, SSH) CLI and TypeScript interface to RouterOS, with rich help and validation",
+    "stars": 5,
+    "language": "TypeScript",
+    "topics": [
+      "ai",
+      "ai-tools",
+      "btest",
+      "bun",
+      "mac-telnet",
+      "mikrotik",
+      "mndp",
+      "routeros",
+      "routeros-api",
+      "routeros-node",
+      "tikoci",
+      "typescript"
+    ],
+    "html_url": "https://github.com/tikoci/centrs",
+    "category": "dev-tools"
+  },
+  {
     "name": "enbeep",
     "description": "One-way text announcements from a RouterOS beeper to a nearby mic",
     "stars": 2,
@@ -67,28 +98,6 @@
     ],
     "html_url": "https://github.com/tikoci/routeros-skills",
     "category": "ai"
-  },
-  {
-    "name": "centrs",
-    "description": "Multi-protocol (REST, native API, mac-telnet, SSH) CLI and TypeScript interface to RouterOS, with rich help and validation",
-    "stars": 5,
-    "language": "TypeScript",
-    "topics": [
-      "ai",
-      "ai-tools",
-      "btest",
-      "bun",
-      "mac-telnet",
-      "mikrotik",
-      "mndp",
-      "routeros",
-      "routeros-api",
-      "routeros-node",
-      "tikoci",
-      "typescript"
-    ],
-    "html_url": "https://github.com/tikoci/centrs",
-    "category": "dev-tools"
   },
   {
     "name": "restraml",

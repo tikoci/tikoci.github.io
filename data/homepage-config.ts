@@ -83,10 +83,20 @@ export const HOMEPAGE_SECTIONS: Section[] = [
         id: "ai",
         title: "AI &amp; Agents",
         blurb:
-            "MCP servers, agent skills, and benchmarks that teach AI assistants RouterOS &mdash; plus browser tools that speak <kbd>WebMCP</kbd>.",
+            "Network workspaces, MCP servers, agent skills, and benchmarks for RouterOS &mdash; plus browser tools that speak <kbd>WebMCP</kbd>.",
         layout: "feature",
         mapCategory: "ai",
         tiles: [
+            {
+                repo: "routeros-muse",
+                title: "routeros-muse",
+                isNew: true,
+                description:
+                    "Preview network workspace and web UI for Meta Muse Code. Keeps network docs, devices, and history together, with quickchr, centrs, and rosetta grounding the agent in RouterOS.",
+                actions: [
+                    { label: "GitHub", href: "https://github.com/tikoci/routeros-muse" },
+                ],
+            },
             {
                 repo: "rosetta",
                 title: "rosetta",

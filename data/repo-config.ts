@@ -61,6 +61,7 @@ export const REPO_SYMBOLS: Record<string, string> = {
     "restraml":           "\u234B",  // ⍋ grade up — organizing API schemas
     "rosetta":            "\u2373",  // ⍳ iota/index of — MCP lookup/translation
     "routeros-skills":    "\u2261",  // ≡ depth/match — structured knowledge layers
+    "routeros-muse":      "\u2365",  // ⍥ over — an agent working across network tools
 
     // === Development Tools ===
     "lsp-routeros-ts":    "\u2395",  // ⎕ quad — system function, language server
@@ -148,6 +149,13 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
         externalLinks: [
             { label: "Latest Release", url: "https://github.com/tikoci/routeros-skills/releases", style: "primary", description: "Releases on GitHub" },
             { label: "SkillStore.io", url: "https://skillstore.io/skills?q=tikoci", style: "outline", description: "Published on SkillStore" },
+        ],
+    },
+    "routeros-muse": {
+        category: "ai",
+        tagline: "Preview RouterOS network workspace and web UI for Meta Muse Code",
+        externalLinks: [
+            { label: "GitHub", url: "https://github.com/tikoci/routeros-muse", style: "primary", description: "Preview source and getting started" },
         ],
     },
     "lsp-routeros-ts": {
@@ -257,6 +265,11 @@ export const RELATIONSHIPS: Relationship[] = [
     { source: "rosetta", target: "lsp-routeros-ts", type: "topic" },
     { source: "rosetta", target: "routeros-skills", type: "ecosystem" },
     { source: "routeros-skills", target: "donny", type: "sibling" },
+
+    // RouterOS Muse workspace tooling
+    { source: "routeros-muse", target: "quickchr", type: "ecosystem" },
+    { source: "routeros-muse", target: "centrs", type: "ecosystem" },
+    { source: "routeros-muse", target: "rosetta", type: "ecosystem" },
 
     // Network scripts family
     { source: "netserver", target: "netinstall", type: "topic" },
@@ -407,6 +420,11 @@ export const DASHBOARD_REPOS: Record<string, DashboardOverride> = {
         groups: ["ci-health", "community", "npm", "releases"],
         trackedWorkflows: ["CI", "Release", "QA"],
         npmPackage: "@tikoci/centrs",
+    },
+    "routeros-muse": {
+        groups: ["ci-health", "community", "npm", "releases"],
+        trackedWorkflows: ["CI", "Release"],
+        npmPackage: "@tikoci/routeros-muse",
     },
     "lsp-routeros-ts": {
         // Published artifact is server/package.json (@tikoci/routeroslsp);

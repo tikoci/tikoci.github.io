@@ -1,16 +1,16 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-04T15:29:07.089Z",
+  "generatedAt": "2026-11-04T17:47:14.657Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
   },
   "budgets": {
-    "githubApiCalls": 121,
-    "otherHttpCalls": 10,
+    "githubApiCalls": 130,
+    "otherHttpCalls": 11,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4886
+    "rateLimitRemaining": 4514
   },
   "sources": {
     "ros-current": "https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel> (MikroTik upgrade feed; body \"<version> <build-ts>\")",
@@ -31,6 +31,7 @@
       "mikrotik-gpl",
       "rosetta",
       "centrs",
+      "routeros-muse",
       "lsp-routeros-ts",
       "donny",
       "vscode-tikbook",
@@ -1541,8 +1542,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "a9b16145c97db0f4f1222fbb22dcf218ad1c2cd3",
-        "headUrl": "https://github.com/tikoci/centrs/commit/a9b16145c97db0f4f1222fbb22dcf218ad1c2cd3",
+        "headSha": "9a41c403f19cd65238c3c703afcabea88c9467d8",
+        "headUrl": "https://github.com/tikoci/centrs/commit/9a41c403f19cd65238c3c703afcabea88c9467d8",
         "workflows": [
           {
             "configured": "CI",
@@ -1554,12 +1555,12 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "a03e3cb814fbbc2633eaaf447819381cab588fd1",
+            "headSha": "9a41c403f19cd65238c3c703afcabea88c9467d8",
             "event": "push",
-            "runStartedAt": "2026-11-03T19:23:17Z",
-            "lastUpdatedAt": "2026-11-03T19:25:42Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/41702785571",
-            "isHead": false
+            "runStartedAt": "2026-11-04T16:50:49Z",
+            "lastUpdatedAt": "2026-11-04T17:09:46Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/41871588882",
+            "isHead": true
           },
           {
             "configured": "Release",
@@ -1588,12 +1589,12 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "a03e3cb814fbbc2633eaaf447819381cab588fd1",
+            "headSha": "9a41c403f19cd65238c3c703afcabea88c9467d8",
             "event": "push",
-            "runStartedAt": "2026-11-03T19:23:17Z",
-            "lastUpdatedAt": "2026-11-03T20:01:08Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/41702785923",
-            "isHead": false
+            "runStartedAt": "2026-11-04T16:50:49Z",
+            "lastUpdatedAt": "2026-11-04T17:42:58Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/41871589143",
+            "isHead": true
           }
         ]
       },
@@ -1607,23 +1608,40 @@
             "bot": 0
           },
           "prs": {
-            "total": 2,
-            "owner": 2,
+            "total": 1,
+            "owner": 1,
             "external": 0,
             "bot": 0,
-            "ownerReady": 2,
+            "ownerReady": 1,
             "ownerDraft": 0,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 84,
+          "fetched": 83,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 625,
+            "title": "CLI: flag values accept other flags (--quickchr --help), missing-value errors are untyped, --flag=value unsupported",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/625",
+            "createdAt": "2026-11-04T15:46:53Z",
+            "updatedAt": "2026-11-04T15:59:11Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "hardening",
+              "CLI",
+              "UX"
+            ],
+            "milestone": null
+          },
           {
             "number": 624,
             "title": "CHR integration: MAC-Telnet L2 tests flaky on main (console prompt timeout, MTWEI not ready)",
@@ -1716,19 +1734,6 @@
             "milestone": null
           },
           {
-            "number": 615,
-            "title": "terminal: accept a single --quickchr target; add quickchr/ssh-auth-unavailable (#610)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/pull/615",
-            "createdAt": "2026-11-03T17:44:06Z",
-            "updatedAt": "2026-11-04T15:29:02Z",
-            "isPR": true,
-            "draft": false,
-            "labels": [],
-            "milestone": null
-          },
-          {
             "number": 614,
             "title": "Dockerfile: run the container as the non-root bun user",
             "author": "mobileskyfi",
@@ -1765,7 +1770,7 @@
         "openIssues": 0,
         "openPRs": 0,
         "totalIssues": 82,
-        "totalPRs": 2,
+        "totalPRs": 1,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -1808,6 +1813,140 @@
         },
         "prereleaseChannel": false,
         "windowFetched": 1
+      }
+    },
+    "routeros-muse": {
+      "name": "routeros-muse",
+      "groups": [
+        "ci-health",
+        "community",
+        "npm",
+        "releases"
+      ],
+      "detail": "data/dashboard/routeros-muse.json",
+      "ci": {
+        "state": "partial",
+        "defaultBranch": "main",
+        "headSha": "4361fbe6db15ca39001c9c7d3ac58e48dccd48e2",
+        "headUrl": "https://github.com/tikoci/routeros-muse/commit/4361fbe6db15ca39001c9c7d3ac58e48dccd48e2",
+        "workflows": [
+          {
+            "configured": "CI",
+            "name": "CI",
+            "path": ".github/workflows/ci.yml",
+            "present": true,
+            "state": "ok",
+            "status": "queued",
+            "conclusion": null,
+            "lastConclusion": null,
+            "headBranch": "main",
+            "headSha": "4361fbe6db15ca39001c9c7d3ac58e48dccd48e2",
+            "event": "push",
+            "runStartedAt": "2026-11-04T17:41:11Z",
+            "lastUpdatedAt": "2026-11-04T17:41:11Z",
+            "lastUrl": "https://github.com/tikoci/routeros-muse/actions/runs/41879516283",
+            "isHead": true
+          },
+          {
+            "configured": "Release",
+            "name": "Release",
+            "path": ".github/workflows/release.yml",
+            "present": true,
+            "state": "unknown",
+            "status": null,
+            "conclusion": null,
+            "lastConclusion": null,
+            "headBranch": null,
+            "headSha": null,
+            "event": null,
+            "runStartedAt": null,
+            "lastUpdatedAt": null,
+            "lastUrl": null,
+            "isHead": null,
+            "error": "no runs on the default branch"
+          }
+        ]
+      },
+      "work": {
+        "state": "ok",
+        "counts": {
+          "issues": {
+            "total": 0,
+            "owner": 0,
+            "external": 0,
+            "bot": 0
+          },
+          "prs": {
+            "total": 1,
+            "owner": 0,
+            "external": 0,
+            "bot": 1,
+            "ownerReady": 0,
+            "ownerDraft": 0,
+            "draftUnknown": false
+          }
+        },
+        "page": {
+          "fetched": 1,
+          "perPage": 100,
+          "truncated": false,
+          "countsAreLowerBounds": false
+        },
+        "pullsEnriched": true,
+        "items": [
+          {
+            "number": 1,
+            "title": "build(deps): bump marked from 16.4.2 to 18.1.2 in the bun group",
+            "author": "dependabot[bot]",
+            "authorClass": "bot",
+            "url": "https://github.com/tikoci/routeros-muse/pull/1",
+            "createdAt": "2026-11-04T17:21:10Z",
+            "updatedAt": "2026-11-04T17:21:15Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [
+              "dependencies",
+              "javascript"
+            ],
+            "milestone": null
+          }
+        ]
+      },
+      "community": {
+        "state": "ok",
+        "openIssues": 0,
+        "openPRs": 0,
+        "totalIssues": 0,
+        "totalPRs": 1,
+        "truncated": false,
+        "byLabel": {},
+        "byMilestone": {},
+        "newest": []
+      },
+      "npm": {
+        "package": "@tikoci/routeros-muse",
+        "expected": true,
+        "repoVersion": "0.1.0-dev.0",
+        "repoPrerelease": true,
+        "latestVersion": null,
+        "distTags": {},
+        "repoVersionPublished": false,
+        "publishedAt": null,
+        "behind": null,
+        "state": "ok",
+        "published": false,
+        "assessment": "not-published"
+      },
+      "release": {
+        "state": "ok",
+        "latestTag": null,
+        "latestDate": null,
+        "latestUrl": null,
+        "prerelease": null,
+        "stable": null,
+        "newest": null,
+        "prereleaseChannel": null,
+        "windowFetched": 0
       }
     },
     "lsp-routeros-ts": {
@@ -3124,6 +3263,30 @@
       "note": null
     },
     {
+      "source": "routeros-muse",
+      "target": "quickchr",
+      "type": "ecosystem",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
+      "source": "routeros-muse",
+      "target": "centrs",
+      "type": "ecosystem",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
+      "source": "routeros-muse",
+      "target": "rosetta",
+      "type": "ecosystem",
+      "kind": "association",
+      "verified": false,
+      "note": null
+    },
+    {
       "source": "netserver",
       "target": "netinstall",
       "type": "topic",
@@ -3238,6 +3401,23 @@
       ]
     },
     {
+      "id": "ci-no-default-runs:routeros-muse:Release",
+      "rule": "ci-no-default-runs",
+      "severity": "gap",
+      "category": "ci",
+      "repos": [
+        "routeros-muse"
+      ],
+      "summary": "routeros-muse: Release never ran on main",
+      "detail": "The workflow exists but has no runs on the default branch. There is no passing evidence either way — this answers 'is CI passing?' with unknown, not yes.",
+      "evidence": [
+        "repos.routeros-muse.ci.workflows[Release].state=unknown"
+      ],
+      "urls": [
+        "https://github.com/tikoci/routeros-muse/actions"
+      ]
+    },
+    {
       "id": "ros-lag-unknown:rosetta",
       "rule": "ros-lag-unknown",
       "severity": "gap",
@@ -3253,6 +3433,23 @@
       ],
       "urls": [
         "https://github.com/tikoci/rosetta/issues/230"
+      ]
+    },
+    {
+      "id": "ci-run-in-progress:routeros-muse:CI",
+      "rule": "ci-run-in-progress",
+      "severity": "pending",
+      "category": "ci",
+      "repos": [
+        "routeros-muse"
+      ],
+      "summary": "routeros-muse: CI queued on main",
+      "detail": "The latest default-branch run has not completed, so the current-commit verdict is pending. Re-check after it finishes.",
+      "evidence": [
+        "repos.routeros-muse.ci.workflows[CI].status=queued"
+      ],
+      "urls": [
+        "https://github.com/tikoci/routeros-muse/actions/runs/41879516283"
       ]
     },
     {
@@ -3333,10 +3530,10 @@
       "repos": [
         "centrs"
       ],
-      "summary": "centrs: 2 open maintainer PRs",
+      "summary": "centrs: 1 open maintainer PR",
       "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
       "evidence": [
-        "repos.centrs.work.counts.prs.ownerReady=2"
+        "repos.centrs.work.counts.prs.ownerReady=1"
       ],
       "urls": [
         "https://github.com/tikoci/centrs/pulls"
@@ -3394,42 +3591,6 @@
       ]
     },
     {
-      "id": "ci-run-not-head:centrs:CI",
-      "rule": "ci-run-not-head",
-      "severity": "info",
-      "category": "ci",
-      "repos": [
-        "centrs"
-      ],
-      "summary": "centrs: CI latest run is not on the current head commit",
-      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
-      "evidence": [
-        "repos.centrs.ci.workflows[CI].headSha=a03e3cb814fbbc2633eaaf447819381cab588fd1",
-        "repos.centrs.ci.headSha=a9b16145c97db0f4f1222fbb22dcf218ad1c2cd3"
-      ],
-      "urls": [
-        "https://github.com/tikoci/centrs/actions/runs/41702785571"
-      ]
-    },
-    {
-      "id": "ci-run-not-head:centrs:QA",
-      "rule": "ci-run-not-head",
-      "severity": "info",
-      "category": "ci",
-      "repos": [
-        "centrs"
-      ],
-      "summary": "centrs: QA latest run is not on the current head commit",
-      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
-      "evidence": [
-        "repos.centrs.ci.workflows[QA].headSha=a03e3cb814fbbc2633eaaf447819381cab588fd1",
-        "repos.centrs.ci.headSha=a9b16145c97db0f4f1222fbb22dcf218ad1c2cd3"
-      ],
-      "urls": [
-        "https://github.com/tikoci/centrs/actions/runs/41702785923"
-      ]
-    },
-    {
       "id": "ci-run-not-head:centrs:Release",
       "rule": "ci-run-not-head",
       "severity": "info",
@@ -3441,7 +3602,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.centrs.ci.workflows[Release].headSha=03192966ce516f67da857cd47077a2f9881b2829",
-        "repos.centrs.ci.headSha=a9b16145c97db0f4f1222fbb22dcf218ad1c2cd3"
+        "repos.centrs.ci.headSha=9a41c403f19cd65238c3c703afcabea88c9467d8"
       ],
       "urls": [
         "https://github.com/tikoci/centrs/actions/runs/41639465287"
@@ -3574,6 +3735,23 @@
       ]
     },
     {
+      "id": "npm-not-published:routeros-muse",
+      "rule": "npm-not-published",
+      "severity": "info",
+      "category": "packages",
+      "repos": [
+        "routeros-muse"
+      ],
+      "summary": "routeros-muse: not published on npm as @tikoci/routeros-muse (confirmed 404)",
+      "detail": "The registry confirms the package name has no packument. Intent (reserved, planned, or abandoned) is not visible in the data — confirm in the repo before acting, then set npmExpected accordingly.",
+      "evidence": [
+        "repos.routeros-muse.npm.published=false"
+      ],
+      "urls": [
+        "https://github.com/tikoci/routeros-muse"
+      ]
+    },
+    {
       "id": "release-none:bench-routeros-tools",
       "rule": "release-none",
       "severity": "info",
@@ -3692,6 +3870,23 @@
       ],
       "urls": [
         "https://github.com/tikoci/quickchr/releases/tag/v0.5.5"
+      ]
+    },
+    {
+      "id": "release-none:routeros-muse",
+      "rule": "release-none",
+      "severity": "info",
+      "category": "releases",
+      "repos": [
+        "routeros-muse"
+      ],
+      "summary": "routeros-muse: no GitHub releases",
+      "detail": "The repo has no releases in the listing window. Normal for libraries published only to npm or containers published only to Docker Hub.",
+      "evidence": [
+        "repos.routeros-muse.release.windowFetched=0"
+      ],
+      "urls": [
+        "https://github.com/tikoci/routeros-muse/releases"
       ]
     },
     {

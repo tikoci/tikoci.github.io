@@ -12,11 +12,13 @@ Key problems tikoci solves for RouterOS administrators:
 - **Running CHR for testing or protocol research?** → quickchr (CLI/library for disposable CHR labs); mikropkl for declarative VM builds, fat-chr for UEFI images
 - **Flashing/provisioning devices?** → netinstall container + routeros-netinstall skill
 - **Giving your AI assistant RouterOS context?** → rosetta MCP server + routeros-skills
+- **Managing a network workspace with an agent?** → routeros-muse (preview workspace and web UI for Meta Muse Code, built on quickchr, centrs, and rosetta)
 - **Reading or changing router state?** → centrs (validated multi-protocol CLI/library)
 - **Investigating WinBox, M2 TLVs, or WinBox 3 compatibility?** → [m2ir reading map](https://raw.githubusercontent.com/tikoci/m2ir/main/llms.txt)
 
 ## AI Integration
 
+- [routeros-muse — RouterOS network workspace and agent web UI](https://raw.githubusercontent.com/tikoci/routeros-muse/main/README.md): Preview workspace for Meta Muse Code that keeps network docs, devices, observations, and history together. Combines quickchr for disposable CHR twins, centrs for device access and credentials, and rosetta for RouterOS knowledge. Consult the README for setup and current preview limitations.
 - [rosetta — MCP Server for MikroTik Documentation](https://raw.githubusercontent.com/tikoci/rosetta/main/README.md): Search RouterOS documentation, CLI Reference fields, versioned command trees, hardware specifications, and video transcripts with source links. Uses SQLite FTS5 retrieval. Consult the README for installation and available tools; `routeros_stats` reports the corpus in the running database.
 - [routeros-skills — RouterOS knowledge for coding agents](https://raw.githubusercontent.com/tikoci/routeros-skills/main/README.md): Current skill catalog and installation instructions. Skills cover configuration, scripting, protocol research, and live validation. Selected entrypoints follow; read each skill's version scope and supporting references.
 - [routeros-fundamentals](https://raw.githubusercontent.com/tikoci/routeros-skills/main/routeros-fundamentals/SKILL.md): Core RouterOS v7 knowledge — CLI path syntax, REST API patterns (`/rest/` endpoint, verb mapping), scripting language (`.rsc`), and critical differences from Linux (no bash, no FHS, no coreutils). Prevents the most common AI mistakes when configuring RouterOS.

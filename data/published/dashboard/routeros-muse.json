@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 2,
+  "repo": "routeros-muse",
+  "generatedAt": "2026-11-04T17:47:14.657Z",
+  "collection": {
+    "mode": "fresh",
+    "cacheWrittenAt": null
+  },
+  "work": {
+    "counts": {
+      "issues": {
+        "total": 0,
+        "owner": 0,
+        "external": 0,
+        "bot": 0
+      },
+      "prs": {
+        "total": 1,
+        "owner": 0,
+        "external": 0,
+        "bot": 1,
+        "ownerReady": 0,
+        "ownerDraft": 0,
+        "draftUnknown": false
+      }
+    },
+    "page": {
+      "fetched": 1,
+      "perPage": 100,
+      "truncated": false,
+      "countsAreLowerBounds": false
+    },
+    "pullsEnriched": true,
+    "items": [
+      {
+        "number": 1,
+        "title": "build(deps): bump marked from 16.4.2 to 18.1.2 in the bun group",
+        "author": "dependabot[bot]",
+        "authorClass": "bot",
+        "url": "https://github.com/tikoci/routeros-muse/pull/1",
+        "createdAt": "2026-11-04T17:21:10Z",
+        "updatedAt": "2026-11-04T17:21:15Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [
+          "dependencies",
+          "javascript"
+        ],
+        "milestone": null
+      }
+    ]
+  }
+}
