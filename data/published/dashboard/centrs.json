@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "centrs",
-  "generatedAt": "2026-11-04T00:00:44.031Z",
+  "generatedAt": "2026-11-04T06:33:13.979Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,23 +9,23 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 76,
-        "owner": 76,
+        "total": 82,
+        "owner": 82,
         "external": 0,
         "bot": 0
       },
       "prs": {
-        "total": 2,
-        "owner": 2,
+        "total": 3,
+        "owner": 3,
         "external": 0,
         "bot": 0,
-        "ownerReady": 2,
+        "ownerReady": 3,
         "ownerDraft": 0,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 78,
+      "fetched": 85,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
@@ -33,13 +33,104 @@
     "pullsEnriched": true,
     "items": [
       {
+        "number": 624,
+        "title": "CHR integration: MAC-Telnet L2 tests flaky on main (console prompt timeout, MTWEI not ready)",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/issues/624",
+        "createdAt": "2026-11-04T03:09:02Z",
+        "updatedAt": "2026-11-04T03:09:02Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 623,
+        "title": "devices set --strict: allow deleting unknown keys",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/issues/623",
+        "createdAt": "2026-11-04T01:29:50Z",
+        "updatedAt": "2026-11-04T01:29:50Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 622,
+        "title": "Decide: caller-typed URL port vs --port ordering",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/issues/622",
+        "createdAt": "2026-11-04T01:29:49Z",
+        "updatedAt": "2026-11-04T01:29:49Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 621,
+        "title": "Tip when a CDB record still uses legacy port=",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/issues/621",
+        "createdAt": "2026-11-04T01:29:48Z",
+        "updatedAt": "2026-11-04T01:29:48Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 620,
+        "title": "Service-specific env/config port keys, then deprecate CENTRS_PORT",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/issues/620",
+        "createdAt": "2026-11-04T01:29:46Z",
+        "updatedAt": "2026-11-04T01:29:46Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 619,
+        "title": "feat(resolver): CDB per-service port keys (#618)",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/pull/619",
+        "createdAt": "2026-11-04T01:29:29Z",
+        "updatedAt": "2026-11-04T05:12:04Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 618,
+        "title": "CDB per-service port keys (www-port, api-port, ssh-port, …)",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/issues/618",
+        "createdAt": "2026-11-04T00:33:01Z",
+        "updatedAt": "2026-11-04T01:18:03Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
         "number": 617,
         "title": "test(integration): reuse one snapshot-restored CHR within a file (#612, PR 1)",
         "author": "Amm0Bot",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/pull/617",
         "createdAt": "2026-11-03T21:03:14Z",
-        "updatedAt": "2026-11-03T21:25:51Z",
+        "updatedAt": "2026-11-04T00:33:09Z",
         "isPR": true,
         "draft": false,
         "labels": [],
@@ -78,7 +169,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/612",
         "createdAt": "2026-11-03T05:46:27Z",
-        "updatedAt": "2026-11-03T21:04:06Z",
+        "updatedAt": "2026-11-04T00:33:10Z",
         "isPR": false,
         "draft": null,
         "labels": [
