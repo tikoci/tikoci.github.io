@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "centrs",
-  "generatedAt": "2026-11-05T11:02:31.926Z",
+  "generatedAt": "2026-11-05T18:47:54.087Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,8 +9,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 82,
-        "owner": 82,
+        "total": 79,
+        "owner": 79,
         "external": 0,
         "bot": 0
       },
@@ -25,7 +25,7 @@
       }
     },
     "page": {
-      "fetched": 84,
+      "fetched": 81,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
@@ -33,33 +33,16 @@
     "pullsEnriched": true,
     "items": [
       {
-        "number": 627,
-        "title": "fix(cli): validate flag values and support equals syntax",
+        "number": 629,
+        "title": "chore(release): prepare 0.1.10 and document known issues",
         "author": "mobileskyfi",
         "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/pull/627",
-        "createdAt": "2026-11-05T03:52:06Z",
-        "updatedAt": "2026-11-05T04:55:25Z",
+        "url": "https://github.com/tikoci/centrs/pull/629",
+        "createdAt": "2026-11-05T18:35:48Z",
+        "updatedAt": "2026-11-05T18:41:59Z",
         "isPR": true,
         "draft": false,
         "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 625,
-        "title": "CLI: flag values accept other flags (--quickchr --help), missing-value errors are untyped, --flag=value unsupported",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/625",
-        "createdAt": "2026-11-04T15:46:53Z",
-        "updatedAt": "2026-11-04T15:59:11Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "hardening",
-          "CLI",
-          "UX"
-        ],
         "milestone": null
       },
       {
@@ -69,10 +52,13 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/624",
         "createdAt": "2026-11-04T03:09:02Z",
-        "updatedAt": "2026-11-04T03:09:02Z",
+        "updatedAt": "2026-11-05T13:11:21Z",
         "isPR": false,
         "draft": null,
-        "labels": [],
+        "labels": [
+          "QA",
+          "proto-mac-telnet"
+        ],
         "milestone": null
       },
       {
@@ -82,10 +68,12 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/623",
         "createdAt": "2026-11-04T01:29:50Z",
-        "updatedAt": "2026-11-04T01:29:50Z",
+        "updatedAt": "2026-11-05T13:11:19Z",
         "isPR": false,
         "draft": null,
-        "labels": [],
+        "labels": [
+          "UX"
+        ],
         "milestone": null
       },
       {
@@ -122,19 +110,6 @@
         "url": "https://github.com/tikoci/centrs/issues/620",
         "createdAt": "2026-11-04T01:29:46Z",
         "updatedAt": "2026-11-04T01:29:46Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 618,
-        "title": "CDB per-service port keys (www-port, api-port, ssh-port, …)",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/618",
-        "createdAt": "2026-11-04T00:33:01Z",
-        "updatedAt": "2026-11-04T01:18:03Z",
         "isPR": false,
         "draft": null,
         "labels": [],
@@ -207,10 +182,11 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/605",
         "createdAt": "2026-11-03T01:31:32Z",
-        "updatedAt": "2026-11-03T01:31:32Z",
+        "updatedAt": "2026-11-05T13:11:17Z",
         "isPR": false,
         "draft": null,
         "labels": [
+          "bug",
           "MCP",
           "UX",
           "from-routeros-muse"
@@ -224,7 +200,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/604",
         "createdAt": "2026-11-03T01:31:09Z",
-        "updatedAt": "2026-11-03T01:31:09Z",
+        "updatedAt": "2026-11-05T13:07:34Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -259,7 +235,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/602",
         "createdAt": "2026-11-03T01:02:44Z",
-        "updatedAt": "2026-11-03T01:32:33Z",
+        "updatedAt": "2026-11-05T13:10:51Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -327,7 +303,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/592",
         "createdAt": "2026-11-02T16:24:56Z",
-        "updatedAt": "2026-11-02T17:44:02Z",
+        "updatedAt": "2026-11-05T13:07:42Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -346,7 +322,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/589",
         "createdAt": "2026-11-02T16:24:53Z",
-        "updatedAt": "2026-11-02T17:43:54Z",
+        "updatedAt": "2026-11-05T13:07:43Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -365,7 +341,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/588",
         "createdAt": "2026-11-02T16:24:52Z",
-        "updatedAt": "2026-11-02T17:43:50Z",
+        "updatedAt": "2026-11-05T13:07:40Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -379,15 +355,19 @@
       },
       {
         "number": 585,
-        "title": "execute/terminal --via mac-telnet: bare-MAC target cannot resolve CDB credentials",
+        "title": "MAC→ARP→IP credential join is missing; stored mac= already resolves CDB credentials",
         "author": "Amm0Bot",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/585",
         "createdAt": "2026-11-02T01:56:00Z",
-        "updatedAt": "2026-11-02T01:56:00Z",
+        "updatedAt": "2026-11-05T13:11:22Z",
         "isPR": false,
         "draft": null,
-        "labels": [],
+        "labels": [
+          "enhancement",
+          "UX",
+          "proto-mac-telnet"
+        ],
         "milestone": null
       },
       {
@@ -397,20 +377,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/584",
         "createdAt": "2026-11-02T00:53:30Z",
-        "updatedAt": "2026-11-02T02:00:15Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 581,
-        "title": "devices: prevent silent lost updates from concurrent or stale CDB mutations",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/581",
-        "createdAt": "2026-11-01T13:42:11Z",
-        "updatedAt": "2026-11-01T13:42:11Z",
+        "updatedAt": "2026-11-05T13:07:46Z",
         "isPR": false,
         "draft": null,
         "labels": [],
@@ -423,7 +390,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/576",
         "createdAt": "2026-11-01T02:49:09Z",
-        "updatedAt": "2026-11-01T02:49:09Z",
+        "updatedAt": "2026-11-05T13:10:45Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -439,7 +406,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/575",
         "createdAt": "2026-11-01T02:48:52Z",
-        "updatedAt": "2026-11-01T02:49:00Z",
+        "updatedAt": "2026-11-05T13:07:33Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -471,7 +438,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/572",
         "createdAt": "2026-10-31T21:59:14Z",
-        "updatedAt": "2026-10-31T21:59:14Z",
+        "updatedAt": "2026-11-05T13:07:37Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -487,7 +454,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/559",
         "createdAt": "2026-10-28T22:11:33Z",
-        "updatedAt": "2026-10-28T22:11:33Z",
+        "updatedAt": "2026-11-05T13:07:39Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -504,7 +471,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/548",
         "createdAt": "2026-10-27T16:45:02Z",
-        "updatedAt": "2026-10-28T01:43:33Z",
+        "updatedAt": "2026-11-05T13:10:47Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -554,7 +521,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/527",
         "createdAt": "2026-10-19T14:02:52Z",
-        "updatedAt": "2026-10-28T21:11:22Z",
+        "updatedAt": "2026-11-05T13:10:46Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -586,7 +553,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/517",
         "createdAt": "2026-10-18T03:01:25Z",
-        "updatedAt": "2026-10-28T01:42:33Z",
+        "updatedAt": "2026-11-05T13:07:44Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -647,12 +614,12 @@
       },
       {
         "number": 464,
-        "title": "Pages site: error catalog lists no codes, tip details URLs 404, broken in-page links, release deploy stuck",
+        "title": "Pages: broken catalog/tip/details links and HTTPS redirect; historical deploy stall recovered",
         "author": "mobileskyfi",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/464",
         "createdAt": "2026-10-13T17:55:25Z",
-        "updatedAt": "2026-11-03T23:44:35Z",
+        "updatedAt": "2026-11-05T13:10:49Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -1236,12 +1203,12 @@
       },
       {
         "number": 122,
-        "title": "Wire up GitHub Pages: typedoc API docs + generated error pages",
+        "title": "Pages: publish llms.txt and generated CLI reference; finish site integration",
         "author": "mobileskyfi",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/122",
         "createdAt": "2026-07-01T05:27:43Z",
-        "updatedAt": "2026-10-24T05:26:16Z",
+        "updatedAt": "2026-11-05T13:09:31Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -1392,7 +1359,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/90",
         "createdAt": "2026-06-23T02:31:14Z",
-        "updatedAt": "2026-11-01T01:08:11Z",
+        "updatedAt": "2026-11-05T13:09:27Z",
         "isPR": false,
         "draft": null,
         "labels": [

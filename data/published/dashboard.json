@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-05T11:02:31.926Z",
+  "generatedAt": "2026-11-05T18:47:54.087Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -135,9 +135,9 @@
             "headBranch": "main",
             "headSha": "0e476cea72d28ef8564a78acdd063553b72fd95e",
             "event": "schedule",
-            "runStartedAt": "2026-11-04T11:49:39Z",
-            "lastUpdatedAt": "2026-11-04T11:51:06Z",
-            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/41824077674",
+            "runStartedAt": "2026-11-05T11:49:38Z",
+            "lastUpdatedAt": "2026-11-05T11:50:54Z",
+            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/42022089591",
             "isHead": true
           },
           {
@@ -430,9 +430,9 @@
             "headBranch": "main",
             "headSha": "e568f7a3bc6a6265499d3189afc72f2f3e2dbc1d",
             "event": "schedule",
-            "runStartedAt": "2026-11-04T11:54:39Z",
-            "lastUpdatedAt": "2026-11-04T11:55:02Z",
-            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/41824758365",
+            "runStartedAt": "2026-11-05T11:57:35Z",
+            "lastUpdatedAt": "2026-11-05T11:57:48Z",
+            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/42023137597",
             "isHead": true
           },
           {
@@ -848,9 +848,9 @@
             "headBranch": "main",
             "headSha": "24b14b55c0b794c945f478a91c9c62c4468786ff",
             "event": "schedule",
-            "runStartedAt": "2026-11-04T12:10:15Z",
-            "lastUpdatedAt": "2026-11-04T12:10:33Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/41826949021",
+            "runStartedAt": "2026-11-05T12:23:25Z",
+            "lastUpdatedAt": "2026-11-05T12:23:35Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/42026706433",
             "isHead": true
           }
         ]
@@ -1542,8 +1542,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "9a41c403f19cd65238c3c703afcabea88c9467d8",
-        "headUrl": "https://github.com/tikoci/centrs/commit/9a41c403f19cd65238c3c703afcabea88c9467d8",
+        "headSha": "b8d754ba22f1bf2933c6de9e4f3ab7d8a08e1c05",
+        "headUrl": "https://github.com/tikoci/centrs/commit/b8d754ba22f1bf2933c6de9e4f3ab7d8a08e1c05",
         "workflows": [
           {
             "configured": "CI",
@@ -1555,11 +1555,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "9a41c403f19cd65238c3c703afcabea88c9467d8",
+            "headSha": "b8d754ba22f1bf2933c6de9e4f3ab7d8a08e1c05",
             "event": "push",
-            "runStartedAt": "2026-11-04T16:50:49Z",
-            "lastUpdatedAt": "2026-11-04T17:09:46Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/41871588882",
+            "runStartedAt": "2026-11-05T17:12:33Z",
+            "lastUpdatedAt": "2026-11-05T17:15:03Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/42072329271",
             "isHead": true
           },
           {
@@ -1589,11 +1589,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "9a41c403f19cd65238c3c703afcabea88c9467d8",
+            "headSha": "b8d754ba22f1bf2933c6de9e4f3ab7d8a08e1c05",
             "event": "push",
-            "runStartedAt": "2026-11-04T16:50:49Z",
-            "lastUpdatedAt": "2026-11-04T17:42:58Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/41871589143",
+            "runStartedAt": "2026-11-05T17:12:33Z",
+            "lastUpdatedAt": "2026-11-05T17:49:46Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/42072329323",
             "isHead": true
           }
         ]
@@ -1602,8 +1602,8 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 82,
-            "owner": 82,
+            "total": 79,
+            "owner": 79,
             "external": 0,
             "bot": 0
           },
@@ -1618,7 +1618,7 @@
           }
         },
         "page": {
-          "fetched": 84,
+          "fetched": 81,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
@@ -1626,33 +1626,16 @@
         "pullsEnriched": true,
         "items": [
           {
-            "number": 627,
-            "title": "fix(cli): validate flag values and support equals syntax",
+            "number": 629,
+            "title": "chore(release): prepare 0.1.10 and document known issues",
             "author": "mobileskyfi",
             "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/pull/627",
-            "createdAt": "2026-11-05T03:52:06Z",
-            "updatedAt": "2026-11-05T04:55:25Z",
+            "url": "https://github.com/tikoci/centrs/pull/629",
+            "createdAt": "2026-11-05T18:35:48Z",
+            "updatedAt": "2026-11-05T18:41:59Z",
             "isPR": true,
             "draft": false,
             "labels": [],
-            "milestone": null
-          },
-          {
-            "number": 625,
-            "title": "CLI: flag values accept other flags (--quickchr --help), missing-value errors are untyped, --flag=value unsupported",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/issues/625",
-            "createdAt": "2026-11-04T15:46:53Z",
-            "updatedAt": "2026-11-04T15:59:11Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "hardening",
-              "CLI",
-              "UX"
-            ],
             "milestone": null
           },
           {
@@ -1662,10 +1645,13 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/centrs/issues/624",
             "createdAt": "2026-11-04T03:09:02Z",
-            "updatedAt": "2026-11-04T03:09:02Z",
+            "updatedAt": "2026-11-05T13:11:21Z",
             "isPR": false,
             "draft": null,
-            "labels": [],
+            "labels": [
+              "QA",
+              "proto-mac-telnet"
+            ],
             "milestone": null
           },
           {
@@ -1675,10 +1661,12 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/centrs/issues/623",
             "createdAt": "2026-11-04T01:29:50Z",
-            "updatedAt": "2026-11-04T01:29:50Z",
+            "updatedAt": "2026-11-05T13:11:19Z",
             "isPR": false,
             "draft": null,
-            "labels": [],
+            "labels": [
+              "UX"
+            ],
             "milestone": null
           },
           {
@@ -1721,19 +1709,6 @@
             "milestone": null
           },
           {
-            "number": 618,
-            "title": "CDB per-service port keys (www-port, api-port, ssh-port, …)",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/issues/618",
-            "createdAt": "2026-11-04T00:33:01Z",
-            "updatedAt": "2026-11-04T01:18:03Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [],
-            "milestone": null
-          },
-          {
             "number": 617,
             "title": "test(integration): reuse one snapshot-restored CHR within a file (#612, PR 1)",
             "author": "Amm0Bot",
@@ -1758,6 +1733,40 @@
             "draft": null,
             "labels": [],
             "milestone": null
+          },
+          {
+            "number": 612,
+            "title": "CI: pilot snapshot-isolated CHR reuse for default integration fixtures",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/612",
+            "createdAt": "2026-11-03T05:46:27Z",
+            "updatedAt": "2026-11-04T00:33:10Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "QA",
+              "CI",
+              "provider-quickchr"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 606,
+            "title": "MCP: pin the tool contract (--list-tools snapshot + annotation tests) and document CLI↔MCP parity",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/606",
+            "createdAt": "2026-11-03T01:31:55Z",
+            "updatedAt": "2026-11-03T01:31:55Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "hardening",
+              "MCP",
+              "from-routeros-muse"
+            ],
+            "milestone": null
           }
         ]
       },
@@ -1765,7 +1774,7 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 82,
+        "totalIssues": 79,
         "totalPRs": 2,
         "truncated": false,
         "byLabel": {},
@@ -3566,7 +3575,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.centrs.ci.workflows[Release].headSha=03192966ce516f67da857cd47077a2f9881b2829",
-        "repos.centrs.ci.headSha=9a41c403f19cd65238c3c703afcabea88c9467d8"
+        "repos.centrs.ci.headSha=b8d754ba22f1bf2933c6de9e4f3ab7d8a08e1c05"
       ],
       "urls": [
         "https://github.com/tikoci/centrs/actions/runs/41639465287"
