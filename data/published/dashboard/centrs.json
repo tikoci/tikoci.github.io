@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "centrs",
-  "generatedAt": "2026-11-05T02:30:52.814Z",
+  "generatedAt": "2026-11-05T11:02:31.926Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -15,23 +15,36 @@
         "bot": 0
       },
       "prs": {
-        "total": 1,
-        "owner": 1,
+        "total": 2,
+        "owner": 2,
         "external": 0,
         "bot": 0,
-        "ownerReady": 1,
+        "ownerReady": 2,
         "ownerDraft": 0,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 83,
+      "fetched": 84,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 627,
+        "title": "fix(cli): validate flag values and support equals syntax",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/pull/627",
+        "createdAt": "2026-11-05T03:52:06Z",
+        "updatedAt": "2026-11-05T04:55:25Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [],
+        "milestone": null
+      },
       {
         "number": 625,
         "title": "CLI: flag values accept other flags (--quickchr --help), missing-value errors are untyped, --flag=value unsupported",
