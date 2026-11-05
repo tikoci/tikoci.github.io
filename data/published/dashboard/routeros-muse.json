@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "routeros-muse",
-  "generatedAt": "2026-11-04T21:55:57.849Z",
+  "generatedAt": "2026-11-05T02:30:52.814Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -15,36 +15,23 @@
         "bot": 0
       },
       "prs": {
-        "total": 2,
-        "owner": 1,
+        "total": 1,
+        "owner": 0,
         "external": 0,
         "bot": 1,
-        "ownerReady": 1,
+        "ownerReady": 0,
         "ownerDraft": 0,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 2,
+      "fetched": 1,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
-      {
-        "number": 5,
-        "title": "npm release readiness: hoisted tool bundle, repository field, README @next (T177)",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-muse/pull/5",
-        "createdAt": "2026-11-04T20:52:36Z",
-        "updatedAt": "2026-11-04T21:12:27Z",
-        "isPR": true,
-        "draft": false,
-        "labels": [],
-        "milestone": null
-      },
       {
         "number": 1,
         "title": "build(deps): bump marked from 16.4.2 to 18.1.2 in the bun group",
