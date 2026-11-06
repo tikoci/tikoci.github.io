@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "centrs",
-  "generatedAt": "2026-11-05T18:47:54.087Z",
+  "generatedAt": "2026-11-06T00:21:25.069Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,42 +9,29 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 79,
-        "owner": 79,
+        "total": 28,
+        "owner": 28,
         "external": 0,
         "bot": 0
       },
       "prs": {
-        "total": 2,
-        "owner": 2,
+        "total": 0,
+        "owner": 0,
         "external": 0,
         "bot": 0,
-        "ownerReady": 2,
+        "ownerReady": 0,
         "ownerDraft": 0,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 81,
+      "fetched": 28,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
-      {
-        "number": 629,
-        "title": "chore(release): prepare 0.1.10 and document known issues",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/pull/629",
-        "createdAt": "2026-11-05T18:35:48Z",
-        "updatedAt": "2026-11-05T18:41:59Z",
-        "isPR": true,
-        "draft": false,
-        "labels": [],
-        "milestone": null
-      },
       {
         "number": 624,
         "title": "CHR integration: MAC-Telnet L2 tests flaky on main (console prompt timeout, MTWEI not ready)",
@@ -116,19 +103,6 @@
         "milestone": null
       },
       {
-        "number": 617,
-        "title": "test(integration): reuse one snapshot-restored CHR within a file (#612, PR 1)",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/pull/617",
-        "createdAt": "2026-11-03T21:03:14Z",
-        "updatedAt": "2026-11-04T10:54:56Z",
-        "isPR": true,
-        "draft": false,
-        "labels": [],
-        "milestone": null
-      },
-      {
         "number": 614,
         "title": "Dockerfile: run the container as the non-root bun user",
         "author": "mobileskyfi",
@@ -159,23 +133,6 @@
         "milestone": null
       },
       {
-        "number": 606,
-        "title": "MCP: pin the tool contract (--list-tools snapshot + annotation tests) and document CLI↔MCP parity",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/606",
-        "createdAt": "2026-11-03T01:31:55Z",
-        "updatedAt": "2026-11-03T01:31:55Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "hardening",
-          "MCP",
-          "from-routeros-muse"
-        ],
-        "milestone": null
-      },
-      {
         "number": 605,
         "title": "MCP: set isError, return structuredContent/outputSchema, and bound result size",
         "author": "Amm0Bot",
@@ -200,99 +157,13 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/604",
         "createdAt": "2026-11-03T01:31:09Z",
-        "updatedAt": "2026-11-05T13:07:34Z",
+        "updatedAt": "2026-11-05T23:36:29Z",
         "isPR": false,
         "draft": null,
         "labels": [
           "bug",
           "hardening",
           "MCP"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 603,
-        "title": "MCP/CDB: unlock-password channel for hosts that don't pass env (password command or file, fetched per load)",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/603",
-        "createdAt": "2026-11-03T01:30:57Z",
-        "updatedAt": "2026-11-03T01:30:57Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "needs-decision",
-          "hardening",
-          "MCP",
-          "from-routeros-muse"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 602,
-        "title": "routeros-muse: pressing centrs items (CLI now, MCP after)",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/602",
-        "createdAt": "2026-11-03T01:02:44Z",
-        "updatedAt": "2026-11-05T13:10:51Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "from-routeros-muse"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 595,
-        "title": "Design: supported path from uploaded HTML/assets to an owner-accessible URL",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/595",
-        "createdAt": "2026-11-02T16:25:00Z",
-        "updatedAt": "2026-11-02T17:44:11Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "needs-decision",
-          "from-routeros-muse"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 594,
-        "title": "transfer: directory upload for multi-file dashboard assets",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/594",
-        "createdAt": "2026-11-02T16:24:59Z",
-        "updatedAt": "2026-11-02T17:44:09Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "cmd-transfer",
-          "from-routeros-muse"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 593,
-        "title": "MCP: expose transfer operations for agent file workflows",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/593",
-        "createdAt": "2026-11-02T16:24:58Z",
-        "updatedAt": "2026-11-02T17:44:06Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "needs-decision",
-          "MCP",
-          "cmd-transfer",
-          "from-routeros-muse"
         ],
         "milestone": null
       },
@@ -354,23 +225,6 @@
         "milestone": null
       },
       {
-        "number": 585,
-        "title": "MAC→ARP→IP credential join is missing; stored mac= already resolves CDB credentials",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/585",
-        "createdAt": "2026-11-02T01:56:00Z",
-        "updatedAt": "2026-11-05T13:11:22Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "UX",
-          "proto-mac-telnet"
-        ],
-        "milestone": null
-      },
-      {
         "number": 584,
         "title": "MacTelnet EC-SRP: .NET KC.MacTelnet comparison — params match, padded-32 + header-u32 risks, parity-byte hardening",
         "author": "Amm0Bot",
@@ -416,22 +270,6 @@
         "milestone": null
       },
       {
-        "number": 573,
-        "title": "explain: build the per-version argument-name table from the pinned rosetta CLI Reference dataset",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/573",
-        "createdAt": "2026-11-01T01:06:51Z",
-        "updatedAt": "2026-11-01T01:06:51Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "cmd-explain"
-        ],
-        "milestone": "next"
-      },
-      {
         "number": 572,
         "title": "explain: an unknown or ambiguous command inside [ … ] passes silently; the same text at top level warns",
         "author": "Amm0Bot",
@@ -465,56 +303,6 @@
         "milestone": "next"
       },
       {
-        "number": 548,
-        "title": "transfer: build `--via fetch` upload (centrs serves HTTP, router runs /tool/fetch); the PUT download half can't work",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/548",
-        "createdAt": "2026-10-27T16:45:02Z",
-        "updatedAt": "2026-11-05T13:10:47Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "cmd-transfer",
-          "provider-quickchr"
-        ],
-        "milestone": "next"
-      },
-      {
-        "number": 542,
-        "title": "Secret-bearing values in plain /export with no notice (container env, SNMP community) — revisit #359",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/542",
-        "createdAt": "2026-10-26T20:56:28Z",
-        "updatedAt": "2026-10-26T20:56:28Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "needs-decision",
-          "hardening"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 528,
-        "title": "errors: audit high-reuse error codes for lossy detail (input/invalid-command ×46, usage/conflicting-flags ×35)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/528",
-        "createdAt": "2026-10-19T16:35:47Z",
-        "updatedAt": "2026-10-28T01:42:35Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "needs-decision",
-          "hardening",
-          "UX"
-        ],
-        "milestone": "horizon"
-      },
-      {
         "number": 527,
         "title": "CMR beta3: reconcile restricted caller policy and CMR15 contract",
         "author": "mobileskyfi",
@@ -526,23 +314,6 @@
         "draft": null,
         "labels": [
           "bug"
-        ],
-        "milestone": "horizon"
-      },
-      {
-        "number": 520,
-        "title": "research: evaluate /import verbose=yes dry-run as a diagnostic technique and possible centrs primitive",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/520",
-        "createdAt": "2026-10-18T15:28:32Z",
-        "updatedAt": "2026-10-18T15:28:32Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "QA",
-          "cmd-explain",
-          "needs-research"
         ],
         "milestone": "horizon"
       },
@@ -562,38 +333,6 @@
           "QA",
           "proto-btest",
           "needs-research"
-        ],
-        "milestone": "horizon"
-      },
-      {
-        "number": 507,
-        "title": "explain: explicit --context for script and console submissions, with separate host-environment boundaries",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/507",
-        "createdAt": "2026-10-17T18:36:44Z",
-        "updatedAt": "2026-11-01T01:08:31Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "cmd-explain",
-          "needs-research"
-        ],
-        "milestone": "next"
-      },
-      {
-        "number": 501,
-        "title": "explain: reconsider decision 3 for per-command argument names, pinned per version",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/501",
-        "createdAt": "2026-10-17T17:32:39Z",
-        "updatedAt": "2026-11-01T01:08:12Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "cmd-explain"
         ],
         "milestone": "horizon"
       },
@@ -630,24 +369,6 @@
         "milestone": null
       },
       {
-        "number": 449,
-        "title": "CMR: default controller, devices view of CMR members, and (later) CDB linkage",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/449",
-        "createdAt": "2026-10-13T02:04:31Z",
-        "updatedAt": "2026-10-13T19:28:19Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "cmd-devices",
-          "needs-research",
-          "provider-cmr"
-        ],
-        "milestone": "horizon"
-      },
-      {
         "number": 443,
         "title": "qa: mac-telnet login refused with correct credentials on 7.26beta1 in CI (1 leg, not reproducible locally)",
         "author": "mobileskyfi",
@@ -663,75 +384,6 @@
           "needs-research"
         ],
         "milestone": null
-      },
-      {
-        "number": 441,
-        "title": "CMR: research CDB linkage, controller inventory, labels, and validated client execution",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/441",
-        "createdAt": "2026-10-12T18:45:11Z",
-        "updatedAt": "2026-10-28T01:42:31Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "needs-research",
-          "provider-cmr"
-        ],
-        "milestone": "horizon"
-      },
-      {
-        "number": 420,
-        "title": "quickchr: consider per-call authentication overrides while retaining provider endpoint discovery",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/420",
-        "createdAt": "2026-10-11T18:56:19Z",
-        "updatedAt": "2026-10-15T23:28:30Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "needs-decision",
-          "provider-quickchr"
-        ],
-        "milestone": "horizon"
-      },
-      {
-        "number": 401,
-        "title": "Library session handle: one resolved, logged-in connection reused across retrieve/api/follow/batch (dashboard use)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/401",
-        "createdAt": "2026-10-07T15:58:09Z",
-        "updatedAt": "2026-10-07T16:35:08Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "proto-native-api",
-          "needs-research"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 398,
-        "title": "retrieve: batch several reads into one call via native-api tag multiplexing (NDJSON first); research the multiplexing limits",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/398",
-        "createdAt": "2026-10-05T15:16:52Z",
-        "updatedAt": "2026-10-09T17:46:44Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "cmd-retrieve",
-          "proto-native-api",
-          "needs-research"
-        ],
-        "milestone": "horizon"
       },
       {
         "number": 386,
@@ -753,40 +405,6 @@
         "milestone": null
       },
       {
-        "number": 373,
-        "title": "explain: investigate corpus differential by response class and genre; retire contaminated syntax-recall claims",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/373",
-        "createdAt": "2026-09-21T12:33:53Z",
-        "updatedAt": "2026-11-01T01:08:34Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "cmd-explain",
-          "agent-ready",
-          "needs-research"
-        ],
-        "milestone": "next"
-      },
-      {
-        "number": 372,
-        "title": "explain: add evidence-qualified menu and verb prefix expansion without treating catalog absence as invalidity",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/372",
-        "createdAt": "2026-09-21T12:33:27Z",
-        "updatedAt": "2026-10-28T01:42:29Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "cmd-explain",
-          "needs-research"
-        ],
-        "milestone": "horizon"
-      },
-      {
         "number": 363,
         "title": "Commands whose non-return is the expected outcome (/system/device-mode/update, reboot, upgrade) report as transport/timeout",
         "author": "mobileskyfi",
@@ -806,25 +424,6 @@
         "milestone": "horizon"
       },
       {
-        "number": 360,
-        "title": "execute: refine predictable result envelopes for upgraded commands and scripts without losing useful IDs",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/360",
-        "createdAt": "2026-09-19T23:34:23Z",
-        "updatedAt": "2026-10-11T18:56:21Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "needs-decision",
-          "UX",
-          "cmd-execute",
-          "cmd-retrieve"
-        ],
-        "milestone": "horizon"
-      },
-      {
         "number": 262,
         "title": "winbox-cdb: encrypted-sample tests read from .scratch/ and silently skip everywhere else",
         "author": "mobileskyfi",
@@ -837,58 +436,6 @@
         "labels": [
           "hardening",
           "QA"
-        ],
-        "milestone": "horizon"
-      },
-      {
-        "number": 223,
-        "title": "explain/MCP: supersede `centrs_explain`'s flat shape — needs rosetta alignment first",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/223",
-        "createdAt": "2026-08-06T13:49:59Z",
-        "updatedAt": "2026-11-01T01:08:30Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "cmd-explain"
-        ],
-        "milestone": "next"
-      },
-      {
-        "number": 176,
-        "title": "check: grounded SSH failure-mode taxonomy + --add-ssh-key-if-missing (consumes quickchr#74)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/176",
-        "createdAt": "2026-07-07T02:01:14Z",
-        "updatedAt": "2026-09-20T20:11:33Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "cmd-check",
-          "proto-ssh",
-          "provider-quickchr"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 173,
-        "title": "devices: list live quickchr machines alongside CDB records",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/173",
-        "createdAt": "2026-07-05T15:11:54Z",
-        "updatedAt": "2026-10-09T18:05:53Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "CLI",
-          "cmd-devices",
-          "agent-ready",
-          "provider-quickchr"
         ],
         "milestone": "horizon"
       },
@@ -912,204 +459,6 @@
         "milestone": null
       },
       {
-        "number": 169,
-        "title": "Device GPS: consider a fuller vertical datum for altitude-type (WGS84 ellipsoidal height) beyond MSL/AGL",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/169",
-        "createdAt": "2026-07-04T03:12:39Z",
-        "updatedAt": "2026-07-04T03:12:39Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "cmd-devices"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 160,
-        "title": "settings interactive TTY setup — shared prompt/TUI plumbing decision with devices edit (#93)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/160",
-        "createdAt": "2026-07-03T04:37:25Z",
-        "updatedAt": "2026-10-05T14:53:00Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "CLI",
-          "needs-research"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 151,
-        "title": "README refresh: envelope examples with real output, CDB/envelope rebalance, Pages links",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/151",
-        "createdAt": "2026-07-02T01:21:32Z",
-        "updatedAt": "2026-07-02T01:21:32Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "documentation",
-          "dry-july"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 150,
-        "title": "Agent onboarding: repo-local SKILL.md served via Pages + copy-prompt button (browserbase pattern)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/150",
-        "createdAt": "2026-07-02T01:21:29Z",
-        "updatedAt": "2026-10-24T05:26:03Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "documentation",
-          "UX",
-          "dry-july"
-        ],
-        "milestone": "horizon"
-      },
-      {
-        "number": 149,
-        "title": "discover: IP-scan (Dude auto-scan analog) as orchestrator over `check`",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/149",
-        "createdAt": "2026-07-02T01:21:27Z",
-        "updatedAt": "2026-07-02T01:21:27Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "cmd-check",
-          "cmd-discover",
-          "dry-july"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 148,
-        "title": "execute `--from-file <path>` (script-run carrier; multi-line + write-gate + no-content-echo tests)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/148",
-        "createdAt": "2026-07-02T01:21:24Z",
-        "updatedAt": "2026-10-28T01:42:27Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "CLI",
-          "cmd-execute",
-          "dry-july"
-        ],
-        "milestone": "horizon"
-      },
-      {
-        "number": 147,
-        "title": "transfer: version-aware `mkdir` (7.21.4/7.22.2+), `/file head|tail` exposure, fs-sync tests, spec tightening",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/147",
-        "createdAt": "2026-07-02T01:21:21Z",
-        "updatedAt": "2026-07-07T04:45:52Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "hardening",
-          "cmd-transfer",
-          "dry-july",
-          "agent-ready"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 142,
-        "title": "Cross-platform first-class: windows+macos unit-tier CI, no-silent-skip policy, pre-NPM verify checklist",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/142",
-        "createdAt": "2026-07-02T01:19:55Z",
-        "updatedAt": "2026-08-12T05:15:28Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "hardening",
-          "QA",
-          "CI",
-          "dry-july",
-          "agent-ready"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 140,
-        "title": "Examples scaffold + seed multi-language example (retrieve → export → transfer → api --stream)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/140",
-        "createdAt": "2026-07-02T01:19:52Z",
-        "updatedAt": "2026-09-24T23:35:07Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "documentation",
-          "enhancement",
-          "QA",
-          "dry-july",
-          "agent-ready",
-          "provider-quickchr"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 133,
-        "title": "Human-mode CLI output pass: ANSI color/bold-dim, TTY-only, NO_COLOR/FORCE_COLOR",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/133",
-        "createdAt": "2026-07-02T01:19:42Z",
-        "updatedAt": "2026-10-08T17:38:12Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "CLI",
-          "UX",
-          "dry-july",
-          "agent-ready"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 132,
-        "title": "`--jq` post-render filter (shell out to system jq) + envelope-walking examples",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/132",
-        "createdAt": "2026-07-02T01:19:41Z",
-        "updatedAt": "2026-10-08T17:32:37Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "CLI",
-          "UX",
-          "dry-july",
-          "agent-ready"
-        ],
-        "milestone": null
-      },
-      {
         "number": 131,
         "title": "CLI aliases: btest `--direction tx|rx`; `--via http|https|api` + service-name remediation tips; TLS-mismatch detection",
         "author": "mobileskyfi",
@@ -1126,262 +475,6 @@
           "UX",
           "dry-july",
           "agent-ready"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 129,
-        "title": "Capability/version pre-flight for centrs-generated commands + cross-transport parity harness",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/129",
-        "createdAt": "2026-07-02T01:19:15Z",
-        "updatedAt": "2026-10-15T03:24:35Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "hardening",
-          "dry-july",
-          "agent-ready"
-        ],
-        "milestone": "horizon"
-      },
-      {
-        "number": 128,
-        "title": "CDB comment persistence facts: length ceiling, Unicode round-trip, WinBox-authored comments",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/128",
-        "createdAt": "2026-07-02T01:19:13Z",
-        "updatedAt": "2026-10-09T18:05:40Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "hardening",
-          "cmd-devices",
-          "dry-july",
-          "agent-ready"
-        ],
-        "milestone": "horizon"
-      },
-      {
-        "number": 127,
-        "title": "Grounding: protocol input/response size limits — typed errors + stress suite",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/127",
-        "createdAt": "2026-07-02T01:19:12Z",
-        "updatedAt": "2026-07-02T01:19:12Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "hardening",
-          "proto-rest-api",
-          "proto-native-api",
-          "dry-july",
-          "agent-ready"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 126,
-        "title": "Grounding: value-less/boolean-like attributes (`as-value`, `blackhole`) across commands × protocols",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/126",
-        "createdAt": "2026-07-02T01:19:10Z",
-        "updatedAt": "2026-10-17T00:05:33Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "hardening",
-          "dry-july",
-          "agent-ready"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 122,
-        "title": "Pages: publish llms.txt and generated CLI reference; finish site integration",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/122",
-        "createdAt": "2026-07-01T05:27:43Z",
-        "updatedAt": "2026-11-05T13:09:31Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "documentation",
-          "CI",
-          "dry-july",
-          "agent-ready"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 103,
-        "title": "btest authenticated (EC-SRP5) multi-connection fan-out — capture the post-auth session token",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/103",
-        "createdAt": "2026-06-26T01:56:42Z",
-        "updatedAt": "2026-06-26T02:02:05Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "cmd-btest"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 100,
-        "title": "btest server-side multi-connection accept (serve secondary TCP joins)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/100",
-        "createdAt": "2026-06-25T22:03:01Z",
-        "updatedAt": "2026-06-25T22:47:14Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "cmd-btest"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 97,
-        "title": "Track C: arm64 verify-extended job + release extra-packages (blocked on quickchr arm64 CHR)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/97",
-        "createdAt": "2026-06-23T02:31:25Z",
-        "updatedAt": "2026-08-05T17:43:52Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "github_actions",
-          "june-gloom"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 96,
-        "title": "JG-19: dude.db format-only import/export (+ resolve constitution 'out of scope' contradiction)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/96",
-        "createdAt": "2026-06-23T02:31:23Z",
-        "updatedAt": "2026-07-02T01:22:39Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "june-gloom",
-          "dry-july"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 95,
-        "title": "JG-20: macros/provision — thin sugar over execute (+ constitution softening never landed)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/95",
-        "createdAt": "2026-06-23T02:31:22Z",
-        "updatedAt": "2026-10-05T14:52:55Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "june-gloom"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 94,
-        "title": "JG-27: btest client TUI (form → live throughput chart → stop)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/94",
-        "createdAt": "2026-06-23T02:31:20Z",
-        "updatedAt": "2026-10-05T14:02:20Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "june-gloom",
-          "CLI",
-          "needs-research"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 93,
-        "title": "JG-22: devices edit TUI (master→detail; reserved-but-owed, not 'as designed')",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/93",
-        "createdAt": "2026-06-23T02:31:18Z",
-        "updatedAt": "2026-10-05T14:53:04Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "june-gloom",
-          "CLI",
-          "needs-research"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 92,
-        "title": "JG-13: session log — SQLite at XDG path, redact-by-default",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/92",
-        "createdAt": "2026-06-23T02:31:16Z",
-        "updatedAt": "2026-10-09T17:46:43Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "june-gloom"
-        ],
-        "milestone": "horizon"
-      },
-      {
-        "number": 90,
-        "title": "explain: verified offline baseline; live phase and offline follow-up index",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/90",
-        "createdAt": "2026-06-23T02:31:14Z",
-        "updatedAt": "2026-11-05T13:09:27Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "cmd-explain"
-        ],
-        "milestone": "horizon"
-      },
-      {
-        "number": 89,
-        "title": "JG-03: terminal/mac-telnet 'hang' is prime-latency / cursor-sync (needs PTY repro, not auto-CR)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/89",
-        "createdAt": "2026-06-23T02:31:12Z",
-        "updatedAt": "2026-06-26T00:53:51Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "june-gloom",
-          "CLI"
         ],
         "milestone": null
       },
