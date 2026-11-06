@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "routeros-skills",
-  "generatedAt": "2026-11-06T15:58:12.129Z",
+  "generatedAt": "2026-11-06T21:33:21.895Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,8 +9,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 18,
-        "owner": 18,
+        "total": 19,
+        "owner": 19,
         "external": 0,
         "bot": 0
       },
@@ -25,13 +25,26 @@
       }
     },
     "page": {
-      "fetched": 22,
+      "fetched": 23,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 55,
+        "title": "Surface m2ir through a binary-protocol skill and maintained cross-repo reading paths",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/55",
+        "createdAt": "2026-11-06T17:31:03Z",
+        "updatedAt": "2026-11-06T17:31:03Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
       {
         "number": 54,
         "title": "docs(routeros-centrs): refresh for centrs 0.1.9",

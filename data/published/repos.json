@@ -8,6 +8,27 @@
     "html_url": "https://github.com/tikoci/app-t3code"
   },
   {
+    "name": "routeros-skills",
+    "description": "Custom instruction SKILL.md for MikroTik RouterOS v7",
+    "stars": 88,
+    "language": "Shell",
+    "topics": [
+      "claude",
+      "claude-skills",
+      "copilot-enabled",
+      "copilot-instructions",
+      "copilot-skills",
+      "mikrotik",
+      "routeros",
+      "routeros-api",
+      "routeros-v7",
+      "skills",
+      "tikoci"
+    ],
+    "html_url": "https://github.com/tikoci/routeros-skills",
+    "category": "ai"
+  },
+  {
     "name": "mikrotik-gpl",
     "description": "Collection of GPL Source Code in RouterOS",
     "stars": 51,
@@ -45,27 +66,6 @@
     "language": "TypeScript",
     "topics": [],
     "html_url": "https://github.com/tikoci/routeros-muse",
-    "category": "ai"
-  },
-  {
-    "name": "routeros-skills",
-    "description": "Custom instruction SKILL.md for MikroTik RouterOS v7",
-    "stars": 87,
-    "language": "Shell",
-    "topics": [
-      "claude",
-      "claude-skills",
-      "copilot-enabled",
-      "copilot-instructions",
-      "copilot-skills",
-      "mikrotik",
-      "routeros",
-      "routeros-api",
-      "routeros-v7",
-      "skills",
-      "tikoci"
-    ],
-    "html_url": "https://github.com/tikoci/routeros-skills",
     "category": "ai"
   },
   {

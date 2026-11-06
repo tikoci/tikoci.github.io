@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-06T15:58:12.129Z",
+  "generatedAt": "2026-11-06T21:33:21.895Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -2533,8 +2533,8 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 18,
-            "owner": 18,
+            "total": 19,
+            "owner": 19,
             "external": 0,
             "bot": 0
           },
@@ -2549,13 +2549,26 @@
           }
         },
         "page": {
-          "fetched": 22,
+          "fetched": 23,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 55,
+            "title": "Surface m2ir through a binary-protocol skill and maintained cross-repo reading paths",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/issues/55",
+            "createdAt": "2026-11-06T17:31:03Z",
+            "updatedAt": "2026-11-06T17:31:03Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
           {
             "number": 54,
             "title": "docs(routeros-centrs): refresh for centrs 0.1.9",
@@ -2692,22 +2705,6 @@
               "triage:reference-only"
             ],
             "milestone": null
-          },
-          {
-            "number": 39,
-            "title": "API operational details gap (vs wiresage/routeros-api)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/routeros-skills/issues/39",
-            "createdAt": "2026-10-19T19:12:37Z",
-            "updatedAt": "2026-11-02T02:25:52Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "enhancement",
-              "triage:reference-only"
-            ],
-            "milestone": null
           }
         ]
       },
@@ -2715,7 +2712,7 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 1,
-        "totalIssues": 18,
+        "totalIssues": 19,
         "totalPRs": 4,
         "truncated": false,
         "byLabel": {
@@ -3083,8 +3080,8 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 0,
-            "owner": 0,
+            "total": 1,
+            "owner": 1,
             "external": 0,
             "bot": 0
           },
@@ -3099,19 +3096,33 @@
           }
         },
         "page": {
-          "fetched": 0,
+          "fetched": 1,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
-        "items": []
+        "items": [
+          {
+            "number": 1,
+            "title": "Ground agent reading paths for protocol analysis, WinBox compatibility, and native backends",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/m2ir/issues/1",
+            "createdAt": "2026-11-06T17:30:28Z",
+            "updatedAt": "2026-11-06T17:31:08Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          }
+        ]
       },
       "community": {
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 0,
+        "totalIssues": 1,
         "totalPRs": 0,
         "truncated": false,
         "byLabel": {},
