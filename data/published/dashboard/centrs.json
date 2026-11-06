@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "centrs",
-  "generatedAt": "2026-11-06T00:21:25.069Z",
+  "generatedAt": "2026-11-06T07:58:01.900Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -15,23 +15,55 @@
         "bot": 0
       },
       "prs": {
-        "total": 0,
+        "total": 2,
         "owner": 0,
         "external": 0,
-        "bot": 0,
+        "bot": 2,
         "ownerReady": 0,
         "ownerDraft": 0,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 28,
+      "fetched": 30,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 633,
+        "title": "build(deps-dev): bump @biomejs/biome from 2.6.3 to 2.6.4 in the npm group",
+        "author": "dependabot[bot]",
+        "authorClass": "bot",
+        "url": "https://github.com/tikoci/centrs/pull/633",
+        "createdAt": "2026-11-06T01:34:52Z",
+        "updatedAt": "2026-11-06T01:34:56Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [
+          "dependencies",
+          "javascript"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 632,
+        "title": "build(deps): bump zizmorcore/zizmor-action from 0.8.0 to 0.8.1 in the github-actions group",
+        "author": "dependabot[bot]",
+        "authorClass": "bot",
+        "url": "https://github.com/tikoci/centrs/pull/632",
+        "createdAt": "2026-11-06T01:34:10Z",
+        "updatedAt": "2026-11-06T01:34:14Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [
+          "dependencies",
+          "github_actions"
+        ],
+        "milestone": null
+      },
       {
         "number": 624,
         "title": "CHR integration: MAC-Telnet L2 tests flaky on main (console prompt timeout, MTWEI not ready)",

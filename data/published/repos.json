@@ -1,5 +1,14 @@
 [
   {
+    "name": "mikrotik-gpl",
+    "description": "Collection of GPL Source Code in RouterOS",
+    "stars": 51,
+    "language": "C",
+    "topics": [],
+    "html_url": "https://github.com/tikoci/mikrotik-gpl",
+    "category": "scripts"
+  },
+  {
     "name": "centrs",
     "description": "Multi-protocol (REST, native API, mac-telnet, SSH) CLI and TypeScript interface to RouterOS, with rich help and validation",
     "stars": 5,
@@ -97,15 +106,6 @@
     "language": "TypeScript",
     "topics": [],
     "html_url": "https://github.com/tikoci/m2ir"
-  },
-  {
-    "name": "mikrotik-gpl",
-    "description": "Collection of GPL Source Code in RouterOS",
-    "stars": 50,
-    "language": "C",
-    "topics": [],
-    "html_url": "https://github.com/tikoci/mikrotik-gpl",
-    "category": "scripts"
   },
   {
     "name": "restraml",

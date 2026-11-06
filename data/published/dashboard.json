@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-06T00:21:25.069Z",
+  "generatedAt": "2026-11-06T07:58:01.900Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -662,9 +662,9 @@
             "headBranch": "main",
             "headSha": "acd6566c090b9b8060a6bec849e8ad2ca8db5380",
             "event": "schedule",
-            "runStartedAt": "2026-11-05T05:34:57Z",
-            "lastUpdatedAt": "2026-11-05T05:35:10Z",
-            "lastUrl": "https://github.com/tikoci/fat-chr/actions/runs/41974911838",
+            "runStartedAt": "2026-11-06T05:32:04Z",
+            "lastUpdatedAt": "2026-11-06T05:32:23Z",
+            "lastUrl": "https://github.com/tikoci/fat-chr/actions/runs/42168978592",
             "isHead": true
           }
         ]
@@ -1542,8 +1542,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "908d5e40fb0bbc671880b158fde7d03305df441d",
-        "headUrl": "https://github.com/tikoci/centrs/commit/908d5e40fb0bbc671880b158fde7d03305df441d",
+        "headSha": "0221b899da70b8c54410f357fd77c2133b286c08",
+        "headUrl": "https://github.com/tikoci/centrs/commit/0221b899da70b8c54410f357fd77c2133b286c08",
         "workflows": [
           {
             "configured": "CI",
@@ -1555,11 +1555,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "908d5e40fb0bbc671880b158fde7d03305df441d",
+            "headSha": "0221b899da70b8c54410f357fd77c2133b286c08",
             "event": "push",
-            "runStartedAt": "2026-11-06T00:09:57Z",
-            "lastUpdatedAt": "2026-11-06T00:12:18Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/42134804779",
+            "runStartedAt": "2026-11-06T05:01:21Z",
+            "lastUpdatedAt": "2026-11-06T05:01:49Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/42165896543",
             "isHead": true
           },
           {
@@ -1585,16 +1585,16 @@
             "path": ".github/workflows/qa.yaml",
             "present": true,
             "state": "ok",
-            "status": "in_progress",
-            "conclusion": null,
-            "lastConclusion": null,
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
             "headBranch": "main",
             "headSha": "908d5e40fb0bbc671880b158fde7d03305df441d",
             "event": "push",
             "runStartedAt": "2026-11-06T00:09:57Z",
-            "lastUpdatedAt": "2026-11-06T00:10:12Z",
+            "lastUpdatedAt": "2026-11-06T00:43:45Z",
             "lastUrl": "https://github.com/tikoci/centrs/actions/runs/42134804626",
-            "isHead": true
+            "isHead": false
           }
         ]
       },
@@ -1608,23 +1608,55 @@
             "bot": 0
           },
           "prs": {
-            "total": 0,
+            "total": 2,
             "owner": 0,
             "external": 0,
-            "bot": 0,
+            "bot": 2,
             "ownerReady": 0,
             "ownerDraft": 0,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 28,
+          "fetched": 30,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 633,
+            "title": "build(deps-dev): bump @biomejs/biome from 2.6.3 to 2.6.4 in the npm group",
+            "author": "dependabot[bot]",
+            "authorClass": "bot",
+            "url": "https://github.com/tikoci/centrs/pull/633",
+            "createdAt": "2026-11-06T01:34:52Z",
+            "updatedAt": "2026-11-06T01:34:56Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [
+              "dependencies",
+              "javascript"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 632,
+            "title": "build(deps): bump zizmorcore/zizmor-action from 0.8.0 to 0.8.1 in the github-actions group",
+            "author": "dependabot[bot]",
+            "authorClass": "bot",
+            "url": "https://github.com/tikoci/centrs/pull/632",
+            "createdAt": "2026-11-06T01:34:10Z",
+            "updatedAt": "2026-11-06T01:34:14Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [
+              "dependencies",
+              "github_actions"
+            ],
+            "milestone": null
+          },
           {
             "number": 624,
             "title": "CHR integration: MAC-Telnet L2 tests flaky on main (console prompt timeout, MTWEI not ready)",
@@ -1742,42 +1774,6 @@
               "from-routeros-muse"
             ],
             "milestone": null
-          },
-          {
-            "number": 604,
-            "title": "MCP: allowlist gate and core dial read the CDB separately — authorize and dial one snapshot",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/issues/604",
-            "createdAt": "2026-11-03T01:31:09Z",
-            "updatedAt": "2026-11-05T23:36:29Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "bug",
-              "hardening",
-              "MCP"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 592,
-            "title": "execute SSH: surface effective timeout and partial-run uncertainty when a long script is cut off",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/issues/592",
-            "createdAt": "2026-11-02T16:24:56Z",
-            "updatedAt": "2026-11-05T13:07:42Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "UX",
-              "cmd-execute",
-              "proto-ssh",
-              "needs-research",
-              "from-routeros-muse"
-            ],
-            "milestone": null
           }
         ]
       },
@@ -1786,7 +1782,7 @@
         "openIssues": 0,
         "openPRs": 0,
         "totalIssues": 28,
-        "totalPRs": 0,
+        "totalPRs": 2,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -3437,23 +3433,6 @@
       ]
     },
     {
-      "id": "ci-run-in-progress:centrs:QA",
-      "rule": "ci-run-in-progress",
-      "severity": "pending",
-      "category": "ci",
-      "repos": [
-        "centrs"
-      ],
-      "summary": "centrs: QA in_progress on main",
-      "detail": "The latest default-branch run has not completed, so the current-commit verdict is pending. Re-check after it finishes.",
-      "evidence": [
-        "repos.centrs.ci.workflows[QA].status=in_progress"
-      ],
-      "urls": [
-        "https://github.com/tikoci/centrs/actions/runs/42134804626"
-      ]
-    },
-    {
       "id": "npm-pending-publish:lsp-routeros-ts",
       "rule": "npm-pending-publish",
       "severity": "pending",
@@ -3575,6 +3554,24 @@
       ]
     },
     {
+      "id": "ci-run-not-head:centrs:QA",
+      "rule": "ci-run-not-head",
+      "severity": "info",
+      "category": "ci",
+      "repos": [
+        "centrs"
+      ],
+      "summary": "centrs: QA latest run is not on the current head commit",
+      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
+      "evidence": [
+        "repos.centrs.ci.workflows[QA].headSha=908d5e40fb0bbc671880b158fde7d03305df441d",
+        "repos.centrs.ci.headSha=0221b899da70b8c54410f357fd77c2133b286c08"
+      ],
+      "urls": [
+        "https://github.com/tikoci/centrs/actions/runs/42134804626"
+      ]
+    },
+    {
       "id": "ci-run-not-head:centrs:Release",
       "rule": "ci-run-not-head",
       "severity": "info",
@@ -3586,7 +3583,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.centrs.ci.workflows[Release].headSha=b411207d943be31031bdbaba3ebc3fb4e36461d3",
-        "repos.centrs.ci.headSha=908d5e40fb0bbc671880b158fde7d03305df441d"
+        "repos.centrs.ci.headSha=0221b899da70b8c54410f357fd77c2133b286c08"
       ],
       "urls": [
         "https://github.com/tikoci/centrs/actions/runs/42104426954"
