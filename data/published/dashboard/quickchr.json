@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-07T08:51:31.144Z",
+  "generatedAt": "2026-11-07T14:17:46.059Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -68,23 +68,23 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 43,
-        "owner": 43,
+        "total": 39,
+        "owner": 39,
         "external": 0,
         "bot": 0
       },
       "prs": {
-        "total": 3,
-        "owner": 1,
+        "total": 2,
+        "owner": 0,
         "external": 0,
         "bot": 2,
-        "ownerReady": 1,
+        "ownerReady": 0,
         "ownerDraft": 0,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 46,
+      "fetched": 41,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
@@ -92,43 +92,13 @@
     "pullsEnriched": true,
     "items": [
       {
-        "number": 255,
-        "title": "fix(platform): find aarch64 UEFI firmware beside the QEMU's own data dirs (#254)",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/pull/255",
-        "createdAt": "2026-11-07T02:44:30Z",
-        "updatedAt": "2026-11-07T03:06:46Z",
-        "isPR": true,
-        "draft": false,
-        "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 254,
-        "title": "platform: find aarch64 UEFI firmware relative to the QEMU's own data dirs (-L help)",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/254",
-        "createdAt": "2026-11-07T02:34:51Z",
-        "updatedAt": "2026-11-07T02:34:51Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "area:qemu",
-          "P2"
-        ],
-        "milestone": null
-      },
-      {
         "number": 253,
         "title": "Managed SSH key can only be created at first boot; no way to add one to a running machine",
         "author": "mobileskyfi",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/253",
         "createdAt": "2026-11-03T16:40:37Z",
-        "updatedAt": "2026-11-03T22:30:45Z",
+        "updatedAt": "2026-11-07T10:58:35Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -225,19 +195,6 @@
         "draft": null,
         "labels": [],
         "milestone": null
-      },
-      {
-        "number": 210,
-        "title": "Cloud sessions: finish proxy diagnostics and doctor guidance",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/210",
-        "createdAt": "2026-10-27T15:41:58Z",
-        "updatedAt": "2026-10-30T20:28:17Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [],
-        "milestone": "next"
       },
       {
         "number": 169,
@@ -386,25 +343,6 @@
         "milestone": null
       },
       {
-        "number": 135,
-        "title": "exec: repair auto transport fallback with replay-safe failure handling",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/135",
-        "createdAt": "2026-08-03T21:28:43Z",
-        "updatedAt": "2026-10-30T20:28:15Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "area:examples",
-          "area:ci",
-          "P3",
-          "research"
-        ],
-        "milestone": "next"
-      },
-      {
         "number": 125,
         "title": "ci: classify infra-download / infra-cache / operation-timeout outcomes — #77 §4's unclaimed half",
         "author": "mobileskyfi",
@@ -547,32 +485,13 @@
         "milestone": null
       },
       {
-        "number": 72,
-        "title": "CLI/docs: steer quickchr users to centrs for validated RouterOS operations",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/72",
-        "createdAt": "2026-07-05T14:21:00Z",
-        "updatedAt": "2026-10-30T20:28:19Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "area:cli",
-          "area:wizard",
-          "area:docs",
-          "P4",
-          "consumer:centrs"
-        ],
-        "milestone": "next"
-      },
-      {
         "number": 69,
         "title": "REST: first request with freshly created credentials intermittently resets or returns 401",
         "author": "mobileskyfi",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/69",
         "createdAt": "2026-07-05T04:32:42Z",
-        "updatedAt": "2026-10-31T23:28:51Z",
+        "updatedAt": "2026-11-07T10:58:42Z",
         "isPR": false,
         "draft": null,
         "labels": [

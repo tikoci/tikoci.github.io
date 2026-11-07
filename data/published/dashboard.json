@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-07T08:51:31.144Z",
+  "generatedAt": "2026-11-07T14:17:46.059Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -135,9 +135,9 @@
             "headBranch": "main",
             "headSha": "0e476cea72d28ef8564a78acdd063553b72fd95e",
             "event": "schedule",
-            "runStartedAt": "2026-11-06T11:45:56Z",
-            "lastUpdatedAt": "2026-11-06T11:47:10Z",
-            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/42212652533",
+            "runStartedAt": "2026-11-07T10:51:32Z",
+            "lastUpdatedAt": "2026-11-07T10:52:48Z",
+            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/42365711697",
             "isHead": true
           },
           {
@@ -430,9 +430,9 @@
             "headBranch": "main",
             "headSha": "e568f7a3bc6a6265499d3189afc72f2f3e2dbc1d",
             "event": "schedule",
-            "runStartedAt": "2026-11-06T11:53:32Z",
-            "lastUpdatedAt": "2026-11-06T11:53:47Z",
-            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/42213556632",
+            "runStartedAt": "2026-11-07T10:54:48Z",
+            "lastUpdatedAt": "2026-11-07T10:55:01Z",
+            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/42365930173",
             "isHead": true
           },
           {
@@ -799,8 +799,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "32a288bec27d1b487c479c68fb6c6da761953cd1",
-        "headUrl": "https://github.com/tikoci/quickchr/commit/32a288bec27d1b487c479c68fb6c6da761953cd1",
+        "headSha": "faac68793245d16afbd8b89e928754a102b5e4cb",
+        "headUrl": "https://github.com/tikoci/quickchr/commit/faac68793245d16afbd8b89e928754a102b5e4cb",
         "workflows": [
           {
             "configured": "CI",
@@ -812,11 +812,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "32a288bec27d1b487c479c68fb6c6da761953cd1",
+            "headSha": "faac68793245d16afbd8b89e928754a102b5e4cb",
             "event": "push",
-            "runStartedAt": "2026-11-07T01:12:44Z",
-            "lastUpdatedAt": "2026-11-07T01:15:51Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/42322803212",
+            "runStartedAt": "2026-11-07T11:15:06Z",
+            "lastUpdatedAt": "2026-11-07T11:18:06Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/42367379981",
             "isHead": true
           },
           {
@@ -829,12 +829,12 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "24b14b55c0b794c945f478a91c9c62c4468786ff",
+            "headSha": "faac68793245d16afbd8b89e928754a102b5e4cb",
             "event": "workflow_dispatch",
-            "runStartedAt": "2026-11-02T22:54:08Z",
-            "lastUpdatedAt": "2026-11-02T22:57:07Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/41541102136",
-            "isHead": false
+            "runStartedAt": "2026-11-07T11:15:06Z",
+            "lastUpdatedAt": "2026-11-07T11:18:01Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/42367380248",
+            "isHead": true
           },
           {
             "configured": "RouterOS Versions",
@@ -846,11 +846,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "24b14b55c0b794c945f478a91c9c62c4468786ff",
+            "headSha": "68247254a8e8f7edc0c6510660f903f528ae7f49",
             "event": "schedule",
-            "runStartedAt": "2026-11-06T12:07:58Z",
-            "lastUpdatedAt": "2026-11-06T12:08:10Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/42215329385",
+            "runStartedAt": "2026-11-07T11:04:52Z",
+            "lastUpdatedAt": "2026-11-07T11:05:03Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/42366641972",
             "isHead": false
           }
         ]
@@ -859,23 +859,23 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 43,
-            "owner": 43,
+            "total": 39,
+            "owner": 39,
             "external": 0,
             "bot": 0
           },
           "prs": {
-            "total": 3,
-            "owner": 1,
+            "total": 2,
+            "owner": 0,
             "external": 0,
             "bot": 2,
-            "ownerReady": 1,
+            "ownerReady": 0,
             "ownerDraft": 0,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 46,
+          "fetched": 41,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
@@ -883,43 +883,13 @@
         "pullsEnriched": true,
         "items": [
           {
-            "number": 255,
-            "title": "fix(platform): find aarch64 UEFI firmware beside the QEMU's own data dirs (#254)",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/pull/255",
-            "createdAt": "2026-11-07T02:44:30Z",
-            "updatedAt": "2026-11-07T03:06:46Z",
-            "isPR": true,
-            "draft": false,
-            "labels": [],
-            "milestone": null
-          },
-          {
-            "number": 254,
-            "title": "platform: find aarch64 UEFI firmware relative to the QEMU's own data dirs (-L help)",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/254",
-            "createdAt": "2026-11-07T02:34:51Z",
-            "updatedAt": "2026-11-07T02:34:51Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "enhancement",
-              "area:qemu",
-              "P2"
-            ],
-            "milestone": null
-          },
-          {
             "number": 253,
             "title": "Managed SSH key can only be created at first boot; no way to add one to a running machine",
             "author": "mobileskyfi",
             "authorClass": "owner",
             "url": "https://github.com/tikoci/quickchr/issues/253",
             "createdAt": "2026-11-03T16:40:37Z",
-            "updatedAt": "2026-11-03T22:30:45Z",
+            "updatedAt": "2026-11-07T10:58:35Z",
             "isPR": false,
             "draft": null,
             "labels": [
@@ -1018,17 +988,60 @@
             "milestone": null
           },
           {
-            "number": 210,
-            "title": "Cloud sessions: finish proxy diagnostics and doctor guidance",
+            "number": 169,
+            "title": "networking: probe for denied UDP sends and refuse mcast instead of booting into silent loss",
             "author": "mobileskyfi",
             "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/210",
-            "createdAt": "2026-10-27T15:41:58Z",
-            "updatedAt": "2026-10-30T20:28:17Z",
+            "url": "https://github.com/tikoci/quickchr/issues/169",
+            "createdAt": "2026-09-20T18:53:44Z",
+            "updatedAt": "2026-10-30T20:28:45Z",
             "isPR": false,
             "draft": null,
-            "labels": [],
-            "milestone": "next"
+            "labels": [
+              "enhancement",
+              "area:networking",
+              "area:cli",
+              "P2"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 167,
+            "title": "networking: no N-way rootless L2 on macOS — QEMU's mcast netdev omits SO_REUSEPORT",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/167",
+            "createdAt": "2026-09-20T17:34:20Z",
+            "updatedAt": "2026-09-20T19:03:43Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "area:qemu",
+              "area:networking",
+              "P3",
+              "research",
+              "needs-decision",
+              "platform:mac"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 160,
+            "title": "cache: bound the cache while warming it (--prune-to) + a machine-readable cache report",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/160",
+            "createdAt": "2026-09-19T23:54:56Z",
+            "updatedAt": "2026-09-19T23:54:56Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement",
+              "area:cli",
+              "area:library-api",
+              "P4"
+            ],
+            "milestone": null
           }
         ]
       },
@@ -1036,8 +1049,8 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 43,
-        "totalPRs": 3,
+        "totalIssues": 39,
+        "totalPRs": 2,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -1046,39 +1059,39 @@
       "npm": {
         "package": "@tikoci/quickchr",
         "expected": true,
-        "repoVersion": "0.5.5",
+        "repoVersion": "0.5.6",
         "repoPrerelease": false,
-        "latestVersion": "0.5.4",
+        "latestVersion": "0.5.6",
         "distTags": {
-          "latest": "0.5.4",
-          "next": "0.5.5"
+          "latest": "0.5.6",
+          "next": "0.5.6"
         },
         "repoVersionPublished": true,
-        "publishedAt": "2026-10-30T08:18:31.840Z",
-        "behind": true,
+        "publishedAt": "2026-11-07T11:20:43.609Z",
+        "behind": false,
         "state": "ok",
         "published": true,
-        "assessment": "pending-publish"
+        "assessment": "in-sync"
       },
       "release": {
         "state": "ok",
-        "latestTag": "v0.5.5",
-        "latestDate": "2026-11-02T22:56:45Z",
-        "latestUrl": "https://github.com/tikoci/quickchr/releases/tag/v0.5.5",
-        "prerelease": true,
+        "latestTag": "v0.5.6",
+        "latestDate": "2026-11-07T11:17:40Z",
+        "latestUrl": "https://github.com/tikoci/quickchr/releases/tag/v0.5.6",
+        "prerelease": false,
         "stable": {
-          "tag": "v0.5.4",
-          "date": "2026-10-30T08:14:08Z",
-          "url": "https://github.com/tikoci/quickchr/releases/tag/v0.5.4",
+          "tag": "v0.5.6",
+          "date": "2026-11-07T11:17:40Z",
+          "url": "https://github.com/tikoci/quickchr/releases/tag/v0.5.6",
           "prerelease": false
         },
         "newest": {
-          "tag": "v0.5.5",
-          "date": "2026-11-02T22:56:45Z",
-          "url": "https://github.com/tikoci/quickchr/releases/tag/v0.5.5",
-          "prerelease": true
+          "tag": "v0.5.6",
+          "date": "2026-11-07T11:17:40Z",
+          "url": "https://github.com/tikoci/quickchr/releases/tag/v0.5.6",
+          "prerelease": false
         },
-        "prereleaseChannel": true,
+        "prereleaseChannel": false,
         "windowFetched": 5
       }
     },
@@ -1141,9 +1154,9 @@
             "headBranch": "main",
             "headSha": "3f8863249e7d944c935b3a58bcbebb1e9b307b58",
             "event": "schedule",
-            "runStartedAt": "2026-11-04T10:32:41Z",
-            "lastUpdatedAt": "2026-11-04T10:33:44Z",
-            "lastUrl": "https://github.com/tikoci/mikrotik-gpl/actions/runs/41814874448",
+            "runStartedAt": "2026-11-07T09:51:06Z",
+            "lastUpdatedAt": "2026-11-07T09:51:28Z",
+            "lastUrl": "https://github.com/tikoci/mikrotik-gpl/actions/runs/42361455906",
             "isHead": true
           }
         ]
@@ -1583,9 +1596,9 @@
             "headBranch": "main",
             "headSha": "0221b899da70b8c54410f357fd77c2133b286c08",
             "event": "schedule",
-            "runStartedAt": "2026-11-06T13:04:30Z",
-            "lastUpdatedAt": "2026-11-06T13:39:49Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/42222553197",
+            "runStartedAt": "2026-11-07T11:49:29Z",
+            "lastUpdatedAt": "2026-11-07T11:49:43Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/42369797309",
             "isHead": true
           }
         ]
@@ -2525,8 +2538,8 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 19,
-            "owner": 19,
+            "total": 20,
+            "owner": 20,
             "external": 0,
             "bot": 0
           },
@@ -2541,13 +2554,26 @@
           }
         },
         "page": {
-          "fetched": 23,
+          "fetched": 24,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 56,
+            "title": "quickchr/centrs skills: recommend --secure-login for SSH/SFTP use (managed key is first-boot only)",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/issues/56",
+            "createdAt": "2026-11-07T10:58:17Z",
+            "updatedAt": "2026-11-07T10:58:17Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
           {
             "number": 55,
             "title": "Surface m2ir through a binary-protocol skill and maintained cross-repo reading paths",
@@ -2681,22 +2707,6 @@
             "draft": null,
             "labels": [],
             "milestone": null
-          },
-          {
-            "number": 40,
-            "title": "Coverage gaps: AAA/users and routing; plus a skill-discovery meta-skill idea",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/routeros-skills/issues/40",
-            "createdAt": "2026-10-19T19:12:47Z",
-            "updatedAt": "2026-11-02T02:26:30Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "enhancement",
-              "triage:reference-only"
-            ],
-            "milestone": null
           }
         ]
       },
@@ -2704,7 +2714,7 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 1,
-        "totalIssues": 19,
+        "totalIssues": 20,
         "totalPRs": 4,
         "truncated": false,
         "byLabel": {
@@ -3440,24 +3450,6 @@
       ]
     },
     {
-      "id": "npm-pending-publish:quickchr",
-      "rule": "npm-pending-publish",
-      "severity": "pending",
-      "category": "packages",
-      "repos": [
-        "quickchr"
-      ],
-      "summary": "quickchr: 0.5.5 ahead of registry 0.5.4 — publish pending",
-      "detail": "The repo's package.json carries a stable version newer than the registry's latest tag. Either cut a release or confirm the bump is intentional and unreleased.",
-      "evidence": [
-        "repos.quickchr.npm.repoVersion=0.5.5",
-        "repos.quickchr.npm.latestVersion=0.5.4"
-      ],
-      "urls": [
-        "https://www.npmjs.com/package/@tikoci/quickchr"
-      ]
-    },
-    {
       "id": "ros-missing-channel:mikrotik-gpl:long-term",
       "rule": "ros-missing-channel",
       "severity": "pending",
@@ -3489,23 +3481,6 @@
       ],
       "urls": [
         "https://github.com/tikoci/bench-routeros-tools/pulls"
-      ]
-    },
-    {
-      "id": "work-maintainer-prs:quickchr",
-      "rule": "work-maintainer-prs",
-      "severity": "pending",
-      "category": "work",
-      "repos": [
-        "quickchr"
-      ],
-      "summary": "quickchr: 1 open maintainer PR",
-      "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
-      "evidence": [
-        "repos.quickchr.work.counts.prs.ownerReady=1"
-      ],
-      "urls": [
-        "https://github.com/tikoci/quickchr/pulls"
       ]
     },
     {
@@ -3596,24 +3571,6 @@
       ]
     },
     {
-      "id": "ci-run-not-head:quickchr:Release",
-      "rule": "ci-run-not-head",
-      "severity": "info",
-      "category": "ci",
-      "repos": [
-        "quickchr"
-      ],
-      "summary": "quickchr: Release latest run is not on the current head commit",
-      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
-      "evidence": [
-        "repos.quickchr.ci.workflows[Release].headSha=24b14b55c0b794c945f478a91c9c62c4468786ff",
-        "repos.quickchr.ci.headSha=32a288bec27d1b487c479c68fb6c6da761953cd1"
-      ],
-      "urls": [
-        "https://github.com/tikoci/quickchr/actions/runs/41541102136"
-      ]
-    },
-    {
       "id": "ci-run-not-head:quickchr:RouterOS-Versions",
       "rule": "ci-run-not-head",
       "severity": "info",
@@ -3624,11 +3581,11 @@
       "summary": "quickchr: RouterOS Versions latest run is not on the current head commit",
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
-        "repos.quickchr.ci.workflows[RouterOS Versions].headSha=24b14b55c0b794c945f478a91c9c62c4468786ff",
-        "repos.quickchr.ci.headSha=32a288bec27d1b487c479c68fb6c6da761953cd1"
+        "repos.quickchr.ci.workflows[RouterOS Versions].headSha=68247254a8e8f7edc0c6510660f903f528ae7f49",
+        "repos.quickchr.ci.headSha=faac68793245d16afbd8b89e928754a102b5e4cb"
       ],
       "urls": [
-        "https://github.com/tikoci/quickchr/actions/runs/42215329385"
+        "https://github.com/tikoci/quickchr/actions/runs/42366641972"
       ]
     },
     {
@@ -3876,24 +3833,6 @@
       ],
       "urls": [
         "https://github.com/tikoci/netinstall/releases"
-      ]
-    },
-    {
-      "id": "release-prerelease-newest:quickchr",
-      "rule": "release-prerelease-newest",
-      "severity": "info",
-      "category": "releases",
-      "repos": [
-        "quickchr"
-      ],
-      "summary": "quickchr: newest release v0.5.5 is a prerelease (stable v0.5.4)",
-      "detail": "The newest release is flagged prerelease while a stable release exists. Routine for repos that ship -next builds; the stable tag is the installable one.",
-      "evidence": [
-        "repos.quickchr.release.newest.tag=v0.5.5",
-        "repos.quickchr.release.stable.tag=v0.5.4"
-      ],
-      "urls": [
-        "https://github.com/tikoci/quickchr/releases/tag/v0.5.5"
       ]
     },
     {

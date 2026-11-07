@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "routeros-skills",
-  "generatedAt": "2026-11-07T08:51:31.144Z",
+  "generatedAt": "2026-11-07T14:17:46.059Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,8 +9,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 19,
-        "owner": 19,
+        "total": 20,
+        "owner": 20,
         "external": 0,
         "bot": 0
       },
@@ -25,13 +25,26 @@
       }
     },
     "page": {
-      "fetched": 23,
+      "fetched": 24,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 56,
+        "title": "quickchr/centrs skills: recommend --secure-login for SSH/SFTP use (managed key is first-boot only)",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/56",
+        "createdAt": "2026-11-07T10:58:17Z",
+        "updatedAt": "2026-11-07T10:58:17Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
       {
         "number": 55,
         "title": "Surface m2ir through a binary-protocol skill and maintained cross-repo reading paths",

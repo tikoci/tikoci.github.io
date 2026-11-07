@@ -1,5 +1,35 @@
 [
   {
+    "name": "app-t3code",
+    "description": "RouterOS /app container for T3 Code (x86_64 + ARM64, GHCR, CHR-tested)",
+    "stars": 1,
+    "language": "TypeScript",
+    "topics": [],
+    "html_url": "https://github.com/tikoci/app-t3code"
+  },
+  {
+    "name": "centrs",
+    "description": "Multi-protocol (REST, native API, mac-telnet, SSH) CLI and TypeScript interface to RouterOS, with rich help and validation",
+    "stars": 6,
+    "language": "TypeScript",
+    "topics": [
+      "ai",
+      "ai-tools",
+      "btest",
+      "bun",
+      "mac-telnet",
+      "mikrotik",
+      "mndp",
+      "routeros",
+      "routeros-api",
+      "routeros-node",
+      "tikoci",
+      "typescript"
+    ],
+    "html_url": "https://github.com/tikoci/centrs",
+    "category": "dev-tools"
+  },
+  {
     "name": "quickchr",
     "description": "`quickchr` - Fastest path to MikroTik RouterOS CHR instance for testing and scripts -– agent ready, human friendly",
     "stars": 9,
@@ -31,14 +61,6 @@
     "html_url": "https://github.com/tikoci/m2ir"
   },
   {
-    "name": "app-t3code",
-    "description": "RouterOS /app container for T3 Code (x86_64 + ARM64, GHCR, CHR-tested)",
-    "stars": 1,
-    "language": "TypeScript",
-    "topics": [],
-    "html_url": "https://github.com/tikoci/app-t3code"
-  },
-  {
     "name": "routeros-skills",
     "description": "Custom instruction SKILL.md for MikroTik RouterOS v7",
     "stars": 88,
@@ -67,28 +89,6 @@
     "topics": [],
     "html_url": "https://github.com/tikoci/mikrotik-gpl",
     "category": "scripts"
-  },
-  {
-    "name": "centrs",
-    "description": "Multi-protocol (REST, native API, mac-telnet, SSH) CLI and TypeScript interface to RouterOS, with rich help and validation",
-    "stars": 5,
-    "language": "TypeScript",
-    "topics": [
-      "ai",
-      "ai-tools",
-      "btest",
-      "bun",
-      "mac-telnet",
-      "mikrotik",
-      "mndp",
-      "routeros",
-      "routeros-api",
-      "routeros-node",
-      "tikoci",
-      "typescript"
-    ],
-    "html_url": "https://github.com/tikoci/centrs",
-    "category": "dev-tools"
   },
   {
     "name": "routeros-muse",
