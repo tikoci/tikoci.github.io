@@ -1,34 +1,5 @@
 [
   {
-    "name": "routeros-skills",
-    "description": "Custom instruction SKILL.md for MikroTik RouterOS v7",
-    "stars": 89,
-    "language": "Shell",
-    "topics": [
-      "claude",
-      "claude-skills",
-      "copilot-enabled",
-      "copilot-instructions",
-      "copilot-skills",
-      "mikrotik",
-      "routeros",
-      "routeros-api",
-      "routeros-v7",
-      "skills",
-      "tikoci"
-    ],
-    "html_url": "https://github.com/tikoci/routeros-skills",
-    "category": "ai"
-  },
-  {
-    "name": "app-t3code",
-    "description": "RouterOS /app container for T3 Code (x86_64 + ARM64, GHCR, CHR-tested)",
-    "stars": 1,
-    "language": "TypeScript",
-    "topics": [],
-    "html_url": "https://github.com/tikoci/app-t3code"
-  },
-  {
     "name": "centrs",
     "description": "Multi-protocol (REST, native API, mac-telnet, SSH) CLI and TypeScript interface to RouterOS, with rich help and validation",
     "stars": 6,
@@ -72,6 +43,35 @@
     ],
     "html_url": "https://github.com/tikoci/quickchr",
     "category": "virtualization"
+  },
+  {
+    "name": "routeros-skills",
+    "description": "Custom instruction SKILL.md for MikroTik RouterOS v7",
+    "stars": 89,
+    "language": "Shell",
+    "topics": [
+      "claude",
+      "claude-skills",
+      "copilot-enabled",
+      "copilot-instructions",
+      "copilot-skills",
+      "mikrotik",
+      "routeros",
+      "routeros-api",
+      "routeros-v7",
+      "skills",
+      "tikoci"
+    ],
+    "html_url": "https://github.com/tikoci/routeros-skills",
+    "category": "ai"
+  },
+  {
+    "name": "app-t3code",
+    "description": "RouterOS /app container for T3 Code (x86_64 + ARM64, GHCR, CHR-tested)",
+    "stars": 1,
+    "language": "TypeScript",
+    "topics": [],
+    "html_url": "https://github.com/tikoci/app-t3code"
   },
   {
     "name": "m2ir",

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "centrs",
-  "generatedAt": "2026-11-07T20:17:00.107Z",
+  "generatedAt": "2026-11-07T23:42:43.110Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -341,7 +341,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/527",
         "createdAt": "2026-10-19T14:02:52Z",
-        "updatedAt": "2026-11-05T13:10:46Z",
+        "updatedAt": "2026-11-07T22:27:29Z",
         "isPR": false,
         "draft": null,
         "labels": [
