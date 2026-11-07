@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "m2ir",
-  "generatedAt": "2026-11-07T15:43:42.141Z",
+  "generatedAt": "2026-11-07T20:17:00.107Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,8 +9,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 0,
-        "owner": 0,
+        "total": 1,
+        "owner": 1,
         "external": 0,
         "bot": 0
       },
@@ -25,12 +25,26 @@
       }
     },
     "page": {
-      "fetched": 0,
+      "fetched": 1,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
-    "items": []
+    "items": [
+      {
+        "number": 3,
+        "title": "Ground MNDP unpack TLV, unidentified MNDP values, and IP packing frames",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/m2ir/issues/3",
+        "createdAt": "2026-11-07T16:35:07Z",
+        "updatedAt": "2026-11-07T16:35:07Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      }
+    ]
   }
 }

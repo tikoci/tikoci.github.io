@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-07T15:43:42.141Z",
+  "generatedAt": "2026-11-07T20:17:00.107Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -859,8 +859,8 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 39,
-            "owner": 39,
+            "total": 43,
+            "owner": 43,
             "external": 0,
             "bot": 0
           },
@@ -875,7 +875,7 @@
           }
         },
         "page": {
-          "fetched": 41,
+          "fetched": 45,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
@@ -883,13 +883,85 @@
         "pullsEnriched": true,
         "items": [
           {
+            "number": 259,
+            "title": "state: EPERM read as dead — list persists 'stopped' over a root-owned running QEMU",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/259",
+            "createdAt": "2026-11-07T19:34:59Z",
+            "updatedAt": "2026-11-07T19:34:59Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug",
+              "area:library-api",
+              "P2"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 258,
+            "title": "networking: own the user-mode DHCP client's route policy when a real network is attached",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/258",
+            "createdAt": "2026-11-07T19:34:57Z",
+            "updatedAt": "2026-11-07T19:34:57Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement",
+              "area:networking",
+              "area:provisioning",
+              "P3",
+              "needs-decision"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 257,
+            "title": "qemu: adding a NIC renumbers RouterOS disk slots (if=virtio drives land after every -device)",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/257",
+            "createdAt": "2026-11-07T19:34:56Z",
+            "updatedAt": "2026-11-07T19:34:56Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug",
+              "area:qemu",
+              "P2"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 256,
+            "title": "networking(macos): quickchr-managed vmnet networks — one disclosed sudo per network, unprivileged machines",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/256",
+            "createdAt": "2026-11-07T19:34:53Z",
+            "updatedAt": "2026-11-07T19:35:10Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement",
+              "area:networking",
+              "P2",
+              "needs-decision",
+              "platform:mac"
+            ],
+            "milestone": null
+          },
+          {
             "number": 253,
             "title": "Managed SSH key can only be created at first boot; no way to add one to a running machine",
             "author": "mobileskyfi",
             "authorClass": "owner",
             "url": "https://github.com/tikoci/quickchr/issues/253",
             "createdAt": "2026-11-03T16:40:37Z",
-            "updatedAt": "2026-11-07T10:58:35Z",
+            "updatedAt": "2026-11-07T19:18:59Z",
             "isPR": false,
             "draft": null,
             "labels": [
@@ -973,75 +1045,6 @@
             "draft": null,
             "labels": [],
             "milestone": null
-          },
-          {
-            "number": 216,
-            "title": "CLI: design a full QEMU argv preview beyond dry-run options JSON",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/216",
-            "createdAt": "2026-10-28T22:03:21Z",
-            "updatedAt": "2026-10-30T20:28:34Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [],
-            "milestone": null
-          },
-          {
-            "number": 169,
-            "title": "networking: probe for denied UDP sends and refuse mcast instead of booting into silent loss",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/169",
-            "createdAt": "2026-09-20T18:53:44Z",
-            "updatedAt": "2026-10-30T20:28:45Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "enhancement",
-              "area:networking",
-              "area:cli",
-              "P2"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 167,
-            "title": "networking: no N-way rootless L2 on macOS — QEMU's mcast netdev omits SO_REUSEPORT",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/167",
-            "createdAt": "2026-09-20T17:34:20Z",
-            "updatedAt": "2026-09-20T19:03:43Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "area:qemu",
-              "area:networking",
-              "P3",
-              "research",
-              "needs-decision",
-              "platform:mac"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 160,
-            "title": "cache: bound the cache while warming it (--prune-to) + a machine-readable cache report",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/160",
-            "createdAt": "2026-09-19T23:54:56Z",
-            "updatedAt": "2026-09-19T23:54:56Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "enhancement",
-              "area:cli",
-              "area:library-api",
-              "P4"
-            ],
-            "milestone": null
           }
         ]
       },
@@ -1049,7 +1052,7 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 39,
+        "totalIssues": 43,
         "totalPRs": 2,
         "truncated": false,
         "byLabel": {},
@@ -2512,8 +2515,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "55941deb75fb02be34a802a214c669a3c7228227",
-        "headUrl": "https://github.com/tikoci/routeros-skills/commit/55941deb75fb02be34a802a214c669a3c7228227",
+        "headSha": "e70d1fd9471b0ec8b31f324dfb7ad3908d46c17e",
+        "headUrl": "https://github.com/tikoci/routeros-skills/commit/e70d1fd9471b0ec8b31f324dfb7ad3908d46c17e",
         "workflows": [
           {
             "configured": "CI",
@@ -2525,11 +2528,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "55941deb75fb02be34a802a214c669a3c7228227",
+            "headSha": "e70d1fd9471b0ec8b31f324dfb7ad3908d46c17e",
             "event": "push",
-            "runStartedAt": "2026-11-02T00:29:17Z",
-            "lastUpdatedAt": "2026-11-02T00:29:34Z",
-            "lastUrl": "https://github.com/tikoci/routeros-skills/actions/runs/41367405558",
+            "runStartedAt": "2026-11-07T17:36:51Z",
+            "lastUpdatedAt": "2026-11-07T17:37:05Z",
+            "lastUrl": "https://github.com/tikoci/routeros-skills/actions/runs/42397179955",
             "isHead": true
           }
         ]
@@ -2548,8 +2551,8 @@
             "owner": 4,
             "external": 1,
             "bot": 0,
-            "ownerReady": 2,
-            "ownerDraft": 2,
+            "ownerReady": 3,
+            "ownerDraft": 1,
             "draftUnknown": false
           }
         },
@@ -2562,15 +2565,15 @@
         "pullsEnriched": true,
         "items": [
           {
-            "number": 57,
-            "title": "docs: add a navigator for MikroTik proprietary protocols and file formats",
-            "author": "mobileskyfi",
+            "number": 58,
+            "title": "chore: rename tikoci tool skills to routeros-tikoci-*",
+            "author": "Amm0Bot",
             "authorClass": "owner",
-            "url": "https://github.com/tikoci/routeros-skills/pull/57",
-            "createdAt": "2026-11-07T15:42:58Z",
-            "updatedAt": "2026-11-07T15:43:04Z",
+            "url": "https://github.com/tikoci/routeros-skills/pull/58",
+            "createdAt": "2026-11-07T19:18:24Z",
+            "updatedAt": "2026-11-07T20:09:38Z",
             "isPR": true,
-            "draft": true,
+            "draft": false,
             "labels": [],
             "milestone": null
           },
@@ -2581,7 +2584,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/routeros-skills/issues/56",
             "createdAt": "2026-11-07T10:58:17Z",
-            "updatedAt": "2026-11-07T10:58:17Z",
+            "updatedAt": "2026-11-07T19:18:54Z",
             "isPR": false,
             "draft": null,
             "labels": [],
@@ -2594,7 +2597,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/routeros-skills/issues/55",
             "createdAt": "2026-11-06T17:31:03Z",
-            "updatedAt": "2026-11-07T15:43:20Z",
+            "updatedAt": "2026-11-07T16:37:24Z",
             "isPR": false,
             "draft": null,
             "labels": [],
@@ -2636,7 +2639,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/routeros-skills/issues/51",
             "createdAt": "2026-11-02T02:26:21Z",
-            "updatedAt": "2026-11-02T13:31:53Z",
+            "updatedAt": "2026-11-07T19:18:49Z",
             "isPR": false,
             "draft": null,
             "labels": [
@@ -2700,7 +2703,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/routeros-skills/issues/47",
             "createdAt": "2026-11-02T02:25:32Z",
-            "updatedAt": "2026-11-02T02:26:29Z",
+            "updatedAt": "2026-11-07T19:18:52Z",
             "isPR": false,
             "draft": null,
             "labels": [
@@ -3082,8 +3085,8 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 0,
-            "owner": 0,
+            "total": 1,
+            "owner": 1,
             "external": 0,
             "bot": 0
           },
@@ -3098,19 +3101,33 @@
           }
         },
         "page": {
-          "fetched": 0,
+          "fetched": 1,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
-        "items": []
+        "items": [
+          {
+            "number": 3,
+            "title": "Ground MNDP unpack TLV, unidentified MNDP values, and IP packing frames",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/m2ir/issues/3",
+            "createdAt": "2026-11-07T16:35:07Z",
+            "updatedAt": "2026-11-07T16:35:07Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          }
+        ]
       },
       "community": {
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 0,
+        "totalIssues": 1,
         "totalPRs": 0,
         "truncated": false,
         "byLabel": {},
@@ -3525,10 +3542,10 @@
       "repos": [
         "routeros-skills"
       ],
-      "summary": "routeros-skills: 2 open maintainer PRs (2 drafts excluded)",
+      "summary": "routeros-skills: 3 open maintainer PRs (1 draft excluded)",
       "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
       "evidence": [
-        "repos.routeros-skills.work.counts.prs.ownerReady=2"
+        "repos.routeros-skills.work.counts.prs.ownerReady=3"
       ],
       "urls": [
         "https://github.com/tikoci/routeros-skills/pulls"

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-07T15:43:42.141Z",
+  "generatedAt": "2026-11-07T20:17:00.107Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -68,8 +68,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 39,
-        "owner": 39,
+        "total": 43,
+        "owner": 43,
         "external": 0,
         "bot": 0
       },
@@ -84,7 +84,7 @@
       }
     },
     "page": {
-      "fetched": 41,
+      "fetched": 45,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
@@ -92,13 +92,85 @@
     "pullsEnriched": true,
     "items": [
       {
+        "number": 259,
+        "title": "state: EPERM read as dead — list persists 'stopped' over a root-owned running QEMU",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/259",
+        "createdAt": "2026-11-07T19:34:59Z",
+        "updatedAt": "2026-11-07T19:34:59Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "area:library-api",
+          "P2"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 258,
+        "title": "networking: own the user-mode DHCP client's route policy when a real network is attached",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/258",
+        "createdAt": "2026-11-07T19:34:57Z",
+        "updatedAt": "2026-11-07T19:34:57Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "area:networking",
+          "area:provisioning",
+          "P3",
+          "needs-decision"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 257,
+        "title": "qemu: adding a NIC renumbers RouterOS disk slots (if=virtio drives land after every -device)",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/257",
+        "createdAt": "2026-11-07T19:34:56Z",
+        "updatedAt": "2026-11-07T19:34:56Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "area:qemu",
+          "P2"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 256,
+        "title": "networking(macos): quickchr-managed vmnet networks — one disclosed sudo per network, unprivileged machines",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/256",
+        "createdAt": "2026-11-07T19:34:53Z",
+        "updatedAt": "2026-11-07T19:35:10Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "area:networking",
+          "P2",
+          "needs-decision",
+          "platform:mac"
+        ],
+        "milestone": null
+      },
+      {
         "number": 253,
         "title": "Managed SSH key can only be created at first boot; no way to add one to a running machine",
         "author": "mobileskyfi",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/253",
         "createdAt": "2026-11-03T16:40:37Z",
-        "updatedAt": "2026-11-07T10:58:35Z",
+        "updatedAt": "2026-11-07T19:18:59Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -331,7 +403,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/141",
         "createdAt": "2026-08-12T23:55:03Z",
-        "updatedAt": "2026-10-21T13:58:37Z",
+        "updatedAt": "2026-11-07T19:19:07Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -711,7 +783,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/41",
         "createdAt": "2026-07-03T16:44:21Z",
-        "updatedAt": "2026-09-20T18:54:30Z",
+        "updatedAt": "2026-11-07T19:35:12Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -746,7 +818,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/36",
         "createdAt": "2026-07-03T05:44:29Z",
-        "updatedAt": "2026-10-30T20:28:41Z",
+        "updatedAt": "2026-11-07T19:19:04Z",
         "isPR": false,
         "draft": null,
         "labels": [

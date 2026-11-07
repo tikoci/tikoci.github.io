@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "routeros-skills",
-  "generatedAt": "2026-11-07T15:43:42.141Z",
+  "generatedAt": "2026-11-07T20:17:00.107Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -19,8 +19,8 @@
         "owner": 4,
         "external": 1,
         "bot": 0,
-        "ownerReady": 2,
-        "ownerDraft": 2,
+        "ownerReady": 3,
+        "ownerDraft": 1,
         "draftUnknown": false
       }
     },
@@ -33,15 +33,15 @@
     "pullsEnriched": true,
     "items": [
       {
-        "number": 57,
-        "title": "docs: add a navigator for MikroTik proprietary protocols and file formats",
-        "author": "mobileskyfi",
+        "number": 58,
+        "title": "chore: rename tikoci tool skills to routeros-tikoci-*",
+        "author": "Amm0Bot",
         "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/pull/57",
-        "createdAt": "2026-11-07T15:42:58Z",
-        "updatedAt": "2026-11-07T15:43:04Z",
+        "url": "https://github.com/tikoci/routeros-skills/pull/58",
+        "createdAt": "2026-11-07T19:18:24Z",
+        "updatedAt": "2026-11-07T20:09:38Z",
         "isPR": true,
-        "draft": true,
+        "draft": false,
         "labels": [],
         "milestone": null
       },
@@ -52,7 +52,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/56",
         "createdAt": "2026-11-07T10:58:17Z",
-        "updatedAt": "2026-11-07T10:58:17Z",
+        "updatedAt": "2026-11-07T19:18:54Z",
         "isPR": false,
         "draft": null,
         "labels": [],
@@ -65,7 +65,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/55",
         "createdAt": "2026-11-06T17:31:03Z",
-        "updatedAt": "2026-11-07T15:43:20Z",
+        "updatedAt": "2026-11-07T16:37:24Z",
         "isPR": false,
         "draft": null,
         "labels": [],
@@ -107,7 +107,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/51",
         "createdAt": "2026-11-02T02:26:21Z",
-        "updatedAt": "2026-11-02T13:31:53Z",
+        "updatedAt": "2026-11-07T19:18:49Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -171,7 +171,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/47",
         "createdAt": "2026-11-02T02:25:32Z",
-        "updatedAt": "2026-11-02T02:26:29Z",
+        "updatedAt": "2026-11-07T19:18:52Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -186,7 +186,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/44",
         "createdAt": "2026-10-26T04:07:06Z",
-        "updatedAt": "2026-10-26T04:07:06Z",
+        "updatedAt": "2026-11-07T19:18:46Z",
         "isPR": false,
         "draft": null,
         "labels": [],
@@ -247,7 +247,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/37",
         "createdAt": "2026-10-19T02:30:20Z",
-        "updatedAt": "2026-11-02T02:25:45Z",
+        "updatedAt": "2026-11-07T19:19:02Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -293,7 +293,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/33",
         "createdAt": "2026-10-07T18:17:46Z",
-        "updatedAt": "2026-10-07T18:17:46Z",
+        "updatedAt": "2026-11-07T19:19:10Z",
         "isPR": false,
         "draft": null,
         "labels": [],
@@ -306,7 +306,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/32",
         "createdAt": "2026-10-06T23:18:38Z",
-        "updatedAt": "2026-10-07T21:12:42Z",
+        "updatedAt": "2026-11-07T19:18:44Z",
         "isPR": false,
         "draft": null,
         "labels": [],
@@ -334,7 +334,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/28",
         "createdAt": "2026-09-21T15:36:05Z",
-        "updatedAt": "2026-09-21T15:36:05Z",
+        "updatedAt": "2026-11-07T19:18:57Z",
         "isPR": false,
         "draft": null,
         "labels": [
