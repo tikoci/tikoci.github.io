@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "m2ir",
-  "generatedAt": "2026-11-06T21:33:21.895Z",
+  "generatedAt": "2026-11-07T01:58:53.066Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,8 +9,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 1,
-        "owner": 1,
+        "total": 0,
+        "owner": 0,
         "external": 0,
         "bot": 0
       },
@@ -25,26 +25,12 @@
       }
     },
     "page": {
-      "fetched": 1,
+      "fetched": 0,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
-    "items": [
-      {
-        "number": 1,
-        "title": "Ground agent reading paths for protocol analysis, WinBox compatibility, and native backends",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/m2ir/issues/1",
-        "createdAt": "2026-11-06T17:30:28Z",
-        "updatedAt": "2026-11-06T17:31:08Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [],
-        "milestone": null
-      }
-    ]
+    "items": []
   }
 }
