@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "routeros-skills",
-  "generatedAt": "2026-11-07T14:19:00.702Z",
+  "generatedAt": "2026-11-07T15:43:42.141Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -15,23 +15,36 @@
         "bot": 0
       },
       "prs": {
-        "total": 4,
-        "owner": 3,
+        "total": 5,
+        "owner": 4,
         "external": 1,
         "bot": 0,
         "ownerReady": 2,
-        "ownerDraft": 1,
+        "ownerDraft": 2,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 24,
+      "fetched": 25,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 57,
+        "title": "docs: add a navigator for MikroTik proprietary protocols and file formats",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/pull/57",
+        "createdAt": "2026-11-07T15:42:58Z",
+        "updatedAt": "2026-11-07T15:43:04Z",
+        "isPR": true,
+        "draft": true,
+        "labels": [],
+        "milestone": null
+      },
       {
         "number": 56,
         "title": "quickchr/centrs skills: recommend --secure-login for SSH/SFTP use (managed key is first-boot only)",
@@ -47,12 +60,12 @@
       },
       {
         "number": 55,
-        "title": "Surface m2ir through a binary-protocol skill and maintained cross-repo reading paths",
+        "title": "Add a thin navigator for MikroTik proprietary protocols and file formats",
         "author": "Amm0Bot",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/55",
         "createdAt": "2026-11-06T17:31:03Z",
-        "updatedAt": "2026-11-06T22:13:19Z",
+        "updatedAt": "2026-11-07T15:43:20Z",
         "isPR": false,
         "draft": null,
         "labels": [],
