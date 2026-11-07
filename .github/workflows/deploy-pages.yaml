@@ -10,10 +10,11 @@ on:
     - cron: "43 3 * * 0"
   workflow_dispatch:
     inputs:
-      pages:
-        description: Refresh Pages survey too
-        type: boolean
-        default: false
+      refresh:
+        description: 'Data to refresh before deploying (pages includes hourly data)'
+        type: choice
+        options: [none, hourly, pages]
+        default: none
 
 permissions:
   contents: write
@@ -30,45 +31,52 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
+      # A rerun shares artifacts with earlier attempts. Recover with a new run.
+      - name: Check deployment request
+        run: |
+          if [[ "$GITHUB_RUN_ATTEMPT" != "1" ]]; then
+            echo '::error::Deployment reruns are disabled. Start a fresh run: gh workflow run deploy-pages.yaml --ref main'
+            exit 1
+          fi
+          if [[ "$GITHUB_REF" != "refs/heads/main" ]]; then
+            echo '::error::Deployments must run from main. Use: gh workflow run deploy-pages.yaml --ref main'
+            exit 1
+          fi
+
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: main
 
       - name: Setup bun
         uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Lint
-        run: bun run lint
-
       - name: Collect hourly snapshots
-        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh != 'none')
         run: bun run collect
         env:
           GITHUB_TOKEN: ${{ github.token }}
           TIKOCI_GITHUB_TOKEN: ${{ secrets.TIKOCI_GITHUB_TOKEN }}
 
       - name: Collect weekly Pages inventory
-        if: github.event.schedule == '43 3 * * 0' || inputs.pages == true
+        if: github.event.schedule == '43 3 * * 0' || inputs.refresh == 'pages'
         run: bun run survey:pages
         env:
           GITHUB_TOKEN: ${{ github.token }}
           TIKOCI_GITHUB_TOKEN: ${{ secrets.TIKOCI_GITHUB_TOKEN }}
 
-      - name: Contract tests
-        run: bun test test/
-
-      - name: Build
-        run: bun run build
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+      - name: Validate and build
+        run: bun run check
 
       - name: Persist validated snapshots
-        if: github.event_name != 'push'
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh != 'none')
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -79,24 +87,47 @@ jobs:
           fi
 
       - name: Setup Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: './dist'
+          # Preserve public dotfiles included by v3.
+          include-hidden-files: true
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
+        with:
+          timeout: 900000
+
+      - name: Deployment recovery instructions
+        if: failure()
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          ### Deployment failed
+          Inspect the failed step before changing code. If validation and artifact upload
+          passed but Pages timed out, start a **new run** from main:
+          ```sh
+          gh workflow run deploy-pages.yaml --ref main
+          ```
+          This deploys committed snapshots without collecting again. Do not use
+          **Re-run jobs** or `gh run rerun`: attempts share artifacts, and duplicate
+          `github-pages` artifacts prevent deployment. See `docs/refresh-data.md`.
+          EOF
 
       - name: Submit to IndexNow
         if: success()
+        continue-on-error: true
+        timeout-minutes: 3
         run: |
           KEY="9246d183073a4fd6aac0fbda63e29add"
           HOST="$(cat src/CNAME | tr -d '\n\r')"
           URLS=$(grep -oP '(?<=<loc>)[^<]+' dist/sitemap.xml | jq -R . | jq -s --arg origin "https://$HOST/" 'map(select(startswith($origin)))')
           echo "Submitting $(echo $URLS | jq length) URLs to IndexNow..."
-          curl -s -w "\nHTTP %{http_code}" -X POST "https://api.indexnow.org/indexnow" \
+          curl --fail-with-body --silent --show-error \
+            --connect-timeout 10 --max-time 30 --retry 2 --retry-max-time 90 \
+            -w "\nHTTP %{http_code}" -X POST "https://api.indexnow.org/indexnow" \
             -H "Content-Type: application/json; charset=utf-8" \
             -d "{\"host\":\"$HOST\",\"key\":\"$KEY\",\"keyLocation\":\"https://$HOST/bing.txt\",\"urlList\":$URLS}"

@@ -2,7 +2,9 @@
   "name": "tikoci-website",
   "type": "module",
   "private": true,
+  "packageManager": "bun@1.4.4",
   "scripts": {
+    "check": "bun run lint && bun run test && bun run build",
     "build": "bun run build.ts",
     "dev": "bun run build.ts && bun run serve",
     "serve": "bun --bun x serve dist -l 3000",

@@ -2,8 +2,9 @@
 
 Static project site and durable TIKOCI-wide metadata at https://tikoci.dev.
 
-Install with `bun install --frozen-lockfile`, validate with `bun run lint` and
-`bun test test/`, render with `bun run build`. Rendering uses committed snapshots
+Use the Bun version pinned in `package.json`. Install with
+`bun install --frozen-lockfile` and validate with `bun run check` (lint, tests and
+build). Render alone with `bun run build`. Rendering uses committed snapshots
 and works offline after dependency installation. dist/ is disposable.
 
 See [AGENTS.md](AGENTS.md) for layout, architecture and contribution rules,
