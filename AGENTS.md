@@ -32,6 +32,10 @@ visited.
 
 ## Commands
 
+- Use the Bun version pinned in `package.json` (`packageManager`); both CI workflows
+  read that field. Update it deliberately after checking the new version locally.
+- `bun run check`: lint, fixture/contract tests and the offline build; the same
+  validation command runs in both CI workflows.
 - `bun run lint`: TypeScript + Biome only; no rendering or remote collection.
 - `bun test test/`: fixture and committed-contract tests, no network.
 - `bun run build`: render the complete site from committed snapshots.
@@ -39,7 +43,7 @@ visited.
 - `bun run collect`: explicit hourly repository/dashboard refresh.
 - `bun run survey:pages`: explicit slower Pages inventory refresh.
 
-Run `bun run lint`, `bun test test/` and `bun run build` before committing.
+Run `bun run check` before committing.
 
 GitHub auth for collection, in order: TIKOCI_GITHUB_TOKEN, GITHUB_TOKEN,
 `gh auth token`, then anonymous. Ordinary builds do not resolve credentials. The
@@ -125,6 +129,18 @@ validated snapshots to `main`. Commits made with GITHUB_TOKEN do not re-trigger
 the workflow. Pushes only render. If branch protection is ever enabled, it must
 allow the bot's snapshot commits. A rejected push fails the job before
 deployment. No partial deployment can overwrite another dataset.
+
+For a failed deployment, inspect the failed step first. A Pages timeout after a
+successful build/upload can be a service stall; it does not justify changing site
+code by itself. **Do not rerun `deploy-pages.yaml`** (`gh run rerun` or the UI).
+Attempts share artifacts, and re-uploading creates duplicate `github-pages`
+artifacts that block deployment. The workflow rejects reruns before checkout.
+Start a fresh run on main with `gh workflow run deploy-pages.yaml --ref main`;
+the default deploys committed snapshots without collection. Use `-f refresh=hourly`
+or `-f refresh=pages` only when a refresh is intended (pages includes hourly data).
+PR checks may be rerun. A snapshot push rejected because main advanced must stay
+failed; start a fresh run rather than force-pushing or deploying uncommitted data.
+See docs/refresh-data.md for recovery and failure evidence.
 
 Recipes: docs/add-dataset.md, docs/add-page.md, docs/refresh-data.md. Future
 shared presentation direction: docs/presentation.md (no packaging yet).

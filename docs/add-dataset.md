@@ -14,5 +14,8 @@
    snapshots with the existing reviewed git strategy. Do not introduce a generic
    collector framework or deploy a partial artifact.
 
+Run `bun run check` before committing. See [refresh-data.md](refresh-data.md) for
+manual refresh choices and deployment recovery.
+
 TOML is a good choice for new authored configuration and TSV for new tabular
 metadata. These are recommendations; don't convert existing formats for uniformity.
