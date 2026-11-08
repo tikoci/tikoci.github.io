@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "centrs",
-  "generatedAt": "2026-11-07T23:42:43.110Z",
+  "generatedAt": "2026-11-08T06:09:49.357Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,8 +9,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 28,
-        "owner": 28,
+        "total": 29,
+        "owner": 29,
         "external": 0,
         "bot": 0
       },
@@ -25,13 +25,26 @@
       }
     },
     "page": {
-      "fetched": 30,
+      "fetched": 31,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 636,
+        "title": "transfer: files under an /app container root are invisible to /file, so upload --force fails and download/remove say 'no file'",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/issues/636",
+        "createdAt": "2026-11-08T05:10:07Z",
+        "updatedAt": "2026-11-08T05:10:07Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
       {
         "number": 633,
         "title": "build(deps-dev): bump @biomejs/biome from 2.6.3 to 2.6.4 in the npm group",

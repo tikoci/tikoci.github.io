@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-07T23:42:43.110Z",
+  "generatedAt": "2026-11-08T06:09:49.357Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -68,8 +68,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 43,
-        "owner": 43,
+        "total": 44,
+        "owner": 44,
         "external": 0,
         "bot": 0
       },
@@ -84,13 +84,26 @@
       }
     },
     "page": {
-      "fetched": 45,
+      "fetched": 46,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 261,
+        "title": "license: add has no --license-level, start ignores the stored credential, and --level unlimited is rejected by RouterOS",
+        "author": "Amm0Bot",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/261",
+        "createdAt": "2026-11-08T05:11:48Z",
+        "updatedAt": "2026-11-08T05:11:48Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
       {
         "number": 259,
         "title": "state: EPERM read as dead — list persists 'stopped' over a root-owned running QEMU",
