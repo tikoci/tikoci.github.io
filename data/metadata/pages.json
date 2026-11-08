@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "observedAt": "2026-11-02T19:42:50.020Z",
-  "attemptedAt": "2026-11-02T19:42:44.722Z",
-  "error": null,
+  "attemptedAt": "2026-11-08T10:47:29.666Z",
+  "error": "Pages collection failed; retaining last successful public inventory",
   "provenance": {
     "collector": "scripts/repo-github-pages.ts",
     "scope": "Anonymous public repository allowlist; Pages settings may be token-scoped",

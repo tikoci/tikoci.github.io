@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-08T06:09:49.357Z",
+  "generatedAt": "2026-11-08T10:47:20.789Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,7 +10,7 @@
     "otherHttpCalls": 11,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4878
+    "rateLimitRemaining": 4879
   },
   "sources": {
     "ros-current": "https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel> (MikroTik upgrade feed; body \"<version> <build-ts>\")",
@@ -1616,23 +1616,36 @@
             "bot": 0
           },
           "prs": {
-            "total": 2,
-            "owner": 0,
+            "total": 3,
+            "owner": 1,
             "external": 0,
             "bot": 2,
             "ownerReady": 0,
-            "ownerDraft": 0,
+            "ownerDraft": 1,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 31,
+          "fetched": 32,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 637,
+            "title": "docs: collect LYSS security rules as a future reference",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/pull/637",
+            "createdAt": "2026-11-08T06:15:47Z",
+            "updatedAt": "2026-11-08T06:15:54Z",
+            "isPR": true,
+            "draft": true,
+            "labels": [],
+            "milestone": null
+          },
           {
             "number": 636,
             "title": "transfer: files under an /app container root are invisible to /file, so upload --force fails and download/remove say 'no file'",
@@ -1760,23 +1773,6 @@
             "draft": null,
             "labels": [],
             "milestone": null
-          },
-          {
-            "number": 612,
-            "title": "CI: pilot snapshot-isolated CHR reuse for default integration fixtures",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/issues/612",
-            "createdAt": "2026-11-03T05:46:27Z",
-            "updatedAt": "2026-11-04T00:33:10Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "QA",
-              "CI",
-              "provider-quickchr"
-            ],
-            "milestone": null
           }
         ]
       },
@@ -1785,7 +1781,7 @@
         "openIssues": 0,
         "openPRs": 0,
         "totalIssues": 29,
-        "totalPRs": 2,
+        "totalPRs": 3,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
