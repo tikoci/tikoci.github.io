@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-08T13:32:22.433Z",
+  "generatedAt": "2026-11-10T20:52:01.485Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,7 +10,7 @@
     "otherHttpCalls": 11,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4878
+    "rateLimitRemaining": 4836
   },
   "sources": {
     "ros-current": "https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel> (MikroTik upgrade feed; body \"<version> <build-ts>\")",
@@ -135,9 +135,9 @@
             "headBranch": "main",
             "headSha": "0e476cea72d28ef8564a78acdd063553b72fd95e",
             "event": "schedule",
-            "runStartedAt": "2026-11-08T11:00:27Z",
-            "lastUpdatedAt": "2026-11-08T11:01:40Z",
-            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/42473808153",
+            "runStartedAt": "2026-11-10T12:02:58Z",
+            "lastUpdatedAt": "2026-11-10T12:04:14Z",
+            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/42812441203",
             "isHead": true
           },
           {
@@ -430,9 +430,9 @@
             "headBranch": "main",
             "headSha": "e568f7a3bc6a6265499d3189afc72f2f3e2dbc1d",
             "event": "schedule",
-            "runStartedAt": "2026-11-08T11:06:02Z",
-            "lastUpdatedAt": "2026-11-08T11:06:18Z",
-            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/42474234810",
+            "runStartedAt": "2026-11-10T12:16:00Z",
+            "lastUpdatedAt": "2026-11-10T12:16:18Z",
+            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/42814275623",
             "isHead": true
           },
           {
@@ -662,9 +662,9 @@
             "headBranch": "main",
             "headSha": "acd6566c090b9b8060a6bec849e8ad2ca8db5380",
             "event": "schedule",
-            "runStartedAt": "2026-11-08T04:55:18Z",
-            "lastUpdatedAt": "2026-11-08T04:55:35Z",
-            "lastUrl": "https://github.com/tikoci/fat-chr/actions/runs/42448712378",
+            "runStartedAt": "2026-11-10T06:19:57Z",
+            "lastUpdatedAt": "2026-11-10T06:20:14Z",
+            "lastUrl": "https://github.com/tikoci/fat-chr/actions/runs/42767785336",
             "isHead": true
           }
         ]
@@ -848,9 +848,9 @@
             "headBranch": "main",
             "headSha": "a48b8f453b0e65ae9f29eb2688848d9e7da3e036",
             "event": "schedule",
-            "runStartedAt": "2026-11-08T11:17:31Z",
-            "lastUpdatedAt": "2026-11-08T11:17:41Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/42475086148",
+            "runStartedAt": "2026-11-10T12:40:46Z",
+            "lastUpdatedAt": "2026-11-10T12:40:56Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/42817804449",
             "isHead": true
           }
         ]
@@ -1310,9 +1310,9 @@
             "headBranch": "main",
             "headSha": "a51b2014d3d94661842225c61f9f7666cd9f54c5",
             "event": "schedule",
-            "runStartedAt": "2026-11-02T19:29:07Z",
-            "lastUpdatedAt": "2026-11-02T19:37:01Z",
-            "lastUrl": "https://github.com/tikoci/rosetta/actions/runs/41510353061",
+            "runStartedAt": "2026-11-09T19:49:00Z",
+            "lastUpdatedAt": "2026-11-09T19:57:21Z",
+            "lastUrl": "https://github.com/tikoci/rosetta/actions/runs/42686955021",
             "isHead": true
           }
         ]
@@ -1351,7 +1351,7 @@
             "authorClass": "bot",
             "url": "https://github.com/tikoci/rosetta/issues/252",
             "createdAt": "2026-11-02T19:36:58Z",
-            "updatedAt": "2026-11-02T19:36:58Z",
+            "updatedAt": "2026-11-09T19:57:18Z",
             "isPR": false,
             "draft": null,
             "labels": [],
@@ -1599,9 +1599,9 @@
             "headBranch": "main",
             "headSha": "ed6e5157850533e5d179fcd499fcf9fd73ec23fa",
             "event": "schedule",
-            "runStartedAt": "2026-11-08T12:01:52Z",
-            "lastUpdatedAt": "2026-11-08T12:36:41Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/42478330679",
+            "runStartedAt": "2026-11-10T13:38:18Z",
+            "lastUpdatedAt": "2026-11-10T13:38:31Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/42826348543",
             "isHead": true
           }
         ]
@@ -3400,7 +3400,7 @@
         "repos.rosetta.ci.workflows[Device Map Refresh].headSha=a51b2014d3d94661842225c61f9f7666cd9f54c5"
       ],
       "urls": [
-        "https://github.com/tikoci/rosetta/actions/runs/41510353061"
+        "https://github.com/tikoci/rosetta/actions/runs/42686955021"
       ]
     },
     {
