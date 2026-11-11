@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "routeros-skills",
-  "generatedAt": "2026-11-11T16:15:11.249Z",
+  "generatedAt": "2026-11-11T22:47:45.391Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -173,7 +173,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/44",
         "createdAt": "2026-10-26T04:07:06Z",
-        "updatedAt": "2026-11-07T19:18:46Z",
+        "updatedAt": "2026-11-11T19:03:09Z",
         "isPR": false,
         "draft": null,
         "labels": [],

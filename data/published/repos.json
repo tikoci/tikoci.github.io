@@ -1,5 +1,78 @@
 [
   {
+    "name": "quickchr",
+    "description": "`quickchr` - Fastest path to MikroTik RouterOS CHR instance for testing and scripts -– agent ready, human friendly",
+    "stars": 10,
+    "language": "TypeScript",
+    "topics": [
+      "ai",
+      "automation",
+      "bun",
+      "chr",
+      "claude-ai",
+      "cli",
+      "copilot-enabled",
+      "mikrotik",
+      "routeros",
+      "testing-library",
+      "testing-tools",
+      "tikoci",
+      "wizard"
+    ],
+    "html_url": "https://github.com/tikoci/quickchr",
+    "category": "virtualization"
+  },
+  {
+    "name": "centrs",
+    "description": "Multi-protocol (REST, native API, mac-telnet, SSH) CLI and TypeScript interface to RouterOS, with rich help and validation",
+    "stars": 6,
+    "language": "TypeScript",
+    "topics": [
+      "ai",
+      "ai-tools",
+      "btest",
+      "bun",
+      "mac-telnet",
+      "mikrotik",
+      "mndp",
+      "routeros",
+      "routeros-api",
+      "routeros-node",
+      "tikoci",
+      "typescript"
+    ],
+    "html_url": "https://github.com/tikoci/centrs",
+    "category": "dev-tools"
+  },
+  {
+    "name": "mikrotik-gpl",
+    "description": "Collection of GPL Source Code in RouterOS",
+    "stars": 52,
+    "language": "C",
+    "topics": [],
+    "html_url": "https://github.com/tikoci/mikrotik-gpl",
+    "category": "scripts"
+  },
+  {
+    "name": "rosetta",
+    "description": "MCP Server with RouterOS docs + commands + products + changelogs, using SQLite-as-RAG, sourced from MikroTik",
+    "stars": 55,
+    "language": "TypeScript",
+    "topics": [
+      "ai",
+      "bun",
+      "claude-code",
+      "copilot",
+      "mcp",
+      "mcp-server",
+      "mikrotik",
+      "routeros",
+      "typescript"
+    ],
+    "html_url": "https://github.com/tikoci/rosetta",
+    "category": "ai"
+  },
+  {
     "name": "app-t3code",
     "description": "RouterOS /app container for T3 Code (x86_64 + ARM64, GHCR, CHR-tested)",
     "stars": 1,
@@ -37,51 +110,6 @@
     "html_url": "https://github.com/tikoci/enbeep"
   },
   {
-    "name": "centrs",
-    "description": "Multi-protocol (REST, native API, mac-telnet, SSH) CLI and TypeScript interface to RouterOS, with rich help and validation",
-    "stars": 6,
-    "language": "TypeScript",
-    "topics": [
-      "ai",
-      "ai-tools",
-      "btest",
-      "bun",
-      "mac-telnet",
-      "mikrotik",
-      "mndp",
-      "routeros",
-      "routeros-api",
-      "routeros-node",
-      "tikoci",
-      "typescript"
-    ],
-    "html_url": "https://github.com/tikoci/centrs",
-    "category": "dev-tools"
-  },
-  {
-    "name": "quickchr",
-    "description": "`quickchr` - Fastest path to MikroTik RouterOS CHR instance for testing and scripts -– agent ready, human friendly",
-    "stars": 9,
-    "language": "TypeScript",
-    "topics": [
-      "ai",
-      "automation",
-      "bun",
-      "chr",
-      "claude-ai",
-      "cli",
-      "copilot-enabled",
-      "mikrotik",
-      "routeros",
-      "testing-library",
-      "testing-tools",
-      "tikoci",
-      "wizard"
-    ],
-    "html_url": "https://github.com/tikoci/quickchr",
-    "category": "virtualization"
-  },
-  {
     "name": "routeros-skills",
     "description": "Custom instruction SKILL.md for MikroTik RouterOS v7",
     "stars": 89,
@@ -109,15 +137,6 @@
     "language": "TypeScript",
     "topics": [],
     "html_url": "https://github.com/tikoci/m2ir"
-  },
-  {
-    "name": "mikrotik-gpl",
-    "description": "Collection of GPL Source Code in RouterOS",
-    "stars": 51,
-    "language": "C",
-    "topics": [],
-    "html_url": "https://github.com/tikoci/mikrotik-gpl",
-    "category": "scripts"
   },
   {
     "name": "routeros-muse",
@@ -151,25 +170,6 @@
     ],
     "html_url": "https://github.com/tikoci/restraml",
     "category": "web-tools"
-  },
-  {
-    "name": "rosetta",
-    "description": "MCP Server with RouterOS docs + commands + products + changelogs, using SQLite-as-RAG, sourced from MikroTik",
-    "stars": 54,
-    "language": "TypeScript",
-    "topics": [
-      "ai",
-      "bun",
-      "claude-code",
-      "copilot",
-      "mcp",
-      "mcp-server",
-      "mikrotik",
-      "routeros",
-      "typescript"
-    ],
-    "html_url": "https://github.com/tikoci/rosetta",
-    "category": "ai"
   },
   {
     "name": "lsp-routeros-ts",

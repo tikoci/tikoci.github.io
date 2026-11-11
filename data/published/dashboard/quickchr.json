@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-11T16:15:11.249Z",
+  "generatedAt": "2026-11-11T22:47:45.391Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -68,29 +68,65 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 49,
-        "owner": 49,
+        "total": 50,
+        "owner": 50,
         "external": 0,
         "bot": 0
       },
       "prs": {
-        "total": 4,
-        "owner": 2,
+        "total": 2,
+        "owner": 0,
         "external": 0,
         "bot": 2,
-        "ownerReady": 1,
-        "ownerDraft": 1,
+        "ownerReady": 0,
+        "ownerDraft": 0,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 53,
+      "fetched": 52,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 271,
+        "title": "networking(macos): named shared (and host-only) managed networks — shared:<name> with its own subnet",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/271",
+        "createdAt": "2026-11-11T17:40:46Z",
+        "updatedAt": "2026-11-11T17:40:46Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "area:networking",
+          "needs-decision",
+          "platform:mac"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 269,
+        "title": "test: CLI doctor --json tests spawn the full CLI under bun's 5 s default; Windows runners reach 4–5 s",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/269",
+        "createdAt": "2026-11-11T16:24:46Z",
+        "updatedAt": "2026-11-11T16:24:46Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "area:ci",
+          "P3",
+          "platform:windows"
+        ],
+        "milestone": null
+      },
       {
         "number": 268,
         "title": "start: a machine with --add-network but no user NIC waits out the full boot timeout",
@@ -107,19 +143,6 @@
           "area:cli",
           "P3"
         ],
-        "milestone": null
-      },
-      {
-        "number": 267,
-        "title": "feat(networking): quickchr networks create|status|restart|remove for macOS (#256)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/pull/267",
-        "createdAt": "2026-11-11T15:01:29Z",
-        "updatedAt": "2026-11-11T16:10:26Z",
-        "isPR": true,
-        "draft": false,
-        "labels": [],
         "milestone": null
       },
       {
@@ -162,19 +185,6 @@
         "milestone": null
       },
       {
-        "number": 264,
-        "title": "fix(networking): detect socket_vmnet by its socket and probe each one (#262)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/pull/264",
-        "createdAt": "2026-11-11T14:49:57Z",
-        "updatedAt": "2026-11-11T15:57:05Z",
-        "isPR": true,
-        "draft": true,
-        "labels": [],
-        "milestone": null
-      },
-      {
         "number": 263,
         "title": "research: managed host networks on Linux and Windows (privileged once, unprivileged machines)",
         "author": "mobileskyfi",
@@ -189,24 +199,6 @@
           "P3",
           "research",
           "platform:windows"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 262,
-        "title": "networking(macos): detect socket_vmnet by its socket and probe each socket, not a global pgrep",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/262",
-        "createdAt": "2026-11-11T13:43:09Z",
-        "updatedAt": "2026-11-11T13:43:09Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "area:networking",
-          "P2",
-          "platform:mac"
         ],
         "milestone": null
       },
@@ -291,7 +283,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/256",
         "createdAt": "2026-11-07T19:34:53Z",
-        "updatedAt": "2026-11-11T15:01:37Z",
+        "updatedAt": "2026-11-11T17:01:03Z",
         "isPR": false,
         "draft": null,
         "labels": [
