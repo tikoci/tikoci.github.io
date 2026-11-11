@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-11T07:49:05.842Z",
+  "generatedAt": "2026-11-11T16:15:11.249Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -68,23 +68,23 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 44,
-        "owner": 44,
+        "total": 49,
+        "owner": 49,
         "external": 0,
         "bot": 0
       },
       "prs": {
-        "total": 2,
-        "owner": 0,
+        "total": 4,
+        "owner": 2,
         "external": 0,
         "bot": 2,
-        "ownerReady": 0,
-        "ownerDraft": 0,
+        "ownerReady": 1,
+        "ownerDraft": 1,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 46,
+      "fetched": 53,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
@@ -92,16 +92,141 @@
     "pullsEnriched": true,
     "items": [
       {
+        "number": 268,
+        "title": "start: a machine with --add-network but no user NIC waits out the full boot timeout",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/268",
+        "createdAt": "2026-11-11T15:36:27Z",
+        "updatedAt": "2026-11-11T15:36:27Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "area:networking",
+          "area:cli",
+          "P3"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 267,
+        "title": "feat(networking): quickchr networks create|status|restart|remove for macOS (#256)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/pull/267",
+        "createdAt": "2026-11-11T15:01:29Z",
+        "updatedAt": "2026-11-11T16:10:26Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 266,
+        "title": "snapshot: document that save/load/delete cover every --add-disk disk (grounded); fix stopped-delete claim and two list glitches",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/266",
+        "createdAt": "2026-11-11T14:57:54Z",
+        "updatedAt": "2026-11-11T14:57:54Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "documentation",
+          "area:qemu",
+          "area:cli",
+          "P3",
+          "consumer:app-t3code"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 265,
+        "title": "provisioning: set /system/identity to the machine name when quickchr provisions (opt out with --no-identity)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/265",
+        "createdAt": "2026-11-11T14:53:59Z",
+        "updatedAt": "2026-11-11T15:36:15Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "area:provisioning",
+          "P3",
+          "needs-decision",
+          "consumer:app-t3code"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 264,
+        "title": "fix(networking): detect socket_vmnet by its socket and probe each one (#262)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/pull/264",
+        "createdAt": "2026-11-11T14:49:57Z",
+        "updatedAt": "2026-11-11T15:57:05Z",
+        "isPR": true,
+        "draft": true,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 263,
+        "title": "research: managed host networks on Linux and Windows (privileged once, unprivileged machines)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/263",
+        "createdAt": "2026-11-11T13:43:11Z",
+        "updatedAt": "2026-11-11T13:43:11Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "area:networking",
+          "P3",
+          "research",
+          "platform:windows"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 262,
+        "title": "networking(macos): detect socket_vmnet by its socket and probe each socket, not a global pgrep",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/262",
+        "createdAt": "2026-11-11T13:43:09Z",
+        "updatedAt": "2026-11-11T13:43:09Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "area:networking",
+          "P2",
+          "platform:mac"
+        ],
+        "milestone": null
+      },
+      {
         "number": 261,
         "title": "license: add has no --license-level, start ignores the stored credential, and --level unlimited is rejected by RouterOS",
         "author": "Amm0Bot",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/261",
         "createdAt": "2026-11-08T05:11:48Z",
-        "updatedAt": "2026-11-08T05:11:48Z",
+        "updatedAt": "2026-11-11T14:49:47Z",
         "isPR": false,
         "draft": null,
-        "labels": [],
+        "labels": [
+          "bug",
+          "area:cli",
+          "area:provisioning",
+          "P2",
+          "consumer:app-t3code"
+        ],
         "milestone": null
       },
       {
@@ -128,7 +253,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/258",
         "createdAt": "2026-11-07T19:34:57Z",
-        "updatedAt": "2026-11-07T19:34:57Z",
+        "updatedAt": "2026-11-11T14:49:55Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -136,7 +261,8 @@
           "area:networking",
           "area:provisioning",
           "P3",
-          "needs-decision"
+          "needs-decision",
+          "consumer:app-t3code"
         ],
         "milestone": null
       },
@@ -147,13 +273,14 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/257",
         "createdAt": "2026-11-07T19:34:56Z",
-        "updatedAt": "2026-11-07T19:34:56Z",
+        "updatedAt": "2026-11-11T14:49:52Z",
         "isPR": false,
         "draft": null,
         "labels": [
           "bug",
           "area:qemu",
-          "P2"
+          "P2",
+          "consumer:app-t3code"
         ],
         "milestone": null
       },
@@ -164,7 +291,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/256",
         "createdAt": "2026-11-07T19:34:53Z",
-        "updatedAt": "2026-11-07T19:35:10Z",
+        "updatedAt": "2026-11-11T15:01:37Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -172,7 +299,8 @@
           "area:networking",
           "P2",
           "needs-decision",
-          "platform:mac"
+          "platform:mac",
+          "consumer:app-t3code"
         ],
         "milestone": null
       },
@@ -183,13 +311,14 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/253",
         "createdAt": "2026-11-03T16:40:37Z",
-        "updatedAt": "2026-11-07T19:18:59Z",
+        "updatedAt": "2026-11-11T14:49:45Z",
         "isPR": false,
         "draft": null,
         "labels": [
           "enhancement",
           "area:provisioning",
-          "consumer:centrs"
+          "consumer:centrs",
+          "consumer:app-t3code"
         ],
         "milestone": null
       },
@@ -796,7 +925,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/41",
         "createdAt": "2026-07-03T16:44:21Z",
-        "updatedAt": "2026-11-07T19:35:12Z",
+        "updatedAt": "2026-11-11T13:43:32Z",
         "isPR": false,
         "draft": null,
         "labels": [

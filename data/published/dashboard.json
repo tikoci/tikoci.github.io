@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-11T07:49:05.842Z",
+  "generatedAt": "2026-11-11T16:15:11.249Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -135,9 +135,9 @@
             "headBranch": "main",
             "headSha": "0e476cea72d28ef8564a78acdd063553b72fd95e",
             "event": "schedule",
-            "runStartedAt": "2026-11-10T12:02:58Z",
-            "lastUpdatedAt": "2026-11-10T12:04:14Z",
-            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/42812441203",
+            "runStartedAt": "2026-11-11T11:39:19Z",
+            "lastUpdatedAt": "2026-11-11T11:40:31Z",
+            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/43013726359",
             "isHead": true
           },
           {
@@ -430,9 +430,9 @@
             "headBranch": "main",
             "headSha": "e568f7a3bc6a6265499d3189afc72f2f3e2dbc1d",
             "event": "schedule",
-            "runStartedAt": "2026-11-10T12:16:00Z",
-            "lastUpdatedAt": "2026-11-10T12:16:18Z",
-            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/42814275623",
+            "runStartedAt": "2026-11-11T11:42:47Z",
+            "lastUpdatedAt": "2026-11-11T11:43:02Z",
+            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/43014199378",
             "isHead": true
           },
           {
@@ -848,9 +848,9 @@
             "headBranch": "main",
             "headSha": "a48b8f453b0e65ae9f29eb2688848d9e7da3e036",
             "event": "schedule",
-            "runStartedAt": "2026-11-10T12:40:46Z",
-            "lastUpdatedAt": "2026-11-10T12:40:56Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/42817804449",
+            "runStartedAt": "2026-11-11T11:53:31Z",
+            "lastUpdatedAt": "2026-11-11T11:53:43Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/43015674190",
             "isHead": true
           }
         ]
@@ -859,23 +859,23 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 44,
-            "owner": 44,
+            "total": 49,
+            "owner": 49,
             "external": 0,
             "bot": 0
           },
           "prs": {
-            "total": 2,
-            "owner": 0,
+            "total": 4,
+            "owner": 2,
             "external": 0,
             "bot": 2,
-            "ownerReady": 0,
-            "ownerDraft": 0,
+            "ownerReady": 1,
+            "ownerDraft": 1,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 46,
+          "fetched": 53,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
@@ -883,16 +883,141 @@
         "pullsEnriched": true,
         "items": [
           {
+            "number": 268,
+            "title": "start: a machine with --add-network but no user NIC waits out the full boot timeout",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/268",
+            "createdAt": "2026-11-11T15:36:27Z",
+            "updatedAt": "2026-11-11T15:36:27Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug",
+              "area:networking",
+              "area:cli",
+              "P3"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 267,
+            "title": "feat(networking): quickchr networks create|status|restart|remove for macOS (#256)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/pull/267",
+            "createdAt": "2026-11-11T15:01:29Z",
+            "updatedAt": "2026-11-11T16:10:26Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 266,
+            "title": "snapshot: document that save/load/delete cover every --add-disk disk (grounded); fix stopped-delete claim and two list glitches",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/266",
+            "createdAt": "2026-11-11T14:57:54Z",
+            "updatedAt": "2026-11-11T14:57:54Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug",
+              "documentation",
+              "area:qemu",
+              "area:cli",
+              "P3",
+              "consumer:app-t3code"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 265,
+            "title": "provisioning: set /system/identity to the machine name when quickchr provisions (opt out with --no-identity)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/265",
+            "createdAt": "2026-11-11T14:53:59Z",
+            "updatedAt": "2026-11-11T15:36:15Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement",
+              "area:provisioning",
+              "P3",
+              "needs-decision",
+              "consumer:app-t3code"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 264,
+            "title": "fix(networking): detect socket_vmnet by its socket and probe each one (#262)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/pull/264",
+            "createdAt": "2026-11-11T14:49:57Z",
+            "updatedAt": "2026-11-11T15:57:05Z",
+            "isPR": true,
+            "draft": true,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 263,
+            "title": "research: managed host networks on Linux and Windows (privileged once, unprivileged machines)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/263",
+            "createdAt": "2026-11-11T13:43:11Z",
+            "updatedAt": "2026-11-11T13:43:11Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "area:networking",
+              "P3",
+              "research",
+              "platform:windows"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 262,
+            "title": "networking(macos): detect socket_vmnet by its socket and probe each socket, not a global pgrep",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/262",
+            "createdAt": "2026-11-11T13:43:09Z",
+            "updatedAt": "2026-11-11T13:43:09Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug",
+              "area:networking",
+              "P2",
+              "platform:mac"
+            ],
+            "milestone": null
+          },
+          {
             "number": 261,
             "title": "license: add has no --license-level, start ignores the stored credential, and --level unlimited is rejected by RouterOS",
             "author": "Amm0Bot",
             "authorClass": "owner",
             "url": "https://github.com/tikoci/quickchr/issues/261",
             "createdAt": "2026-11-08T05:11:48Z",
-            "updatedAt": "2026-11-08T05:11:48Z",
+            "updatedAt": "2026-11-11T14:49:47Z",
             "isPR": false,
             "draft": null,
-            "labels": [],
+            "labels": [
+              "bug",
+              "area:cli",
+              "area:provisioning",
+              "P2",
+              "consumer:app-t3code"
+            ],
             "milestone": null
           },
           {
@@ -919,7 +1044,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/quickchr/issues/258",
             "createdAt": "2026-11-07T19:34:57Z",
-            "updatedAt": "2026-11-07T19:34:57Z",
+            "updatedAt": "2026-11-11T14:49:55Z",
             "isPR": false,
             "draft": null,
             "labels": [
@@ -927,124 +1052,10 @@
               "area:networking",
               "area:provisioning",
               "P3",
-              "needs-decision"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 257,
-            "title": "qemu: adding a NIC renumbers RouterOS disk slots (if=virtio drives land after every -device)",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/257",
-            "createdAt": "2026-11-07T19:34:56Z",
-            "updatedAt": "2026-11-07T19:34:56Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "bug",
-              "area:qemu",
-              "P2"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 256,
-            "title": "networking(macos): quickchr-managed vmnet networks — one disclosed sudo per network, unprivileged machines",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/256",
-            "createdAt": "2026-11-07T19:34:53Z",
-            "updatedAt": "2026-11-07T19:35:10Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "enhancement",
-              "area:networking",
-              "P2",
               "needs-decision",
-              "platform:mac"
+              "consumer:app-t3code"
             ],
             "milestone": null
-          },
-          {
-            "number": 253,
-            "title": "Managed SSH key can only be created at first boot; no way to add one to a running machine",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/253",
-            "createdAt": "2026-11-03T16:40:37Z",
-            "updatedAt": "2026-11-07T19:18:59Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "enhancement",
-              "area:provisioning",
-              "consumer:centrs"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 250,
-            "title": "chore(deps): bump actions/setup-node from 5 to 7",
-            "author": "dependabot[bot]",
-            "authorClass": "bot",
-            "url": "https://github.com/tikoci/quickchr/pull/250",
-            "createdAt": "2026-11-02T15:19:15Z",
-            "updatedAt": "2026-11-02T15:19:20Z",
-            "isPR": true,
-            "draft": false,
-            "labels": [
-              "dependencies",
-              "github_actions"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 249,
-            "title": "chore(deps): bump actions/github-script from 8.0.0 to 9.0.0",
-            "author": "dependabot[bot]",
-            "authorClass": "bot",
-            "url": "https://github.com/tikoci/quickchr/pull/249",
-            "createdAt": "2026-11-02T15:19:12Z",
-            "updatedAt": "2026-11-02T15:19:16Z",
-            "isPR": true,
-            "draft": false,
-            "labels": [
-              "dependencies",
-              "github_actions"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 243,
-            "title": "Cloud sessions: decide whether to provide an alternative CHR image mirror",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/243",
-            "createdAt": "2026-10-30T20:27:23Z",
-            "updatedAt": "2026-11-03T22:28:12Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "enhancement",
-              "area:library-api",
-              "needs-decision"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 230,
-            "title": "examples/dude: switch CLI/Python to the post-boot set --package path",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/230",
-            "createdAt": "2026-10-29T17:32:03Z",
-            "updatedAt": "2026-10-30T20:28:21Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [],
-            "milestone": "next"
           }
         ]
       },
@@ -1052,8 +1063,8 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 44,
-        "totalPRs": 2,
+        "totalIssues": 49,
+        "totalPRs": 4,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -1157,9 +1168,9 @@
             "headBranch": "main",
             "headSha": "3f8863249e7d944c935b3a58bcbebb1e9b307b58",
             "event": "schedule",
-            "runStartedAt": "2026-11-07T09:51:06Z",
-            "lastUpdatedAt": "2026-11-07T09:51:28Z",
-            "lastUrl": "https://github.com/tikoci/mikrotik-gpl/actions/runs/42361455906",
+            "runStartedAt": "2026-11-11T10:25:41Z",
+            "lastUpdatedAt": "2026-11-11T10:26:09Z",
+            "lastUrl": "https://github.com/tikoci/mikrotik-gpl/actions/runs/43003525139",
             "isHead": true
           }
         ]
@@ -1599,9 +1610,9 @@
             "headBranch": "main",
             "headSha": "ed6e5157850533e5d179fcd499fcf9fd73ec23fa",
             "event": "schedule",
-            "runStartedAt": "2026-11-10T13:38:18Z",
-            "lastUpdatedAt": "2026-11-10T13:38:31Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/42826348543",
+            "runStartedAt": "2026-11-11T12:50:11Z",
+            "lastUpdatedAt": "2026-11-11T12:50:25Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/43023778849",
             "isHead": true
           }
         ]
@@ -3489,6 +3500,23 @@
       ],
       "urls": [
         "https://github.com/tikoci/bench-routeros-tools/pulls"
+      ]
+    },
+    {
+      "id": "work-maintainer-prs:quickchr",
+      "rule": "work-maintainer-prs",
+      "severity": "pending",
+      "category": "work",
+      "repos": [
+        "quickchr"
+      ],
+      "summary": "quickchr: 1 open maintainer PR (1 draft excluded)",
+      "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
+      "evidence": [
+        "repos.quickchr.work.counts.prs.ownerReady=1"
+      ],
+      "urls": [
+        "https://github.com/tikoci/quickchr/pulls"
       ]
     },
     {
