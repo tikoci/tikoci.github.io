@@ -1,13 +1,5 @@
 [
   {
-    "name": "enbeep",
-    "description": "One-way text announcements from a RouterOS beeper to a nearby mic",
-    "stars": 2,
-    "language": "TypeScript",
-    "topics": [],
-    "html_url": "https://github.com/tikoci/enbeep"
-  },
-  {
     "name": "app-t3code",
     "description": "RouterOS /app container for T3 Code (x86_64 + ARM64, GHCR, CHR-tested)",
     "stars": 1,
@@ -22,6 +14,27 @@
       "tikoci"
     ],
     "html_url": "https://github.com/tikoci/app-t3code"
+  },
+  {
+    "name": "fat-chr",
+    "description": "Builder for CHR images with UEFI support (testing)",
+    "stars": 63,
+    "language": "Shell",
+    "topics": [
+      "chr",
+      "routeros",
+      "uefi"
+    ],
+    "html_url": "https://github.com/tikoci/fat-chr",
+    "category": "virtualization"
+  },
+  {
+    "name": "enbeep",
+    "description": "One-way text announcements from a RouterOS beeper to a nearby mic",
+    "stars": 2,
+    "language": "TypeScript",
+    "topics": [],
+    "html_url": "https://github.com/tikoci/enbeep"
   },
   {
     "name": "centrs",
@@ -157,19 +170,6 @@
     ],
     "html_url": "https://github.com/tikoci/rosetta",
     "category": "ai"
-  },
-  {
-    "name": "fat-chr",
-    "description": "Builder for CHR images with UEFI support (testing)",
-    "stars": 62,
-    "language": "Shell",
-    "topics": [
-      "chr",
-      "routeros",
-      "uefi"
-    ],
-    "html_url": "https://github.com/tikoci/fat-chr",
-    "category": "virtualization"
   },
   {
     "name": "lsp-routeros-ts",
