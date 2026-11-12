@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-12T03:51:10.198Z",
+  "generatedAt": "2026-11-12T12:49:37.765Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,7 +10,7 @@
     "otherHttpCalls": 11,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4837
+    "rateLimitRemaining": 4836
   },
   "sources": {
     "ros-current": "https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel> (MikroTik upgrade feed; body \"<version> <build-ts>\")",
@@ -135,9 +135,9 @@
             "headBranch": "main",
             "headSha": "0e476cea72d28ef8564a78acdd063553b72fd95e",
             "event": "schedule",
-            "runStartedAt": "2026-11-11T11:39:19Z",
-            "lastUpdatedAt": "2026-11-11T11:40:31Z",
-            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/43013726359",
+            "runStartedAt": "2026-11-12T12:07:43Z",
+            "lastUpdatedAt": "2026-11-12T12:08:59Z",
+            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/43215092320",
             "isHead": true
           },
           {
@@ -430,9 +430,9 @@
             "headBranch": "main",
             "headSha": "e568f7a3bc6a6265499d3189afc72f2f3e2dbc1d",
             "event": "schedule",
-            "runStartedAt": "2026-11-11T11:42:47Z",
-            "lastUpdatedAt": "2026-11-11T11:43:02Z",
-            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/43014199378",
+            "runStartedAt": "2026-11-12T12:18:13Z",
+            "lastUpdatedAt": "2026-11-12T12:18:27Z",
+            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/43216660961",
             "isHead": true
           },
           {
@@ -662,9 +662,9 @@
             "headBranch": "main",
             "headSha": "acd6566c090b9b8060a6bec849e8ad2ca8db5380",
             "event": "schedule",
-            "runStartedAt": "2026-11-11T05:04:45Z",
-            "lastUpdatedAt": "2026-11-11T05:05:01Z",
-            "lastUrl": "https://github.com/tikoci/fat-chr/actions/runs/42963346288",
+            "runStartedAt": "2026-11-12T06:09:19Z",
+            "lastUpdatedAt": "2026-11-12T06:09:35Z",
+            "lastUrl": "https://github.com/tikoci/fat-chr/actions/runs/43166137882",
             "isHead": true
           }
         ]
@@ -846,12 +846,12 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "a48b8f453b0e65ae9f29eb2688848d9e7da3e036",
+            "headSha": "ba0ca79824f6e55022ef05e29127d4c763eb2e3f",
             "event": "schedule",
-            "runStartedAt": "2026-11-11T11:53:31Z",
-            "lastUpdatedAt": "2026-11-11T11:53:43Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/43015674190",
-            "isHead": false
+            "runStartedAt": "2026-11-12T12:44:36Z",
+            "lastUpdatedAt": "2026-11-12T12:44:48Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/43220693706",
+            "isHead": true
           }
         ]
       },
@@ -1571,8 +1571,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "a27e1a315aa90cec29f04d888d3ced04bbe63d1b",
-        "headUrl": "https://github.com/tikoci/centrs/commit/a27e1a315aa90cec29f04d888d3ced04bbe63d1b",
+        "headSha": "cbe976a67f47a3e0c503b3945bf28dd53bde3b34",
+        "headUrl": "https://github.com/tikoci/centrs/commit/cbe976a67f47a3e0c503b3945bf28dd53bde3b34",
         "workflows": [
           {
             "configured": "CI",
@@ -1580,15 +1580,15 @@
             "path": ".github/workflows/ci.yaml",
             "present": true,
             "state": "ok",
-            "status": "completed",
-            "conclusion": "success",
-            "lastConclusion": "success",
+            "status": "in_progress",
+            "conclusion": null,
+            "lastConclusion": null,
             "headBranch": "main",
-            "headSha": "a27e1a315aa90cec29f04d888d3ced04bbe63d1b",
+            "headSha": "cbe976a67f47a3e0c503b3945bf28dd53bde3b34",
             "event": "push",
-            "runStartedAt": "2026-11-12T02:47:50Z",
-            "lastUpdatedAt": "2026-11-12T02:51:10Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/43143851747",
+            "runStartedAt": "2026-11-12T12:47:16Z",
+            "lastUpdatedAt": "2026-11-12T12:49:03Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/43221111698",
             "isHead": true
           },
           {
@@ -1623,7 +1623,7 @@
             "runStartedAt": "2026-11-12T03:10:34Z",
             "lastUpdatedAt": "2026-11-12T03:45:13Z",
             "lastUrl": "https://github.com/tikoci/centrs/actions/runs/43146404260",
-            "isHead": true
+            "isHead": false
           }
         ]
       },
@@ -1631,29 +1631,46 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 25,
-            "owner": 25,
+            "total": 24,
+            "owner": 24,
             "external": 0,
             "bot": 0
           },
           "prs": {
-            "total": 5,
-            "owner": 5,
+            "total": 4,
+            "owner": 4,
             "external": 0,
             "bot": 0,
-            "ownerReady": 2,
+            "ownerReady": 1,
             "ownerDraft": 3,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 30,
+          "fetched": 28,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 657,
+            "title": "execute --cmr: a connected client RouterOS won't select (half-paired/pending) is silently dropped as a label miss",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/657",
+            "createdAt": "2026-11-12T04:33:20Z",
+            "updatedAt": "2026-11-12T04:33:20Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug",
+              "cmd-execute",
+              "provider-cmr"
+            ],
+            "milestone": null
+          },
           {
             "number": 656,
             "title": "build(deps): consolidate Biome and zizmor patch updates",
@@ -1674,7 +1691,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/centrs/pull/655",
             "createdAt": "2026-11-12T01:06:33Z",
-            "updatedAt": "2026-11-12T02:34:20Z",
+            "updatedAt": "2026-11-12T04:33:31Z",
             "isPR": true,
             "draft": true,
             "labels": [],
@@ -1737,20 +1754,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/centrs/pull/651",
             "createdAt": "2026-11-11T23:48:15Z",
-            "updatedAt": "2026-11-12T03:29:09Z",
-            "isPR": true,
-            "draft": false,
-            "labels": [],
-            "milestone": null
-          },
-          {
-            "number": 650,
-            "title": "fix(execute): SSH runs a multi-line script as one prompt; honest exits and timeouts (#576, #592)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/pull/650",
-            "createdAt": "2026-11-11T23:03:16Z",
-            "updatedAt": "2026-11-12T03:28:54Z",
+            "updatedAt": "2026-11-12T12:49:40Z",
             "isPR": true,
             "draft": false,
             "labels": [],
@@ -1811,8 +1815,8 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 25,
-        "totalPRs": 5,
+        "totalIssues": 24,
+        "totalPRs": 4,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -2569,9 +2573,9 @@
             "bot": 0
           },
           "prs": {
-            "total": 4,
+            "total": 5,
             "owner": 3,
-            "external": 1,
+            "external": 2,
             "bot": 0,
             "ownerReady": 2,
             "ownerDraft": 1,
@@ -2579,13 +2583,26 @@
           }
         },
         "page": {
-          "fetched": 24,
+          "fetched": 25,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 59,
+            "title": "docs: add routeros-cmr to README table and fix two reference TOCs",
+            "author": "joyshmitz",
+            "authorClass": "external",
+            "url": "https://github.com/tikoci/routeros-skills/pull/59",
+            "createdAt": "2026-11-12T05:26:50Z",
+            "updatedAt": "2026-11-12T05:28:31Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [],
+            "milestone": null
+          },
           {
             "number": 56,
             "title": "quickchr/centrs skills: recommend --secure-login for SSH/SFTP use (managed key is first-boot only)",
@@ -2719,34 +2736,31 @@
               "triage:accepted"
             ],
             "milestone": null
-          },
-          {
-            "number": 44,
-            "title": "routeros-centrs: refresh for centrs 0.1.8 / 0.1.9-next (wait/until, --query, --cmr, stderr envelopes, closed rough edges)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/routeros-skills/issues/44",
-            "createdAt": "2026-10-26T04:07:06Z",
-            "updatedAt": "2026-11-11T19:03:09Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [],
-            "milestone": null
           }
         ]
       },
       "community": {
         "state": "ok",
         "openIssues": 0,
-        "openPRs": 1,
+        "openPRs": 2,
         "totalIssues": 20,
-        "totalPRs": 4,
+        "totalPRs": 5,
         "truncated": false,
         "byLabel": {
           "blocked:grounding": 1
         },
         "byMilestone": {},
         "newest": [
+          {
+            "number": 59,
+            "title": "docs: add routeros-cmr to README table and fix two reference TOCs",
+            "author": "joyshmitz",
+            "url": "https://github.com/tikoci/routeros-skills/pull/59",
+            "createdAt": "2026-11-12T05:26:50Z",
+            "isPR": true,
+            "labels": [],
+            "milestone": null
+          },
           {
             "number": 19,
             "title": "feat: add routeros-capsman skill",
@@ -3471,6 +3485,23 @@
       ]
     },
     {
+      "id": "ci-run-in-progress:centrs:CI",
+      "rule": "ci-run-in-progress",
+      "severity": "pending",
+      "category": "ci",
+      "repos": [
+        "centrs"
+      ],
+      "summary": "centrs: CI in_progress on main",
+      "detail": "The latest default-branch run has not completed, so the current-commit verdict is pending. Re-check after it finishes.",
+      "evidence": [
+        "repos.centrs.ci.workflows[CI].status=in_progress"
+      ],
+      "urls": [
+        "https://github.com/tikoci/centrs/actions/runs/43221111698"
+      ]
+    },
+    {
       "id": "npm-pending-publish:lsp-routeros-ts",
       "rule": "npm-pending-publish",
       "severity": "pending",
@@ -3530,10 +3561,10 @@
       "repos": [
         "centrs"
       ],
-      "summary": "centrs: 2 open maintainer PRs (3 drafts excluded)",
+      "summary": "centrs: 1 open maintainer PR (3 drafts excluded)",
       "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
       "evidence": [
-        "repos.centrs.work.counts.prs.ownerReady=2"
+        "repos.centrs.work.counts.prs.ownerReady=1"
       ],
       "urls": [
         "https://github.com/tikoci/centrs/pulls"
@@ -3564,10 +3595,10 @@
       "repos": [
         "routeros-skills"
       ],
-      "summary": "routeros-skills: 1 open external PR",
+      "summary": "routeros-skills: 2 open external PRs",
       "detail": "External pull requests await maintainer review. Review queue depth, not an alert.",
       "evidence": [
-        "repos.routeros-skills.work.counts.prs.external=1"
+        "repos.routeros-skills.work.counts.prs.external=2"
       ],
       "urls": [
         "https://github.com/tikoci/routeros-skills/pulls"
@@ -3591,6 +3622,24 @@
       ]
     },
     {
+      "id": "ci-run-not-head:centrs:QA",
+      "rule": "ci-run-not-head",
+      "severity": "info",
+      "category": "ci",
+      "repos": [
+        "centrs"
+      ],
+      "summary": "centrs: QA latest run is not on the current head commit",
+      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
+      "evidence": [
+        "repos.centrs.ci.workflows[QA].headSha=a27e1a315aa90cec29f04d888d3ced04bbe63d1b",
+        "repos.centrs.ci.headSha=cbe976a67f47a3e0c503b3945bf28dd53bde3b34"
+      ],
+      "urls": [
+        "https://github.com/tikoci/centrs/actions/runs/43146404260"
+      ]
+    },
+    {
       "id": "ci-run-not-head:centrs:Release",
       "rule": "ci-run-not-head",
       "severity": "info",
@@ -3602,7 +3651,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.centrs.ci.workflows[Release].headSha=b411207d943be31031bdbaba3ebc3fb4e36461d3",
-        "repos.centrs.ci.headSha=a27e1a315aa90cec29f04d888d3ced04bbe63d1b"
+        "repos.centrs.ci.headSha=cbe976a67f47a3e0c503b3945bf28dd53bde3b34"
       ],
       "urls": [
         "https://github.com/tikoci/centrs/actions/runs/42104426954"
@@ -3642,24 +3691,6 @@
       ],
       "urls": [
         "https://github.com/tikoci/quickchr/actions/runs/42367380248"
-      ]
-    },
-    {
-      "id": "ci-run-not-head:quickchr:RouterOS-Versions",
-      "rule": "ci-run-not-head",
-      "severity": "info",
-      "category": "ci",
-      "repos": [
-        "quickchr"
-      ],
-      "summary": "quickchr: RouterOS Versions latest run is not on the current head commit",
-      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
-      "evidence": [
-        "repos.quickchr.ci.workflows[RouterOS Versions].headSha=a48b8f453b0e65ae9f29eb2688848d9e7da3e036",
-        "repos.quickchr.ci.headSha=ba0ca79824f6e55022ef05e29127d4c763eb2e3f"
-      ],
-      "urls": [
-        "https://github.com/tikoci/quickchr/actions/runs/43015674190"
       ]
     },
     {
