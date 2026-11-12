@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "centrs",
-  "generatedAt": "2026-11-11T22:47:45.391Z",
+  "generatedAt": "2026-11-12T03:51:10.198Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,23 +9,23 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 29,
-        "owner": 29,
+        "total": 25,
+        "owner": 25,
         "external": 0,
         "bot": 0
       },
       "prs": {
-        "total": 11,
-        "owner": 9,
+        "total": 5,
+        "owner": 5,
         "external": 0,
-        "bot": 2,
-        "ownerReady": 0,
-        "ownerDraft": 9,
+        "bot": 0,
+        "ownerReady": 2,
+        "ownerDraft": 3,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 40,
+      "fetched": 30,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
@@ -33,106 +33,104 @@
     "pullsEnriched": true,
     "items": [
       {
-        "number": 648,
-        "title": "fix(errors): emit canonical https://tikoci.dev details URLs (#464)",
+        "number": 656,
+        "title": "build(deps): consolidate Biome and zizmor patch updates",
         "author": "mobileskyfi",
         "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/pull/648",
-        "createdAt": "2026-11-11T22:26:34Z",
-        "updatedAt": "2026-11-11T22:26:41Z",
+        "url": "https://github.com/tikoci/centrs/pull/656",
+        "createdAt": "2026-11-12T03:10:29Z",
+        "updatedAt": "2026-11-12T03:11:05Z",
         "isPR": true,
         "draft": true,
         "labels": [],
         "milestone": null
       },
       {
-        "number": 647,
-        "title": "docs: absorb #363 into Provisioning; record the #622 port rule",
+        "number": 655,
+        "title": "test(cmr): finish half-paired labs and gate beta3+ contracts (#527)",
         "author": "mobileskyfi",
         "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/pull/647",
-        "createdAt": "2026-11-11T22:22:13Z",
-        "updatedAt": "2026-11-11T22:22:20Z",
+        "url": "https://github.com/tikoci/centrs/pull/655",
+        "createdAt": "2026-11-12T01:06:33Z",
+        "updatedAt": "2026-11-12T02:34:20Z",
         "isPR": true,
         "draft": true,
         "labels": [],
         "milestone": null
       },
       {
-        "number": 646,
-        "title": "fix(cli): --help lists only implemented surfaces",
+        "number": 654,
+        "title": "CHR integration tests read the developer's real CDB and centrs.env (fail with an encrypted CDB)",
         "author": "mobileskyfi",
         "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/pull/646",
-        "createdAt": "2026-11-11T21:43:20Z",
-        "updatedAt": "2026-11-11T21:43:29Z",
+        "url": "https://github.com/tikoci/centrs/issues/654",
+        "createdAt": "2026-11-12T00:50:30Z",
+        "updatedAt": "2026-11-12T01:22:56Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "QA"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 653,
+        "title": "btest server: RouterOS's default TCP client (connection-count=20) gets 'test unsupported'",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/issues/653",
+        "createdAt": "2026-11-12T00:15:29Z",
+        "updatedAt": "2026-11-12T00:15:29Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "cmd-btest",
+          "proto-btest"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 652,
+        "title": "btest UDP: feedback-paced transmit is capped near 900 pps (~7 Mbps at 1000 B)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/issues/652",
+        "createdAt": "2026-11-12T00:15:28Z",
+        "updatedAt": "2026-11-12T00:15:28Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "cmd-btest",
+          "proto-btest"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 651,
+        "title": "fix(execute): name RouterOS's dropped reply (\"action timed out\") (#639)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/pull/651",
+        "createdAt": "2026-11-11T23:48:15Z",
+        "updatedAt": "2026-11-12T03:29:09Z",
         "isPR": true,
-        "draft": true,
+        "draft": false,
         "labels": [],
         "milestone": null
       },
       {
-        "number": 645,
-        "title": "fix(docker): run the container as the non-root bun user (#614)",
+        "number": 650,
+        "title": "fix(execute): SSH runs a multi-line script as one prompt; honest exits and timeouts (#576, #592)",
         "author": "mobileskyfi",
         "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/pull/645",
-        "createdAt": "2026-11-11T21:39:28Z",
-        "updatedAt": "2026-11-11T21:40:44Z",
+        "url": "https://github.com/tikoci/centrs/pull/650",
+        "createdAt": "2026-11-11T23:03:16Z",
+        "updatedAt": "2026-11-12T03:28:54Z",
         "isPR": true,
-        "draft": true,
-        "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 644,
-        "title": "fix(mac-telnet): a RADIUS-only or unknown user is an auth failure (#559, #584)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/pull/644",
-        "createdAt": "2026-11-11T21:37:39Z",
-        "updatedAt": "2026-11-11T21:37:47Z",
-        "isPR": true,
-        "draft": true,
-        "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 643,
-        "title": "fix(devices): let set --strict delete an unknown comment key (#623)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/pull/643",
-        "createdAt": "2026-11-11T21:23:43Z",
-        "updatedAt": "2026-11-11T21:23:51Z",
-        "isPR": true,
-        "draft": true,
-        "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 642,
-        "title": "fix(mcp): set isError on a tool result whose envelope failed (#605)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/pull/642",
-        "createdAt": "2026-11-11T21:19:59Z",
-        "updatedAt": "2026-11-11T21:20:06Z",
-        "isPR": true,
-        "draft": true,
-        "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 641,
-        "title": "fix(execute): keep a device non-answer's code in the :parse preflight (#638)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/pull/641",
-        "createdAt": "2026-11-11T21:19:57Z",
-        "updatedAt": "2026-11-11T21:20:18Z",
-        "isPR": true,
-        "draft": true,
+        "draft": false,
         "labels": [],
         "milestone": null
       },
@@ -157,24 +155,6 @@
         "milestone": null
       },
       {
-        "number": 638,
-        "title": "execute: a REST 'Session closed' during the :parse preflight is reported as validation/syntax",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/638",
-        "createdAt": "2026-11-11T18:40:35Z",
-        "updatedAt": "2026-11-11T19:02:41Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "cmd-execute",
-          "proto-rest-api",
-          "from-app-t3code"
-        ],
-        "milestone": null
-      },
-      {
         "number": 637,
         "title": "docs: collect LYSS security rules as a future reference",
         "author": "mobileskyfi",
@@ -185,55 +165,6 @@
         "isPR": true,
         "draft": true,
         "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 636,
-        "title": "transfer: files under an /app container root are invisible to /file, so upload --force fails and download/remove say 'no file'",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/636",
-        "createdAt": "2026-11-08T05:10:07Z",
-        "updatedAt": "2026-11-11T22:27:12Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "cmd-transfer",
-          "from-app-t3code"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 633,
-        "title": "build(deps-dev): bump @biomejs/biome from 2.6.3 to 2.6.4 in the npm group",
-        "author": "dependabot[bot]",
-        "authorClass": "bot",
-        "url": "https://github.com/tikoci/centrs/pull/633",
-        "createdAt": "2026-11-06T01:34:52Z",
-        "updatedAt": "2026-11-06T01:34:56Z",
-        "isPR": true,
-        "draft": false,
-        "labels": [
-          "dependencies",
-          "javascript"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 632,
-        "title": "build(deps): bump zizmorcore/zizmor-action from 0.8.0 to 0.8.1 in the github-actions group",
-        "author": "dependabot[bot]",
-        "authorClass": "bot",
-        "url": "https://github.com/tikoci/centrs/pull/632",
-        "createdAt": "2026-11-06T01:34:10Z",
-        "updatedAt": "2026-11-06T01:34:14Z",
-        "isPR": true,
-        "draft": false,
-        "labels": [
-          "dependencies",
-          "github_actions"
-        ],
         "milestone": null
       },
       {
@@ -249,22 +180,6 @@
         "labels": [
           "QA",
           "proto-mac-telnet"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 623,
-        "title": "devices set --strict: allow deleting unknown keys",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/623",
-        "createdAt": "2026-11-04T01:29:50Z",
-        "updatedAt": "2026-11-11T21:43:48Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "UX",
-          "cmd-devices"
         ],
         "milestone": null
       },
@@ -296,21 +211,6 @@
         "draft": null,
         "labels": [
           "cmd-settings"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 614,
-        "title": "Dockerfile: run the container as the non-root bun user",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/614",
-        "createdAt": "2026-11-03T12:46:37Z",
-        "updatedAt": "2026-11-11T21:43:50Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "hardening"
         ],
         "milestone": null
       },
@@ -373,32 +273,13 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/592",
         "createdAt": "2026-11-02T16:24:56Z",
-        "updatedAt": "2026-11-05T13:07:42Z",
+        "updatedAt": "2026-11-11T22:53:26Z",
         "isPR": false,
         "draft": null,
         "labels": [
           "UX",
           "cmd-execute",
           "proto-ssh",
-          "needs-research",
-          "from-routeros-muse"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 589,
-        "title": "transfer REST upload: investigate first upload leaving a zero-byte file",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/589",
-        "createdAt": "2026-11-02T16:24:53Z",
-        "updatedAt": "2026-11-11T22:27:11Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "cmd-transfer",
-          "proto-rest-api",
           "needs-research",
           "from-routeros-muse"
         ],
@@ -424,29 +305,13 @@
         "milestone": null
       },
       {
-        "number": 584,
-        "title": "MacTelnet EC-SRP: .NET KC.MacTelnet comparison — params match, padded-32 + header-u32 risks, parity-byte hardening",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/584",
-        "createdAt": "2026-11-02T00:53:30Z",
-        "updatedAt": "2026-11-11T21:43:52Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "hardening",
-          "proto-mac-telnet"
-        ],
-        "milestone": null
-      },
-      {
         "number": 576,
         "title": "execute/ssh: multiline menu navigation exits 1 silently, mislabeled transport/network",
         "author": "Amm0Bot",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/576",
         "createdAt": "2026-11-01T02:49:09Z",
-        "updatedAt": "2026-11-05T13:10:45Z",
+        "updatedAt": "2026-11-11T23:43:36Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -490,30 +355,13 @@
         "milestone": null
       },
       {
-        "number": 559,
-        "title": "mac-telnet: unknown/empty username gets a 33-byte PASSSALT, misreported as unsupported salt length",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/559",
-        "createdAt": "2026-10-28T22:11:33Z",
-        "updatedAt": "2026-11-05T13:07:39Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "UX",
-          "proto-mac-telnet"
-        ],
-        "milestone": "next"
-      },
-      {
         "number": 527,
         "title": "CMR beta3: reconcile restricted caller policy and CMR15 contract",
         "author": "mobileskyfi",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/527",
         "createdAt": "2026-10-19T14:02:52Z",
-        "updatedAt": "2026-11-07T22:27:29Z",
+        "updatedAt": "2026-11-12T01:22:02Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -528,7 +376,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/517",
         "createdAt": "2026-10-18T03:01:25Z",
-        "updatedAt": "2026-11-11T22:20:30Z",
+        "updatedAt": "2026-11-12T00:15:13Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -633,7 +481,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/172",
         "createdAt": "2026-07-05T13:29:16Z",
-        "updatedAt": "2026-10-05T14:52:59Z",
+        "updatedAt": "2026-11-12T00:15:12Z",
         "isPR": false,
         "draft": null,
         "labels": [

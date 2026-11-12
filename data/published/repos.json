@@ -1,5 +1,27 @@
 [
   {
+    "name": "centrs",
+    "description": "Multi-protocol (REST, native API, mac-telnet, SSH) CLI and TypeScript interface to RouterOS, with rich help and validation",
+    "stars": 6,
+    "language": "TypeScript",
+    "topics": [
+      "ai",
+      "ai-tools",
+      "btest",
+      "bun",
+      "mac-telnet",
+      "mikrotik",
+      "mndp",
+      "routeros",
+      "routeros-api",
+      "routeros-node",
+      "tikoci",
+      "typescript"
+    ],
+    "html_url": "https://github.com/tikoci/centrs",
+    "category": "dev-tools"
+  },
+  {
     "name": "quickchr",
     "description": "`quickchr` - Fastest path to MikroTik RouterOS CHR instance for testing and scripts -– agent ready, human friendly",
     "stars": 10,
@@ -21,28 +43,6 @@
     ],
     "html_url": "https://github.com/tikoci/quickchr",
     "category": "virtualization"
-  },
-  {
-    "name": "centrs",
-    "description": "Multi-protocol (REST, native API, mac-telnet, SSH) CLI and TypeScript interface to RouterOS, with rich help and validation",
-    "stars": 6,
-    "language": "TypeScript",
-    "topics": [
-      "ai",
-      "ai-tools",
-      "btest",
-      "bun",
-      "mac-telnet",
-      "mikrotik",
-      "mndp",
-      "routeros",
-      "routeros-api",
-      "routeros-node",
-      "tikoci",
-      "typescript"
-    ],
-    "html_url": "https://github.com/tikoci/centrs",
-    "category": "dev-tools"
   },
   {
     "name": "mikrotik-gpl",

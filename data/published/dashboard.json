@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-11T22:47:45.391Z",
+  "generatedAt": "2026-11-12T03:51:10.198Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,7 +10,7 @@
     "otherHttpCalls": 11,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4836
+    "rateLimitRemaining": 4837
   },
   "sources": {
     "ros-current": "https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel> (MikroTik upgrade feed; body \"<version> <build-ts>\")",
@@ -1571,8 +1571,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "5b30f7350b5a4c7e99bfeeeceaa2cf25c27f0e50",
-        "headUrl": "https://github.com/tikoci/centrs/commit/5b30f7350b5a4c7e99bfeeeceaa2cf25c27f0e50",
+        "headSha": "a27e1a315aa90cec29f04d888d3ced04bbe63d1b",
+        "headUrl": "https://github.com/tikoci/centrs/commit/a27e1a315aa90cec29f04d888d3ced04bbe63d1b",
         "workflows": [
           {
             "configured": "CI",
@@ -1580,15 +1580,15 @@
             "path": ".github/workflows/ci.yaml",
             "present": true,
             "state": "ok",
-            "status": "queued",
-            "conclusion": null,
-            "lastConclusion": null,
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "5b30f7350b5a4c7e99bfeeeceaa2cf25c27f0e50",
+            "headSha": "a27e1a315aa90cec29f04d888d3ced04bbe63d1b",
             "event": "push",
-            "runStartedAt": "2026-11-11T20:28:36Z",
-            "lastUpdatedAt": "2026-11-11T20:28:36Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/43096275427",
+            "runStartedAt": "2026-11-12T02:47:50Z",
+            "lastUpdatedAt": "2026-11-12T02:51:10Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/43143851747",
             "isHead": true
           },
           {
@@ -1618,12 +1618,12 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "ed6e5157850533e5d179fcd499fcf9fd73ec23fa",
-            "event": "schedule",
-            "runStartedAt": "2026-11-11T12:50:11Z",
-            "lastUpdatedAt": "2026-11-11T12:50:25Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/43023778849",
-            "isHead": false
+            "headSha": "a27e1a315aa90cec29f04d888d3ced04bbe63d1b",
+            "event": "workflow_dispatch",
+            "runStartedAt": "2026-11-12T03:10:34Z",
+            "lastUpdatedAt": "2026-11-12T03:45:13Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/43146404260",
+            "isHead": true
           }
         ]
       },
@@ -1631,23 +1631,23 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 29,
-            "owner": 29,
+            "total": 25,
+            "owner": 25,
             "external": 0,
             "bot": 0
           },
           "prs": {
-            "total": 11,
-            "owner": 9,
+            "total": 5,
+            "owner": 5,
             "external": 0,
-            "bot": 2,
-            "ownerReady": 0,
-            "ownerDraft": 9,
+            "bot": 0,
+            "ownerReady": 2,
+            "ownerDraft": 3,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 40,
+          "fetched": 30,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
@@ -1655,106 +1655,104 @@
         "pullsEnriched": true,
         "items": [
           {
-            "number": 648,
-            "title": "fix(errors): emit canonical https://tikoci.dev details URLs (#464)",
+            "number": 656,
+            "title": "build(deps): consolidate Biome and zizmor patch updates",
             "author": "mobileskyfi",
             "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/pull/648",
-            "createdAt": "2026-11-11T22:26:34Z",
-            "updatedAt": "2026-11-11T22:26:41Z",
+            "url": "https://github.com/tikoci/centrs/pull/656",
+            "createdAt": "2026-11-12T03:10:29Z",
+            "updatedAt": "2026-11-12T03:11:05Z",
             "isPR": true,
             "draft": true,
             "labels": [],
             "milestone": null
           },
           {
-            "number": 647,
-            "title": "docs: absorb #363 into Provisioning; record the #622 port rule",
+            "number": 655,
+            "title": "test(cmr): finish half-paired labs and gate beta3+ contracts (#527)",
             "author": "mobileskyfi",
             "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/pull/647",
-            "createdAt": "2026-11-11T22:22:13Z",
-            "updatedAt": "2026-11-11T22:22:20Z",
+            "url": "https://github.com/tikoci/centrs/pull/655",
+            "createdAt": "2026-11-12T01:06:33Z",
+            "updatedAt": "2026-11-12T02:34:20Z",
             "isPR": true,
             "draft": true,
             "labels": [],
             "milestone": null
           },
           {
-            "number": 646,
-            "title": "fix(cli): --help lists only implemented surfaces",
+            "number": 654,
+            "title": "CHR integration tests read the developer's real CDB and centrs.env (fail with an encrypted CDB)",
             "author": "mobileskyfi",
             "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/pull/646",
-            "createdAt": "2026-11-11T21:43:20Z",
-            "updatedAt": "2026-11-11T21:43:29Z",
+            "url": "https://github.com/tikoci/centrs/issues/654",
+            "createdAt": "2026-11-12T00:50:30Z",
+            "updatedAt": "2026-11-12T01:22:56Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug",
+              "QA"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 653,
+            "title": "btest server: RouterOS's default TCP client (connection-count=20) gets 'test unsupported'",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/653",
+            "createdAt": "2026-11-12T00:15:29Z",
+            "updatedAt": "2026-11-12T00:15:29Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug",
+              "cmd-btest",
+              "proto-btest"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 652,
+            "title": "btest UDP: feedback-paced transmit is capped near 900 pps (~7 Mbps at 1000 B)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/652",
+            "createdAt": "2026-11-12T00:15:28Z",
+            "updatedAt": "2026-11-12T00:15:28Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug",
+              "cmd-btest",
+              "proto-btest"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 651,
+            "title": "fix(execute): name RouterOS's dropped reply (\"action timed out\") (#639)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/pull/651",
+            "createdAt": "2026-11-11T23:48:15Z",
+            "updatedAt": "2026-11-12T03:29:09Z",
             "isPR": true,
-            "draft": true,
+            "draft": false,
             "labels": [],
             "milestone": null
           },
           {
-            "number": 645,
-            "title": "fix(docker): run the container as the non-root bun user (#614)",
+            "number": 650,
+            "title": "fix(execute): SSH runs a multi-line script as one prompt; honest exits and timeouts (#576, #592)",
             "author": "mobileskyfi",
             "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/pull/645",
-            "createdAt": "2026-11-11T21:39:28Z",
-            "updatedAt": "2026-11-11T21:40:44Z",
+            "url": "https://github.com/tikoci/centrs/pull/650",
+            "createdAt": "2026-11-11T23:03:16Z",
+            "updatedAt": "2026-11-12T03:28:54Z",
             "isPR": true,
-            "draft": true,
-            "labels": [],
-            "milestone": null
-          },
-          {
-            "number": 644,
-            "title": "fix(mac-telnet): a RADIUS-only or unknown user is an auth failure (#559, #584)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/pull/644",
-            "createdAt": "2026-11-11T21:37:39Z",
-            "updatedAt": "2026-11-11T21:37:47Z",
-            "isPR": true,
-            "draft": true,
-            "labels": [],
-            "milestone": null
-          },
-          {
-            "number": 643,
-            "title": "fix(devices): let set --strict delete an unknown comment key (#623)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/pull/643",
-            "createdAt": "2026-11-11T21:23:43Z",
-            "updatedAt": "2026-11-11T21:23:51Z",
-            "isPR": true,
-            "draft": true,
-            "labels": [],
-            "milestone": null
-          },
-          {
-            "number": 642,
-            "title": "fix(mcp): set isError on a tool result whose envelope failed (#605)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/pull/642",
-            "createdAt": "2026-11-11T21:19:59Z",
-            "updatedAt": "2026-11-11T21:20:06Z",
-            "isPR": true,
-            "draft": true,
-            "labels": [],
-            "milestone": null
-          },
-          {
-            "number": 641,
-            "title": "fix(execute): keep a device non-answer's code in the :parse preflight (#638)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/pull/641",
-            "createdAt": "2026-11-11T21:19:57Z",
-            "updatedAt": "2026-11-11T21:20:18Z",
-            "isPR": true,
-            "draft": true,
+            "draft": false,
             "labels": [],
             "milestone": null
           },
@@ -1779,20 +1777,31 @@
             "milestone": null
           },
           {
-            "number": 638,
-            "title": "execute: a REST 'Session closed' during the :parse preflight is reported as validation/syntax",
+            "number": 637,
+            "title": "docs: collect LYSS security rules as a future reference",
             "author": "mobileskyfi",
             "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/issues/638",
-            "createdAt": "2026-11-11T18:40:35Z",
-            "updatedAt": "2026-11-11T19:02:41Z",
+            "url": "https://github.com/tikoci/centrs/pull/637",
+            "createdAt": "2026-11-08T06:15:47Z",
+            "updatedAt": "2026-11-08T06:15:54Z",
+            "isPR": true,
+            "draft": true,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 624,
+            "title": "CHR integration: MAC-Telnet L2 tests flaky on main (console prompt timeout, MTWEI not ready)",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/624",
+            "createdAt": "2026-11-04T03:09:02Z",
+            "updatedAt": "2026-11-11T22:20:15Z",
             "isPR": false,
             "draft": null,
             "labels": [
-              "bug",
-              "cmd-execute",
-              "proto-rest-api",
-              "from-app-t3code"
+              "QA",
+              "proto-mac-telnet"
             ],
             "milestone": null
           }
@@ -1802,8 +1811,8 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 29,
-        "totalPRs": 11,
+        "totalIssues": 25,
+        "totalPRs": 5,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -3462,23 +3471,6 @@
       ]
     },
     {
-      "id": "ci-run-in-progress:centrs:CI",
-      "rule": "ci-run-in-progress",
-      "severity": "pending",
-      "category": "ci",
-      "repos": [
-        "centrs"
-      ],
-      "summary": "centrs: CI queued on main",
-      "detail": "The latest default-branch run has not completed, so the current-commit verdict is pending. Re-check after it finishes.",
-      "evidence": [
-        "repos.centrs.ci.workflows[CI].status=queued"
-      ],
-      "urls": [
-        "https://github.com/tikoci/centrs/actions/runs/43096275427"
-      ]
-    },
-    {
       "id": "npm-pending-publish:lsp-routeros-ts",
       "rule": "npm-pending-publish",
       "severity": "pending",
@@ -3528,6 +3520,23 @@
       ],
       "urls": [
         "https://github.com/tikoci/bench-routeros-tools/pulls"
+      ]
+    },
+    {
+      "id": "work-maintainer-prs:centrs",
+      "rule": "work-maintainer-prs",
+      "severity": "pending",
+      "category": "work",
+      "repos": [
+        "centrs"
+      ],
+      "summary": "centrs: 2 open maintainer PRs (3 drafts excluded)",
+      "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
+      "evidence": [
+        "repos.centrs.work.counts.prs.ownerReady=2"
+      ],
+      "urls": [
+        "https://github.com/tikoci/centrs/pulls"
       ]
     },
     {
@@ -3582,24 +3591,6 @@
       ]
     },
     {
-      "id": "ci-run-not-head:centrs:QA",
-      "rule": "ci-run-not-head",
-      "severity": "info",
-      "category": "ci",
-      "repos": [
-        "centrs"
-      ],
-      "summary": "centrs: QA latest run is not on the current head commit",
-      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
-      "evidence": [
-        "repos.centrs.ci.workflows[QA].headSha=ed6e5157850533e5d179fcd499fcf9fd73ec23fa",
-        "repos.centrs.ci.headSha=5b30f7350b5a4c7e99bfeeeceaa2cf25c27f0e50"
-      ],
-      "urls": [
-        "https://github.com/tikoci/centrs/actions/runs/43023778849"
-      ]
-    },
-    {
       "id": "ci-run-not-head:centrs:Release",
       "rule": "ci-run-not-head",
       "severity": "info",
@@ -3611,7 +3602,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.centrs.ci.workflows[Release].headSha=b411207d943be31031bdbaba3ebc3fb4e36461d3",
-        "repos.centrs.ci.headSha=5b30f7350b5a4c7e99bfeeeceaa2cf25c27f0e50"
+        "repos.centrs.ci.headSha=a27e1a315aa90cec29f04d888d3ced04bbe63d1b"
       ],
       "urls": [
         "https://github.com/tikoci/centrs/actions/runs/42104426954"
