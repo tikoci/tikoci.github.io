@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "centrs",
-  "generatedAt": "2026-11-12T12:49:37.765Z",
+  "generatedAt": "2026-11-12T20:52:15.050Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,29 +9,45 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 24,
-        "owner": 24,
+        "total": 22,
+        "owner": 22,
         "external": 0,
         "bot": 0
       },
       "prs": {
-        "total": 4,
-        "owner": 4,
+        "total": 2,
+        "owner": 2,
         "external": 0,
         "bot": 0,
         "ownerReady": 1,
-        "ownerDraft": 3,
+        "ownerDraft": 1,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 28,
+      "fetched": 24,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 659,
+        "title": "Pages: tip detailsUrls 404 and 67 error pages are still stubs",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/issues/659",
+        "createdAt": "2026-11-12T16:07:24Z",
+        "updatedAt": "2026-11-12T18:05:06Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "documentation"
+        ],
+        "milestone": "next"
+      },
       {
         "number": 657,
         "title": "execute --cmr: a connected client RouterOS won't select (half-paired/pending) is silently dropped as a label miss",
@@ -50,28 +66,15 @@
         "milestone": null
       },
       {
-        "number": 656,
-        "title": "build(deps): consolidate Biome and zizmor patch updates",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/pull/656",
-        "createdAt": "2026-11-12T03:10:29Z",
-        "updatedAt": "2026-11-12T03:11:05Z",
-        "isPR": true,
-        "draft": true,
-        "labels": [],
-        "milestone": null
-      },
-      {
         "number": 655,
         "title": "test(cmr): finish half-paired labs and gate beta3+ contracts (#527)",
         "author": "mobileskyfi",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/pull/655",
         "createdAt": "2026-11-12T01:06:33Z",
-        "updatedAt": "2026-11-12T04:33:31Z",
+        "updatedAt": "2026-11-12T18:33:15Z",
         "isPR": true,
-        "draft": true,
+        "draft": false,
         "labels": [],
         "milestone": null
       },
@@ -82,14 +85,14 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/654",
         "createdAt": "2026-11-12T00:50:30Z",
-        "updatedAt": "2026-11-12T01:22:56Z",
+        "updatedAt": "2026-11-12T16:43:55Z",
         "isPR": false,
         "draft": null,
         "labels": [
           "bug",
           "QA"
         ],
-        "milestone": null
+        "milestone": "next"
       },
       {
         "number": 653,
@@ -122,39 +125,6 @@
           "bug",
           "cmd-btest",
           "proto-btest"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 651,
-        "title": "fix(execute): name RouterOS's dropped reply (\"action timed out\") (#639)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/pull/651",
-        "createdAt": "2026-11-11T23:48:15Z",
-        "updatedAt": "2026-11-12T12:49:40Z",
-        "isPR": true,
-        "draft": false,
-        "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 639,
-        "title": "/container/shell and /execute as-string drop a reply after about 60 s: say the command may still be running",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/639",
-        "createdAt": "2026-11-11T18:40:44Z",
-        "updatedAt": "2026-11-11T19:02:35Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "UX",
-          "cmd-execute",
-          "cmd-api",
-          "proto-rest-api",
-          "proto-native-api",
-          "from-app-t3code"
         ],
         "milestone": null
       },
@@ -373,23 +343,6 @@
         "milestone": "horizon"
       },
       {
-        "number": 464,
-        "title": "Pages: broken catalog/tip/details links and HTTPS redirect; historical deploy stall recovered",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/464",
-        "createdAt": "2026-10-13T17:55:25Z",
-        "updatedAt": "2026-11-05T13:10:49Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "documentation",
-          "CI"
-        ],
-        "milestone": null
-      },
-      {
         "number": 386,
         "title": "RouterOS 6 targets: validation fails with misleading unknown-path/syntax errors, and execute can't run over the native API",
         "author": "mobileskyfi",
@@ -407,25 +360,6 @@
           "proto-native-api"
         ],
         "milestone": null
-      },
-      {
-        "number": 363,
-        "title": "Commands whose non-return is the expected outcome (/system/device-mode/update, reboot, upgrade) report as transport/timeout",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/363",
-        "createdAt": "2026-09-20T20:10:56Z",
-        "updatedAt": "2026-10-17T00:05:35Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "hardening",
-          "cmd-execute",
-          "cmd-explain",
-          "provider-quickchr"
-        ],
-        "milestone": "horizon"
       },
       {
         "number": 262,
@@ -469,7 +403,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/131",
         "createdAt": "2026-07-02T01:19:39Z",
-        "updatedAt": "2026-11-11T19:02:42Z",
+        "updatedAt": "2026-11-12T16:54:28Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -480,7 +414,7 @@
           "dry-july",
           "agent-ready"
         ],
-        "milestone": null
+        "milestone": "next"
       },
       {
         "number": 69,

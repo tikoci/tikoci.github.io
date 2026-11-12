@@ -22,6 +22,27 @@
     "category": "dev-tools"
   },
   {
+    "name": "routeros-skills",
+    "description": "Custom instruction SKILL.md for MikroTik RouterOS v7",
+    "stars": 90,
+    "language": "Shell",
+    "topics": [
+      "claude",
+      "claude-skills",
+      "copilot-enabled",
+      "copilot-instructions",
+      "copilot-skills",
+      "mikrotik",
+      "routeros",
+      "routeros-api",
+      "routeros-v7",
+      "skills",
+      "tikoci"
+    ],
+    "html_url": "https://github.com/tikoci/routeros-skills",
+    "category": "ai"
+  },
+  {
     "name": "quickchr",
     "description": "`quickchr` - Fastest path to MikroTik RouterOS CHR instance for testing and scripts -– agent ready, human friendly",
     "stars": 10,
@@ -108,27 +129,6 @@
     "language": "TypeScript",
     "topics": [],
     "html_url": "https://github.com/tikoci/enbeep"
-  },
-  {
-    "name": "routeros-skills",
-    "description": "Custom instruction SKILL.md for MikroTik RouterOS v7",
-    "stars": 89,
-    "language": "Shell",
-    "topics": [
-      "claude",
-      "claude-skills",
-      "copilot-enabled",
-      "copilot-instructions",
-      "copilot-skills",
-      "mikrotik",
-      "routeros",
-      "routeros-api",
-      "routeros-v7",
-      "skills",
-      "tikoci"
-    ],
-    "html_url": "https://github.com/tikoci/routeros-skills",
-    "category": "ai"
   },
   {
     "name": "m2ir",
