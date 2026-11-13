@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "centrs",
-  "generatedAt": "2026-11-13T01:53:32.142Z",
+  "generatedAt": "2026-11-13T09:38:01.364Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -15,23 +15,36 @@
         "bot": 0
       },
       "prs": {
-        "total": 3,
-        "owner": 2,
+        "total": 4,
+        "owner": 3,
         "external": 0,
         "bot": 1,
-        "ownerReady": 1,
+        "ownerReady": 2,
         "ownerDraft": 1,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 25,
+      "fetched": 26,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 663,
+        "title": "docs(errors): write the 25 Tier A error pages (#659 phase 2)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/pull/663",
+        "createdAt": "2026-11-13T02:36:48Z",
+        "updatedAt": "2026-11-13T04:10:00Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [],
+        "milestone": null
+      },
       {
         "number": 662,
         "title": "build(deps): bump the npm group with 3 updates",
@@ -55,7 +68,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/659",
         "createdAt": "2026-11-12T16:07:24Z",
-        "updatedAt": "2026-11-12T21:41:38Z",
+        "updatedAt": "2026-11-13T02:37:03Z",
         "isPR": false,
         "draft": null,
         "labels": [

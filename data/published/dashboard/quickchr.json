@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-13T01:53:32.142Z",
+  "generatedAt": "2026-11-13T09:38:01.364Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -74,17 +74,17 @@
         "bot": 0
       },
       "prs": {
-        "total": 2,
+        "total": 0,
         "owner": 0,
         "external": 0,
-        "bot": 2,
+        "bot": 0,
         "ownerReady": 0,
         "ownerDraft": 0,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 52,
+      "fetched": 50,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
@@ -98,7 +98,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/271",
         "createdAt": "2026-11-11T17:40:46Z",
-        "updatedAt": "2026-11-11T17:40:46Z",
+        "updatedAt": "2026-11-13T03:09:21Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -107,7 +107,7 @@
           "needs-decision",
           "platform:mac"
         ],
-        "milestone": null
+        "milestone": "next"
       },
       {
         "number": 269,
@@ -116,7 +116,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/269",
         "createdAt": "2026-11-11T16:24:46Z",
-        "updatedAt": "2026-11-11T16:24:46Z",
+        "updatedAt": "2026-11-13T03:10:09Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -125,7 +125,7 @@
           "P3",
           "platform:windows"
         ],
-        "milestone": null
+        "milestone": "next"
       },
       {
         "number": 268,
@@ -283,7 +283,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/256",
         "createdAt": "2026-11-07T19:34:53Z",
-        "updatedAt": "2026-11-11T17:01:03Z",
+        "updatedAt": "2026-11-13T03:07:23Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -294,7 +294,7 @@
           "platform:mac",
           "consumer:app-t3code"
         ],
-        "milestone": null
+        "milestone": "next"
       },
       {
         "number": 253,
@@ -311,38 +311,6 @@
           "area:provisioning",
           "consumer:centrs",
           "consumer:app-t3code"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 250,
-        "title": "chore(deps): bump actions/setup-node from 5 to 7",
-        "author": "dependabot[bot]",
-        "authorClass": "bot",
-        "url": "https://github.com/tikoci/quickchr/pull/250",
-        "createdAt": "2026-11-02T15:19:15Z",
-        "updatedAt": "2026-11-02T15:19:20Z",
-        "isPR": true,
-        "draft": false,
-        "labels": [
-          "dependencies",
-          "github_actions"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 249,
-        "title": "chore(deps): bump actions/github-script from 8.0.0 to 9.0.0",
-        "author": "dependabot[bot]",
-        "authorClass": "bot",
-        "url": "https://github.com/tikoci/quickchr/pull/249",
-        "createdAt": "2026-11-02T15:19:12Z",
-        "updatedAt": "2026-11-02T15:19:16Z",
-        "isPR": true,
-        "draft": false,
-        "labels": [
-          "dependencies",
-          "github_actions"
         ],
         "milestone": null
       },
@@ -605,7 +573,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/106",
         "createdAt": "2026-07-28T21:18:07Z",
-        "updatedAt": "2026-10-31T20:37:54Z",
+        "updatedAt": "2026-11-13T03:09:04Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -614,7 +582,7 @@
           "area:ci",
           "P2"
         ],
-        "milestone": null
+        "milestone": "next"
       },
       {
         "number": 97,
