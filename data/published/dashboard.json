@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-12T20:52:15.050Z",
+  "generatedAt": "2026-11-13T01:53:32.142Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,7 +10,7 @@
     "otherHttpCalls": 11,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4836
+    "rateLimitRemaining": 4837
   },
   "sources": {
     "ros-current": "https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel> (MikroTik upgrade feed; body \"<version> <build-ts>\")",
@@ -1571,8 +1571,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "5dc9e8aca6e20f80afb327f9d41d4c8af29ef15d",
-        "headUrl": "https://github.com/tikoci/centrs/commit/5dc9e8aca6e20f80afb327f9d41d4c8af29ef15d",
+        "headSha": "3512e82b93bcfebc0623fded406c0a43eb827e43",
+        "headUrl": "https://github.com/tikoci/centrs/commit/3512e82b93bcfebc0623fded406c0a43eb827e43",
         "workflows": [
           {
             "configured": "CI",
@@ -1580,15 +1580,15 @@
             "path": ".github/workflows/ci.yaml",
             "present": true,
             "state": "ok",
-            "status": "in_progress",
-            "conclusion": null,
-            "lastConclusion": null,
+            "status": "completed",
+            "conclusion": "success",
+            "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "5dc9e8aca6e20f80afb327f9d41d4c8af29ef15d",
+            "headSha": "3512e82b93bcfebc0623fded406c0a43eb827e43",
             "event": "push",
-            "runStartedAt": "2026-11-12T20:50:55Z",
-            "lastUpdatedAt": "2026-11-12T20:51:32Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/43304340461",
+            "runStartedAt": "2026-11-12T21:34:44Z",
+            "lastUpdatedAt": "2026-11-12T21:37:26Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/43311625506",
             "isHead": true
           },
           {
@@ -1637,17 +1637,17 @@
             "bot": 0
           },
           "prs": {
-            "total": 2,
+            "total": 3,
             "owner": 2,
             "external": 0,
-            "bot": 0,
+            "bot": 1,
             "ownerReady": 1,
             "ownerDraft": 1,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 24,
+          "fetched": 25,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
@@ -1655,13 +1655,29 @@
         "pullsEnriched": true,
         "items": [
           {
+            "number": 662,
+            "title": "build(deps): bump the npm group with 3 updates",
+            "author": "dependabot[bot]",
+            "authorClass": "bot",
+            "url": "https://github.com/tikoci/centrs/pull/662",
+            "createdAt": "2026-11-13T01:34:57Z",
+            "updatedAt": "2026-11-13T01:35:01Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [
+              "dependencies",
+              "javascript"
+            ],
+            "milestone": null
+          },
+          {
             "number": 659,
             "title": "Pages: tip detailsUrls 404 and 67 error pages are still stubs",
             "author": "mobileskyfi",
             "authorClass": "owner",
             "url": "https://github.com/tikoci/centrs/issues/659",
             "createdAt": "2026-11-12T16:07:24Z",
-            "updatedAt": "2026-11-12T18:05:06Z",
+            "updatedAt": "2026-11-12T21:41:38Z",
             "isPR": false,
             "draft": null,
             "labels": [
@@ -1694,7 +1710,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/centrs/pull/655",
             "createdAt": "2026-11-12T01:06:33Z",
-            "updatedAt": "2026-11-12T18:33:15Z",
+            "updatedAt": "2026-11-13T01:23:52Z",
             "isPR": true,
             "draft": false,
             "labels": [],
@@ -1794,21 +1810,6 @@
               "agent-ready"
             ],
             "milestone": null
-          },
-          {
-            "number": 620,
-            "title": "Service-specific env/config port keys, then deprecate CENTRS_PORT",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/issues/620",
-            "createdAt": "2026-11-04T01:29:46Z",
-            "updatedAt": "2026-11-11T22:20:00Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "cmd-settings"
-            ],
-            "milestone": null
           }
         ]
       },
@@ -1817,7 +1818,7 @@
         "openIssues": 0,
         "openPRs": 0,
         "totalIssues": 22,
-        "totalPRs": 2,
+        "totalPRs": 3,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -3486,23 +3487,6 @@
       ]
     },
     {
-      "id": "ci-run-in-progress:centrs:CI",
-      "rule": "ci-run-in-progress",
-      "severity": "pending",
-      "category": "ci",
-      "repos": [
-        "centrs"
-      ],
-      "summary": "centrs: CI in_progress on main",
-      "detail": "The latest default-branch run has not completed, so the current-commit verdict is pending. Re-check after it finishes.",
-      "evidence": [
-        "repos.centrs.ci.workflows[CI].status=in_progress"
-      ],
-      "urls": [
-        "https://github.com/tikoci/centrs/actions/runs/43304340461"
-      ]
-    },
-    {
       "id": "npm-pending-publish:lsp-routeros-ts",
       "rule": "npm-pending-publish",
       "severity": "pending",
@@ -3634,7 +3618,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.centrs.ci.workflows[QA].headSha=cbe976a67f47a3e0c503b3945bf28dd53bde3b34",
-        "repos.centrs.ci.headSha=5dc9e8aca6e20f80afb327f9d41d4c8af29ef15d"
+        "repos.centrs.ci.headSha=3512e82b93bcfebc0623fded406c0a43eb827e43"
       ],
       "urls": [
         "https://github.com/tikoci/centrs/actions/runs/43231612080"
@@ -3652,7 +3636,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.centrs.ci.workflows[Release].headSha=b411207d943be31031bdbaba3ebc3fb4e36461d3",
-        "repos.centrs.ci.headSha=5dc9e8aca6e20f80afb327f9d41d4c8af29ef15d"
+        "repos.centrs.ci.headSha=3512e82b93bcfebc0623fded406c0a43eb827e43"
       ],
       "urls": [
         "https://github.com/tikoci/centrs/actions/runs/42104426954"
