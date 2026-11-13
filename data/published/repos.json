@@ -1,5 +1,18 @@
 [
   {
+    "name": "fat-chr",
+    "description": "Builder for CHR images with UEFI support (testing)",
+    "stars": 64,
+    "language": "Shell",
+    "topics": [
+      "chr",
+      "routeros",
+      "uefi"
+    ],
+    "html_url": "https://github.com/tikoci/fat-chr",
+    "category": "virtualization"
+  },
+  {
     "name": "centrs",
     "description": "Multi-protocol (REST, native API, mac-telnet, SSH) CLI and TypeScript interface to RouterOS, with rich help and validation",
     "stars": 6,
@@ -108,19 +121,6 @@
       "tikoci"
     ],
     "html_url": "https://github.com/tikoci/app-t3code"
-  },
-  {
-    "name": "fat-chr",
-    "description": "Builder for CHR images with UEFI support (testing)",
-    "stars": 63,
-    "language": "Shell",
-    "topics": [
-      "chr",
-      "routeros",
-      "uefi"
-    ],
-    "html_url": "https://github.com/tikoci/fat-chr",
-    "category": "virtualization"
   },
   {
     "name": "enbeep",

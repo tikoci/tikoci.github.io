@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "centrs",
-  "generatedAt": "2026-11-13T17:47:52.495Z",
+  "generatedAt": "2026-11-13T23:38:11.333Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -15,17 +15,17 @@
         "bot": 0
       },
       "prs": {
-        "total": 4,
+        "total": 3,
         "owner": 3,
         "external": 0,
-        "bot": 1,
+        "bot": 0,
         "ownerReady": 2,
         "ownerDraft": 1,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 26,
+      "fetched": 25,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
@@ -33,32 +33,16 @@
     "pullsEnriched": true,
     "items": [
       {
-        "number": 664,
-        "title": "docs(errors): write the last 39 error pages and publish tip pages (#659 phase 3)",
+        "number": 665,
+        "title": "fix(errors): split no-such-item from unknown-path; api --via ssh is unsupported-capability (#659)",
         "author": "mobileskyfi",
         "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/pull/664",
-        "createdAt": "2026-11-13T16:33:43Z",
-        "updatedAt": "2026-11-13T17:00:46Z",
+        "url": "https://github.com/tikoci/centrs/pull/665",
+        "createdAt": "2026-11-13T21:11:03Z",
+        "updatedAt": "2026-11-13T23:33:27Z",
         "isPR": true,
         "draft": false,
         "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 662,
-        "title": "build(deps): bump the npm group with 3 updates",
-        "author": "dependabot[bot]",
-        "authorClass": "bot",
-        "url": "https://github.com/tikoci/centrs/pull/662",
-        "createdAt": "2026-11-13T01:34:57Z",
-        "updatedAt": "2026-11-13T01:35:01Z",
-        "isPR": true,
-        "draft": false,
-        "labels": [
-          "dependencies",
-          "javascript"
-        ],
         "milestone": null
       },
       {
@@ -68,7 +52,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/659",
         "createdAt": "2026-11-12T16:07:24Z",
-        "updatedAt": "2026-11-13T16:41:14Z",
+        "updatedAt": "2026-11-13T19:35:16Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -84,7 +68,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/657",
         "createdAt": "2026-11-12T04:33:20Z",
-        "updatedAt": "2026-11-12T04:33:20Z",
+        "updatedAt": "2026-11-13T19:45:53Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -92,7 +76,7 @@
           "cmd-execute",
           "provider-cmr"
         ],
-        "milestone": null
+        "milestone": "next"
       },
       {
         "number": 655,
@@ -312,7 +296,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/572",
         "createdAt": "2026-10-31T21:59:14Z",
-        "updatedAt": "2026-11-11T21:43:44Z",
+        "updatedAt": "2026-11-13T19:43:38Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -320,7 +304,7 @@
           "cmd-explain",
           "agent-ready"
         ],
-        "milestone": null
+        "milestone": "next"
       },
       {
         "number": 527,
@@ -378,7 +362,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/386",
         "createdAt": "2026-09-25T19:44:00Z",
-        "updatedAt": "2026-11-11T22:20:05Z",
+        "updatedAt": "2026-11-13T19:44:10Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -388,7 +372,7 @@
           "cmd-retrieve",
           "proto-native-api"
         ],
-        "milestone": null
+        "milestone": "next"
       },
       {
         "number": 262,

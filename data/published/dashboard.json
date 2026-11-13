@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-13T17:47:52.495Z",
+  "generatedAt": "2026-11-13T23:38:11.333Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -1571,8 +1571,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "82b243526ddafab0f94692f7b8c6ffcce63226b2",
-        "headUrl": "https://github.com/tikoci/centrs/commit/82b243526ddafab0f94692f7b8c6ffcce63226b2",
+        "headSha": "030ba6c890ea3bd7382a15e019f6abf6ba604427",
+        "headUrl": "https://github.com/tikoci/centrs/commit/030ba6c890ea3bd7382a15e019f6abf6ba604427",
         "workflows": [
           {
             "configured": "CI",
@@ -1581,14 +1581,14 @@
             "present": true,
             "state": "ok",
             "status": "completed",
-            "conclusion": "failure",
-            "lastConclusion": "failure",
+            "conclusion": "success",
+            "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "82b243526ddafab0f94692f7b8c6ffcce63226b2",
+            "headSha": "030ba6c890ea3bd7382a15e019f6abf6ba604427",
             "event": "push",
-            "runStartedAt": "2026-11-13T15:58:50Z",
-            "lastUpdatedAt": "2026-11-13T16:14:10Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/43458016148",
+            "runStartedAt": "2026-11-13T19:42:23Z",
+            "lastUpdatedAt": "2026-11-13T19:45:17Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/43494707024",
             "isHead": true
           },
           {
@@ -1637,17 +1637,17 @@
             "bot": 0
           },
           "prs": {
-            "total": 4,
+            "total": 3,
             "owner": 3,
             "external": 0,
-            "bot": 1,
+            "bot": 0,
             "ownerReady": 2,
             "ownerDraft": 1,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 26,
+          "fetched": 25,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
@@ -1655,32 +1655,16 @@
         "pullsEnriched": true,
         "items": [
           {
-            "number": 664,
-            "title": "docs(errors): write the last 39 error pages and publish tip pages (#659 phase 3)",
+            "number": 665,
+            "title": "fix(errors): split no-such-item from unknown-path; api --via ssh is unsupported-capability (#659)",
             "author": "mobileskyfi",
             "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/pull/664",
-            "createdAt": "2026-11-13T16:33:43Z",
-            "updatedAt": "2026-11-13T17:00:46Z",
+            "url": "https://github.com/tikoci/centrs/pull/665",
+            "createdAt": "2026-11-13T21:11:03Z",
+            "updatedAt": "2026-11-13T23:33:27Z",
             "isPR": true,
             "draft": false,
             "labels": [],
-            "milestone": null
-          },
-          {
-            "number": 662,
-            "title": "build(deps): bump the npm group with 3 updates",
-            "author": "dependabot[bot]",
-            "authorClass": "bot",
-            "url": "https://github.com/tikoci/centrs/pull/662",
-            "createdAt": "2026-11-13T01:34:57Z",
-            "updatedAt": "2026-11-13T01:35:01Z",
-            "isPR": true,
-            "draft": false,
-            "labels": [
-              "dependencies",
-              "javascript"
-            ],
             "milestone": null
           },
           {
@@ -1690,7 +1674,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/centrs/issues/659",
             "createdAt": "2026-11-12T16:07:24Z",
-            "updatedAt": "2026-11-13T16:41:14Z",
+            "updatedAt": "2026-11-13T19:35:16Z",
             "isPR": false,
             "draft": null,
             "labels": [
@@ -1706,7 +1690,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/centrs/issues/657",
             "createdAt": "2026-11-12T04:33:20Z",
-            "updatedAt": "2026-11-12T04:33:20Z",
+            "updatedAt": "2026-11-13T19:45:53Z",
             "isPR": false,
             "draft": null,
             "labels": [
@@ -1714,7 +1698,7 @@
               "cmd-execute",
               "provider-cmr"
             ],
-            "milestone": null
+            "milestone": "next"
           },
           {
             "number": 655,
@@ -1807,6 +1791,22 @@
               "proto-mac-telnet"
             ],
             "milestone": null
+          },
+          {
+            "number": 621,
+            "title": "Tip when a CDB record still uses legacy port=",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/621",
+            "createdAt": "2026-11-04T01:29:48Z",
+            "updatedAt": "2026-11-11T21:43:38Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "UX",
+              "agent-ready"
+            ],
+            "milestone": null
           }
         ]
       },
@@ -1815,7 +1815,7 @@
         "openIssues": 0,
         "openPRs": 0,
         "totalIssues": 22,
-        "totalPRs": 4,
+        "totalPRs": 3,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -3394,24 +3394,6 @@
   ],
   "findings": [
     {
-      "id": "ci-default-branch-failing:centrs:CI",
-      "rule": "ci-default-branch-failing",
-      "severity": "failure",
-      "category": "ci",
-      "repos": [
-        "centrs"
-      ],
-      "summary": "centrs: CI failure on main",
-      "detail": "The latest default-branch run completed with a failing conclusion. Only default-branch runs count here; PR-branch runs are excluded at collection time.",
-      "evidence": [
-        "repos.centrs.ci.workflows[CI].conclusion=failure",
-        "repos.centrs.ci.workflows[CI].headSha=82b243526ddafab0f94692f7b8c6ffcce63226b2"
-      ],
-      "urls": [
-        "https://github.com/tikoci/centrs/actions/runs/43458016148"
-      ]
-    },
-    {
       "id": "ci-default-branch-failing:make.d:build-yaml",
       "rule": "ci-default-branch-failing",
       "severity": "failure",
@@ -3633,7 +3615,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.centrs.ci.workflows[QA].headSha=3512e82b93bcfebc0623fded406c0a43eb827e43",
-        "repos.centrs.ci.headSha=82b243526ddafab0f94692f7b8c6ffcce63226b2"
+        "repos.centrs.ci.headSha=030ba6c890ea3bd7382a15e019f6abf6ba604427"
       ],
       "urls": [
         "https://github.com/tikoci/centrs/actions/runs/43432107263"
@@ -3651,7 +3633,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.centrs.ci.workflows[Release].headSha=b411207d943be31031bdbaba3ebc3fb4e36461d3",
-        "repos.centrs.ci.headSha=82b243526ddafab0f94692f7b8c6ffcce63226b2"
+        "repos.centrs.ci.headSha=030ba6c890ea3bd7382a15e019f6abf6ba604427"
       ],
       "urls": [
         "https://github.com/tikoci/centrs/actions/runs/42104426954"
