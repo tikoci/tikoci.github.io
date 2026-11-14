@@ -64,6 +64,7 @@ test.each([
     ["broken link with a single-quoted title", { "references/detail.md": "[x](missing.md 'Details')\n" }, "does not resolve"],
     ["broken link with a parenthesized title", { "references/detail.md": "[x](missing.md (Details))\n" }, "does not resolve"],
     ["broken reference definition", { "references/detail.md": "[x][r]\n\n[r]: missing.md 'T'\n" }, "does not resolve"],
+    ["broken reference destination on the next line", { "references/detail.md": "[x][g]\n\n[g]:\n  missing.md\n" }, "does not resolve"],
     ["home path in a script", { "scripts/run.py": "open('/home/operator/.config/private')\n" }, "absolute home directory path"],
     ["home path in an extensionless file", { "scripts/run": "#!/bin/sh\ncd /Users/operator\n" }, "absolute home directory path"],
 ])("rejects %s", (_, files, message) => {
@@ -82,6 +83,16 @@ test("rejects symlinks inside skills and as skill directories", () => {
     expect(checkSkills(root).errors.join("\n")).toContain("references/alias.md: symlinks are not allowed");
     symlinkSync("tikoci-sample", join(root, "tikoci-loop"));
     expect(checkSkills(root).errors.join("\n")).toContain("tikoci-loop: symlinks are not allowed");
+});
+
+test("ignores links in indented fences inside list items", () => {
+    expect(errorsFor({ "references/detail.md": "- Example:\n\n  ```md\n  [example](missing.md)\n  ```\n" })).toBe("");
+});
+
+test("index links encode file names", () => {
+    const root = skillsTree({ "references/a#b.md": "# A\n" });
+    const html = readFileSync(join(renderHouse(root), "house/index.html"), "utf-8");
+    expect(html).toContain('href="skills/tikoci-sample/references/a%23b.md"><code>references/a#b.md</code>');
 });
 
 test("skips binary assets when scanning for machine facts", () => {
@@ -142,7 +153,7 @@ test("published skills are byte for byte, with working relative links and an ind
         const published = join(dist, "house/skills", skill.name);
         for (const link of markdownLinks(readFileSync(join(published, "SKILL.md"), "utf-8"))) {
             if (/^[a-z]+:|^#/.test(link)) continue;
-            expect(() => readFileSync(join(published, link.replace(/#.*$/, "")))).not.toThrow();
+            expect(() => readFileSync(join(published, decodeURIComponent(link.replace(/[#?].*$/, ""))))).not.toThrow();
         }
     }
     const html = readFileSync(join(dist, "house/index.html"), "utf-8");

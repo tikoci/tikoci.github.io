@@ -13,8 +13,7 @@
 		"dist",
 		".git",
 		".scratch",
-		"bun.lock",
-		"docs/asset-migration.md"
+		"bun.lock"
 	],
 	"dictionaryDefinitions": [
 		{
@@ -28,5 +27,14 @@
 	],
 	"files": [
 		"**/*.md"
+	],
+	"overrides": [
+		{
+			"filename": "docs/asset-migration.md",
+			"ignoreRegExpList": [
+				"/`[^`\\n]*`/g"
+			],
+			"description": "Inline code there is asset paths and hashes; the prose is still checked."
+		}
 	]
 }

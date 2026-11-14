@@ -173,14 +173,16 @@ function checkLink(dir: string, path: string, file: string, target: string, fail
 /** Inline and reference-style link destinations (CommonMark syntax), ignoring code. */
 export function markdownLinks(markdown: string): string[] {
     const prose = markdown
-        .replace(/^(```|~~~)[^\n]*\n[\s\S]*?^\1[^\n]*$/gm, "")
+        // Fences may be indented, e.g. inside list items.
+        .replace(/^[ \t]*(`{3,}|~{3,})[^\n]*\n[\s\S]*?^[ \t]*\1[ \t]*$/gm, "")
         .replace(/`[^`\n]*`/g, "");
     const targets: string[] = [];
     for (const match of prose.matchAll(/\]\(/g)) {
         const destination = linkDestination(prose, (match.index ?? 0) + 2);
         if (destination) targets.push(destination);
     }
-    for (const match of prose.matchAll(/^ {0,3}\[[^\]]+\]:[ \t]*(.*)$/gm)) {
+    // The destination of a reference definition may start on the next line.
+    for (const match of prose.matchAll(/^ {0,3}\[[^\]]+\]:[ \t]*(?:\r?\n[ \t]*)?(.*)$/gm)) {
         const destination = linkDestination(match[1], 0);
         if (destination) targets.push(destination);
     }

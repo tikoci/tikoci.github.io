@@ -47,7 +47,7 @@ export function generateHouse(dist: string, origin: string, skillsDir = SKILLS_D
     const rows = report.skills.map(skill => {
         const base = `skills/${skill.name}/`;
         const references = skill.files.filter(file => file !== "SKILL.md")
-            .map(file => `<a href="${escapeHtml(base + file)}"><code>${escapeHtml(file)}</code></a>`).join(", ");
+            .map(file => `<a href="${escapeHtml(base + file.split("/").map(encodeURIComponent).join("/"))}"><code>${escapeHtml(file)}</code></a>`).join(", ");
         return `<article id="${skill.name}">
     <h3><a href="${base}SKILL.md"><code>${skill.name}</code></a></h3>
     <p>${escapeHtml(skill.description)}</p>${references ? `\n    <p><small>Also: ${references}</small></p>` : ""}

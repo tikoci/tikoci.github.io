@@ -23,6 +23,7 @@ and where agent instructions live. Writing and checking a skill:
 To copy a skill into a repo:
 
 ```sh
+mkdir -p .agents/skills
 cp -r path/to/tikoci.github.io/skills/tikoci-house .agents/skills/
 ```
 
