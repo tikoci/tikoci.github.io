@@ -38,6 +38,10 @@ test("committed house skills validate within the description budget", () => {
     expect(report.descriptionTotal).toBeLessThanOrEqual(DESCRIPTION_BUDGET);
 });
 
+test("file names with .local before an extension are not host names", () => {
+    expect(errorsFor({ "references/detail.md": "Keep centrs.local.env and settings.local.json local.\n" })).toBe("");
+});
+
 test("a valid skill passes and lists its files", () => {
     const report = checkSkills(skillsTree());
     expect(report.errors).toEqual([]);
@@ -62,6 +66,7 @@ test.each([
     ["macOS home path", { "references/detail.md": "Run /Users/someone/bin/tool\n" }, "absolute home directory path"],
     ["Linux home path", { "references/detail.md": "cd /home/someone\n" }, "absolute home directory path"],
     ["local host name", { "references/detail.md": "ssh build-box.local\n" }, "local host name"],
+    ["local host name at sentence end", { "references/detail.md": "Reach build-box.local.\n" }, "local host name"],
     ["broken link", { "references/detail.md": "[x](missing.md)\n" }, "does not resolve"],
     ["link out of the skill", { "references/detail.md": "[x](../../../docs/a.md)\n" }, "leaves the skill directory"],
     ["root-relative link", { "references/detail.md": "[x](/house/)\n" }, "root-relative link"],

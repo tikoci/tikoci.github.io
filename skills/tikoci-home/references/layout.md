@@ -43,12 +43,16 @@ Placeholders are upper case: `NAME`, `SLUG`, `SLOT`, `VERSION`, `PID`,
   cache; centrs unit tests sandbox `HOME`, while integration keeps it and reads
   the developer's CDB ([centrs#654](https://github.com/tikoci/centrs/issues/654));
   rosetta uses `DB_PATH=:memory:` and a preload that mocks `homedir()`. A
-  pinned run (`TIKOCI_HOME`, `TIKOCI_PINNED=1`, the shared cache) replaces all
-  three.
+  sandbox (`TIKOCI_SANDBOX` with the shared cache) replaces all three.
 - **Some stores are not per root today.** quickchr's instance credentials are
   keyed by machine name only, so two data dirs overwrite each other's entries.
-  Keychain items are global. Moving credentials under the root and keeping the
-  keychain to the default root fixes both.
+  Keychain items are global. Moving credentials under the root and keeping
+  sandboxes off the keychain fixes both.
+- **Host resources are tracked per data dir.** quickchr's port allocation,
+  cache in-use set and managed-network guards read only the current data dir,
+  so today a second `QUICKCHR_DATA_DIR` can take a stopped machine's ports or
+  shrink the shared cache to the default size. The sandbox duties (read the
+  owner's claims, never evict, no host services) come from this.
 - **No tool keeps a workspace yet.** centrs' MATRIX leans to `.tikoci/centrs/`
   and is ready to start; that theme drives the workspace rules.
 
@@ -56,16 +60,21 @@ Placeholders are upper case: `NAME`, `SLUG`, `SLOT`, `VERSION`, `PID`,
 
 Each is the adopting repo's call; the house rule only says what must hold.
 
-- **quickchr machine sockets.** Moving sockets and the pid file out of the
-  machine directory into `$TIKOCI_RUNTIME_DIR/quickchr/NAME/` separates
-  runtime from state and gives one place to check the length. Keeping them in
-  the machine directory is fine if the length check covers them.
+- **quickchr machine sockets: settled, they stay.** quickchr keeps the four
+  sockets and `qemu.pid` in the machine directory and adds the length check.
+  Moving them gains nothing at default lengths and risks a later command,
+  run without the same `TIKOCI_RUNTIME_DIR`, deciding a running machine is
+  stopped. Network sockets do move to the runtime root, and the network
+  registry records each socket's path.
 - **quickchr factory images in a shared cache.** `cache.ts` protects an image
   from eviction while a machine in the same data dir references it, because
-  reset and provisioning rollback need it again. A cache shared by several
-  roots cannot see the other roots' machines, so adoption needs either a lease
-  per referenced image in the cache root or a re-fetch when reset finds it
-  missing.
+  reset and provisioning rollback need it again. Only owner runs evict, so the
+  owner's machines are covered; images used by machines in an enrolled
+  workspace or a sandbox need a lease per referenced image in the cache root,
+  or a re-fetch when reset finds one missing.
+- **quickchr migration unit** is the whole data dir; `quickchr migrate`
+  refuses while any machine runs, then leaves a symlink at
+  `~/.local/share/quickchr` so bundled older versions keep finding machines.
 - **quickchr machine disks on Windows.** They stay under `%LOCALAPPDATA%`
   either way, since that is the Windows default root.
 - **rosetta compiled binaries.** The DB beside the executable is a portable
@@ -76,9 +85,10 @@ Each is the adopting repo's call; the house rule only says what must hold.
   version's eviction must respect readers from another root. rosetta's
   per-file SQLite locks already do; the collector must also stop comparing
   against a fixed `~/.rosetta`.
-- **centrs `known_hosts`.** Default runs keep using OpenSSH's file. A pinned run
-  should pass `UserKnownHostsFile` under the root; the option exists but
+- **centrs `known_hosts`.** Owner runs keep using OpenSSH's file. A sandbox
+  should pass `UserKnownHostsFile` under the sandbox; the option exists but
   nothing sets it.
 - **routeros-muse workspace config** is kept in the user root, keyed by a
-  workspace id, so a clone cannot change it. That is a reasonable exception to
-  "workspace data lives in `.tikoci/`": note it under `## House exceptions`.
+  workspace id, so a clone cannot change it. Under tikoci-home that is the
+  workspace's `routeros-muse.local.env` once enrolled; keeping it in the user
+  root instead is also fine, noted under `## House exceptions`.

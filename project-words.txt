@@ -23,11 +23,13 @@ ros
 routeros
 rsc
 rskills
+sandboxed
 SNMP
 strawman
 subfolders
 tikbook
 tikoci
+UNC
 unparseable
 USERPROFILE
 usr

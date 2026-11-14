@@ -5,6 +5,12 @@
  * SKILL.md text is the contract and this file is one reading of it. It depends
  * only on node:fs, node:os and node:path, so it runs under Bun and Node.
  *
+ * Three kinds of root share one layout (TOOL/ for config, secrets and state;
+ * run/TOOL/ for runtime files): the user root (~/.tikoci, the owner), a
+ * workspace root (a project's .tikoci/, a persistent guest layered over the
+ * user root) and a sandbox root (TIKOCI_SANDBOX, a disposable guest isolated
+ * from the user root). Guests share the user's cache but never evict from it.
+ *
  * Every function reads the environment it is given at call time. Pass `env`
  * explicitly from code that a test may call with a different environment;
  * never resolve a path once at import and keep it.
@@ -31,23 +37,27 @@ export interface ResolveOptions {
 
 export interface TikociPaths {
     tool: string;
-    /** TIKOCI_PINNED=1: no workspace discovery, legacy paths or OS keychain. */
-    pinned: boolean;
-    /** The user root: TIKOCI_HOME, else defaultHome(); null when the env has no user root. */
-    home: string | null;
-    /** Config, secrets and state for this tool: home/tool. */
-    toolHome: string | null;
-    /** Reusable cache for this tool: TIKOCI_CACHE_DIR/tool, else home/cache/tool. */
-    cache: string | null;
-    /** Sockets, pid files and locks of live processes: TIKOCI_RUNTIME_DIR/tool, else home/run/tool. */
+    /** The run is a sandbox (TIKOCI_SANDBOX): a disposable guest of the user's setup. */
+    sandboxed: boolean;
+    /** This run's own root: the sandbox, else the user root; null when there is neither. */
+    root: string | null;
+    /** Config, secrets and state for this tool: TOOL_HOME, else root/tool. */
+    toolDir: string | null;
+    /** Runtime files: TIKOCI_RUNTIME_DIR/tool, else root/run/tool. */
     runtime: string | null;
-    /** The directory that holds .tikoci/, or null. */
+    /** The shared cache for this tool: TOOL_CACHE_DIR, else TIKOCI_CACHE_DIR/tool, else (user root or sandbox)/cache/tool. */
+    cache: string | null;
+    /** The user root, even in a sandbox (read it only for host-resource claims then); null if unknown. */
+    userRoot: string | null;
+    /** The project directory holding .tikoci/, or null. */
     workspace: string | null;
     /** workspace/.tikoci/tool, or null. */
     workspaceToolDir: string | null;
-    /** Whether the tool may read its pre-tikoci-home locations. */
+    /** May evict from the shared cache, change its policy and manage host-wide services (no for a sandbox). */
+    owner: boolean;
+    /** May read the tool's pre-tikoci-home locations (no for a sandbox). */
     legacy: boolean;
-    /** Whether the tool may use the OS keychain (Bun.secrets and similar). */
+    /** May use the OS keychain, Bun.secrets and similar (no for a sandbox). */
     keychain: boolean;
 }
 
@@ -55,6 +65,16 @@ export interface TikociPaths {
 export const SOCKET_PATH_MAX = 103;
 
 const TOOL_NAME = /^[a-z][a-z0-9-]*$/;
+
+function checkTool(tool: string): void {
+    if (!TOOL_NAME.test(tool)) throw new Error(`tool name "${tool}" must match ${TOOL_NAME}`);
+}
+
+/** The prefix of a tool's own variables: routeros-muse → ROUTEROS_MUSE. */
+export function toolVarPrefix(tool: string): string {
+    checkTool(tool);
+    return tool.toUpperCase().replaceAll("-", "_");
+}
 
 function pathFor(platform: NodeJS.Platform) {
     return platform === "win32" ? win32 : posix;
@@ -87,7 +107,7 @@ function absoluteFromEnv(env: Env, name: string, platform: NodeJS.Platform): str
     const value = nonEmpty(env[name]);
     if (value === undefined) return undefined;
     const path = pathFor(platform);
-    // On Windows, "\\x" is "absolute" but depends on the current drive: require a drive or UNC path.
+    // On Windows, "\x" is "absolute" but depends on the current drive: require a drive or UNC path.
     const absolute = platform === "win32" ? /^(?:[A-Za-z]:[\\/]|[\\/]{2}[^\\/])/.test(value) : path.isAbsolute(value);
     if (!absolute) throw new Error(`${name} must be an absolute path, got "${value}"`);
     return path.normalize(value);
@@ -95,11 +115,10 @@ function absoluteFromEnv(env: Env, name: string, platform: NodeJS.Platform): str
 
 /** The canonical form of an existing path (symlinks followed), else its resolved form. */
 function canonical(target: string, platform: NodeJS.Platform): string {
-    const path = pathFor(platform);
     try {
         return realpathSync(target);
     } catch {
-        return path.resolve(target);
+        return pathFor(platform).resolve(target);
     }
 }
 
@@ -122,22 +141,19 @@ export function defaultHome(options: ResolveOptions = {}): string | undefined {
     return platform === "win32" ? path.join(home, "AppData", "Local", "tikoci") : path.join(home, ".tikoci");
 }
 
-/** The cache root: TIKOCI_CACHE_DIR, else the user root's cache/. */
+/** The user root: TIKOCI_HOME, else defaultHome(). */
+export function userRoot(options: ResolveOptions = {}): string | undefined {
+    const env = options.env ?? process.env;
+    const platform = options.platform ?? process.platform;
+    return absoluteFromEnv(env, "TIKOCI_HOME", platform) ?? defaultHome(options);
+}
+
+/** The shared cache root: TIKOCI_CACHE_DIR, else the user root's cache/, else the sandbox's. */
 export function cacheRoot(options: ResolveOptions = {}): string | undefined {
     const env = options.env ?? process.env;
     const platform = options.platform ?? process.platform;
-    const explicit = absoluteFromEnv(env, "TIKOCI_CACHE_DIR", platform);
-    if (explicit) return explicit;
-    const home = absoluteFromEnv(env, "TIKOCI_HOME", platform) ?? defaultHome(options);
-    return home === undefined ? undefined : pathFor(platform).join(home, "cache");
-}
-
-/** TIKOCI_PINNED: "1" pins the run, "0" or unset does not; anything else is an error. */
-function pinnedFromEnv(env: Env): boolean {
-    const value = nonEmpty(env.TIKOCI_PINNED);
-    if (value === undefined || value === "0") return false;
-    if (value === "1") return true;
-    throw new Error(`TIKOCI_PINNED must be 1 or 0, got "${value}"`);
+    const base = userRoot(options) ?? absoluteFromEnv(env, "TIKOCI_SANDBOX", platform);
+    return absoluteFromEnv(env, "TIKOCI_CACHE_DIR", platform) ?? (base === undefined ? undefined : pathFor(platform).join(base, "cache"));
 }
 
 function isRealDirectory(dir: string): boolean {
@@ -156,19 +172,19 @@ function isRealDirectory(dir: string): boolean {
  * ignored, and paths are compared after symlinks are followed (and without
  * case on Windows), so an alias of the home directory stops the walk too.
  */
-export function discoverWorkspace(cwd: string, options: ResolveOptions & { home?: string } = {}): string | null {
+export function discoverWorkspace(cwd: string, options: ResolveOptions & { root?: string } = {}): string | null {
     const platform = options.platform ?? process.platform;
     const path = pathFor(platform);
     const user = userHome(options);
     // With no known home there is no safe place to stop, so discover nothing.
     if (user === undefined) return null;
     const stop = canonical(user, platform);
-    const home = options.home ? canonical(options.home, platform) : undefined;
+    const root = options.root ? canonical(options.root, platform) : undefined;
     let dir = canonical(cwd, platform);
     while (true) {
         if (samePath(dir, stop, platform)) return null;
         const candidate = path.join(dir, ".tikoci");
-        if (!(home && samePath(candidate, home, platform)) && isRealDirectory(candidate)) return dir;
+        if (!(root && samePath(candidate, root, platform)) && isRealDirectory(candidate)) return dir;
         const parent = path.dirname(dir);
         if (parent === dir) return null;
         dir = parent;
@@ -177,16 +193,20 @@ export function discoverWorkspace(cwd: string, options: ResolveOptions & { home?
 
 /** Resolve every tikoci-home location for one tool. */
 export function resolveTikociPaths(tool: string, options: ResolveOptions = {}): TikociPaths {
-    if (!TOOL_NAME.test(tool)) throw new Error(`tool name "${tool}" must match ${TOOL_NAME}`);
+    const prefix = toolVarPrefix(tool);
     const env = options.env ?? process.env;
     const platform = options.platform ?? process.platform;
     const path = pathFor(platform);
-    const explicitHome = absoluteFromEnv(env, "TIKOCI_HOME", platform);
-    const pinned = pinnedFromEnv(env);
-    if (pinned && explicitHome === undefined) throw new Error("TIKOCI_PINNED=1 needs TIKOCI_HOME set to the run's own root");
-    const home = explicitHome ?? defaultHome(options) ?? null;
-    const runtimeRoot = absoluteFromEnv(env, "TIKOCI_RUNTIME_DIR", platform) ?? (home ? path.join(home, "run") : undefined);
-    const cache = cacheRoot(options);
+    const sandbox = absoluteFromEnv(env, "TIKOCI_SANDBOX", platform);
+    const user = userRoot(options) ?? null;
+    const root = sandbox ?? user;
+    const sandboxed = sandbox !== undefined;
+
+    // A tool's own variable wins over the house one, for that tool only.
+    const toolDir = absoluteFromEnv(env, `${prefix}_HOME`, platform) ?? (root ? path.join(root, tool) : null);
+    const runtimeRoot = absoluteFromEnv(env, "TIKOCI_RUNTIME_DIR", platform) ?? (root ? path.join(root, "run") : undefined);
+    const sharedCache = cacheRoot(options);
+    const cache = absoluteFromEnv(env, `${prefix}_CACHE_DIR`, platform) ?? (sharedCache ? path.join(sharedCache, tool) : null);
 
     let workspace: string | null = null;
     const workspaceSetting = nonEmpty(env.TIKOCI_WORKSPACE);
@@ -194,21 +214,23 @@ export function resolveTikociPaths(tool: string, options: ResolveOptions = {}): 
         workspace = null;
     } else if (workspaceSetting !== undefined) {
         workspace = absoluteFromEnv(env, "TIKOCI_WORKSPACE", platform) ?? null;
-    } else if (!pinned && home !== null) {
-        workspace = discoverWorkspace(options.cwd ?? process.cwd(), { ...options, home });
+    } else if (!sandboxed) {
+        workspace = discoverWorkspace(options.cwd ?? process.cwd(), { ...options, root: user ?? undefined });
     }
 
     return {
         tool,
-        pinned,
-        home,
-        toolHome: home ? path.join(home, tool) : null,
-        cache: cache ? path.join(cache, tool) : null,
+        sandboxed,
+        root,
+        toolDir,
         runtime: runtimeRoot ? path.join(runtimeRoot, tool) : null,
+        cache,
+        userRoot: user,
         workspace,
         workspaceToolDir: workspace ? path.join(workspace, ".tikoci", tool) : null,
-        legacy: !pinned,
-        keychain: !pinned,
+        owner: !sandboxed,
+        legacy: !sandboxed,
+        keychain: !sandboxed,
     };
 }
 
@@ -267,12 +289,29 @@ export function ensurePrivateDir(dir: string): void {
 }
 
 /**
- * Create a workspace for one tool under `root`: root/.tikoci/ with a
- * .gitignore that ignores everything, and root/.tikoci/tool/, both owner-only.
- * Tools call this only from an explicit command, never on first use.
+ * The .gitignore a tool writes into a new .tikoci/: everything stays local
+ * except each tool's shared settings file, which a project may commit like
+ * .claude/settings.json. Personal overrides go in a gitignored local env file.
+ */
+export const WORKSPACE_GITIGNORE = [
+    "# tikoci workspace: only shared settings are committed (see tikoci-home).",
+    "*",
+    "!.gitignore",
+    "!*/",
+    "!*/*.env",
+    "*/*.local.env",
+    "run/",
+    "",
+].join("\n");
+
+/**
+ * Create a workspace for one tool under `root`: root/.tikoci/ with the
+ * workspace .gitignore, and root/.tikoci/tool/, both owner-only. Tools call
+ * this only from an explicit command, never on first use; that command also
+ * enrolls the workspace in the user root.
  */
 export function initWorkspace(root: string, tool: string): string {
-    if (!TOOL_NAME.test(tool)) throw new Error(`tool name "${tool}" must match ${TOOL_NAME}`);
+    checkTool(tool);
     const dir = join(root, ".tikoci");
     ensurePrivateDir(dir);
     const gitignore = join(dir, ".gitignore");
@@ -283,7 +322,7 @@ export function initWorkspace(root: string, tool: string): string {
         if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
     }
     if (existing === undefined) {
-        writeFileSync(gitignore, "# Local tikoci tool state: never commit or sync.\n*\n", { flag: "wx", mode: 0o600 });
+        writeFileSync(gitignore, WORKSPACE_GITIGNORE, { flag: "wx", mode: 0o600 });
     } else if (!existing.isFile()) {
         throw new Error(`"${gitignore}" must be a regular file`);
     }
@@ -292,20 +331,24 @@ export function initWorkspace(root: string, tool: string): string {
     return toolDir;
 }
 
-/** Variables a hermetic child process keeps from its parent; everything else is dropped. */
+/** Variables a sandboxed child keeps from its parent; everything else is dropped. */
 export const HERMETIC_KEEP = [
     "PATH", "HOME", "USERPROFILE", "LOCALAPPDATA", "TMPDIR", "TEMP", "TMP",
     "LANG", "LC_ALL", "TERM", "SystemRoot", "windir", "ComSpec", "PATHEXT",
+    // These describe the user's own setup, which a sandbox is a guest of.
+    "TIKOCI_HOME", "TIKOCI_CACHE_DIR",
 ];
 
 /**
- * An environment for a pinned, hermetic run: only HERMETIC_KEEP from `base`,
- * TIKOCI_HOME set to `home`, TIKOCI_PINNED=1, TIKOCI_CACHE_DIR set to the
- * cache `base` would use (so the run reuses it), and `extra` on top. Inherited TIKOCI_* and tool variables such as CENTRS_CDB_FILE or
- * QUICKCHR_DATA_DIR are dropped unless `extra` sets them. On Windows, names
- * match without case (Path, SYSTEMROOT) and keep the parent's spelling.
+ * An environment for a sandbox run: only HERMETIC_KEEP from `base`,
+ * TIKOCI_SANDBOX set to `sandbox`, TIKOCI_CACHE_DIR set to the cache `base`
+ * uses (so the run reuses it even if a test later changes HOME), and `extra`
+ * on top. Inherited TIKOCI_WORKSPACE and tool variables such as
+ * CENTRS_CDB_FILE or QUICKCHR_DATA_DIR are dropped unless `extra` sets them.
+ * On Windows, names match without case (Path, SYSTEMROOT) and keep the
+ * parent's spelling.
  */
-export function hermeticEnv(home: string, base: Env = process.env, extra: Env = {}, platform: NodeJS.Platform = process.platform): Env {
+export function hermeticEnv(sandbox: string, base: Env = process.env, extra: Env = {}, platform: NodeJS.Platform = process.platform): Env {
     const fold = (key: string) => (platform === "win32" ? key.toUpperCase() : key);
     const keep = new Set(HERMETIC_KEEP.map(fold));
     const env: Env = {};
@@ -314,8 +357,7 @@ export function hermeticEnv(home: string, base: Env = process.env, extra: Env = 
         for (const existing of Object.keys(env)) if (fold(existing) === fold(key)) delete env[existing];
         if (value !== undefined) env[key] = value;
     };
-    set("TIKOCI_HOME", home);
-    set("TIKOCI_PINNED", "1");
+    set("TIKOCI_SANDBOX", sandbox);
     set("TIKOCI_CACHE_DIR", cacheRoot({ env: base, platform }));
     for (const [key, value] of Object.entries(extra)) set(key, value);
     return env;

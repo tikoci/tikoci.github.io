@@ -1,13 +1,13 @@
 ---
 name: tikoci-home
-description: "Where tikoci tools keep files outside a checkout. Config, secrets and state go in one directory per tool under TIKOCI_HOME (default ~/.tikoci; %LOCALAPPDATA%\\tikoci on Windows; no XDG); caches under TIKOCI_CACHE_DIR; sockets, pid files and live locks under TIKOCI_RUNTIME_DIR, within the socket path limit. A workspace is the nearest .tikoci/ above the working directory, never ~/.tikoci; its settings file may set only allowlisted keys (no credentials, outside paths, transport or weaker security), and its data (a project CDB) is read only once enrolled, then replaces the user data. TIKOCI_PINNED=1 with TIKOCI_HOME pins a test run: no workspace, legacy paths or keychain, cache reused. A supplied env without HOME has no user root. Each legacy item stays authoritative until an explicit migrate. Use when adding a file a tool keeps outside the checkout, an env override, a settings file or layer, a cache, a test that touches user state, or a move from ~/.config, ~/.local/share or ~/.rosetta."
+description: "Where tikoci tools keep files outside a checkout. Three roots share one layout (TOOL/ for config, secrets and state, run/TOOL/ for runtime): the user root TIKOCI_HOME (default ~/.tikoci, %LOCALAPPDATA%\\tikoci on Windows, no XDG), the only one that evicts the shared cache or manages host resources; a project's .tikoci/ workspace, found by walking up and committed like .claude/ apart from local files; and TIKOCI_SANDBOX, a disposable guest for tests and CI that shares the cache but reads no user state, workspace, legacy path or keychain. A tool's own variable (QUICKCHR_HOME) wins over TIKOCI_* for that tool. Committed workspace settings set only allowlisted keys; local files and project data count only once a person enrolls the workspace, never via MCP. A supplied env without HOME has no user root. Legacy data stays in charge until an explicit migrate. Use when adding a file a tool keeps outside the checkout, an env override, a settings layer, a cache or a test that touches user state."
 ---
 
 # tikoci tool files
 
 Where tikoci tools (quickchr, centrs, rosetta and the rest) keep config,
-secrets, state, caches and runtime files, how a project workspace adds to
-them, and how a test run keeps away from the developer's own files.
+secrets, state, caches and runtime files; how a project and a test run fit
+next to the user's own setup.
 
 This is the target layout. No tool uses it yet: each repo adopts it on its own
 schedule, and until then the tool's current paths stand. The per-tool map of
@@ -15,198 +15,213 @@ what exists today and where it goes is
 [references/layout.tsv](references/layout.tsv), explained in
 [references/layout.md](references/layout.md).
 
-## Roots
+## Three roots, one layout
 
-| Variable | Default | Holds |
+A root is a directory with the same shape wherever it lives:
+
+```text
+<root>/
+  <tool>/            config (<tool>.env), secrets, state
+  run/<tool>/        sockets, pid files, live locks
+```
+
+| Root | Where | Role |
 | --- | --- | --- |
-| `TIKOCI_HOME` | `~/.tikoci`; `%LOCALAPPDATA%\tikoci` on Windows | `<tool>/`: config, secrets, state |
-| `TIKOCI_CACHE_DIR` | `$TIKOCI_HOME/cache` | `<tool>/`: reusable caches |
-| `TIKOCI_RUNTIME_DIR` | `$TIKOCI_HOME/run` | `<tool>/`: sockets, pid files, live locks |
-| `TIKOCI_WORKSPACE` | discovered (see Workspaces) | a directory holding `.tikoci/`, or `none` |
-| `TIKOCI_PINNED` | unset | `1` pins a run to its `TIKOCI_HOME` (see Pinned runs) |
+| user | `TIKOCI_HOME`, default `~/.tikoci` (`%LOCALAPPDATA%\tikoci` on Windows) | The owner. One per user, like `~/.claude`. Holds the shared cache (`cache/<tool>/`), evicts it, and manages host resources. |
+| workspace | `<project>/.tikoci/`, found by walking up | A persistent guest, like a project's `.claude/` or `.github/`. Layers over the user root. |
+| sandbox | `TIKOCI_SANDBOX` | A disposable guest for a test or CI run. Isolated from the user root. |
 
-- **One directory per tool**, named after the tool's package or command
-  (`quickchr`, `centrs`, `rosetta`). A tool reads and writes only its own
-  directory in each root; it reaches another tool's data through that tool's
-  library or CLI, never its files.
-- **Same layout on Linux and macOS, no XDG.** `~/.tikoci` is one visible place
-  on every machine, as rosetta chose for `~/.rosetta`. `XDG_*` variables are
-  ignored; set `TIKOCI_HOME` to put the tree elsewhere.
-- **Windows uses `%LOCALAPPDATA%`**, because everything else in the profile
-  roams, and VM disks and caches are gigabytes.
-- **Variables must be absolute paths.** An empty value counts as unset; a
-  relative one is an error, not a path from the current directory.
-- **`TIKOCI_HOME` only relocates.** A user who sets it in a shell profile keeps
-  workspaces, legacy paths and the keychain; isolating a run is a separate
-  switch, `TIKOCI_PINNED`.
+A run has a user root (unless its env has no home; see Resolving paths), at
+most one workspace, and is either sandboxed or not. **Guests share the user's
+cache but never evict from it, never manage host services, and never take a
+host resource the owner holds.**
 
-## Classes of file
+## Variables
 
-| Class | Where | Back up | Rules |
-| --- | --- | --- | --- |
-| config | `$TIKOCI_HOME/<tool>/<tool>.env`, workspace `.tikoci/<tool>/<tool>.env` | yes | `KEY=value` with the env variable names, so every setting has one name. Never a file called `.env`. |
-| secret | `$TIKOCI_HOME/<tool>/` or the workspace tool directory | yes | Owner-only: directory 0700, file 0600. No OS keychain in a pinned run. |
-| state | `$TIKOCI_HOME/<tool>/` or the workspace tool directory | per item | Written atomically (temp file, rename). Nothing the tool creates needs a manual `rm -rf` to clear. |
-| cache | `$TIKOCI_CACHE_DIR/<tool>/` | no | Can be rebuilt; immutable, named by version, no secrets. Shared by every root. |
-| runtime | `$TIKOCI_RUNTIME_DIR/<tool>/` | no | Exists only while a process runs; removed or replaced on the next start. |
-| host-wide | the OS's system locations | no | Root-owned services and files shared by every user. Never under a user root. |
-| install | where the installer or shell puts it | no | Read at run time, not written: completions, a compiled binary and its assets. |
+| Variable | Default | Sets |
+| --- | --- | --- |
+| `TIKOCI_HOME` | `~/.tikoci` | the user root (relocation only) |
+| `TIKOCI_CACHE_DIR` | `$TIKOCI_HOME/cache` | the shared cache root |
+| `TIKOCI_RUNTIME_DIR` | `<root>/run` | the runtime root of this run |
+| `TIKOCI_WORKSPACE` | discovered | a project directory holding `.tikoci/`, or `none` |
+| `TIKOCI_SANDBOX` | unset | a sandbox root: this run is a guest |
+| `<TOOL>_HOME` | `<root>/<tool>` | one tool's directory |
+| `<TOOL>_CACHE_DIR` | `<cache root>/<tool>` | one tool's cache |
+| `<TOOL>_<KEY>` | the settings files | one setting, same name as in `<tool>.env` |
 
-Checkout files (dev databases, extractor caches) stay in the checkout,
-gitignored, and temp files go in `os.tmpdir()`, removed by whoever made them.
+`<TOOL>` is the tool name in upper case with `-` as `_` (`ROUTEROS_MUSE`).
 
-- **A cache is anything safe to share between roots.** State never refers to a
-  cache entry by path. An evictor in one root cannot see another root's state,
-  so state that needs an entry again later (quickchr's reset and rollback need
-  the factory image) either fetches it again on demand or holds a lease in the
-  cache root. The locks and leases that guard a cache live in the cache root,
-  so every root sharing it sees them. Each cache is capped and evicts oldest
-  first.
-- **A lock lives beside the file it guards** (centrs' CDB lock, rosetta's
-  download lock), on the same filesystem, so rename stays atomic.
-- **Keep Unix socket paths within 103 bytes** (macOS `sun_path` is 104 with
-  the terminating NUL). Check the length when the socket is created and fail
-  with an error that names `TIKOCI_RUNTIME_DIR`; do not let QEMU or the OS fail
-  later with a vague one.
-- **Host-wide resources are not partitioned by root.** TCP ports, named pipes
-  and system services are shared by every root on the host, so allocate them
-  by probing the host, not only by reading one root's state.
-- **Do not write other programs' files** in a pinned run: `~/.ssh/known_hosts`,
-  shell rc files, editor settings. Use a file under the root instead.
+- **Precedence is always** flag, then the tool's variable, then the
+  `TIKOCI_*` variable, then the default. Single-file variables stay the
+  tool's own (`CENTRS_CDB_FILE`, rosetta's `DB_PATH`).
+- **Existing tool variables keep their meaning.** `QUICKCHR_DATA_DIR` acts as
+  `QUICKCHR_HOME` and still moves the cache with it unless a cache variable is
+  set, as today. Deprecating one is that tool's CHANGELOG decision.
+- **No XDG.** `~/.tikoci` is one visible place on Linux and macOS, as rosetta
+  chose for `~/.rosetta`; set `TIKOCI_HOME` to put it elsewhere. Windows uses
+  `%LOCALAPPDATA%` because the rest of the profile roams, and VM disks and
+  caches are gigabytes.
+- **Absolute paths only.** An empty value counts as unset; a relative one, or
+  a Windows path without a drive or UNC prefix, is an error.
+
+## Where a file goes
+
+Ask in order:
+
+| Question | If yes |
+| --- | --- |
+| Can it be rebuilt without loss, and is it the same for everyone? (images, rosetta DBs, MIBs) | **cache**: `$TIKOCI_CACHE_DIR/<tool>/` |
+| Does it claim a host resource? (ports, disk space, running VMs, system services) | **user root** (or host, if root-owned), never a project directory |
+| Does it describe a project, and should it live with it? (settings defaults, a project CDB, a lab manifest) | **workspace** `.tikoci/<tool>/` |
+| Does it exist only while a process runs? | **runtime** `run/<tool>/` of the run's root |
+| Otherwise (config, credentials, durable state) | **user root** `<tool>/` |
+
+Rules per class:
+
+- **config** is `<tool>.env`: `KEY=value` with the variable names, so a
+  setting has one name everywhere. Never a file called `.env`. No secrets.
+- **secrets** are owner-only (directory 0700, file 0600). No OS keychain in a
+  sandbox.
+- **state** is written atomically (temp file, rename). Nothing a tool creates
+  needs a manual `rm -rf` to clear.
+- **cache** is immutable, named by version, without secrets, capped, and
+  evicted oldest first, **only by an owner run**, using the size policy in the
+  user root. State never refers to a cache entry by path: an entry that state
+  needs again later (quickchr's factory image for reset and rollback) is
+  re-fetched on demand or protected by a lease. Locks and leases for a cache
+  live in the cache root, so every root sharing it sees them; a CI cache step
+  excludes leases.
+- **runtime** files follow the root of the run that made them. A long-running
+  process records the absolute paths it started with in its state, and later
+  commands read them from there instead of resolving the env again. Unix
+  socket paths stay within 103 bytes (macOS `sun_path` is 104 with the NUL):
+  check at creation and name the variable to change in the error.
+- **host-wide** resources (TCP ports, named pipes, system services) are shared
+  by every root. Allocate ports by probing the host and reading the owner's
+  claims, not only the current root's state.
+- **install** files (completions, a binary and its assets) are written by an
+  installer, not at run time. A portable layout with data beside a binary is
+  an explicit opt-in.
+- **checkout** files (dev databases, extractor caches) stay in the checkout,
+  gitignored; temp files go in `os.tmpdir()`, removed by whoever made them.
+- A lock lives beside the file it guards, on the same filesystem.
 
 ## Resolving paths
 
 - One function per tool resolves its directories, and every caller uses it.
   Workflows and docs name that function or the variable, never a literal path.
-- Read the environment at call time, from an `env` argument that defaults to
-  `process.env`. Never resolve a path once at import: tests change the
-  environment after import, and spawned children get only what they are given.
-- The home directory is `HOME` on Linux and macOS, `USERPROFILE` on Windows.
-  Fall back to `os.homedir()` only when reading the process environment
-  itself. A caller-supplied env with neither the home variable nor
-  `TIKOCI_HOME` has no user root: no default file resolves, rather than the
-  developer's real one (the unit-test half of
-  [centrs#654](https://github.com/tikoci/centrs/issues/654)). Bun also reads
-  `os.homedir()` once at startup, so it misses later changes to `HOME`.
+- Read the environment at call time from an `env` argument that defaults to
+  `process.env`; never resolve a path once at import.
+- **A library takes the env (or resolved paths) from its caller**, and a tool
+  that calls another tool's library passes its own env through (centrs calling
+  `QuickCHR.get()`). Otherwise a sandboxed caller reaches the real setup.
+- The home directory is `HOME` (`USERPROFILE` on Windows). Fall back to
+  `os.homedir()` only when reading the process environment itself. A supplied
+  env with neither the home variable nor `TIKOCI_HOME` has no user root, so no
+  default file resolves rather than the developer's real one
+  ([centrs#654](https://github.com/tikoci/centrs/issues/654)).
 - [scripts/tikoci-paths.ts](scripts/tikoci-paths.ts) is a dependency-free
-  reference resolver: copy it, or write the same rules in the tool. The text
-  here is the contract.
+  reference resolver: copy it, or write the same rules in the tool.
 
 ## Workspaces
 
-A workspace is a project directory holding `.tikoci/`, with one subdirectory
-per tool (`.tikoci/centrs/` holds a project CDB, `centrs.env` and `centrs.db`).
+A workspace is a project directory holding `.tikoci/`, the way a repo holds
+`.claude/` or `.github/`.
 
-- **Discovery** walks up from the working directory to the nearest directory
-  containing a real `.tikoci/` directory (a symlink does not count). It stops
-  before the user's home directory, so `~/.tikoci` is never a workspace.
-  `TIKOCI_WORKSPACE` names one directly, or `none` turns discovery off.
-- **The nearest workspace wins**, and there is one per run. Workspaces do not
-  merge with each other.
-- **Settings layer, data replaces.** A workspace settings file layers over the
-  user's key by key. Workspace data replaces the user's data of the same kind
-  for the run instead of merging with it: one CDB per run, never two, so
-  names cannot collide. The tool reports which source it used (centrs'
-  `meta.settings`).
-- **Created only by an explicit command**, never on first use. The tool creates
-  `.tikoci/` with mode 0700 and a `.gitignore` containing `*`, so its contents
-  are never committed. A tool never syncs a workspace; a push/pull scheme is a
-  separate tool's job.
-- **Paths in workspace files are relative to the workspace** (the directory
-  holding `.tikoci/`) and must stay inside it once symlinks are followed,
-  including through directories that exist when the file does not yet.
-  Absolute paths and `~` are refused. `.tikoci/` and its tool directories must
-  be real directories, not links; the tool tightens their modes to 0700.
-- **Trust boundary.** A cloned repo can ship a `.tikoci/`, so its files are
-  untrusted input. A workspace settings file applies without enrollment, so
-  each tool lists the keys it may set; every other key is refused with a
-  warning. Never allowed from a workspace settings file:
-  - credentials, or anything that names where credentials come from
-    (password commands, key files, CDB passwords, a CDB outside the workspace);
-  - weaker connection security (TLS verification or host key checks off), or
-    a choice of protocol or transport, which can downgrade one;
-  - wider reach for agents (MCP ad hoc targets, read-write grants) or skipped
-    validation gates;
-  - the tikoci root variables themselves.
-- **Workspace data needs enrollment, and then is trusted.** Filtering keys does
-  not make data safe: a cloned project CDB can map a familiar device name to
-  another address, and the user's own credentials would follow it. A tool does
-  not read workspace data (targets, identities, credentials, authorization)
-  at all until the user enrolls that workspace from outside it. Once
-  enrolled, it has the same meaning as the user's own data: a project lab CDB
-  can say `insecure` for self-signed CHR certificates or grant an agent
-  read-write. The explicit command that creates a workspace enrolls it; one
-  that arrived with a clone needs a separate trust command. Enrollment is
-  state in `$TIKOCI_HOME/<tool>/`, keyed by the workspace's canonical path;
-  losing it fails closed.
+- **Discovery** walks up from the working directory to the nearest real
+  `.tikoci/` directory (not a symlink), stopping before the home directory so
+  `~/.tikoci` is never a workspace. `TIKOCI_WORKSPACE` names one, or `none`
+  turns discovery off. One workspace per run; workspaces never merge.
+- **Created by an explicit command**, never on first use. The command creates
+  `.tikoci/` and `<tool>/` owner-only, writes the `.tikoci/.gitignore`, and
+  enrolls the workspace.
+- **Committed and local files.** As with a project's committed Claude Code
+  settings beside a gitignored local file, a project may commit each tool's
+  `<tool>/<tool>.env`. Everything else stays local: `<tool>.local.env`
+  (personal overrides), secrets, state, project data and `run/`. The
+  `.gitignore` the tool writes does exactly that. A tool never syncs a
+  workspace.
+- **Settings layer, data replaces.** Settings files layer over the user's key
+  by key. Workspace data replaces the user's data of the same kind for the run
+  (one CDB per run, never a merge), and the tool reports which source it used.
+- **Trust follows how a file arrives.** Anything that can come with a clone or
+  a `git pull` is limited: the committed `<tool>.env` may set only keys the
+  tool allowlists, never credentials or their sources, paths outside the
+  workspace, a protocol or transport, weaker connection security, wider agent
+  reach, skipped validation, or the `TIKOCI_*` variables. Local files and
+  project data (a project CDB, a lab manifest) are not read at all until a
+  person enrolls the workspace; then they mean what the user's own would,
+  `insecure` or `mcp=rw` included. Enrollment is state in the user root, keyed
+  by the workspace's canonical path, and losing it fails closed.
 - **Enrollment is never reachable from an agent surface.** An MCP server
-  started in the project directory discovers the workspace too, so no MCP tool
-  (or other agent-callable API) may enroll a workspace or widen its own
-  grants. Only a person running the CLI does.
-- **Bun loads `.env` from the working directory**, and a CLI whose shebang is
-  `#!/usr/bin/env bun` gets it too
-  ([centrs#666](https://github.com/tikoci/centrs/issues/666)), past the
-  workspace allowlist. Use `#!/usr/bin/env -S bun --no-env-file`, and pass
-  `--no-env-file` explicitly when running `bun <file>`, which ignores the
-  shebang.
+  started in the project discovers the workspace too, so no MCP tool or other
+  agent-callable API may enroll a workspace or widen its own grants.
+- **Host resources stay with the owner.** Machines, ports and services live in
+  the user root; a workspace refers to them by name or tags them. A tool that
+  does keep guest-held resources in a workspace makes them visible to owner
+  runs through the enrollment record.
+- **Paths in workspace files** are relative to the project directory and must
+  stay inside it once symlinks are followed, including through directories
+  that exist when the file does not yet; absolute paths and `~` are refused.
+  `.tikoci/` and its tool directories are real directories with mode 0700.
+- **Bun loads `.env` from the working directory**, even for a CLI whose
+  shebang is `#!/usr/bin/env bun`
+  ([centrs#666](https://github.com/tikoci/centrs/issues/666)), which bypasses
+  every rule above. Use `#!/usr/bin/env -S bun --no-env-file`, and pass
+  `--no-env-file` when running `bun <file>`, which ignores the shebang.
+
+## Sandboxes
+
+`TIKOCI_SANDBOX=<dir>` makes the run a disposable guest of the user's setup:
+
+- config, secrets and state come only from `<dir>/<tool>/`, runtime files go
+  under `<dir>/run/`, and nothing is read from the user root except host
+  resource claims (read-only) and the cache location;
+- no workspace discovery (unless `TIKOCI_WORKSPACE` names one), no legacy
+  path, no OS keychain;
+- the shared cache is read and added to, never evicted;
+- no host service is created, restarted or removed (no sudo), and ports are
+  never taken from the owner's machines, stopped ones included;
+- no other program's files are written (`~/.ssh/known_hosts`, shell rc files).
+
+A harness builds the child's env from an allowlist instead of copying
+`process.env`, since the tool cannot tell an inherited `CENTRS_CDB_FILE` from
+one the test set. CI uses a fixed sandbox path (`$RUNNER_TEMP/tikoci-sandbox`)
+so upload steps can find failure reports and logs. Details and acceptance
+cases: [references/isolation.md](references/isolation.md).
 
 ## Settings precedence
 
-Storage and precedence are separate questions. The house order is:
-
 1. CLI flags and API arguments
 2. Environment variables
-3. Workspace `.tikoci/<tool>/<tool>.env` (allowlisted keys)
-4. User `$TIKOCI_HOME/<tool>/<tool>.env`
+3. Workspace `<tool>.local.env` (enrolled), then committed `<tool>.env` (allowlisted)
+4. User `$TIKOCI_HOME/<tool>/<tool>.env`, or the sandbox's own
 5. Built-in defaults
 
-Tool-specific layers slot in where the tool already has them (centrs' CDB
-comment `key=value` sits between environment and the files). Where each tool's
-layers are today, and what adoption changes, is in
+A sandbox has no user layer. Tool-specific layers slot in where the tool has
+them (centrs' CDB comment `key=value` sits below the environment). Per tool:
 [references/settings.md](references/settings.md).
-
-## Pinned runs and test isolation
-
-`TIKOCI_PINNED=1` together with `TIKOCI_HOME` pins a run to that root:
-
-- config, secrets and state come only from `$TIKOCI_HOME/<tool>/`;
-- no workspace discovery, unless `TIKOCI_WORKSPACE` names one;
-- no legacy path is read;
-- no OS keychain: secrets stay in owner-only files under the root;
-- no other program's files are written (`~/.ssh/known_hosts`, shell rc files);
-- cache and runtime files go where `TIKOCI_CACHE_DIR` and
-  `TIKOCI_RUNTIME_DIR` say, else under the root.
-
-`TIKOCI_PINNED=1` without `TIKOCI_HOME` is an error. A test harness builds the
-child's environment from an allowlist rather than copying `process.env`
-(the tool cannot tell an inherited `CENTRS_CDB_FILE` from one the test set),
-then sets `TIKOCI_HOME` to a temp directory, `TIKOCI_PINNED=1`, and
-`TIKOCI_CACHE_DIR` to the cache the developer already has. The run cannot see
-the developer's CDB, settings, machines or workspace, and still reuses
-gigabytes of images and databases. The contract, the acceptance cases and a
-harness sketch are in [references/isolation.md](references/isolation.md).
 
 ## Legacy paths and migration
 
-- **New items go to the new layout** once a tool adopts it, but only when no
-  legacy item of the same kind exists. A first-run auto-create (centrs' empty
-  default CDB) or a first write (`centrs settings set`) targets the legacy
-  path while that holds the live item; otherwise the first run would make a
-  second, empty copy.
-- **Each existing item stays where it is until migrated**: the tool reads and
-  writes it at the legacy path, so there are never two live copies. It prints a
-  one-line notice on stderr, once per run, naming the migrate command.
-- **Migration is explicit** (`<tool> migrate` or similar), safe to re-run,
-  copies then verifies, and leaves the legacy item in place, renamed or marked.
-  It skips items in use (a running VM, a held lock) and says so.
-- **Never delete legacy data automatically.** Older installed versions keep
-  using the old paths (rosetta's shared `~/.rosetta/ros-help.db`).
-- **Pinned runs never read legacy paths.**
-- Dropping legacy support is a CHANGELOG entry, at least one release after
-  migrate ships.
+- **The tool picks the unit**: an item (centrs' CDB) or a whole tree
+  (quickchr's data dir, so machines never split across two trees).
+- **The legacy unit stays in charge until migrated.** The tool reads and
+  writes it there and prints a one-line notice on stderr naming the migrate
+  command. While it exists, first-run auto-create and first writes go to the
+  legacy path too, so a first run never makes a second, empty copy.
+- **Migration is explicit**, safe to re-run, copies then verifies, and refuses
+  while the unit is in use (a running VM, a held lock).
+- **Older copies keep working.** Other tools bundle older versions (centrs,
+  restraml and tikbook each bundle quickchr). Where they must keep finding the
+  data, migrate leaves a symlink at the legacy path pointing to the new
+  location, so there is still one live copy; otherwise it renames the legacy
+  unit. Never delete legacy data automatically.
+- **Sandboxes never read legacy paths.** Dropping legacy support is a
+  CHANGELOG entry, at least one release after migrate ships.
 
 ## Sources
 
-[references/sources.md](references/sources.md) lists the code, docs and survey
-rows behind each rule. Planning: Phase 2 of
+[references/sources.md](references/sources.md) lists the code, docs, reviews
+and survey rows behind each rule. Planning: Phase 2 of
 [issue #21](https://github.com/tikoci/tikoci.github.io/issues/21).
