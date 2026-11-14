@@ -15,6 +15,10 @@ what exists today and where it goes is
 [references/layout.tsv](references/layout.tsv), explained in
 [references/layout.md](references/layout.md).
 
+Under review: [references/model.md](references/model.md) proposes a concept
+model (intent, bindings and authority, artifacts, execution state) with the
+roots below as storage defaults. Once agreed, this page is rewritten to match.
+
 ## Three roots, one layout
 
 A root is a directory with the same shape wherever it lives:
