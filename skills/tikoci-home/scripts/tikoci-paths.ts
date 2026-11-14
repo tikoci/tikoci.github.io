@@ -9,7 +9,7 @@
  * explicitly from code that a test may call with a different environment;
  * never resolve a path once at import and keep it.
  */
-import { existsSync, lstatSync, mkdirSync, realpathSync, writeFileSync } from "node:fs";
+import { chmodSync, lstatSync, mkdirSync, realpathSync, writeFileSync } from "node:fs";
 import { homedir as osHomedir } from "node:os";
 import { join, posix, win32 } from "node:path";
 
@@ -71,8 +71,24 @@ function absoluteFromEnv(env: Env, name: string, platform: NodeJS.Platform): str
     const value = nonEmpty(env[name]);
     if (value === undefined) return undefined;
     const path = pathFor(platform);
-    if (!path.isAbsolute(value)) throw new Error(`${name} must be an absolute path, got "${value}"`);
+    // On Windows, "\\x" is "absolute" but depends on the current drive: require a drive or UNC path.
+    const absolute = platform === "win32" ? /^(?:[A-Za-z]:[\\/]|[\\/]{2}[^\\/])/.test(value) : path.isAbsolute(value);
+    if (!absolute) throw new Error(`${name} must be an absolute path, got "${value}"`);
     return path.normalize(value);
+}
+
+/** The canonical form of an existing path (symlinks followed), else its resolved form. */
+function canonical(target: string, platform: NodeJS.Platform): string {
+    const path = pathFor(platform);
+    try {
+        return realpathSync(target);
+    } catch {
+        return path.resolve(target);
+    }
+}
+
+function samePath(a: string, b: string, platform: NodeJS.Platform): boolean {
+    return platform === "win32" ? a.toLowerCase() === b.toLowerCase() : a === b;
 }
 
 /**
@@ -113,22 +129,22 @@ function isRealDirectory(dir: string): boolean {
 /**
  * Walk up from `cwd` to the nearest directory holding a real .tikoci/ directory.
  * The user's home directory and anything above it are never checked, so the
- * user root ~/.tikoci is never taken for a workspace. A symlinked .tikoci is ignored.
+ * user root ~/.tikoci is never taken for a workspace. A symlinked .tikoci is
+ * ignored, and paths are compared after symlinks are followed (and without
+ * case on Windows), so an alias of the home directory stops the walk too.
  */
 export function discoverWorkspace(cwd: string, options: ResolveOptions & { home?: string } = {}): string | null {
     const platform = options.platform ?? process.platform;
     const path = pathFor(platform);
-    const stop = path.resolve(userHome(options));
-    const home = options.home ? path.resolve(options.home) : undefined;
-    let dir = path.resolve(cwd);
+    const stop = canonical(userHome(options), platform);
+    const home = options.home ? canonical(options.home, platform) : undefined;
+    let dir = canonical(cwd, platform);
     while (true) {
-        if (dir === stop) return null;
+        if (samePath(dir, stop, platform)) return null;
         const candidate = path.join(dir, ".tikoci");
-        if (candidate !== home && isRealDirectory(candidate)) return dir;
+        if (!(home && samePath(candidate, home, platform)) && isRealDirectory(candidate)) return dir;
         const parent = path.dirname(dir);
         if (parent === dir) return null;
-        // Leaving the home directory upward would reach ~ itself; stop there too.
-        if (parent === stop) return null;
         dir = parent;
     }
 }
@@ -170,7 +186,10 @@ export function resolveTikociPaths(tool: string, options: ResolveOptions = {}): 
 
 /**
  * Resolve a path named in a workspace file. It must be relative, and it must
- * stay inside the workspace after symlinks are followed; anything else throws.
+ * stay inside the workspace after symlinks are followed, including through a
+ * directory that exists when the file itself does not yet; anything else
+ * throws. This checks the path at resolve time only: open the file without
+ * following a final symlink where the platform allows it.
  */
 export function resolveInWorkspace(workspace: string, relative: string, platform: NodeJS.Platform = process.platform): string {
     const path = pathFor(platform);
@@ -179,22 +198,27 @@ export function resolveInWorkspace(workspace: string, relative: string, platform
     }
     const inside = (root: string, target: string) => {
         const rel = path.relative(root, target);
-        return rel === "" || (!rel.startsWith("..") && !path.isAbsolute(rel));
+        return rel === "" || (rel !== ".." && !rel.startsWith(`..${path.sep}`) && !path.isAbsolute(rel));
     };
     const target = path.resolve(workspace, relative);
     if (!inside(path.resolve(workspace), target)) {
         throw new Error(`workspace path "${relative}" leaves the workspace`);
     }
-    let real: string | undefined;
-    try {
-        real = realpathSync(target);
-    } catch {
-        // Not there yet; the lexical check above is all we can do.
+    const root = realpathSync(workspace);
+    // Follow symlinks through the nearest part of the path that exists.
+    for (let probe = target; ; probe = path.dirname(probe)) {
+        let real: string | undefined;
+        try {
+            real = realpathSync(probe);
+        } catch (error) {
+            if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+        }
+        if (real !== undefined) {
+            if (!inside(root, real)) throw new Error(`workspace path "${relative}" resolves outside the workspace`);
+            return target;
+        }
+        if (path.dirname(probe) === probe) throw new Error(`workspace "${workspace}" does not exist`);
     }
-    if (real !== undefined && !inside(realpathSync(workspace), real)) {
-        throw new Error(`workspace path "${relative}" resolves outside the workspace`);
-    }
-    return target;
 }
 
 /** Whether a Unix socket path fits the portable sun_path limit. */
@@ -202,9 +226,16 @@ export function socketPathFits(socketPath: string): boolean {
     return new TextEncoder().encode(socketPath).byteLength <= SOCKET_PATH_MAX;
 }
 
-/** Create a directory only its owner can read (POSIX mode 0700; Windows keeps the inherited ACL). */
+/**
+ * Create a directory only its owner can read, or make an existing one so
+ * (POSIX mode 0700; Windows keeps the inherited ACL). Refuses a symlink or a
+ * file in its place.
+ */
 export function ensurePrivateDir(dir: string): void {
     mkdirSync(dir, { recursive: true, mode: 0o700 });
+    const stat = lstatSync(dir);
+    if (stat.isSymbolicLink() || !stat.isDirectory()) throw new Error(`"${dir}" must be a real directory, not a link or a file`);
+    if (process.platform !== "win32") chmodSync(dir, 0o700);
 }
 
 /**
@@ -217,7 +248,17 @@ export function initWorkspace(root: string, tool: string): string {
     const dir = join(root, ".tikoci");
     ensurePrivateDir(dir);
     const gitignore = join(dir, ".gitignore");
-    if (!existsSync(gitignore)) writeFileSync(gitignore, "# Local tikoci tool state: never commit or sync.\n*\n");
+    let existing: ReturnType<typeof lstatSync> | undefined;
+    try {
+        existing = lstatSync(gitignore);
+    } catch (error) {
+        if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+    }
+    if (existing === undefined) {
+        writeFileSync(gitignore, "# Local tikoci tool state: never commit or sync.\n*\n", { flag: "wx", mode: 0o600 });
+    } else if (!existing.isFile()) {
+        throw new Error(`"${gitignore}" must be a regular file`);
+    }
     const toolDir = join(dir, tool);
     ensurePrivateDir(toolDir);
     return toolDir;
@@ -234,12 +275,20 @@ export const HERMETIC_KEEP = [
  * TIKOCI_HOME set to `home`, TIKOCI_CACHE_DIR set to the cache `base` would
  * use (so the run reuses it even if a test later changes HOME), and `extra`
  * on top. Inherited TIKOCI_* and tool variables such as CENTRS_CDB_FILE or
- * QUICKCHR_DATA_DIR are dropped unless `extra` sets them.
+ * QUICKCHR_DATA_DIR are dropped unless `extra` sets them. On Windows, names
+ * match without case (Path, SYSTEMROOT) and keep the parent's spelling.
  */
 export function hermeticEnv(home: string, base: Env = process.env, extra: Env = {}, platform: NodeJS.Platform = process.platform): Env {
+    const fold = (key: string) => (platform === "win32" ? key.toUpperCase() : key);
+    const keep = new Set(HERMETIC_KEEP.map(fold));
     const env: Env = {};
-    for (const key of HERMETIC_KEEP) if (base[key] !== undefined) env[key] = base[key];
-    env.TIKOCI_HOME = home;
-    env.TIKOCI_CACHE_DIR = cacheRoot({ env: base, platform });
-    return { ...env, ...extra };
+    for (const [key, value] of Object.entries(base)) if (value !== undefined && keep.has(fold(key))) env[key] = value;
+    const set = (key: string, value: string | undefined) => {
+        for (const existing of Object.keys(env)) if (fold(existing) === fold(key)) delete env[existing];
+        if (value !== undefined) env[key] = value;
+    };
+    set("TIKOCI_HOME", home);
+    set("TIKOCI_CACHE_DIR", cacheRoot({ env: base, platform }));
+    for (const [key, value] of Object.entries(extra)) set(key, value);
+    return env;
 }

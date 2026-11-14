@@ -59,6 +59,12 @@ Each is the adopting repo's call; the house rule only says what must hold.
   machine directory into `$TIKOCI_RUNTIME_DIR/quickchr/NAME/` separates
   runtime from state and gives one place to check the length. Keeping them in
   the machine directory is fine if the length check covers them.
+- **quickchr factory images in a shared cache.** `cache.ts` protects an image
+  from eviction while a machine in the same data dir references it, because
+  reset and provisioning rollback need it again. A cache shared by several
+  roots cannot see the other roots' machines, so adoption needs either a lease
+  per referenced image in the cache root or a re-fetch when reset finds it
+  missing.
 - **quickchr machine disks on Windows.** They stay under `%LOCALAPPDATA%`
   either way, since that is the Windows default root.
 - **rosetta compiled binaries.** The DB beside the executable is a portable

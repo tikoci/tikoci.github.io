@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test } from "bun:test";
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, statSync, symlinkSync, writeFileSync } from "node:fs";
+import { chmodSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, statSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import {
@@ -25,7 +25,7 @@ function temp() {
 
 /** A fake user home with a project two levels down; returns the paths and a POSIX env. */
 function fakeUser() {
-    const root = temp();
+    const root = realpathSync(temp());
     const home = join(root, "user");
     const project = join(home, "src", "project");
     const deep = join(project, "lib", "deep");
@@ -79,6 +79,14 @@ describe("roots", () => {
         expect(() => resolveTikociPaths("Bad/Name", { env: { HOME: "/u" }, platform: "linux" })).toThrow("tool name");
     });
 
+    test("Windows roots need a drive or UNC path", () => {
+        const resolve = TIKOCI_HOME => resolveTikociPaths("x", { env: { USERPROFILE: "C:\\Users\\u", TIKOCI_HOME }, cwd: "C:\\", platform: "win32" });
+        expect(() => resolve("\\pinned")).toThrow("absolute");
+        expect(() => resolve("C:pinned")).toThrow("absolute");
+        expect(resolve("D:\\t").toolHome).toBe("D:\\t\\x");
+        expect(resolve("\\\\server\\share\\t").toolHome).toBe("\\\\server\\share\\t\\x");
+    });
+
     test("the environment is read at call time", () => {
         const env = { HOME: "/a" };
         const before = resolveTikociPaths("x", { env, cwd: "/", platform: "linux" }).home;
@@ -102,6 +110,14 @@ describe("workspaces", () => {
         mkdirSync(join(user.home, ".tikoci"));
         expect(discoverWorkspace(user.deep, { env: user.env })).toBeNull();
         expect(discoverWorkspace(user.home, { env: user.env })).toBeNull();
+    });
+
+    test("an alias of the home directory still stops the walk", () => {
+        const user = fakeUser();
+        mkdirSync(join(user.home, ".tikoci"));
+        const alias = join(user.root, "alias");
+        symlinkSync(user.home, alias);
+        expect(discoverWorkspace(join(alias, "src", "project", "lib", "deep"), { env: user.env })).toBeNull();
     });
 
     test("a symlinked .tikoci is ignored", () => {
@@ -133,8 +149,12 @@ describe("workspaces", () => {
         expect(() => resolveInWorkspace(user.project, "../other.cdb")).toThrow("leaves the workspace");
         expect(() => resolveInWorkspace(user.project, "/etc/passwd")).toThrow("relative");
         expect(() => resolveInWorkspace(user.project, "~/.config/tikoci/winbox.cdb")).toThrow("relative");
+        expect(resolveInWorkspace(user.project, "new/dir/lab.cdb")).toBe(join(user.project, "new", "dir", "lab.cdb"));
+        expect(resolveInWorkspace(user.project, "..devices/lab.cdb")).toBe(join(user.project, "..devices", "lab.cdb"));
         symlinkSync(user.home, join(user.project, "escape"));
         expect(() => resolveInWorkspace(user.project, "escape")).toThrow("outside the workspace");
+        expect(() => resolveInWorkspace(user.project, "escape/new.cdb")).toThrow("outside the workspace");
+        expect(() => resolveInWorkspace(user.project, "escape/a/b/new.cdb")).toThrow("outside the workspace");
     });
 
     test("initWorkspace creates owner-only directories that git ignores", () => {
@@ -144,6 +164,17 @@ describe("workspaces", () => {
         expect(toolDir).toBe(join(root, ".tikoci", "centrs"));
         expect(readFileSync(join(root, ".tikoci", ".gitignore"), "utf8").match(/^\*$/gm)).toEqual(["*"]);
         if (process.platform !== "win32") expect(statSync(join(root, ".tikoci")).mode & 0o077).toBe(0);
+    });
+
+    test("initWorkspace refuses a redirected .tikoci and tightens existing modes", () => {
+        const linked = temp();
+        symlinkSync(temp(), join(linked, ".tikoci"));
+        expect(() => initWorkspace(linked, "centrs")).toThrow("real directory");
+        const loose = temp();
+        mkdirSync(join(loose, ".tikoci", "centrs"), { recursive: true });
+        chmodSync(join(loose, ".tikoci", "centrs"), 0o755);
+        initWorkspace(loose, "centrs");
+        if (process.platform !== "win32") expect(statSync(join(loose, ".tikoci", "centrs")).mode & 0o077).toBe(0);
     });
 });
 
@@ -160,6 +191,20 @@ describe("isolation", () => {
         });
         const paths = resolveTikociPaths("quickchr", { env: { ...env, HOME: "/elsewhere" }, cwd: "/", platform: "linux" });
         expect(paths.cache).toBe(cacheRoot({ env: base, platform: "linux" }) + "/quickchr");
+    });
+
+    test("hermeticEnv matches Windows names without case", () => {
+        const base = { Path: "C:\\bin", SYSTEMROOT: "C:\\Windows", USERPROFILE: "C:\\Users\\u", LOCALAPPDATA: "C:\\L", centrs_cdb_file: "x", Tikoci_Home: "C:\\old" };
+        const env = hermeticEnv("C:\\t", base, { tikoci_workspace: "none" }, "win32");
+        expect(env).toEqual({
+            Path: "C:\\bin",
+            SYSTEMROOT: "C:\\Windows",
+            USERPROFILE: "C:\\Users\\u",
+            LOCALAPPDATA: "C:\\L",
+            TIKOCI_HOME: "C:\\t",
+            TIKOCI_CACHE_DIR: "C:\\L\\tikoci\\cache",
+            tikoci_workspace: "none",
+        });
     });
 
     test("a pinned run reads no workspace or legacy path above it", () => {

@@ -1,6 +1,6 @@
 ---
 name: tikoci-home
-description: "Where tikoci tools keep files outside a checkout. Config, secrets and state go in one directory per tool under TIKOCI_HOME (default ~/.tikoci; %LOCALAPPDATA%\\tikoci on Windows; XDG is not used). Reusable caches go under TIKOCI_CACHE_DIR, shared by every root; sockets, pid files and live locks under TIKOCI_RUNTIME_DIR, within the socket path limit. A workspace is the nearest .tikoci/ above the working directory, never ~/.tikoci itself; it may set only allowlisted keys, never credentials, paths outside it or weaker connection security. Setting TIKOCI_HOME pins a run: no workspace discovery, legacy paths or OS keychain, but the cache is reused, which is how tests isolate. Each legacy item stays authoritative until an explicit migrate. Use when adding a file a tool reads or writes outside the checkout, an env override, a settings file or layer, a cache, a test that touches user state, or a move from ~/.config, ~/.local/share or ~/.rosetta."
+description: "Where tikoci tools keep files outside a checkout. Config, secrets and state go in one directory per tool under TIKOCI_HOME (default ~/.tikoci; %LOCALAPPDATA%\\tikoci on Windows; XDG is not used). Reusable caches go under TIKOCI_CACHE_DIR, shared by every root; sockets, pid files and live locks under TIKOCI_RUNTIME_DIR, within the socket path limit. A workspace is the nearest .tikoci/ above the working directory, never ~/.tikoci itself; it may set only allowlisted keys, never credentials, paths outside it, a transport or weaker connection security, and its data (a project CDB) counts only once enrolled. Setting TIKOCI_HOME pins a run: no workspace discovery, legacy paths or OS keychain, but the cache is reused, which is how tests isolate. Each legacy item stays authoritative until an explicit migrate. Use when adding a file a tool keeps outside the checkout, an env override, a settings file or layer, a cache, a test that touches user state, or a move from ~/.config, ~/.local/share or ~/.rosetta."
 ---
 
 # tikoci tool files
@@ -54,10 +54,12 @@ Checkout files (dev databases, extractor caches) stay in the checkout,
 gitignored, and temp files go in `os.tmpdir()`, removed by whoever made them.
 
 - **A cache is anything safe to share between roots.** State never refers to a
-  cache entry by path; it copies what it needs (quickchr's disks are standalone
-  copies, so evicting an image breaks no machine). The locks and leases that
-  guard a cache live in the cache root, so every root sharing it sees them.
-  Each cache is capped and evicts oldest first.
+  cache entry by path. An evictor in one root cannot see another root's state,
+  so state that needs an entry again later (quickchr's reset and rollback need
+  the factory image) either fetches it again on demand or holds a lease in the
+  cache root. The locks and leases that guard a cache live in the cache root,
+  so every root sharing it sees them. Each cache is capped and evicts oldest
+  first.
 - **A lock lives beside the file it guards** (centrs' CDB lock, rosetta's
   download lock), on the same filesystem, so rename stays atomic.
 - **Keep Unix socket paths within 103 bytes** (macOS `sun_path` is 104 with
@@ -100,17 +102,30 @@ per tool (`.tikoci/centrs/` holds a project CDB, `centrs.env` and `centrs.db`).
   are never committed. A tool never syncs a workspace; a push/pull scheme is a
   separate tool's job.
 - **Paths in workspace files are relative to the workspace** (the directory
-  holding `.tikoci/`) and must stay inside it once symlinks are followed.
-  Absolute paths and `~` are refused.
+  holding `.tikoci/`) and must stay inside it once symlinks are followed,
+  including through directories that exist when the file does not yet.
+  Absolute paths and `~` are refused. `.tikoci/` and its tool directories must
+  be real directories, not links; the tool tightens their modes to 0700.
 - **Trust boundary.** A cloned repo can ship a `.tikoci/`, so its files are
   untrusted input. Each tool lists the keys a workspace may set; every other
   key is refused with a warning. Never allowed from a workspace:
   - credentials, or anything that names where credentials come from
     (password commands, key files, CDB passwords, a CDB outside the workspace);
-  - weaker connection security (TLS verification or host key checks off);
+  - weaker connection security (TLS verification or host key checks off), or
+    a choice of protocol or transport, which can downgrade one;
   - wider reach for agents (MCP ad hoc targets, read-write grants) or skipped
     validation gates;
   - the tikoci root variables themselves.
+- **Workspace data needs enrollment.** Filtering keys does not make a
+  workspace's data safe: a cloned project CDB can map a familiar device name to
+  another address, and the user's own credentials would follow it. A tool uses
+  workspace data as a source of targets, identities, credentials or
+  authorization only after the user enrolls that workspace from outside it: the
+  explicit command that creates the workspace enrolls it, and so does a
+  separate `<tool> trust`-style command for one that arrived with a clone.
+  Enrollment is state in `$TIKOCI_HOME/<tool>/`, keyed by the workspace's
+  canonical path. An unenrolled workspace still gets its allowlisted
+  settings.
 - **Bun loads `.env` from the working directory** for scripts it runs. A tool
   started by `bun` inside a cloned repo can be handed variables that way, past
   the workspace allowlist. Tools that read security-relevant variables should

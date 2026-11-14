@@ -51,16 +51,24 @@ Workspace allowlist, from the keys centrs honors:
 
 | Key | From a workspace |
 | --- | --- |
-| `format`, `max-results`, `timeout`, `transfer-via` | allowed |
+| `format`, `max-results`, `timeout` | allowed |
 | `cdb-file` | only a path inside the workspace |
-| `resolve`, `via`, `port`, `host`, `validate` | refused: they redirect targets or skip the gate |
+| `resolve`, `via`, `transfer-via`, `port`, `host`, `validate` | refused: they redirect targets, choose a protocol (and can downgrade SFTP to plaintext REST or native API) or skip the gate |
 | `insecure`, `ssh-key`, `mcp-allow-adhoc` | refused: weaker security or wider reach |
 | credentials, `cdb-password`, a password command, `skip-env-file` | refused, as in the user file |
 
-A project CDB in the workspace carries its own comment `key=value`, so the same
-rule applies to it: comment keys from a workspace CDB that the allowlist
-refuses (`insecure`, `ssh-key`, `mcp=rw`) are ignored with a warning. That is
-the hardest part of centrs' adoption and needs its own review.
+A project CDB is a harder case than its settings file. Its records supply
+addresses, credentials and device names, and centrs combines a record's
+address with credentials from higher layers (`src/resolver/cdb.ts`,
+`src/resolver/target.ts`), so a cloned CDB that maps a familiar name such as
+`edge1` to another address would receive the user's credentials. Filtering its
+comment keys does not prevent that, and CDB membership alone also registers a
+device for MCP. So a workspace CDB is used only once the workspace is enrolled
+(see the SKILL.md trust rules): `devices init` enrolls the workspace it
+creates, and a cloned one needs an explicit trust step outside the clone. Even
+when enrolled, its comment keys that the allowlist refuses (`insecure`,
+`ssh-key`, `mcp=rw`) are ignored with a warning. This is the hardest part of
+centrs' adoption and needs its own review.
 
 ## rosetta
 
