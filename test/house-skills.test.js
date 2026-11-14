@@ -2,7 +2,7 @@ import { afterEach, expect, test } from "bun:test";
 import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { checkSkills, DESCRIPTION_BUDGET, markdownLinks, SKILLS_DIR } from "../scripts/check-skills";
+import { budgetTable, checkSkills, DESCRIPTION_BUDGET, markdownLinks, SKILLS_DIR } from "../scripts/check-skills";
 import { generateHouse, HOUSE_PLACEHOLDER } from "../scripts/generate-house";
 
 const temps = [];
@@ -89,6 +89,12 @@ test("the description budget covers all skills together", () => {
         writeFileSync(join(root, name, "SKILL.md"), `---\nname: ${name}\ndescription: ${description}\n---\n# H\n`);
     }
     expect(checkSkills(root).errors.join("\n")).toContain(`budget ${DESCRIPTION_BUDGET}`);
+});
+
+test("the budget table reports each skill and the total", () => {
+    const table = budgetTable(checkSkills(skillsTree()));
+    expect(table).toContain("| `tikoci-sample` | 21 |");
+    expect(table).toContain(`| **Total** (budget ${DESCRIPTION_BUDGET}) | **21** |`);
 });
 
 function renderHouse(skillsDir) {

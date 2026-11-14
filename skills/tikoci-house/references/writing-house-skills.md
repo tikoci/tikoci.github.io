@@ -48,8 +48,9 @@ merged without a redirect plan.
 `bun run lint` in tikoci/tikoci.github.io runs these on `skills/`, and the
 build refuses to publish skills that fail them:
 
-- markdownlint-cli2 with the rules in `skills/.markdownlint.yaml`;
-- cspell, with project words in `project-words.txt`;
+- markdownlint-cli2 with the rules in `skills/.markdownlint.yaml` (all repo
+  Markdown is linted; skills get stricter rules);
+- cspell on all repo Markdown, with project words in `project-words.txt`;
 - `scripts/check-skills.ts`:
   - YAML frontmatter with string `name` and `description`, and only
     Agent Skills spec keys (`name`, `description`, `license`,
@@ -64,8 +65,11 @@ build refuses to publish skills that fail them:
   - all descriptions together within the house budget (8000 characters).
 
 The budget keeps the full listing readable in harnesses that load every
-description. The check prints the running total; raise the budget on purpose,
-in review, not to make a check pass.
+description. The check prints each skill's description size and the total, and
+adds the same table to the CI step summary; raise the budget on purpose, in
+review, not to make a check pass. A repo that copies many skills can run the
+same kind of check on its own `.agents/skills/` (`tikoci-linting` will cover
+it).
 
 ## Process
 

@@ -1,7 +1,7 @@
 # Agent and maintainer guide
 
 This static site is the keeper of TIKOCI-wide metadata, conventions and collected
-observations, alongside the project site at https://tikoci.dev. Public contracts
+observations, alongside the project site at <https://tikoci.dev>. Public contracts
 and durable URLs matter as much as rendered pages. Short recipes live in docs/;
 small open follow-ups live in TODO.md.
 
@@ -38,8 +38,12 @@ visited.
   read that field. Update it deliberately after checking the new version locally.
 - `bun run check`: lint, fixture/contract tests and the offline build; the same
   validation command runs in both CI workflows.
-- `bun run lint`: TypeScript, Biome and `lint:skills`; no rendering or remote collection.
-- `bun run lint:skills`: markdownlint, cspell and `scripts/check-skills.ts` on skills/.
+- `bun run lint`: TypeScript, Biome, `lint:markdown` and `lint:skills`; no rendering
+  or remote collection.
+- `bun run lint:markdown`: markdownlint-cli2 and cspell on all Markdown; project
+  words go in `project-words.txt`.
+- `bun run lint:skills`: `scripts/check-skills.ts` on skills/, with the description
+  budget in its output and the CI step summary.
 - `bun test test/`: fixture and committed-contract tests, no network.
 - `bun run build`: render the complete site from committed snapshots.
 - `bun run dev`: build and serve dist on port 3000.
@@ -96,6 +100,7 @@ auto, remove the `data-theme` attribute: Pico v2 has no `auto` value, and
 setting it forces light mode.
 
 `src/shared.js` helpers:
+
 - `initThemeSwitcher(id?, defaultTheme?)`: the auto/light/dark toggle.
 - `TIKOCI`: org constants (`owner`, `pagesUrl`).
 - `SITE_TOOLS` + `initToolsDropdown(listId)`: tools navigation. Add new tool
@@ -125,8 +130,8 @@ fills the /house/ index from src/house/index.html, and writes
 skills/tikoci-house/references/writing-house-skills.md before adding or
 changing one.
 
-This repo uses: `tikoci-house` (in `.agents/skills/`; `.claude/skills` links
-there).
+This repo uses: `tikoci-house` (copied, in `.agents/skills/`; `.claude/skills`
+links there).
 
 ## House exceptions
 

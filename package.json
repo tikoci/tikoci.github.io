@@ -12,8 +12,9 @@
     "test": "bun test test/",
     "collect": "bun run scripts/collect.ts",
     "survey:pages": "bun run scripts/collect-pages.ts",
-    "lint": "bunx tsc && bunx @biomejs/biome lint . && bun run lint:skills",
-    "lint:skills": "markdownlint-cli2 \"skills/**/*.md\" && cspell lint \"skills/**\" --no-progress && bun scripts/check-skills.ts",
+    "lint": "bunx tsc && bunx @biomejs/biome lint . && bun run lint:markdown && bun run lint:skills",
+    "lint:markdown": "markdownlint-cli2 && cspell lint --no-progress",
+    "lint:skills": "bun scripts/check-skills.ts",
     "lint:fix": "bunx @biomejs/biome lint --fix ."
   },
   "devDependencies": {

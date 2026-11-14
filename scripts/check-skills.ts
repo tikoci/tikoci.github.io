@@ -4,7 +4,7 @@
 // rules from issue #21: name = directory with the tikoci- prefix, a tracked
 // total description budget, no operator-local paths, and self-contained
 // relative links so a copied or published skill directory still works.
-import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { appendFileSync, existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, extname, join, relative, resolve, sep } from "node:path";
 
 export const SKILLS_DIR = resolve(import.meta.dirname, "..", "skills");
@@ -174,8 +174,23 @@ function listFiles(dir: string): string[] {
     });
 }
 
+/** Markdown table of description sizes against the budget, for the console and the CI step summary. */
+export function budgetTable(report: SkillReport): string {
+    const rows = report.skills.map(skill => `| \`${skill.name}\` | ${skill.description.length} |`);
+    return [
+        "| Skill | Description characters |",
+        "| --- | ---: |",
+        ...rows,
+        `| **Total** (budget ${DESCRIPTION_BUDGET}) | **${report.descriptionTotal}** |`,
+    ].join("\n");
+}
+
 if (import.meta.main) {
     const report = checkSkills();
+    const table = budgetTable(report);
+    console.log(table);
+    const summary = process.env.GITHUB_STEP_SUMMARY;
+    if (summary) appendFileSync(summary, `### House skill descriptions\n\n${table}\n\n`);
     for (const error of report.errors) console.error(`✗ ${error}`);
     if (report.errors.length) {
         console.error(`\n${report.errors.length} skill validation error(s)`);

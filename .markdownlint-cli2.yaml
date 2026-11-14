@@ -1,0 +1,12 @@
+# Which Markdown markdownlint-cli2 checks; rules live in .markdownlint.yaml
+# (and skills/.markdownlint.yaml for the published house skills).
+globs:
+  - "**/*.md"
+ignores:
+  - "node_modules/**"
+  - "dist/**"
+  - ".git/**"
+  - ".scratch/**"
+  # One-line agent pointers: CLAUDE.md is only @AGENTS.md (see tikoci-house).
+  - "CLAUDE.md"
+  - ".github/copilot-instructions.md"

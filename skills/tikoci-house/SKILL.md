@@ -1,6 +1,6 @@
 ---
 name: tikoci-house
-description: "How a tikoci repo sets up agent instructions and skills. AGENTS.md is the one entry file and CLAUDE.md is the single line @AGENTS.md; add no new .github/instructions files. Repo skills live in .agents/skills (.claude/skills links to it); house tikoci-* skills are copied unchanged from tikoci.dev/house/skills, listed in AGENTS.md, and any deviation is noted once under House exceptions. Precedence: the maintainer's explicit instruction, then the nearest AGENTS.md, then house skills, then user-level notes. Temporary work goes in a gitignored .scratch/. Machine facts (paths, hosts, accounts, harnesses) stay in the operator's local agent notes, never in a repo or skill. Use when creating or editing AGENTS.md, CLAUDE.md, .agents/ or a SKILL.md, adopting a house skill, or deciding where a rule belongs."
+description: "How a tikoci repo sets up agent instructions and skills. AGENTS.md is the one entry file and CLAUDE.md is the single line @AGENTS.md; add no new .github/instructions files. Repo skills live in .agents/skills (.claude/skills links to it); house tikoci-* skills from tikoci.dev/house/skills are copied unchanged or referenced by URL, listed in AGENTS.md, and any deviation is noted once under House exceptions. Precedence: the maintainer's explicit instruction, then the nearest AGENTS.md, then house skills, then user-level notes. Temporary work goes in a gitignored .scratch/. Machine facts (paths, hosts, accounts, harnesses) stay in the operator's local agent notes, never in a repo or skill. Use when creating or editing AGENTS.md, CLAUDE.md, .agents/ or a SKILL.md, adopting a house skill, or deciding where a rule belongs."
 ---
 
 # tikoci house conventions
@@ -24,12 +24,23 @@ shadows one. A rule that only makes sense in one repo is not a house rule.
 
 ## Adopting house skills
 
-- **Copy, don't link.** Copy the whole skill directory unchanged into
-  `.agents/skills/<name>/`, from the source repo or from
-  `https://tikoci.dev/house/skills/<name>/` (`/house/index.json` lists each
-  skill's files). `cp -r` is enough. Nothing pushes skills into repos.
-- **List them.** AGENTS.md has a short `## House skills` section naming the
-  skills the repo uses, so agents without skill discovery still find them.
+A repo takes up each house skill it uses in one of two ways. Nothing pushes
+skills into repos.
+
+- **Copy** when the skill applies to most changes in the repo. Copy the whole
+  skill directory unchanged into `.agents/skills/<name>/`, from the source repo
+  or from `https://tikoci.dev/house/skills/<name>/` (`/house/index.json` lists
+  each skill's files); `cp -r` is enough. Copy rather than symlink to another
+  checkout, so the repo works on any machine. A copied skill's description is
+  loaded in every session, so it costs listing space.
+- **Reference by URL** when the topic comes up rarely. One line in AGENTS.md,
+  or in a repo skill, says when to read it, e.g. "Before changing release
+  workflows, read <https://tikoci.dev/house/skills/tikoci-release/SKILL.md>".
+  The agent fetches it only when needed, and it always reads the current
+  version.
+- **List them.** AGENTS.md has a short `## House skills` section naming each
+  skill the repo uses and whether it is copied or referenced, so agents without
+  skill discovery still find them.
 - **Do not edit a copy.** A copy that drifts is no longer the house rule and
   hides the disagreement. Refresh by copying again; whether to check for
   staleness is the repo's choice.
