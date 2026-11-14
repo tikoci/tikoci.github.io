@@ -61,6 +61,8 @@ export function checkSkills(skillsDir = SKILLS_DIR): SkillReport {
         }
         if (!stat.isDirectory()) {
             if (!TOP_LEVEL_FILES.has(entry)) errors.push(`${entry}: unexpected file; skills/ holds one directory per skill`);
+            // README.md is published next to the skills, so it gets the same checks.
+            else if (entry === "README.md") checkFile(skillsDir, entry, message => errors.push(message));
             continue;
         }
         const skill = checkSkill(path, entry, message => errors.push(`${entry}: ${message}`));
@@ -180,46 +182,20 @@ function checkLink(dir: string, path: string, file: string, target: string, fail
     }
 }
 
-/** Inline and reference-style link destinations (CommonMark syntax), ignoring code. */
+/**
+ * Link and image destinations as a CommonMark renderer sees them, so code,
+ * container blocks, multi-line destinations and reference links follow the
+ * same rules as the published page. Bun hands over the raw destination;
+ * backslash escapes are removed here so it names the file on disk.
+ */
 export function markdownLinks(markdown: string): string[] {
-    const prose = markdown
-        // Fences may be indented, e.g. inside list items.
-        .replace(/^[ \t]*(`{3,}|~{3,})[^\n]*\n[\s\S]*?^[ \t]*\1[ \t]*$/gm, "")
-        .replace(/`[^`\n]*`/g, "");
     const targets: string[] = [];
-    for (const match of prose.matchAll(/\]\(/g)) {
-        const destination = linkDestination(prose, (match.index ?? 0) + 2);
-        if (destination) targets.push(destination);
-    }
-    // The destination of a reference definition may start on the next line.
-    for (const match of prose.matchAll(/^ {0,3}\[[^\]]+\]:[ \t]*(?:\r?\n[ \t]*)?(.*)$/gm)) {
-        const destination = linkDestination(match[1], 0);
-        if (destination) targets.push(destination);
-    }
+    const unescapeMarkdown = (value: string) => value.replace(/\\([!-/:-@[-`{-~])/g, "$1");
+    Bun.markdown.render(markdown, {
+        link: (_children: string, { href }: { href: string }) => { targets.push(unescapeMarkdown(href)); return ""; },
+        image: (_children: string, { src }: { src: string }) => { targets.push(unescapeMarkdown(src)); return ""; },
+    });
     return targets;
-}
-
-/** Reads a destination at `start`: <angle brackets>, or text with balanced parentheses up to whitespace. */
-function linkDestination(text: string, start: number): string | null {
-    let i = start;
-    while (text[i] === " " || text[i] === "\t") i++;
-    if (text[i] === "<") {
-        const end = text.indexOf(">", i);
-        return end > i + 1 ? text.slice(i + 1, end) : null;
-    }
-    let depth = 0;
-    let end = i;
-    for (; end < text.length; end++) {
-        const char = text[end];
-        if (char === "\\") { end++; continue; }
-        if (/\s/.test(char)) break;
-        if (char === "(") depth++;
-        else if (char === ")") {
-            if (depth === 0) break;
-            depth--;
-        }
-    }
-    return end > i ? text.slice(i, end) : null;
 }
 
 /** Regular files under `dir`; symlinks are reported, not followed. */

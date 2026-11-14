@@ -71,6 +71,10 @@ test.each([
     ["broken reference destination on the next line", { "references/detail.md": "[x][g]\n\n[g]:\n  missing.md\n" }, "does not resolve"],
     ["home path in a script", { "scripts/run.py": "open('/home/operator/.config/private')\n" }, "absolute home directory path"],
     ["home path in an extensionless file", { "scripts/run": "#!/bin/sh\ncd /Users/operator\n" }, "absolute home directory path"],
+    ["broken link with the destination on its own line", { "references/detail.md": "[x](\nmissing.md\n)\n" }, "does not resolve"],
+    ["escaping link with the destination on its own line", { "references/detail.md": "[x](\n../../outside.md\n)\n" }, "leaves the skill directory"],
+    ["broken reference definition in a blockquote", { "references/detail.md": "> [x][r]\n>\n> [r]: missing.md\n" }, "does not resolve"],
+    ["broken image", { "references/detail.md": "![logo](../assets/logo.png)\n" }, "does not resolve"],
 ])("rejects %s", (_, files, message) => {
     expect(errorsFor(files)).toContain(message);
 });
@@ -78,6 +82,21 @@ test.each([
 test("accepts balanced parentheses and angle-bracket destinations", () => {
     expect(errorsFor({ "references/a(b).md": "# A\n", "references/c d.md": "# C\n", "SKILL.md": "---\nname: tikoci-sample\ndescription: d\n---\n# H\n\n[a](references/a(b).md) [c](<references/c d.md> \"t\")\n" })).toBe("");
     expect(markdownLinks("[a](x(y).md 'z') [b](<p q.md>)")).toEqual(["x(y).md", "p q.md"]);
+});
+
+test("removes Markdown backslash escapes from destinations", () => {
+    expect(errorsFor({ "references/a(b).md": "# A\n", "references/detail.md": "[a](a\\(b\\).md)\n" })).toBe("");
+    expect(markdownLinks("[a](a\\(b\\).md)")).toEqual(["a(b).md"]);
+});
+
+test("checks the published skills/README.md like a skill file", () => {
+    const root = skillsTree();
+    writeFileSync(join(root, "README.md"), "Run /home/example/tool on build-box.local. See [x](tikoci-sample/missing.md) and [y](../outside.md).\n");
+    const errors = checkSkills(root).errors.join("\n");
+    expect(errors).toContain("README.md:1: absolute home directory path");
+    expect(errors).toContain("README.md:1: local host name");
+    expect(errors).toContain('README.md: link "tikoci-sample/missing.md" does not resolve');
+    expect(errors).toContain('README.md: link "../outside.md" leaves the skill directory');
 });
 
 test("rejects symlinks inside skills and as skill directories", () => {
@@ -118,7 +137,7 @@ test("allows generic tool paths, URLs, anchors and links in code", () => {
         "```sh\ncat [x](nowhere.md)\n```",
     ].join("\n");
     expect(errorsFor({ "references/detail.md": text })).toBe("");
-    expect(markdownLinks("[a](b.md) `[c](d.md)`\n[ref]: <e.md> \"t\"")).toEqual(["b.md", "e.md"]);
+    expect(markdownLinks("[a](b.md) `[c](d.md)` [e][ref]\n\n[ref]: <e.md> \"t\"")).toEqual(["b.md", "e.md"]);
 });
 
 test("the description budget covers all skills together", () => {

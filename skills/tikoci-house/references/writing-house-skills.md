@@ -61,7 +61,10 @@ build refuses to publish skills that fail them:
   - an H1 right after the frontmatter;
   - only `SKILL.md`, `references/`, `scripts/` and `assets/` at a skill's top level;
   - no absolute home directory paths or local host names in text files;
-  - every relative Markdown link resolves inside the skill directory;
+  - every relative Markdown link or image (parsed as CommonMark) resolves
+    inside the skill directory;
+  - `skills/README.md`, published beside the skills, gets the same path, host
+    and link checks;
   - all descriptions together within the house budget (8000 characters).
 
 The budget keeps the full listing readable in harnesses that load every
