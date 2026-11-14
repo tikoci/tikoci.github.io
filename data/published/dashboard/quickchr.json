@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-14T19:13:56.303Z",
+  "generatedAt": "2026-11-14T23:02:35.465Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -74,36 +74,23 @@
         "bot": 0
       },
       "prs": {
-        "total": 1,
-        "owner": 1,
+        "total": 0,
+        "owner": 0,
         "external": 0,
         "bot": 0,
-        "ownerReady": 1,
+        "ownerReady": 0,
         "ownerDraft": 0,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 52,
+      "fetched": 51,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
-      {
-        "number": 277,
-        "title": "feat(examples/cmr): wire capture (--sniff) and a wire study for MNDP and pairing",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/pull/277",
-        "createdAt": "2026-11-14T17:27:49Z",
-        "updatedAt": "2026-11-14T17:57:34Z",
-        "isPR": true,
-        "draft": false,
-        "labels": [],
-        "milestone": null
-      },
       {
         "number": 276,
         "title": "paths: with HOME unset, the data dir becomes relative to the cwd (and disagrees with the config dir)",

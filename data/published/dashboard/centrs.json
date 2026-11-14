@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "centrs",
-  "generatedAt": "2026-11-14T19:13:56.303Z",
+  "generatedAt": "2026-11-14T23:02:35.465Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -15,36 +15,23 @@
         "bot": 0
       },
       "prs": {
-        "total": 3,
-        "owner": 3,
+        "total": 2,
+        "owner": 2,
         "external": 0,
         "bot": 0,
         "ownerReady": 1,
-        "ownerDraft": 2,
+        "ownerDraft": 1,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 26,
+      "fetched": 25,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
-      {
-        "number": 667,
-        "title": "docs(matrix): note tikoci-home as the workspace theme's roots input",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/pull/667",
-        "createdAt": "2026-11-14T16:28:31Z",
-        "updatedAt": "2026-11-14T16:28:37Z",
-        "isPR": true,
-        "draft": true,
-        "labels": [],
-        "milestone": null
-      },
       {
         "number": 666,
         "title": "Installed centrs reads CENTRS_* from the working directory's .env (Bun auto-load)",
