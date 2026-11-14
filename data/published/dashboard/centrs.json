@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "centrs",
-  "generatedAt": "2026-11-14T14:13:34.083Z",
+  "generatedAt": "2026-11-14T19:13:56.303Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,29 +9,59 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 22,
-        "owner": 22,
+        "total": 23,
+        "owner": 23,
         "external": 0,
         "bot": 0
       },
       "prs": {
-        "total": 2,
-        "owner": 2,
+        "total": 3,
+        "owner": 3,
         "external": 0,
         "bot": 0,
         "ownerReady": 1,
-        "ownerDraft": 1,
+        "ownerDraft": 2,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 24,
+      "fetched": 26,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 667,
+        "title": "docs(matrix): note tikoci-home as the workspace theme's roots input",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/pull/667",
+        "createdAt": "2026-11-14T16:28:31Z",
+        "updatedAt": "2026-11-14T16:28:37Z",
+        "isPR": true,
+        "draft": true,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 666,
+        "title": "Installed centrs reads CENTRS_* from the working directory's .env (Bun auto-load)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/issues/666",
+        "createdAt": "2026-11-14T16:26:18Z",
+        "updatedAt": "2026-11-14T16:26:18Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "hardening",
+          "cmd-settings"
+        ],
+        "milestone": null
+      },
       {
         "number": 659,
         "title": "Pages: tip detailsUrls 404 and 67 error pages are still stubs",

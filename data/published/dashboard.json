@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-14T14:13:34.083Z",
+  "generatedAt": "2026-11-14T19:13:56.303Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -859,29 +859,59 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 50,
-            "owner": 50,
+            "total": 51,
+            "owner": 51,
             "external": 0,
             "bot": 0
           },
           "prs": {
-            "total": 0,
-            "owner": 0,
+            "total": 1,
+            "owner": 1,
             "external": 0,
             "bot": 0,
-            "ownerReady": 0,
+            "ownerReady": 1,
             "ownerDraft": 0,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 50,
+          "fetched": 52,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 277,
+            "title": "feat(examples/cmr): wire capture (--sniff) and a wire study for MNDP and pairing",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/pull/277",
+            "createdAt": "2026-11-14T17:27:49Z",
+            "updatedAt": "2026-11-14T17:57:34Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 276,
+            "title": "paths: with HOME unset, the data dir becomes relative to the cwd (and disagrees with the config dir)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/276",
+            "createdAt": "2026-11-14T16:47:26Z",
+            "updatedAt": "2026-11-14T16:47:26Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug",
+              "area:library-api",
+              "P3"
+            ],
+            "milestone": null
+          },
           {
             "number": 271,
             "title": "networking(macos): named shared (and host-only) managed networks — shared:<name> with its own subnet",
@@ -1028,44 +1058,6 @@
               "P2"
             ],
             "milestone": null
-          },
-          {
-            "number": 258,
-            "title": "networking: own the user-mode DHCP client's route policy when a real network is attached",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/258",
-            "createdAt": "2026-11-07T19:34:57Z",
-            "updatedAt": "2026-11-11T14:49:55Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "enhancement",
-              "area:networking",
-              "area:provisioning",
-              "P3",
-              "needs-decision",
-              "consumer:app-t3code"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 257,
-            "title": "qemu: adding a NIC renumbers RouterOS disk slots (if=virtio drives land after every -device)",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/257",
-            "createdAt": "2026-11-07T19:34:56Z",
-            "updatedAt": "2026-11-11T14:49:52Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "bug",
-              "area:qemu",
-              "P2",
-              "consumer:app-t3code"
-            ],
-            "milestone": null
           }
         ]
       },
@@ -1073,8 +1065,8 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 50,
-        "totalPRs": 0,
+        "totalIssues": 51,
+        "totalPRs": 1,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -1631,29 +1623,59 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 22,
-            "owner": 22,
+            "total": 23,
+            "owner": 23,
             "external": 0,
             "bot": 0
           },
           "prs": {
-            "total": 2,
-            "owner": 2,
+            "total": 3,
+            "owner": 3,
             "external": 0,
             "bot": 0,
             "ownerReady": 1,
-            "ownerDraft": 1,
+            "ownerDraft": 2,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 24,
+          "fetched": 26,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 667,
+            "title": "docs(matrix): note tikoci-home as the workspace theme's roots input",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/pull/667",
+            "createdAt": "2026-11-14T16:28:31Z",
+            "updatedAt": "2026-11-14T16:28:37Z",
+            "isPR": true,
+            "draft": true,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 666,
+            "title": "Installed centrs reads CENTRS_* from the working directory's .env (Bun auto-load)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/666",
+            "createdAt": "2026-11-14T16:26:18Z",
+            "updatedAt": "2026-11-14T16:26:18Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug",
+              "hardening",
+              "cmd-settings"
+            ],
+            "milestone": null
+          },
           {
             "number": 659,
             "title": "Pages: tip detailsUrls 404 and 67 error pages are still stubs",
@@ -1778,37 +1800,6 @@
               "proto-mac-telnet"
             ],
             "milestone": null
-          },
-          {
-            "number": 621,
-            "title": "Tip when a CDB record still uses legacy port=",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/issues/621",
-            "createdAt": "2026-11-04T01:29:48Z",
-            "updatedAt": "2026-11-11T21:43:38Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "UX",
-              "agent-ready"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 620,
-            "title": "Service-specific env/config port keys, then deprecate CENTRS_PORT",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/issues/620",
-            "createdAt": "2026-11-04T01:29:46Z",
-            "updatedAt": "2026-11-11T22:20:00Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "cmd-settings"
-            ],
-            "milestone": null
           }
         ]
       },
@@ -1816,8 +1807,8 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 22,
-        "totalPRs": 2,
+        "totalIssues": 23,
+        "totalPRs": 3,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -3545,13 +3536,30 @@
       "repos": [
         "centrs"
       ],
-      "summary": "centrs: 1 open maintainer PR (1 draft excluded)",
+      "summary": "centrs: 1 open maintainer PR (2 drafts excluded)",
       "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
       "evidence": [
         "repos.centrs.work.counts.prs.ownerReady=1"
       ],
       "urls": [
         "https://github.com/tikoci/centrs/pulls"
+      ]
+    },
+    {
+      "id": "work-maintainer-prs:quickchr",
+      "rule": "work-maintainer-prs",
+      "severity": "pending",
+      "category": "work",
+      "repos": [
+        "quickchr"
+      ],
+      "summary": "quickchr: 1 open maintainer PR",
+      "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
+      "evidence": [
+        "repos.quickchr.work.counts.prs.ownerReady=1"
+      ],
+      "urls": [
+        "https://github.com/tikoci/quickchr/pulls"
       ]
     },
     {
