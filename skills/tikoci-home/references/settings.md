@@ -39,16 +39,28 @@ home variable.
 **Machines in a project.** A project describes machines in
 `.tikoci/quickchr/machines/<name>.toml` (the path is reserved; the format is
 quickchr's design). quickchr realizes them under
-`$TIKOCI_HOME/quickchr/projects/<id>/machines/<name>/`, keyed by the project
-id in `.tikoci/quickchr/local/id`. Multi-GB disks, running QEMU processes and
-host ports stay out of the project directory, and two projects that both
-describe `edge1` get two machines. In a project, `quickchr list` shows that
-project's machines; every machine also needs a qualified name that works
-from anywhere (an MCP server started elsewhere, the VS Code extension host,
-`centrs --quickchr`). The form is quickchr's call, for example `edge1@<id>`.
-Definitions are read only when the project is trusted: provisioning scripts,
-disk sizes, port forwards and networks all reach outside the VM. A definition
-may attach to a host network service that already exists, never create one.
+`$TIKOCI_HOME/quickchr/projects/<id>/<instance>/machines/<name>/`: the
+project's identity (a worktree has its main checkout's), then the checkout
+the machine was realized for. Multi-GB disks, running QEMU processes and
+host ports stay out of the project directory, two projects that both
+describe `edge1` get two machines, and two agents in two worktrees get two
+VMs, each from its own branch's definition. A definition may opt into
+sharing the main checkout's machine. In a project, `quickchr list` shows that
+project's machines; from anywhere (an MCP server started elsewhere, the VS
+Code extension host, `centrs --quickchr`) a machine is `edge1@<label>`
+(SKILL.md, Names across scopes). Definitions are read only when the project
+is trusted: provisioning scripts, disk sizes, port forwards and networks all
+reach outside the VM. A definition may attach to a host network service that
+already exists, never create one.
+
+**Definitions are not settings.** A definition's RouterOS version or
+architecture is the project's intent: a flag can override it for one run,
+but `QUICKCHR_DEFAULT_CHANNEL` and the settings files supply defaults only
+for machines that do not say.
+
+**A twin of a project's devices** is a definition that names the centrs
+device (`edge1@<label>`) instead of copying its address. quickchr realizes
+it per checkout, and centrs reaches it through quickchr's library.
 
 ## centrs
 
@@ -102,11 +114,11 @@ credentials, so it never travels.
   `local/` is not private, centrs stops with an error naming the state and
   `centrs trust`; it does not use the user CDB, where `edge1` may be another
   router. A project with no CDB uses the user CDB, and the envelope says so.
-- **A worktree inside the project** uses the main checkout's
-  `local/winbox.cdb` (SKILL.md, Worktrees).
-- **A not-found error says when the user CDB has the name**, for example
-  "`home-gw` is in your user CDB; run outside the project or set
-  `TIKOCI_PROJECT=none`".
+- **A git worktree** uses its main checkout's `local/winbox.cdb`, wherever
+  the worktree is (SKILL.md, Worktrees and nested projects). A nested
+  `.tikoci/` that is not a worktree is its own project.
+- **A not-found error says when the user CDB has the name**, in the house
+  form: "`home-gw` is in your user CDB: `home-gw@user`".
 - **Machines come from quickchr.** centrs takes a project's quickchr machines
   from quickchr's library, passing its env and the project it found, instead
   of copying them into a CDB.

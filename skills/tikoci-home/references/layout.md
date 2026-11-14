@@ -25,7 +25,9 @@ lsp-routeros-ts, vscode-tikbook, restraml and mikropkl.
 | `notes` | Constraints the move has to respect. |
 
 Placeholders are upper case: `NAME`, `SLUG`, `SLOT`, `VERSION`, `PID`, `ID`
-(a project's id for that tool), `SHORT-ID`, `PROJECT` (the directory holding
+(a project's identity for that tool; a worktree has its main checkout's),
+`INSTANCE` (the checkout a machine was realized for), `LABEL` (a project's
+label in a qualified name), `SHORT-ID`, `PROJECT` (the directory holding
 `.tikoci/`), `CHECKOUT`, `DATA`. In the `project` scope, secrets and state
 are always under `local/`; everything else there is config that travels (a
 test checks this).
@@ -54,8 +56,9 @@ test checks this).
 - **Host resources are tracked per data dir.** quickchr's port allocation,
   cache in-use set and managed-network guards read only the current data dir,
   so today a second `QUICKCHR_DATA_DIR` can take a stopped machine's ports or
-  shrink the shared cache to the default size. A host-wide allocation lock,
-  a separate sandbox port range and user-only eviction come from this.
+  shrink the shared cache to the default size. The host scope (one lock and
+  one claims registry per OS account, which sandboxes join) and eviction by
+  the cache root's owner come from this.
 - **No tool keeps project files yet.** centrs' MATRIX leans to
   `.tikoci/centrs/` and is ready to start.
 
@@ -68,19 +71,25 @@ Each is the adopting repo's call; the house rule only says what must hold.
   `projects/ID/machines/NAME/`, that path has no bounded length (about 128
   bytes for a 64-character name on macOS), so sockets and `qemu.pid` go in
   `$TIKOCI_RUNTIME_DIR/quickchr/SHORT-ID/` and `machine.json` records them.
-- **quickchr's qualified machine names** (`NAME@ID` or similar), and whether
-  `list` in a project also shows the user's own machines.
+- **quickchr in a worktree**: how to name one worktree's instance (a suffix
+  after the label), whether `list` in a project also shows the user's own
+  machines, and how a definition opts into sharing the main checkout's
+  machine.
 - **quickchr machine definitions**: the TOML format, and what happens when a
   definition changes after its machine exists.
-- **quickchr's host-wide lock path**: a fixed path outside any scope, not
-  `os.tmpdir()` (per user on macOS, and a harness may set `TMPDIR`).
+- **quickchr's host-scope formats**: the claims registry (owner context,
+  durable or live lifetime, release, finding stale claims) and the
+  managed-network registry. The location is settled (`~/.tikoci/host/quickchr/`);
+  the earlier "fixed path outside any scope" had no portable answer on macOS
+  without a shared sticky directory.
 - **quickchr's `machine.json` compatibility**: bundled older copies read it,
   so keeping it readable across versions has to be a written promise.
-- **quickchr factory images in a shared cache.** `cache.ts` protects an image
-  from eviction while a machine in the same data dir references it, because
-  reset and provisioning rollback need it again. With project machines and
-  sandboxes sharing the cache, that becomes a lease per referenced image in
-  the cache root, or a re-fetch when reset finds one missing.
+- **quickchr factory images in a shared cache** (settled in the third quickchr
+  review). `cache.ts` protects an image while a machine in the same data dir
+  references it. Durable leases from stopped machines in every scope would
+  need cleanup nobody owns, so only live leases remain: reset fetches the
+  image again by name, and an offline lab keeps an opt-in pristine copy in
+  its machine directory.
 - **quickchr migration unit** is the whole data dir; `quickchr migrate`
   refuses while any machine runs, then leaves a symlink at
   `~/.local/share/quickchr` so bundled older versions keep finding machines.
@@ -92,6 +101,13 @@ Each is the adopting repo's call; the house rule only says what must hold.
   centrs' equivalent of a quickchr machine definition. It needs the trust
   step and a constitution change; it belongs to centrs' Workspace theme, not
   this round.
+- **How trust is recorded.** The reference resolver keeps one record per
+  tool and project. quickchr's third review proposed one shared record at
+  `~/.tikoci/trust/` with per-tool grants, so a lab needs one trust step
+  instead of one per tool. Deferred: the harder question is how tikoci trust
+  lines up with harness permission schemes (an agent allowed everything, a
+  container that already holds every file), which needs its own research.
+  Nothing in the layout or the variables depends on where records live.
 - **rosetta compiled binaries.** The DB beside the executable is a portable
   layout, but it fails in a read-only install directory. Options: keep it as an
   explicit portable mode, or default compiled builds to

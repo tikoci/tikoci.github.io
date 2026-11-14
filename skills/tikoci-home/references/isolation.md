@@ -17,25 +17,31 @@ With `TIKOCI_SANDBOX` set to a fresh directory, the tool:
 1. reads and writes config, secrets, state and trust records only under
    `<sandbox>/<tool>/`, and runtime files under `<sandbox>/run/<tool>/`. This
    wins over `TIKOCI_HOME` and over the tool's home variables
-   (`<TOOL>_HOME`, `QUICKCHR_DATA_DIR`);
+   (`<TOOL>_HOME`, `QUICKCHR_DATA_DIR`). The one shared place is the host
+   scope (guarantee 7);
 2. still honors file and cache variables the test sets on purpose
    (`CENTRS_CDB_FILE`, `<TOOL>_CACHE_DIR`) and reports them as such;
 3. discovers no project. `TIKOCI_PROJECT` can name one; its traveling files
-   are read as usual, and its `local/` only with a trust record made inside
-   the sandbox;
+   are read as usual, and its `local/` (a worktree's main checkout's, as
+   outside a sandbox) only with trust given inside the sandbox;
 4. reads no legacy path (`~/.config/...`, `~/.local/share/...`, `~/.rosetta`);
 5. does not touch the OS keychain (`Bun.secrets`, Keychain, libsecret,
    Credential Manager), so no prompt can hang a run;
 6. reads from and adds to the shared cache, and never evicts from it. A test
    of eviction, corruption or a cold start points `TIKOCI_CACHE_DIR` inside
    the sandbox and then owns that cache, eviction included;
-7. never creates, restarts or removes a host service, and never runs sudo;
-   it takes ports from its own range, through the same host-wide allocation
-   lock as every other run;
+7. claims ports and attachments in the host scope (`~/.tikoci/host/<tool>/`)
+   like any run, with live claims (pid, boot id, start time) that go stale
+   when it dies, so it never takes a stopped user machine's ports. It may
+   attach to a host service that exists, and never creates, restarts or
+   removes one or runs sudo. Tests that must create one are a separate,
+   explicitly flagged tier, not a sandbox run;
 8. writes no file that belongs to another program (`~/.ssh/known_hosts`,
    shell rc files).
 
-`HOME` stays as it is; tests should not need to change it. For in-process
+`HOME` stays as it is; tests should not need to change it. A test that does
+fake `HOME` also gets its own host scope, and only the bind probe then
+stands between it and the user's ports. For in-process
 calls, a test can instead pass an env with no `HOME` and no `TIKOCI_HOME`:
 the resolver then finds no user scope at all, rather than falling back to
 `os.homedir()` and the developer's real files
@@ -95,8 +101,11 @@ macOS).
 
 ## Acceptance cases
 
-An adopting repo proves the contract with tests like these. Each sets up the
-trap, runs the tool in a sandbox, and asserts the trap was not touched.
+Resolution itself (scopes, discovery, worktrees, sandbox flags) is covered by
+the shared cases in [conformance.json](conformance.json), which every
+adopting repo runs against its own resolver. Tool behavior needs tests like
+these. Each sets up the trap, runs the tool in a sandbox, and asserts the
+trap was not touched.
 
 | Case | Setup | Expect |
 | --- | --- | --- |
@@ -110,9 +119,10 @@ trap, runs the tool in a sandbox, and asserts the trap was not touched.
 | Warm cache | An image or DB already in the user's cache | Reused; no download |
 | Small cache policy | A user cache over the default size limit, with images the user's machines need | Nothing evicted |
 | Private cache | `TIKOCI_CACHE_DIR` inside the sandbox, over its size limit | The sandbox evicts its own cache, and only that |
-| User's ports | A stopped machine in the user scope holding a port block | The sandbox picks ports from its own range |
-| Concurrent sandboxes | Two sandboxes allocating at once | Different ports, through the host-wide lock |
-| Host services | A managed network in the user scope | Not restarted or removed; no sudo |
+| User's ports | A stopped machine in the user scope holding a port block | The sandbox sees its durable claim and picks other ports |
+| Concurrent sandboxes | Two sandboxes allocating at once | Different ports, through the host scope's lock; their claims go stale when they exit |
+| Moved user scope | A stopped machine under a `TIKOCI_HOME` the test does not set | Its claim is still seen in the host scope |
+| Host services | A managed network in the user scope | Attaching works and is recorded; not restarted or removed; no sudo |
 | Long root | A sandbox whose socket path would exceed 103 bytes | A clear error before QEMU starts |
 | Host files | A read-only `~/.ssh/known_hosts` under a fake home | Unchanged; centrs uses only the sandbox's file |
 | Library pass-through | A sandboxed centrs call that resolves a quickchr machine | quickchr sees the sandbox and centrs' project, not the user's machines |

@@ -1,6 +1,6 @@
 ---
 name: tikoci-home
-description: "Where tikoci tools keep files: the user scope TIKOCI_HOME (default ~/.tikoci, %LOCALAPPDATA%\\tikoci on Windows, no XDG) and a project's .tikoci/, the nearest one above the working directory and below home. Each tool owns TOOL/ in each scope and every format in it; other tools use it through its library or CLI, never its files. tikoci does not define the directory around .tikoci/ or how it is shared. .tikoci/TOOL/ travels (no secrets, allowlisted settings); .tikoci/TOOL/local/ never does, and is read only when private to the user and its id matches a trust record in the tool's user scope, made at the CLI, never via MCP. Cache in TIKOCI_CACHE_DIR, runtime in run/TOOL/. TIKOCI_SANDBOX replaces the user scope for tests: no project, legacy path or keychain, and no eviction of the shared cache. A supplied env without HOME has no user scope. Use when adding a file a tool keeps outside the checkout, an env override, a settings layer, a cache or a test that touches user state."
+description: "Where tikoci tools keep files: the user scope TIKOCI_HOME (default ~/.tikoci, %LOCALAPPDATA%\\tikoci on Windows, no XDG) and a project's .tikoci/, the nearest one above the working directory and below home. Each tool owns TOOL/ in each scope; other tools use it through its library or CLI, never its files. tikoci does not define the directory around .tikoci/ or how it is shared. .tikoci/TOOL/ travels (no secrets, allowlisted settings); .tikoci/TOOL/local/ never does, is read only when private and trusted at the CLI, and a git worktree uses its main checkout's. Cache in TIKOCI_CACHE_DIR, runtime in run/TOOL/, port claims in the host scope. TIKOCI_SANDBOX replaces the user scope for tests: no project, legacy path or keychain, no eviction of the shared cache. Names across scopes: name, name@user, name@label. Use when adding a file a tool keeps outside the checkout, an env override, a settings layer, a cache, a cross-tool reference or a test that touches user state."
 ---
 
 # tikoci tool files
@@ -22,6 +22,8 @@ keeps, today and under this layout, is in
     <tool>.env                user settings
   cache/<tool>/               files that can be fetched again
   run/<tool>/                 sockets, pid files and live locks
+  host/<tool>/                claims on this host's ports and services
+
 
 <dir>/.tikoci/                project scope
   <tool>/
@@ -42,10 +44,11 @@ keeps, today and under this layout, is in
   is organized, and whether it is shared through git, Dropbox, an SMB share
   or not at all, is up to its owner.
 - **Nothing is shared at the top of `.tikoci/`.** Files that several tools
-  read wait until there is a written standard for them. `cache` and `run` are
-  not tool names.
+  read wait until there is a written standard for them. `cache`, `run` and
+  `host` are not tool names. The first shared standard is how tools name each
+  other's things ([Names across scopes](#names-across-scopes)), not a file.
 
-Every file has one of four lives:
+Every file has one of these lives:
 
 | Life | Where | Holds | Secrets |
 | --- | --- | --- | --- |
@@ -53,6 +56,7 @@ Every file has one of four lives:
 | local | `~/.tikoci/<tool>/`, `.tikoci/<tool>/local/` | credentials, state, personal settings, trust records | owner-only |
 | cache | `$TIKOCI_CACHE_DIR/<tool>/` | images, docs databases, MIBs | never |
 | run | `$TIKOCI_RUNTIME_DIR/<tool>/` | sockets, pid files, live locks | never |
+| host | `~/.tikoci/host/<tool>/` | the allocation lock, port claims, which context made a host service | never |
 
 ## Variables
 
@@ -102,7 +106,9 @@ Every file has one of four lives:
   and never reads `process.cwd()`: an MCP server or an editor extension runs
   from anywhere.
 - **Report the project used**, or that there was none, in the tool's
-  effective-settings output.
+  effective-settings output, and any `.tikoci/` the walk passed over. On an
+  SMB or NFS share, uid mapping can make a project look owned by someone
+  else; skipping it silently would look like no project at all.
 
 ## What travels and what stays local
 
@@ -113,8 +119,8 @@ project, a protocol or transport, weaker connection security, wider agent
 reach, skipped validation, host or cache policy, or `TIKOCI_*` variables.
 A traveling file that can reach outside the tool (a network address, a
 provisioning script, a disk size, a port forward, a network) is read only
-when the project that holds it is trusted in its own right, not through
-another project's `local/`.
+when the project that holds it is trusted: itself or, for a git worktree,
+through its main checkout, never through an enclosing project.
 
 **`local/` is read only when both hold:**
 
@@ -122,31 +128,34 @@ another project's `local/`.
    files 0600), checked as OpenSSH checks key files. Most sync tools reset
    modes, so a synced `local/` fails by default. Windows relies on the
    inherited ACL.
-2. its `id` matches a trust record in the tool's user scope
-   (`<tool>/projects/<id>/project.json`) that names this project's canonical
-   path.
+2. this user trusted the project, at this path, in their own user scope.
+   Nothing that arrives with the directory can say so.
 
 Otherwise the tool ignores everything in `local/`, settings included, and
 says why. Being gitignored proves nothing: a repo can force-add `local/`.
-On POSIX a clone or most syncs already fail the mode check; the trust record
-is what protects Windows, where there is no mode check, and it catches
-`cp -a`, restores and syncs that keep modes. It stays even where the mode
-check looks sufficient.
+The mode check alone is not enough: Windows has none, and `cp -a`, restores
+and some syncs keep modes. Whatever records trust must tell these apart:
 
 | What happened | Result |
 | --- | --- |
-| Fresh clone, a worktree outside the project, or `local/` arrived from elsewhere | untrusted: no record for this id |
-| `cp -r`, a restore, or a sync that carried `local/` | copied: the id's record names another path that still has it; trusting gives a new id |
-| The directory was moved | moved: the recorded path no longer has the id; trusting keeps the id, so machines and records follow |
-| `local/` readable by others or a symlink | unsafe; trusting tightens it and gives a new id |
+| Fresh clone, or `local/` arrived from elsewhere | untrusted |
+| `cp -r`, a restore, or a sync that carried `local/` | copied: the original stays trusted; trusting the copy gives it its own identity, so it never shares the original's machines |
+| The directory was moved | moved: trusting it again keeps its identity, so machines and records follow |
+| `local/` readable by others or a symlink | unsafe; trusting tightens it and gives a new identity |
+
+**How trust is recorded is open.** The reference resolver keeps one record
+per tool and project (`<tool>/projects/<id>/project.json`, matched by an id in
+`local/id`); a tool may do the same or better. A single record shared by all
+tools, and how trust lines up with a harness's own permissions (an agent
+allowed everything, a container that already holds every file), are left for
+a later standard. What holds now:
 
 - **Trust is a person's act at the CLI**: the tool's `trust` command, or an
   init command that creates project data (centrs' `devices init`). It asks
   for confirmation on a terminal, has a distinct name so a harness can deny
-  it, and is never reachable from MCP or another agent API. Each tool keeps
-  its own records. Trusting lets the tool read the project's files; using
-  credentials, provisioning or writing to devices is still each tool's own
-  decision and its own gates.
+  it, and is never reachable from MCP or another agent API. Trusting lets the
+  tool read the project's files; using credentials, provisioning or writing
+  to devices is still each tool's own decision and its own gates.
 - **This is cooperative, not a security boundary.** An agent with an
   unrestricted shell as the same OS user can edit the user scope directly.
   Containing that is the harness's permission rules, a separate OS user or a
@@ -160,21 +169,35 @@ check looks sufficient.
   that names the state and the `trust` command. It never falls back to the
   user's data, where the same name can be a different device. When the
   project has no data of that kind, the tool uses the user scope and says so.
-- **Worktrees.** A worktree carries the committed `.tikoci/` but never
-  `local/`. When the nearest project has no `.tikoci/<tool>/local/`, the tool
-  uses the one in the nearest enclosing project, under the same trust rules,
-  so a worktree inside its main checkout (in a gitignored directory such as
-  `.worktrees/`) sees the main checkout's devices and machines. That does not
-  make the worktree's own traveling files trusted; trusting the worktree gives
-  it its own `local/` and ends the inheritance. A `local/` that exists but
-  fails the checks is reported, never skipped for an outer one. A worktree
-  elsewhere is a separate project: trust it, or set `TIKOCI_PROJECT` to the
-  main checkout. A sandbox never looks above the project it was given.
-- **Things keyed by a project** (quickchr's project machines) get a qualified
-  name that works from anywhere.
 - **The `.gitignore`** each tool writes in `.tikoci/<tool>/` contains
   `local/`, so a git user is covered without tikoci assuming git. Anything
   else that copies a project should leave out `local/` too.
+
+### Worktrees and nested projects
+
+- **Git worktrees use their main checkout's `local/`.** A worktree carries
+  the committed `.tikoci/` but never `local/`. When the project has no
+  `.tikoci/<tool>/local/` of its own and is in a git worktree, the tool uses
+  the `.tikoci/` at the same place in the main checkout: same git common dir,
+  same path inside the checkout. git's own files prove the link, wherever the
+  worktree is (inside the checkout, beside it, in `/tmp` or
+  `~/.t3/worktrees/`), and nothing needs git installed. The worktree is
+  trusted through the main checkout, and its own traveling files (its
+  branch's machine definitions) are read as the main checkout's are: trust is
+  by path, not content, so a `git pull` changes them too. Trusting from a
+  worktree trusts the main checkout.
+- **Everything else is a separate project.** A nested `.tikoci/` that is not
+  a worktree (`examples/<lab>/`) never inherits from an enclosing one, and a
+  `local/` that exists but fails the checks is reported, never skipped. A
+  copy outside git is trusted on its own, or named with `TIKOCI_PROJECT`.
+  Other ways to prove a link (jj workspaces, an explicit link command) can be
+  added later.
+- **Realized state is per checkout.** `project` (the worktree) and the
+  project `local/` comes from are distinct: credentials, device inventories
+  and personal settings come from the main checkout, while state a tool
+  creates for the checkout it runs in (quickchr's VMs) is keyed by that
+  checkout, so two agents in two worktrees never reset one VM. A tool may let
+  a definition share the main checkout's instead.
 
 ## Where a file goes
 
@@ -199,11 +222,14 @@ Rules per class:
   tool read (bundled copies of a library) stays readable by them.
 - **cache** entries are immutable and named by everything that matters
   (version, architecture, digest), written under a temporary name and
-  renamed, with no secrets. Readers hold a lease, kept in the cache root so
-  every scope sharing it sees it. Only the user's own runs evict, with the
-  tool's own policy; a sandbox evicts only a cache inside itself. State never
-  refers to a cache entry by path: an entry it needs later is leased or
-  fetched again.
+  renamed, with no secrets. Only live leases (a read or a download in flight)
+  protect an entry, kept in the cache root so every scope sharing it sees
+  them; a stopped machine holds none. **State never depends on a cache entry
+  being there**: it fetches the entry again by its name, or keeps its own
+  copy as state (quickchr's opt-in pristine image for an offline lab). The
+  size policy belongs to the cache root: the user's settings for the shared
+  cache, the sandbox's for a cache inside it. Only the cache root's owner
+  evicts.
 - **run** files go in `$TIKOCI_RUNTIME_DIR/<tool>/`, under short names, not in
   a state directory whose length grows. A long-running process records the
   paths it started with in its state, and later commands read them there. A
@@ -211,12 +237,18 @@ Rules per class:
   or arguments, since pids are reused (in a replaced container especially).
   Unix socket paths stay within 103 bytes (macOS `sun_path` is 104 with the
   NUL): check at creation and name the variable to change in the error.
-- **host-wide** resources (ports, system services) are not in any scope. The
-  tool that allocates ports (quickchr) computes claims from durable state in
-  its user scope, serializes allocation with a lock at a fixed host path
-  outside any scope and the temp directory, and probes before use; sandboxes
-  allocate from their own range. Host services are never touched from a
-  sandbox and never created by a project file.
+- **host-wide** resources (ports, managed networks, system services) are
+  claimed in the **host scope**, `host/<tool>/` beside the default user scope
+  (`~/.tikoci/host/`, `%LOCALAPPDATA%\tikoci\host\`). It belongs to the OS
+  account, not the run: neither `TIKOCI_HOME` nor `TIKOCI_SANDBOX` moves it,
+  and it falls back to `os.homedir()` even for a supplied env. It holds the
+  allocation lock, a claim per resource (the context that owns it; durable
+  for a machine, live with pid, boot id and start time for a run; how a stale
+  claim is found) and which context created which host service. Sandboxes and
+  moved user scopes register there like any run, and a bind probe still
+  catches other accounts and programs. A container with its own home is its
+  own host scope. A project file or a sandbox may attach to a host service
+  that exists, never create, restart or remove one.
 - **install** files (completions, a binary and its assets) are written by an
   installer, not at run time.
 - **checkout** files (dev databases, extractor caches) stay in the checkout,
@@ -240,6 +272,13 @@ Rules per class:
 - [scripts/tikoci-paths.ts](scripts/tikoci-paths.ts) is a dependency-free
   reference resolver (`resolveTikociPaths`, `checkProject`, `trustProject`,
   `hermeticEnv`): copy it, or write the same rules in the tool.
+- **Run the shared cases.** Copies drift, and two tools that disagree on the
+  project or the main checkout break a run.
+  [references/conformance.json](references/conformance.json) holds the
+  resolution cases as data (a tree, an env, a working directory and the
+  expected result); every adopting repo runs them against its own resolver.
+  A published `@tikoci/home` package can follow once two tools implement
+  project discovery.
 - **Bun loads `.env` from the working directory**, even for a CLI whose
   shebang is `#!/usr/bin/env bun`
   ([centrs#666](https://github.com/tikoci/centrs/issues/666)), which bypasses
@@ -254,8 +293,11 @@ Rules per class:
   runtime files go under `<dir>/run/`;
 - no project is discovered (`TIKOCI_PROJECT` can name one, whose `local/` is
   then read only with a trust record made inside the sandbox);
-- no legacy path, no OS keychain, no host service, no sudo, and no other
-  program's files (`~/.ssh/known_hosts`, shell rc files);
+- no legacy path, no OS keychain, no sudo, and no other program's files
+  (`~/.ssh/known_hosts`, shell rc files);
+- host resources are claimed in the host scope like any run; an existing host
+  service can be attached to, never created, restarted or removed (tests
+  that must create one are a separate, explicitly flagged tier);
 - the shared cache is read and added to, never evicted, unless the test
   points `TIKOCI_CACHE_DIR` inside the sandbox to own a private one.
 
@@ -277,7 +319,35 @@ to keep socket paths short. Details and acceptance cases:
 7. Built-in defaults
 
 Host and cache policy (`cache-max-size`, `accel`) comes only from layers 1, 2
-and 6. Per tool: [references/settings.md](references/settings.md).
+and 6. **Definitions are not settings**: a value in a project's definition
+file (a machine's RouterOS version) is the project's intent, and only a flag
+overrides it, never an environment variable from a shell profile. Per tool:
+[references/settings.md](references/settings.md).
+
+## Names across scopes
+
+Tools pass machine and device names to each other (centrs `--quickchr`, MCP
+servers, tikbook), and a not-found tip has to name the other scope the same
+way in each. One form:
+
+| Form | Means |
+| --- | --- |
+| `edge1` | the current scope: the project if there is one, else the user scope |
+| `edge1@user` | the user scope, from anywhere |
+| `edge1@<label>` | the project with that label, from anywhere |
+
+- **An unqualified name is the current scope only**, so one scope per item
+  holds: nothing is looked up in the other scope without a qualifier.
+- **The label** is the project directory's name by default; a tool may let
+  the user set another. A tool resolves it against the projects its user
+  scope knows, and an ambiguous label is an error that lists their paths.
+- **Split at the last `@`**, so a name that contains `@` still works with a
+  qualifier.
+- **Refer, don't copy.** A definition that needs another tool's thing names
+  it (a quickchr twin of `edge1@lab`) and reaches it through that tool's
+  library, rather than copying its address or credentials.
+- How to name one worktree's instance (a suffix after the label) is left
+  until a tool needs it.
 
 ## Legacy paths and migration
 

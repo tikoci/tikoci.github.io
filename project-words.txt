@@ -2,6 +2,7 @@ autovlan
 CDB
 centrs
 CMR
+commondir
 crossref
 cwd
 efi
@@ -32,6 +33,7 @@ strawman
 subfolders
 tikbook
 tikoci
+uid
 UNC
 unparseable
 USERPROFILE
