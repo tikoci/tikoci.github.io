@@ -7,7 +7,7 @@ skill list the later phases build.
 
 | File | Holds |
 | --- | --- |
-| `skills.tsv` | The planned house skills: name, phase, scope, the survey topics each covers, the existing skills it absorbs, and how many survey rows feed it. Living list. |
+| `skills.tsv` | The planned house skills, one row each: `skill`, `phase`, `scope`, `topics` (survey topics it covers), `absorbs` (existing skills it replaces) and `rows` (survey rows that feed it). Living list. |
 | `2026-11-survey.tsv` | One row per instruction or skill source (or per topic section of a long one), November 2026 snapshot. |
 | `2026-11-conflicts.tsv` | Places where repos or user-level files disagree. Each house skill resolves its rows. |
 
