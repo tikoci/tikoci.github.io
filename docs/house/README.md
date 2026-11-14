@@ -35,8 +35,9 @@ machine facts.
 - `target`: `house`, `repo-local`, `lint` (a check should enforce it),
   `local-notes` (operator machine facts), `routeros-skills` (outward-facing RouterOS or
   tool-usage knowledge) or `drop` (stale or duplicated).
-- `skill`: for `house` rows, the planned skill, assigned by topic from `skills.tsv`.
-  A starting point: Phase 3 authors read the rows and may move one.
+- `skill`: for `house` rows, the planned skill (see `skills.tsv`).
+  Assigned by topic, with a few row-level moves; each skill's PR refines the mapping
+  for its own rows.
 - `publishable`: whether the source text could be published as is: `yes`, `sanitize`
   (a few local paths or facts), `no`.
 - `notes`: contradictions, or "strong source" for the best-written version of a rule.
@@ -47,7 +48,7 @@ machine facts.
 26 `local-notes`, 5 `lint`, 49 `drop`. 63 rows need sanitizing or stay private.
 
 The house rows group into 17 skills (`skills.tsv`). `tikoci-house` ships in Phase 1
-and `tikoci-home` in Phase 2; the other 15 are Phase 3. Compared with the strawman in
+and `tikoci-home` in Phase 2; the other 15 are Phase 3. Compared with the original strawman in
 issue #21, the survey adds `tikoci-testing`, `tikoci-release`, `tikoci-interfaces` (errors,
 CLI, library and MCP surfaces, which quickchr, centrs and rosetta all write about),
 `tikoci-web` and `tikoci-crossref`, and splits GitHub work into `tikoci-ci` and
