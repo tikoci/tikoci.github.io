@@ -16,25 +16,31 @@ import { join, posix, win32 } from "node:path";
 export type Env = Record<string, string | undefined>;
 
 export interface ResolveOptions {
+    /**
+     * The environment to read. When it is omitted (or is process.env itself),
+     * os.homedir() backs up a missing HOME. A caller-supplied env is taken
+     * literally: with no HOME (USERPROFILE on Windows) and no TIKOCI_HOME it
+     * has no user root, so nothing resolves to the developer's real files.
+     */
     env?: Env;
     cwd?: string;
     platform?: NodeJS.Platform;
-    /** Fallback when HOME (USERPROFILE on Windows) is unset. */
+    /** Explicit fallback when HOME (USERPROFILE on Windows) is unset, even for a supplied env. */
     homedir?: () => string;
 }
 
 export interface TikociPaths {
     tool: string;
-    /** TIKOCI_HOME was set: no workspace discovery, legacy paths or OS keychain. */
+    /** TIKOCI_PINNED=1: no workspace discovery, legacy paths or OS keychain. */
     pinned: boolean;
-    /** The user root: TIKOCI_HOME, else defaultHome(). */
-    home: string;
+    /** The user root: TIKOCI_HOME, else defaultHome(); null when the env has no user root. */
+    home: string | null;
     /** Config, secrets and state for this tool: home/tool. */
-    toolHome: string;
-    /** Reusable cache for this tool, shared by every root. */
-    cache: string;
-    /** Sockets, pid files and locks of live processes for this tool. */
-    runtime: string;
+    toolHome: string | null;
+    /** Reusable cache for this tool: TIKOCI_CACHE_DIR/tool, else home/cache/tool. */
+    cache: string | null;
+    /** Sockets, pid files and locks of live processes: TIKOCI_RUNTIME_DIR/tool, else home/run/tool. */
+    runtime: string | null;
     /** The directory that holds .tikoci/, or null. */
     workspace: string | null;
     /** workspace/.tikoci/tool, or null. */
@@ -59,12 +65,22 @@ function nonEmpty(value: string | undefined): string | undefined {
     return trimmed ? trimmed : undefined;
 }
 
-/** The user's home directory: HOME on POSIX, USERPROFILE on Windows, else os.homedir(). */
-export function userHome(options: ResolveOptions = {}): string {
+function isProcessEnv(options: ResolveOptions): boolean {
+    return options.env === undefined || options.env === process.env;
+}
+
+/**
+ * The user's home directory: HOME on POSIX, USERPROFILE on Windows. os.homedir()
+ * backs it up only for the process environment; a supplied env without the
+ * variable has no home (undefined).
+ */
+export function userHome(options: ResolveOptions = {}): string | undefined {
     const env = options.env ?? process.env;
     const platform = options.platform ?? process.platform;
     const fromEnv = platform === "win32" ? nonEmpty(env.USERPROFILE) : nonEmpty(env.HOME);
-    return fromEnv ?? (options.homedir ?? osHomedir)();
+    if (fromEnv !== undefined) return fromEnv;
+    if (options.homedir) return options.homedir();
+    return isProcessEnv(options) ? osHomedir() : undefined;
 }
 
 function absoluteFromEnv(env: Env, name: string, platform: NodeJS.Platform): string | undefined {
@@ -95,26 +111,33 @@ function samePath(a: string, b: string, platform: NodeJS.Platform): boolean {
  * The default user root: ~/.tikoci on Linux and macOS, %LOCALAPPDATA%\tikoci on
  * Windows, where everything outside AppData\Local roams with the profile.
  */
-export function defaultHome(options: ResolveOptions = {}): string {
+export function defaultHome(options: ResolveOptions = {}): string | undefined {
     const env = options.env ?? process.env;
     const platform = options.platform ?? process.platform;
     const path = pathFor(platform);
+    const local = platform === "win32" ? nonEmpty(env.LOCALAPPDATA) : undefined;
+    if (local !== undefined) return path.join(local, "tikoci");
     const home = userHome(options);
-    if (platform === "win32") {
-        const local = nonEmpty(env.LOCALAPPDATA) ?? path.join(home, "AppData", "Local");
-        return path.join(local, "tikoci");
-    }
-    return path.join(home, ".tikoci");
+    if (home === undefined) return undefined;
+    return platform === "win32" ? path.join(home, "AppData", "Local", "tikoci") : path.join(home, ".tikoci");
 }
 
-/**
- * The cache root: TIKOCI_CACHE_DIR, else the default root's cache/. It does not
- * follow TIKOCI_HOME, so a pinned run still reuses the user's cache.
- */
-export function cacheRoot(options: ResolveOptions = {}): string {
+/** The cache root: TIKOCI_CACHE_DIR, else the user root's cache/. */
+export function cacheRoot(options: ResolveOptions = {}): string | undefined {
     const env = options.env ?? process.env;
     const platform = options.platform ?? process.platform;
-    return absoluteFromEnv(env, "TIKOCI_CACHE_DIR", platform) ?? pathFor(platform).join(defaultHome(options), "cache");
+    const explicit = absoluteFromEnv(env, "TIKOCI_CACHE_DIR", platform);
+    if (explicit) return explicit;
+    const home = absoluteFromEnv(env, "TIKOCI_HOME", platform) ?? defaultHome(options);
+    return home === undefined ? undefined : pathFor(platform).join(home, "cache");
+}
+
+/** TIKOCI_PINNED: "1" pins the run, "0" or unset does not; anything else is an error. */
+function pinnedFromEnv(env: Env): boolean {
+    const value = nonEmpty(env.TIKOCI_PINNED);
+    if (value === undefined || value === "0") return false;
+    if (value === "1") return true;
+    throw new Error(`TIKOCI_PINNED must be 1 or 0, got "${value}"`);
 }
 
 function isRealDirectory(dir: string): boolean {
@@ -136,7 +159,10 @@ function isRealDirectory(dir: string): boolean {
 export function discoverWorkspace(cwd: string, options: ResolveOptions & { home?: string } = {}): string | null {
     const platform = options.platform ?? process.platform;
     const path = pathFor(platform);
-    const stop = canonical(userHome(options), platform);
+    const user = userHome(options);
+    // With no known home there is no safe place to stop, so discover nothing.
+    if (user === undefined) return null;
+    const stop = canonical(user, platform);
     const home = options.home ? canonical(options.home, platform) : undefined;
     let dir = canonical(cwd, platform);
     while (true) {
@@ -156,9 +182,11 @@ export function resolveTikociPaths(tool: string, options: ResolveOptions = {}): 
     const platform = options.platform ?? process.platform;
     const path = pathFor(platform);
     const explicitHome = absoluteFromEnv(env, "TIKOCI_HOME", platform);
-    const pinned = explicitHome !== undefined;
-    const home = explicitHome ?? defaultHome(options);
-    const runtimeRoot = absoluteFromEnv(env, "TIKOCI_RUNTIME_DIR", platform) ?? path.join(home, "run");
+    const pinned = pinnedFromEnv(env);
+    if (pinned && explicitHome === undefined) throw new Error("TIKOCI_PINNED=1 needs TIKOCI_HOME set to the run's own root");
+    const home = explicitHome ?? defaultHome(options) ?? null;
+    const runtimeRoot = absoluteFromEnv(env, "TIKOCI_RUNTIME_DIR", platform) ?? (home ? path.join(home, "run") : undefined);
+    const cache = cacheRoot(options);
 
     let workspace: string | null = null;
     const workspaceSetting = nonEmpty(env.TIKOCI_WORKSPACE);
@@ -166,7 +194,7 @@ export function resolveTikociPaths(tool: string, options: ResolveOptions = {}): 
         workspace = null;
     } else if (workspaceSetting !== undefined) {
         workspace = absoluteFromEnv(env, "TIKOCI_WORKSPACE", platform) ?? null;
-    } else if (!pinned) {
+    } else if (!pinned && home !== null) {
         workspace = discoverWorkspace(options.cwd ?? process.cwd(), { ...options, home });
     }
 
@@ -174,9 +202,9 @@ export function resolveTikociPaths(tool: string, options: ResolveOptions = {}): 
         tool,
         pinned,
         home,
-        toolHome: path.join(home, tool),
-        cache: path.join(cacheRoot(options), tool),
-        runtime: path.join(runtimeRoot, tool),
+        toolHome: home ? path.join(home, tool) : null,
+        cache: cache ? path.join(cache, tool) : null,
+        runtime: runtimeRoot ? path.join(runtimeRoot, tool) : null,
         workspace,
         workspaceToolDir: workspace ? path.join(workspace, ".tikoci", tool) : null,
         legacy: !pinned,
@@ -272,9 +300,8 @@ export const HERMETIC_KEEP = [
 
 /**
  * An environment for a pinned, hermetic run: only HERMETIC_KEEP from `base`,
- * TIKOCI_HOME set to `home`, TIKOCI_CACHE_DIR set to the cache `base` would
- * use (so the run reuses it even if a test later changes HOME), and `extra`
- * on top. Inherited TIKOCI_* and tool variables such as CENTRS_CDB_FILE or
+ * TIKOCI_HOME set to `home`, TIKOCI_PINNED=1, TIKOCI_CACHE_DIR set to the
+ * cache `base` would use (so the run reuses it), and `extra` on top. Inherited TIKOCI_* and tool variables such as CENTRS_CDB_FILE or
  * QUICKCHR_DATA_DIR are dropped unless `extra` sets them. On Windows, names
  * match without case (Path, SYSTEMROOT) and keep the parent's spelling.
  */
@@ -288,6 +315,7 @@ export function hermeticEnv(home: string, base: Env = process.env, extra: Env = 
         if (value !== undefined) env[key] = value;
     };
     set("TIKOCI_HOME", home);
+    set("TIKOCI_PINNED", "1");
     set("TIKOCI_CACHE_DIR", cacheRoot({ env: base, platform }));
     for (const [key, value] of Object.entries(extra)) set(key, value);
     return env;

@@ -45,7 +45,23 @@ come from the file.
 
 On adoption: the user file moves to `$TIKOCI_HOME/centrs/centrs.env`, and a
 workspace `centrs.env` becomes a layer between comment `key=value` and the user
-file. The MATRIX says the constitution changes first, since this adds a layer.
+file. The constitution changes first, in three places:
+
+- the precedence list names `${XDG_CONFIG_HOME:-~/.config}/tikoci/centrs.env`,
+  which becomes `$TIKOCI_HOME/centrs/centrs.env` plus the workspace layer;
+- "the CDB is the only durable inventory; everything else is derived,
+  deletable and secret-free" gains enrollment records, which are durable but
+  fail closed when lost;
+- the MATRIX SNMP theme's MIB cache policy (signed off 2026-06-06) says "XDG
+  cache root"; its home becomes `$TIKOCI_CACHE_DIR/centrs/mib/VERSION/`
+  (layout.tsv has a planned row).
+
+Before any of that, centrs#654 can land in a forward-compatible shape: one
+`centrsPaths(env)` resolver replacing `defaultCdbPath` and
+`defaultSettingsPath` (which also ends today's split between the CDB and
+`centrs.env`), no fallback to the real home for a caller-supplied env, and a
+hermetic env built in the integration preload. Adopting `TIKOCI_HOME` later
+then changes that one function and the preload.
 
 Workspace allowlist, from the keys centrs honors:
 
@@ -57,18 +73,26 @@ Workspace allowlist, from the keys centrs honors:
 | `insecure`, `ssh-key`, `mcp-allow-adhoc` | refused: weaker security or wider reach |
 | credentials, `cdb-password`, a password command, `skip-env-file` | refused, as in the user file |
 
-A project CDB is a harder case than its settings file. Its records supply
-addresses, credentials and device names, and centrs combines a record's
-address with credentials from higher layers (`src/resolver/cdb.ts`,
-`src/resolver/target.ts`), so a cloned CDB that maps a familiar name such as
-`edge1` to another address would receive the user's credentials. Filtering its
-comment keys does not prevent that, and CDB membership alone also registers a
-device for MCP. So a workspace CDB is used only once the workspace is enrolled
-(see the SKILL.md trust rules): `devices init` enrolls the workspace it
-creates, and a cloned one needs an explicit trust step outside the clone. Even
-when enrolled, its comment keys that the allowlist refuses (`insecure`,
-`ssh-key`, `mcp=rw`) are ignored with a warning. This is the hardest part of
-centrs' adoption and needs its own review.
+That allowlist is for the settings file, which applies without enrollment. A
+project CDB is different. Its records supply addresses, credentials and device
+names, and centrs combines a record's address with credentials from higher
+layers (`src/resolver/cdb.ts`, `src/resolver/target.ts`), so a cloned CDB that
+maps a familiar name such as `edge1` to another address would receive the
+user's credentials. CDB membership alone also registers a device for MCP. So:
+
+- **An unenrolled workspace CDB is not read at all.** `devices init` enrolls
+  the workspace it creates; a cloned one needs an explicit trust command, run
+  by a person at the CLI and never exposed as an MCP tool (the same class of
+  problem as an agent granting itself `mcp=rw`, centrs#664).
+- **An enrolled workspace CDB has full CDB semantics**, comment keys included.
+  Its main use is a project lab of quickchr CHRs driven by agents, which needs
+  `insecure` for self-signed certificates, `mcp=rw` for agent work and an
+  `ssh-key` inside the workspace. Filtering those after the user explicitly
+  trusted the workspace would leave a CDB nobody uses.
+- **One CDB per run.** An enrolled workspace CDB replaces the user CDB for the
+  run rather than merging with it, so names cannot collide, and
+  `meta.settings` reports which one won. Merging would be a second resolution
+  source, which the constitution defers until one exists.
 
 ## rosetta
 

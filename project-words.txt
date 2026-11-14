@@ -10,6 +10,7 @@ LOCALAPPDATA
 lsbridge
 lsp
 MCP
+MIB
 mikropkl
 MikroTik
 mtimes
@@ -22,11 +23,13 @@ ros
 routeros
 rsc
 rskills
+SNMP
 strawman
 subfolders
 tikbook
 tikoci
 unparseable
 USERPROFILE
+usr
 worktrees
 XDG

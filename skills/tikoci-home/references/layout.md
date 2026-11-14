@@ -43,7 +43,8 @@ Placeholders are upper case: `NAME`, `SLUG`, `SLOT`, `VERSION`, `PID`,
   cache; centrs unit tests sandbox `HOME`, while integration keeps it and reads
   the developer's CDB ([centrs#654](https://github.com/tikoci/centrs/issues/654));
   rosetta uses `DB_PATH=:memory:` and a preload that mocks `homedir()`. A
-  pinned `TIKOCI_HOME` with a shared cache replaces all three.
+  pinned run (`TIKOCI_HOME`, `TIKOCI_PINNED=1`, the shared cache) replaces all
+  three.
 - **Some stores are not per root today.** quickchr's instance credentials are
   keyed by machine name only, so two data dirs overwrite each other's entries.
   Keychain items are global. Moving credentials under the root and keeping the

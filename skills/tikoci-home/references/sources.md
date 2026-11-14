@@ -22,7 +22,10 @@ Planning: Phase 2 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 | Precedence | quickchr-088, centrs CONSTITUTION, rosetta `resolveDbPath` | Per tool in [settings.md](settings.md). |
 | Workspace discovery, allowlist, owner-only, `.gitignore` | centrs MATRIX "Workspace and local state" and "Auth and secrets" | Refused keys come from what centrs honors today. |
 | Workspace data needs enrollment; no transport choice | centrs `src/resolver/cdb.ts`, `src/resolver/target.ts`, `src/transfer.ts` (PR #24 review) | |
-| Bun `.env` loading | `bun --no-env-file`; centrs survey (CLI runs under `bun`) | Not tested in a tool yet. |
-| Pinned runs, harness allowlist | centrs#654, centrs `HERMETIC_ENV`, quickchr testing instructions (pass explicit `env` to spawned workers), rosetta `homedir()` preload | |
+| Bun `.env` loading | [centrs#666](https://github.com/tikoci/centrs/issues/666), reproduced with Bun 1.4.4 | `#!/usr/bin/env -S bun --no-env-file` blocks it; `bun <file>` ignores the shebang. |
+| Pinned runs, harness allowlist | centrs#654, centrs `HERMETIC_ENV`, quickchr testing instructions (pass explicit `env` to spawned workers), rosetta `homedir()` preload | Pinning is `TIKOCI_PINNED`, separate from relocation (PR #24 centrs review). |
+| No `os.homedir()` fallback for a supplied env | centrs#654 second comment (`noEnv = {}` reaching the real CDB) | PR #24 centrs review. |
+| Enrolled data is trusted; one CDB per run; no enrollment from MCP | centrs MATRIX "Workspace and local state", CONSTITUTION, centrs#664 | PR #24 centrs review. |
+| Legacy wins over auto-create and first write | centrs `createEmptyCdbNoClobber`, `settings set` | PR #24 centrs review. |
 | Keychain only in the default root | quickchr credentials (instance credentials kept out of the keychain; web account in `Bun.secrets`) | |
 | Legacy per item, explicit migrate, never delete | rosetta legacy `ros-help.db` handling; quickchr `.start-lock` and `efi-vars.fd` migrations | Changes the issue's "read-only fallback": that would fail ordinary writes to legacy data. |

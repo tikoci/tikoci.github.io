@@ -54,17 +54,33 @@ describe("roots", () => {
         expect(paths.cache).toBe("C:\\Users\\u\\AppData\\Local\\tikoci\\cache\\centrs");
     });
 
-    test("TIKOCI_HOME pins the run but keeps the user's cache", () => {
+    test("TIKOCI_HOME only relocates: workspaces, legacy paths and the keychain stay on", () => {
         const paths = resolveTikociPaths("rosetta", { env: { HOME: "/u", TIKOCI_HOME: "/t/root" }, cwd: "/", platform: "linux" });
         expect(paths).toMatchObject({
-            pinned: true,
+            pinned: false,
             toolHome: "/t/root/rosetta",
-            cache: "/u/.tikoci/cache/rosetta",
+            cache: "/t/root/cache/rosetta",
             runtime: "/t/root/run/rosetta",
-            workspace: null,
-            legacy: false,
-            keychain: false,
+            legacy: true,
+            keychain: true,
         });
+    });
+
+    test("TIKOCI_PINNED=1 pins the run and needs its own TIKOCI_HOME", () => {
+        const env = { HOME: "/u", TIKOCI_HOME: "/t/root", TIKOCI_PINNED: "1" };
+        expect(resolveTikociPaths("rosetta", { env, cwd: "/", platform: "linux" })).toMatchObject({
+            pinned: true, workspace: null, legacy: false, keychain: false,
+        });
+        expect(() => resolveTikociPaths("x", { env: { HOME: "/u", TIKOCI_PINNED: "1" }, platform: "linux" })).toThrow("needs TIKOCI_HOME");
+        expect(() => resolveTikociPaths("x", { env: { HOME: "/u", TIKOCI_HOME: "/t", TIKOCI_PINNED: "yes" }, platform: "linux" })).toThrow("1 or 0");
+        expect(resolveTikociPaths("x", { env: { HOME: "/u", TIKOCI_PINNED: "0" }, cwd: "/", platform: "linux" }).pinned).toBe(false);
+    });
+
+    test("a supplied env without a home has no user root (centrs#654)", () => {
+        const paths = resolveTikociPaths("centrs", { env: {}, cwd: "/", platform: "linux" });
+        expect(paths).toMatchObject({ home: null, toolHome: null, cache: null, runtime: null, workspace: null });
+        expect(resolveTikociPaths("centrs", { env: {}, homedir: () => "/h", cwd: "/", platform: "linux" }).home).toBe("/h/.tikoci");
+        expect(resolveTikociPaths("centrs", { env: { TIKOCI_HOME: "/t" }, cwd: "/", platform: "linux" }).toolHome).toBe("/t/centrs");
     });
 
     test("cache and runtime roots move independently", () => {
@@ -130,14 +146,16 @@ describe("workspaces", () => {
     test("a pinned run discovers no workspace above it", () => {
         const user = fakeUser();
         mkdirSync(join(user.project, ".tikoci"));
-        const env = { ...user.env, TIKOCI_HOME: join(user.root, "pinned") };
+        const relocated = { ...user.env, TIKOCI_HOME: join(user.root, "elsewhere") };
+        expect(resolveTikociPaths("centrs", { env: relocated, cwd: user.deep }).workspace).toBe(user.project);
+        const env = { ...relocated, TIKOCI_PINNED: "1" };
         expect(resolveTikociPaths("centrs", { env, cwd: user.deep }).workspace).toBeNull();
     });
 
     test("TIKOCI_WORKSPACE names one or turns discovery off", () => {
         const user = fakeUser();
         mkdirSync(join(user.project, ".tikoci"));
-        const named = { ...user.env, TIKOCI_HOME: join(user.root, "pinned"), TIKOCI_WORKSPACE: user.project };
+        const named = { ...user.env, TIKOCI_HOME: join(user.root, "pinned"), TIKOCI_PINNED: "1", TIKOCI_WORKSPACE: user.project };
         expect(resolveTikociPaths("centrs", { env: named, cwd: user.root }).workspace).toBe(user.project);
         const off = { ...user.env, TIKOCI_WORKSPACE: "none" };
         expect(resolveTikociPaths("centrs", { env: off, cwd: user.deep }).workspace).toBeNull();
@@ -186,6 +204,7 @@ describe("isolation", () => {
             PATH: "/bin",
             HOME: "/u",
             TIKOCI_HOME: "/t/root",
+            TIKOCI_PINNED: "1",
             TIKOCI_CACHE_DIR: "/u/.tikoci/cache",
             CENTRS_FORMAT: "json",
         });
@@ -202,6 +221,7 @@ describe("isolation", () => {
             USERPROFILE: "C:\\Users\\u",
             LOCALAPPDATA: "C:\\L",
             TIKOCI_HOME: "C:\\t",
+            TIKOCI_PINNED: "1",
             TIKOCI_CACHE_DIR: "C:\\L\\tikoci\\cache",
             tikoci_workspace: "none",
         });

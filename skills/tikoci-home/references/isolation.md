@@ -2,25 +2,32 @@
 
 A test that runs a tikoci tool must not read or write the developer's own
 files, and must not download gigabytes it already has. Under
-[tikoci-home](../SKILL.md) one variable does both: `TIKOCI_HOME` pins the run.
+[tikoci-home](../SKILL.md) one helper's output does both: `TIKOCI_HOME` set to
+a fresh directory, `TIKOCI_PINNED=1`, and `TIKOCI_CACHE_DIR` set to the
+developer's cache. Pinning is its own switch so that a user who sets
+`TIKOCI_HOME` only to relocate the tree keeps workspaces and the keychain.
 
 ## What a pinned run guarantees
 
-With `TIKOCI_HOME` set to a fresh directory, the tool:
+With `TIKOCI_PINNED=1` and `TIKOCI_HOME` set to a fresh directory, the tool:
 
 1. reads and writes config, secrets and state only under `$TIKOCI_HOME/<tool>/`;
 2. discovers no workspace, unless `TIKOCI_WORKSPACE` names one;
 3. reads no legacy path (`~/.config/...`, `~/.local/share/...`, `~/.rosetta`);
 4. does not touch the OS keychain (`Bun.secrets`, Keychain, libsecret,
    Credential Manager), so no prompt can hang a run;
-5. reuses the user's cache, unless `TIKOCI_CACHE_DIR` is set;
+5. keeps its cache under `TIKOCI_CACHE_DIR`, which the harness points at the
+   developer's cache so it is reused;
 6. keeps runtime files under `$TIKOCI_HOME/run/<tool>/`, unless
    `TIKOCI_RUNTIME_DIR` is set;
 7. writes no file that belongs to another program (`~/.ssh/known_hosts`,
    shell rc files).
 
-`HOME` stays as it is. Tests should not need to change it; one that does sets
-`TIKOCI_CACHE_DIR` explicitly so the cache does not move with it.
+`HOME` stays as it is; tests should not need to change it. For in-process
+calls, a test can instead pass an env with no `HOME` and no `TIKOCI_HOME`:
+the resolver then finds no user root at all, rather than falling back to
+`os.homedir()` and the developer's real files
+([centrs#654](https://github.com/tikoci/centrs/issues/654)).
 
 ## What the harness does
 
@@ -30,11 +37,13 @@ otherwise win. So the harness:
 
 - builds each child's environment from an allowlist (`PATH`, `HOME`, temp and
   locale variables), never by copying `process.env`;
-- sets `TIKOCI_HOME` to a new temp directory per run or per file, and
-  `TIKOCI_CACHE_DIR` to the cache the developer already has;
+- sets `TIKOCI_HOME` to a new temp directory per run or per file,
+  `TIKOCI_PINNED=1`, and `TIKOCI_CACHE_DIR` to the cache the developer already
+  has;
 - adds back only the tool variables the test means to set;
-- runs `bun` children with `--no-env-file`, or from a directory with no
-  `.env`, so a checkout's `.env` cannot add variables;
+- runs `bun` children with `--no-env-file`, so a checkout's `.env` cannot add
+  variables (`bun <file>` ignores a shebang that says so;
+  [centrs#666](https://github.com/tikoci/centrs/issues/666));
 - for in-process calls, passes that environment as an argument rather than
   mutating `process.env`, where the tool's API allows it.
 
