@@ -228,6 +228,31 @@
       "expect": { "project": "{root}/user/wt/feature/labs/cmr", "localProject": "{root}/user/src/main/labs/cmr" }
     },
     {
+      "name": "a worktree nested in its main checkout, on a branch with no .tikoci/, has no project and reports the main checkout's",
+      "tool": "centrs",
+      "tree": [
+        "user/src/main/.tikoci/centrs/local/",
+        { "file": "user/src/main/.git/worktrees/old/commondir", "text": "../..\n" },
+        "user/src/main/.worktrees/old/lib/",
+        { "file": "user/src/main/.worktrees/old/.git", "text": "gitdir: ../../.git/worktrees/old\n" }
+      ],
+      "env": { "HOME": "{root}/user" },
+      "cwd": "{root}/user/src/main/.worktrees/old/lib",
+      "expect": { "project": null, "localProject": null, "mainProject": "{root}/user/src/main" }
+    },
+    {
+      "name": "a worktree beside its main checkout still finds a lab folder's .tikoci/ above both",
+      "tool": "centrs",
+      "tree": [
+        "user/lab/.tikoci/",
+        { "file": "user/lab/main/.git/worktrees/fix/commondir", "text": "../..\n" },
+        { "file": "user/lab/fix/.git", "text": "gitdir: {root}/user/lab/main/.git/worktrees/fix\n" }
+      ],
+      "env": { "HOME": "{root}/user" },
+      "cwd": "{root}/user/lab/fix",
+      "expect": { "project": "{root}/user/lab", "mainProject": null }
+    },
+    {
       "name": "a nested .tikoci/ that is not a worktree is its own project and never inherits",
       "tool": "quickchr",
       "tree": ["user/src/p/.tikoci/quickchr/local/", "user/src/p/.git/", "user/src/p/examples/cmr/.tikoci/quickchr/"],

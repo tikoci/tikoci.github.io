@@ -71,10 +71,16 @@ Each is the adopting repo's call; the house rule only says what must hold.
   `projects/ID/machines/NAME/`, that path has no bounded length (about 128
   bytes for a 64-character name on macOS), so sockets and `qemu.pid` go in
   `$TIKOCI_RUNTIME_DIR/quickchr/SHORT-ID/` and `machine.json` records them.
-- **quickchr in a worktree**: how to name one worktree's instance (a suffix
-  after the label), whether `list` in a project also shows the user's own
-  machines, and how a definition opts into sharing the main checkout's
-  machine.
+- **quickchr in a worktree**: how to name one worktree's instance, whether
+  `list` in a project also shows the user's own machines, how a definition
+  opts into sharing the main checkout's machine, how an instance tells a
+  reused worktree path from the original (fourth quickchr review), and
+  `quickchr prune` for checkouts that are gone, releasing their host-scope
+  claims.
+- **What makes a project hold quickchr data.** The fourth quickchr review
+  suggests "`.tikoci/quickchr/` exists": `quickchr add` in such a project
+  makes a project machine (and writes or offers a definition), and
+  `user:NAME` or `--user` reaches the user's own.
 - **quickchr machine definitions**: the TOML format, and what happens when a
   definition changes after its machine exists.
 - **quickchr's host-scope formats**: the claims registry (owner context,

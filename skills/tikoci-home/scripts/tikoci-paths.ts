@@ -64,12 +64,12 @@ export interface TikociPaths {
     cache: string | null;
     /**
      * Host-wide coordination for this OS account (port claims, the allocation
-     * lock, managed-network records): ~/.tikoci/host/tool from the real home.
+     * lock, managed-network records): ~/.tikoci/host/tool, found from HOME, else os.homedir().
      * Neither TIKOCI_HOME nor TIKOCI_SANDBOX moves it, so sandboxes and moved
      * user scopes register in the same place. Null only when no home is known.
      */
     hostDir: string | null;
-    /** The project: the directory holding .tikoci/, or null. Also the instance key for realized state. */
+    /** The project: the directory holding .tikoci/, or null. With what tells a reused path apart (SKILL.md), the instance key for realized state. */
     project: string | null;
     /** project/.tikoci/tool: files that travel with the directory. */
     projectToolDir: string | null;
@@ -85,6 +85,14 @@ export interface TikociPaths {
     projectLocalDir: string | null;
     /** .tikoci/ directories the walk passed over (a symlink, another user's), to report rather than skip silently. */
     skipped: string[];
+    /**
+     * Set only when the run is in a git worktree with no .tikoci/ of its own
+     * (a branch cut before adoption): the walk stops at the worktree root
+     * instead of entering its own main checkout, and this names the project
+     * the main checkout uses at the same place. It is reported, never read:
+     * a tool says the main checkout has project data and how to name it.
+     */
+    mainProject: string | null;
     /** May evict from `cache`: the user's own runs, or a sandbox whose cache is inside it. */
     evicts: boolean;
     /** May read the tool's pre-tikoci-home locations (no in a sandbox). */
@@ -195,7 +203,7 @@ export function userRoot(options: ResolveOptions = {}): string | undefined {
 }
 
 /**
- * The host scope: defaultHome()/host, from the account's real home. It follows
+ * The host scope: defaultHome()/host, found from HOME (else os.homedir()). It follows
  * the OS account, not the run, so TIKOCI_HOME and TIKOCI_SANDBOX do not move it,
  * and a supplied env without HOME still falls back to os.homedir() here.
  */
@@ -254,6 +262,8 @@ function classifyTikociDir(candidate: string, options: ResolveOptions): "own" | 
 export interface Discovery {
     project: string | null;
     skipped: string[];
+    /** The git worktree whose root stopped the walk before it entered the worktree's own main checkout. */
+    worktree: { checkout: string; main: string } | null;
 }
 
 /**
@@ -265,27 +275,35 @@ export interface Discovery {
  * on Windows), so an alias of the home directory stops the walk too. Every
  * tool stops at the nearest .tikoci/, whether or not it has a directory for
  * that tool, so tools in one run always agree on the project.
+ *
+ * The walk never passes a git worktree's root into that worktree's own main
+ * checkout (one in .worktrees/ or .claude/worktrees/): a branch with no
+ * .tikoci/ has no project wherever the worktree sits. A directory above an
+ * unrelated checkout (a lab folder holding several repos) still counts.
  */
 export function findProject(cwd: string, options: ResolveOptions & { userScope?: string } = {}): Discovery {
     const platform = options.platform ?? process.platform;
     const path = pathFor(platform);
     const skipped: string[] = [];
+    const none = (worktree: Discovery["worktree"] = null): Discovery => ({ project: null, skipped, worktree });
     const user = userHome(options);
     // With no known home there is no safe place to stop, so discover nothing.
-    if (user === undefined) return { project: null, skipped };
+    if (user === undefined) return none();
     const stop = canonical(user, platform);
     const scope = options.userScope ? canonical(options.userScope, platform) : undefined;
     let dir = canonical(cwd, platform);
     while (true) {
-        if (samePath(dir, stop, platform)) return { project: null, skipped };
+        if (samePath(dir, stop, platform)) return none();
         const candidate = path.join(dir, ".tikoci");
         if (!(scope && samePath(candidate, scope, platform))) {
             const kind = classifyTikociDir(candidate, options);
-            if (kind === "own") return { project: dir, skipped };
+            if (kind === "own") return { project: dir, skipped, worktree: null };
             if (kind === "skipped") skipped.push(candidate);
         }
         const parent = path.dirname(dir);
-        if (parent === dir) return { project: null, skipped };
+        if (parent === dir) return none();
+        const worktree = worktreeAt(dir, platform);
+        if (worktree && isInside(worktree.main, parent, platform)) return none(worktree);
         dir = parent;
     }
 }
@@ -314,26 +332,35 @@ function readText(file: string): string | undefined {
 export function gitWorktreeRoot(dir: string, platform: NodeJS.Platform = process.platform): { checkout: string; main: string } | null {
     const path = pathFor(platform);
     for (let probe = canonical(dir, platform); ; probe = path.dirname(probe)) {
-        const dotGit = path.join(probe, ".git");
-        let stat: ReturnType<typeof lstatSync> | undefined;
-        try {
-            stat = lstatSync(dotGit);
-        } catch {
-            // keep walking up
-        }
-        if (stat?.isDirectory()) return null; // a main checkout (or a plain repo)
-        if (stat?.isFile()) {
-            const line = readText(dotGit)?.match(/^gitdir:\s*(.+)$/m)?.[1];
-            if (!line) return null;
-            const gitdir = path.resolve(probe, line);
-            const common = readText(path.join(gitdir, "commondir"));
-            if (!common) return null; // a submodule
-            const commonDir = canonical(path.resolve(gitdir, common), platform);
-            if (path.basename(commonDir) !== ".git") return null; // a bare repository has no main checkout
-            return { checkout: probe, main: path.dirname(commonDir) };
-        }
+        const kind = dotGitKind(path.join(probe, ".git"));
+        if (kind === "dir") return null; // a main checkout (or a plain repo)
+        if (kind === "file") return worktreeAt(probe, platform);
         if (path.dirname(probe) === probe) return null;
     }
+}
+
+function dotGitKind(dotGit: string): "dir" | "file" | "none" {
+    try {
+        const stat = lstatSync(dotGit);
+        return stat.isDirectory() ? "dir" : stat.isFile() ? "file" : "none";
+    } catch {
+        return "none";
+    }
+}
+
+/** `dir` as the root of a linked git worktree (its .git is a file with a commondir), or null. */
+function worktreeAt(dir: string, platform: NodeJS.Platform): { checkout: string; main: string } | null {
+    const path = pathFor(platform);
+    const dotGit = path.join(dir, ".git");
+    if (dotGitKind(dotGit) !== "file") return null;
+    const line = readText(dotGit)?.match(/^gitdir:\s*(.+)$/m)?.[1];
+    if (!line) return null;
+    const gitdir = path.resolve(dir, line);
+    const common = readText(path.join(gitdir, "commondir"));
+    if (!common) return null; // a submodule
+    const commonDir = canonical(path.resolve(gitdir, common), platform);
+    if (path.basename(commonDir) !== ".git") return null; // a bare repository has no main checkout
+    return { checkout: dir, main: path.dirname(commonDir) };
 }
 
 /**
@@ -382,6 +409,7 @@ export function resolveTikociPaths(tool: string, options: ResolveOptions = {}): 
     let project: string | null = null;
     let projectSource = "none";
     let skipped: string[] = [];
+    let mainProject: string | null = null;
     const named = nonEmpty(env.TIKOCI_PROJECT);
     if (named === "none") {
         projectSource = "TIKOCI_PROJECT";
@@ -391,8 +419,14 @@ export function resolveTikociPaths(tool: string, options: ResolveOptions = {}): 
     } else if (!sandboxed) {
         const cwd = options.cwd ?? (isProcessEnv(options) ? process.cwd() : undefined);
         if (cwd !== undefined) {
-            ({ project, skipped } = findProject(cwd, { ...options, userScope: user }));
+            const found = findProject(cwd, { ...options, userScope: user });
+            ({ project, skipped } = found);
             if (project) projectSource = "discovered";
+            if (found.worktree) {
+                // Where the main checkout would look from the same place, reported only.
+                const rel = path.relative(found.worktree.checkout, canonical(cwd, platform));
+                mainProject = findProject(path.join(found.worktree.main, rel), { ...options, userScope: user }).project;
+            }
         }
     }
     const projectToolDir = project ? path.join(project, ".tikoci", tool) : null;
@@ -413,6 +447,7 @@ export function resolveTikociPaths(tool: string, options: ResolveOptions = {}): 
         localProject,
         projectLocalDir: localProject ? path.join(localProject, ".tikoci", tool, "local") : null,
         skipped,
+        mainProject,
         evicts: cache !== null && (sandbox === undefined || isInside(canonical(sandbox, platform), canonical(cache, platform), platform)),
         legacy: !sandboxed,
         keychain: !sandboxed,
@@ -495,6 +530,24 @@ export function notPrivate(dir: string): string | null {
 
 /** The .gitignore a tool writes into its project directory: local/ never travels. */
 export const PROJECT_GITIGNORE = "# tikoci-home: local/ is this user's, on this machine only.\nlocal/\n";
+
+/**
+ * The .gitignore a tool writes inside local/ itself. It ignores everything in
+ * local/, itself included, so it holds on every branch: the tracked
+ * .tikoci/TOOL/.gitignore disappears when a checkout switches to a branch
+ * without it, while untracked local/ files stay behind.
+ */
+export const LOCAL_GITIGNORE = "# tikoci-home: never commit local/.\n*\n";
+
+/** Create (or repair) a project's local/: private to this user, with its own LOCAL_GITIGNORE. */
+export function ensureLocalDir(dir: string): void {
+    ensurePrivateDir(dir);
+    try {
+        writeFileSync(join(dir, ".gitignore"), LOCAL_GITIGNORE, { flag: "wx", mode: 0o600 });
+    } catch (error) {
+        if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
+    }
+}
 
 /**
  * Create root/.tikoci/tool/ with its .gitignore. Tools call this from an
@@ -604,7 +657,7 @@ export function trustProject(paths: TikociPaths): string {
     const check = checkProject(paths);
     if (check.state === "trusted") return check.id as string;
     initProject(project, paths.tool);
-    ensurePrivateDir(projectLocalDir);
+    ensureLocalDir(projectLocalDir);
     const id = check.state === "moved" && check.id ? check.id : randomBytes(6).toString("hex");
     const recordFile = trustRecordFile(paths, id);
     ensurePrivateDir(join(recordFile, ".."));

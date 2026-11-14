@@ -47,7 +47,7 @@ describe `edge1` get two machines, and two agents in two worktrees get two
 VMs, each from its own branch's definition. A definition may opt into
 sharing the main checkout's machine. In a project, `quickchr list` shows that
 project's machines; from anywhere (an MCP server started elsewhere, the VS
-Code extension host, `centrs --quickchr`) a machine is `edge1@<label>`
+Code extension host, `centrs --quickchr`) a machine is `<label>:edge1`
 (SKILL.md, Names across scopes). Definitions are read only when the project
 is trusted: provisioning scripts, disk sizes, port forwards and networks all
 reach outside the VM. A definition may attach to a host network service that
@@ -59,7 +59,7 @@ but `QUICKCHR_DEFAULT_CHANNEL` and the settings files supply defaults only
 for machines that do not say.
 
 **A twin of a project's devices** is a definition that names the centrs
-device (`edge1@<label>`) instead of copying its address. quickchr realizes
+device (`<label>:edge1`) instead of copying its address. quickchr realizes
 it per checkout, and centrs reaches it through quickchr's library.
 
 ## centrs
@@ -109,16 +109,30 @@ credentials, so it never travels.
 - **It replaces the user CDB for the run, never merged.** A merge would bring
   back name collisions and the question the constitution defers (how to
   combine two device sources). The envelope names the scope it used.
-- **An unreadable project CDB is an error, not a fallback.** If
-  `local/winbox.cdb` exists but the project is untrusted, copied or moved, or
-  `local/` is not private, centrs stops with an error naming the state and
-  `centrs trust`; it does not use the user CDB, where `edge1` may be another
-  router. A project with no CDB uses the user CDB, and the envelope says so.
+- **A project holds centrs data when `.tikoci/centrs/` exists.** That
+  directory travels, so a fresh clone, every worktree and every tool agree.
+  In such a project, a readable `local/winbox.cdb` is used. Anything else is
+  an error, never the user CDB, where `edge1` may be another router: an
+  untrusted, copied or moved project, or a `local/` that is not private,
+  names the state and `centrs trust`; a clone with no CDB yet names
+  `centrs devices init`, `--cdb-file` and `user:edge1`. A project without
+  `.tikoci/centrs/` (only quickchr's directory, say) uses the user CDB, and
+  the envelope says so.
 - **A git worktree** uses its main checkout's `local/winbox.cdb`, wherever
-  the worktree is (SKILL.md, Worktrees and nested projects). A nested
-  `.tikoci/` that is not a worktree is its own project.
+  the worktree is (SKILL.md, Worktrees and nested projects). `devices init`
+  in a worktree writes `.tikoci/centrs/` in that checkout and the CDB in the
+  main checkout's `local/`. A nested `.tikoci/` that is not a worktree is its
+  own project.
+- **A worktree with no `.tikoci/`** (a branch cut before adoption) has no
+  project and uses the user CDB. When its main checkout has a project CDB,
+  the envelope warns and names the qualified form (`<label>:edge1`), since a
+  name present in both would otherwise reach the user's device silently.
 - **A not-found error says when the user CDB has the name**, in the house
-  form: "`home-gw` is in your user CDB: `home-gw@user`".
+  form: "`home-gw` is in your user CDB: `user:home-gw`".
+- **Qualified names never break existing CDB names.** A whole-string match
+  in the current CDB comes first (`core@site` and `lab:core` stay CDB names), as
+  SKILL.md orders it. centrs passes a qualified quickchr name
+  (`--quickchr lab:edge1`) to quickchr unparsed.
 - **Machines come from quickchr.** centrs takes a project's quickchr machines
   from quickchr's library, passing its env and the project it found, instead
   of copying them into a CDB.

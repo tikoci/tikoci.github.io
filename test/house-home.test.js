@@ -10,6 +10,7 @@ import {
     gitWorktreeRoot,
     hermeticEnv,
     initProject,
+    LOCAL_GITIGNORE,
     PROJECT_GITIGNORE,
     resolveInProject,
     resolveTikociPaths,
@@ -176,7 +177,7 @@ describe("finding the project", () => {
         mkdirSync(join(user.project, ".tikoci"));
         const me = process.getuid();
         expect(discoverProject(user.deep, { env: user.env, uid: me })).toBe(user.project);
-        expect(findProject(user.deep, { env: user.env, uid: me + 1 })).toEqual({ project: null, skipped: [join(user.project, ".tikoci")] });
+        expect(findProject(user.deep, { env: user.env, uid: me + 1 })).toEqual({ project: null, skipped: [join(user.project, ".tikoci")], worktree: null });
         expect(resolveTikociPaths("centrs", { env: user.env, cwd: user.deep, uid: me + 1 }).project).toBeNull();
     });
 
@@ -231,6 +232,19 @@ describe("local/ and trust", () => {
         const linked = temp();
         symlinkSync(temp(), join(linked, ".tikoci"));
         expect(() => initProject(linked, "centrs")).toThrow("real directory");
+    });
+
+    test("trusting writes a .gitignore inside local/ that survives a branch without the tool's", () => {
+        const user = fakeUser();
+        const paths = project(user);
+        trustProject(paths);
+        expect(readFileSync(join(paths.projectLocalDir, ".gitignore"), "utf8")).toBe(LOCAL_GITIGNORE);
+        writeFileSync(join(paths.projectLocalDir, "winbox.cdb"), "secret");
+        // A checkout on a branch without .tikoci/centrs/.gitignore: only local/'s own file holds.
+        rmSync(join(paths.projectToolDir, ".gitignore"));
+        expect(Bun.spawnSync(["git", "init", "-q", user.project]).exitCode).toBe(0);
+        const status = Bun.spawnSync(["git", "-C", user.project, "status", "--porcelain", "--untracked-files=all"]).stdout.toString();
+        expect(status).not.toContain("local/");
     });
 
     test("a new project is untrusted until a person trusts it", () => {

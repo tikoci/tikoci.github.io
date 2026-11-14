@@ -12,7 +12,11 @@ Planning: Phase 2 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 | --- | --- | --- |
 | Two scopes (user, project); one directory per tool in each | centrs MATRIX "Workspace and local state"; issue #21; PR #24 clean-sheet round (maintainer) | Settles `tool-path-roots`. tikoci defines `.tikoci/`, not the directory around it or how it is shared. |
 | Tools integrate through libraries and CLIs, never each other's files; nothing shared at the top of `.tikoci/` | maintainer, PR #24 clean-sheet round | Shared files wait for a written standard. |
-| Names across scopes: `name`, `name@user`, `name@label`; refer, don't copy | third quickchr review on 703379a (centrs `--quickchr`, MCP servers, tikbook); maintainer | The first shared standard is a naming form, not a file. |
+| Names across scopes: `name`, `user:name`, `label:name`; refer, don't copy | third quickchr review on 703379a (centrs `--quickchr`, MCP servers, tikbook); maintainer; scope-first `:` form and resolution order from the third centrs review on 3fae699 (centrs `src/resolver/target.ts`: `core@site` is a CDB name) | The first shared standard is a naming form, not a file. Library calls carry the project path, not a label (fourth quickchr review). |
+| Walk stops at a worktree root before its own main checkout; main checkout's project reported | fourth quickchr review and third centrs review on 3fae699 | A name in both CDBs would otherwise reach the user's device silently. |
+| A reused checkout path is not an instance key; prune releases claims | fourth quickchr review on 3fae699 | |
+| "Holds data" from traveling files (`.tikoci/<tool>/` exists by default) | fourth quickchr review and third centrs review on 3fae699 | Closes a fresh clone silently using the user CDB. |
+| `local/.gitignore` with `*` | third centrs review on 3fae699, reproduced with git (branch switch leaves `local/` untracked) | The tracked `.tikoci/<tool>/.gitignore` is per branch. |
 | No XDG; same path on Linux and macOS | rosetta DESIGN.md ("same path on all OSes, visible and predictable") | quickchr and centrs half-follow XDG today. |
 | `%LOCALAPPDATA%` on Windows | quickchr `getDataDir`, quickchr-120 | quickchr already keeps multi-gigabyte data there. |
 | Cache separate and shared by every scope; only the user's own runs evict | quickchr-131, quickchr integration tests (warm image cache), quickchr `cache.ts` `inUseSet`, centrs#654, rosetta per-version DB files | Settles `test-home-isolation`. A private cache inside a sandbox is the sandbox's to evict (PR #24 Codex review). |

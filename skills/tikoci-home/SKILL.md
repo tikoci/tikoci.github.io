@@ -1,6 +1,6 @@
 ---
 name: tikoci-home
-description: "Where tikoci tools keep files: the user scope TIKOCI_HOME (default ~/.tikoci, %LOCALAPPDATA%\\tikoci on Windows, no XDG) and a project's .tikoci/, the nearest one above the working directory and below home. Each tool owns TOOL/ in each scope; other tools use it through its library or CLI, never its files. tikoci does not define the directory around .tikoci/ or how it is shared. .tikoci/TOOL/ travels (no secrets, allowlisted settings); .tikoci/TOOL/local/ never does, is read only when private and trusted at the CLI, and a git worktree uses its main checkout's. Cache in TIKOCI_CACHE_DIR, runtime in run/TOOL/, port claims in the host scope. TIKOCI_SANDBOX replaces the user scope for tests: no project, legacy path or keychain, no eviction of the shared cache. Names across scopes: name, name@user, name@label. Use when adding a file a tool keeps outside the checkout, an env override, a settings layer, a cache, a cross-tool reference or a test that touches user state."
+description: "Where tikoci tools keep files: the user scope TIKOCI_HOME (default ~/.tikoci, %LOCALAPPDATA%\\tikoci on Windows, no XDG) and a project's .tikoci/, the nearest one above the working directory and below home. Each tool owns TOOL/ in each scope; other tools use it through its library or CLI, never its files. tikoci does not define the directory around .tikoci/ or how it is shared. .tikoci/TOOL/ travels (no secrets, allowlisted settings); .tikoci/TOOL/local/ never does, is read only when private and trusted at the CLI, and a git worktree uses its main checkout's. Cache in TIKOCI_CACHE_DIR, runtime in run/TOOL/, port claims in the host scope. TIKOCI_SANDBOX replaces the user scope for tests: no project, legacy path or keychain, no eviction of the shared cache. Names across scopes: name, user:name, label:name. Use when adding a file a tool keeps outside the checkout, an env override, a settings layer, a cache, a cross-tool reference or a test that touches user state."
 ---
 
 # tikoci tool files
@@ -99,6 +99,13 @@ Every file has one of these lives:
 - **The walk stops before the home directory.** `~/.tikoci` is the user
   scope, and reading it as a project would treat the user's own files as
   untrusted ones. Without a known home, nothing is discovered.
+- **The walk never leaves a git worktree into its own main checkout.** A
+  worktree in `.worktrees/` or `.claude/worktrees/` on a branch with no
+  `.tikoci/` (one cut before adoption) has no project, the same as a worktree
+  anywhere else. A directory above an unrelated checkout (a lab folder holding
+  several repos) still counts. The tool reports the project the main checkout
+  uses at the same place, so the user sees that the main checkout has project
+  data and how to name it; nothing is read from it.
 - **`TIKOCI_PROJECT`** names a project explicitly, or turns discovery off with
   `none`. A tool that calls another tool's library passes the project it
   found (`TIKOCI_PROJECT=<dir>`), so the two cannot pick different projects.
@@ -164,14 +171,24 @@ a later standard. What holds now:
   kind instead of the user's for that run (centrs' project CDB, quickchr's
   project machines). It never merges the two, reports which scope it used,
   and when a name is not found says if the other scope has it.
-- **Fail closed.** When the project has data of that kind but `local/` is not
-  read (untrusted, unsafe, copied or moved), the tool stops with an error
-  that names the state and the `trust` command. It never falls back to the
-  user's data, where the same name can be a different device. When the
-  project has no data of that kind, the tool uses the user scope and says so.
-- **The `.gitignore`** each tool writes in `.tikoci/<tool>/` contains
-  `local/`, so a git user is covered without tikoci assuming git. Anything
-  else that copies a project should leave out `local/` too.
+- **Whether a project holds a tool's data comes from traveling files**, so
+  every checkout and every tool in a run agrees. Each tool defines it; the
+  house default is that `.tikoci/<tool>/` exists. It never depends on
+  `local/` or on realized state: a fresh clone has neither, and two worktrees
+  of one project could disagree.
+- **Fail closed.** When the project holds the tool's data but it cannot be
+  used (`local/` untrusted, unsafe, copied or moved, or not created yet in
+  this clone), the tool stops with an error that names the state and the
+  command that fixes it (`trust`, an init command). It never falls back to
+  the user's data, where the same name can be a different device. A project
+  that does not hold the tool's data uses the user scope, and says so.
+- **Two `.gitignore` files** keep `local/` out of git without tikoci
+  assuming git. `.tikoci/<tool>/.gitignore` contains `local/`, but it is
+  tracked, so it disappears when the checkout switches to a branch without
+  it, and the untracked `local/` stays behind. So whatever creates `local/`
+  also writes `local/.gitignore` containing `*`: it ignores everything in
+  `local/`, itself included, on every branch. Anything else that copies a
+  project should leave out `local/` too.
 
 ### Worktrees and nested projects
 
@@ -198,6 +215,15 @@ a later standard. What holds now:
   creates for the checkout it runs in (quickchr's VMs) is keyed by that
   checkout, so two agents in two worktrees never reset one VM. A tool may let
   a definition share the main checkout's instead.
+- **A checkout's path is not enough to key that state.** Worktree paths are
+  reused (`/tmp/...`, `.claude/worktrees/<name>`, a harness's worktree
+  directory after a cleanup), and a new worktree must not pick up the last
+  one's VMs. State realized for a checkout records something that tells a
+  reused path from the original; for a git worktree, the per-worktree admin
+  directory (`<common dir>/worktrees/<name>/`, made by `git worktree add` and
+  removed by `remove` and `prune`) does, without writing into `.git`. A tool
+  that realizes state per checkout offers a prune for checkouts that are gone,
+  and the prune releases their host-scope claims too.
 
 ## Where a file goes
 
@@ -240,8 +266,9 @@ Rules per class:
 - **host-wide** resources (ports, managed networks, system services) are
   claimed in the **host scope**, `host/<tool>/` beside the default user scope
   (`~/.tikoci/host/`, `%LOCALAPPDATA%\tikoci\host\`). It belongs to the OS
-  account, not the run: neither `TIKOCI_HOME` nor `TIKOCI_SANDBOX` moves it,
-  and it falls back to `os.homedir()` even for a supplied env. It holds the
+  account, not the run: neither `TIKOCI_HOME` nor `TIKOCI_SANDBOX` moves it.
+  It is found from `HOME` (`USERPROFILE` on Windows), else `os.homedir()`
+  even for a supplied env, so a test that fakes `HOME` gets its own. It holds the
   allocation lock, a claim per resource (the context that owns it; durable
   for a machine, live with pid, boot id and start time for a run; how a stale
   claim is found) and which context created which host service. Sandboxes and
@@ -328,26 +355,41 @@ overrides it, never an environment variable from a shell profile. Per tool:
 
 Tools pass machine and device names to each other (centrs `--quickchr`, MCP
 servers, tikbook), and a not-found tip has to name the other scope the same
-way in each. One form:
+way in each. One form, scope first:
 
 | Form | Means |
 | --- | --- |
 | `edge1` | the current scope: the project if there is one, else the user scope |
-| `edge1@user` | the user scope, from anywhere |
-| `edge1@<label>` | the project with that label, from anywhere |
+| `user:edge1` | the user scope, from anywhere |
+| `<label>:edge1` | the project with that label, from anywhere |
 
 - **An unqualified name is the current scope only**, so one scope per item
   holds: nothing is looked up in the other scope without a qualifier.
+- **Resolve in this order**, because names and addresses already contain
+  `:` and `@` (centrs takes `core@site` as a CDB name, and `host:port`, IPv6
+  and MAC addresses as targets):
+  1. a literal address (IPv4, IPv6, MAC, `host:port` with a numeric port, a
+     URL) is an address, never a qualified name;
+  2. the whole string as a name in the current scope;
+  3. `<scope>:<name>`, split at the first `:`, only when the scope is `user`
+     or a label the tool knows.
+
+  If 2 and 3 both match, the tool stops with an error that shows both
+  spellings.
 - **The label** is the project directory's name by default; a tool may let
-  the user set another. A tool resolves it against the projects its user
-  scope knows, and an ambiguous label is an error that lists their paths.
-- **Split at the last `@`**, so a name that contains `@` still works with a
-  qualifier.
+  the user set another. `user` is reserved, and a label is a name
+  (`[a-z][a-z0-9-]*`), not an address. A tool resolves it against the
+  projects its user scope knows, and an ambiguous label is an error that
+  lists their paths.
+- **Labels are for people and stored references.** A library call carries
+  the project path (`TIKOCI_PROJECT` in the env it passes), never a label,
+  since two tools may know different projects. A tool that receives a
+  qualified name for another tool's thing passes it on as given, and the
+  owning tool resolves it.
 - **Refer, don't copy.** A definition that needs another tool's thing names
-  it (a quickchr twin of `edge1@lab`) and reaches it through that tool's
+  it (a quickchr twin of `lab:edge1`) and reaches it through that tool's
   library, rather than copying its address or credentials.
-- How to name one worktree's instance (a suffix after the label) is left
-  until a tool needs it.
+- How to name one worktree's instance is left until a tool needs it.
 
 ## Legacy paths and migration
 
