@@ -97,6 +97,13 @@ credentials, so it never travels.
 - **It replaces the user CDB for the run, never merged.** A merge would bring
   back name collisions and the question the constitution defers (how to
   combine two device sources). The envelope names the scope it used.
+- **An unreadable project CDB is an error, not a fallback.** If
+  `local/winbox.cdb` exists but the project is untrusted, copied or moved, or
+  `local/` is not private, centrs stops with an error naming the state and
+  `centrs trust`; it does not use the user CDB, where `edge1` may be another
+  router. A project with no CDB uses the user CDB, and the envelope says so.
+- **A worktree inside the project** uses the main checkout's
+  `local/winbox.cdb` (SKILL.md, Worktrees).
 - **A not-found error says when the user CDB has the name**, for example
   "`home-gw` is in your user CDB; run outside the project or set
   `TIKOCI_PROJECT=none`".

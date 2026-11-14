@@ -251,6 +251,15 @@ describe("finding the project", () => {
         expect(discoverProject(user.deep, { env: user.env })).toBeNull();
     });
 
+    test.skipIf(!POSIX)("another user's .tikoci/ is skipped", () => {
+        const user = fakeUser();
+        mkdirSync(join(user.project, ".tikoci"));
+        const me = process.getuid();
+        expect(discoverProject(user.deep, { env: user.env, uid: me })).toBe(user.project);
+        expect(discoverProject(user.deep, { env: user.env, uid: me + 1 })).toBeNull();
+        expect(resolveTikociPaths("centrs", { env: user.env, cwd: user.deep, uid: me + 1 }).project).toBeNull();
+    });
+
     test("a supplied env without cwd discovers nothing; TIKOCI_PROJECT names one or turns it off", () => {
         const user = fakeUser();
         mkdirSync(join(user.project, ".tikoci"));
@@ -363,6 +372,48 @@ describe("local/ and trust", () => {
         symlinkSync(temp(), paths.projectLocalDir);
         expect(checkProject(paths).state).toBe("unsafe");
         expect(() => trustProject(paths)).toThrow("real directory");
+    });
+
+    test("a worktree nested in its main checkout uses the main checkout's local/", () => {
+        const user = fakeUser();
+        const main = project(user);
+        const id = trustProject(main);
+        // The worktree carries the committed .tikoci/centrs/ but never local/.
+        const worktree = join(user.project, ".worktrees", "feature");
+        initProject(worktree, "centrs");
+        const paths = resolveTikociPaths("centrs", { env: user.env, cwd: join(worktree, "src") });
+        expect([paths.project, paths.localProject]).toEqual([worktree, user.project]);
+        expect(paths.projectToolDir).toBe(join(worktree, ".tikoci", "centrs"));
+        expect(paths.projectLocalDir).toBe(main.projectLocalDir);
+        expect(checkProject(paths)).toEqual({ state: "trusted", id, reason: "" });
+        // Trusting the worktree gives it its own local/ and ends the inheritance.
+        const own = trustProject(paths);
+        expect(own).not.toBe(id);
+        const after = resolveTikociPaths("centrs", { env: user.env, cwd: worktree });
+        expect(after.localProject).toBe(worktree);
+        expect(checkProject(after)).toEqual({ state: "trusted", id: own, reason: "" });
+    });
+
+    test("an unsafe local/ in the nearest project is reported, not skipped for an outer one", () => {
+        const user = fakeUser();
+        trustProject(project(user));
+        const inner = join(user.project, "vendor", "lib");
+        mkdirSync(join(inner, ".tikoci", "centrs"), { recursive: true });
+        symlinkSync(temp(), join(inner, ".tikoci", "centrs", "local"));
+        const paths = resolveTikociPaths("centrs", { env: user.env, cwd: inner });
+        expect(paths.localProject).toBe(inner);
+        expect(checkProject(paths).state).toBe("unsafe");
+    });
+
+    test("a sandbox does not look above the project it was given", () => {
+        const user = fakeUser();
+        trustProject(project(user));
+        const worktree = join(user.project, ".worktrees", "feature");
+        initProject(worktree, "centrs");
+        const sandbox = join(user.root, "sandbox");
+        const paths = resolveTikociPaths("centrs", { env: { ...user.env, TIKOCI_SANDBOX: sandbox, TIKOCI_PROJECT: worktree }, cwd: worktree });
+        expect(paths.localProject).toBe(worktree);
+        expect(checkProject(paths).state).toBe("untrusted");
     });
 
     test("with no user scope there are no trust records", () => {

@@ -89,7 +89,9 @@ Every file has one of four lives:
 - **The nearest `.tikoci/`** above the working directory is the project,
   whether or not it has a directory for this tool, so every tool in a run
   agrees on it. A nested `.tikoci/` replaces an outer one; projects never
-  stack. `.tikoci/` must be a real directory, not a symlink.
+  stack. `.tikoci/` must be a real directory, not a symlink, and on POSIX
+  owned by the current user (as git's `safe.directory` asks); the walk skips
+  any other, so a `.tikoci/` planted in `/tmp` cannot hide the user's data.
 - **The walk stops before the home directory.** `~/.tikoci` is the user
   scope, and reading it as a project would treat the user's own files as
   untrusted ones. Without a known home, nothing is discovered.
@@ -111,7 +113,8 @@ project, a protocol or transport, weaker connection security, wider agent
 reach, skipped validation, host or cache policy, or `TIKOCI_*` variables.
 A traveling file that can reach outside the tool (a network address, a
 provisioning script, a disk size, a port forward, a network) is read only
-when the project is trusted.
+when the project that holds it is trusted in its own right, not through
+another project's `local/`.
 
 **`local/` is read only when both hold:**
 
@@ -125,10 +128,14 @@ when the project is trusted.
 
 Otherwise the tool ignores everything in `local/`, settings included, and
 says why. Being gitignored proves nothing: a repo can force-add `local/`.
+On POSIX a clone or most syncs already fail the mode check; the trust record
+is what protects Windows, where there is no mode check, and it catches
+`cp -a`, restores and syncs that keep modes. It stays even where the mode
+check looks sufficient.
 
 | What happened | Result |
 | --- | --- |
-| Fresh clone, new worktree, or `local/` arrived from elsewhere | untrusted: no record for this id |
+| Fresh clone, a worktree outside the project, or `local/` arrived from elsewhere | untrusted: no record for this id |
 | `cp -r`, a restore, or a sync that carried `local/` | copied: the id's record names another path that still has it; trusting gives a new id |
 | The directory was moved | moved: the recorded path no longer has the id; trusting keeps the id, so machines and records follow |
 | `local/` readable by others or a symlink | unsafe; trusting tightens it and gives a new id |
@@ -148,6 +155,21 @@ says why. Being gitignored proves nothing: a repo can force-add `local/`.
   kind instead of the user's for that run (centrs' project CDB, quickchr's
   project machines). It never merges the two, reports which scope it used,
   and when a name is not found says if the other scope has it.
+- **Fail closed.** When the project has data of that kind but `local/` is not
+  read (untrusted, unsafe, copied or moved), the tool stops with an error
+  that names the state and the `trust` command. It never falls back to the
+  user's data, where the same name can be a different device. When the
+  project has no data of that kind, the tool uses the user scope and says so.
+- **Worktrees.** A worktree carries the committed `.tikoci/` but never
+  `local/`. When the nearest project has no `.tikoci/<tool>/local/`, the tool
+  uses the one in the nearest enclosing project, under the same trust rules,
+  so a worktree inside its main checkout (in a gitignored directory such as
+  `.worktrees/`) sees the main checkout's devices and machines. That does not
+  make the worktree's own traveling files trusted; trusting the worktree gives
+  it its own `local/` and ends the inheritance. A `local/` that exists but
+  fails the checks is reported, never skipped for an outer one. A worktree
+  elsewhere is a separate project: trust it, or set `TIKOCI_PROJECT` to the
+  main checkout. A sandbox never looks above the project it was given.
 - **Things keyed by a project** (quickchr's project machines) get a qualified
   name that works from anywhere.
 - **The `.gitignore`** each tool writes in `.tikoci/<tool>/` contains

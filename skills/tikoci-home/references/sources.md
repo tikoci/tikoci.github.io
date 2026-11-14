@@ -29,6 +29,10 @@ Planning: Phase 2 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 | `local/` read only when private and matched by a trust record; copies and moves | OpenSSH key-file mode checks; clean-sheet centrs and quickchr reviews | A force-added or synced `local/` proves nothing. |
 | Trust only at the CLI, never MCP; cooperative threat model | centrs#664; PR #24 Codex review | |
 | One scope per item; project CDB instead of the user CDB | centrs CONSTITUTION (one resolution source); clean-sheet centrs review | |
+| Fail closed on unreadable project data | centrs device names are not unique across CDBs; second centrs pass on 168abf6 | Falling back to the user CDB could reach another router with the same name. |
+| `.tikoci/` owned by the current user | git `safe.directory`; second centrs pass on 168abf6 | Discovery walks to `/` when the working directory is outside home. |
+| Worktrees inherit an enclosing project's `local/` | maintainer, second centrs pass on 168abf6; Claude Code `.claude/worktrees/` | Worktrees outside the project (T3's `~/.t3/worktrees/`) use `TIKOCI_PROJECT` or their own trust. |
+| Trust record kept although POSIX modes catch clones | Windows has no mode check (maintainer, second centrs pass) | |
 | centrs `known_hosts` first, `~/.ssh/known_hosts` after | OpenSSH `UserKnownHostsFile`; clean-sheet centrs review | |
 | Bun `.env` loading | [centrs#666](https://github.com/tikoci/centrs/issues/666), reproduced with Bun 1.4.4 | `#!/usr/bin/env -S bun --no-env-file` blocks it; `bun <file>` ignores the shebang. |
 | Sandbox replaces the user scope; harness allowlist | centrs#654, centrs `HERMETIC_ENV`, quickchr testing instructions (pass explicit `env` to spawned workers), rosetta `homedir()` preload | Separate from moving `TIKOCI_HOME` (PR #24 centrs and quickchr reviews). |

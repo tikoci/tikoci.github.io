@@ -38,6 +38,8 @@ export interface ResolveOptions {
     platform?: NodeJS.Platform;
     /** Explicit fallback when HOME (USERPROFILE on Windows) is unset, even for a supplied env. */
     homedir?: () => string;
+    /** The user a .tikoci/ must belong to on POSIX; defaults to process.getuid(). Tests set it. */
+    uid?: number;
 }
 
 /** Where a resolved value came from: a variable name, "default", "discovered" or "sandbox". */
@@ -59,7 +61,14 @@ export interface TikociPaths {
     project: string | null;
     /** project/.tikoci/tool: files that travel with the directory. */
     projectToolDir: string | null;
-    /** project/.tikoci/tool/local: files that never travel; read only through checkProject(). */
+    /**
+     * The project whose .tikoci/tool/local/ this run uses: the project itself
+     * when it has one, else the nearest enclosing project that does (a worktree
+     * nested in its main checkout). Inherited local data never makes the inner
+     * project's own traveling files trusted: that needs localProject === project.
+     */
+    localProject: string | null;
+    /** localProject/.tikoci/tool/local: files that never travel; read only through checkProject(). */
     projectLocalDir: string | null;
     /** May evict from `cache`: the user's own runs, or a sandbox whose cache is inside it. */
     evicts: boolean;
@@ -187,16 +196,37 @@ function isRealDirectory(dir: string): boolean {
     }
 }
 
+function exists(target: string): boolean {
+    try {
+        lstatSync(target);
+        return true;
+    } catch {
+        return false;
+    }
+}
+
 /**
- * Walk up from `cwd` to the nearest directory holding a real .tikoci/ directory.
- * The walk stops before the user's home directory, so ~/.tikoci (the user
- * scope) is never read as a project. A symlinked .tikoci is ignored, and paths
- * are compared after symlinks are followed (and without case on Windows), so
- * an alias of the home directory stops the walk too. Every tool stops at the
- * nearest .tikoci/, whether or not it has a directory for that tool, so tools
- * in one run always agree on the project.
+ * A .tikoci/ that can mark a project: a real directory and, on POSIX, owned by
+ * the current user, as git's safe.directory asks. Another user's .tikoci/ (one
+ * planted in /tmp, say) is skipped, so it cannot hide this user's own data.
  */
-export function discoverProject(cwd: string, options: ResolveOptions & { userScope?: string } = {}): string | null {
+function isOwnTikociDir(candidate: string, options: ResolveOptions): boolean {
+    try {
+        const stat = lstatSync(candidate);
+        if (!stat.isDirectory() || stat.isSymbolicLink()) return false;
+        const platform = options.platform ?? process.platform;
+        const uid = options.uid ?? (typeof process.getuid === "function" ? process.getuid() : undefined);
+        return platform === "win32" || uid === undefined || stat.uid === uid;
+    } catch {
+        return false;
+    }
+}
+
+/**
+ * Walk up from `start` to the nearest directory whose .tikoci/ is this user's
+ * and passes `accept`. Stops before the home directory; null without a home.
+ */
+function walkUp(start: string, options: ResolveOptions & { userScope?: string }, accept: (dir: string) => boolean): string | null {
     const platform = options.platform ?? process.platform;
     const path = pathFor(platform);
     const user = userHome(options);
@@ -204,15 +234,46 @@ export function discoverProject(cwd: string, options: ResolveOptions & { userSco
     if (user === undefined) return null;
     const stop = canonical(user, platform);
     const scope = options.userScope ? canonical(options.userScope, platform) : undefined;
-    let dir = canonical(cwd, platform);
+    let dir = canonical(start, platform);
     while (true) {
         if (samePath(dir, stop, platform)) return null;
         const candidate = path.join(dir, ".tikoci");
-        if (!(scope && samePath(candidate, scope, platform)) && isRealDirectory(candidate)) return dir;
+        if (!(scope && samePath(candidate, scope, platform)) && isOwnTikociDir(candidate, options) && accept(dir)) return dir;
         const parent = path.dirname(dir);
         if (parent === dir) return null;
         dir = parent;
     }
+}
+
+/**
+ * Walk up from `cwd` to the nearest directory holding a real .tikoci/ directory
+ * owned by the current user. The walk stops before the user's home directory,
+ * so ~/.tikoci (the user scope) is never read as a project. A symlinked
+ * .tikoci, or one owned by another user, is skipped. Paths are compared after
+ * symlinks are followed (and without case on Windows), so an alias of the home
+ * directory stops the walk too. Every tool stops at the nearest .tikoci/,
+ * whether or not it has a directory for that tool, so tools in one run always
+ * agree on the project.
+ */
+export function discoverProject(cwd: string, options: ResolveOptions & { userScope?: string } = {}): string | null {
+    return walkUp(cwd, options, () => true);
+}
+
+/**
+ * The project whose local/ a tool uses: `project` itself when it has
+ * .tikoci/TOOL/local (even an unsafe one, so it is reported, not skipped), else
+ * the nearest enclosing project that has one. A worktree nested inside its
+ * main checkout carries the committed .tikoci/ but never local/, so this is how
+ * it finds the main checkout's devices and machines.
+ */
+function findLocalProject(project: string, tool: string, options: ResolveOptions & { userScope?: string }): string | null {
+    const path = pathFor(options.platform ?? process.platform);
+    const hasLocal = (dir: string) => exists(path.join(dir, ".tikoci", tool, "local"));
+    if (hasLocal(project)) return project;
+    const here = canonical(project, options.platform ?? process.platform);
+    const parent = path.dirname(here);
+    if (parent === here) return null;
+    return walkUp(parent, options, hasLocal);
 }
 
 /** Resolve every tikoci-home location for one tool. */
@@ -255,6 +316,8 @@ export function resolveTikociPaths(tool: string, options: ResolveOptions = {}): 
         }
     }
     const projectToolDir = project ? path.join(project, ".tikoci", tool) : null;
+    // A sandbox looks no further than the project it was given.
+    const localProject = project === null ? null : sandboxed ? project : (findLocalProject(project, tool, { ...options, userScope: user }) ?? project);
 
     return {
         tool,
@@ -265,7 +328,8 @@ export function resolveTikociPaths(tool: string, options: ResolveOptions = {}): 
         cache,
         project,
         projectToolDir,
-        projectLocalDir: projectToolDir ? path.join(projectToolDir, "local") : null,
+        localProject,
+        projectLocalDir: localProject ? path.join(localProject, ".tikoci", tool, "local") : null,
         evicts: cache !== null && (sandbox === undefined || isInside(canonical(sandbox, platform), canonical(cache, platform), platform)),
         legacy: !sandboxed,
         keychain: !sandboxed,
@@ -422,7 +486,7 @@ function readRecord(paths: TikociPaths, id: string): TrustRecord | null {
  * with a directory (a clone, a sync, a backup) can create that record.
  */
 export function checkProject(paths: TikociPaths): ProjectCheck {
-    if (!paths.project || !paths.projectLocalDir || !paths.toolDir) {
+    if (!paths.project || !paths.localProject || !paths.projectLocalDir || !paths.toolDir) {
         return { state: "none", id: null, reason: paths.project ? "no user scope for trust records" : "no project" };
     }
     const unsafe = notPrivate(paths.projectLocalDir);
@@ -432,7 +496,7 @@ export function checkProject(paths: TikociPaths): ProjectCheck {
     if (!id) return { state: "untrusted", id: null, reason: "local/id is missing or malformed" };
     const record = readRecord(paths, id);
     if (!record) return { state: "untrusted", id, reason: "local/id is not known to this user scope" };
-    const here = canonical(paths.project, process.platform);
+    const here = canonical(paths.localProject, process.platform);
     if (samePath(record.path, here, process.platform)) return { state: "trusted", id, reason: "" };
     const elsewhere = join(record.path, ".tikoci", paths.tool, "local");
     if (readLocalId(elsewhere) === id) return { state: "copied", id, reason: `a copy of ${record.path}` };
@@ -444,22 +508,27 @@ export function checkProject(paths: TikociPaths): ProjectCheck {
  * command such as centrs' devices init) does after a person confirms it on a
  * terminal. It is never reachable from MCP or another agent API. A move keeps
  * its id, so its machines and records follow it; anything else gets a new id,
- * so a copy or a clone never shares the original's state.
+ * so a copy or a clone never shares the original's state. It always trusts the
+ * nearest project, giving it its own local/; a nested worktree that inherited
+ * local/ from its main checkout then stops inheriting.
  */
-export function trustProject(paths: TikociPaths): string {
-    if (!paths.project || !paths.projectLocalDir || !paths.toolDir) throw new Error("no project, or no user scope for trust records");
+export function trustProject(found: TikociPaths): string {
+    if (!found.project || !found.toolDir) throw new Error("no project, or no user scope for trust records");
+    const project = found.project;
+    const projectLocalDir = join(project, ".tikoci", found.tool, "local");
+    const paths: TikociPaths = { ...found, localProject: project, projectLocalDir };
     const check = checkProject(paths);
     if (check.state === "trusted") return check.id as string;
-    initProject(paths.project, paths.tool);
-    ensurePrivateDir(paths.projectLocalDir);
+    initProject(project, paths.tool);
+    ensurePrivateDir(projectLocalDir);
     const id = check.state === "moved" && check.id ? check.id : randomBytes(6).toString("hex");
     const recordFile = trustRecordFile(paths, id);
     ensurePrivateDir(join(recordFile, ".."));
-    const record: TrustRecord = { path: canonical(paths.project, process.platform) };
+    const record: TrustRecord = { path: canonical(project, process.platform) };
     const temp = `${recordFile}.${process.pid}.tmp`;
     writeFileSync(temp, `${JSON.stringify(record)}\n`, { mode: 0o600 });
     renameSync(temp, recordFile);
-    const idFile = join(paths.projectLocalDir, "id");
+    const idFile = join(projectLocalDir, "id");
     writeFileSync(`${idFile}.tmp`, `${id}\n`, { mode: 0o600 });
     renameSync(`${idFile}.tmp`, idFile);
     return id;
