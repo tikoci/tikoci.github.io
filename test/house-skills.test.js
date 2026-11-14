@@ -1,5 +1,5 @@
 import { afterEach, expect, test } from "bun:test";
-import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { budgetTable, checkSkills, DESCRIPTION_BUDGET, markdownLinks, SKILLS_DIR } from "../scripts/check-skills";
@@ -61,8 +61,34 @@ test.each([
     ["broken link", { "references/detail.md": "[x](missing.md)\n" }, "does not resolve"],
     ["link out of the skill", { "references/detail.md": "[x](../../../docs/a.md)\n" }, "leaves the skill directory"],
     ["root-relative link", { "references/detail.md": "[x](/house/)\n" }, "root-relative link"],
+    ["broken link with a single-quoted title", { "references/detail.md": "[x](missing.md 'Details')\n" }, "does not resolve"],
+    ["broken link with a parenthesized title", { "references/detail.md": "[x](missing.md (Details))\n" }, "does not resolve"],
+    ["broken reference definition", { "references/detail.md": "[x][r]\n\n[r]: missing.md 'T'\n" }, "does not resolve"],
+    ["home path in a script", { "scripts/run.py": "open('/home/operator/.config/private')\n" }, "absolute home directory path"],
+    ["home path in an extensionless file", { "scripts/run": "#!/bin/sh\ncd /Users/operator\n" }, "absolute home directory path"],
 ])("rejects %s", (_, files, message) => {
     expect(errorsFor(files)).toContain(message);
+});
+
+test("accepts balanced parentheses and angle-bracket destinations", () => {
+    expect(errorsFor({ "references/a(b).md": "# A\n", "references/c d.md": "# C\n", "SKILL.md": "---\nname: tikoci-sample\ndescription: d\n---\n# H\n\n[a](references/a(b).md) [c](<references/c d.md> \"t\")\n" })).toBe("");
+    expect(markdownLinks("[a](x(y).md 'z') [b](<p q.md>)")).toEqual(["x(y).md", "p q.md"]);
+});
+
+test("rejects symlinks inside skills and as skill directories", () => {
+    const root = skillsTree();
+    writeFileSync(join(root, "..", "outside.md"), "# Outside\n");
+    symlinkSync("../../../outside.md", join(root, "tikoci-sample", "references", "alias.md"));
+    expect(checkSkills(root).errors.join("\n")).toContain("references/alias.md: symlinks are not allowed");
+    symlinkSync("tikoci-sample", join(root, "tikoci-loop"));
+    expect(checkSkills(root).errors.join("\n")).toContain("tikoci-loop: symlinks are not allowed");
+});
+
+test("skips binary assets when scanning for machine facts", () => {
+    const root = skillsTree();
+    mkdirSync(join(root, "tikoci-sample", "assets"));
+    writeFileSync(join(root, "tikoci-sample", "assets", "logo.png"), Buffer.from([0x89, 0x50, 0, 0x2f, 0x55, 0x73, 0x65, 0x72, 0x73, 0x2f, 0x78]));
+    expect(checkSkills(root).errors).toEqual([]);
 });
 
 test("rejects names without the tikoci- prefix", () => {

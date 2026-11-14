@@ -60,7 +60,9 @@ skills into repos.
   separate guide. Claude Code loads CLAUDE.md, and the import brings in
   AGENTS.md.
 - **A directory AGENTS.md** holds constraints local to that directory. The
-  closest one to the file being changed wins over the root.
+  closest one to the file being changed wins over the root. Put a
+  `CLAUDE.md` containing `@AGENTS.md` next to it too: Claude Code finds nested
+  instructions through CLAUDE.md files, so without one it can miss them.
 - **No new `.github/instructions/` files.** SKILL.md is the agent-agnostic
   format. Repos that still have scoped instruction files retire them on their
   own schedule; until then AGENTS.md lists each one with what it governs,
@@ -82,8 +84,10 @@ skills into repos.
 - Do not vendor `routeros-*` skills into a repo; they are installed per user.
 - A skill directory is self-contained: relative links stay inside it, and
   anything outside is linked by absolute URL.
-- A newly added or relinked skill is loaded only by a fresh session. Check that
-  the frontmatter `name` matches the directory before assuming it is active.
+- After adding or relinking a skill, check that the agent actually lists it
+  (the frontmatter `name` must match the directory) before relying on it.
+  Some harnesses pick up changes during a session; if it is missing, start a
+  new session.
 
 ## Instruction precedence
 

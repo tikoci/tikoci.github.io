@@ -4,7 +4,7 @@
 // rules from issue #21: name = directory with the tikoci- prefix, a tracked
 // total description budget, no operator-local paths, and self-contained
 // relative links so a copied or published skill directory still works.
-import { appendFileSync, existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { appendFileSync, existsSync, lstatSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, extname, join, relative, resolve, sep } from "node:path";
 
 export const SKILLS_DIR = resolve(import.meta.dirname, "..", "skills");
@@ -25,7 +25,6 @@ const FRONTMATTER_KEYS = new Set(["name", "description", "license", "compatibili
 const SKILL_ENTRIES = new Set(["SKILL.md", "references", "scripts", "assets"]);
 /** Files in skills/ that are not skills. */
 const TOP_LEVEL_FILES = new Set(["README.md", ".markdownlint.yaml"]);
-const TEXT_EXTENSIONS = new Set([".md", ".txt", ".json", ".jsonc", ".toml", ".yaml", ".yml", ".tsv", ".csv", ".ts", ".js", ".sh", ".rsc"]);
 
 /** One operator's machine, not the usual toolset (issue #21 "Machine facts stay out"). */
 const OPERATOR_LOCAL: [RegExp, string][] = [
@@ -55,7 +54,12 @@ export function checkSkills(skillsDir = SKILLS_DIR): SkillReport {
 
     for (const entry of readdirSync(skillsDir).sort()) {
         const path = join(skillsDir, entry);
-        if (!statSync(path).isDirectory()) {
+        const stat = lstatSync(path);
+        if (stat.isSymbolicLink()) {
+            errors.push(`${entry}: symlinks are not allowed in skills/; copies and published skills need real files`);
+            continue;
+        }
+        if (!stat.isDirectory()) {
             if (!TOP_LEVEL_FILES.has(entry)) errors.push(`${entry}: unexpected file; skills/ holds one directory per skill`);
             continue;
         }
@@ -76,7 +80,9 @@ function checkSkill(dir: string, entry: string, fail: (message: string) => void)
     for (const child of readdirSync(dir)) {
         if (!SKILL_ENTRIES.has(child)) fail(`unexpected entry "${child}"; use SKILL.md, references/, scripts/ or assets/`);
     }
-    const files = listFiles(dir).map(file => relative(dir, file).split(sep).join("/")).sort();
+    const toRelative = (file: string) => relative(dir, file).split(sep).join("/");
+    const files = listFiles(dir, link => fail(`${toRelative(link)}: symlinks are not allowed; copies and published skills need real files`))
+        .map(toRelative).sort();
     for (const file of files) checkFile(dir, file, fail);
 
     const skillPath = join(dir, "SKILL.md");
@@ -124,8 +130,9 @@ function checkSkill(dir: string, entry: string, fail: (message: string) => void)
 
 function checkFile(dir: string, file: string, fail: (message: string) => void): void {
     const path = join(dir, file);
-    if (!TEXT_EXTENSIONS.has(extname(file).toLowerCase())) return;
-    const text = readFileSync(path, "utf-8");
+    const bytes = readFileSync(path);
+    if (bytes.includes(0)) return; // binary asset
+    const text = bytes.toString("utf-8");
     text.split(/\r?\n/).forEach((line, index) => {
         for (const [pattern, label] of OPERATOR_LOCAL) {
             const found = line.match(pattern);
@@ -148,7 +155,14 @@ function checkLink(dir: string, path: string, file: string, target: string, fail
         fail(`${file}: root-relative link "${target}" breaks in a copied skill; use an absolute URL`);
         return;
     }
-    const resolved = resolve(dirname(path), decodeURIComponent(target.replace(/[#?].*$/, "")));
+    let decoded: string;
+    try {
+        decoded = decodeURIComponent(target.replace(/[#?].*$/, ""));
+    } catch {
+        fail(`${file}: link "${target}" is not valid URL encoding`);
+        return;
+    }
+    const resolved = resolve(dirname(path), decoded);
     if (resolved !== dir && !resolved.startsWith(dir + sep)) {
         fail(`${file}: link "${target}" leaves the skill directory; use an absolute URL`);
     } else if (!existsSync(resolved)) {
@@ -156,21 +170,56 @@ function checkLink(dir: string, path: string, file: string, target: string, fail
     }
 }
 
-/** Inline and reference-style link targets, ignoring code. */
+/** Inline and reference-style link destinations (CommonMark syntax), ignoring code. */
 export function markdownLinks(markdown: string): string[] {
     const prose = markdown
         .replace(/^(```|~~~)[^\n]*\n[\s\S]*?^\1[^\n]*$/gm, "")
         .replace(/`[^`\n]*`/g, "");
     const targets: string[] = [];
-    for (const match of prose.matchAll(/\]\(\s*<?([^)\s>]+)>?(?:\s+"[^"]*")?\s*\)/g)) targets.push(match[1]);
-    for (const match of prose.matchAll(/^\s*\[[^\]]+\]:\s*<?(\S+?)>?(?:\s+.*)?$/gm)) targets.push(match[1]);
+    for (const match of prose.matchAll(/\]\(/g)) {
+        const destination = linkDestination(prose, (match.index ?? 0) + 2);
+        if (destination) targets.push(destination);
+    }
+    for (const match of prose.matchAll(/^ {0,3}\[[^\]]+\]:[ \t]*(.*)$/gm)) {
+        const destination = linkDestination(match[1], 0);
+        if (destination) targets.push(destination);
+    }
     return targets;
 }
 
-function listFiles(dir: string): string[] {
+/** Reads a destination at `start`: <angle brackets>, or text with balanced parentheses up to whitespace. */
+function linkDestination(text: string, start: number): string | null {
+    let i = start;
+    while (text[i] === " " || text[i] === "\t") i++;
+    if (text[i] === "<") {
+        const end = text.indexOf(">", i);
+        return end > i + 1 ? text.slice(i + 1, end) : null;
+    }
+    let depth = 0;
+    let end = i;
+    for (; end < text.length; end++) {
+        const char = text[end];
+        if (char === "\\") { end++; continue; }
+        if (/\s/.test(char)) break;
+        if (char === "(") depth++;
+        else if (char === ")") {
+            if (depth === 0) break;
+            depth--;
+        }
+    }
+    return end > i ? text.slice(i, end) : null;
+}
+
+/** Regular files under `dir`; symlinks are reported, not followed. */
+function listFiles(dir: string, onLink: (path: string) => void): string[] {
     return readdirSync(dir).flatMap(entry => {
         const path = join(dir, entry);
-        return statSync(path).isDirectory() ? listFiles(path) : [path];
+        const stat = lstatSync(path);
+        if (stat.isSymbolicLink()) {
+            onLink(path);
+            return [];
+        }
+        return stat.isDirectory() ? listFiles(path, onLink) : [path];
     });
 }
 
