@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-14T06:32:50.837Z",
+  "generatedAt": "2026-11-14T14:13:34.083Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -135,9 +135,9 @@
             "headBranch": "main",
             "headSha": "0e476cea72d28ef8564a78acdd063553b72fd95e",
             "event": "schedule",
-            "runStartedAt": "2026-11-13T11:49:28Z",
-            "lastUpdatedAt": "2026-11-13T11:50:43Z",
-            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/43420114264",
+            "runStartedAt": "2026-11-14T11:10:36Z",
+            "lastUpdatedAt": "2026-11-14T11:11:50Z",
+            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/43588768946",
             "isHead": true
           },
           {
@@ -430,9 +430,9 @@
             "headBranch": "main",
             "headSha": "e568f7a3bc6a6265499d3189afc72f2f3e2dbc1d",
             "event": "schedule",
-            "runStartedAt": "2026-11-13T11:56:24Z",
-            "lastUpdatedAt": "2026-11-13T11:56:39Z",
-            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/43421027898",
+            "runStartedAt": "2026-11-14T11:15:29Z",
+            "lastUpdatedAt": "2026-11-14T11:15:43Z",
+            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/43589156528",
             "isHead": true
           },
           {
@@ -848,9 +848,9 @@
             "headBranch": "main",
             "headSha": "d0102c84ab3813ec6d14d5451c47ac374c3d3e14",
             "event": "schedule",
-            "runStartedAt": "2026-11-13T12:14:01Z",
-            "lastUpdatedAt": "2026-11-13T12:14:13Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/43423425205",
+            "runStartedAt": "2026-11-14T11:29:42Z",
+            "lastUpdatedAt": "2026-11-14T11:29:57Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/43590270947",
             "isHead": true
           }
         ]
@@ -1178,9 +1178,9 @@
             "headBranch": "main",
             "headSha": "3f8863249e7d944c935b3a58bcbebb1e9b307b58",
             "event": "schedule",
-            "runStartedAt": "2026-11-11T10:25:41Z",
-            "lastUpdatedAt": "2026-11-11T10:26:09Z",
-            "lastUrl": "https://github.com/tikoci/mikrotik-gpl/actions/runs/43003525139",
+            "runStartedAt": "2026-11-14T10:01:04Z",
+            "lastUpdatedAt": "2026-11-14T10:01:27Z",
+            "lastUrl": "https://github.com/tikoci/mikrotik-gpl/actions/runs/43583238527",
             "isHead": true
           }
         ]
@@ -1618,12 +1618,12 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "3512e82b93bcfebc0623fded406c0a43eb827e43",
+            "headSha": "6a695956176bdd0ee1f816fc43b24676f610348c",
             "event": "schedule",
-            "runStartedAt": "2026-11-13T13:15:29Z",
-            "lastUpdatedAt": "2026-11-13T13:52:53Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/43432107263",
-            "isHead": false
+            "runStartedAt": "2026-11-14T12:20:02Z",
+            "lastUpdatedAt": "2026-11-14T12:59:41Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/43594289171",
+            "isHead": true
           }
         ]
       },
@@ -3603,24 +3603,6 @@
       ],
       "urls": [
         "https://github.com/tikoci/routeros-skills/pulls"
-      ]
-    },
-    {
-      "id": "ci-run-not-head:centrs:QA",
-      "rule": "ci-run-not-head",
-      "severity": "info",
-      "category": "ci",
-      "repos": [
-        "centrs"
-      ],
-      "summary": "centrs: QA latest run is not on the current head commit",
-      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
-      "evidence": [
-        "repos.centrs.ci.workflows[QA].headSha=3512e82b93bcfebc0623fded406c0a43eb827e43",
-        "repos.centrs.ci.headSha=6a695956176bdd0ee1f816fc43b24676f610348c"
-      ],
-      "urls": [
-        "https://github.com/tikoci/centrs/actions/runs/43432107263"
       ]
     },
     {
