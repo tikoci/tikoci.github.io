@@ -10,27 +10,32 @@ Planning: Phase 2 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 
 | Rule | Sources | Notes |
 | --- | --- | --- |
-| One root, one directory per tool | centrs MATRIX "Workspace and local state"; issue #21 | Settles `tool-path-roots`. |
+| Two scopes (user, project); one directory per tool in each | centrs MATRIX "Workspace and local state"; issue #21; PR #24 clean-sheet round (maintainer) | Settles `tool-path-roots`. tikoci defines `.tikoci/`, not the directory around it or how it is shared. |
+| Tools integrate through libraries and CLIs, never each other's files; nothing shared at the top of `.tikoci/` | maintainer, PR #24 clean-sheet round | Shared files wait for a written standard. |
 | No XDG; same path on Linux and macOS | rosetta DESIGN.md ("same path on all OSes, visible and predictable") | quickchr and centrs half-follow XDG today. |
 | `%LOCALAPPDATA%` on Windows | quickchr `getDataDir`, quickchr-120 | quickchr already keeps multi-gigabyte data there. |
-| Cache separate and shared by every root | quickchr-131, quickchr integration tests (warm image cache), centrs#654, rosetta per-version DB files | Settles `test-home-isolation`. |
-| Cache entries that state needs again | quickchr `cache.ts` eviction guard, reset and rollback (PR #24 review) | |
+| Cache separate and shared by every scope; only the user's own runs evict | quickchr-131, quickchr integration tests (warm image cache), quickchr `cache.ts` `inUseSet`, centrs#654, rosetta per-version DB files | Settles `test-home-isolation`. A private cache inside a sandbox is the sandbox's to evict (PR #24 Codex review). |
+| Cache identity, atomic publication, leases | quickchr `.part` downloads and storage leases, rosetta staging and rename; PR #24 Codex review | |
+| Cache entries that state needs again | quickchr `cache.ts` eviction guard, reset and rollback (PR #24 quickchr review) | |
 | Locks with what they guard | quickchr-127, quickchr storage leases, centrs CDB lock, rosetta download lock | |
 | Nothing needs a manual `rm -rf` | quickchr-037 | |
-| Socket path limit | quickchr DESIGN.md and qemu instructions (checked at create for networks), centrs#654 reproduction | |
-| Host-wide resources | quickchr macOS network services; quickchr port allocation per data dir | |
-| Precedence | quickchr-088, centrs CONSTITUTION, rosetta `resolveDbPath` | Per tool in [settings.md](settings.md). |
-| Workspace discovery, allowlist, owner-only, `.gitignore` | centrs MATRIX "Workspace and local state" and "Auth and secrets" | Refused keys come from what centrs honors today. |
-| Workspace data needs enrollment; no transport choice | centrs `src/resolver/cdb.ts`, `src/resolver/target.ts`, `src/transfer.ts` (PR #24 review) | |
+| Sockets in `run/`, socket path limit, recorded paths | quickchr DESIGN.md and qemu instructions (checked at create for networks), centrs#654 reproduction, quickchr `qemu.ts` | Moved out of the machine directory in the clean-sheet quickchr review. |
+| Process records carry boot id and start time | quickchr network guard (reads QEMU's arguments); app-t3code container replacement notes | PR #24 clean-sheet quickchr review. |
+| Host-wide allocation lock outside any scope, sandbox port range | quickchr `findAvailablePortBlock`, `.allocate.lock` (per data dir today) | PR #24 Codex and clean-sheet quickchr reviews. |
+| Host services never from a sandbox or a project file | quickchr macOS network services, `machinesOnManagedNetwork` | |
+| Precedence, sandbox over tool home variables | quickchr-088, centrs CONSTITUTION, rosetta `resolveDbPath` | Sandbox exception from the clean-sheet centrs review. Per tool in [settings.md](settings.md). |
+| Project discovery: nearest `.tikoci/`, below home, passed to libraries | centrs MATRIX "Workspace and local state"; clean-sheet centrs review | Every tool stops at the same `.tikoci/`. |
+| Allowlisted traveling settings; no transport choice | centrs `src/resolver/cdb.ts`, `src/resolver/target.ts`, `src/transfer.ts` (PR #24 centrs review) | Refused keys come from what centrs honors today. |
+| `local/` read only when private and matched by a trust record; copies and moves | OpenSSH key-file mode checks; clean-sheet centrs and quickchr reviews | A force-added or synced `local/` proves nothing. |
+| Trust only at the CLI, never MCP; cooperative threat model | centrs#664; PR #24 Codex review | |
+| One scope per item; project CDB instead of the user CDB | centrs CONSTITUTION (one resolution source); clean-sheet centrs review | |
+| centrs `known_hosts` first, `~/.ssh/known_hosts` after | OpenSSH `UserKnownHostsFile`; clean-sheet centrs review | |
 | Bun `.env` loading | [centrs#666](https://github.com/tikoci/centrs/issues/666), reproduced with Bun 1.4.4 | `#!/usr/bin/env -S bun --no-env-file` blocks it; `bun <file>` ignores the shebang. |
-| Three roots (user, workspace, sandbox), harness allowlist | centrs#654, centrs `HERMETIC_ENV`, quickchr testing instructions (pass explicit `env` to spawned workers), rosetta `homedir()` preload | The sandbox is separate from relocation (PR #24 centrs and quickchr reviews); a workspace has the same layout, like a project `.claude/`. |
-| Guests never evict, manage host services or take the owner's ports | quickchr `cache.ts` `inUseSet`, `findAvailablePortBlock`, `machinesOnManagedNetwork` (PR #24 quickchr review) | |
+| Sandbox replaces the user scope; harness allowlist | centrs#654, centrs `HERMETIC_ENV`, quickchr testing instructions (pass explicit `env` to spawned workers), rosetta `homedir()` preload | Separate from moving `TIKOCI_HOME` (PR #24 centrs and quickchr reviews). |
 | Tool variables win; existing ones keep their meaning | quickchr `QUICKCHR_DATA_DIR` (MANUAL §8) (PR #24 quickchr review) | |
-| Libraries take env from the caller; recorded paths for long-running processes | centrs `quickchr-provider.ts`; quickchr `qemu.ts` (PR #24 quickchr review) | |
-| Committed vs local workspace files | Claude Code project settings (committed file beside a gitignored local one) | |
+| Libraries take env and cwd from the caller | centrs `quickchr-provider.ts`; quickchr `qemu.ts` (PR #24 quickchr reviews) | |
 | Migration unit per tool; compatibility symlink | quickchr bundled by centrs, restraml and tikbook (PR #24 quickchr review) | |
-| No `os.homedir()` fallback for a supplied env | centrs#654 second comment (`noEnv = {}` reaching the real CDB) | PR #24 centrs review. |
-| Enrolled data is trusted; one CDB per run; no enrollment from MCP | centrs MATRIX "Workspace and local state", CONSTITUTION, centrs#664 | PR #24 centrs review. |
-| Legacy wins over auto-create and first write | centrs `createEmptyCdbNoClobber`, `settings set` | PR #24 centrs review. |
+| No `os.homedir()` fallback for a supplied env | centrs#654 second comment (`noEnv = {}` reaching the real CDB) | PR #24 centrs reviews. |
+| Legacy wins over auto-create and first write; project data never auto-created | centrs `createEmptyCdbNoClobber`, `settings set` | PR #24 centrs reviews. |
 | No keychain in a sandbox | quickchr credentials (instance credentials kept out of the keychain; web account in `Bun.secrets`) | |
 | Legacy per item, explicit migrate, never delete | rosetta legacy `ros-help.db` handling; quickchr `.start-lock` and `efi-vars.fd` migrations | Changes the issue's "read-only fallback": that would fail ordinary writes to legacy data. |

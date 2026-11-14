@@ -3,19 +3,22 @@
  *
  * Copy it into a tool, or write the same rules in the tool's own resolver; the
  * SKILL.md text is the contract and this file is one reading of it. It depends
- * only on node:fs, node:os and node:path, so it runs under Bun and Node.
+ * only on node:crypto, node:fs, node:os and node:path, so it runs under Bun and
+ * Node.
  *
- * Three kinds of root share one layout (TOOL/ for config, secrets and state;
- * run/TOOL/ for runtime files): the user root (~/.tikoci, the owner), a
- * workspace root (a project's .tikoci/, a persistent guest layered over the
- * user root) and a sandbox root (TIKOCI_SANDBOX, a disposable guest isolated
- * from the user root). Guests share the user's cache but never evict from it.
+ * Two scopes: the user scope (TIKOCI_HOME, default ~/.tikoci) and a project
+ * scope (the nearest .tikoci/ above the working directory). Each tool owns
+ * TOOL/ in each. In a project, .tikoci/TOOL/ travels with the directory and
+ * .tikoci/TOOL/local/ never does: it is read only when it is private to this
+ * user and its id matches a trust record in the tool's user scope. A sandbox
+ * (TIKOCI_SANDBOX) replaces the user scope for a test run.
  *
  * Every function reads the environment it is given at call time. Pass `env`
- * explicitly from code that a test may call with a different environment;
- * never resolve a path once at import and keep it.
+ * (and `cwd`) explicitly from code that a test or another tool may call; never
+ * resolve a path once at import and keep it.
  */
-import { chmodSync, lstatSync, mkdirSync, realpathSync, writeFileSync } from "node:fs";
+import { randomBytes } from "node:crypto";
+import { chmodSync, lstatSync, mkdirSync, readFileSync, realpathSync, renameSync, writeFileSync } from "node:fs";
 import { homedir as osHomedir } from "node:os";
 import { join, posix, win32 } from "node:path";
 
@@ -24,50 +27,63 @@ export type Env = Record<string, string | undefined>;
 export interface ResolveOptions {
     /**
      * The environment to read. When it is omitted (or is process.env itself),
-     * os.homedir() backs up a missing HOME. A caller-supplied env is taken
-     * literally: with no HOME (USERPROFILE on Windows) and no TIKOCI_HOME it
-     * has no user root, so nothing resolves to the developer's real files.
+     * os.homedir() backs up a missing HOME and process.cwd() a missing cwd. A
+     * caller-supplied env is taken literally: with no HOME (USERPROFILE on
+     * Windows) and no TIKOCI_HOME it has no user scope, and with no cwd it
+     * discovers no project, so nothing resolves to the developer's real files.
      */
     env?: Env;
+    /** Where project discovery starts. Libraries take it from their caller and never read process.cwd(). */
     cwd?: string;
     platform?: NodeJS.Platform;
     /** Explicit fallback when HOME (USERPROFILE on Windows) is unset, even for a supplied env. */
     homedir?: () => string;
 }
 
+/** Where a resolved value came from: a variable name, "default", "discovered" or "sandbox". */
+export type Source = string;
+
 export interface TikociPaths {
     tool: string;
-    /** The run is a sandbox (TIKOCI_SANDBOX): a disposable guest of the user's setup. */
+    /** The run is a sandbox (TIKOCI_SANDBOX), which replaces the user scope. */
     sandboxed: boolean;
-    /** This run's own root: the sandbox, else the user root; null when there is neither. */
-    root: string | null;
-    /** Config, secrets and state for this tool: TOOL_HOME, else root/tool. */
+    /** The user scope: the sandbox, else TIKOCI_HOME or its default; null when there is neither. */
+    userScope: string | null;
+    /** This tool's directory in the user scope: config, secrets, state, trust records. */
     toolDir: string | null;
-    /** Runtime files: TIKOCI_RUNTIME_DIR/tool, else root/run/tool. */
+    /** Runtime files: TIKOCI_RUNTIME_DIR/tool, else userScope/run/tool. */
     runtime: string | null;
-    /** The shared cache for this tool: TOOL_CACHE_DIR, else TIKOCI_CACHE_DIR/tool, else (user root or sandbox)/cache/tool. */
+    /** This tool's cache: TOOL_CACHE_DIR, else TIKOCI_CACHE_DIR/tool, else the user's (or the sandbox's) cache/tool. */
     cache: string | null;
-    /** The user root, even in a sandbox (read it only for host-resource claims then); null if unknown. */
-    userRoot: string | null;
-    /** The project directory holding .tikoci/, or null. */
-    workspace: string | null;
-    /** workspace/.tikoci/tool, or null. */
-    workspaceToolDir: string | null;
-    /** May evict from the shared cache, change its policy and manage host-wide services (no for a sandbox). */
-    owner: boolean;
-    /** May read the tool's pre-tikoci-home locations (no for a sandbox). */
+    /** The project: the directory holding .tikoci/, or null. */
+    project: string | null;
+    /** project/.tikoci/tool: files that travel with the directory. */
+    projectToolDir: string | null;
+    /** project/.tikoci/tool/local: files that never travel; read only through checkProject(). */
+    projectLocalDir: string | null;
+    /** May evict from `cache`: the user's own runs, or a sandbox whose cache is inside it. */
+    evicts: boolean;
+    /** May read the tool's pre-tikoci-home locations (no in a sandbox). */
     legacy: boolean;
-    /** May use the OS keychain, Bun.secrets and similar (no for a sandbox). */
+    /** May use the OS keychain, Bun.secrets and similar (no in a sandbox). */
     keychain: boolean;
+    /** May create, restart or remove host services (no in a sandbox). */
+    hostServices: boolean;
+    /** Where each location came from, for effective-source reports. */
+    sources: { userScope: Source; toolDir: Source; runtime: Source; cache: Source; project: Source };
 }
 
 /** Bytes a Unix socket path may use: macOS sun_path is 104 including the NUL (Linux allows 108). */
 export const SOCKET_PATH_MAX = 103;
 
+/** Names in the user scope that are not tool names. */
+export const RESERVED_NAMES = new Set(["cache", "run"]);
+
 const TOOL_NAME = /^[a-z][a-z0-9-]*$/;
+const PROJECT_ID = /^[0-9a-f]{12}$/;
 
 function checkTool(tool: string): void {
-    if (!TOOL_NAME.test(tool)) throw new Error(`tool name "${tool}" must match ${TOOL_NAME}`);
+    if (!TOOL_NAME.test(tool) || RESERVED_NAMES.has(tool)) throw new Error(`tool name "${tool}" must match ${TOOL_NAME} and not be reserved`);
 }
 
 /** The prefix of a tool's own variables: routeros-muse → ROUTEROS_MUSE. */
@@ -126,8 +142,14 @@ function samePath(a: string, b: string, platform: NodeJS.Platform): boolean {
     return platform === "win32" ? a.toLowerCase() === b.toLowerCase() : a === b;
 }
 
+function isInside(root: string, target: string, platform: NodeJS.Platform): boolean {
+    const path = pathFor(platform);
+    const rel = path.relative(platform === "win32" ? root.toLowerCase() : root, platform === "win32" ? target.toLowerCase() : target);
+    return rel === "" || (rel !== ".." && !rel.startsWith(`..${path.sep}`) && !path.isAbsolute(rel));
+}
+
 /**
- * The default user root: ~/.tikoci on Linux and macOS, %LOCALAPPDATA%\tikoci on
+ * The default user scope: ~/.tikoci on Linux and macOS, %LOCALAPPDATA%\tikoci on
  * Windows, where everything outside AppData\Local roams with the profile.
  */
 export function defaultHome(options: ResolveOptions = {}): string | undefined {
@@ -141,14 +163,14 @@ export function defaultHome(options: ResolveOptions = {}): string | undefined {
     return platform === "win32" ? path.join(home, "AppData", "Local", "tikoci") : path.join(home, ".tikoci");
 }
 
-/** The user root: TIKOCI_HOME, else defaultHome(). */
+/** The user's own scope: TIKOCI_HOME, else defaultHome(). A sandbox does not change it. */
 export function userRoot(options: ResolveOptions = {}): string | undefined {
     const env = options.env ?? process.env;
     const platform = options.platform ?? process.platform;
     return absoluteFromEnv(env, "TIKOCI_HOME", platform) ?? defaultHome(options);
 }
 
-/** The shared cache root: TIKOCI_CACHE_DIR, else the user root's cache/, else the sandbox's. */
+/** The cache root: TIKOCI_CACHE_DIR, else the user's cache/, else the sandbox's. */
 export function cacheRoot(options: ResolveOptions = {}): string | undefined {
     const env = options.env ?? process.env;
     const platform = options.platform ?? process.platform;
@@ -167,24 +189,26 @@ function isRealDirectory(dir: string): boolean {
 
 /**
  * Walk up from `cwd` to the nearest directory holding a real .tikoci/ directory.
- * The user's home directory and anything above it are never checked, so the
- * user root ~/.tikoci is never taken for a workspace. A symlinked .tikoci is
- * ignored, and paths are compared after symlinks are followed (and without
- * case on Windows), so an alias of the home directory stops the walk too.
+ * The walk stops before the user's home directory, so ~/.tikoci (the user
+ * scope) is never read as a project. A symlinked .tikoci is ignored, and paths
+ * are compared after symlinks are followed (and without case on Windows), so
+ * an alias of the home directory stops the walk too. Every tool stops at the
+ * nearest .tikoci/, whether or not it has a directory for that tool, so tools
+ * in one run always agree on the project.
  */
-export function discoverWorkspace(cwd: string, options: ResolveOptions & { root?: string } = {}): string | null {
+export function discoverProject(cwd: string, options: ResolveOptions & { userScope?: string } = {}): string | null {
     const platform = options.platform ?? process.platform;
     const path = pathFor(platform);
     const user = userHome(options);
     // With no known home there is no safe place to stop, so discover nothing.
     if (user === undefined) return null;
     const stop = canonical(user, platform);
-    const root = options.root ? canonical(options.root, platform) : undefined;
+    const scope = options.userScope ? canonical(options.userScope, platform) : undefined;
     let dir = canonical(cwd, platform);
     while (true) {
         if (samePath(dir, stop, platform)) return null;
         const candidate = path.join(dir, ".tikoci");
-        if (!(root && samePath(candidate, root, platform)) && isRealDirectory(candidate)) return dir;
+        if (!(scope && samePath(candidate, scope, platform)) && isRealDirectory(candidate)) return dir;
         const parent = path.dirname(dir);
         if (parent === dir) return null;
         dir = parent;
@@ -198,63 +222,81 @@ export function resolveTikociPaths(tool: string, options: ResolveOptions = {}): 
     const platform = options.platform ?? process.platform;
     const path = pathFor(platform);
     const sandbox = absoluteFromEnv(env, "TIKOCI_SANDBOX", platform);
-    const user = userRoot(options) ?? null;
-    const root = sandbox ?? user;
     const sandboxed = sandbox !== undefined;
+    const user = userRoot(options);
+    const scope = sandbox ?? user ?? null;
+    const scopeSource = sandboxed ? "TIKOCI_SANDBOX" : nonEmpty(env.TIKOCI_HOME) ? "TIKOCI_HOME" : "default";
 
-    // A tool's own variable wins over the house one, for that tool only.
-    const toolDir = absoluteFromEnv(env, `${prefix}_HOME`, platform) ?? (root ? path.join(root, tool) : null);
-    const runtimeRoot = absoluteFromEnv(env, "TIKOCI_RUNTIME_DIR", platform) ?? (root ? path.join(root, "run") : undefined);
+    // A tool's own variable wins over the house one for that tool, except that
+    // a sandbox replaces the whole user scope, the tool's home included.
+    const toolHome = sandboxed ? undefined : absoluteFromEnv(env, `${prefix}_HOME`, platform);
+    const toolDir = toolHome ?? (scope ? path.join(scope, tool) : null);
+    const runtimeRoot = absoluteFromEnv(env, "TIKOCI_RUNTIME_DIR", platform);
+    const runtime = runtimeRoot ? path.join(runtimeRoot, tool) : scope ? path.join(scope, "run", tool) : null;
+    // Explicit cache variables win even in a sandbox: a test sets them on purpose.
+    const toolCache = absoluteFromEnv(env, `${prefix}_CACHE_DIR`, platform);
     const sharedCache = cacheRoot(options);
-    const cache = absoluteFromEnv(env, `${prefix}_CACHE_DIR`, platform) ?? (sharedCache ? path.join(sharedCache, tool) : null);
+    const cache = toolCache ?? (sharedCache ? path.join(sharedCache, tool) : null);
+    const cacheSource = toolCache ? `${prefix}_CACHE_DIR` : nonEmpty(env.TIKOCI_CACHE_DIR) ? "TIKOCI_CACHE_DIR" : "default";
 
-    let workspace: string | null = null;
-    const workspaceSetting = nonEmpty(env.TIKOCI_WORKSPACE);
-    if (workspaceSetting === "none") {
-        workspace = null;
-    } else if (workspaceSetting !== undefined) {
-        workspace = absoluteFromEnv(env, "TIKOCI_WORKSPACE", platform) ?? null;
+    let project: string | null = null;
+    let projectSource = "none";
+    const named = nonEmpty(env.TIKOCI_PROJECT);
+    if (named === "none") {
+        projectSource = "TIKOCI_PROJECT";
+    } else if (named !== undefined) {
+        project = absoluteFromEnv(env, "TIKOCI_PROJECT", platform) ?? null;
+        projectSource = "TIKOCI_PROJECT";
     } else if (!sandboxed) {
-        workspace = discoverWorkspace(options.cwd ?? process.cwd(), { ...options, root: user ?? undefined });
+        const cwd = options.cwd ?? (isProcessEnv(options) ? process.cwd() : undefined);
+        if (cwd !== undefined) {
+            project = discoverProject(cwd, { ...options, userScope: user });
+            if (project) projectSource = "discovered";
+        }
     }
+    const projectToolDir = project ? path.join(project, ".tikoci", tool) : null;
 
     return {
         tool,
         sandboxed,
-        root,
+        userScope: scope,
         toolDir,
-        runtime: runtimeRoot ? path.join(runtimeRoot, tool) : null,
+        runtime,
         cache,
-        userRoot: user,
-        workspace,
-        workspaceToolDir: workspace ? path.join(workspace, ".tikoci", tool) : null,
-        owner: !sandboxed,
+        project,
+        projectToolDir,
+        projectLocalDir: projectToolDir ? path.join(projectToolDir, "local") : null,
+        evicts: cache !== null && (sandbox === undefined || isInside(canonical(sandbox, platform), canonical(cache, platform), platform)),
         legacy: !sandboxed,
         keychain: !sandboxed,
+        hostServices: !sandboxed,
+        sources: {
+            userScope: scopeSource,
+            toolDir: toolHome ? `${prefix}_HOME` : scopeSource,
+            runtime: runtimeRoot ? "TIKOCI_RUNTIME_DIR" : scopeSource,
+            cache: cacheSource,
+            project: projectSource,
+        },
     };
 }
 
 /**
- * Resolve a path named in a workspace file. It must be relative, and it must
- * stay inside the workspace after symlinks are followed, including through a
+ * Resolve a path named in a project file. It must be relative, and it must
+ * stay inside the project after symlinks are followed, including through a
  * directory that exists when the file itself does not yet; anything else
  * throws. This checks the path at resolve time only: open the file without
  * following a final symlink where the platform allows it.
  */
-export function resolveInWorkspace(workspace: string, relative: string, platform: NodeJS.Platform = process.platform): string {
+export function resolveInProject(project: string, relative: string, platform: NodeJS.Platform = process.platform): string {
     const path = pathFor(platform);
     if (relative.startsWith("~") || path.isAbsolute(relative)) {
-        throw new Error(`workspace path "${relative}" must be relative to the workspace`);
+        throw new Error(`project path "${relative}" must be relative to the project`);
     }
-    const inside = (root: string, target: string) => {
-        const rel = path.relative(root, target);
-        return rel === "" || (rel !== ".." && !rel.startsWith(`..${path.sep}`) && !path.isAbsolute(rel));
-    };
-    const target = path.resolve(workspace, relative);
-    if (!inside(path.resolve(workspace), target)) {
-        throw new Error(`workspace path "${relative}" leaves the workspace`);
+    const target = path.resolve(project, relative);
+    if (!isInside(path.resolve(project), target, platform)) {
+        throw new Error(`project path "${relative}" leaves the project`);
     }
-    const root = realpathSync(workspace);
+    const root = realpathSync(project);
     // Follow symlinks through the nearest part of the path that exists.
     for (let probe = target; ; probe = path.dirname(probe)) {
         let real: string | undefined;
@@ -264,10 +306,10 @@ export function resolveInWorkspace(workspace: string, relative: string, platform
             if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
         }
         if (real !== undefined) {
-            if (!inside(root, real)) throw new Error(`workspace path "${relative}" resolves outside the workspace`);
+            if (!isInside(root, real, platform)) throw new Error(`project path "${relative}" resolves outside the project`);
             return target;
         }
-        if (path.dirname(probe) === probe) throw new Error(`workspace "${workspace}" does not exist`);
+        if (path.dirname(probe) === probe) throw new Error(`project "${project}" does not exist`);
     }
 }
 
@@ -288,54 +330,146 @@ export function ensurePrivateDir(dir: string): void {
     if (process.platform !== "win32") chmodSync(dir, 0o700);
 }
 
-/**
- * The .gitignore a tool writes into a new .tikoci/: everything stays local
- * except each tool's shared settings file, which a project may commit like
- * .claude/settings.json. Personal overrides go in a gitignored local env file.
- */
-export const WORKSPACE_GITIGNORE = [
-    "# tikoci workspace: only shared settings are committed (see tikoci-home).",
-    "*",
-    "!.gitignore",
-    "!*/",
-    "!*/*.env",
-    "*/*.local.env",
-    "run/",
-    "",
-].join("\n");
+/** Why a directory is not private to this user, or null when it is (always null on Windows). */
+export function notPrivate(dir: string): string | null {
+    let stat: ReturnType<typeof lstatSync>;
+    try {
+        stat = lstatSync(dir);
+    } catch {
+        return "missing";
+    }
+    if (stat.isSymbolicLink() || !stat.isDirectory()) return "not a real directory";
+    if (process.platform === "win32") return null;
+    if (typeof process.getuid === "function" && stat.uid !== process.getuid()) return "owned by another user";
+    if ((Number(stat.mode) & 0o077) !== 0) return "readable by others (needs mode 0700)";
+    return null;
+}
+
+/** The .gitignore a tool writes into its project directory: local/ never travels. */
+export const PROJECT_GITIGNORE = "# tikoci-home: local/ is this user's, on this machine only.\nlocal/\n";
 
 /**
- * Create a workspace for one tool under `root`: root/.tikoci/ with the
- * workspace .gitignore, and root/.tikoci/tool/, both owner-only. Tools call
- * this only from an explicit command, never on first use; that command also
- * enrolls the workspace in the user root.
+ * Create root/.tikoci/tool/ with its .gitignore. Tools call this from an
+ * explicit command (settings set --project, an init command), never on first
+ * use. Refuses a symlinked .tikoci or tool directory.
  */
-export function initWorkspace(root: string, tool: string): string {
+export function initProject(root: string, tool: string): string {
     checkTool(tool);
-    const dir = join(root, ".tikoci");
-    ensurePrivateDir(dir);
-    const gitignore = join(dir, ".gitignore");
-    let existing: ReturnType<typeof lstatSync> | undefined;
+    const dir = join(root, ".tikoci", tool);
+    mkdirSync(dir, { recursive: true });
+    for (const part of [join(root, ".tikoci"), dir]) {
+        if (!isRealDirectory(part)) throw new Error(`"${part}" must be a real directory, not a link or a file`);
+    }
     try {
-        existing = lstatSync(gitignore);
+        writeFileSync(join(dir, ".gitignore"), PROJECT_GITIGNORE, { flag: "wx" });
     } catch (error) {
-        if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+        if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
     }
-    if (existing === undefined) {
-        writeFileSync(gitignore, WORKSPACE_GITIGNORE, { flag: "wx", mode: 0o600 });
-    } else if (!existing.isFile()) {
-        throw new Error(`"${gitignore}" must be a regular file`);
+    return dir;
+}
+
+export type ProjectState =
+    /** No project, or the tool has no user scope to keep trust records in. */
+    | "none"
+    /** No local/ id this user scope knows: local/ is ignored until a person trusts the project. */
+    | "untrusted"
+    /** local/ exists but is a link, belongs to another user or is readable by others. */
+    | "unsafe"
+    /** The id is known, but its project is at another path that still holds it: this is a copy. */
+    | "copied"
+    /** The id is known, but its project path no longer holds it: this is a move. */
+    | "moved"
+    | "trusted";
+
+export interface ProjectCheck {
+    state: ProjectState;
+    /** The id in local/id, when one is present and well formed. */
+    id: string | null;
+    /** Why local/ is not read, for the tool's report. */
+    reason: string;
+}
+
+interface TrustRecord {
+    path: string;
+}
+
+function trustRecordFile(paths: TikociPaths, id: string): string {
+    return join(paths.toolDir as string, "projects", id, "project.json");
+}
+
+function readLocalId(localDir: string): string | null {
+    try {
+        const id = readFileSync(join(localDir, "id"), "utf8").trim();
+        return PROJECT_ID.test(id) ? id : null;
+    } catch {
+        return null;
     }
-    const toolDir = join(dir, tool);
-    ensurePrivateDir(toolDir);
-    return toolDir;
+}
+
+function readRecord(paths: TikociPaths, id: string): TrustRecord | null {
+    try {
+        const record = JSON.parse(readFileSync(trustRecordFile(paths, id), "utf8"));
+        return typeof record?.path === "string" ? record : null;
+    } catch {
+        return null;
+    }
+}
+
+/**
+ * Decide whether the tool may read the project's local/ directory. It may only
+ * when local/ is private to this user and its id matches a trust record in the
+ * tool's user scope for this project's canonical path. Nothing that arrives
+ * with a directory (a clone, a sync, a backup) can create that record.
+ */
+export function checkProject(paths: TikociPaths): ProjectCheck {
+    if (!paths.project || !paths.projectLocalDir || !paths.toolDir) {
+        return { state: "none", id: null, reason: paths.project ? "no user scope for trust records" : "no project" };
+    }
+    const unsafe = notPrivate(paths.projectLocalDir);
+    if (unsafe === "missing") return { state: "untrusted", id: null, reason: "local/ does not exist yet" };
+    if (unsafe) return { state: "unsafe", id: null, reason: `local/ is ${unsafe}` };
+    const id = readLocalId(paths.projectLocalDir);
+    if (!id) return { state: "untrusted", id: null, reason: "local/id is missing or malformed" };
+    const record = readRecord(paths, id);
+    if (!record) return { state: "untrusted", id, reason: "local/id is not known to this user scope" };
+    const here = canonical(paths.project, process.platform);
+    if (samePath(record.path, here, process.platform)) return { state: "trusted", id, reason: "" };
+    const elsewhere = join(record.path, ".tikoci", paths.tool, "local");
+    if (readLocalId(elsewhere) === id) return { state: "copied", id, reason: `a copy of ${record.path}` };
+    return { state: "moved", id, reason: `moved from ${record.path}` };
+}
+
+/**
+ * Trust the project for this tool: what the tool's trust command (or an init
+ * command such as centrs' devices init) does after a person confirms it on a
+ * terminal. It is never reachable from MCP or another agent API. A move keeps
+ * its id, so its machines and records follow it; anything else gets a new id,
+ * so a copy or a clone never shares the original's state.
+ */
+export function trustProject(paths: TikociPaths): string {
+    if (!paths.project || !paths.projectLocalDir || !paths.toolDir) throw new Error("no project, or no user scope for trust records");
+    const check = checkProject(paths);
+    if (check.state === "trusted") return check.id as string;
+    initProject(paths.project, paths.tool);
+    ensurePrivateDir(paths.projectLocalDir);
+    const id = check.state === "moved" && check.id ? check.id : randomBytes(6).toString("hex");
+    const recordFile = trustRecordFile(paths, id);
+    ensurePrivateDir(join(recordFile, ".."));
+    const record: TrustRecord = { path: canonical(paths.project, process.platform) };
+    const temp = `${recordFile}.${process.pid}.tmp`;
+    writeFileSync(temp, `${JSON.stringify(record)}\n`, { mode: 0o600 });
+    renameSync(temp, recordFile);
+    const idFile = join(paths.projectLocalDir, "id");
+    writeFileSync(`${idFile}.tmp`, `${id}\n`, { mode: 0o600 });
+    renameSync(`${idFile}.tmp`, idFile);
+    return id;
 }
 
 /** Variables a sandboxed child keeps from its parent; everything else is dropped. */
 export const HERMETIC_KEEP = [
     "PATH", "HOME", "USERPROFILE", "LOCALAPPDATA", "TMPDIR", "TEMP", "TMP",
     "LANG", "LC_ALL", "TERM", "SystemRoot", "windir", "ComSpec", "PATHEXT",
-    // These describe the user's own setup, which a sandbox is a guest of.
+    // These locate the user's cache, which a sandbox shares by default.
     "TIKOCI_HOME", "TIKOCI_CACHE_DIR",
 ];
 
@@ -343,10 +477,9 @@ export const HERMETIC_KEEP = [
  * An environment for a sandbox run: only HERMETIC_KEEP from `base`,
  * TIKOCI_SANDBOX set to `sandbox`, TIKOCI_CACHE_DIR set to the cache `base`
  * uses (so the run reuses it even if a test later changes HOME), and `extra`
- * on top. Inherited TIKOCI_WORKSPACE and tool variables such as
- * CENTRS_CDB_FILE or QUICKCHR_DATA_DIR are dropped unless `extra` sets them.
- * On Windows, names match without case (Path, SYSTEMROOT) and keep the
- * parent's spelling.
+ * on top. Inherited TIKOCI_PROJECT and tool variables such as CENTRS_CDB_FILE
+ * or QUICKCHR_DATA_DIR are dropped unless `extra` sets them. On Windows, names
+ * match without case (Path, SYSTEMROOT) and keep the parent's spelling.
  */
 export function hermeticEnv(sandbox: string, base: Env = process.env, extra: Env = {}, platform: NodeJS.Platform = process.platform): Env {
     const fold = (key: string) => (platform === "win32" ? key.toUpperCase() : key);

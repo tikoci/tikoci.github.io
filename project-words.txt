@@ -3,6 +3,7 @@ CDB
 centrs
 CMR
 crossref
+cwd
 efi
 frontmatter
 libsecret
@@ -18,6 +19,7 @@ mtimes
 netinstall
 NUL
 Pico
+pids
 quickchr
 restraml
 ros
@@ -34,5 +36,6 @@ UNC
 unparseable
 USERPROFILE
 usr
+winbox
 worktrees
 XDG

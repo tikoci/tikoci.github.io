@@ -1,20 +1,23 @@
 import { afterEach, describe, expect, test } from "bun:test";
-import { chmodSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, statSync, symlinkSync, writeFileSync } from "node:fs";
+import { chmodSync, cpSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, renameSync, rmSync, statSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import {
     cacheRoot,
-    discoverWorkspace,
+    checkProject,
+    discoverProject,
     hermeticEnv,
-    initWorkspace,
-    resolveInWorkspace,
+    initProject,
+    PROJECT_GITIGNORE,
+    resolveInProject,
     resolveTikociPaths,
     SOCKET_PATH_MAX,
     socketPathFits,
-    WORKSPACE_GITIGNORE,
+    trustProject,
 } from "../skills/tikoci-home/scripts/tikoci-paths.ts";
 
 const SKILL = join(import.meta.dir, "..", "skills", "tikoci-home");
+const POSIX = process.platform !== "win32";
 
 const temps = [];
 afterEach(() => { for (const dir of temps.splice(0)) rmSync(dir, { recursive: true, force: true }); });
@@ -34,20 +37,22 @@ function fakeUser() {
     return { root, home, project, deep, env: { HOME: home } };
 }
 
-describe("roots", () => {
+describe("scopes", () => {
     test("default layout on Linux and macOS", () => {
         const paths = resolveTikociPaths("quickchr", { env: { HOME: "/u" }, cwd: "/", platform: "linux" });
         expect(paths).toMatchObject({
             sandboxed: false,
-            root: "/u/.tikoci",
-            userRoot: "/u/.tikoci",
+            userScope: "/u/.tikoci",
             toolDir: "/u/.tikoci/quickchr",
             cache: "/u/.tikoci/cache/quickchr",
             runtime: "/u/.tikoci/run/quickchr",
-            owner: true,
+            project: null,
+            evicts: true,
             legacy: true,
             keychain: true,
+            hostServices: true,
         });
+        expect(paths.sources).toEqual({ userScope: "default", toolDir: "default", runtime: "default", cache: "default", project: "none" });
     });
 
     test("Windows uses LOCALAPPDATA, not the roaming profile", () => {
@@ -57,49 +62,32 @@ describe("roots", () => {
         expect(paths.cache).toBe("C:\\Users\\u\\AppData\\Local\\tikoci\\cache\\centrs");
     });
 
-    test("TIKOCI_HOME only relocates the user root", () => {
+    test("TIKOCI_HOME only moves the user scope", () => {
         const paths = resolveTikociPaths("rosetta", { env: { HOME: "/u", TIKOCI_HOME: "/t/root" }, cwd: "/", platform: "linux" });
         expect(paths).toMatchObject({
             sandboxed: false,
             toolDir: "/t/root/rosetta",
             cache: "/t/root/cache/rosetta",
             runtime: "/t/root/run/rosetta",
-            owner: true,
+            evicts: true,
             legacy: true,
             keychain: true,
         });
-    });
-
-    test("TIKOCI_SANDBOX is a disposable guest root that shares the user's cache", () => {
-        const env = { HOME: "/u", TIKOCI_SANDBOX: "/s" };
-        expect(resolveTikociPaths("quickchr", { env, cwd: "/", platform: "linux" })).toMatchObject({
-            sandboxed: true,
-            root: "/s",
-            toolDir: "/s/quickchr",
-            runtime: "/s/run/quickchr",
-            cache: "/u/.tikoci/cache/quickchr",
-            userRoot: "/u/.tikoci",
-            workspace: null,
-            owner: false,
-            legacy: false,
-            keychain: false,
-        });
-        const alone = resolveTikociPaths("quickchr", { env: { TIKOCI_SANDBOX: "/s" }, cwd: "/", platform: "linux" });
-        expect([alone.userRoot, alone.cache]).toEqual([null, "/s/cache/quickchr"]);
+        expect(paths.sources.toolDir).toBe("TIKOCI_HOME");
     });
 
     test("a tool's own variables win over the house ones for that tool", () => {
         const env = { HOME: "/u", QUICKCHR_HOME: "/q", QUICKCHR_CACHE_DIR: "/qc", ROUTEROS_MUSE_HOME: "/m" };
         const quickchr = resolveTikociPaths("quickchr", { env, cwd: "/", platform: "linux" });
-        expect([quickchr.toolDir, quickchr.cache]).toEqual(["/q", "/qc"]);
+        expect([quickchr.toolDir, quickchr.cache, quickchr.sources.toolDir]).toEqual(["/q", "/qc", "QUICKCHR_HOME"]);
         expect(resolveTikociPaths("routeros-muse", { env, cwd: "/", platform: "linux" }).toolDir).toBe("/m");
         expect(resolveTikociPaths("centrs", { env, cwd: "/", platform: "linux" }).toolDir).toBe("/u/.tikoci/centrs");
     });
 
-    test("a supplied env without a home has no user root (centrs#654)", () => {
+    test("a supplied env without a home has no user scope (centrs#654)", () => {
         const paths = resolveTikociPaths("centrs", { env: {}, cwd: "/", platform: "linux" });
-        expect(paths).toMatchObject({ root: null, userRoot: null, toolDir: null, cache: null, runtime: null, workspace: null });
-        expect(resolveTikociPaths("centrs", { env: {}, homedir: () => "/h", cwd: "/", platform: "linux" }).root).toBe("/h/.tikoci");
+        expect(paths).toMatchObject({ userScope: null, toolDir: null, cache: null, runtime: null, project: null, evicts: false });
+        expect(resolveTikociPaths("centrs", { env: {}, homedir: () => "/h", cwd: "/", platform: "linux" }).userScope).toBe("/h/.tikoci");
         expect(resolveTikociPaths("centrs", { env: { TIKOCI_HOME: "/t" }, cwd: "/", platform: "linux" }).toolDir).toBe("/t/centrs");
     });
 
@@ -107,16 +95,19 @@ describe("roots", () => {
         const env = { HOME: "/u", TIKOCI_HOME: "/t", TIKOCI_CACHE_DIR: "/c", TIKOCI_RUNTIME_DIR: "/r" };
         const paths = resolveTikociPaths("quickchr", { env, cwd: "/", platform: "linux" });
         expect([paths.cache, paths.runtime]).toEqual(["/c/quickchr", "/r/quickchr"]);
+        expect([paths.sources.cache, paths.sources.runtime]).toEqual(["TIKOCI_CACHE_DIR", "TIKOCI_RUNTIME_DIR"]);
     });
 
-    test("empty variables are unset; relative ones are errors", () => {
+    test("empty variables are unset; relative ones are errors; reserved names are not tools", () => {
         expect(resolveTikociPaths("x", { env: { HOME: "/u", TIKOCI_SANDBOX: " " }, cwd: "/", platform: "linux" }).sandboxed).toBe(false);
         expect(() => resolveTikociPaths("x", { env: { HOME: "/u", TIKOCI_HOME: "rel" }, cwd: "/", platform: "linux" })).toThrow("absolute");
         expect(() => resolveTikociPaths("x", { env: { HOME: "/u", TIKOCI_SANDBOX: "rel" }, cwd: "/", platform: "linux" })).toThrow("absolute");
+        expect(() => resolveTikociPaths("x", { env: { HOME: "/u", TIKOCI_PROJECT: "rel" }, cwd: "/", platform: "linux" })).toThrow("absolute");
         expect(() => resolveTikociPaths("Bad/Name", { env: { HOME: "/u" }, platform: "linux" })).toThrow("tool name");
+        expect(() => resolveTikociPaths("cache", { env: { HOME: "/u" }, platform: "linux" })).toThrow("reserved");
     });
 
-    test("Windows roots need a drive or UNC path", () => {
+    test("Windows paths need a drive or UNC prefix", () => {
         const resolve = TIKOCI_HOME => resolveTikociPaths("x", { env: { USERPROFILE: "C:\\Users\\u", TIKOCI_HOME }, cwd: "C:\\", platform: "win32" });
         expect(() => resolve("\\pinned")).toThrow("absolute");
         expect(() => resolve("C:pinned")).toThrow("absolute");
@@ -126,100 +117,60 @@ describe("roots", () => {
 
     test("the environment is read at call time", () => {
         const env = { HOME: "/a" };
-        const before = resolveTikociPaths("x", { env, cwd: "/", platform: "linux" }).root;
+        const before = resolveTikociPaths("x", { env, cwd: "/", platform: "linux" }).userScope;
         env.HOME = "/b";
-        expect([before, resolveTikociPaths("x", { env, cwd: "/", platform: "linux" }).root]).toEqual(["/a/.tikoci", "/b/.tikoci"]);
+        expect([before, resolveTikociPaths("x", { env, cwd: "/", platform: "linux" }).userScope]).toEqual(["/a/.tikoci", "/b/.tikoci"]);
     });
 });
 
-describe("workspaces", () => {
-    test("the nearest .tikoci/ above the working directory wins", () => {
-        const user = fakeUser();
-        mkdirSync(join(user.home, "src", ".tikoci"));
-        mkdirSync(join(user.project, ".tikoci"));
-        const paths = resolveTikociPaths("centrs", { env: user.env, cwd: user.deep, platform: process.platform });
-        expect(paths.workspace).toBe(user.project);
-        expect(paths.workspaceToolDir).toBe(join(user.project, ".tikoci", "centrs"));
+describe("sandboxes", () => {
+    test("TIKOCI_SANDBOX replaces the user scope and shares the user's cache without evicting", () => {
+        const env = { HOME: "/u", TIKOCI_SANDBOX: "/s" };
+        expect(resolveTikociPaths("quickchr", { env, cwd: "/", platform: "linux" })).toMatchObject({
+            sandboxed: true,
+            userScope: "/s",
+            toolDir: "/s/quickchr",
+            runtime: "/s/run/quickchr",
+            cache: "/u/.tikoci/cache/quickchr",
+            project: null,
+            evicts: false,
+            legacy: false,
+            keychain: false,
+            hostServices: false,
+        });
+        const alone = resolveTikociPaths("quickchr", { env: { TIKOCI_SANDBOX: "/s" }, cwd: "/", platform: "linux" });
+        expect([alone.cache, alone.evicts]).toEqual(["/s/cache/quickchr", true]);
     });
 
-    test("~/.tikoci is never a workspace", () => {
-        const user = fakeUser();
-        mkdirSync(join(user.home, ".tikoci"));
-        expect(discoverWorkspace(user.deep, { env: user.env })).toBeNull();
-        expect(discoverWorkspace(user.home, { env: user.env })).toBeNull();
+    test("the sandbox wins over TIKOCI_HOME and the tool's home variable", () => {
+        const env = { HOME: "/u", TIKOCI_HOME: "/t", CENTRS_HOME: "/real/centrs", TIKOCI_SANDBOX: "/s" };
+        const paths = resolveTikociPaths("centrs", { env, cwd: "/", platform: "linux" });
+        expect([paths.userScope, paths.toolDir, paths.sources.toolDir]).toEqual(["/s", "/s/centrs", "TIKOCI_SANDBOX"]);
+        // The cache of the relocated user scope is still shared.
+        expect(paths.cache).toBe("/t/cache/centrs");
     });
 
-    test("an alias of the home directory still stops the walk", () => {
-        const user = fakeUser();
-        mkdirSync(join(user.home, ".tikoci"));
-        const alias = join(user.root, "alias");
-        symlinkSync(user.home, alias);
-        expect(discoverWorkspace(join(alias, "src", "project", "lib", "deep"), { env: user.env })).toBeNull();
+    test("explicit cache variables still win, and a cache inside the sandbox is the sandbox's to evict", () => {
+        const shared = resolveTikociPaths("quickchr", { env: { HOME: "/u", TIKOCI_SANDBOX: "/s", QUICKCHR_CACHE_DIR: "/qc" }, cwd: "/", platform: "linux" });
+        expect([shared.cache, shared.evicts]).toEqual(["/qc", false]);
+        const own = resolveTikociPaths("quickchr", { env: { HOME: "/u", TIKOCI_SANDBOX: "/s", TIKOCI_CACHE_DIR: "/s/cache" }, cwd: "/", platform: "linux" });
+        expect([own.cache, own.evicts]).toEqual(["/s/cache/quickchr", true]);
     });
 
-    test("a symlinked .tikoci is ignored", () => {
-        const user = fakeUser();
-        mkdirSync(join(user.root, "elsewhere"));
-        symlinkSync(join(user.root, "elsewhere"), join(user.project, ".tikoci"));
-        expect(discoverWorkspace(user.deep, { env: user.env })).toBeNull();
-    });
-
-    test("a sandbox discovers no workspace above it", () => {
-        const user = fakeUser();
-        mkdirSync(join(user.project, ".tikoci"));
-        const relocated = { ...user.env, TIKOCI_HOME: join(user.root, "elsewhere") };
-        expect(resolveTikociPaths("centrs", { env: relocated, cwd: user.deep }).workspace).toBe(user.project);
-        const env = { ...relocated, TIKOCI_SANDBOX: join(user.root, "sandbox") };
-        expect(resolveTikociPaths("centrs", { env, cwd: user.deep }).workspace).toBeNull();
-    });
-
-    test("TIKOCI_WORKSPACE names one or turns discovery off", () => {
+    test("a sandbox discovers no project, but can be given one", () => {
         const user = fakeUser();
         mkdirSync(join(user.project, ".tikoci"));
-        const named = { ...user.env, TIKOCI_SANDBOX: join(user.root, "sandbox"), TIKOCI_WORKSPACE: user.project };
-        expect(resolveTikociPaths("centrs", { env: named, cwd: user.root }).workspace).toBe(user.project);
-        const off = { ...user.env, TIKOCI_WORKSPACE: "none" };
-        expect(resolveTikociPaths("centrs", { env: off, cwd: user.deep }).workspace).toBeNull();
+        const sandbox = { ...user.env, TIKOCI_SANDBOX: join(user.root, "sandbox") };
+        expect(resolveTikociPaths("centrs", { env: sandbox, cwd: user.deep }).project).toBeNull();
+        const named = resolveTikociPaths("centrs", { env: { ...sandbox, TIKOCI_PROJECT: user.project }, cwd: user.root });
+        expect([named.project, named.sources.project]).toEqual([user.project, "TIKOCI_PROJECT"]);
+        // Its trust records are the sandbox's own, so the user's trust does not carry over.
+        trustProject(resolveTikociPaths("centrs", { env: user.env, cwd: user.deep }));
+        expect(checkProject(named).state).toBe("untrusted");
     });
 
-    test("workspace paths stay inside the workspace", () => {
-        const user = fakeUser();
-        expect(resolveInWorkspace(user.project, "devices/lab.cdb")).toBe(join(user.project, "devices", "lab.cdb"));
-        expect(() => resolveInWorkspace(user.project, "../other.cdb")).toThrow("leaves the workspace");
-        expect(() => resolveInWorkspace(user.project, "/etc/passwd")).toThrow("relative");
-        expect(() => resolveInWorkspace(user.project, "~/.config/tikoci/winbox.cdb")).toThrow("relative");
-        expect(resolveInWorkspace(user.project, "new/dir/lab.cdb")).toBe(join(user.project, "new", "dir", "lab.cdb"));
-        expect(resolveInWorkspace(user.project, "..devices/lab.cdb")).toBe(join(user.project, "..devices", "lab.cdb"));
-        symlinkSync(user.home, join(user.project, "escape"));
-        expect(() => resolveInWorkspace(user.project, "escape")).toThrow("outside the workspace");
-        expect(() => resolveInWorkspace(user.project, "escape/new.cdb")).toThrow("outside the workspace");
-        expect(() => resolveInWorkspace(user.project, "escape/a/b/new.cdb")).toThrow("outside the workspace");
-    });
-
-    test("initWorkspace creates owner-only directories that git ignores", () => {
-        const root = temp();
-        const toolDir = initWorkspace(root, "centrs");
-        initWorkspace(root, "quickchr");
-        expect(toolDir).toBe(join(root, ".tikoci", "centrs"));
-        expect(readFileSync(join(root, ".tikoci", ".gitignore"), "utf8")).toBe(WORKSPACE_GITIGNORE);
-        if (process.platform !== "win32") expect(statSync(join(root, ".tikoci")).mode & 0o077).toBe(0);
-    });
-
-    test("initWorkspace refuses a redirected .tikoci and tightens existing modes", () => {
-        const linked = temp();
-        symlinkSync(temp(), join(linked, ".tikoci"));
-        expect(() => initWorkspace(linked, "centrs")).toThrow("real directory");
-        const loose = temp();
-        mkdirSync(join(loose, ".tikoci", "centrs"), { recursive: true });
-        chmodSync(join(loose, ".tikoci", "centrs"), 0o755);
-        initWorkspace(loose, "centrs");
-        if (process.platform !== "win32") expect(statSync(join(loose, ".tikoci", "centrs")).mode & 0o077).toBe(0);
-    });
-});
-
-describe("isolation", () => {
-    test("hermeticEnv drops inherited tool variables and keeps the user's setup", () => {
-        const base = { PATH: "/bin", HOME: "/u", TIKOCI_HOME: "/r", CENTRS_CDB_FILE: "/u/real.cdb", QUICKCHR_DATA_DIR: "/u/q", TIKOCI_WORKSPACE: "/p" };
+    test("hermeticEnv drops inherited tool variables and keeps the user's cache", () => {
+        const base = { PATH: "/bin", HOME: "/u", TIKOCI_HOME: "/r", CENTRS_CDB_FILE: "/u/real.cdb", QUICKCHR_DATA_DIR: "/u/q", TIKOCI_PROJECT: "/p" };
         const env = hermeticEnv("/s", base, { CENTRS_FORMAT: "json" }, "linux");
         expect(env).toEqual({
             PATH: "/bin",
@@ -230,12 +181,12 @@ describe("isolation", () => {
             CENTRS_FORMAT: "json",
         });
         const paths = resolveTikociPaths("quickchr", { env: { ...env, HOME: "/elsewhere" }, cwd: "/", platform: "linux" });
-        expect([paths.cache, paths.userRoot]).toEqual([`${cacheRoot({ env: base, platform: "linux" })}/quickchr`, "/r"]);
+        expect(paths.cache).toBe(`${cacheRoot({ env: base, platform: "linux" })}/quickchr`);
     });
 
     test("hermeticEnv matches Windows names without case", () => {
         const base = { Path: "C:\\bin", SYSTEMROOT: "C:\\Windows", USERPROFILE: "C:\\Users\\u", LOCALAPPDATA: "C:\\L", centrs_cdb_file: "x", Tikoci_Sandbox: "C:\\old" };
-        const env = hermeticEnv("C:\\s", base, { tikoci_workspace: "none" }, "win32");
+        const env = hermeticEnv("C:\\s", base, { tikoci_project: "none" }, "win32");
         expect(env).toEqual({
             Path: "C:\\bin",
             SYSTEMROOT: "C:\\Windows",
@@ -243,18 +194,18 @@ describe("isolation", () => {
             LOCALAPPDATA: "C:\\L",
             TIKOCI_SANDBOX: "C:\\s",
             TIKOCI_CACHE_DIR: "C:\\L\\tikoci\\cache",
-            tikoci_workspace: "none",
+            tikoci_project: "none",
         });
     });
 
-    test("a sandbox reads no workspace, legacy path or user state", () => {
+    test("a sandbox reads no project, legacy path or user state", () => {
         const user = fakeUser();
         mkdirSync(join(user.home, ".config", "tikoci"), { recursive: true });
         writeFileSync(join(user.home, ".config", "tikoci", "winbox.cdb"), "encrypted");
         mkdirSync(join(user.project, ".tikoci", "centrs"), { recursive: true });
         const env = hermeticEnv(join(user.root, "sandbox"), { ...user.env, CENTRS_CDB_FILE: "x" });
         const paths = resolveTikociPaths("centrs", { env, cwd: user.deep });
-        expect(paths).toMatchObject({ sandboxed: true, workspace: null, owner: false, legacy: false, keychain: false });
+        expect(paths).toMatchObject({ sandboxed: true, project: null, evicts: false, legacy: false, keychain: false });
         expect(paths.toolDir).toBe(join(user.root, "sandbox", "centrs"));
         expect(paths.cache).toBe(join(user.home, ".tikoci", "cache", "centrs"));
         expect(env.CENTRS_CDB_FILE).toBeUndefined();
@@ -267,10 +218,167 @@ describe("isolation", () => {
     });
 });
 
+describe("finding the project", () => {
+    test("the nearest .tikoci/ above the working directory wins, with or without the tool's directory", () => {
+        const user = fakeUser();
+        mkdirSync(join(user.home, "src", ".tikoci", "centrs"), { recursive: true });
+        mkdirSync(join(user.project, ".tikoci", "quickchr"), { recursive: true });
+        const paths = resolveTikociPaths("centrs", { env: user.env, cwd: user.deep });
+        expect([paths.project, paths.sources.project]).toEqual([user.project, "discovered"]);
+        expect(paths.projectToolDir).toBe(join(user.project, ".tikoci", "centrs"));
+        expect(paths.projectLocalDir).toBe(join(user.project, ".tikoci", "centrs", "local"));
+    });
+
+    test("~/.tikoci is never a project", () => {
+        const user = fakeUser();
+        mkdirSync(join(user.home, ".tikoci"));
+        expect(discoverProject(user.deep, { env: user.env })).toBeNull();
+        expect(discoverProject(user.home, { env: user.env })).toBeNull();
+    });
+
+    test("an alias of the home directory still stops the walk", () => {
+        const user = fakeUser();
+        mkdirSync(join(user.home, ".tikoci"));
+        const alias = join(user.root, "alias");
+        symlinkSync(user.home, alias);
+        expect(discoverProject(join(alias, "src", "project", "lib", "deep"), { env: user.env })).toBeNull();
+    });
+
+    test("a symlinked .tikoci is ignored", () => {
+        const user = fakeUser();
+        mkdirSync(join(user.root, "elsewhere"));
+        symlinkSync(join(user.root, "elsewhere"), join(user.project, ".tikoci"));
+        expect(discoverProject(user.deep, { env: user.env })).toBeNull();
+    });
+
+    test("a supplied env without cwd discovers nothing; TIKOCI_PROJECT names one or turns it off", () => {
+        const user = fakeUser();
+        mkdirSync(join(user.project, ".tikoci"));
+        expect(resolveTikociPaths("centrs", { env: user.env }).project).toBeNull();
+        expect(resolveTikociPaths("centrs", { env: { ...user.env, TIKOCI_PROJECT: user.project }, cwd: user.root }).project).toBe(user.project);
+        const off = resolveTikociPaths("centrs", { env: { ...user.env, TIKOCI_PROJECT: "none" }, cwd: user.deep });
+        expect([off.project, off.sources.project]).toEqual([null, "TIKOCI_PROJECT"]);
+    });
+
+    test("paths named in project files stay inside the project", () => {
+        const user = fakeUser();
+        expect(resolveInProject(user.project, "machines/edge1.toml")).toBe(join(user.project, "machines", "edge1.toml"));
+        expect(() => resolveInProject(user.project, "../other.cdb")).toThrow("leaves the project");
+        expect(() => resolveInProject(user.project, "/etc/passwd")).toThrow("relative");
+        expect(() => resolveInProject(user.project, "~/.tikoci/centrs/winbox.cdb")).toThrow("relative");
+        expect(resolveInProject(user.project, "new/dir/lab.toml")).toBe(join(user.project, "new", "dir", "lab.toml"));
+        expect(resolveInProject(user.project, "..devices/lab.toml")).toBe(join(user.project, "..devices", "lab.toml"));
+        symlinkSync(user.home, join(user.project, "escape"));
+        expect(() => resolveInProject(user.project, "escape")).toThrow("outside the project");
+        expect(() => resolveInProject(user.project, "escape/new.toml")).toThrow("outside the project");
+        expect(() => resolveInProject(user.project, "escape/a/b/new.toml")).toThrow("outside the project");
+    });
+});
+
+describe("local/ and trust", () => {
+    /** A project with .tikoci/, resolved for centrs in the fake user's scope. */
+    function project(user, dir = user.project) {
+        mkdirSync(join(dir, ".tikoci"), { recursive: true });
+        return resolveTikociPaths("centrs", { env: user.env, cwd: dir });
+    }
+
+    test("initProject writes the tool's directory and a .gitignore for local/", () => {
+        const root = temp();
+        const dir = initProject(root, "centrs");
+        expect(dir).toBe(join(root, ".tikoci", "centrs"));
+        expect(readFileSync(join(dir, ".gitignore"), "utf8")).toBe(PROJECT_GITIGNORE);
+        writeFileSync(join(dir, ".gitignore"), "custom\n");
+        initProject(root, "centrs");
+        expect(readFileSync(join(dir, ".gitignore"), "utf8")).toBe("custom\n");
+        const linked = temp();
+        symlinkSync(temp(), join(linked, ".tikoci"));
+        expect(() => initProject(linked, "centrs")).toThrow("real directory");
+    });
+
+    test("a new project is untrusted until a person trusts it", () => {
+        const user = fakeUser();
+        const paths = project(user);
+        expect(checkProject(paths).state).toBe("untrusted");
+        const id = trustProject(paths);
+        expect(id).toMatch(/^[0-9a-f]{12}$/);
+        expect(checkProject(paths)).toEqual({ state: "trusted", id, reason: "" });
+        expect(readFileSync(join(paths.projectLocalDir, "id"), "utf8").trim()).toBe(id);
+        expect(JSON.parse(readFileSync(join(paths.toolDir, "projects", id, "project.json"), "utf8")).path).toBe(user.project);
+        if (POSIX) expect(statSync(paths.projectLocalDir).mode & 0o077).toBe(0);
+        expect(trustProject(paths)).toBe(id);
+    });
+
+    test("a local/id that arrived with the directory is ignored, and trusting it makes a new id", () => {
+        const user = fakeUser();
+        const paths = project(user);
+        mkdirSync(paths.projectLocalDir, { recursive: true, mode: 0o700 });
+        writeFileSync(join(paths.projectLocalDir, "id"), "0123456789ab\n");
+        expect(checkProject(paths)).toMatchObject({ state: "untrusted", id: "0123456789ab" });
+        expect(trustProject(paths)).not.toBe("0123456789ab");
+    });
+
+    test("trust is per tool", () => {
+        const user = fakeUser();
+        trustProject(project(user));
+        expect(checkProject(resolveTikociPaths("quickchr", { env: user.env, cwd: user.project })).state).toBe("untrusted");
+    });
+
+    test("a copy keeps the original trusted and gets its own id", () => {
+        const user = fakeUser();
+        const original = project(user);
+        const id = trustProject(original);
+        const copyDir = join(user.home, "src", "copy");
+        cpSync(user.project, copyDir, { recursive: true });
+        const copy = resolveTikociPaths("centrs", { env: user.env, cwd: copyDir });
+        expect(checkProject(copy)).toMatchObject({ state: "copied", id });
+        expect(trustProject(copy)).not.toBe(id);
+        expect(checkProject(original).state).toBe("trusted");
+        expect(checkProject(copy).state).toBe("trusted");
+    });
+
+    test("a move keeps its id once trusted again", () => {
+        const user = fakeUser();
+        const id = trustProject(project(user));
+        const moved = join(user.home, "src", "moved");
+        renameSync(user.project, moved);
+        const paths = resolveTikociPaths("centrs", { env: user.env, cwd: moved });
+        expect(checkProject(paths)).toMatchObject({ state: "moved", id });
+        expect(trustProject(paths)).toBe(id);
+        expect(checkProject(paths).state).toBe("trusted");
+    });
+
+    test.skipIf(!POSIX)("a local/ readable by others is unsafe, and trusting it makes a new id", () => {
+        const user = fakeUser();
+        const paths = project(user);
+        const id = trustProject(paths);
+        chmodSync(paths.projectLocalDir, 0o755);
+        expect(checkProject(paths)).toMatchObject({ state: "unsafe", id: null });
+        expect(trustProject(paths)).not.toBe(id);
+    });
+
+    test("a symlinked local/ is unsafe", () => {
+        const user = fakeUser();
+        const paths = project(user);
+        mkdirSync(paths.projectToolDir, { recursive: true });
+        symlinkSync(temp(), paths.projectLocalDir);
+        expect(checkProject(paths).state).toBe("unsafe");
+        expect(() => trustProject(paths)).toThrow("real directory");
+    });
+
+    test("with no user scope there are no trust records", () => {
+        const user = fakeUser();
+        mkdirSync(join(user.project, ".tikoci"));
+        const paths = resolveTikociPaths("centrs", { env: {}, cwd: user.project, homedir: undefined });
+        expect(paths.project).toBeNull();
+        const named = resolveTikociPaths("centrs", { env: { TIKOCI_PROJECT: user.project }, cwd: user.project });
+        expect(checkProject(named).state).toBe("none");
+    });
+});
+
 describe("layout.tsv", () => {
     const COLUMNS = ["tool", "item", "class", "scope", "path", "today", "owner", "lifecycle", "backup", "override", "migration", "notes"];
     const CLASSES = new Set(["config", "secret", "state", "cache", "runtime", "host-wide", "install"]);
-    const SCOPES = new Set(["user", "workspace", "checkout", "install", "host", "process"]);
+    const SCOPES = new Set(["user", "project", "checkout", "install", "host", "process"]);
     const [header, ...rows] = readFileSync(join(SKILL, "references", "layout.tsv"), "utf8").trimEnd().split("\n").map(line => line.split("\t"));
 
     test("has the documented columns", () => {
@@ -298,10 +406,17 @@ describe("layout.tsv", () => {
         expect(new Set(keys).size).toBe(keys.length);
     });
 
-    test("user caches live under TIKOCI_CACHE_DIR; config and secrets never do", () => {
+    test("caches live under TIKOCI_CACHE_DIR; config and secrets never do", () => {
         for (const row of rows) {
             if (row[2] === "cache" && row[3] === "user") expect(row[4], row[1]).toMatch(/TIKOCI_CACHE_DIR|^open:|^unchanged/);
             if (row[2] === "secret" || row[2] === "config") expect(row[4], row[1]).not.toMatch(/TIKOCI_CACHE_DIR/);
+        }
+    });
+
+    test("in a project, secrets and state live in local/; what travels is config", () => {
+        for (const row of rows.filter(row => row[3] === "project")) {
+            if (row[2] === "secret" || row[2] === "state") expect(row[4], row[1]).toMatch(/\/local\//);
+            else expect(row[2], row[1]).toBe("config");
         }
     });
 });
