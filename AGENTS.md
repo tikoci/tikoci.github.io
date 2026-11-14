@@ -66,8 +66,10 @@ these coverage limits.
   nitpicks.
 - PRs use squash merge with the PR title and description as the commit message.
   `.github/workflows/check-pr.yaml` runs lint, Bun tests and the offline build on
-  PRs targeting `main`. These checks are advisory while `main` is unprotected;
-  direct pushes remain available.
+  PRs targeting `main`. These checks are advisory. `main` has classic branch
+  protection with only "require conversation resolution": a PR merges once
+  every review thread is resolved (reply, then resolve), while direct pushes
+  remain available. Force pushes and deletion of `main` are blocked.
 - Keep changes small and focused, and add no dependencies without need. Use Bun
   and Biome (formatter disabled), semantic HTML and vanilla browser code. Commits
   use short imperative subjects.
@@ -151,8 +153,9 @@ freshness timestamps.
 `.github/workflows/deploy-pages.yaml` publishes the full assembled site on every
 deployment. Hourly collection and the weekly/manual Pages refresh commit
 validated snapshots to `main`. Commits made with GITHUB_TOKEN do not re-trigger
-the workflow. Pushes only render. If branch protection is ever enabled, it must
-allow the bot's snapshot commits. A rejected push fails the job before
+the workflow. Pushes only render. Branch protection must keep allowing the bot's
+direct snapshot commits: do not add a pull request, review or status-check
+requirement (or an equivalent ruleset) without a bypass for them. A rejected push fails the job before
 deployment. No partial deployment can overwrite another dataset.
 
 For a failed deployment, inspect the failed step first. A Pages timeout after a
