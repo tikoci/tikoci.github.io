@@ -78,7 +78,16 @@ export function checkSkills(skillsDir = SKILLS_DIR): SkillReport {
 function checkSkill(dir: string, entry: string, fail: (message: string) => void): Skill | null {
     if (!NAME_PATTERN.test(entry)) fail("directory name must be tikoci-<lowercase-words>");
     for (const child of readdirSync(dir)) {
-        if (!SKILL_ENTRIES.has(child)) fail(`unexpected entry "${child}"; use SKILL.md, references/, scripts/ or assets/`);
+        if (!SKILL_ENTRIES.has(child)) {
+            fail(`unexpected entry "${child}"; use SKILL.md, references/, scripts/ or assets/`);
+            continue;
+        }
+        // Symlinks are reported by listFiles; here only the entry type matters.
+        const stat = lstatSync(join(dir, child));
+        if (stat.isSymbolicLink()) continue;
+        if (child === "SKILL.md" ? !stat.isFile() : !stat.isDirectory()) {
+            fail(`${child} must be a ${child === "SKILL.md" ? "file" : "directory"}`);
+        }
     }
     const toRelative = (file: string) => relative(dir, file).split(sep).join("/");
     const files = listFiles(dir, link => fail(`${toRelative(link)}: symlinks are not allowed; copies and published skills need real files`))
@@ -90,6 +99,7 @@ function checkSkill(dir: string, entry: string, fail: (message: string) => void)
         fail("missing SKILL.md");
         return null;
     }
+    if (!lstatSync(skillPath).isFile()) return null;
     const text = readFileSync(skillPath, "utf-8");
     const match = text.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n/);
     if (!match) {
