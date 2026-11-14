@@ -9,7 +9,7 @@ skill list the later phases build.
 | --- | --- |
 | `skills.tsv` | The planned house skills, one row each: `skill`, `phase`, `scope`, `topics` (survey topics it covers), `absorbs` (existing skills it replaces) and `rows` (survey rows that feed it). Living list. |
 | `2026-11-survey.tsv` | One row per instruction or skill source (or per topic section of a long one), November 2026 snapshot. |
-| `2026-11-conflicts.tsv` | Places where repos or user-level files disagree. Each house skill resolves its rows. |
+| `2026-11-conflicts.tsv` | Places where repos or user-level files disagree: `topic`, `skill`, `positions`, `evidence`, `status` (`reported`, `verified` against the sources, or `settled`) and `resolution` (the rule that settles it, or `-`). Each house skill settles its rows. |
 
 ## Survey scope
 
@@ -47,7 +47,8 @@ machine facts.
 498 rows from 119 sources: 287 `house`, 94 `repo-local`, 37 `routeros-skills`,
 26 `local-notes`, 5 `lint`, 49 `drop`. 63 rows need sanitizing or stay private.
 
-The house rows group into 17 skills (`skills.tsv`). `tikoci-house` ships in Phase 1
+The house rows group into 17 skills (`skills.tsv`). Published skills live in
+[`skills/`](../../skills/) and at <https://tikoci.dev/house/>. `tikoci-house` ships in Phase 1
 and `tikoci-home` in Phase 2; the other 15 are Phase 3. Compared with the original strawman in
 issue #21, the survey adds `tikoci-testing`, `tikoci-release`, `tikoci-interfaces` (errors,
 CLI, library and MCP surfaces, which quickchr, centrs and rosetta all write about),

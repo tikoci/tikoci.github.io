@@ -1,6 +1,6 @@
 # TIKOCI site and metadata
 
-Static project site and durable TIKOCI-wide metadata at https://tikoci.dev.
+Static project site and durable TIKOCI-wide metadata at <https://tikoci.dev>.
 
 Use the Bun version pinned in `package.json`. Install with
 `bun install --frozen-lockfile` and validate with `bun run check` (lint, tests and

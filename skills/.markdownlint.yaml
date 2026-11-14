@@ -1,0 +1,16 @@
+# Rules for the published house skills, adapted from tikoci/routeros-skills.
+# Skills are the product here, so they get the signal rules the rest of the
+# repo's Markdown does not.
+extends: ../.markdownlint.yaml
+
+MD024: false  # Duplicate headings: skills repeat "Why", "Example" by design
+MD036: false  # Emphasis as heading: intentional asides
+
+MD040: true   # Fenced code blocks name a language
+MD046:
+  style: fenced
+MD048:
+  style: backtick
+MD058: true   # Blank lines around tables
+MD034: true   # No bare URLs
+MD042: true   # No empty links

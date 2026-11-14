@@ -1,7 +1,7 @@
 # Agent and maintainer guide
 
 This static site is the keeper of TIKOCI-wide metadata, conventions and collected
-observations, alongside the project site at https://tikoci.dev. Public contracts
+observations, alongside the project site at <https://tikoci.dev>. Public contracts
 and durable URLs matter as much as rendered pages. Short recipes live in docs/;
 small open follow-ups live in TODO.md.
 
@@ -17,6 +17,8 @@ This is the single instruction file for all agents. CLAUDE.md only imports it.
 | data/ | Authored TS configuration, reviewed snapshots, pinned build font |
 | data/published/ | Legacy `/data/` dashboard/repo endpoints |
 | data/metadata/ | New `/metadata/` discovery and independent datasets |
+| skills/ | House skills, published unchanged under `/house/skills/` |
+| .agents/skills/ | The house skills this repo uses (`.claude/skills` links here) |
 | docs/ | Maintainer documentation and recipes |
 | dist/ | Entirely generated output; safe to delete |
 
@@ -36,7 +38,12 @@ visited.
   read that field. Update it deliberately after checking the new version locally.
 - `bun run check`: lint, fixture/contract tests and the offline build; the same
   validation command runs in both CI workflows.
-- `bun run lint`: TypeScript + Biome only; no rendering or remote collection.
+- `bun run lint`: TypeScript, Biome, `lint:markdown` and `lint:skills`; no rendering
+  or remote collection.
+- `bun run lint:markdown`: markdownlint-cli2 and cspell on all Markdown; project
+  words go in `project-words.txt`.
+- `bun run lint:skills`: `scripts/check-skills.ts` on skills/, with the description
+  budget in its output and the CI step summary.
 - `bun test test/`: fixture and committed-contract tests, no network.
 - `bun run build`: render the complete site from committed snapshots.
 - `bun run dev`: build and serve dist on port 3000.
@@ -59,8 +66,10 @@ these coverage limits.
   nitpicks.
 - PRs use squash merge with the PR title and description as the commit message.
   `.github/workflows/check-pr.yaml` runs lint, Bun tests and the offline build on
-  PRs targeting `main`. These checks are advisory while `main` is unprotected;
-  direct pushes remain available.
+  PRs targeting `main`. These checks are advisory. `main` has classic branch
+  protection with only "require conversation resolution": a PR merges once
+  every review thread is resolved (reply, then resolve), while direct pushes
+  remain available. Force pushes and deletion of `main` are blocked.
 - Keep changes small and focused, and add no dependencies without need. Use Bun
   and Biome (formatter disabled), semantic HTML and vanilla browser code. Commits
   use short imperative subjects.
@@ -93,6 +102,7 @@ auto, remove the `data-theme` attribute: Pico v2 has no `auto` value, and
 setting it forces light mode.
 
 `src/shared.js` helpers:
+
 - `initThemeSwitcher(id?, defaultTheme?)`: the auto/light/dark toggle.
 - `TIKOCI`: org constants (`owner`, `pagesUrl`).
 - `SITE_TOOLS` + `initToolsDropdown(listId)`: tools navigation. Add new tool
@@ -113,6 +123,23 @@ To build a new tool page, copy an existing one and keep its script inline. Tool
 pages are client-side only, with no submit buttons: use `input` with a ~400 ms
 debounce for text, and act immediately on `change` for selects and checkboxes.
 
+## House skills
+
+skills/ is the source of the tikoci house skills (issue #21, docs/house/). The
+build copies each skill directory byte for byte to `/house/skills/<name>/`,
+fills the /house/ index from src/house/index.html, and writes
+`/house/index.json`; both are durable URLs. Invalid skills fail the build. See
+skills/tikoci-house/references/writing-house-skills.md before adding or
+changing one.
+
+This repo uses: `tikoci-house` (copied, in `.agents/skills/`; `.claude/skills`
+links there).
+
+## House exceptions
+
+- `.agents/skills/` holds symlinks into skills/ instead of copies, because this
+  repo is the source.
+
 ## Data contracts and deployment
 
 Dashboard v2 remains at `/data/dashboard.json`, `/data/dashboard/<repo>.json` and
@@ -126,8 +153,9 @@ freshness timestamps.
 `.github/workflows/deploy-pages.yaml` publishes the full assembled site on every
 deployment. Hourly collection and the weekly/manual Pages refresh commit
 validated snapshots to `main`. Commits made with GITHUB_TOKEN do not re-trigger
-the workflow. Pushes only render. If branch protection is ever enabled, it must
-allow the bot's snapshot commits. A rejected push fails the job before
+the workflow. Pushes only render. Branch protection must keep allowing the bot's
+direct snapshot commits: do not add a pull request, review or status-check
+requirement (or an equivalent ruleset) without a bypass for them. A rejected push fails the job before
 deployment. No partial deployment can overwrite another dataset.
 
 For a failed deployment, inspect the failed step first. A Pages timeout after a

@@ -1,0 +1,40 @@
+{
+	"version": "0.2",
+	"language": "en",
+	"enableGlobDot": true,
+	"useGitignore": true,
+	"minWordLength": 3,
+	"flagWords": [
+		"hte",
+		"teh"
+	],
+	"ignorePaths": [
+		"node_modules",
+		"dist",
+		".git",
+		".scratch",
+		"bun.lock"
+	],
+	"dictionaryDefinitions": [
+		{
+			"name": "project-words",
+			"path": "./project-words.txt",
+			"addWords": true
+		}
+	],
+	"dictionaries": [
+		"project-words"
+	],
+	"files": [
+		"**/*.md"
+	],
+	"overrides": [
+		{
+			"filename": "docs/asset-migration.md",
+			"ignoreRegExpList": [
+				"/`[^`\\n]*`/g"
+			],
+			"description": "Inline code there is asset paths and hashes; the prose is still checked."
+		}
+	]
+}

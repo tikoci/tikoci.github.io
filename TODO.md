@@ -3,6 +3,7 @@
 A lightweight list of nits and small follow-ups, kept in the repo instead of GitHub issues.
 
 How work flows here:
+
 - **Small fix** → commit directly to `main`, then tick it off or delete it here.
 - **Bigger change** → open a PR (automatic reviewers comment on PRs; act on substantive
   findings, not prose or style nitpicks).
