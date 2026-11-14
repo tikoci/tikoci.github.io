@@ -9,8 +9,8 @@ pr-flow-strictness	tikoci-pr-flow	small fixes direct to main (site) vs every cha
 commit-subjects	tikoci-pr-flow	conventional-commit PR titles (quickchr) vs short imperative subjects (site)	quickchr-012, site-06	reported
 rejected-bot-push	tikoci-ci	restraml retries a rejected push to main with backoff; site keeps a rejected snapshot push failed	restraml-27, site AGENTS.md	reported
 task-runner	tikoci-toolchain	user-level guidance says Makefile first; Bun repos use package.json scripts; rosetta splits package scripts (JS lifecycle) from Makefile (orchestration)	user-21, rosetta-17, mikropkl-34	reported
-github-token-order	tikoci-github	TIKOCI_GITHUB_TOKEN then GITHUB_TOKEN then gh (site) vs GITHUB_TOKEN then GH_TOKEN (rosetta) vs env then gh (user-level Pages skill)	site-04, rosetta-37, user-76	reported
+github-token-order	tikoci-github	TIKOCI_GITHUB_TOKEN then GITHUB_TOKEN then gh (site) vs GITHUB_TOKEN then GH_TOKEN (rosetta) vs env then gh (user-level Pages skill)	site-14, rosetta-37, user-76	reported
 fetch-helper	tikoci-interfaces	quickchr bun-http requires a resilient fetch wrapper for every external URL; quickchr CONTRIBUTING and provisioning say plain fetch is fine	quickchr-022, quickchr-053	reported
 changelog-unit	tikoci-release	rosetta CONTRIBUTING says the changelog bullet goes in the same commit; changelog-discipline says the same PR	rosetta-26, rosetta CONTRIBUTING	reported
-user-skill-dirs	tikoci-house	user-level docs describe two shared skill dirs; routeros-skills make link covers four; tool-local skills exist in only one dir each	user skills-dir rows, rskills rows	reported
+user-skill-dirs	tikoci-house	the skill convention describes two shared user skill directories; routeros-skills make link covers four agents	user-51, rskills rows	reported
 backlog-file	tikoci-work-tracking	TODO.md (site) vs BACKLOG.md (rosetta, restraml) vs MATRIX.md themes (centrs) for small or undecided items	site rows, rosetta-55, restraml rows, centrs rows	reported

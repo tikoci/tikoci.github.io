@@ -19,7 +19,9 @@ rosetta, quickchr, mikropkl, restraml, routeros-skills and this repo; plus the
 operator's user-level instruction files and non-`routeros-*` user skills.
 
 Not surveyed: the public `routeros-*` skills (they stay in tikoci/routeros-skills),
-agent worktrees, and repos outside that list. User-level sources appear under labels
+agent worktrees, repos outside that list, and third-party vendor skills installed at
+user level (one `drop` row: maintained upstream, not tikoci rules). User-level sources
+appear under labels
 (`user:home-CLAUDE.md`, `user-skill:<name>`); their rows describe intent only, never
 machine facts.
 
@@ -41,8 +43,8 @@ machine facts.
 
 ## Results
 
-496 rows from 118 sources: 286 `house`, 94 `repo-local`, 37 `routeros-skills`,
-26 `local-notes`, 5 `lint`, 48 `drop`. 63 rows need sanitizing or stay private.
+498 rows from 119 sources: 287 `house`, 94 `repo-local`, 37 `routeros-skills`,
+26 `local-notes`, 5 `lint`, 49 `drop`. 63 rows need sanitizing or stay private.
 
 The house rows group into 17 skills (`skills.tsv`). `tikoci-house` ships in Phase 1
 and `tikoci-home` in Phase 2; the other 15 are Phase 3. Compared with the strawman in
@@ -56,7 +58,7 @@ Observations that shape later phases:
 - The same rule is often written three or four times: grounding and no-masking
   appears in quickchr four times and in the user-level files, and the Bun rules in
   most repos. A house skill replaces copies, not originals.
-- `tikoci-home` has only 3 survey rows: path rules live in code and in centrs#654, not
+- `tikoci-home` has only 1 survey row: path rules live in code and in centrs#654, not
   in instructions. Phase 2 works from the code.
 - The user-level files hold most of the generic rules and most of the operator-local
   facts, side by side. Phase 4 can only shrink them after the house skills exist.
