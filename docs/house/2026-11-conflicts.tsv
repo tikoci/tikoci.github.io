@@ -1,16 +1,17 @@
-topic	skill	positions	evidence	status
-action-pinning	tikoci-dependencies	centrs refs actions by tag; quickchr and routeros-skills pin commit SHAs with Dependabot; the user-level security skill pins major tags	centrs-20, rskills-13, quickchr-111, workflow files	verified
-bun-pin-location	tikoci-toolchain	packageManager in package.json (site, centrs) vs .bun-version (quickchr); rosetta CONTRIBUTING gives only a minimum	site-03, quickchr-110, rosetta CONTRIBUTING	verified
-biome-formatter	tikoci-linting	formatter off in site, quickchr, rosetta; on in centrs; user-level guidance says Biome formats	user-22, biome.json files	verified
-cspell-dictionary-name	tikoci-linting	project-words.txt (rosetta, quickchr, routeros-skills) vs GLOSSARY.txt (centrs)	rskills-04, centrs cspell.json	verified
-coderabbit-re-review	tikoci-pr-flow	rosetta pr-review-gate skill says a fix push triggers a fresh CodeRabbit pass; rosetta .coderabbit.yaml sets auto_incremental_review false	rosetta-47, rosetta .coderabbit.yaml	verified
-entry-file-roles	tikoci-house	AGENTS.md canonical and CLAUDE.md imports it (site, centrs) vs CLAUDE.md canonical (mikropkl, restraml) vs CLAUDE.md pointing to Copilot files (quickchr)	site-01, centrs-03, quickchr-001, mikropkl and restraml rows	reported
-pr-flow-strictness	tikoci-pr-flow	small fixes direct to main (site) vs every change via PR with protected main and all threads resolved (centrs, rosetta, quickchr, routeros-skills) vs agent-PR-only with human merge (restraml)	site-06, centrs-42, rskills-01, quickchr-013, restraml-35	reported
-commit-subjects	tikoci-pr-flow	conventional-commit PR titles (quickchr) vs short imperative subjects (site)	quickchr-012, site-06	reported
-rejected-bot-push	tikoci-ci	restraml retries a rejected push to main with backoff; site keeps a rejected snapshot push failed	restraml-27, site AGENTS.md	reported
-task-runner	tikoci-toolchain	user-level guidance says Makefile first; Bun repos use package.json scripts; rosetta splits package scripts (JS lifecycle) from Makefile (orchestration)	user-21, rosetta-17, mikropkl-34	reported
-github-token-order	tikoci-github	TIKOCI_GITHUB_TOKEN then GITHUB_TOKEN then gh (site) vs GITHUB_TOKEN then GH_TOKEN (rosetta) vs env then gh (user-level Pages skill)	site-14, rosetta-37, user-76	reported
-fetch-helper	tikoci-interfaces	quickchr bun-http requires a resilient fetch wrapper for every external URL; quickchr CONTRIBUTING and provisioning say plain fetch is fine	quickchr-022, quickchr-053	reported
-changelog-unit	tikoci-release	rosetta CONTRIBUTING says the changelog bullet goes in the same commit; changelog-discipline says the same PR	rosetta-26, rosetta CONTRIBUTING	reported
-user-skill-dirs	tikoci-house	the skill convention describes two shared user skill directories; routeros-skills make link covers four agents	user-51, rskills rows	reported
-backlog-file	tikoci-work-tracking	TODO.md (site) vs BACKLOG.md (rosetta, restraml) vs MATRIX.md themes (centrs) for small or undecided items	site rows, rosetta-55, restraml rows, centrs rows	reported
+topic	skill	positions	evidence	status	resolution
+action-pinning	tikoci-dependencies	centrs refs actions by tag; quickchr and routeros-skills pin commit SHAs with Dependabot; the user-level security skill pins major tags	centrs-20, rskills-13, quickchr-111, workflow files	verified	-
+bun-pin-location	tikoci-toolchain	packageManager in package.json (site, centrs) vs .bun-version (quickchr); rosetta CONTRIBUTING gives only a minimum	site-03, quickchr-110, rosetta CONTRIBUTING	verified	-
+biome-formatter	tikoci-linting	formatter off in site, quickchr, rosetta; on in centrs; user-level guidance says Biome formats	user-22, biome.json files	verified	-
+cspell-dictionary-name	tikoci-linting	project-words.txt (rosetta, quickchr, routeros-skills) vs GLOSSARY.txt (centrs)	rskills-04, centrs cspell.json	verified	-
+coderabbit-re-review	tikoci-pr-flow	rosetta pr-review-gate skill says a fix push triggers a fresh CodeRabbit pass; rosetta .coderabbit.yaml sets auto_incremental_review false	rosetta-47, rosetta .coderabbit.yaml	verified	-
+entry-file-roles	tikoci-house	AGENTS.md canonical and CLAUDE.md imports it (site, centrs) vs CLAUDE.md canonical (mikropkl, restraml) vs CLAUDE.md pointing to Copilot files (quickchr)	site-01, centrs-03, quickchr-001, mikropkl and restraml rows	settled	tikoci-house: AGENTS.md is the entry file and CLAUDE.md is only @AGENTS.md; mikropkl, restraml and quickchr change on adoption
+pr-flow-strictness	tikoci-pr-flow	small fixes direct to main (site) vs every change via PR with protected main and all threads resolved (centrs, rosetta, quickchr, routeros-skills) vs agent-PR-only with human merge (restraml)	site-06, centrs-42, rskills-01, quickchr-013, restraml-35	reported	-
+commit-subjects	tikoci-pr-flow	conventional-commit PR titles (quickchr) vs short imperative subjects (site)	quickchr-012, site-06	reported	-
+rejected-bot-push	tikoci-ci	restraml retries a rejected push to main with backoff; site keeps a rejected snapshot push failed	restraml-27, site AGENTS.md	reported	-
+task-runner	tikoci-toolchain	user-level guidance says Makefile first; Bun repos use package.json scripts; rosetta splits package scripts (JS lifecycle) from Makefile (orchestration)	user-21, rosetta-17, mikropkl-34	reported	-
+github-token-order	tikoci-github	TIKOCI_GITHUB_TOKEN then GITHUB_TOKEN then gh (site) vs GITHUB_TOKEN then GH_TOKEN (rosetta) vs env then gh (user-level Pages skill)	site-14, rosetta-37, user-76	reported	-
+fetch-helper	tikoci-interfaces	quickchr bun-http requires a resilient fetch wrapper for every external URL; quickchr CONTRIBUTING and provisioning say plain fetch is fine	quickchr-022, quickchr-053	reported	-
+changelog-unit	tikoci-release	rosetta CONTRIBUTING says the changelog bullet goes in the same commit; changelog-discipline says the same PR	rosetta-26, rosetta CONTRIBUTING	reported	-
+user-skill-dirs	tikoci-house	the skill convention describes two shared user skill directories; routeros-skills make link covers four agents	user-51, rskills rows	settled	tikoci-house: which user skill directories an operator links is a local-notes matter; repos use .agents/skills with .claude/skills linked to it
+backlog-file	tikoci-work-tracking	TODO.md (site) vs BACKLOG.md (rosetta, restraml) vs MATRIX.md themes (centrs) for small or undecided items	site rows, rosetta-55, restraml rows, centrs rows	reported	-
+skill-prefix	tikoci-house	tikoci-house reserves tikoci-* for house skills; quickchr commits two repo-local skills under that prefix (skills/tikoci-oci-image-building, skills/tikoci-qemu-user-emulation), missed by the survey	quickchr skills/	reported	tikoci-house: rename to quickchr-* on adoption, or propose as house skills in a new issue

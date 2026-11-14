@@ -4,3 +4,4 @@ dist/
 node_modules/
 data/.*cache.json
 .local
+.scratch/

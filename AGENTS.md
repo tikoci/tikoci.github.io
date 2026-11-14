@@ -17,6 +17,8 @@ This is the single instruction file for all agents. CLAUDE.md only imports it.
 | data/ | Authored TS configuration, reviewed snapshots, pinned build font |
 | data/published/ | Legacy `/data/` dashboard/repo endpoints |
 | data/metadata/ | New `/metadata/` discovery and independent datasets |
+| skills/ | House skills, published unchanged under `/house/skills/` |
+| .agents/skills/ | The house skills this repo uses (`.claude/skills` links here) |
 | docs/ | Maintainer documentation and recipes |
 | dist/ | Entirely generated output; safe to delete |
 
@@ -36,7 +38,8 @@ visited.
   read that field. Update it deliberately after checking the new version locally.
 - `bun run check`: lint, fixture/contract tests and the offline build; the same
   validation command runs in both CI workflows.
-- `bun run lint`: TypeScript + Biome only; no rendering or remote collection.
+- `bun run lint`: TypeScript, Biome and `lint:skills`; no rendering or remote collection.
+- `bun run lint:skills`: markdownlint, cspell and `scripts/check-skills.ts` on skills/.
 - `bun test test/`: fixture and committed-contract tests, no network.
 - `bun run build`: render the complete site from committed snapshots.
 - `bun run dev`: build and serve dist on port 3000.
@@ -112,6 +115,23 @@ setting it forces light mode.
 To build a new tool page, copy an existing one and keep its script inline. Tool
 pages are client-side only, with no submit buttons: use `input` with a ~400 ms
 debounce for text, and act immediately on `change` for selects and checkboxes.
+
+## House skills
+
+skills/ is the source of the tikoci house skills (issue #21, docs/house/). The
+build copies each skill directory byte for byte to `/house/skills/<name>/`,
+fills the /house/ index from src/house/index.html, and writes
+`/house/index.json`; both are durable URLs. Invalid skills fail the build. See
+skills/tikoci-house/references/writing-house-skills.md before adding or
+changing one.
+
+This repo uses: `tikoci-house` (in `.agents/skills/`; `.claude/skills` links
+there).
+
+## House exceptions
+
+- `.agents/skills/` holds symlinks into skills/ instead of copies, because this
+  repo is the source.
 
 ## Data contracts and deployment
 

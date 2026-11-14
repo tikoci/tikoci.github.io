@@ -8,6 +8,7 @@ import { applyConfigOverrides, buildGraphData, type RepoData } from "./scripts/f
 import { renderHomepageSections } from "./scripts/generate-homepage";
 import { generatePages } from "./scripts/generate-pages";
 import { generateReadmeRedirects } from "./scripts/generate-redirects";
+import { generateHouse } from "./scripts/generate-house";
 import { REPO_SYMBOLS } from "./data/repo-config";
 
 const ROOT = resolve(import.meta.dirname);
@@ -84,6 +85,8 @@ const repos: RepoData[] = applyConfigOverrides(JSON.parse(readFileSync(join(ROOT
 if (!Array.isArray(repos) || !repos.length) throw new Error("Missing repository snapshot; see docs/refresh-data.md");
 generatePages(repos, DIST);
 generateReadmeRedirects(repos, DIST);
+// House skills: raw skills/ under /house/skills/, plus the /house/ index.
+generateHouse(DIST, SITE_ORIGIN);
 for (const file of ["sitemap.xml", "atom.xml", "robots.txt"]) {
     const path = join(DIST, file);
     writeFileSync(path, readFileSync(path, "utf-8").replaceAll("{{SITE_ORIGIN}}", SITE_ORIGIN));

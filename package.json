@@ -12,13 +12,16 @@
     "test": "bun test test/",
     "collect": "bun run scripts/collect.ts",
     "survey:pages": "bun run scripts/collect-pages.ts",
-    "lint": "bunx tsc && bunx @biomejs/biome lint .",
+    "lint": "bunx tsc && bunx @biomejs/biome lint . && bun run lint:skills",
+    "lint:skills": "markdownlint-cli2 \"skills/**/*.md\" && cspell lint \"skills/**\" --no-progress && bun scripts/check-skills.ts",
     "lint:fix": "bunx @biomejs/biome lint --fix ."
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.7",
     "@types/bun": "^1.3.10",
     "@types/opentype.js": "^1.3.9",
+    "cspell": "^10.0.0",
+    "markdownlint-cli2": "^0.21.0",
     "opentype.js": "^1.3.4",
     "playwright": "^1.58.2",
     "sharp": "^0.34.5"
