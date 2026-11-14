@@ -60,8 +60,9 @@ Observations that shape later phases:
 - The same rule is often written three or four times: grounding and no-masking
   appears in quickchr four times and in the user-level files, and the Bun rules in
   most repos. A house skill replaces copies, not originals.
-- `tikoci-home` has only 1 survey row: path rules live in code and in centrs#654, not
-  in instructions. Phase 2 works from the code.
+- `tikoci-home` had only 1 survey row (5 after Phase 2 moved four quickchr rows to it):
+  path rules live in code and in centrs#654, not in instructions. Phase 2 worked from
+  the code; its per-tool map is `skills/tikoci-home/references/layout.tsv`.
 - The user-level files hold most of the generic rules and most of the operator-local
   facts, side by side. Phase 4 can only shrink them after the house skills exist.
 - `tikoci-crossref` overlaps `data/repo-config.ts`; generating it from that data is
