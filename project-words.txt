@@ -1,6 +1,7 @@
 autovlan
 CDB
 centrs
+CMR
 crossref
 efi
 frontmatter

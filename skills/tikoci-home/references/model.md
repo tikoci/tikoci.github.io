@@ -11,7 +11,7 @@ here changes a tool.
 
 | Concept | What it is | Travels with a clone? | Default home | Written by |
 | --- | --- | --- | --- | --- |
-| **Intent** | What a project means: topology, logical devices, desired config, lab definitions, tool pins, project setting defaults | yes | ordinary project files, found through `.tikoci/project.toml` | people and the tool that owns each schema |
+| **Intent** | What a project means: topology, logical devices, desired config, lab definitions, tool pins, project setting defaults | yes | the project's `.tikoci/` (house schema) | people and the tool that owns each schema |
 | **Bindings and authority** | What this user, on this host, allows and connects: trust, grants, credential bindings, host bindings | no | the user root | a person, through dedicated commands |
 | **Artifacts** | Reusable, immutable files that can be fetched again: images, rosetta DBs, MIBs | no (re-fetched) | a cache root, shared by default | the tool that publishes them |
 | **Execution state** | What was realized: machines, processes, reservations, sockets | no | the context that realized it | that context only |
@@ -20,7 +20,7 @@ The three roots stay, as storage defaults under these concepts:
 
 - the **user root** (`TIKOCI_HOME`) holds bindings, authority and execution
   state, and the default cache;
-- the **project** holds intent, with `.tikoci/` as its anchor;
+- the project's **`.tikoci/`** holds intent;
 - a **sandbox** (`TIKOCI_SANDBOX`) is an execution context with its own
   bindings and state. It is not a storage class.
 
@@ -95,50 +95,74 @@ machine names (quickchr) and personal devices (centrs' user CDB) keep working.
 
 ## Intent (thread 2)
 
-Intent is ordinary project content, found through one committed anchor:
+Intent lives in `.tikoci/`. When the working directory is in a project with
+a `.tikoci/` directory, that is what every tikoci tool reads, and the house
+defines its schema. No tool's own layout sets it, a prototype's least of
+all: routeros-muse adopts `.tikoci/` like any other repo.
+
+```text
+.tikoci/
+  project.toml           project id and tool pins
+  devices/<id>.toml      one logical device per file
+  labs/<name>.toml       lab definitions
+  config/<id>/           desired configuration, per device
+  <tool>/<tool>.env      allowlisted settings
+```
 
 ```toml
 # .tikoci/project.toml (house schema)
 id = "acme-net"
-
-[intent]
-devices = "inventory/"   # one file per logical device
-labs = "labs/"           # lab definitions
-config = "config/"       # desired configuration, per device
 
 [pins]
 quickchr = "0.5.5"
 centrs = "0.1.9"
 ```
 
-Paths are relative to the project and must stay inside it (the existing
-containment rules). Omitted keys mean the project has none of that kind.
+All of these are committed. The `.gitignore` a tool writes in `.tikoci/`
+excludes everything else: the instance marker, `<tool>.local.env`, and any
+state or runtime file. An absent directory means the project has none of
+that kind.
 
 Ownership is one writer per artifact kind:
 
 | Artifact | Schema owner | Writers | Readers |
 | --- | --- | --- | --- |
-| `.tikoci/project.toml` | house (this skill) | people | every tool |
-| Logical device file, `[device]` table (`id`, `role`, `site`, `label`) | house | people | every tool |
-| Logical device file, per-tool table (`[quickchr]`, `[centrs]`, `[expect]`) | that tool | that tool, people | anyone |
+| `project.toml` (`id`, `[pins]`) | house (this skill) | people | every tool; bootstrap and doctor checks |
+| Device file, `[device]` table (`id`, `role`, `site`, `label`) | house | people | every tool |
+| Device file, per-tool table (`[quickchr]`, `[centrs]`, `[expect]`) | that tool | that tool, people | anyone |
 | Lab definition (devices, links, provisioning) | quickchr | quickchr, people | centrs, muse |
-| Desired configuration | the project | people, agents | centrs (apply), muse (drift) |
-| Pins | house | people | muse bootstrap, doctor checks |
-| `.tikoci/<tool>/<tool>.env` (allowlisted settings) | that tool | `settings set --project` | that tool |
+| Desired configuration | house (layout only) | people, agents | centrs (apply), muse (drift) |
+| `<tool>/<tool>.env` (allowlisted settings) | that tool | `settings set --project` | that tool |
 
 Rules:
 
-- **No tool keeps a competing copy.** A tool may generate a mirror (muse's
-  `devices.toml`), which says it is generated and from what, and is never
-  read as a source.
+- **No tool keeps a competing copy.** A tool may generate a mirror (a
+  device list for display), which says it is generated and from what, and
+  is never read as a source.
 - **A tool edits only its own table** and preserves the rest of the file.
 - **No secrets, addresses that need credentials, serial numbers or host
   paths in intent.** Those are bindings. An address that is part of the
   design (a management subnet) is intent; which credential reaches it is not.
-- muse's layout fits: `inventory/<device-id>.toml` already has `[device]` and
-  `[expect]`. Its `serial` and `cdb` fields would become local bindings, and
-  `workspace.toml [pins]` would move to, or be referenced from,
-  `project.toml` (muse's decision).
+- **Adopting it in muse** means its prototype files map onto this layout:
+  `inventory/<device-id>.toml` and `router.toml` become
+  `.tikoci/devices/<id>.toml`, `workspace.toml [pins]` becomes
+  `project.toml [pins]`, and the `serial` and `cdb` fields become local
+  bindings. Its `[home]`, `[backup]` and `[upstreams]` are muse's own and stay
+  outside `.tikoci/`.
+
+### Device sources
+
+A tool finds logical devices through **sources**, never through one fixed
+file. A project's `.tikoci/devices/` is one source; the user's own devices
+outside any project are another; later schemes (a CMR controller, a muse
+inventory, an import) can be more. A run selects one inventory (see
+Inheritance by kind), and each device's access comes from a binding.
+
+For centrs this means the CDB stops being "the only durable inventory". It
+stays the store for what a device needs locally (addresses of real devices,
+credentials, per-device options) and the source of the user's own devices,
+but no tool assumes one user-wide CDB, and centrs can take devices from
+other sources as they appear.
 
 ## Trust and grants (thread 7)
 
@@ -275,26 +299,29 @@ adopts kinds one at a time.
 
 | Scenario | What happens |
 | --- | --- |
-| **Two projects both describe `edge1` and share images** | Each project's `inventory/edge1.toml` is intent; each checkout is its own instance, so quickchr realizes two machines, keyed (instance, `edge1`), with distinct reserved ports. Both read the same image entry (same identity) under leases. Nothing mutable is shared unless a person binds both to one machine. |
+| **Two projects both describe `edge1` and share images** | Each project's `.tikoci/devices/edge1.toml` is intent; each checkout is its own instance, so quickchr realizes two machines, keyed (instance, `edge1`), with distinct reserved ports. Both read the same image entry (same identity) under leases. Nothing mutable is shared unless a person binds both to one machine. |
 | **Two concurrent test runs** | Each harness makes its own sandbox and keeps `HOME`, so both use one host registry: reservations are atomic and never collide, and a crashed run's live claims go stale with its processes. Run A shares the user cache (read, publish, lease). Run B points `TIKOCI_CACHE_DIR` into its sandbox, is that cache's collector, and can test eviction or corruption without touching the shared one. |
 | **A clone on another host** | Intent arrives. The checkout has no marker (or a synced one with no record here), so it is a new instance: untrusted, with no grants or bindings. Allowlisted committed settings apply. A person trusts it, applies the lab preset for labs, and binds credentials for real devices on this host. Nothing from the first host's user root came along. |
 | **Two worktrees** | Each worktree is a new instance with the same project id. Both inherit trust and grants through the shared git common directory. Each realizes its own lab (`edge1` twice, distinct machines and ports) from shared images. Removing a worktree orphans its instance; cleanup lists and removes its machines and durable claims on request. |
 | **A container is replaced** | In app-t3code `HOME` is the `/data` volume, so the user root, checkouts and their markers, instance records, grants, durable execution state (machine disks, durable claims) and caches all survive `/app/update`. The container is its own host namespace. Live claims and runtime records from the old container name dead processes (pid and start time no longer match), so they are stale and rebuilt on start. Tools in image layers are replaced and checked against the pins. |
 | **`TIKOCI_HOME` is relocated while another context holds resources** | The host registry is derived from the home directory, so claims made under the old root stay visible and are respected. Durable claims stay valid while their state paths exist. Running processes keep the paths they started with. The new root has no instance records: projects appear as new instances until the user migrates the old root (an explicit command that refuses while claims are live) or trusts them again. |
-| **centrs, quickchr and muse use one `edge1`** | `inventory/edge1.toml` is the only list: `[device]` (house), `[quickchr]` (how to realize it as a CHR), `[expect]` (muse's drift check). quickchr realizes it and records the realization by (instance, `edge1`). centrs resolves `edge1` within the project: for a lab it asks quickchr's library (passing its env) for the endpoint and generated credentials; for a real device it uses the credential binding. muse lists devices from intent and status from the tools. Each writes only its own table; muse's `devices.toml` is a generated mirror. |
+| **centrs, quickchr and muse use one `edge1`** | `.tikoci/devices/edge1.toml` is the only definition: `[device]` (house), `[quickchr]` (how to realize it as a CHR), `[expect]` (muse's drift check). quickchr realizes it and records the realization by (instance, `edge1`). centrs resolves `edge1` within the project: for a lab it asks quickchr's library (passing its env) for the endpoint and generated credentials; for a real device it uses the credential binding. muse lists devices from intent and status from the tools. Each writes only its own table, and any device list muse shows is a generated mirror. |
 
 ## Open for this round
 
-- **Pins**: in `project.toml` (house) or in muse's `workspace.toml`, with the
-  other referring to it. This page proposes `project.toml`.
-- **centrs' inventory.** The constitution says the CDB is the only durable
-  inventory. Here the inventory is intent and the CDB becomes the binding
-  store (addresses for real devices, credentials, per-device options), still
-  one store per run. Whether that store lives in the user root per instance,
-  or may stay in a checkout under trust, is centrs' call.
-- **quickchr's names.** Instance-keyed realizations replace one name set per
-  user only inside projects; machines outside a project keep today's flat
-  names. No migration is proposed now.
+- **centrs' constitution.** The direction is settled (see Device sources):
+  the CDB is one source and the binding store, not the only inventory. How
+  and when the constitution says so, and whether a project's binding store
+  lives in the user root per instance or in a checkout under trust, is
+  centrs' call.
+- **quickchr's long-term scheme.** Machines a project defines are named per
+  project instance (the Identity section), so quickchr gains a
+  project-level scheme, and today's flat names become the project-less
+  scope. Still open: where a project's machine disks live (proposed: the
+  user root, indexed by instance, since checkouts are content and can be
+  synced), and when quickchr adopts it. No migration is proposed now.
+- **The manifest's name**: `project.toml` here; `workspace.toml` was the
+  other candidate, but muse already uses that name for something else.
 - **The registry default** (`<home>/.tikoci/host`), and whether a supplied env
   with no home directory may reserve anything (proposed: no, it fails).
 - **Reserved names** in the user root: `cache`, `run`, `host` and `instances`
