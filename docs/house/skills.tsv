@@ -1,6 +1,6 @@
 skill	phase	scope	topics	absorbs	rows
 tikoci-house	1	How house skills are adopted and excepted; AGENTS.md as the entry file with CLAUDE.md importing it; one home per rule; instruction precedence; .scratch/; pointer to operator-local notes.	skills-convention, agent-instructions, scratch-dir, local-machine, other:agent-permissions	tikoci-skill-convention	44
-tikoci-home	2	Where tikoci tools keep config, secrets, state, caches and runtime files (TIKOCI_HOME, workspace .tikoci/), resolution and the test-isolation contract.	tool-paths	-	1
+tikoci-home	2	Where tikoci tools keep config, secrets, state, caches and runtime files (TIKOCI_HOME, workspace .tikoci/), resolution and the test-isolation contract.	tool-paths	-	5
 tikoci-toolchain	3	Bun at a pinned version, upgraded promptly; Python only by decision via uv/uvx; Make vs package scripts; portable POSIX shell; language choice.	runtime-bun, runtime-python, runtime-node-compat, other:language-choice, other:task-runner, other:makefile, other:make-vs-package-scripts, other:posix-shell, other:virtualization, other:download-cache	-	20
 tikoci-grounding	3	Real RouterOS is the source of truth; reproduce before concluding; no skip-to-green; done means the exercising test ran; look up current docs instead of guessing.	grounding, done-definition, other:docs-lookup	-	26
 tikoci-testing	3	Test tiers (unit, smoke, integration, nightly), anchor tests, tests that can fail, hermetic test environments.	testing-tiers, testing-isolation	-	18

@@ -30,7 +30,8 @@ const TOP_LEVEL_FILES = new Set(["README.md", ".markdownlint.yaml"]);
 const OPERATOR_LOCAL: [RegExp, string][] = [
     [/\/(?:Users|home)\/[A-Za-z0-9._-]+/, "absolute home directory path"],
     [/\b[A-Za-z]:\\Users\\/, "Windows home directory path"],
-    [/\b[a-z0-9-]+\.(?:local|lan|ts\.net)\b/i, "local host name"],
+    // A following extension makes it a file name (centrs.local.env, settings.local.json), not a host.
+    [/\b[a-z0-9-]+\.(?:local|lan|ts\.net)\b(?!\.[a-z])/i, "local host name"],
 ];
 
 export interface Skill {
