@@ -25,8 +25,8 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     // Only syntax TypeScript can erase: no enum, namespace or parameter
-    // properties. The code is JavaScript plus types (Node's type stripping
-    // runs it too); use a union of literals or an `as const` object instead.
+    // properties. The code is JavaScript plus types; use a union of literals
+    // or an `as const` object instead.
     "erasableSyntaxOnly": true,
 
     // Off on purpose:
@@ -38,5 +38,5 @@
     //   useLiteralKeys and adds churn, not safety.
     "noPropertyAccessFromIndexSignature": false
   },
-  "include": ["src", "test", "scripts", "*.ts"]
+  "include": ["src", "test", "scripts", "examples", "*.ts"]
 }

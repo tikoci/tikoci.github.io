@@ -42,7 +42,7 @@ patterns are in [references/patterns.md](references/patterns.md).
 | Smoke integration | QEMU and a CHR via quickchr | every code PR, `stable` channel | the core paths: does the CLI and library generally work against a real router |
 | Full sweep | as above | nightly when something changed, and before a release | every active RouterOS channel, the repeat counts and options that are too slow per PR |
 | Dispatch | expensive hosts or long boots | `workflow_dispatch` from any branch | cross-platform QA, architecture contrasts, VM boot suites |
-| Lab | anything | by hand, never in CI | semi-durable experiments with a `REPORT.md`, rerun to recheck an assumption |
+| Lab | anything | by hand, or a non-gating dispatch job; never a gate | semi-durable experiments with a `REPORT.md`, rerun to recheck an assumption |
 
 Docs-only changes run the repo checks, not the integration tier. A repo
 without device behavior has only the unit tier, and that is complete.

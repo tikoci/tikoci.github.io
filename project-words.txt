@@ -14,6 +14,7 @@ commondir
 crossref
 cwd
 Dockerfiles
+edk # edk2, the UEFI firmware QEMU boots, https://github.com/tianocore/edk2
 efi
 frontmatter
 gitdir
@@ -35,6 +36,7 @@ NUL
 ONESHELL # GNU make special target: one shell per recipe
 Pico # Pico CSS, https://picocss.com
 pids
+PSScriptAnalyzer # PowerShell linter, https://github.com/PowerShell/PSScriptAnalyzer
 quickchr # CHR VMs under QEMU, https://github.com/tikoci/quickchr
 restraml # RouterOS schema tools, https://github.com/tikoci/restraml
 ros
@@ -42,9 +44,11 @@ routeros
 rsc # RouterOS script file extension
 rskills
 sandboxed
+secretlint # secret scanner, https://github.com/secretlint/secretlint
 shellcheck # shell script linter, https://www.shellcheck.net/
 SHELLFLAGS # GNU make variable: flags for the recipe shell
 SNMP
+socat # relays sockets and serial ports, http://www.dest-unreach.org/socat/
 strawman
 subfolders
 TCG # QEMU's software CPU emulator

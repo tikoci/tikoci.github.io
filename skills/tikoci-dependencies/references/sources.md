@@ -11,7 +11,10 @@ Planning: Phase 3 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 | --- | --- | --- |
 | Add a dependency only when needed | site-07 | |
 | Commit `bun.lock`; frozen install in CI | centrs-51, restraml-41 | |
-| Pin every action to a SHA with a version comment | quickchr-111, rskills-13, centrs-20 | Settles `action-pinning`: centrs used tags; quickchr kept `setup-node` on a tag (PR #223) so Node tracks latest, which the runtime-version rule now covers. quickchr `.github/instructions/ci.instructions.md`. |
+| Pin every action to a SHA with a version comment | quickchr-111, rskills-13, centrs-20 | Settles `action-pinning` against centrs #266, which chose tags (centrs `SECURITY.md`, `.github/codeql-config.yml` excluding `actions/unpinned-tag`, `.github/zizmor.yml` with `unpinned-uses: ref-pin`); all three change on adoption. quickchr floats the `actions/setup-node` ref itself (PR #223, "Toolchain exception" in `ci.instructions.md`, `release.yml`), which also changes on adoption. tj-actions/changed-files (March 2025) moved its tags to malicious code. |
+| 7-day Dependabot cooldown | PR #26 review | centrs turns zizmor's `dependabot-cooldown` audit off (#266, take the newest release); the review of [PR #26](https://github.com/tikoci/tikoci.github.io/pull/26) by centrs and quickchr agents recommends a cooldown. GitHub: cooldown applies to version updates only. `dependabot.example.yml` passes zizmor 1.32.0. |
+| `bun audit`; Dependabot security updates do not support Bun | - | centrs `SECURITY.md`, citing GitHub's ecosystem support table. |
+| Runtime `dependencies` hold only what runs | PR #26 review | quickchr lists `typescript` in runtime `dependencies`. |
 | Dependabot `github-actions`, weekly, grouped | quickchr-111, restraml-17 | routeros-skills and rosetta `.github/dependabot.yml`. |
 | Action pin separate from runtime version | quickchr-111 | `bun-ci-version` in the conflicts table is still open. |
 | Lockfile is the pin; Dependabot `bun` ecosystem | restraml-17 | rosetta `.github/dependabot.yml` groups both ecosystems. |

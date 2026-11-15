@@ -23,17 +23,31 @@ a package:
 | `webpack`, `esbuild`, `vite` build | `bun build` |
 | `express` | `Bun.serve` |
 | `better-sqlite3` | `bun:sqlite` |
-| `dotenv` | nothing: Bun loads `.env` |
+| `dotenv` | nothing: Bun loads `.env` (but see shipped CLIs below) |
 | `execa`, `child_process` wrappers | `Bun.$`, `Bun.spawn` |
 
+- **Publishing is the exception**: `npm publish --provenance` and
+  `npm dist-tag` need the npm CLI (`actions/setup-node` in the release
+  workflow), because provenance and dist-tags are npm registry features. The
+  release rules belong to `tikoci-release`.
+- **A shipped CLI does not read the working directory's `.env`.** Bun loads
+  `.env` from wherever it runs, so an installed tool would pick up an
+  unrelated project's settings (centrs #666). Start the bin with
+  `#!/usr/bin/env -S bun --no-env-file`; that covers direct execution, and a
+  `bun run` or `bunx` path needs the same flag.
 - **ESM only**, with the `.ts` extension in relative imports.
 - **Look up Bun APIs** in the installed `bun-types` package (its `.d.ts` files
   and docs) or Bun's current docs, not from memory: Bun moves fast.
 - **`Bun.*` is fine** in tests, CI scripts and tools, even in a repo whose
   shipped code must also run on Node.
+- **A published package is Bun-only by default**: it ships its `.ts` source
+  (`main` or `bin` pointing at `src/`), sets `engines.bun`, and its README
+  says Bun is required (quickchr, centrs). Node does not strip types from
+  files under `node_modules`, so such a package does not run on Node.
 - **Node only where shipped code runs on Node**: an npm package consumed by
-  Node users, a VS Code extension. Keep `Bun.*` out of that code path, say so
-  in AGENTS.md with the reason, and give it a smoke check that runs under Node
+  Node users, a VS Code extension. That package ships a JavaScript and `.d.ts`
+  build, keeps `Bun.*` out of its code path, says so in AGENTS.md with the
+  reason, and gets a smoke check that runs under Node
   (see [tikoci-testing](https://tikoci.dev/house/skills/tikoci-testing/SKILL.md)).
 - **Bun has its own bugs.** Re-measure on the current Bun before trusting a
   workaround comment: quickchr's
@@ -55,16 +69,26 @@ a package:
 - **Upgrade promptly, in its own PR**, and let the full matrix run. If it goes
   red, that PR owns the incompatibility. A newer Bun is the fix for an old-Bun
   problem; **never pin backwards** to dodge a failure.
-- **The pin is also the minimum supported Bun.** Users and fresh agent
-  sandboxes often run a newer one; some OS packages lag behind.
+- **`engines.bun` is the published floor**, and it is what users see:
+  `packageManager` never reaches a consumer. The floor may sit below the pin
+  (quickchr: `>=1.4.3` against a 1.4.4 pin, for a known 1.4.3 fix) and is
+  raised only on purpose, with a CHANGELOG entry, never as a side effect of a
+  pin bump. Users and fresh agent sandboxes often run a newer Bun; some OS
+  packages lag behind.
+- **Other copies follow the pin**: `@types/bun` at the same exact version
+  (Dependabot ignores it, so the types never describe APIs the pinned Bun
+  lacks; centrs #438), and a Dockerfile `FROM oven/bun:<version>`.
 - **Check the pin mechanically**, as part of `check`: the pin is exact (no
-  range, `latest` or `canary`) and every `setup-bun` step reads it. quickchr's
-  `scripts/check-bun-pin.ts` is the pattern, but it checks `.bun-version`;
-  adapt it to read `packageManager` when adopting.
+  range, `latest` or `canary`); every `setup-bun` step reads it, after
+  `actions/checkout`; `@types/bun` and any Dockerfile match it; and
+  `engines.bun` allows it. quickchr's `scripts/check-bun-pin.ts` is the
+  pattern, but it checks `.bun-version`; adapt it to read `packageManager`
+  when adopting.
 - **Open (`bun-ci-version`)**: how CI also meets the latest Bun is not
   settled. The direction is a `workflow_dispatch` input for the Bun version,
-  defaulting to the pin, plus a scheduled run against the latest Bun; a
-  latest-Bun job on every PR is too much.
+  defaulting to the pin, plus a scheduled run against the latest Bun (inside
+  an existing nightly sweep where there is one, report-only); a latest-Bun job
+  on every PR is too much.
 
 ## Lockfile
 
@@ -100,8 +124,10 @@ gate and the lint scripts (`tikoci-linting`), the test tiers
   point. It calls the package scripts for the JavaScript lifecycle and owns
   the rest (data pipelines, image builds, multi-step checks). Never define the
   same task in both.
-- **CI calls the same entry point a developer does**, not a copy of its steps
-  in workflow YAML, so a green local run predicts a green CI run.
+- **CI calls the same entry point a developer does** for the checks
+  themselves, not a copy of its steps in workflow YAML, so a green local run
+  predicts a green CI run. Per-OS setup (installing QEMU on macOS, Windows or
+  Linux runners) belongs in the workflow.
 - Make recipes are written as plain, idiomatic make (phony targets, pattern
   rules) and run under `/bin/sh`, which is dash on Ubuntu runners. **Each
   recipe line runs in its own shell**, so `set -eu` on one line protects
@@ -117,7 +143,13 @@ gate and the lint scripts (`tikoci-linting`), the test tiers
   with how to install it. Anything `bunx` or
   `uvx` fetches on demand needs no entry; basic POSIX tools need none.
 - **A script that needs a missing tool says which and how to get it**, and a
-  local lint run may skip that tool with a message; CI installs it.
+  local lint run may skip that tool with a message; CI installs it. A
+  `doctor`-style command that checks and reports them (`quickchr doctor`) is
+  a fine form of the list.
+- **CI records the versions of host tools it does not pin** (QEMU, socat,
+  edk2) in the job summary. They change with the runner image, which is the
+  same surprise as an unpinned Bun (quickchr #148), so a failure can be
+  traced to a tool upgrade.
 - Which machine has which tool is an operator fact, kept in local agent
   notes, not in the repo.
 
@@ -131,11 +163,13 @@ marks generated files. Start from
 ## Shell
 
 Scripts and Make recipes are POSIX `sh`, checked with `shellcheck -s sh`
-(see `tikoci-linting`). CI's `/bin/sh` is dash, and plain sh is easier to
+(see `tikoci-linting`). `/bin/sh` on Ubuntu runners is dash, and plain sh is easier to
 read and to run anywhere. A script that needs arrays, string manipulation or
 other clever shell is better written in TypeScript and run by Bun
 (`#!/usr/bin/env bun`) in a repo that already needs Bun: tsc, Biome and
-`bun test` all reach it.
+`bun test` all reach it. A tool that supports Windows ships its shell
+examples as PowerShell copies too, checked with PSScriptAnalyzer (quickchr
+`lint-powershell.yml`).
 
 - **Start with `set -eu`**, quote every expansion, and use no bashisms.
 - **Bytes portably**: octal `printf` escapes (`\101`), not `\xNN`, which dash

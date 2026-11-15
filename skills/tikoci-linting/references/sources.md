@@ -22,7 +22,7 @@ which asked for starting configs, tight types and lenient Markdown.
 | Editors read the CLI config | quickchr-042 | quickchr removed `cSpell.words` from `.vscode/settings.json`. |
 | Biome formatter off | site-07, quickchr-021, restraml-06, user-22 | Settles `biome-formatter`; centrs has it on. |
 | Findings you did not cause: one or two fixed in place, a batch split off | PR #26 review | A dozen lint fixes do not belong in a focused PR. |
-| Tight tsconfig | quickchr-025, centrs-40, PR #26 review | Starts from `bun init` (Bun 1.4.4), which quickchr, centrs and routeros-muse already use, plus `exactOptionalPropertyTypes` and `noUncheckedSideEffectImports` from TypeScript 7's `tsc --init`. Measured with TypeScript 7: `exactOptionalPropertyTypes` costs 426 errors in centrs and 175 in quickchr; `erasableSyntaxOnly` 10 and 3; `noPropertyAccessFromIndexSignature` 778 in quickchr (centrs has it on). |
+| Tight tsconfig | quickchr-025, centrs-40, PR #26 review | Starts from `bun init` (Bun 1.4.4), which quickchr, centrs and routeros-muse already use, plus `exactOptionalPropertyTypes` and `noUncheckedSideEffectImports` from TypeScript 7's `tsc --init`. Measured with TypeScript 7: `exactOptionalPropertyTypes` costs 426 errors in centrs and 175 in quickchr (174 with TypeScript 5.9.3, 55 of them in quickchr's public `QuickCHR` options, so its adoption PR changes exported types); `erasableSyntaxOnly` 10 and 3; `noPropertyAccessFromIndexSignature` 778 in quickchr (centrs has it on). |
 | `noExplicitAny` and `noNonNullAssertion` errors in shipped code, off in tests; warnings fail the gate | PR #26 review | Biome 2.6 reports both as warnings by default, and `biome lint` exits 0 on warnings without `--error-on-warnings`. |
 | tsc wins; versions in step | centrs-40 | centrs and routeros-muse turn off `useLiteralKeys` for `noPropertyAccessFromIndexSignature`. |
 | `biome.jsonc` with reasons as comments | user-108, PR #26 review | Replaces "biome.json is plain JSON, reasons elsewhere". |
@@ -37,7 +37,11 @@ which asked for starting configs, tight types and lenient Markdown.
 | Fix typos and malformed Markdown, never add them | rskills-04, quickchr-042, centrs-22 | |
 | `ignoreWords` for non-vocabulary | quickchr-042 | |
 | actionlint | rskills-03, restraml-17 | |
-| zizmor reported, gated after triage | quickchr-111 | quickchr #228; centrs runs it in `codeql.yaml` as alerts. |
+| zizmor reported, gated after triage | quickchr-111 | centrs runs it in `codeql.yaml` as alerts. quickchr does not run zizmor or actionlint yet; #228 (triage before gating) is open. |
+| PSScriptAnalyzer for PowerShell examples | - | quickchr `lint-powershell.yml`, from the centrs and quickchr review of [PR #26](https://github.com/tikoci/tikoci.github.io/pull/26#issuecomment-6901659551). |
+| Generated files have a `--check` mode in the gate | - | centrs `lint:ci` (`docs:cli:check`, census README `--check`), from the centrs and quickchr review of [PR #26](https://github.com/tikoci/tikoci.github.io/pull/26#issuecomment-6901659551). |
+| Secret scanning with push protection; secretlint optional | - | centrs `SECURITY.md` and `lint:ci`; the setting is `tikoci-github`'s. |
+| cspell on Markdown and shipped source | - | centrs runs cspell over the whole tree, from the centrs and quickchr review of [PR #26](https://github.com/tikoci/tikoci.github.io/pull/26#issuecomment-6901659551). |
 | shellcheck `-s sh`; clever logic moves to a Bun script | quickchr-046, quickchr-049, PR #26 review | quickchr `scripts/lint-shell.sh`. |
 | hadolint | - | Planned in #21; no surveyed repo runs it yet. |
 | Description budget for copied skills | - | Phase 1 notes in #21; `scripts/check-skills.ts` here. |

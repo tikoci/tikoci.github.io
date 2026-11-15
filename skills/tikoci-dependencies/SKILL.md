@@ -34,20 +34,20 @@ and the other tikoci tools. The Bun pin itself is in `tikoci-toolchain`.
   as part of the repo's own diff.
 - **Pinning needs Dependabot.** Enable the `github-actions` ecosystem
   (weekly, grouped into one PR) before or with the pins; without it, pinned
-  actions silently freeze.
-
-  ```yaml
-  # .github/dependabot.yml
-  version: 2
-  updates:
-    - package-ecosystem: github-actions
-      directory: /
-      schedule:
-        interval: weekly
-      groups:
-        github-actions:
-          patterns: ["*"]
-  ```
+  actions silently freeze. Start from
+  [dependabot.example.yml](assets/dependabot.example.yml).
+- **Why SHA pins, not tags.** centrs chose tags (centrs #266, its
+  `SECURITY.md`): a tag picks up an action's security fix on the next run,
+  while a SHA waits for a bot. The house takes the other side, because a tag
+  can also be moved to malicious code with no diff to review (the tj-actions
+  compromise did exactly that), and Dependabot brings the fix within a week,
+  or at once through a security update. centrs and quickchr's floating
+  `actions/setup-node` change on adoption.
+- **A 7-day cooldown** on version updates, for both ecosystems, so a
+  compromised release is usually found and pulled before Dependabot proposes
+  it. A SHA pin protects against a moved tag, not a bad release. The cooldown
+  does not delay security updates, and zizmor's `dependabot-cooldown` audit
+  expects it.
 
 - **An action's pin is not its runtime's version.** Pinning
   `actions/setup-node` or `oven-sh/setup-bun` fixes the action's code only.
@@ -63,10 +63,22 @@ and the other tikoci tools. The Bun pin itself is in `tikoci-toolchain`.
   resolve them in their own tree and never see this repo's `bun.lock`. Keep
   the `dependencies` ranges of a published package to versions it is tested
   with.
-- **Dependabot's `bun` ecosystem**, grouped and weekly, keeps packages from
-  rotting; a repo may skip it and update by hand on a schedule it states.
+- **Dependabot's `bun` ecosystem**, grouped, weekly and with the cooldown,
+  keeps packages from rotting; a repo may skip it and update by hand on a
+  schedule it states. It ignores `@types/bun`, which moves with the Bun pin
+  (`tikoci-toolchain`).
+- **`bun audit` is the vulnerability check.** Dependabot security updates do
+  not support Bun, so version updates alone miss advisories. Run `bun audit`
+  on a schedule or in CI, and fix findings with a reviewed lockfile upgrade.
 - **Upgrade dev tools on purpose.** A new Biome, TypeScript or cspell version
   can bring new lint findings; land the upgrade with its fixes.
+
+## Publishing
+
+The publishing side (provenance, moving `next` along with `latest`, refusing
+a version that is already published, the CHANGELOG) belongs to
+`tikoci-release`. A published package's `dependencies` hold only what runs:
+a build or type tool there installs into every consumer.
 
 ## Sibling tikoci packages
 

@@ -20,6 +20,7 @@ gate is in `tikoci-ci`.
 | Workflow YAML | actionlint | none needed |
 | Workflow security | zizmor | none needed |
 | Shell scripts | `shellcheck -s sh` | none needed |
+| PowerShell examples | PSScriptAnalyzer | none needed |
 | Dockerfiles | hadolint | none needed |
 | Skills and descriptions | a SKILL.md check with a description budget | this repo's script |
 | Editor extensions | VS Code | [vscode-extensions.example.json](assets/vscode-extensions.example.json) |
@@ -54,6 +55,12 @@ file. How to silence one finding, per tool, is in
   a RouterOS repo adds `tikoci.tikbook`.
 - **Output stays short**, so an agent can read the failure without losing its
   context.
+- **Every generated file has a `--check` mode** (regenerate in memory, fail
+  on a difference), and the gate runs it, so committed output cannot drift
+  from its source (centrs `docs:cli:check`).
+- **Secrets are caught by GitHub secret scanning with push protection**, a
+  repository setting (`tikoci-github`). A repo that handles credentials in
+  files may add secretlint to the gate, as centrs does.
 
 ## Findings you did not cause
 
@@ -92,7 +99,9 @@ the stricter checks TypeScript's own `tsc --init` turns on):
   `complexity/useLiteralKeys`, rather than dropping the type check.
 - **An existing repo adopts a stricter flag in its own PR**, with the fixes
   (`exactOptionalPropertyTypes` alone is hundreds of edits in a large repo).
-  Until then the gap is a House exception.
+  Until then the gap is a House exception. When the fixes change exported
+  types (quickchr's public options), that PR carries a CHANGELOG entry and a
+  type check of a consuming repo.
 
 ## Lint: Biome
 
@@ -130,8 +139,9 @@ a cost with no benefit. From
   (`<details>`, `<abbr>`, `<kbd>`, `<sub>`), tables, and Mermaid diagrams,
   when they add meaning or density. Agent-facing files (AGENTS.md, skills)
   stay plain Markdown, since agents read the source.
-- **Lint AGENTS.md and the repo's own skills**: broken structure there
-  misleads agents. Ignore `CLAUDE.md` (one import line), house skills copied
+- **Lint AGENTS.md, the repo's own skills and every human doc that ships**
+  (README, DESIGN.md, MANUAL.md in an npm package): broken structure there
+  misleads agents and users. Ignore `CLAUDE.md` (one import line), house skills copied
   unchanged into `.agents/skills/` (linted at the source, and a fix would
   break the copy), generated docs, fixtures, and `.github/instructions/` until
   the repo retires it.
@@ -142,13 +152,18 @@ a cost with no benefit. From
 
 - **The dictionary is `project-words.txt`**, referenced from `cspell.json`
   with `addWords: true` so the editor's "Add to dictionary" writes there.
-  [cspell.example.json](assets/cspell.example.json) checks Markdown and skips
-  copied house skills, whose words the repo's dictionary does not have.
+  [cspell.example.json](assets/cspell.example.json) checks Markdown and
+  shipped source (`src/**/*.ts`), where error messages, CLI help and JSON keys
+  live, the text users actually read; identifiers cost a few dictionary
+  entries. It skips copied house skills, whose words the repo's dictionary
+  does not have.
 - **Real vocabulary only**: RouterOS, networking, QEMU and tikoci terms. **A
   typo is fixed in the source, never added.**
 - **One word per line, sorted case-insensitively**, so additions land in
   different places and merge cleanly. Check it in the lint gate:
-  `grep -v '^#' project-words.txt | LC_ALL=C sort -c -f -u`.
+  `grep -v -e '^#' -e '^$' project-words.txt | LC_ALL=C sort -c -f -u`.
+  A repo with longer definitions (centrs `GLOSSARY.txt`) keeps them in a
+  glossary doc and leaves a short note here.
 - **A word that is not obvious says what it is on the same line**, after
   ` # ` (cspell ignores the rest of the line): what it is and, for a tool or
   repo, its URL. See
@@ -163,8 +178,9 @@ a cost with no benefit. From
 
 - **actionlint** checks workflow YAML and gates.
 - **zizmor** audits workflow security (`uvx zizmor --offline .` locally). Run
-  it and report its findings, through code scanning or the job log; gate on it
-  once the existing findings are triaged, as quickchr and centrs are doing.
+  it and report its findings, through code scanning or the job log, as centrs
+  does in `codeql.yaml`; gate on it once the existing findings are triaged
+  (quickchr plans this in #228 but does not run it yet).
 - **shellcheck -s sh --severity=warning** on every shell script and example.
   Scripts are POSIX sh (CI's `/bin/sh` is dash). Logic that wants Bash
   features is a sign the script should be TypeScript run by Bun
