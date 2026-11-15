@@ -81,6 +81,12 @@ export interface TikociPaths {
      * the worktree's own traveling files are read as the main checkout's are.
      */
     localProject: string | null;
+    /**
+     * The project's default label for qualified names (profile names):
+     * deriveLabel() of localProject's directory name, so a git worktree has its
+     * main checkout's label. Null with no project or nothing usable to derive.
+     */
+    defaultLabel: string | null;
     /** localProject/.tikoci/tool/local: files that never travel; read only through checkProject(). */
     projectLocalDir: string | null;
     /** .tikoci/ directories the walk passed over (a symlink, another user's), to report rather than skip silently. */
@@ -481,6 +487,7 @@ export function resolveTikociPaths(tool: string, options: ResolveOptions = {}): 
         project,
         projectToolDir,
         localProject,
+        defaultLabel: localProject ? deriveLabel(path.basename(localProject)) : null,
         projectLocalDir: localProject ? path.join(localProject, ".tikoci", tool, "local") : null,
         skipped,
         mainProject,

@@ -74,6 +74,18 @@ Each is the adopting repo's call; the house rule only says what must hold.
   (quickchr#256). The host scope is also where quickchr#56 lands. Then
   `names`, since `user:NAME` works before projects exist. Then `project`,
   `project-data` and `per-checkout`, when a real lab needs them.
+- **centrs' profile order** (third centrs review). First `user` and
+  `sandbox`, which fix bugs centrs has today: integration tests reading the
+  developer's real CDB ([centrs#654](https://github.com/tikoci/centrs/issues/654))
+  and the installed CLI loading a working directory's `.env`
+  ([centrs#666](https://github.com/tikoci/centrs/issues/666)). Then
+  `project` and `project-data` together, as the MATRIX Workspace theme, after
+  the constitution changes listed in [settings.md](settings.md); centrs never
+  ships `project` alone, since everything it would read from a project is
+  project data. `names` comes with them, because `user:NAME` only matters
+  once a project CDB can hide the user's. `cache` when the SNMP theme brings
+  the MIB cache. Not `host` or `per-checkout`: centrs claims no host resource
+  and realizes nothing per checkout.
 - **quickchr machine sockets move to `run/`.** The first review kept them in
   the machine directory. With project machines under
   `projects/ID/machines/NAME/`, that path has no bounded length (about 128

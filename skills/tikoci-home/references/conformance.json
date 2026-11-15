@@ -9,7 +9,7 @@
     "project": ["user"],
     "project-data": ["project"],
     "per-checkout": ["project-data", "host"],
-    "names": []
+    "names": ["user"]
   },
   "fields": {
     "sandboxed": "sandbox",
@@ -33,7 +33,8 @@
     "sources.runtime": "user",
     "sources.cache": "cache",
     "sources.project": "project",
-    "sources.localProject": "project-data"
+    "sources.localProject": "project-data",
+    "defaultLabel": "names"
   },
   "labels": [
     { "input": "lab", "expect": "lab" },
@@ -321,6 +322,20 @@
       "env": { "HOME": "{root}/user" },
       "cwd": "{root}/user/lab/fix",
       "expect": { "project": "{root}/user/lab", "mainProject": null }
+    },
+    {
+      "name": "a git worktree's default label is its main checkout's, not the worktree directory's",
+      "profiles": ["project-data", "names"],
+      "tool": "centrs",
+      "tree": [
+        "user/src/RouterOS_Lab/.tikoci/centrs/local/",
+        { "file": "user/src/RouterOS_Lab/.git/worktrees/t3-6eb9a36a/commondir", "text": "../..\n" },
+        "user/.t3/worktrees/RouterOS_Lab/t3-6eb9a36a/.tikoci/centrs/",
+        { "file": "user/.t3/worktrees/RouterOS_Lab/t3-6eb9a36a/.git", "text": "gitdir: {root}/user/src/RouterOS_Lab/.git/worktrees/t3-6eb9a36a\n" }
+      ],
+      "env": { "HOME": "{root}/user" },
+      "cwd": "{root}/user/.t3/worktrees/RouterOS_Lab/t3-6eb9a36a",
+      "expect": { "localProject": "{root}/user/src/RouterOS_Lab", "defaultLabel": "routeros-lab" }
     },
     {
       "name": "a nested .tikoci/ that is not a worktree is its own project and never inherits",

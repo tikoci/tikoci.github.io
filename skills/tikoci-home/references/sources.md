@@ -18,6 +18,7 @@ Planning: Phase 2 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 | Walk stops at a worktree root before its own main checkout; main checkout's project reported | fourth quickchr review and third centrs review on 3fae699 | A name in both CDBs would otherwise reach the user's device silently. |
 | A reused checkout path is not an instance key; prune releases claims | fourth quickchr review on 3fae699 | |
 | "Holds data" from traveling files (`.tikoci/<tool>/` exists by default) | fourth quickchr review and third centrs review on 3fae699 | Closes a fresh clone silently using the user CDB. |
+| One section per profile; open decisions listed once; a worktree's label is its main checkout's (`defaultLabel`) | maintainer and third centrs review on 53d2fbd | Reorganization only, apart from the label rule: a harness's worktree directory (`t3-6eb9a36a`) is not the project's name. |
 | `local/.gitignore` with `*` | third centrs review on 3fae699, reproduced with git (branch switch leaves `local/` untracked) | The tracked `.tikoci/<tool>/.gitignore` is per branch. |
 | No XDG; same path on Linux and macOS | rosetta DESIGN.md ("same path on all OSes, visible and predictable") | quickchr and centrs half-follow XDG today. |
 | `%LOCALAPPDATA%` on Windows | quickchr `getDataDir`, quickchr-120 | quickchr already keeps multi-gigabyte data there. |
