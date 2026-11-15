@@ -87,6 +87,9 @@ test.each([
     ["a real Biome config", { "assets/biome.jsonc": "{}\n" }, "assets/biome.jsonc: tools pick up this name"],
     ["a real markdownlint config", { "assets/.markdownlint-cli2.yaml": "config: {}\n" }, "name it *.example.*"],
     ["a real tsconfig", { "assets/tsconfig.json": "{}\n" }, "name it *.example.*"],
+    ["a cspell YAML config", { "assets/cspell.yaml": "words: []\n" }, "name it *.example.*"],
+    ["a dotted cspell config", { "assets/.cspell.config.json": "{}\n" }, "name it *.example.*"],
+    ["a mixed-case cspell config", { "assets/cSpell.json": "{}\n" }, "name it *.example.*"],
 ])("rejects %s", (_, files, message) => {
     expect(errorsFor(files)).toContain(message);
 });

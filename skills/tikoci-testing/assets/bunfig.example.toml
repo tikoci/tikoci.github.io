@@ -1,8 +1,8 @@
 # tikoci starting bunfig.toml for tests. Save as bunfig.toml. See tikoci-testing.
 
 [test]
-# Hermetic setup that every test file needs (a sandboxed HOME, fixtures).
-# Delete the line if the repo has none.
+# Hermetic setup that every test file needs (TIKOCI_SANDBOX, fixtures).
+# Keep the real HOME; see tikoci-testing. Delete the line if the repo has none.
 preload = ["./test/preload.ts"]
 
 # Coverage is collected only when asked (`bun test --coverage`, which CI

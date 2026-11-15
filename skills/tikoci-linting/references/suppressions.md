@@ -122,12 +122,16 @@ Full syntax: [actionlint configuration](https://github.com/rhysd/actionlint/blob
 ## zizmor
 
 ```yaml
-run: | # zizmor: ignore[template-injection] title is only echoed to the log
-  echo "${{ github.event.issue.title }}"
+container:
+  image: ghcr.io/tikoci/example:latest # zizmor: ignore[unpinned-images] the nightly job tests the newest image on purpose
 ```
 
 - `# zizmor: ignore[<audit>] reason` as a YAML comment on the finding's line
   (several audits separated by commas).
+- **Never suppress `template-injection`.** GitHub expands `${{ }}` before the
+  shell runs, so quoting does not help. Pass the value through `env:` and
+  quote the shell variable instead
+  ([GitHub's guidance](https://docs.github.com/en/actions/concepts/security/script-injections)).
 - Config: `zizmor.yml` with `rules.<audit>.ignore`, listing `file.yml`,
   `file.yml:line` or `file.yml:line:column`.
 

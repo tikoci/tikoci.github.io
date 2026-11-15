@@ -28,7 +28,14 @@ const SKILL_ENTRIES = new Set(["SKILL.md", "references", "scripts", "assets"]);
  * .agents/skills/ they would reconfigure the consumer's repo (Biome refuses a
  * nested root biome.json), so example configs are named *.example.*.
  */
-const DISCOVERED_CONFIG = /^(?:biome\.jsonc?|tsconfig\.json|jsconfig\.json|package\.json|bunfig\.toml|\.?cspell\.jsonc?|cspell\.config\.\w+|\.markdownlint(?:-cli2)?\.\w+|\.editorconfig|\.gitignore|\.gitattributes|\.shellcheckrc)$/;
+const DISCOVERED_CONFIG = [
+    /^\.?cspell(?:\.config)?\.(?:jsonc?|ya?ml|toml|[cm]?[jt]s)$/i, // cspell also reads legacy cSpell.json
+    /^\.?biome\.jsonc?$/,
+    /^(?:tsconfig|jsconfig|package)\.json$/,
+    /^bunfig\.toml$/,
+    /^\.markdownlint(?:-cli2)?\.\w+$/,
+    /^\.(?:editorconfig|gitignore|gitattributes|shellcheckrc)$/,
+];
 /** Files in skills/ that are not skills. */
 const TOP_LEVEL_FILES = new Set(["README.md", ".markdownlint.yaml"]);
 
@@ -102,7 +109,8 @@ function checkSkill(dir: string, entry: string, fail: (message: string) => void)
     const files = listFiles(dir, link => fail(`${toRelative(link)}: symlinks are not allowed; copies and published skills need real files`))
         .map(toRelative).sort();
     for (const file of files) {
-        if (DISCOVERED_CONFIG.test(file.split("/").pop() ?? "")) {
+        const name = file.split("/").pop() ?? "";
+        if (DISCOVERED_CONFIG.some(pattern => pattern.test(name))) {
             fail(`${file}: tools pick up this name in a copied skill; name it *.example.* (biome.example.jsonc)`);
         }
         checkFile(dir, file, fail);
