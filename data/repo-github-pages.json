@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-02T19:42:50.020Z",
+  "generatedAt": "2026-11-15T11:31:04.537Z",
   "generatedBy": "scripts/repo-github-pages.ts (weekly/manual — bun run survey:pages)",
   "collection": {
     "mode": "manual",
@@ -8,11 +8,11 @@
     "note": "Durable public-repository survey under data/. Refreshed weekly and manually. Pages settings remain token-scoped; inaccessible settings can return 404."
   },
   "budgets": {
-    "githubApiCalls": 53,
-    "otherHttpCalls": 32,
+    "githubApiCalls": 56,
+    "otherHttpCalls": 34,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4828
+    "rateLimitRemaining": 4582
   },
   "sources": {
     "pagesApi": "GET repos/{owner}/{repo}/pages (404 = off; 401/403 = unknown)",
@@ -24,8 +24,8 @@
     "repos": [
       ".github",
       "adventure",
+      "app-t3code",
       "bench-routeros-tools",
-      "bun-declare-call-erasure-repro",
       "centrs",
       "chr-armed",
       "chr-utm",
@@ -48,6 +48,7 @@
       "quickchr",
       "restraml",
       "rosetta",
+      "routeros-muse",
       "routeros-skills",
       "serial2http",
       "tikoci.github.io",
@@ -57,8 +58,8 @@
       "wargames",
       "winbox-deb"
     ],
-    "withPages": 10,
-    "note": "34 org repos surveyed; 10 with Pages. The plausible block exists only where a sweep ran (live sites); truncated flags cap-cut sweeps."
+    "withPages": 11,
+    "note": "35 org repos surveyed; 11 with Pages. The plausible block exists only where a sweep ran (live sites); truncated flags cap-cut sweeps."
   },
   "repos": {
     ".github": {
@@ -71,13 +72,36 @@
       "hasPages": false,
       "state": "ok"
     },
+    "app-t3code": {
+      "name": "app-t3code",
+      "hasPages": true,
+      "state": "ok",
+      "buildType": "workflow",
+      "source": {
+        "branch": "main",
+        "path": "/"
+      },
+      "htmlUrl": "https://tikoci.dev/app-t3code/",
+      "status": null,
+      "cname": null,
+      "custom404": false,
+      "httpsEnforced": true,
+      "public": true,
+      "serve": {
+        "kind": "repo-as-web",
+        "root": 404,
+        "title": "Page not found · GitHub Pages",
+        "probeFile": "/README.md"
+      },
+      "latestDeploy": {
+        "at": "2026-11-11T03:18:26Z",
+        "ref": "main",
+        "sha": "037158b",
+        "state": "success"
+      }
+    },
     "bench-routeros-tools": {
       "name": "bench-routeros-tools",
-      "hasPages": false,
-      "state": "ok"
-    },
-    "bun-declare-call-erasure-repro": {
-      "name": "bun-declare-call-erasure-repro",
       "hasPages": false,
       "state": "ok"
     },
@@ -103,9 +127,9 @@
         "probeFile": null
       },
       "latestDeploy": {
-        "at": "2026-11-02T18:36:56Z",
+        "at": "2026-11-14T00:36:14Z",
         "ref": "main",
-        "sha": "8f576ac",
+        "sha": "6a69595",
         "state": "success"
       },
       "plausible": {
@@ -165,9 +189,9 @@
         "probeFile": null
       },
       "latestDeploy": {
-        "at": "2026-10-29T21:10:35Z",
+        "at": "2026-11-04T15:08:04Z",
         "ref": "main",
-        "sha": "03619b9",
+        "sha": "2586a6a",
         "state": "success"
       },
       "plausible": {
@@ -355,9 +379,9 @@
         "probeFile": null
       },
       "latestDeploy": {
-        "at": "2026-11-02T13:12:22Z",
+        "at": "2026-11-03T11:54:31Z",
         "ref": "(legacy build)",
-        "sha": "433d1c1",
+        "sha": "0e476ce",
         "state": "built"
       },
       "plausible": {
@@ -395,6 +419,11 @@
       "hasPages": false,
       "state": "ok"
     },
+    "routeros-muse": {
+      "name": "routeros-muse",
+      "hasPages": false,
+      "state": "ok"
+    },
     "routeros-skills": {
       "name": "routeros-skills",
       "hasPages": false,
@@ -427,10 +456,10 @@
         "probeFile": null
       },
       "latestDeploy": {
-        "at": "2026-11-02T18:27:13Z",
+        "at": "2026-11-15T11:30:22Z",
         "ref": "main",
-        "sha": "1004eb7",
-        "state": "success"
+        "sha": "b3fc2cb",
+        "state": "in_progress"
       },
       "plausible": {
         "present": true,
@@ -601,12 +630,13 @@
       "rule": "pages-repo-as-web",
       "severity": "info",
       "repos": [
+        "app-t3code",
         "netinstall",
         "traefik-wabt",
         "traefik-wasm-grain",
         "vscode-tikbook"
       ],
-      "summary": "4 repos use the repo-as-web pattern (root 404, files serve)",
+      "summary": "5 repos use the repo-as-web pattern (root 404, files serve)",
       "detail": "These repos publish their whole tree as the Pages artifact (upload-pages-artifact path '.'). No index.html at root, so / 404s while individual files serve with 200. Deliberate pattern, recorded so the root-404 is not misread as breakage."
     }
   ]

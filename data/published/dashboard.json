@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-15T11:02:37.814Z",
+  "generatedAt": "2026-11-15T11:30:50.724Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,7 +10,7 @@
     "otherHttpCalls": 11,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4837
+    "rateLimitRemaining": 4638
   },
   "sources": {
     "ros-current": "https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel> (MikroTik upgrade feed; body \"<version> <build-ts>\")",

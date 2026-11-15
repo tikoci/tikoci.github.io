@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "observedAt": "2026-11-02T19:42:50.020Z",
-  "attemptedAt": "2026-11-08T10:47:29.666Z",
-  "error": "Pages collection failed; retaining last successful public inventory",
+  "observedAt": "2026-11-15T11:31:04.537Z",
+  "attemptedAt": "2026-11-15T11:31:00.252Z",
+  "error": null,
   "provenance": {
     "collector": "scripts/repo-github-pages.ts",
     "scope": "Anonymous public repository allowlist; Pages settings may be token-scoped",
@@ -30,16 +30,21 @@
       "serve": null,
       "plausible": null
     },
-    "bench-routeros-tools": {
-      "name": "bench-routeros-tools",
-      "hasPages": false,
+    "app-t3code": {
+      "name": "app-t3code",
+      "hasPages": true,
       "state": "ok",
-      "htmlUrl": null,
-      "serve": null,
+      "htmlUrl": "https://tikoci.dev/app-t3code/",
+      "serve": {
+        "kind": "repo-as-web",
+        "root": 404,
+        "title": "Page not found · GitHub Pages",
+        "probeFile": "/README.md"
+      },
       "plausible": null
     },
-    "bun-declare-call-erasure-repro": {
-      "name": "bun-declare-call-erasure-repro",
+    "bench-routeros-tools": {
+      "name": "bench-routeros-tools",
       "hasPages": false,
       "state": "ok",
       "htmlUrl": null,
@@ -313,6 +318,14 @@
     },
     "rosetta": {
       "name": "rosetta",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
+      "plausible": null
+    },
+    "routeros-muse": {
+      "name": "routeros-muse",
       "hasPages": false,
       "state": "ok",
       "htmlUrl": null,
