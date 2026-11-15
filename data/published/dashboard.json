@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-15T02:44:44.378Z",
+  "generatedAt": "2026-11-15T11:02:37.814Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,7 +10,7 @@
     "otherHttpCalls": 11,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4826
+    "rateLimitRemaining": 4837
   },
   "sources": {
     "ros-current": "https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel> (MikroTik upgrade feed; body \"<version> <build-ts>\")",
@@ -662,9 +662,9 @@
             "headBranch": "main",
             "headSha": "acd6566c090b9b8060a6bec849e8ad2ca8db5380",
             "event": "schedule",
-            "runStartedAt": "2026-11-14T05:22:12Z",
-            "lastUpdatedAt": "2026-11-14T05:22:27Z",
-            "lastUrl": "https://github.com/tikoci/fat-chr/actions/runs/43561199553",
+            "runStartedAt": "2026-11-15T05:18:11Z",
+            "lastUpdatedAt": "2026-11-15T05:18:26Z",
+            "lastUrl": "https://github.com/tikoci/fat-chr/actions/runs/43680489768",
             "isHead": true
           }
         ]
