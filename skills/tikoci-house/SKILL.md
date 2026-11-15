@@ -40,7 +40,8 @@ skills into repos.
   version.
 - **List them.** AGENTS.md has a short `## House skills` section naming each
   skill the repo uses and whether it is copied or referenced, so agents without
-  skill discovery still find them.
+  skill discovery still find them. A skill adopted in parts names the parts
+  it defines, e.g. `tikoci-home (copied): user, cache, sandbox`.
 - **Do not edit a copy.** A copy that drifts is no longer the house rule and
   hides the disagreement. Refresh by copying again; whether to check for
   staleness is the repo's choice.

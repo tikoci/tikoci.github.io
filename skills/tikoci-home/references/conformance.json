@@ -1,0 +1,481 @@
+{
+  "about": "Shared resolution cases for tikoci-home. An adopting repo runs these against its own resolver so every tool in a run agrees on scopes, the project and the main checkout. Each case gives a tool, an env, a working directory and, for filesystem cases, a tree to build under a fresh temporary {root} (canonical, with symlinks followed); `expect` lists the fields that must match. Tree entries: \"dir/\" makes a directory, {\"file\", \"text\"} a file, {\"link\", \"to\"} a symlink. `{root}` is replaced everywhere. Cases with `platform` need no filesystem; the others run on POSIX. Trust records are not covered: their format is open (SKILL.md). Each case lists the `profiles` it needs (SKILL.md, Adopting in profiles), and `fields` maps each checked field to the profile it belongs to: a repo runs the cases whose profiles it implements and compares only the fields of its profiles. `version` rises whenever a case's expected result changes, so a copy can tell it is stale. `targets` gives how `resolveTarget()` reads a target string (SKILL.md, Names across scopes), with the labels a tool knows and the names in each scope (`current`, `user` or a label). `labels` gives the default label `deriveLabel()` must produce for a project directory name, null meaning the user has to set one.",
+  "version": 1,
+  "profiles": {
+    "user": [],
+    "cache": ["user"],
+    "sandbox": ["user"],
+    "host": ["user"],
+    "project": ["user"],
+    "project-data": ["project"],
+    "per-checkout": ["project-data", "host"],
+    "names": ["user"]
+  },
+  "fields": {
+    "sandboxed": "sandbox",
+    "userScope": "user",
+    "toolDir": "user",
+    "runtime": "user",
+    "legacy": "user",
+    "keychain": "user",
+    "cache": "cache",
+    "evicts": "cache",
+    "hostDir": "host",
+    "hostServices": "host",
+    "project": "project",
+    "projectToolDir": "project",
+    "skipped": "project",
+    "mainProject": "project",
+    "localProject": "project-data",
+    "projectLocalDir": "project-data",
+    "sources.userScope": "user",
+    "sources.toolDir": "user",
+    "sources.runtime": "user",
+    "sources.cache": "cache",
+    "sources.project": "project",
+    "sources.localProject": "project-data",
+    "defaultLabel": "names"
+  },
+  "labels": [
+    { "input": "lab", "expect": "lab" },
+    { "input": "tikoci.github.io", "expect": "tikoci-github-io" },
+    { "input": "Lab_2", "expect": "lab-2" },
+    { "input": "2026 lab", "expect": "p-2026-lab" },
+    { "input": "--edge--lab--", "expect": "edge-lab" },
+    { "input": "Café Réseau", "expect": "cafe-reseau" },
+    { "input": "quickchr-efi-datadir", "expect": "quickchr-efi-datadir" },
+    { "input": "User", "expect": null },
+    { "input": "...", "expect": null },
+    { "input": "实验室", "expect": null },
+    { "input": "a-very-long-project-directory-name-that-goes-past-the-dns-limit-x", "expect": "a-very-long-project-directory-name-that-goes-past-the-dns-limit" },
+    { "input": "abcdefghij-abcdefghij-abcdefghij-abcdefghij-abcdefghij-abcdefg-hij", "expect": "abcdefghij-abcdefghij-abcdefghij-abcdefghij-abcdefghij-abcdefg" }
+  ],
+  "targets": [
+    { "input": "edge1", "names": { "current": ["edge1"] }, "expect": { "kind": "name", "scope": null, "name": "edge1" } },
+    { "input": "user:edge1", "names": { "user": ["edge1"] }, "expect": { "kind": "name", "scope": "user", "name": "edge1" } },
+    { "input": "user:123", "names": { "user": ["123"] }, "expect": { "kind": "name", "scope": "user", "name": "123" } },
+    { "input": "user:8728", "expect": { "kind": "name", "scope": "user", "name": "8728" } },
+    { "input": "lab:8728", "labels": ["lab"], "expect": { "kind": "name", "scope": "lab", "name": "8728" } },
+    { "input": "router:8728", "labels": ["lab"], "expect": { "kind": "address", "value": "router:8728" } },
+    { "input": "rtr.example.net:8728", "expect": { "kind": "address", "value": "rtr.example.net:8728" } },
+    { "input": "10.0.0.1:8728", "labels": ["lab"], "expect": { "kind": "address", "value": "10.0.0.1:8728" } },
+    { "input": "fe80::1", "labels": ["fe80"], "expect": { "kind": "address", "value": "fe80::1" } },
+    { "input": "[fe80::1%eth0]:8728", "expect": { "kind": "address", "value": "[fe80::1%eth0]:8728" } },
+    { "input": "aa:bb:cc:dd:ee:ff", "labels": ["aa"], "expect": { "kind": "address", "value": "aa:bb:cc:dd:ee:ff" } },
+    { "input": "https://lab:8728", "labels": ["lab"], "expect": { "kind": "address", "value": "https://lab:8728" } },
+    { "input": "core@site", "names": { "current": ["core@site"] }, "expect": { "kind": "name", "scope": null, "name": "core@site" } },
+    { "input": "lab:core", "labels": ["lab"], "names": { "current": ["lab:core"] }, "expect": { "kind": "name", "scope": null, "name": "lab:core" } },
+    { "input": "lab:core", "labels": ["lab"], "names": { "current": ["lab:core"], "lab": ["core"] }, "expect": { "kind": "ambiguous", "current": "lab:core", "scope": "lab", "name": "core" } },
+    { "input": "user:8728", "names": { "current": ["user:8728"], "user": ["8728"] }, "expect": { "kind": "ambiguous", "current": "user:8728", "scope": "user", "name": "8728" } },
+    { "input": "other:core", "labels": ["lab"], "expect": { "kind": "name", "scope": null, "name": "other:core" } }
+  ],
+  "cases": [
+    {
+      "name": "default layout on Linux and macOS",
+      "profiles": ["user"],
+      "tool": "quickchr",
+      "platform": "linux",
+      "env": { "HOME": "/u" },
+      "cwd": "/",
+      "expect": {
+        "sandboxed": false,
+        "userScope": "/u/.tikoci",
+        "toolDir": "/u/.tikoci/quickchr",
+        "cache": "/u/.tikoci/cache/quickchr",
+        "runtime": "/u/.tikoci/run/quickchr",
+        "hostDir": "/u/.tikoci/host/quickchr",
+        "project": null,
+        "evicts": true,
+        "legacy": true,
+        "keychain": true,
+        "hostServices": true,
+        "sources": { "userScope": "default", "toolDir": "default", "runtime": "default", "cache": "default", "project": "none", "localProject": "none" }
+      }
+    },
+    {
+      "name": "Windows uses LOCALAPPDATA, not the roaming profile",
+      "profiles": ["user"],
+      "tool": "centrs",
+      "platform": "win32",
+      "env": { "USERPROFILE": "C:\\Profiles\\u", "LOCALAPPDATA": "C:\\Profiles\\u\\AppData\\Local", "HOME": "/c/msys/home" },
+      "cwd": "C:\\",
+      "expect": {
+        "toolDir": "C:\\Profiles\\u\\AppData\\Local\\tikoci\\centrs",
+        "cache": "C:\\Profiles\\u\\AppData\\Local\\tikoci\\cache\\centrs",
+        "hostDir": "C:\\Profiles\\u\\AppData\\Local\\tikoci\\host\\centrs"
+      }
+    },
+    {
+      "name": "TIKOCI_HOME moves the user scope but not the host scope",
+      "profiles": ["user"],
+      "tool": "rosetta",
+      "platform": "linux",
+      "env": { "HOME": "/u", "TIKOCI_HOME": "/t/root" },
+      "cwd": "/",
+      "expect": {
+        "toolDir": "/t/root/rosetta",
+        "cache": "/t/root/cache/rosetta",
+        "runtime": "/t/root/run/rosetta",
+        "hostDir": "/u/.tikoci/host/rosetta",
+        "evicts": true,
+        "sources": { "userScope": "TIKOCI_HOME", "toolDir": "TIKOCI_HOME" }
+      }
+    },
+    {
+      "name": "a tool's own variables win over the house ones for that tool",
+      "profiles": ["user"],
+      "tool": "quickchr",
+      "platform": "linux",
+      "env": { "HOME": "/u", "QUICKCHR_HOME": "/q", "QUICKCHR_CACHE_DIR": "/qc", "CENTRS_HOME": "/c" },
+      "cwd": "/",
+      "expect": { "toolDir": "/q", "cache": "/qc", "sources": { "toolDir": "QUICKCHR_HOME", "cache": "QUICKCHR_CACHE_DIR" } }
+    },
+    {
+      "name": "a supplied env without a home has no user scope (centrs#654)",
+      "profiles": ["user"],
+      "tool": "centrs",
+      "platform": "linux",
+      "env": {},
+      "cwd": "/",
+      "expect": { "userScope": null, "toolDir": null, "cache": null, "runtime": null, "project": null, "evicts": false }
+    },
+    {
+      "name": "cache and runtime roots move independently",
+      "profiles": ["user"],
+      "tool": "quickchr",
+      "platform": "linux",
+      "env": { "HOME": "/u", "TIKOCI_HOME": "/t", "TIKOCI_CACHE_DIR": "/c", "TIKOCI_RUNTIME_DIR": "/r" },
+      "cwd": "/",
+      "expect": { "toolDir": "/t/quickchr", "cache": "/c/quickchr", "runtime": "/r/quickchr", "sources": { "cache": "TIKOCI_CACHE_DIR", "runtime": "TIKOCI_RUNTIME_DIR" } }
+    },
+    {
+      "name": "a sandbox replaces the user scope, shares the user's cache without evicting, and keeps the host scope",
+      "profiles": ["sandbox"],
+      "tool": "quickchr",
+      "platform": "linux",
+      "env": { "HOME": "/u", "TIKOCI_SANDBOX": "/s" },
+      "cwd": "/",
+      "expect": {
+        "sandboxed": true,
+        "userScope": "/s",
+        "toolDir": "/s/quickchr",
+        "runtime": "/s/run/quickchr",
+        "cache": "/u/.tikoci/cache/quickchr",
+        "hostDir": "/u/.tikoci/host/quickchr",
+        "evicts": false,
+        "legacy": false,
+        "keychain": false,
+        "hostServices": false
+      }
+    },
+    {
+      "name": "the sandbox wins over TIKOCI_HOME and the tool's home variable",
+      "profiles": ["sandbox"],
+      "tool": "centrs",
+      "platform": "linux",
+      "env": { "HOME": "/u", "TIKOCI_HOME": "/t", "CENTRS_HOME": "/real/centrs", "TIKOCI_SANDBOX": "/s" },
+      "cwd": "/",
+      "expect": { "userScope": "/s", "toolDir": "/s/centrs", "cache": "/t/cache/centrs", "hostDir": "/u/.tikoci/host/centrs", "sources": { "toolDir": "TIKOCI_SANDBOX" } }
+    },
+    {
+      "name": "an explicit cache variable still wins in a sandbox, and is not the sandbox's to evict",
+      "profiles": ["sandbox"],
+      "tool": "quickchr",
+      "platform": "linux",
+      "env": { "HOME": "/u", "TIKOCI_SANDBOX": "/s", "QUICKCHR_CACHE_DIR": "/qc" },
+      "cwd": "/",
+      "expect": { "cache": "/qc", "evicts": false }
+    },
+    {
+      "name": "a cache inside the sandbox is the sandbox's to evict",
+      "profiles": ["sandbox"],
+      "tool": "quickchr",
+      "platform": "linux",
+      "env": { "HOME": "/u", "TIKOCI_SANDBOX": "/s", "TIKOCI_CACHE_DIR": "/s/cache" },
+      "cwd": "/",
+      "expect": { "cache": "/s/cache/quickchr", "evicts": true }
+    },
+    {
+      "name": "Windows variable names match without case",
+      "profiles": ["sandbox"],
+      "tool": "centrs",
+      "platform": "win32",
+      "env": { "userprofile": "C:\\Profiles\\u", "LocalAppData": "C:\\Profiles\\u\\AppData\\Local", "tikoci_sandbox": "C:\\s" },
+      "cwd": "C:\\",
+      "expect": { "sandboxed": true, "userScope": "C:\\s", "toolDir": "C:\\s\\centrs", "cache": "C:\\Profiles\\u\\AppData\\Local\\tikoci\\cache\\centrs", "legacy": false, "keychain": false }
+    },
+    {
+      "name": "the nearest .tikoci/ wins, with or without the tool's directory",
+      "profiles": ["project"],
+      "tool": "centrs",
+      "tree": ["user/src/.tikoci/centrs/", "user/src/p/.tikoci/quickchr/", "user/src/p/lib/deep/"],
+      "env": { "HOME": "{root}/user" },
+      "cwd": "{root}/user/src/p/lib/deep",
+      "expect": {
+        "project": "{root}/user/src/p",
+        "projectToolDir": "{root}/user/src/p/.tikoci/centrs",
+        "localProject": "{root}/user/src/p",
+        "projectLocalDir": "{root}/user/src/p/.tikoci/centrs/local",
+        "skipped": [],
+        "sources": { "project": "discovered", "localProject": "self" }
+      }
+    },
+    {
+      "name": "~/.tikoci is the user scope, never a project",
+      "profiles": ["project"],
+      "tool": "centrs",
+      "tree": ["user/.tikoci/centrs/", "user/src/p/"],
+      "env": { "HOME": "{root}/user" },
+      "cwd": "{root}/user/src/p",
+      "expect": { "project": null, "sources": { "project": "none" } }
+    },
+    {
+      "name": "an alias of the home directory still stops the walk",
+      "profiles": ["project"],
+      "tool": "centrs",
+      "tree": ["user/.tikoci/", "user/src/p/", { "link": "alias", "to": "{root}/user" }],
+      "env": { "HOME": "{root}/user" },
+      "cwd": "{root}/alias/src/p",
+      "expect": { "project": null }
+    },
+    {
+      "name": "a symlinked .tikoci is passed over and reported",
+      "profiles": ["project"],
+      "tool": "centrs",
+      "tree": ["elsewhere/", "user/src/p/lib/", { "link": "user/src/p/.tikoci", "to": "{root}/elsewhere" }],
+      "env": { "HOME": "{root}/user" },
+      "cwd": "{root}/user/src/p/lib",
+      "expect": { "project": null, "skipped": ["{root}/user/src/p/.tikoci"] }
+    },
+    {
+      "name": "TIKOCI_PROJECT=none turns discovery off",
+      "profiles": ["project"],
+      "tool": "centrs",
+      "tree": ["user/src/p/.tikoci/"],
+      "env": { "HOME": "{root}/user", "TIKOCI_PROJECT": "none" },
+      "cwd": "{root}/user/src/p",
+      "expect": { "project": null, "sources": { "project": "TIKOCI_PROJECT" } }
+    },
+    {
+      "name": "TIKOCI_PROJECT names a project from anywhere",
+      "profiles": ["project"],
+      "tool": "centrs",
+      "tree": ["user/src/p/.tikoci/", "user/other/"],
+      "env": { "HOME": "{root}/user", "TIKOCI_PROJECT": "{root}/user/src/p" },
+      "cwd": "{root}/user/other",
+      "expect": { "project": "{root}/user/src/p", "sources": { "project": "TIKOCI_PROJECT" } }
+    },
+    {
+      "name": "a sandbox discovers no project",
+      "profiles": ["sandbox", "project"],
+      "tool": "centrs",
+      "tree": ["user/src/p/.tikoci/centrs/"],
+      "env": { "HOME": "{root}/user", "TIKOCI_SANDBOX": "{root}/sandbox" },
+      "cwd": "{root}/user/src/p",
+      "expect": { "project": null }
+    },
+    {
+      "name": "a git worktree anywhere uses its main checkout's local/",
+      "profiles": ["project-data"],
+      "tool": "centrs",
+      "tree": [
+        "user/src/main/.tikoci/centrs/local/",
+        { "file": "user/src/main/.git/worktrees/feature/commondir", "text": "../..\n" },
+        { "file": "user/src/main/.git/worktrees/feature/gitdir", "text": "{root}/user/wt/feature/.git\n" },
+        "user/wt/feature/.tikoci/centrs/",
+        "user/wt/feature/src/",
+        { "file": "user/wt/feature/.git", "text": "gitdir: {root}/user/src/main/.git/worktrees/feature\n" }
+      ],
+      "env": { "HOME": "{root}/user" },
+      "cwd": "{root}/user/wt/feature/src",
+      "expect": {
+        "project": "{root}/user/wt/feature",
+        "projectToolDir": "{root}/user/wt/feature/.tikoci/centrs",
+        "localProject": "{root}/user/src/main",
+        "projectLocalDir": "{root}/user/src/main/.tikoci/centrs/local",
+        "sources": { "localProject": "git-worktree" }
+      }
+    },
+    {
+      "name": "a worktree inside its main checkout, with a relative gitdir",
+      "profiles": ["project-data"],
+      "tool": "quickchr",
+      "tree": [
+        "user/src/main/.tikoci/quickchr/local/",
+        { "file": "user/src/main/.git/worktrees/fix/commondir", "text": "../..\n" },
+        { "file": "user/src/main/.git/worktrees/fix/gitdir", "text": "{root}/user/src/main/.worktrees/fix/.git\n" },
+        "user/src/main/.worktrees/fix/.tikoci/quickchr/",
+        { "file": "user/src/main/.worktrees/fix/.git", "text": "gitdir: ../../.git/worktrees/fix\n" }
+      ],
+      "env": { "HOME": "{root}/user" },
+      "cwd": "{root}/user/src/main/.worktrees/fix",
+      "expect": { "project": "{root}/user/src/main/.worktrees/fix", "localProject": "{root}/user/src/main", "sources": { "localProject": "git-worktree" } }
+    },
+    {
+      "name": "a project below the checkout root maps to the same place in the main checkout",
+      "profiles": ["project-data"],
+      "tool": "quickchr",
+      "tree": [
+        "user/src/main/.tikoci/quickchr/local/",
+        "user/src/main/labs/cmr/.tikoci/quickchr/local/",
+        { "file": "user/src/main/.git/worktrees/feature/commondir", "text": "../..\n" },
+        { "file": "user/src/main/.git/worktrees/feature/gitdir", "text": "{root}/user/wt/feature/.git\n" },
+        "user/wt/feature/labs/cmr/.tikoci/quickchr/",
+        { "file": "user/wt/feature/.git", "text": "gitdir: {root}/user/src/main/.git/worktrees/feature\n" }
+      ],
+      "env": { "HOME": "{root}/user" },
+      "cwd": "{root}/user/wt/feature/labs/cmr",
+      "expect": { "project": "{root}/user/wt/feature/labs/cmr", "localProject": "{root}/user/src/main/labs/cmr" }
+    },
+    {
+      "name": "a worktree nested in its main checkout, on a branch with no .tikoci/, has no project and reports the main checkout's",
+      "profiles": ["project"],
+      "tool": "centrs",
+      "tree": [
+        "user/src/main/.tikoci/centrs/local/",
+        { "file": "user/src/main/.git/worktrees/old/commondir", "text": "../..\n" },
+        { "file": "user/src/main/.git/worktrees/old/gitdir", "text": "{root}/user/src/main/.worktrees/old/.git\n" },
+        "user/src/main/.worktrees/old/lib/",
+        { "file": "user/src/main/.worktrees/old/.git", "text": "gitdir: ../../.git/worktrees/old\n" }
+      ],
+      "env": { "HOME": "{root}/user" },
+      "cwd": "{root}/user/src/main/.worktrees/old/lib",
+      "expect": { "project": null, "localProject": null, "mainProject": "{root}/user/src/main" }
+    },
+    {
+      "name": "a worktree nested in its main checkout finds a lab folder's .tikoci/ above both, as one beside it does",
+      "profiles": ["project"],
+      "tool": "centrs",
+      "tree": [
+        "user/lab/.tikoci/",
+        "user/lab/main/.tikoci/centrs/",
+        { "file": "user/lab/main/.git/worktrees/old/commondir", "text": "../..\n" },
+        { "file": "user/lab/main/.git/worktrees/old/gitdir", "text": "{root}/user/lab/main/.worktrees/old/.git\n" },
+        "user/lab/main/.worktrees/old/lib/",
+        { "file": "user/lab/main/.worktrees/old/.git", "text": "gitdir: ../../.git/worktrees/old\n" }
+      ],
+      "env": { "HOME": "{root}/user" },
+      "cwd": "{root}/user/lab/main/.worktrees/old/lib",
+      "expect": { "project": "{root}/user/lab", "mainProject": "{root}/user/lab/main" }
+    },
+    {
+      "name": "a worktree beside its main checkout, on a branch with no .tikoci/, has no project and reports the main checkout's",
+      "profiles": ["project"],
+      "tool": "centrs",
+      "tree": [
+        "user/src/main/.tikoci/centrs/local/",
+        { "file": "user/src/main/.git/worktrees/old/commondir", "text": "../..\n" },
+        { "file": "user/src/main/.git/worktrees/old/gitdir", "text": "{root}/user/wt/old/.git\n" },
+        "user/wt/old/lib/",
+        { "file": "user/wt/old/.git", "text": "gitdir: {root}/user/src/main/.git/worktrees/old\n" }
+      ],
+      "env": { "HOME": "{root}/user" },
+      "cwd": "{root}/user/wt/old/lib",
+      "expect": { "project": null, "localProject": null, "mainProject": "{root}/user/src/main" }
+    },
+    {
+      "name": "a worktree beside its main checkout still finds a lab folder's .tikoci/ above both",
+      "profiles": ["project"],
+      "tool": "centrs",
+      "tree": [
+        "user/lab/.tikoci/",
+        { "file": "user/lab/main/.git/worktrees/fix/commondir", "text": "../..\n" },
+        { "file": "user/lab/main/.git/worktrees/fix/gitdir", "text": "{root}/user/lab/fix/.git\n" },
+        { "file": "user/lab/fix/.git", "text": "gitdir: {root}/user/lab/main/.git/worktrees/fix\n" }
+      ],
+      "env": { "HOME": "{root}/user" },
+      "cwd": "{root}/user/lab/fix",
+      "expect": { "project": "{root}/user/lab", "mainProject": null }
+    },
+    {
+      "name": "a git worktree's default label is its main checkout's, not the worktree directory's",
+      "profiles": ["project-data", "names"],
+      "tool": "centrs",
+      "tree": [
+        "user/src/RouterOS_Lab/.tikoci/centrs/local/",
+        { "file": "user/src/RouterOS_Lab/.git/worktrees/t3-6eb9a36a/commondir", "text": "../..\n" },
+        { "file": "user/src/RouterOS_Lab/.git/worktrees/t3-6eb9a36a/gitdir", "text": "{root}/user/.t3/worktrees/RouterOS_Lab/t3-6eb9a36a/.git\n" },
+        "user/.t3/worktrees/RouterOS_Lab/t3-6eb9a36a/.tikoci/centrs/",
+        { "file": "user/.t3/worktrees/RouterOS_Lab/t3-6eb9a36a/.git", "text": "gitdir: {root}/user/src/RouterOS_Lab/.git/worktrees/t3-6eb9a36a\n" }
+      ],
+      "env": { "HOME": "{root}/user" },
+      "cwd": "{root}/user/.t3/worktrees/RouterOS_Lab/t3-6eb9a36a",
+      "expect": { "localProject": "{root}/user/src/RouterOS_Lab", "defaultLabel": "routeros-lab" }
+    },
+    {
+      "name": "a worktree maps to its main checkout even before the main checkout has a .tikoci/ there",
+      "profiles": ["project-data"],
+      "tool": "centrs",
+      "tree": [
+        "user/src/main/",
+        { "file": "user/src/main/.git/worktrees/adopt/commondir", "text": "../..\n" },
+        { "file": "user/src/main/.git/worktrees/adopt/gitdir", "text": "{root}/user/wt/adopt/.git\n" },
+        "user/wt/adopt/.tikoci/centrs/",
+        { "file": "user/wt/adopt/.git", "text": "gitdir: {root}/user/src/main/.git/worktrees/adopt\n" }
+      ],
+      "env": { "HOME": "{root}/user" },
+      "cwd": "{root}/user/wt/adopt",
+      "expect": {
+        "project": "{root}/user/wt/adopt",
+        "localProject": "{root}/user/src/main",
+        "projectLocalDir": "{root}/user/src/main/.tikoci/centrs/local",
+        "sources": { "localProject": "git-worktree" }
+      }
+    },
+    {
+      "name": "a copied worktree fails git's backlink check and is its own project",
+      "profiles": ["project-data"],
+      "tool": "centrs",
+      "tree": [
+        "user/src/main/.tikoci/centrs/local/",
+        { "file": "user/src/main/.git/worktrees/feature/commondir", "text": "../..\n" },
+        { "file": "user/src/main/.git/worktrees/feature/gitdir", "text": "{root}/user/wt/feature/.git\n" },
+        "user/wt/feature/.tikoci/centrs/",
+        { "file": "user/wt/feature/.git", "text": "gitdir: {root}/user/src/main/.git/worktrees/feature\n" },
+        "user/wt/copy/.tikoci/centrs/",
+        { "file": "user/wt/copy/.git", "text": "gitdir: {root}/user/src/main/.git/worktrees/feature\n" }
+      ],
+      "env": { "HOME": "{root}/user" },
+      "cwd": "{root}/user/wt/copy",
+      "expect": { "project": "{root}/user/wt/copy", "localProject": "{root}/user/wt/copy", "sources": { "localProject": "self" } }
+    },
+    {
+      "name": "a nested .tikoci/ that is not a worktree is its own project and never inherits",
+      "profiles": ["project-data"],
+      "tool": "quickchr",
+      "tree": ["user/src/p/.tikoci/quickchr/local/", "user/src/p/.git/", "user/src/p/examples/cmr/.tikoci/quickchr/"],
+      "env": { "HOME": "{root}/user" },
+      "cwd": "{root}/user/src/p/examples/cmr",
+      "expect": { "project": "{root}/user/src/p/examples/cmr", "localProject": "{root}/user/src/p/examples/cmr", "sources": { "localProject": "self" } }
+    },
+    {
+      "name": "a worktree with a local/ of its own uses it",
+      "profiles": ["project-data"],
+      "tool": "centrs",
+      "tree": [
+        "user/src/main/.tikoci/centrs/local/",
+        { "file": "user/src/main/.git/worktrees/feature/commondir", "text": "../..\n" },
+        { "file": "user/src/main/.git/worktrees/feature/gitdir", "text": "{root}/user/wt/feature/.git\n" },
+        "user/wt/feature/.tikoci/centrs/local/",
+        { "file": "user/wt/feature/.git", "text": "gitdir: {root}/user/src/main/.git/worktrees/feature\n" }
+      ],
+      "env": { "HOME": "{root}/user" },
+      "cwd": "{root}/user/wt/feature",
+      "expect": { "localProject": "{root}/user/wt/feature", "sources": { "localProject": "self" } }
+    },
+    {
+      "name": "a submodule is not a worktree",
+      "profiles": ["project-data"],
+      "tool": "centrs",
+      "tree": [
+        "user/src/p/.tikoci/centrs/local/",
+        "user/src/p/.git/modules/sub/",
+        "user/src/p/sub/.tikoci/centrs/",
+        { "file": "user/src/p/sub/.git", "text": "gitdir: ../.git/modules/sub\n" }
+      ],
+      "env": { "HOME": "{root}/user" },
+      "cwd": "{root}/user/src/p/sub",
+      "expect": { "project": "{root}/user/src/p/sub", "localProject": "{root}/user/src/p/sub", "sources": { "localProject": "self" } }
+    }
+  ]
+}
