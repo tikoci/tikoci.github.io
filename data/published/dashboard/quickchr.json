@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-15T17:46:30.707Z",
+  "generatedAt": "2026-11-15T22:53:57.498Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -68,8 +68,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 51,
-        "owner": 51,
+        "total": 52,
+        "owner": 52,
         "external": 0,
         "bot": 0
       },
@@ -84,13 +84,26 @@
       }
     },
     "page": {
-      "fetched": 51,
+      "fetched": 52,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 278,
+        "title": "Move typescript from dependencies to devDependencies",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/278",
+        "createdAt": "2026-11-15T22:08:16Z",
+        "updatedAt": "2026-11-15T22:08:16Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
       {
         "number": 276,
         "title": "paths: with HOME unset, the data dir becomes relative to the cwd (and disagrees with the config dir)",
