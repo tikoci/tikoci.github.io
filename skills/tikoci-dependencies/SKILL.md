@@ -26,10 +26,10 @@ and the other tikoci tools. The Bun pin itself is in `tikoci-toolchain`.
 
   A tag like `@v7` can be moved after review, and workflows often hold write
   tokens and secrets, so an action change must arrive as a reviewable diff.
-  The rule covers GitHub's own `actions/*` too, though scanners such as
-  CodeQL's `actions/unpinned-tag` query and zizmor flag only third-party tags
-  by default: one rule is easier to follow and to check than a list of
-  trusted owners.
+  The rule covers GitHub's own `actions/*` too: one rule is easier to follow
+  and to check than a list of trusted owners. zizmor's `unpinned-uses` audit
+  requires SHA pins for every action by default (since v1.20.0); CodeQL's
+  `actions/unpinned-tag` query still treats some owners as trusted.
 - **Pinning needs Dependabot.** Enable the `github-actions` ecosystem
   (weekly, grouped into one PR) before or with the pins; without it, pinned
   actions silently freeze.

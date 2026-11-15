@@ -16,7 +16,7 @@ Planning: Phase 3 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 | Bun bugs re-measured on the current Bun | quickchr-054, quickchr-056 | quickchr `.github/instructions/bun-http.instructions.md`; the survey notes the pool bug was not reproduced on Bun 1.3.11 and later. |
 | One exact pin in `packageManager`, read by `setup-bun` | site-03, centrs-20, quickchr-110 | Settles `bun-pin-location`; quickchr moves from `.bun-version` on adoption. |
 | Why pin; upgrade in its own PR; never pin backwards | quickchr-110 | quickchr `.github/instructions/ci.instructions.md`, quickchr #148. |
-| Pin checked mechanically | quickchr-110 | quickchr `scripts/check-bun-pin.ts`. |
+| Pin checked mechanically | quickchr-110 | quickchr `scripts/check-bun-pin.ts`, which checks `.bun-version` and needs adapting to `packageManager`. |
 | CI against the latest Bun (open) | - | `bun-ci-version` in the conflicts table, maintainer direction in #21. |
 | Commit `bun.lock` with the dependency change; frozen install in CI | centrs-51, restraml-41 | |
 | TypeScript default; Python only for tooling, via uv | user-15, user-16, centrs-45, quickchr-047 | centrs `python-uv.instructions.md` is the strong source. |

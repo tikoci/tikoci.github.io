@@ -57,9 +57,10 @@ a package:
   problem; **never pin backwards** to dodge a failure.
 - **The pin is also the minimum supported Bun.** Users and fresh agent
   sandboxes often run a newer one; some OS packages lag behind.
-- **Check the pin mechanically**: quickchr's `scripts/check-bun-pin.ts`
-  fails `check` when the pin is not exact or a `setup-bun` step does not read
-  it.
+- **Check the pin mechanically**, as part of `check`: the pin is exact (no
+  range, `latest` or `canary`) and every `setup-bun` step reads it. quickchr's
+  `scripts/check-bun-pin.ts` is the pattern, but it checks `.bun-version`;
+  adapt it to read `packageManager` when adopting.
 - **Open (`bun-ci-version`)**: how CI also meets the latest Bun is not
   settled. The direction is a `workflow_dispatch` input for the Bun version,
   defaulting to the pin, plus a scheduled run against the latest Bun; a
@@ -105,9 +106,11 @@ Scripts and Make recipes are POSIX `sh`, checked with `shellcheck -s sh`
 - **Background a process as `nohup sh -c "exec CMD" &`**, so `$!` is the
   real process and `kill` reaches it; dash does not forward the signal to a
   child of the wrapper shell.
-- **A backgrounded child that reads a temp file** needs a path that outlives
-  the parent: a deterministic path, or no `EXIT` trap that deletes it in
-  background mode.
+- **A backgrounded child that reads a temp file** races the parent's `EXIT`
+  trap, which fires when the parent exits, possibly before the child reads the
+  file. In background mode, do not delete it on exit: use a deterministic path
+  with no cleanup trap (reruns overwrite it), or `mktemp` with the trap
+  skipped. Changing only the file name keeps the bug.
 
 ## Virtual machines
 
