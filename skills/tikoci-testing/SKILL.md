@@ -13,9 +13,12 @@ patterns are in [references/patterns.md](references/patterns.md).
 
 ## Runner and layout
 
-- **`bun:test` only**: `describe` and `test` (not `it`), files named
-  `*.test.ts`. `Bun.*` APIs are fine in tests even where shipped code must also
-  run on Node.
+- **`bun:test` is the runner**: `describe` and `test` (not `it`), files
+  named `*.test.ts`. `Bun.*` APIs are fine in tests even where shipped code
+  must also run on Node. Code that ships for Node gets a check that runs under
+  Node (the built CLI or package entry point, in CI), because Bun passing
+  proves nothing about Node; that check is a smoke step, not a second test
+  framework.
 - **Tiers live in separate directories** (`test/unit/`, `test/integration/`,
   `test/lab/` or the repo's equivalent), so a tier runs by path.
 - **The integration tier is behind an env flag** (`QUICKCHR_INTEGRATION=1`,

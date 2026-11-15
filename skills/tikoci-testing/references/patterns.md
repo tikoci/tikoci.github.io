@@ -9,7 +9,7 @@ named so the reason can be checked.
 ```ts
 import { describe, expect, test } from "bun:test";
 
-const LIVE = process.env.QUICKCHR_INTEGRATION === "1";
+const LIVE = Boolean(process.env.QUICKCHR_INTEGRATION); // any non-empty value, as quickchr's suite
 
 describe.skipIf(!LIVE)("start and stop", () => {
   test("boots and answers REST", async () => {

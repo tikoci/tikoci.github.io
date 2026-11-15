@@ -70,10 +70,12 @@ because nobody ran the request by hand to see what came back.
 
 ## Measure honestly
 
-- **Count attempts, not elapsed time,** on emulated or slow targets. Latency
-  inflates an elapsed-time figure; it cannot inflate an attempt count. Two
-  pollers running at once against one guest slow each other and invent a
-  "window" that a sequential re-measurement makes disappear.
+- **Count attempts to tell waiting from latency** on emulated or slow
+  targets. Latency inflates an elapsed-time figure; it cannot inflate an
+  attempt count. Two pollers running at once against one guest slow each
+  other and invent a "window" that a sequential re-measurement makes
+  disappear. Elapsed time still measures latency and sets timeout budgets;
+  record both, measured sequentially.
 - **Change one factor at a time** and hold the rest. Compare pinned versions,
   never moving channels across days.
 - **Gate on the property you care about**, not a proxy. Exit 0 proves nothing
