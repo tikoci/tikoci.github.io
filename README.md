@@ -8,5 +8,5 @@ build). Render alone with `bun run build`. Rendering uses committed snapshots
 and works offline after dependency installation. dist/ is disposable.
 
 See [AGENTS.md](AGENTS.md) for layout, architecture and contribution rules,
-[TODO.md](TODO.md) for small open follow-ups, and [docs/refresh-data.md](docs/refresh-data.md) for explicit
+[BACKLOG.md](BACKLOG.md) for small open follow-ups, and [docs/refresh-data.md](docs/refresh-data.md) for explicit
 collection and persistence. Public metadata discovery: `/metadata/index.json`.

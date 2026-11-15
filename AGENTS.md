@@ -3,7 +3,7 @@
 This static site is the keeper of TIKOCI-wide metadata, conventions and collected
 observations, alongside the project site at <https://tikoci.dev>. Public contracts
 and durable URLs matter as much as rendered pages. Short recipes live in docs/;
-small open follow-ups live in TODO.md.
+small open follow-ups live in BACKLOG.md.
 
 This is the single instruction file for all agents. CLAUDE.md only imports it.
 
@@ -61,7 +61,7 @@ these coverage limits.
 ## Contribution rules
 
 - Small fixes go straight to `main`. Bigger changes go through a PR. Changes
-  that need discussion get a GitHub issue. Track small nits in TODO.md, not as
+  that need discussion get a GitHub issue. Track small nits in BACKLOG.md, not as
   issues. Act on substantive automatic PR review findings, not prose or style
   nitpicks.
 - PRs use squash merge with the PR title and description as the commit message.

@@ -1,4 +1,4 @@
-# TODO — small follow-ups
+# Backlog: small follow-ups
 
 A lightweight list of nits and small follow-ups, kept in the repo instead of GitHub issues.
 
@@ -14,6 +14,11 @@ Add detail as indented lines only when needed. Move finished items to *Done* (or
 
 ## Open
 
+- [ ] [flow] Adopt `tikoci-pr-flow` here when it ships (#21, 3c): small fixes become PRs
+      labeled `skip-review` instead of pushes to `main` (bot snapshot commits stay direct),
+      plus a CodeRabbit config (no draft or incremental reviews, `!skip-review`) and a
+      `.github/pull_request_template.md`. Update the flow above and AGENTS.md then.
+      (#21 decisions, 2026-11-15)
 - [ ] [ci] Hourly persist commits to `main` on nearly every run, because the `attemptedAt` /
       `generatedAt` timestamps always change. Skip the commit when only timestamps changed,
       or persist less often (e.g. daily). If a human push races the run, that hour's deploy
