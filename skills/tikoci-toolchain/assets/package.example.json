@@ -1,0 +1,24 @@
+{
+  "name": "@tikoci/example",
+  "type": "module",
+  "packageManager": "bun@1.4.4",
+  "scripts": {
+    "check": "bun run lint && bun run test",
+    "lint": "bun run lint:types && bun run lint:code && bun run lint:markdown && bun run lint:words",
+    "lint:types": "tsc",
+    "lint:code": "biome lint --error-on-warnings .",
+    "lint:markdown": "markdownlint-cli2 && cspell lint --no-progress",
+    "lint:words": "grep -v '^#' project-words.txt | LC_ALL=C sort -c -f -u",
+    "lint:fix": "biome lint --write .",
+    "test": "bun test test/unit",
+    "test:coverage": "bun test --coverage test/unit",
+    "test:integration": "EXAMPLE_INTEGRATION=1 bun test test/integration"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.6.8",
+    "@types/bun": "^1.4.4",
+    "cspell": "^10.5.1",
+    "markdownlint-cli2": "^0.24.1",
+    "typescript": "^7.0.2"
+  }
+}

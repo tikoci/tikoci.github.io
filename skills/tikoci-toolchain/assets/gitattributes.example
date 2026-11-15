@@ -1,0 +1,13 @@
+# tikoci starting .gitattributes (save as .gitattributes). See tikoci-toolchain.
+
+# LF in the repo and in every checkout, so a shell script cloned on Windows
+# still runs, and no diff is only line endings.
+* text=auto eol=lf
+
+# Windows batch files need CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Generated: collapsed in GitHub diffs (still one click away) and left out of
+# language stats. Add the repo's own generated or captured files here.
+bun.lock linguist-generated=true

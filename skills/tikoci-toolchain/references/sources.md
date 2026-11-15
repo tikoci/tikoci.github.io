@@ -22,7 +22,9 @@ Planning: Phase 3 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 | TypeScript default; Python only for tooling, via uv | user-15, user-16, centrs-45, quickchr-047 | centrs `python-uv.instructions.md` is the strong source. |
 | Other languages by recorded decision | user-15, user-20 | |
 | Bun-only repos use package scripts; a Makefile for several runtimes; CI calls the same entry point | user-21, rosetta-17, mikropkl-34 | Settles `task-runner`. routeros-skills has a Makefile that wraps `bun run check`; under this rule it can go. |
-| Tools outside `bun install` listed in the README | PR #26 review | The maintainer's review of [PR #26](https://github.com/tikoci/tikoci.github.io/pull/26), 2026-11-15. |
+| `package.example.json` sketch of the referenced package.json parts | PR #26 review | Run with Bun 1.4.4 on sample code: `check`, `lint:fix`, `test:coverage`, `test:integration`. |
+| `.gitattributes`: LF, CRLF for batch files, generated files marked | PR #26 review | routeros-skills and lsp-routeros-ts mark generated files today. |
+| Tools outside `bun install` listed in the developer docs | PR #26 review | The maintainer's review of [PR #26](https://github.com/tikoci/tikoci.github.io/pull/26), 2026-11-15. |
 | POSIX sh; a Bun script once logic gets clever | mikropkl-21, PR #26 review | |
 | POSIX sh; octal escapes; `LC_ALL=C` | mikropkl-21 | mikropkl `CLAUDE.md` "Common Pitfalls". |
 | `nohup sh -c "exec CMD"`; temp files and background children | mikropkl-18, mikropkl-05 | mikropkl `qemu.sh` background mode. |

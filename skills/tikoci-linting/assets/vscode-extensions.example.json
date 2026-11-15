@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "biomejs.biome",
+    "davidanson.vscode-markdownlint",
+    "streetsidesoftware.code-spell-checker",
+    "oven.bun-vscode",
+    "github.vscode-github-actions"
+  ]
+}

@@ -29,9 +29,15 @@
   },
   "overrides": [
     {
-      // In tests a failed `!` is a failed test, which is the point.
+      // Tests need the looser escapes to reach into results and build odd
+      // inputs, and a failed `!` there is a failed test. Shipped code stays strict.
       "includes": ["test/**"],
-      "linter": { "rules": { "style": { "noNonNullAssertion": "off" } } }
+      "linter": {
+        "rules": {
+          "suspicious": { "noExplicitAny": "off" },
+          "style": { "noNonNullAssertion": "off" }
+        }
+      }
     }
   ]
 }

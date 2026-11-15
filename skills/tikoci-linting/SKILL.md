@@ -22,6 +22,7 @@ gate is in `tikoci-ci`.
 | Shell scripts | `shellcheck -s sh` | none needed |
 | Dockerfiles | hadolint | none needed |
 | Skills and descriptions | a SKILL.md check with a description budget | this repo's script |
+| Editor extensions | VS Code | [vscode-extensions.example.json](assets/vscode-extensions.example.json) |
 
 The example files are named `*.example.*` so that no tool picks them up from
 inside a copied skill; rename them when copying into a repo root. They are a
@@ -34,7 +35,9 @@ file. How to silence one finding, per tool, is in
 ## Where each runs
 
 - **One package script is the gate** (`bun run check`, or `lint` plus `check`)
-  and CI runs exactly that script. A linter that runs only in CI, or only
+  and CI runs exactly that script. The scripts are sketched in
+  tikoci-toolchain's
+  [package.example.json](https://tikoci.dev/house/skills/tikoci-toolchain/assets/package.example.json). A linter that runs only in CI, or only
   locally, is a surprise waiting to happen.
 - **While editing, run the narrowest check** (`bunx biome lint <file>`, one
   cspell file), then the full gate before calling the work done.
@@ -45,16 +48,25 @@ file. How to silence one finding, per tool, is in
   `git config core.hooksPath .githooks`) and call package scripts, so CI
   reproduces every hook.
 - **Editors read the same config files** as the CLI: no `cSpell.words` or
-  Biome rules in `.vscode/settings.json`.
+  Biome rules in `.vscode/settings.json`. `.vscode/extensions.json`
+  recommends the extensions that read them
+  ([vscode-extensions.example.json](assets/vscode-extensions.example.json));
+  a RouterOS repo adds `tikoci.tikbook`.
 - **Output stays short**, so an agent can read the failure without losing its
   context.
 
 ## Findings you did not cause
 
-A warning or error already in the repo is not background noise. Fix a small
-one in the current change, even if it is unrelated. A larger one gets an issue
-or a separate PR (a side task or subagent) before the current PR merges; it is
-not carried past review as "pre-existing".
+A finding already in the repo costs every later agent time, because each one
+has to work out whether it caused it.
+
+- **One or two small ones: fix them in the current change**, even if
+  unrelated.
+- **A batch** (a dozen findings, a newly enforced rule) goes in BACKLOG.md,
+  an issue or its own PR, never into a focused change.
+- **A rule is enforced from the PR that fixes its findings.** Until then it
+  stays off, or at the level it was, with the backlog item linked; that is
+  the leeway, not a standing warning.
 
 ## Types: tsc
 
@@ -91,8 +103,9 @@ From [biome.example.jsonc](assets/biome.example.jsonc):
   under `## House exceptions`.
 - **The gate runs `biome lint --error-on-warnings`.** A warning is fixed or its
   rule is turned off in the config with a reason; it never sits in the output.
-- **`noExplicitAny` and `noNonNullAssertion` are errors** outside tests: use
-  `unknown` and a check instead.
+- **`noExplicitAny` and `noNonNullAssertion` are errors in shipped code**:
+  use `unknown` and a check instead. Tests turn both off: they need the looser
+  escapes to reach into results and build odd inputs.
 - **`biome.jsonc`**, so each non-default rule carries its reason as a comment.
 - **Keep Biome's `$schema` version, the package.json version and `bun.lock` in
   step**; a schema mismatch message usually means a local binary drifted from
@@ -159,8 +172,8 @@ a cost with no benefit. From
   Bun is not available, checked with `-s bash`.
 - **hadolint** on Dockerfiles, where a repo has them.
 - A local run may skip a tool that `bun install` does not provide (shellcheck,
-  actionlint, hadolint) and say so; CI installs it, and the README lists it
-  (see `tikoci-toolchain`).
+  actionlint, hadolint) and say so; CI installs it, and the developer docs
+  list it (see `tikoci-toolchain`).
 
 ## Skill descriptions
 

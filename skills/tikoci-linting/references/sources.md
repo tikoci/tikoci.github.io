@@ -21,15 +21,16 @@ which asked for starting configs, tight types and lenient Markdown.
 | Pre-commit near instant; pre-push = lint gate; nothing hook-only | centrs-31 | centrs `.githooks/` and `git-hooks.instructions.md`. |
 | Editors read the CLI config | quickchr-042 | quickchr removed `cSpell.words` from `.vscode/settings.json`. |
 | Biome formatter off | site-07, quickchr-021, restraml-06, user-22 | Settles `biome-formatter`; centrs has it on. |
-| Findings you did not cause are fixed or split off, not carried | PR #26 review | |
+| Findings you did not cause: one or two fixed in place, a batch split off | PR #26 review | A dozen lint fixes do not belong in a focused PR. |
 | Tight tsconfig | quickchr-025, centrs-40, PR #26 review | Starts from `bun init` (Bun 1.4.4), which quickchr, centrs and routeros-muse already use, plus `exactOptionalPropertyTypes` and `noUncheckedSideEffectImports` from TypeScript 7's `tsc --init`. Measured with TypeScript 7: `exactOptionalPropertyTypes` costs 426 errors in centrs and 175 in quickchr; `erasableSyntaxOnly` 10 and 3; `noPropertyAccessFromIndexSignature` 778 in quickchr (centrs has it on). |
-| `noExplicitAny` and `noNonNullAssertion` as errors; warnings fail the gate | PR #26 review | Biome 2.6 reports both as warnings by default, and `biome lint` exits 0 on warnings without `--error-on-warnings`. |
+| `noExplicitAny` and `noNonNullAssertion` errors in shipped code, off in tests; warnings fail the gate | PR #26 review | Biome 2.6 reports both as warnings by default, and `biome lint` exits 0 on warnings without `--error-on-warnings`. |
 | tsc wins; versions in step | centrs-40 | centrs and routeros-muse turn off `useLiteralKeys` for `noPropertyAccessFromIndexSignature`. |
 | `biome.jsonc` with reasons as comments | user-108, PR #26 review | Replaces "biome.json is plain JSON, reasons elsewhere". |
 | Lenient Markdown: line length, HTML, alignment off | user-108, PR #26 review | centrs and quickchr already turn off MD013 and MD060 and allow GitHub's HTML. |
 | One `.markdownlint-cli2.yaml` with `config:`; no `.markdownlintignore` | user-108 | Fewer files; two-file setups still work. rosetta still has a `.markdownlintignore`. |
 | Tag fenced code blocks; `routeros` for RouterOS | user-111, PR #26 review | tikbook runs `routeros` blocks. |
 | Human docs may use GitHub HTML and Mermaid | PR #26 review | |
+| `.vscode/extensions.json` recommends the linters' extensions | PR #26 review | centrs, m2ir and rosetta recommend Biome, markdownlint, cspell and Bun extensions today; personal tools (agent harnesses) stay out. |
 | Lint AGENTS.md and own skills; ignore CLAUDE.md and copied house skills | user-109 | Settles `lint-agent-files`: centrs, quickchr, rosetta and routeros-skills ignore AGENTS.md today; this repo lints it and its skills. |
 | `project-words.txt`; inline `cspell:ignore` for one-file words | centrs-22, rskills-04, quickchr-042 | Settles `cspell-dictionary-name`. |
 | Sorted words with notes on the same line | quickchr-042, PR #26 review | quickchr and rosetta already say "keep sorted". cspell 10.5 ignores text after `#` on a word line (tested). |

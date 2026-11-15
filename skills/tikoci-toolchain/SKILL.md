@@ -89,6 +89,11 @@ a package:
 
 ## Task entry points
 
+[package.example.json](assets/package.example.json) sketches the parts of
+package.json the house skills refer to: the `packageManager` pin, the `check`
+gate and the lint scripts (`tikoci-linting`), the test tiers
+(`tikoci-testing`) and the dev tools that `bun install` provides.
+
 - **A Bun-only repo has no Makefile.** package.json scripts are the entry
   points, and `bun run check` is the gate a developer and CI both run.
 - **A repo with several runtimes or compilers has one Makefile** as its entry
@@ -107,13 +112,21 @@ a package:
 ## Tools outside `bun install`
 
 - **List every tool the scripts need that `bun install` does not provide**
-  (shellcheck, actionlint, hadolint, QEMU, uv) in the README's development
-  section or CONTRIBUTING.md, with how to install it. Anything `bunx` or
+  (shellcheck, actionlint, hadolint, QEMU, uv) where developers look: the
+  README's development section, CONTRIBUTING.md or another developer doc,
+  with how to install it. Anything `bunx` or
   `uvx` fetches on demand needs no entry; basic POSIX tools need none.
 - **A script that needs a missing tool says which and how to get it**, and a
   local lint run may skip that tool with a message; CI installs it.
 - Which machine has which tool is an operator fact, kept in local agent
   notes, not in the repo.
+
+## Line endings
+
+`.gitattributes` keeps LF in the repo and in every checkout, so a shell
+script cloned on Windows still runs and no diff is only line endings; it also
+marks generated files. Start from
+[gitattributes.example](assets/gitattributes.example).
 
 ## Shell
 
