@@ -15,6 +15,7 @@ import {
     LOCAL_GITIGNORE,
     PROJECT_GITIGNORE,
     resolveInProject,
+    resolveTarget,
     resolveTikociPaths,
     SOCKET_PATH_MAX,
     socketPathFits,
@@ -55,7 +56,7 @@ function gitWorktree(main, worktree) {
 }
 
 describe("conformance.json", () => {
-    const { cases, profiles, fields, labels } = JSON.parse(readFileSync(join(SKILL, "references", "conformance.json"), "utf8"));
+    const { cases, profiles, fields, labels, targets } = JSON.parse(readFileSync(join(SKILL, "references", "conformance.json"), "utf8"));
 
     test("every case names known profiles, and every checked field belongs to one", () => {
         for (const needs of Object.values(profiles)) for (const need of needs) expect(Object.keys(profiles)).toContain(need);
@@ -75,6 +76,13 @@ describe("conformance.json", () => {
             if (label !== null) expect(isValidLabel(label)).toBe(true);
         });
     }
+    for (const { input, labels: known = [], names = {}, expect: expected } of targets) {
+        test(`target ${JSON.stringify(input)} with ${JSON.stringify({ labels: known, names })}`, () => {
+            const exists = (scope, name) => (names[scope ?? "current"] ?? []).includes(name);
+            expect(resolveTarget(input, { labels: known, exists })).toEqual(expected);
+        });
+    }
+
     const fill = (value, root) => JSON.parse(JSON.stringify(value).replaceAll("{root}", root));
 
     for (const spec of cases) {

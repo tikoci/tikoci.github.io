@@ -478,14 +478,22 @@ has to name the other scope the same way in each. One form, scope first:
 - **Resolve in this order**, because names and addresses already contain
   `:` and `@` (centrs takes `core@site` as a CDB name, and `host:port`, IPv6
   and MAC addresses as targets):
-  1. a literal address (IPv4, IPv6, MAC, `host:port` with a numeric port, a
-     URL) is an address, never a qualified name;
+  1. a literal address (IPv4 or `IPv4:port`, IPv6 or `[IPv6]:port`, MAC, a
+     URL) is an address, never a name;
   2. the whole string as a name in the current scope;
-  3. `<scope>:<name>`, split at the first `:`, only when the scope is `user`
-     or a label the tool knows.
+  3. `<scope>:<name>`, split at the first `:`, when the scope is `user` or a
+     label the tool knows. It is always a name in that scope, even when the
+     name is numeric: `user:8728` is device or machine `8728` in the user
+     scope, never host `user` on port 8728;
+  4. `host:port` with a numeric port is an address;
+  5. anything else is a name in the current scope.
 
   If 2 and 3 both match, the tool stops with an error that shows both
-  spellings.
+  spellings. A host whose name is `user` or a known label is reached through
+  a URL or the tool's explicit address option, not as `host:port`; library
+  calls pass the scope as a separate field rather than a string to parse.
+  `resolveTarget()` in the reference resolver implements this order, with
+  cases in [conformance.json](references/conformance.json).
 - **A label follows DNS label rules**, as RouterOS names and host names do:
   lowercase letters, digits and inner hyphens, at most 63 characters, and it
   starts with a letter so it never reads as an address or a number. `user` is

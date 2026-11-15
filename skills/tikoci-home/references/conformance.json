@@ -1,5 +1,5 @@
 {
-  "about": "Shared resolution cases for tikoci-home. An adopting repo runs these against its own resolver so every tool in a run agrees on scopes, the project and the main checkout. Each case gives a tool, an env, a working directory and, for filesystem cases, a tree to build under a fresh temporary {root} (canonical, with symlinks followed); `expect` lists the fields that must match. Tree entries: \"dir/\" makes a directory, {\"file\", \"text\"} a file, {\"link\", \"to\"} a symlink. `{root}` is replaced everywhere. Cases with `platform` need no filesystem; the others run on POSIX. Trust records are not covered: their format is open (SKILL.md). Each case lists the `profiles` it needs (SKILL.md, Adopting in profiles), and `fields` maps each checked field to the profile it belongs to: a repo runs the cases whose profiles it implements and compares only the fields of its profiles. `version` rises whenever a case's expected result changes, so a copy can tell it is stale. `labels` gives the default label `deriveLabel()` must produce for a project directory name, null meaning the user has to set one.",
+  "about": "Shared resolution cases for tikoci-home. An adopting repo runs these against its own resolver so every tool in a run agrees on scopes, the project and the main checkout. Each case gives a tool, an env, a working directory and, for filesystem cases, a tree to build under a fresh temporary {root} (canonical, with symlinks followed); `expect` lists the fields that must match. Tree entries: \"dir/\" makes a directory, {\"file\", \"text\"} a file, {\"link\", \"to\"} a symlink. `{root}` is replaced everywhere. Cases with `platform` need no filesystem; the others run on POSIX. Trust records are not covered: their format is open (SKILL.md). Each case lists the `profiles` it needs (SKILL.md, Adopting in profiles), and `fields` maps each checked field to the profile it belongs to: a repo runs the cases whose profiles it implements and compares only the fields of its profiles. `version` rises whenever a case's expected result changes, so a copy can tell it is stale. `targets` gives how `resolveTarget()` reads a target string (SKILL.md, Names across scopes), with the labels a tool knows and the names in each scope (`current`, `user` or a label). `labels` gives the default label `deriveLabel()` must produce for a project directory name, null meaning the user has to set one.",
   "version": 1,
   "profiles": {
     "user": [],
@@ -49,6 +49,25 @@
     { "input": "实验室", "expect": null },
     { "input": "a-very-long-project-directory-name-that-goes-past-the-dns-limit-x", "expect": "a-very-long-project-directory-name-that-goes-past-the-dns-limit" },
     { "input": "abcdefghij-abcdefghij-abcdefghij-abcdefghij-abcdefghij-abcdefg-hij", "expect": "abcdefghij-abcdefghij-abcdefghij-abcdefghij-abcdefghij-abcdefg" }
+  ],
+  "targets": [
+    { "input": "edge1", "names": { "current": ["edge1"] }, "expect": { "kind": "name", "scope": null, "name": "edge1" } },
+    { "input": "user:edge1", "names": { "user": ["edge1"] }, "expect": { "kind": "name", "scope": "user", "name": "edge1" } },
+    { "input": "user:123", "names": { "user": ["123"] }, "expect": { "kind": "name", "scope": "user", "name": "123" } },
+    { "input": "user:8728", "expect": { "kind": "name", "scope": "user", "name": "8728" } },
+    { "input": "lab:8728", "labels": ["lab"], "expect": { "kind": "name", "scope": "lab", "name": "8728" } },
+    { "input": "router:8728", "labels": ["lab"], "expect": { "kind": "address", "value": "router:8728" } },
+    { "input": "rtr.example.net:8728", "expect": { "kind": "address", "value": "rtr.example.net:8728" } },
+    { "input": "10.0.0.1:8728", "labels": ["lab"], "expect": { "kind": "address", "value": "10.0.0.1:8728" } },
+    { "input": "fe80::1", "labels": ["fe80"], "expect": { "kind": "address", "value": "fe80::1" } },
+    { "input": "[fe80::1%eth0]:8728", "expect": { "kind": "address", "value": "[fe80::1%eth0]:8728" } },
+    { "input": "aa:bb:cc:dd:ee:ff", "labels": ["aa"], "expect": { "kind": "address", "value": "aa:bb:cc:dd:ee:ff" } },
+    { "input": "https://lab:8728", "labels": ["lab"], "expect": { "kind": "address", "value": "https://lab:8728" } },
+    { "input": "core@site", "names": { "current": ["core@site"] }, "expect": { "kind": "name", "scope": null, "name": "core@site" } },
+    { "input": "lab:core", "labels": ["lab"], "names": { "current": ["lab:core"] }, "expect": { "kind": "name", "scope": null, "name": "lab:core" } },
+    { "input": "lab:core", "labels": ["lab"], "names": { "current": ["lab:core"], "lab": ["core"] }, "expect": { "kind": "ambiguous", "current": "lab:core", "scope": "lab", "name": "core" } },
+    { "input": "user:8728", "names": { "current": ["user:8728"], "user": ["8728"] }, "expect": { "kind": "ambiguous", "current": "user:8728", "scope": "user", "name": "8728" } },
+    { "input": "other:core", "labels": ["lab"], "expect": { "kind": "name", "scope": null, "name": "other:core" } }
   ],
   "cases": [
     {

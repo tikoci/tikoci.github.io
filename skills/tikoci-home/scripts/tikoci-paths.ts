@@ -3,7 +3,7 @@
  *
  * Copy it into a tool, or write the same rules in the tool's own resolver; the
  * SKILL.md text is the contract and this file is one reading of it. It depends
- * only on node:crypto, node:fs, node:os and node:path, so it runs under Bun and
+ * only on node:crypto, node:fs, node:net, node:os and node:path, so it runs under Bun and
  * Node.
  *
  * Two scopes: the user scope (TIKOCI_HOME, default ~/.tikoci) and a project
@@ -24,6 +24,7 @@
  */
 import { randomBytes } from "node:crypto";
 import { chmodSync, lstatSync, mkdirSync, readFileSync, realpathSync, renameSync, writeFileSync } from "node:fs";
+import { isIP } from "node:net";
 import { homedir as osHomedir } from "node:os";
 import { join, posix, win32 } from "node:path";
 
@@ -165,6 +166,65 @@ export function deriveLabel(name: string): string | null {
     if (/^[0-9]/.test(label)) label = `p-${label}`;
     label = label.slice(0, LABEL_MAX).replace(/-+$/, "");
     return isValidLabel(label) ? label : null;
+}
+
+/** What a target string names: an address, a name in a scope, or an ambiguity to report. */
+export type Target =
+    | { kind: "address"; value: string }
+    /** scope null is the current scope; "user" or a project label otherwise. */
+    | { kind: "name"; scope: string | null; name: string }
+    /** Both spellings match: the tool stops and shows them. */
+    | { kind: "ambiguous"; current: string; scope: string; name: string };
+
+export interface TargetContext {
+    /** Project labels this tool knows (from its trust records). */
+    labels: Iterable<string>;
+    /** Whether `name` exists in a scope: null is the current scope, else "user" or a label. */
+    exists: (scope: string | null, name: string) => boolean;
+}
+
+const MAC = /^[0-9a-f]{2}(?:([:-])[0-9a-f]{2})(?:\1[0-9a-f]{2}){4}$/i;
+const URL_SCHEME = /^[a-z][a-z0-9+.-]*:\/\//i;
+
+/** A target that is an address by its form alone: IPv4 (with or without a port), IPv6 (bare or [bracketed]:port), MAC, URL. */
+function isLiteralAddress(input: string): boolean {
+    if (URL_SCHEME.test(input) || MAC.test(input) || isIP(input) !== 0) return true;
+    const v4 = input.match(/^([0-9.]+):(\d{1,5})$/);
+    if (v4 && isIP(v4[1]) === 4) return true;
+    const v6 = input.match(/^\[([^\]]+)\](?::(\d{1,5}))?$/);
+    return v6 !== null && isIP(v6[1].replace(/%.*$/, "")) === 6;
+}
+
+/**
+ * Read a machine or device target the house way (SKILL.md, Names across
+ * scopes), in this order:
+ * 1. a literal address (IPv4 or IPv4:port, IPv6 or [IPv6]:port, MAC, URL);
+ * 2. the whole string as a name in the current scope;
+ * 3. scope:name, split at the first ":", when the scope is "user" or a known
+ *    label: always a name in that scope, even when the name is numeric
+ *    (user:8728 is never host "user" port 8728); if step 2 also matched, the
+ *    result is ambiguous;
+ * 4. host:port with a numeric port is an address;
+ * 5. otherwise a name in the current scope, which may not exist.
+ * A host whose name is "user" or a known label is reached through a URL or
+ * the tool's explicit address option, never as host:port.
+ */
+export function resolveTarget(input: string, context: TargetContext): Target {
+    if (isLiteralAddress(input)) return { kind: "address", value: input };
+    const whole = context.exists(null, input);
+    const colon = input.indexOf(":");
+    if (colon > 0) {
+        const scope = input.slice(0, colon);
+        const name = input.slice(colon + 1);
+        const known = scope === "user" || [...context.labels].includes(scope);
+        if (known && name !== "") {
+            if (whole && context.exists(scope, name)) return { kind: "ambiguous", current: input, scope, name };
+            if (!whole) return { kind: "name", scope, name };
+        }
+    }
+    if (whole) return { kind: "name", scope: null, name: input };
+    if (/^[^:]+:\d{1,5}$/.test(input)) return { kind: "address", value: input };
+    return { kind: "name", scope: null, name: input };
 }
 
 /** The prefix of a tool's own variables: routeros-muse → ROUTEROS_MUSE. */
