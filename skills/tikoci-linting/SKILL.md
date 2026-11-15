@@ -1,6 +1,6 @@
 ---
 name: tikoci-linting
-description: "tikoci linting: Biome lint with the formatter off, tsc --noEmit (tsc wins a conflict), markdownlint-cli2, cspell with project-words.txt (a # comment for non-obvious words; fix typos, never add them), actionlint and zizmor on workflows, shellcheck -s sh, hadolint on Dockerfiles. One package script is the lint gate CI runs; pre-commit is near instant, pre-push runs the lint gate, nothing is hook-only. Use when adding or configuring a linter, git hook or dictionary word."
+description: "tikoci linting, with starting configs in assets/: tight types (strict tsc, noUncheckedIndexedAccess, exactOptionalPropertyTypes, erasable syntax only), Biome lint with the formatter off and warnings failing the gate, lenient markdownlint (no line length; GitHub HTML welcome; fences name a language), cspell with a sorted project-words.txt, actionlint, zizmor, shellcheck -s sh, hadolint. One lint gate CI runs; a finding you meet is fixed, not left; every suppression names the rule and the reason. Use when adding or configuring a linter, git hook, suppression or dictionary word."
 ---
 
 # Linting
@@ -11,20 +11,25 @@ gate is in `tikoci-ci`.
 
 ## The set
 
-| Checks | Tool | Where it applies |
+| Checks | Tool | Starting config |
 | --- | --- | --- |
-| TypeScript and JavaScript lint | Biome 2.x, lint only | every repo with code |
-| Types | `tsc --noEmit` | every TypeScript repo |
-| Markdown structure | markdownlint-cli2 | every repo |
-| Spelling | cspell | every repo |
-| Workflow YAML | actionlint | every repo with workflows |
-| Workflow security | zizmor | every repo with workflows |
-| Shell scripts | `shellcheck -s sh` | repos with shell scripts or examples |
-| Dockerfiles | hadolint | repos with Dockerfiles |
-| Skills and descriptions | a SKILL.md check with a description budget | repos with skills |
+| Types | `tsc --noEmit` | [tsconfig.example.json](assets/tsconfig.example.json) |
+| TypeScript and JavaScript lint | Biome 2.x, lint only | [biome.example.jsonc](assets/biome.example.jsonc) |
+| Markdown structure | markdownlint-cli2 | [markdownlint-cli2.example.yaml](assets/markdownlint-cli2.example.yaml) |
+| Spelling | cspell | [cspell.example.json](assets/cspell.example.json), [project-words.example.txt](assets/project-words.example.txt) |
+| Workflow YAML | actionlint | none needed |
+| Workflow security | zizmor | none needed |
+| Shell scripts | `shellcheck -s sh` | none needed |
+| Dockerfiles | hadolint | none needed |
+| Skills and descriptions | a SKILL.md check with a description budget | this repo's script |
 
-No Prettier, ESLint or second linter for what Biome covers. A rule a linter
-can check belongs in the linter's config, not in an instruction file.
+The example files are named `*.example.*` so that no tool picks them up from
+inside a copied skill; rename them when copying into a repo root. They are a
+starting point: a repo may differ, and records why under `## House exceptions`
+in AGENTS.md. No Prettier, ESLint or second linter for what Biome covers. A
+rule a linter can check belongs in the linter's config, not in an instruction
+file. How to silence one finding, per tool, is in
+[references/suppressions.md](references/suppressions.md).
 
 ## Where each runs
 
@@ -44,36 +49,79 @@ can check belongs in the linter's config, not in an instruction file.
 - **Output stays short**, so an agent can read the failure without losing its
   context.
 
-## Biome and tsc
+## Findings you did not cause
 
-- **Formatter off** (`"formatter": { "enabled": false }`). Biome lint plus
-  `tsc --noEmit` are the gate; formatting-only diffs cost review tokens and
-  bury the change. A repo that turns the formatter on records it under
-  `## House exceptions`.
-- **Zero errors on a clean checkout.** Overrides only for legacy code; a new
-  suppression carries a comment saying why.
-- **tsc wins a conflict.** Example: Biome's `complexity/useLiteralKeys`
-  conflicts with tsconfig's `noPropertyAccessFromIndexSignature`, which
-  requires bracket access on index signatures; turn the Biome rule off rather
-  than drop the type check.
-- **`biome.json` is plain JSON**, so the reason for each non-default rule goes
-  in the repo's docs or AGENTS.md, not in the file.
+A warning or error already in the repo is not background noise. Fix a small
+one in the current change, even if it is unrelated. A larger one gets an issue
+or a separate PR (a side task or subagent) before the current PR merges; it is
+not carried past review as "pre-existing".
+
+## Types: tsc
+
+Tight types make code more durable and diffs easier to read, because the types
+tell the story of a change. Starting from
+[tsconfig.example.json](assets/tsconfig.example.json) (Bun's `bun init` plus
+the stricter checks TypeScript's own `tsc --init` turns on):
+
+- **`strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`**:
+  an index may miss, and an optional property is absent rather than
+  `undefined` unless its type says `| undefined`.
+- **`erasableSyntaxOnly`**: no `enum`, `namespace` or parameter properties.
+  The code is JavaScript plus types; use a union of string literals or an
+  `as const` object.
+- **`verbatimModuleSyntax`** and `.ts` import extensions, matching how Bun
+  runs the code.
+- **`unknown`, not `any`**, narrowed with a check. Biome enforces this.
+- **Left off on purpose**: `noUnusedLocals` and `noUnusedParameters` (Biome
+  reports unused code, with a fix) and `noPropertyAccessFromIndexSignature`
+  (`noUncheckedIndexedAccess` already types the access).
+- **tsc wins a conflict.** A repo that turns on
+  `noPropertyAccessFromIndexSignature` turns off Biome's
+  `complexity/useLiteralKeys`, rather than dropping the type check.
+- **An existing repo adopts a stricter flag in its own PR**, with the fixes
+  (`exactOptionalPropertyTypes` alone is hundreds of edits in a large repo).
+  Until then the gap is a House exception.
+
+## Lint: Biome
+
+From [biome.example.jsonc](assets/biome.example.jsonc):
+
+- **Formatter off**, and the import-sorting assist off: formatting-only diffs
+  cost review time and bury the change. A repo that turns either on records it
+  under `## House exceptions`.
+- **The gate runs `biome lint --error-on-warnings`.** A warning is fixed or its
+  rule is turned off in the config with a reason; it never sits in the output.
+- **`noExplicitAny` and `noNonNullAssertion` are errors** outside tests: use
+  `unknown` and a check instead.
+- **`biome.jsonc`**, so each non-default rule carries its reason as a comment.
 - **Keep Biome's `$schema` version, the package.json version and `bun.lock` in
   step**; a schema mismatch message usually means a local binary drifted from
   the lockfile.
 
 ## Markdown
 
-- **Rules go in `.markdownlint.yaml`**, each non-default rule with a comment
-  saying why; globs and ignores go in `.markdownlint-cli2.yaml`. No
-  `.markdownlintignore`.
+Markdown linting catches what breaks rendering or tooling, and nothing more.
+Rewriting prose to satisfy a style rule, or a diff that only rewraps lines, is
+a cost with no benefit. From
+[markdownlint-cli2.example.yaml](assets/markdownlint-cli2.example.yaml):
+
+- **One `.markdownlint-cli2.yaml`** holds the rules (under `config:`) and the
+  file list; the CLI and the VS Code extension both read it. Each non-default
+  rule has a comment saying why.
+- **Off**: line length, inline HTML, emphasis as a heading, first line as a
+  heading, table column alignment.
 - **Tag every fenced code block** with a language (`text`, `sh`, `typescript`,
-  `json`, `yaml`, `routeros`).
-- **Lint AGENTS.md and the repo's own skills**: they are the instructions
-  agents read, and broken structure there misleads. Ignore `CLAUDE.md` (one
-  import line), house skills copied unchanged into `.agents/skills/` (linted at
-  the source, and a fix would break the copy), generated docs, fixtures, and
-  `.github/instructions/` until the repo retires it.
+  `json`, `yaml`, `routeros`). Tools find code by its tag: tikbook runs
+  `routeros` blocks, and a search for them finds every RouterOS example.
+- **Human docs** (README, manuals, reports) may use the HTML GitHub renders
+  (`<details>`, `<abbr>`, `<kbd>`, `<sub>`), tables, and Mermaid diagrams,
+  when they add meaning or density. Agent-facing files (AGENTS.md, skills)
+  stay plain Markdown, since agents read the source.
+- **Lint AGENTS.md and the repo's own skills**: broken structure there
+  misleads agents. Ignore `CLAUDE.md` (one import line), house skills copied
+  unchanged into `.agents/skills/` (linted at the source, and a fix would
+  break the copy), generated docs, fixtures, and `.github/instructions/` until
+  the repo retires it.
 - **Fix malformed Markdown** before teaching cspell the broken token it
   produced.
 
@@ -81,17 +129,20 @@ can check belongs in the linter's config, not in an instruction file.
 
 - **The dictionary is `project-words.txt`**, referenced from `cspell.json`
   with `addWords: true` so the editor's "Add to dictionary" writes there.
+  [cspell.example.json](assets/cspell.example.json) checks Markdown and skips
+  copied house skills, whose words the repo's dictionary does not have.
 - **Real vocabulary only**: RouterOS, networking, QEMU and tikoci terms. **A
   typo is fixed in the source, never added.**
-- **Comment a word that is not obvious** with a `#` line above it: what it is,
-  and for a repo, tool or product name, where it lives (a URL), so the
-  dictionary doubles as a cross-reference. Not every word needs one.
+- **One word per line, sorted case-insensitively**, so additions land in
+  different places and merge cleanly. Check it in the lint gate:
+  `grep -v '^#' project-words.txt | LC_ALL=C sort -c -f -u`.
+- **A word that is not obvious says what it is on the same line**, after
+  ` # ` (cspell ignores the rest of the line): what it is and, for a tool or
+  repo, its URL. See
+  [project-words.example.txt](assets/project-words.example.txt).
 - **Non-vocabulary goes in `ignoreWords`** in `cspell.json`: locale variants,
-  documentation placeholders, test sentinels.
-- **A word used in one file only** gets an inline `cspell:ignore` comment in
-  that file, not a dictionary entry.
-- cspell dictionary syntax (`~word`, `+word`, `!word`) is fine where it saves
-  entries.
+  documentation placeholders, test sentinels. A word used in one file only
+  gets an inline `cspell:ignore` comment in that file instead.
 - `ignorePaths` covers generated and vendored output; never ignore a real
   source file to hide one word.
 
@@ -101,11 +152,15 @@ can check belongs in the linter's config, not in an instruction file.
 - **zizmor** audits workflow security (`uvx zizmor --offline .` locally). Run
   it and report its findings, through code scanning or the job log; gate on it
   once the existing findings are triaged, as quickchr and centrs are doing.
-- **shellcheck -s sh --severity=warning** on every POSIX shell script and
-  example. A script that needs Bash (arrays, say) is an exception: it says why
-  in a comment and is checked with `shellcheck -s bash --severity=warning`.
-  A local run may skip when shellcheck is missing and say so; CI installs it.
+- **shellcheck -s sh --severity=warning** on every shell script and example.
+  Scripts are POSIX sh (CI's `/bin/sh` is dash). Logic that wants Bash
+  features is a sign the script should be TypeScript run by Bun
+  (`#!/usr/bin/env bun`), where tsc, Biome and tests reach it; Bash only where
+  Bun is not available, checked with `-s bash`.
 - **hadolint** on Dockerfiles, where a repo has them.
+- A local run may skip a tool that `bun install` does not provide (shellcheck,
+  actionlint, hadolint) and say so; CI installs it, and the README lists it
+  (see `tikoci-toolchain`).
 
 ## Skill descriptions
 

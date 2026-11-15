@@ -41,7 +41,7 @@ visited.
 - `bun run lint`: TypeScript, Biome, `lint:markdown` and `lint:skills`; no rendering
   or remote collection.
 - `bun run lint:markdown`: markdownlint-cli2 and cspell on all Markdown; project
-  words go in `project-words.txt`.
+  words go in `project-words.txt`, sorted (`lint:words` checks it).
 - `bun run lint:skills`: `scripts/check-skills.ts` on skills/, with the description
   budget in its output and the CI step summary.
 - `bun test test/`: fixture and committed-contract tests, no network.

@@ -23,6 +23,12 @@ const NAME_PATTERN = /^tikoci-[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const FRONTMATTER_KEYS = new Set(["name", "description", "license", "compatibility", "metadata", "allowed-tools"]);
 /** Agent Skills spec directories; anything else at a skill's top level is a mistake. */
 const SKILL_ENTRIES = new Set(["SKILL.md", "references", "scripts", "assets"]);
+/**
+ * Config files that tools discover in subdirectories. Inside a skill copied to
+ * .agents/skills/ they would reconfigure the consumer's repo (Biome refuses a
+ * nested root biome.json), so example configs are named *.example.*.
+ */
+const DISCOVERED_CONFIG = /^(?:biome\.jsonc?|tsconfig\.json|jsconfig\.json|package\.json|bunfig\.toml|\.?cspell\.jsonc?|cspell\.config\.\w+|\.markdownlint(?:-cli2)?\.\w+|\.editorconfig|\.gitignore|\.gitattributes|\.shellcheckrc)$/;
 /** Files in skills/ that are not skills. */
 const TOP_LEVEL_FILES = new Set(["README.md", ".markdownlint.yaml"]);
 
@@ -95,7 +101,12 @@ function checkSkill(dir: string, entry: string, fail: (message: string) => void)
     const toRelative = (file: string) => relative(dir, file).split(sep).join("/");
     const files = listFiles(dir, link => fail(`${toRelative(link)}: symlinks are not allowed; copies and published skills need real files`))
         .map(toRelative).sort();
-    for (const file of files) checkFile(dir, file, fail);
+    for (const file of files) {
+        if (DISCOVERED_CONFIG.test(file.split("/").pop() ?? "")) {
+            fail(`${file}: tools pick up this name in a copied skill; name it *.example.* (biome.example.jsonc)`);
+        }
+        checkFile(dir, file, fail);
+    }
 
     const skillPath = join(dir, "SKILL.md");
     if (!existsSync(skillPath)) {

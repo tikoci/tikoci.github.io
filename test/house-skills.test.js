@@ -38,6 +38,10 @@ test("committed house skills validate within the description budget", () => {
     expect(report.descriptionTotal).toBeLessThanOrEqual(DESCRIPTION_BUDGET);
 });
 
+test("example configs are allowed", () => {
+    expect(errorsFor({ "assets/biome.example.jsonc": "{}\n", "assets/markdownlint-cli2.example.yaml": "config: {}\n" })).toBe("");
+});
+
 test("file names with .local before an extension are not host names", () => {
     expect(errorsFor({ "references/detail.md": "Keep centrs.local.env, settings.local.json and archive.local.7z local.\n" })).toBe("");
 });
@@ -80,6 +84,9 @@ test.each([
     ["escaping link with the destination on its own line", { "references/detail.md": "[x](\n../../outside.md\n)\n" }, "leaves the skill directory"],
     ["broken reference definition in a blockquote", { "references/detail.md": "> [x][r]\n>\n> [r]: missing.md\n" }, "does not resolve"],
     ["broken image", { "references/detail.md": "![logo](../assets/logo.png)\n" }, "does not resolve"],
+    ["a real Biome config", { "assets/biome.jsonc": "{}\n" }, "assets/biome.jsonc: tools pick up this name"],
+    ["a real markdownlint config", { "assets/.markdownlint-cli2.yaml": "config: {}\n" }, "name it *.example.*"],
+    ["a real tsconfig", { "assets/tsconfig.json": "{}\n" }, "name it *.example.*"],
 ])("rejects %s", (_, files, message) => {
     expect(errorsFor(files)).toContain(message);
 });
