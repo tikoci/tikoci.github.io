@@ -19,6 +19,9 @@ Add detail as indented lines only when needed. Move finished items to *Done* (or
       plus a CodeRabbit config (no draft or incremental reviews, `!skip-review`) and a
       `.github/pull_request_template.md`. Update the flow above and AGENTS.md then.
       (#21 decisions, 2026-11-15)
+- [ ] [deps] Adopt `tikoci-dependencies` here: add `.github/dependabot.yml`
+      (`github-actions`, weekly, grouped), then pin the workflows' actions
+      (`oven-sh/setup-bun@v2` and the rest) to commit SHAs. (#21, 3b)
 - [ ] [ci] Hourly persist commits to `main` on nearly every run, because the `attemptedAt` /
       `generatedAt` timestamps always change. Skip the commit when only timestamps changed,
       or persist less often (e.g. daily). If a human push races the run, that hour's deploy

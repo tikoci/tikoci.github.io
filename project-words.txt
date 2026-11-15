@@ -45,3 +45,18 @@ usr
 winbox
 worktrees
 XDG
+# Tools named in the house skills (tikoci-toolchain, tikoci-linting)
+# zizmor: GitHub Actions security linter, https://github.com/zizmorcore/zizmor
+zizmor
+# shellcheck: shell script linter, https://www.shellcheck.net/
+shellcheck
+# uvx: run a Python tool through uv, https://docs.astral.sh/uv/
+uvx
+venv
+bunx
+tsc
+nohup
+bashisms
+backgrounded
+Dockerfiles
+LLM
