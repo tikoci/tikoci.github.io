@@ -20,7 +20,7 @@ which asked for starting configs, tight types and lenient Markdown.
 | Narrowest check while editing; short output | centrs-39 | centrs `.github/instructions/linting.instructions.md`. |
 | Pre-commit near instant; pre-push = lint gate; nothing hook-only | centrs-31 | centrs `.githooks/` and `git-hooks.instructions.md`. |
 | Editors read the CLI config | quickchr-042 | quickchr removed `cSpell.words` from `.vscode/settings.json`. |
-| Biome formatter off | site-07, quickchr-021, restraml-06, user-22 | Settles `biome-formatter`; centrs has it on. |
+| Biome formatter off; a new repo considers it on | site-07, quickchr-021, restraml-06, user-22 | Settles `biome-formatter`; centrs has it on from day one, and the centrs/quickchr review of PR #26 argued it prevents style drift between agents. |
 | Findings you did not cause: one or two fixed in place, a batch split off | PR #26 review | A dozen lint fixes do not belong in a focused PR. |
 | Tight tsconfig | quickchr-025, centrs-40, PR #26 review | Starts from `bun init` (Bun 1.4.4), which quickchr, centrs and routeros-muse already use, plus `exactOptionalPropertyTypes` and `noUncheckedSideEffectImports` from TypeScript 7's `tsc --init`. Measured with TypeScript 7: `exactOptionalPropertyTypes` costs 426 errors in centrs and 175 in quickchr (174 with TypeScript 5.9.3, 55 of them in quickchr's public `QuickCHR` options, so its adoption PR changes exported types); `erasableSyntaxOnly` 10 and 3; `noPropertyAccessFromIndexSignature` 778 in quickchr (centrs has it on). |
 | `noExplicitAny` and `noNonNullAssertion` errors in shipped code, off in tests; warnings fail the gate | PR #26 review | Biome 2.6 reports both as warnings by default, and `biome lint` exits 0 on warnings without `--error-on-warnings`. |

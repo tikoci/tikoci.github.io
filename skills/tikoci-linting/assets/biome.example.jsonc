@@ -8,7 +8,9 @@
   "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
   // House skills copied unchanged are linted where they are written.
   "files": { "includes": ["**", "!.agents/skills/tikoci-*"] },
-  // Lint only. Formatting-only diffs cost review time and bury the change.
+  // Lint only, the house default: in an existing repo a formatter's diffs cost
+  // review time and bury the change. A new repo may turn it on from the first
+  // commit (see tikoci-linting) and record that as a House exception.
   "formatter": { "enabled": false },
   // Import sorting rewrites lines the change did not touch, like a formatter.
   "assist": { "enabled": false },

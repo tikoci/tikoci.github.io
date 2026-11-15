@@ -107,8 +107,13 @@ the stricter checks TypeScript's own `tsc --init` turns on):
 
 From [biome.example.jsonc](assets/biome.example.jsonc):
 
-- **Formatter off**, and the import-sorting assist off: formatting-only diffs
-  cost review time and bury the change. A repo that turns either on records it
+- **Formatter off by default**, and the import-sorting assist off: turning a
+  formatter on in an existing repo produces formatting-only diffs, which cost
+  review time and bury the change. An existing repo does not switch either way.
+- **A new repo should consider turning it on** from its first commit, with
+  the pre-commit hook applying it: several agents writing in one repo then
+  produce one known shape instead of drifting styles (centrs has run it from
+  day one). Whichever way it goes, a repo with the formatter on records it
   under `## House exceptions`.
 - **The gate runs `biome lint --error-on-warnings`.** A warning is fixed or its
   rule is turned off in the config with a reason; it never sits in the output.
@@ -157,8 +162,10 @@ a cost with no benefit. From
   live, the text users actually read; identifiers cost a few dictionary
   entries. It skips copied house skills, whose words the repo's dictionary
   does not have.
-- **Real vocabulary only**: RouterOS, networking, QEMU and tikoci terms. **A
-  typo is fixed in the source, never added.**
+- **Real vocabulary goes in the dictionary**: RouterOS, networking, QEMU and
+  tikoci terms, unusual acronyms, project names, jargon with a specific
+  meaning, and any word used in several files. When in doubt, add it there;
+  that is not a mistake. **A typo is fixed in the source, never added.**
 - **One word per line, sorted case-insensitively**, so additions land in
   different places and merge cleanly. Check it in the lint gate:
   `grep -v -e '^#' -e '^$' project-words.txt | LC_ALL=C sort -c -f -u`.
@@ -169,8 +176,9 @@ a cost with no benefit. From
   repo, its URL. See
   [project-words.example.txt](assets/project-words.example.txt).
 - **Non-vocabulary goes in `ignoreWords`** in `cspell.json`: locale variants,
-  documentation placeholders, test sentinels. A word used in one file only
-  gets an inline `cspell:ignore` comment in that file instead.
+  documentation placeholders, test sentinels. A word used in one file only,
+  such as a variable name in code, gets an inline `cspell:ignore` comment in
+  that file instead.
 - `ignorePaths` covers generated and vendored output; never ignore a real
   source file to hide one word.
 
