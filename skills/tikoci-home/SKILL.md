@@ -317,9 +317,10 @@ Profile `project`, needs `user`.
   checkout and continues above it, so a worktree finds the same project
   wherever it sits. On a branch with no `.tikoci/` (one cut before adoption)
   that is usually none; a lab folder's `.tikoci/` above the main checkout
-  still counts. When the main checkout uses a different project from the same
-  place, the tool reports it, so the user sees that the main checkout has
-  project data and how to name it; nothing is read from it.
+  still counts. From any worktree with no project of its own (nested, beside
+  the checkout, in `/tmp`), when the main checkout uses a different project
+  from the same place, the tool reports it, so the user sees that the main
+  checkout has project data and how to name it; nothing is read from it.
 - **`TIKOCI_PROJECT`** names a project explicitly, or turns discovery off with
   `none`. A tool that calls another tool's library passes the project it
   found (`TIKOCI_PROJECT=<dir>`), so the two cannot pick different projects.
@@ -389,8 +390,9 @@ and some syncs keep modes. Whatever records trust must tell these apart:
   reference resolver keeps one record per tool and project
   (`<tool>/projects/<id>/project.json`, matched by an id in `local/id`); a
   tool may use it as is.
-- **`local/` keeps itself out of git.** Whatever creates `local/` also writes
-  `local/.gitignore` containing `*`: it ignores everything in `local/`, itself
+- **`local/` keeps itself out of git.** Whatever creates or trusts `local/`
+  also writes `local/.gitignore` containing `*`, replacing whatever file was
+  there (a copied or restored one may be empty or edited): it ignores everything in `local/`, itself
   included, on every branch. The traveling `.tikoci/<tool>/.gitignore` is
   tracked, so it disappears when a checkout switches to a branch without it,
   and the untracked `local/` stays behind. Anything else that copies a

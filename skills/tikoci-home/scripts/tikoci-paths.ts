@@ -100,11 +100,11 @@ export interface TikociPaths {
     /** .tikoci/ directories the walk passed over (a symlink, another user's), to report rather than skip silently. */
     skipped: string[];
     /**
-     * Set only when the run is in a git worktree nested in its own main
-     * checkout with no .tikoci/ of its own (a branch cut before adoption): the
-     * walk stepped over the main checkout, and this names the different project
-     * the main checkout uses at the same place. It is reported, never read: a
-     * tool says the main checkout has project data and how to name it.
+     * Set only when the run is in a git worktree with no .tikoci/ of its own (a
+     * branch cut before adoption), wherever the worktree is, and the main
+     * checkout uses a different project from the same place. It is reported,
+     * never read: a tool says the main checkout has project data and how to
+     * name it, since a name may mean a different device in the user scope.
      */
     mainProject: string | null;
     /** May evict from `cache`: the user's own runs, or a sandbox whose cache is inside it. */
@@ -571,10 +571,13 @@ export function resolveTikociPaths(tool: string, options: ResolveOptions = {}): 
             const found = findProject(cwd, { ...options, userScope: user });
             ({ project, skipped } = found);
             if (project) projectSource = "discovered";
-            if (found.worktree) {
-                // Where the main checkout would look from the same place, reported only, and only when it differs.
-                const rel = path.relative(found.worktree.checkout, canonical(cwd, platform));
-                const main = findProject(path.join(found.worktree.main, rel), { ...options, userScope: user }).project;
+            // Any git worktree with no project of its own (nested, beside the
+            // checkout, in /tmp): where the main checkout would look from the
+            // same place, reported only, and only when it differs.
+            const worktree = found.worktree ?? gitWorktreeRoot(cwd, platform);
+            if (worktree && (project === null || !isInside(worktree.checkout, project, platform))) {
+                const rel = path.relative(worktree.checkout, canonical(cwd, platform));
+                const main = findProject(path.join(worktree.main, rel), { ...options, userScope: user }).project;
                 mainProject = main !== null && (project === null || !samePath(main, project, platform)) ? main : null;
             }
         }
@@ -690,14 +693,18 @@ export const PROJECT_GITIGNORE = "# tikoci-home: local/ is this user's, on this 
  */
 export const LOCAL_GITIGNORE = "# tikoci-home: never commit local/.\n*\n";
 
-/** Create (or repair) a project's local/: private to this user, with its own LOCAL_GITIGNORE. */
+/**
+ * Create (or repair) a project's local/: private to this user, with its own
+ * LOCAL_GITIGNORE. The file is the tool's, so it is always rewritten: a copied
+ * or restored local/ may bring an empty or edited one that would let
+ * credentials into git. The rename replaces a symlink rather than following it.
+ */
 export function ensureLocalDir(dir: string): void {
     ensurePrivateDir(dir);
-    try {
-        writeFileSync(join(dir, ".gitignore"), LOCAL_GITIGNORE, { flag: "wx", mode: 0o600 });
-    } catch (error) {
-        if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
-    }
+    const file = join(dir, ".gitignore");
+    const temp = `${file}.${process.pid}.tmp`;
+    writeFileSync(temp, LOCAL_GITIGNORE, { mode: 0o600 });
+    renameSync(temp, file);
 }
 
 /**

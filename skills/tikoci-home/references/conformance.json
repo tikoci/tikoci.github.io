@@ -359,6 +359,21 @@
       "expect": { "project": "{root}/user/lab", "mainProject": "{root}/user/lab/main" }
     },
     {
+      "name": "a worktree beside its main checkout, on a branch with no .tikoci/, has no project and reports the main checkout's",
+      "profiles": ["project"],
+      "tool": "centrs",
+      "tree": [
+        "user/src/main/.tikoci/centrs/local/",
+        { "file": "user/src/main/.git/worktrees/old/commondir", "text": "../..\n" },
+        { "file": "user/src/main/.git/worktrees/old/gitdir", "text": "{root}/user/wt/old/.git\n" },
+        "user/wt/old/lib/",
+        { "file": "user/wt/old/.git", "text": "gitdir: {root}/user/src/main/.git/worktrees/old\n" }
+      ],
+      "env": { "HOME": "{root}/user" },
+      "cwd": "{root}/user/wt/old/lib",
+      "expect": { "project": null, "localProject": null, "mainProject": "{root}/user/src/main" }
+    },
+    {
       "name": "a worktree beside its main checkout still finds a lab folder's .tikoci/ above both",
       "profiles": ["project"],
       "tool": "centrs",

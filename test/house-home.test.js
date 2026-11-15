@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test } from "bun:test";
-import { chmodSync, cpSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, renameSync, rmSync, statSync, symlinkSync, writeFileSync } from "node:fs";
+import { chmodSync, cpSync, lstatSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, renameSync, rmSync, statSync, symlinkSync, writeFileSync } from "node:fs";
 import { homedir, tmpdir } from "node:os";
 import { join } from "node:path";
 import {
@@ -7,6 +7,7 @@ import {
     checkProject,
     deriveLabel,
     discoverProject,
+    ensureLocalDir,
     findProject,
     gitWorktreeRoot,
     hermeticEnv,
@@ -283,6 +284,23 @@ describe("local/ and trust", () => {
         const linked = temp();
         symlinkSync(temp(), join(linked, ".tikoci"));
         expect(() => initProject(linked, "centrs")).toThrow("real directory");
+    });
+
+    test("trusting rewrites a local/.gitignore that arrived empty or as a symlink", () => {
+        const user = fakeUser();
+        const paths = project(user);
+        mkdirSync(paths.projectLocalDir, { recursive: true, mode: 0o700 });
+        writeFileSync(join(paths.projectLocalDir, ".gitignore"), "");
+        trustProject(paths);
+        expect(readFileSync(join(paths.projectLocalDir, ".gitignore"), "utf8")).toBe(LOCAL_GITIGNORE);
+        const outside = join(user.root, "outside.txt");
+        writeFileSync(outside, "keep");
+        rmSync(join(paths.projectLocalDir, ".gitignore"));
+        symlinkSync(outside, join(paths.projectLocalDir, ".gitignore"));
+        ensureLocalDir(paths.projectLocalDir);
+        expect(readFileSync(outside, "utf8")).toBe("keep");
+        expect(lstatSync(join(paths.projectLocalDir, ".gitignore")).isSymbolicLink()).toBe(false);
+        expect(readFileSync(join(paths.projectLocalDir, ".gitignore"), "utf8")).toBe(LOCAL_GITIGNORE);
     });
 
     test("trusting writes a .gitignore inside local/ that survives a branch without the tool's", () => {
