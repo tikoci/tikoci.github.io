@@ -1,6 +1,6 @@
 ---
 name: tikoci-grounding
-description: "Ground claims in the real system: RouterOS on a CHR booted by quickchr decides RouterOS behavior, not docs, memory or review; run the call before changing code. One failure is a lead: reproduce it locally before naming a cause, and never skip, gate, retry or raise a timeout to turn red green. Unproven causes stay out of docs, issues and skills. Done means the exercising test ran, unrun checks are reported and the CI step is named. Use when debugging, measuring or claiming done."
+description: "Ground claims in the real system: RouterOS on a CHR booted by quickchr decides RouterOS behavior, not docs, memory or review; run the call before changing code. One failure is a lead: reproduce it locally before naming a cause, and never skip, gate, retry or raise a timeout to turn red green. Unproven causes stay out of docs, issues and skills. Done means the exercising test ran, checks not run are reported and the CI step is named. Use when debugging, measuring or claiming done."
 ---
 
 # Grounding and done
