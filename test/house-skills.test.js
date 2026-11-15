@@ -39,7 +39,7 @@ test("committed house skills validate within the description budget", () => {
 });
 
 test("file names with .local before an extension are not host names", () => {
-    expect(errorsFor({ "references/detail.md": "Keep centrs.local.env and settings.local.json local.\n" })).toBe("");
+    expect(errorsFor({ "references/detail.md": "Keep centrs.local.env, settings.local.json and archive.local.7z local.\n" })).toBe("");
 });
 
 test("a valid skill passes and lists its files", () => {

@@ -19,8 +19,10 @@ With `TIKOCI_SANDBOX` set to a fresh directory, the tool:
    wins over `TIKOCI_HOME` and over the tool's home variables
    (`<TOOL>_HOME`, `QUICKCHR_DATA_DIR`). The one shared place is the host
    scope (guarantee 7);
-2. still honors file and cache variables the test sets on purpose
-   (`CENTRS_CDB_FILE`, `<TOOL>_CACHE_DIR`) and reports them as such;
+2. still honors file, cache and runtime variables the test sets on purpose
+   (`CENTRS_CDB_FILE`, `<TOOL>_CACHE_DIR`, `TIKOCI_RUNTIME_DIR` for a shorter
+   socket path) and reports them as such, so those files can sit outside the
+   sandbox;
 3. discovers no project. `TIKOCI_PROJECT` can name one; its traveling files
    are read as usual, and its `local/` (a worktree's main checkout's, as
    outside a sandbox) only with trust given inside the sandbox;

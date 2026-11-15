@@ -128,7 +128,7 @@ Profile `user`. Every adopting tool starts here.
   still win.
 - **Existing tool variables keep their meaning.** `QUICKCHR_DATA_DIR` acts as
   `QUICKCHR_HOME` and still moves the cache with it unless a cache variable is
-  set, as today. Deprecating one is that tool's CHANGELOG decision.
+  set, as today (`legacyHome` in the reference resolver). Deprecating one is that tool's CHANGELOG decision.
 - **No XDG.** `~/.tikoci` is one visible place on Linux and macOS, as rosetta
   chose for `~/.rosetta`. Windows uses `%LOCALAPPDATA%` because the rest of the
   profile roams, and VM disks and caches are gigabytes.
@@ -278,7 +278,8 @@ Profile `sandbox`, needs `user`. `TIKOCI_SANDBOX=<dir>` replaces the user scope
 for a test or CI run:
 
 - config, secrets, state and trust records come only from `<dir>/<tool>/`,
-  runtime files go under `<dir>/run/`;
+  runtime files go under `<dir>/run/` (unless the test sets
+  `TIKOCI_RUNTIME_DIR`, as it may file and cache variables);
 - no project is discovered (`TIKOCI_PROJECT` can name one, whose `local/` is
   then read only with trust given inside the sandbox);
 - no legacy path, no OS keychain, no sudo, and no other program's files
@@ -419,8 +420,9 @@ and some syncs keep modes. Whatever records trust must tell these apart:
   the committed `.tikoci/` but never `local/`. When the project has no
   `.tikoci/<tool>/local/` of its own and is in a git worktree, the tool uses
   the `.tikoci/` at the same place in the main checkout: same git common dir,
-  same path inside the checkout. git's own files prove the link, wherever the
-  worktree is (inside the checkout, beside it, in `/tmp` or
+  same path inside the checkout. git's own files prove the link (the
+  worktree's `.git` file and git's backlink to it, so a copied worktree is a
+  separate project), wherever the worktree is (inside the checkout, beside it, in `/tmp` or
   `~/.t3/worktrees/`), and nothing needs git installed. The worktree is
   trusted through the main checkout, and its own traveling files (its
   branch's machine definitions) are read as the main checkout's are: trust is

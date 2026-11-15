@@ -48,6 +48,7 @@ function gitWorktree(main, worktree) {
     const gitdir = join(main, ".git", "worktrees", name);
     mkdirSync(gitdir, { recursive: true });
     writeFileSync(join(gitdir, "commondir"), "../..\n");
+    writeFileSync(join(gitdir, "gitdir"), `${join(worktree, ".git")}\n`);
     mkdirSync(worktree, { recursive: true });
     writeFileSync(join(worktree, ".git"), `gitdir: ${gitdir}\n`);
     return worktree;
@@ -109,6 +110,17 @@ describe("scopes", () => {
         expect(() => resolveTikociPaths("host", { env: { HOME: "/u" }, platform: "linux" })).toThrow("reserved");
     });
 
+    test("a legacy home variable acts as the tool's home and keeps its cache under it", () => {
+        const resolve = env => resolveTikociPaths("quickchr", { env: { HOME: "/u", ...env }, cwd: "/", platform: "linux", legacyHome: "QUICKCHR_DATA_DIR" });
+        const legacy = resolve({ QUICKCHR_DATA_DIR: "/q" });
+        expect([legacy.toolDir, legacy.cache, legacy.sources.toolDir, legacy.sources.cache]).toEqual(["/q", "/q/cache", "QUICKCHR_DATA_DIR", "QUICKCHR_DATA_DIR"]);
+        expect(resolve({ QUICKCHR_DATA_DIR: "/q", TIKOCI_CACHE_DIR: "/c" }).cache).toBe("/c/quickchr");
+        expect(resolve({ QUICKCHR_DATA_DIR: "/q", QUICKCHR_CACHE_DIR: "/qc" }).cache).toBe("/qc");
+        expect(resolve({ QUICKCHR_DATA_DIR: "/q", QUICKCHR_HOME: "/h" }).toolDir).toBe("/h");
+        const sandboxed = resolve({ QUICKCHR_DATA_DIR: "/q", TIKOCI_SANDBOX: "/s" });
+        expect([sandboxed.toolDir, sandboxed.cache]).toEqual(["/s/quickchr", "/u/.tikoci/cache/quickchr"]);
+    });
+
     test("the host scope follows the account's home even for a supplied env without one", () => {
         const paths = resolveTikociPaths("quickchr", { env: {}, cwd: "/", platform: "linux" });
         expect([paths.userScope, paths.hostDir]).toEqual([null, join(homedir(), ".tikoci", "host", "quickchr")]);
@@ -141,6 +153,16 @@ describe("sandboxes", () => {
         // Its trust records are the sandbox's own, so the user's trust does not carry over.
         trustProject(resolveTikociPaths("centrs", { env: user.env, cwd: user.deep }));
         expect(checkProject(named).state).toBe("untrusted");
+    });
+
+    test("a cache path that does not exist yet is judged by where it will really be", () => {
+        const root = realpathSync(temp());
+        const sandbox = join(root, "sandbox");
+        mkdirSync(join(root, "shared"));
+        mkdirSync(sandbox);
+        symlinkSync(join(root, "shared"), join(sandbox, "cache"));
+        const paths = resolveTikociPaths("quickchr", { env: { HOME: join(root, "u"), TIKOCI_SANDBOX: sandbox, TIKOCI_CACHE_DIR: join(sandbox, "cache") }, cwd: root });
+        expect(paths.evicts).toBe(false);
     });
 
     test("hermeticEnv drops inherited tool variables and keeps the user's cache", () => {

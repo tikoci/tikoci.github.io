@@ -45,6 +45,13 @@ export interface ResolveOptions {
     homedir?: () => string;
     /** The user a .tikoci/ must belong to on POSIX; defaults to process.getuid(). Tests set it. */
     uid?: number;
+    /**
+     * A tool variable that predates tikoci-home and acts as <TOOL>_HOME, such
+     * as quickchr's QUICKCHR_DATA_DIR. Unless a cache variable is set, the
+     * cache stays under it at <it>/cache, as before. <TOOL>_HOME wins over it,
+     * and a sandbox replaces it like any tool home variable.
+     */
+    legacyHome?: string;
 }
 
 /** Where a resolved value came from: a variable name, "default", "discovered" or "sandbox". */
@@ -170,6 +177,14 @@ function pathFor(platform: NodeJS.Platform) {
     return platform === "win32" ? win32 : posix;
 }
 
+/** A variable from `env`: its exact name, else on Windows the same name in any case, since Windows names ignore case. */
+function getVar(env: Env, name: string, platform: NodeJS.Platform): string | undefined {
+    if (env[name] !== undefined || platform !== "win32") return env[name];
+    const upper = name.toUpperCase();
+    for (const [key, value] of Object.entries(env)) if (key.toUpperCase() === upper) return value;
+    return undefined;
+}
+
 function nonEmpty(value: string | undefined): string | undefined {
     const trimmed = value?.trim();
     return trimmed ? trimmed : undefined;
@@ -187,14 +202,14 @@ function isProcessEnv(options: ResolveOptions): boolean {
 export function userHome(options: ResolveOptions = {}): string | undefined {
     const env = options.env ?? process.env;
     const platform = options.platform ?? process.platform;
-    const fromEnv = platform === "win32" ? nonEmpty(env.USERPROFILE) : nonEmpty(env.HOME);
+    const fromEnv = nonEmpty(getVar(env, platform === "win32" ? "USERPROFILE" : "HOME", platform));
     if (fromEnv !== undefined) return fromEnv;
     if (options.homedir) return options.homedir();
     return isProcessEnv(options) ? osHomedir() : undefined;
 }
 
 function absoluteFromEnv(env: Env, name: string, platform: NodeJS.Platform): string | undefined {
-    const value = nonEmpty(env[name]);
+    const value = nonEmpty(getVar(env, name, platform));
     if (value === undefined) return undefined;
     const path = pathFor(platform);
     // On Windows, "\x" is "absolute" but depends on the current drive: require a drive or UNC path.
@@ -204,11 +219,22 @@ function absoluteFromEnv(env: Env, name: string, platform: NodeJS.Platform): str
 }
 
 /** The canonical form of an existing path (symlinks followed), else its resolved form. */
+/**
+ * The canonical form of a path: symlinks followed through its nearest existing
+ * ancestor, with the parts that do not exist yet appended, so a directory a
+ * caller is about to create is judged by where it will really be.
+ */
 function canonical(target: string, platform: NodeJS.Platform): string {
-    try {
-        return realpathSync(target);
-    } catch {
-        return pathFor(platform).resolve(target);
+    const path = pathFor(platform);
+    const resolved = path.resolve(target);
+    const missing: string[] = [];
+    for (let probe = resolved; ; probe = path.dirname(probe)) {
+        try {
+            return path.join(realpathSync(probe), ...missing);
+        } catch {
+            if (path.dirname(probe) === probe) return resolved;
+            missing.unshift(path.basename(probe));
+        }
     }
 }
 
@@ -230,7 +256,7 @@ export function defaultHome(options: ResolveOptions = {}): string | undefined {
     const env = options.env ?? process.env;
     const platform = options.platform ?? process.platform;
     const path = pathFor(platform);
-    const local = platform === "win32" ? nonEmpty(env.LOCALAPPDATA) : undefined;
+    const local = platform === "win32" ? nonEmpty(getVar(env, "LOCALAPPDATA", platform)) : undefined;
     if (local !== undefined) return path.join(local, "tikoci");
     const home = userHome(options);
     if (home === undefined) return undefined;
@@ -410,6 +436,13 @@ function worktreeAt(dir: string, platform: NodeJS.Platform): { checkout: string;
     if (!common) return null; // a submodule
     const commonDir = canonical(path.resolve(gitdir, common), platform);
     if (path.basename(commonDir) !== ".git") return null; // a bare repository has no main checkout
+    // The admin dir must be registered under the common dir, and its backlink
+    // (<gitdir>/gitdir) must name this checkout's .git file. A copied checkout,
+    // or one moved without `git worktree repair`, fails here and is a separate
+    // project, so it never inherits the main checkout's trust.
+    if (!isInside(path.join(commonDir, "worktrees"), canonical(gitdir, platform), platform)) return null;
+    const back = readText(path.join(gitdir, "gitdir"));
+    if (!back || !samePath(canonical(path.resolve(gitdir, back), platform), canonical(dotGit, platform), platform)) return null;
     return { checkout: dir, main: path.dirname(commonDir) };
 }
 
@@ -442,25 +475,31 @@ export function resolveTikociPaths(tool: string, options: ResolveOptions = {}): 
     const sandboxed = sandbox !== undefined;
     const user = userRoot(options);
     const scope = sandbox ?? user ?? null;
-    const scopeSource = sandboxed ? "TIKOCI_SANDBOX" : nonEmpty(env.TIKOCI_HOME) ? "TIKOCI_HOME" : "default";
+    const scopeSource = sandboxed ? "TIKOCI_SANDBOX" : nonEmpty(getVar(env, "TIKOCI_HOME", platform)) ? "TIKOCI_HOME" : "default";
 
     // A tool's own variable wins over the house one for that tool, except that
     // a sandbox replaces the whole user scope, the tool's home included.
-    const toolHome = sandboxed ? undefined : absoluteFromEnv(env, `${prefix}_HOME`, platform);
+    const ownHome = sandboxed ? undefined : absoluteFromEnv(env, `${prefix}_HOME`, platform);
+    const legacyName = options.legacyHome;
+    const legacyHome = sandboxed || ownHome || !legacyName ? undefined : absoluteFromEnv(env, legacyName, platform);
+    const toolHome = ownHome ?? legacyHome;
     const toolDir = toolHome ?? (scope ? path.join(scope, tool) : null);
     const runtimeRoot = absoluteFromEnv(env, "TIKOCI_RUNTIME_DIR", platform);
     const runtime = runtimeRoot ? path.join(runtimeRoot, tool) : scope ? path.join(scope, "run", tool) : null;
     // Explicit cache variables win even in a sandbox: a test sets them on purpose.
     const toolCache = absoluteFromEnv(env, `${prefix}_CACHE_DIR`, platform);
     const sharedCache = cacheRoot(options);
-    const cache = toolCache ?? (sharedCache ? path.join(sharedCache, tool) : null);
-    const cacheSource = toolCache ? `${prefix}_CACHE_DIR` : nonEmpty(env.TIKOCI_CACHE_DIR) ? "TIKOCI_CACHE_DIR" : "default";
+    const sharedCacheSet = nonEmpty(getVar(env, "TIKOCI_CACHE_DIR", platform)) !== undefined;
+    // A legacy home keeps its cache under it, unless a cache variable says otherwise.
+    const legacyCache = legacyHome && !sharedCacheSet ? path.join(legacyHome, "cache") : undefined;
+    const cache = toolCache ?? legacyCache ?? (sharedCache ? path.join(sharedCache, tool) : null);
+    const cacheSource = toolCache ? `${prefix}_CACHE_DIR` : sharedCacheSet ? "TIKOCI_CACHE_DIR" : legacyCache ? (legacyName as string) : "default";
 
     let project: string | null = null;
     let projectSource = "none";
     let skipped: string[] = [];
     let mainProject: string | null = null;
-    const named = nonEmpty(env.TIKOCI_PROJECT);
+    const named = nonEmpty(getVar(env, "TIKOCI_PROJECT", platform));
     if (named === "none") {
         projectSource = "TIKOCI_PROJECT";
     } else if (named !== undefined) {
@@ -506,7 +545,7 @@ export function resolveTikociPaths(tool: string, options: ResolveOptions = {}): 
         hostServices: !sandboxed,
         sources: {
             userScope: scopeSource,
-            toolDir: toolHome ? `${prefix}_HOME` : scopeSource,
+            toolDir: ownHome ? `${prefix}_HOME` : legacyHome ? (legacyName as string) : scopeSource,
             runtime: runtimeRoot ? "TIKOCI_RUNTIME_DIR" : scopeSource,
             cache: cacheSource,
             project: projectSource,

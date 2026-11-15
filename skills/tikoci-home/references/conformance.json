@@ -177,6 +177,15 @@
       "expect": { "cache": "/s/cache/quickchr", "evicts": true }
     },
     {
+      "name": "Windows variable names match without case",
+      "profiles": ["sandbox"],
+      "tool": "centrs",
+      "platform": "win32",
+      "env": { "userprofile": "C:\\Profiles\\u", "LocalAppData": "C:\\Profiles\\u\\AppData\\Local", "tikoci_sandbox": "C:\\s" },
+      "cwd": "C:\\",
+      "expect": { "sandboxed": true, "userScope": "C:\\s", "toolDir": "C:\\s\\centrs", "cache": "C:\\Profiles\\u\\AppData\\Local\\tikoci\\cache\\centrs", "legacy": false, "keychain": false }
+    },
+    {
       "name": "the nearest .tikoci/ wins, with or without the tool's directory",
       "profiles": ["project"],
       "tool": "centrs",
@@ -253,6 +262,7 @@
       "tree": [
         "user/src/main/.tikoci/centrs/local/",
         { "file": "user/src/main/.git/worktrees/feature/commondir", "text": "../..\n" },
+        { "file": "user/src/main/.git/worktrees/feature/gitdir", "text": "{root}/user/wt/feature/.git\n" },
         "user/wt/feature/.tikoci/centrs/",
         "user/wt/feature/src/",
         { "file": "user/wt/feature/.git", "text": "gitdir: {root}/user/src/main/.git/worktrees/feature\n" }
@@ -274,6 +284,7 @@
       "tree": [
         "user/src/main/.tikoci/quickchr/local/",
         { "file": "user/src/main/.git/worktrees/fix/commondir", "text": "../..\n" },
+        { "file": "user/src/main/.git/worktrees/fix/gitdir", "text": "{root}/user/src/main/.worktrees/fix/.git\n" },
         "user/src/main/.worktrees/fix/.tikoci/quickchr/",
         { "file": "user/src/main/.worktrees/fix/.git", "text": "gitdir: ../../.git/worktrees/fix\n" }
       ],
@@ -289,6 +300,7 @@
         "user/src/main/.tikoci/quickchr/local/",
         "user/src/main/labs/cmr/.tikoci/quickchr/local/",
         { "file": "user/src/main/.git/worktrees/feature/commondir", "text": "../..\n" },
+        { "file": "user/src/main/.git/worktrees/feature/gitdir", "text": "{root}/user/wt/feature/.git\n" },
         "user/wt/feature/labs/cmr/.tikoci/quickchr/",
         { "file": "user/wt/feature/.git", "text": "gitdir: {root}/user/src/main/.git/worktrees/feature\n" }
       ],
@@ -303,6 +315,7 @@
       "tree": [
         "user/src/main/.tikoci/centrs/local/",
         { "file": "user/src/main/.git/worktrees/old/commondir", "text": "../..\n" },
+        { "file": "user/src/main/.git/worktrees/old/gitdir", "text": "{root}/user/src/main/.worktrees/old/.git\n" },
         "user/src/main/.worktrees/old/lib/",
         { "file": "user/src/main/.worktrees/old/.git", "text": "gitdir: ../../.git/worktrees/old\n" }
       ],
@@ -318,6 +331,7 @@
         "user/lab/.tikoci/",
         "user/lab/main/.tikoci/centrs/",
         { "file": "user/lab/main/.git/worktrees/old/commondir", "text": "../..\n" },
+        { "file": "user/lab/main/.git/worktrees/old/gitdir", "text": "{root}/user/lab/main/.worktrees/old/.git\n" },
         "user/lab/main/.worktrees/old/lib/",
         { "file": "user/lab/main/.worktrees/old/.git", "text": "gitdir: ../../.git/worktrees/old\n" }
       ],
@@ -332,6 +346,7 @@
       "tree": [
         "user/lab/.tikoci/",
         { "file": "user/lab/main/.git/worktrees/fix/commondir", "text": "../..\n" },
+        { "file": "user/lab/main/.git/worktrees/fix/gitdir", "text": "{root}/user/lab/fix/.git\n" },
         { "file": "user/lab/fix/.git", "text": "gitdir: {root}/user/lab/main/.git/worktrees/fix\n" }
       ],
       "env": { "HOME": "{root}/user" },
@@ -345,6 +360,7 @@
       "tree": [
         "user/src/RouterOS_Lab/.tikoci/centrs/local/",
         { "file": "user/src/RouterOS_Lab/.git/worktrees/t3-6eb9a36a/commondir", "text": "../..\n" },
+        { "file": "user/src/RouterOS_Lab/.git/worktrees/t3-6eb9a36a/gitdir", "text": "{root}/user/.t3/worktrees/RouterOS_Lab/t3-6eb9a36a/.git\n" },
         "user/.t3/worktrees/RouterOS_Lab/t3-6eb9a36a/.tikoci/centrs/",
         { "file": "user/.t3/worktrees/RouterOS_Lab/t3-6eb9a36a/.git", "text": "gitdir: {root}/user/src/RouterOS_Lab/.git/worktrees/t3-6eb9a36a\n" }
       ],
@@ -359,6 +375,7 @@
       "tree": [
         "user/src/main/",
         { "file": "user/src/main/.git/worktrees/adopt/commondir", "text": "../..\n" },
+        { "file": "user/src/main/.git/worktrees/adopt/gitdir", "text": "{root}/user/wt/adopt/.git\n" },
         "user/wt/adopt/.tikoci/centrs/",
         { "file": "user/wt/adopt/.git", "text": "gitdir: {root}/user/src/main/.git/worktrees/adopt\n" }
       ],
@@ -370,6 +387,23 @@
         "projectLocalDir": "{root}/user/src/main/.tikoci/centrs/local",
         "sources": { "localProject": "git-worktree" }
       }
+    },
+    {
+      "name": "a copied worktree fails git's backlink check and is its own project",
+      "profiles": ["project-data"],
+      "tool": "centrs",
+      "tree": [
+        "user/src/main/.tikoci/centrs/local/",
+        { "file": "user/src/main/.git/worktrees/feature/commondir", "text": "../..\n" },
+        { "file": "user/src/main/.git/worktrees/feature/gitdir", "text": "{root}/user/wt/feature/.git\n" },
+        "user/wt/feature/.tikoci/centrs/",
+        { "file": "user/wt/feature/.git", "text": "gitdir: {root}/user/src/main/.git/worktrees/feature\n" },
+        "user/wt/copy/.tikoci/centrs/",
+        { "file": "user/wt/copy/.git", "text": "gitdir: {root}/user/src/main/.git/worktrees/feature\n" }
+      ],
+      "env": { "HOME": "{root}/user" },
+      "cwd": "{root}/user/wt/copy",
+      "expect": { "project": "{root}/user/wt/copy", "localProject": "{root}/user/wt/copy", "sources": { "localProject": "self" } }
     },
     {
       "name": "a nested .tikoci/ that is not a worktree is its own project and never inherits",
@@ -387,6 +421,7 @@
       "tree": [
         "user/src/main/.tikoci/centrs/local/",
         { "file": "user/src/main/.git/worktrees/feature/commondir", "text": "../..\n" },
+        { "file": "user/src/main/.git/worktrees/feature/gitdir", "text": "{root}/user/wt/feature/.git\n" },
         "user/wt/feature/.tikoci/centrs/local/",
         { "file": "user/wt/feature/.git", "text": "gitdir: {root}/user/src/main/.git/worktrees/feature\n" }
       ],

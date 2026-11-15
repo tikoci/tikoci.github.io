@@ -1,4 +1,5 @@
 autovlan
+backlink
 CDB
 centrs
 CMR
@@ -7,6 +8,7 @@ crossref
 cwd
 efi
 frontmatter
+gitdir
 libsecret
 llms
 LOCALAPPDATA
