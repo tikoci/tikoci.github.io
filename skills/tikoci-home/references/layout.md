@@ -66,6 +66,14 @@ test checks this).
 
 Each is the adopting repo's call; the house rule only says what must hold.
 
+- **quickchr's profile order** (fifth quickchr review). First `user`,
+  `cache`, `sandbox` and `host`, which fix bugs quickchr has today:
+  quickchr#276 (with `HOME` unset, the data dir follows the working
+  directory), test roots shrinking the shared cache or taking a stopped
+  machine's ports, and the managed-network guard that reads one data dir
+  (quickchr#256). The host scope is also where quickchr#56 lands. Then
+  `names`, since `user:NAME` works before projects exist. Then `project`,
+  `project-data` and `per-checkout`, when a real lab needs them.
 - **quickchr machine sockets move to `run/`.** The first review kept them in
   the machine directory. With project machines under
   `projects/ID/machines/NAME/`, that path has no bounded length (about 128

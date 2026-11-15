@@ -1,6 +1,6 @@
 ---
 name: tikoci-home
-description: "Where tikoci tools keep files: the user scope TIKOCI_HOME (default ~/.tikoci, %LOCALAPPDATA%\\tikoci on Windows, no XDG) and a project's .tikoci/, the nearest one above the working directory and below home. Each tool owns TOOL/ in each scope; other tools use it through its library or CLI, never its files. tikoci does not define the directory around .tikoci/ or how it is shared. .tikoci/TOOL/ travels (no secrets, allowlisted settings); .tikoci/TOOL/local/ never does, is read only when private and trusted at the CLI, and a git worktree uses its main checkout's. Cache in TIKOCI_CACHE_DIR, runtime in run/TOOL/, port claims in the host scope. TIKOCI_SANDBOX replaces the user scope for tests: no project, legacy path or keychain, no eviction of the shared cache. Names across scopes: name, user:name, label:name. Use when adding a file a tool keeps outside the checkout, an env override, a settings layer, a cache, a cross-tool reference or a test that touches user state."
+description: "Where tikoci tools keep files: the user scope TIKOCI_HOME (default ~/.tikoci, %LOCALAPPDATA%\\tikoci on Windows, no XDG) and a project's .tikoci/, the nearest one above the working directory and below home. Each tool owns TOOL/ in each scope; other tools use it through its library or CLI, never its files. tikoci does not define the directory around .tikoci/ or how it is shared. .tikoci/TOOL/ travels (no secrets, allowlisted settings); .tikoci/TOOL/local/ never does, is read only when private and trusted at the CLI, and a git worktree uses its main checkout's. Cache in TIKOCI_CACHE_DIR, runtime in run/TOOL/, port claims in the host scope. TIKOCI_SANDBOX replaces the user scope for tests: no project, legacy path or keychain, no eviction of the shared cache. Names across scopes: name, user:name, label:name. Repos adopt it in profiles. Use when adding a file a tool keeps outside the checkout, an env override, a settings layer, a cache, a cross-tool reference or a test that touches user state."
 ---
 
 # tikoci tool files
@@ -13,6 +13,43 @@ schedule, and until then the tool's current paths stand. Every file each tool
 keeps, today and under this layout, is in
 [references/layout.tsv](references/layout.tsv), explained in
 [references/layout.md](references/layout.md).
+
+## Adopting in profiles
+
+A repo adopts the parts it needs, not the whole skill: rosetta needs the user
+scope and a cache, centrs project data first, quickchr the host scope long
+before projects. The rules are grouped into profiles. A repo names the ones
+it implements in its AGENTS.md `## House skills` entry, for example
+`tikoci-home (copied): user, cache, sandbox, host`.
+
+| Profile | Rules | Needs |
+| --- | --- | --- |
+| `user` | [Variables](#variables), the user scope, [Resolving paths](#resolving-paths), [Legacy paths and migration](#legacy-paths-and-migration) | — |
+| `cache` | the cache class in [Where a file goes](#where-a-file-goes): immutable entries, live leases, the root's owner evicts, state never depends on an entry | `user` |
+| `sandbox` | [Sandboxes](#sandboxes) and [references/isolation.md](references/isolation.md) | `user` |
+| `host` | the host-wide class: host-scope claims, attach but never create a host service | `user` |
+| `project` | [Finding the project](#finding-the-project), traveling files and their allowlist, [Settings precedence](#settings-precedence) with project layers, definitions are not settings | `user` |
+| `project-data` | `local/`, both `.gitignore` files, trust, fail closed, "holds data", git worktrees using the main checkout's `local/` | `project` |
+| `per-checkout` | state realized per checkout, reused paths, prune releasing host claims | `project-data`, `host` |
+| `names` | [Names across scopes](#names-across-scopes), label rules and derivation | a tool with named things in two scopes |
+
+- **A tool that has not adopted `project` ignores `.tikoci/` entirely.** It
+  never discovers a project halfway or reads part of one. Being user-only is
+  an aligned state, not drift; half an adoption (discovery without the trust
+  rules) is the case to avoid.
+- **Mixed runs work through reporting.** In one project, centrs at
+  `project-data` uses the project CDB while a quickchr at `user` uses the
+  user's machines; each reports the scope it used. A library without
+  `project` ignores a `TIKOCI_PROJECT` it is passed. A tool without `names`
+  rejects `label:name` with an error that says so, rather than reading it as
+  a literal name.
+- **Conformance cases carry profiles.** Each case in
+  [references/conformance.json](references/conformance.json) lists the
+  profiles it needs, and each field it checks belongs to a profile; a repo
+  runs the cases it can and compares only its profiles' fields.
+- **Open items belong to no profile** (how trust is recorded, naming one
+  worktree's instance) until a later revision of this skill adds them, so
+  nobody implements a guess.
 
 ## Two scopes
 
@@ -376,11 +413,23 @@ way in each. One form, scope first:
 
   If 2 and 3 both match, the tool stops with an error that shows both
   spellings.
-- **The label** is the project directory's name by default; a tool may let
-  the user set another. `user` is reserved, and a label is a name
-  (`[a-z][a-z0-9-]*`), not an address. A tool resolves it against the
-  projects its user scope knows, and an ambiguous label is an error that
-  lists their paths.
+- **A label follows DNS label rules**, as RouterOS names and host names do:
+  lowercase letters, digits and inner hyphens, at most 63 characters, and it
+  starts with a letter so it never reads as an address or a number. `user` is
+  reserved. A tool may let the user set a label; an explicit one must already
+  be valid.
+- **The default label is derived from the project directory's name**, the
+  same way in every tool (`deriveLabel()` in the reference resolver, with
+  cases in [conformance.json](references/conformance.json)): strip accents,
+  lowercase, turn each run of other characters into one `-`, trim `-` from
+  both ends, prefix `p-` when it starts with a digit, then cut to 63
+  characters and trim a trailing `-`. So `tikoci.github.io` is
+  `tikoci-github-io`, `Lab_2` is `lab-2` and `2026 lab` is `p-2026-lab`.
+  When nothing usable is left (or the result is `user`), the tool asks for an
+  explicit label.
+- **A tool resolves a label** against the projects its user scope knows, and
+  an ambiguous label (two directories called `lab`) is an error that lists
+  their paths.
 - **Labels are for people and stored references.** A library call carries
   the project path (`TIKOCI_PROJECT` in the env it passes), never a label,
   since two tools may know different projects. A tool that receives a

@@ -118,6 +118,42 @@ function checkTool(tool: string): void {
     if (!TOOL_NAME.test(tool) || RESERVED_NAMES.has(tool)) throw new Error(`tool name "${tool}" must match ${TOOL_NAME} and not be reserved`);
 }
 
+/** Labels that name a scope, never a project. */
+export const RESERVED_LABELS = new Set(["user"]);
+
+/** The longest label: a DNS label's limit (RFC 1035), so a label is also usable as a host name or RouterOS identity part. */
+export const LABEL_MAX = 63;
+
+/** A label: lowercase letters, digits and inner hyphens, starting with a letter so it never reads as an address or a number. */
+const LABEL = /^[a-z](?:[a-z0-9-]*[a-z0-9])?$/;
+
+/** Whether `label` may name a project in `label:name` (an explicit one a user set, or a derived one). */
+export function isValidLabel(label: string): boolean {
+    return label.length <= LABEL_MAX && LABEL.test(label) && !RESERVED_LABELS.has(label);
+}
+
+/**
+ * The default label for a project directory named `name` (its basename, not a
+ * path), or null when none can be derived and the user must set one. Every tool
+ * derives the same label: strip accents (NFKD), lowercase, turn each run of
+ * characters other than a-z and 0-9 into one "-", trim "-" from both ends,
+ * prefix "p-" when it starts with a digit, then cut to 63 characters and trim a
+ * trailing "-". `tikoci.github.io` gives `tikoci-github-io`, `Lab_2` gives
+ * `lab-2`, `2026 lab` gives `p-2026-lab`; `user`, or nothing left, gives null.
+ */
+export function deriveLabel(name: string): string | null {
+    let label = name
+        .normalize("NFKD")
+        .replace(/\p{M}+/gu, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    if (label === "") return null;
+    if (/^[0-9]/.test(label)) label = `p-${label}`;
+    label = label.slice(0, LABEL_MAX).replace(/-+$/, "");
+    return isValidLabel(label) ? label : null;
+}
+
 /** The prefix of a tool's own variables: routeros-muse → ROUTEROS_MUSE. */
 export function toolVarPrefix(tool: string): string {
     checkTool(tool);

@@ -5,11 +5,13 @@ import { join } from "node:path";
 import {
     cacheRoot,
     checkProject,
+    deriveLabel,
     discoverProject,
     findProject,
     gitWorktreeRoot,
     hermeticEnv,
     initProject,
+    isValidLabel,
     LOCAL_GITIGNORE,
     PROJECT_GITIGNORE,
     resolveInProject,
@@ -52,7 +54,26 @@ function gitWorktree(main, worktree) {
 }
 
 describe("conformance.json", () => {
-    const { cases } = JSON.parse(readFileSync(join(SKILL, "references", "conformance.json"), "utf8"));
+    const { cases, profiles, fields, labels } = JSON.parse(readFileSync(join(SKILL, "references", "conformance.json"), "utf8"));
+
+    test("every case names known profiles, and every checked field belongs to one", () => {
+        for (const needs of Object.values(profiles)) for (const need of needs) expect(Object.keys(profiles)).toContain(need);
+        for (const profile of Object.values(fields)) expect(Object.keys(profiles)).toContain(profile);
+        for (const spec of cases) {
+            expect(spec.profiles.length).toBeGreaterThan(0);
+            for (const profile of spec.profiles) expect(Object.keys(profiles)).toContain(profile);
+            const checked = Object.entries(spec.expect).flatMap(([key, value]) =>
+                key === "sources" ? Object.keys(value).map(k => `sources.${k}`) : [key]);
+            for (const field of checked) expect(fields).toHaveProperty([field]);
+        }
+    });
+
+    for (const { input, expect: label } of labels) {
+        test(`label for ${JSON.stringify(input)}`, () => {
+            expect(deriveLabel(input)).toBe(label);
+            if (label !== null) expect(isValidLabel(label)).toBe(true);
+        });
+    }
     const fill = (value, root) => JSON.parse(JSON.stringify(value).replaceAll("{root}", root));
 
     for (const spec of cases) {
@@ -417,5 +438,12 @@ describe("layout.tsv", () => {
             if (row[2] === "secret" || row[2] === "state") expect(row[4], row[1]).toMatch(/\/local\//);
             else expect(row[2], row[1]).toBe("config");
         }
+    });
+});
+
+describe("labels", () => {
+    test("an explicit label must already follow the DNS-style rules", () => {
+        for (const ok of ["lab", "lab-2", "a", "x".repeat(63), "edge--lab"]) expect(isValidLabel(ok)).toBe(true);
+        for (const bad of ["user", "Lab", "2lab", "-lab", "lab-", "lab_2", "lab.2", "", "x".repeat(64), "lab:2"]) expect(isValidLabel(bad)).toBe(false);
     });
 });

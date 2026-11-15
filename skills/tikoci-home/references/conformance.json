@@ -1,9 +1,58 @@
 {
-  "about": "Shared resolution cases for tikoci-home. An adopting repo runs these against its own resolver so every tool in a run agrees on scopes, the project and the main checkout. Each case gives a tool, an env, a working directory and, for filesystem cases, a tree to build under a fresh temporary {root} (canonical, with symlinks followed); `expect` lists the fields that must match. Tree entries: \"dir/\" makes a directory, {\"file\", \"text\"} a file, {\"link\", \"to\"} a symlink. `{root}` is replaced everywhere. Cases with `platform` need no filesystem; the others run on POSIX. Trust records are not covered: their format is open (SKILL.md).",
+  "about": "Shared resolution cases for tikoci-home. An adopting repo runs these against its own resolver so every tool in a run agrees on scopes, the project and the main checkout. Each case gives a tool, an env, a working directory and, for filesystem cases, a tree to build under a fresh temporary {root} (canonical, with symlinks followed); `expect` lists the fields that must match. Tree entries: \"dir/\" makes a directory, {\"file\", \"text\"} a file, {\"link\", \"to\"} a symlink. `{root}` is replaced everywhere. Cases with `platform` need no filesystem; the others run on POSIX. Trust records are not covered: their format is open (SKILL.md). Each case lists the `profiles` it needs (SKILL.md, Adopting in profiles), and `fields` maps each checked field to the profile it belongs to: a repo runs the cases whose profiles it implements and compares only the fields of its profiles. `labels` gives the default label `deriveLabel()` must produce for a project directory name, null meaning the user has to set one.",
   "version": 1,
+  "profiles": {
+    "user": [],
+    "cache": ["user"],
+    "sandbox": ["user"],
+    "host": ["user"],
+    "project": ["user"],
+    "project-data": ["project"],
+    "per-checkout": ["project-data", "host"],
+    "names": []
+  },
+  "fields": {
+    "sandboxed": "sandbox",
+    "userScope": "user",
+    "toolDir": "user",
+    "runtime": "user",
+    "legacy": "user",
+    "keychain": "user",
+    "cache": "cache",
+    "evicts": "cache",
+    "hostDir": "host",
+    "hostServices": "host",
+    "project": "project",
+    "projectToolDir": "project",
+    "skipped": "project",
+    "mainProject": "project",
+    "localProject": "project-data",
+    "projectLocalDir": "project-data",
+    "sources.userScope": "user",
+    "sources.toolDir": "user",
+    "sources.runtime": "user",
+    "sources.cache": "cache",
+    "sources.project": "project",
+    "sources.localProject": "project-data"
+  },
+  "labels": [
+    { "input": "lab", "expect": "lab" },
+    { "input": "tikoci.github.io", "expect": "tikoci-github-io" },
+    { "input": "Lab_2", "expect": "lab-2" },
+    { "input": "2026 lab", "expect": "p-2026-lab" },
+    { "input": "--edge--lab--", "expect": "edge-lab" },
+    { "input": "Café Réseau", "expect": "cafe-reseau" },
+    { "input": "quickchr-efi-datadir", "expect": "quickchr-efi-datadir" },
+    { "input": "User", "expect": null },
+    { "input": "...", "expect": null },
+    { "input": "实验室", "expect": null },
+    { "input": "a-very-long-project-directory-name-that-goes-past-the-dns-limit-x", "expect": "a-very-long-project-directory-name-that-goes-past-the-dns-limit" },
+    { "input": "abcdefghij-abcdefghij-abcdefghij-abcdefghij-abcdefghij-abcdefg-hij", "expect": "abcdefghij-abcdefghij-abcdefghij-abcdefghij-abcdefghij-abcdefg" }
+  ],
   "cases": [
     {
       "name": "default layout on Linux and macOS",
+      "profiles": ["user"],
       "tool": "quickchr",
       "platform": "linux",
       "env": { "HOME": "/u" },
@@ -25,6 +74,7 @@
     },
     {
       "name": "Windows uses LOCALAPPDATA, not the roaming profile",
+      "profiles": ["user"],
       "tool": "centrs",
       "platform": "win32",
       "env": { "USERPROFILE": "C:\\Profiles\\u", "LOCALAPPDATA": "C:\\Profiles\\u\\AppData\\Local", "HOME": "/c/msys/home" },
@@ -37,6 +87,7 @@
     },
     {
       "name": "TIKOCI_HOME moves the user scope but not the host scope",
+      "profiles": ["user"],
       "tool": "rosetta",
       "platform": "linux",
       "env": { "HOME": "/u", "TIKOCI_HOME": "/t/root" },
@@ -52,6 +103,7 @@
     },
     {
       "name": "a tool's own variables win over the house ones for that tool",
+      "profiles": ["user"],
       "tool": "quickchr",
       "platform": "linux",
       "env": { "HOME": "/u", "QUICKCHR_HOME": "/q", "QUICKCHR_CACHE_DIR": "/qc", "CENTRS_HOME": "/c" },
@@ -60,6 +112,7 @@
     },
     {
       "name": "a supplied env without a home has no user scope (centrs#654)",
+      "profiles": ["user"],
       "tool": "centrs",
       "platform": "linux",
       "env": {},
@@ -68,6 +121,7 @@
     },
     {
       "name": "cache and runtime roots move independently",
+      "profiles": ["user"],
       "tool": "quickchr",
       "platform": "linux",
       "env": { "HOME": "/u", "TIKOCI_HOME": "/t", "TIKOCI_CACHE_DIR": "/c", "TIKOCI_RUNTIME_DIR": "/r" },
@@ -76,6 +130,7 @@
     },
     {
       "name": "a sandbox replaces the user scope, shares the user's cache without evicting, and keeps the host scope",
+      "profiles": ["sandbox"],
       "tool": "quickchr",
       "platform": "linux",
       "env": { "HOME": "/u", "TIKOCI_SANDBOX": "/s" },
@@ -95,6 +150,7 @@
     },
     {
       "name": "the sandbox wins over TIKOCI_HOME and the tool's home variable",
+      "profiles": ["sandbox"],
       "tool": "centrs",
       "platform": "linux",
       "env": { "HOME": "/u", "TIKOCI_HOME": "/t", "CENTRS_HOME": "/real/centrs", "TIKOCI_SANDBOX": "/s" },
@@ -103,6 +159,7 @@
     },
     {
       "name": "an explicit cache variable still wins in a sandbox, and is not the sandbox's to evict",
+      "profiles": ["sandbox"],
       "tool": "quickchr",
       "platform": "linux",
       "env": { "HOME": "/u", "TIKOCI_SANDBOX": "/s", "QUICKCHR_CACHE_DIR": "/qc" },
@@ -111,6 +168,7 @@
     },
     {
       "name": "a cache inside the sandbox is the sandbox's to evict",
+      "profiles": ["sandbox"],
       "tool": "quickchr",
       "platform": "linux",
       "env": { "HOME": "/u", "TIKOCI_SANDBOX": "/s", "TIKOCI_CACHE_DIR": "/s/cache" },
@@ -119,6 +177,7 @@
     },
     {
       "name": "the nearest .tikoci/ wins, with or without the tool's directory",
+      "profiles": ["project"],
       "tool": "centrs",
       "tree": ["user/src/.tikoci/centrs/", "user/src/p/.tikoci/quickchr/", "user/src/p/lib/deep/"],
       "env": { "HOME": "{root}/user" },
@@ -134,6 +193,7 @@
     },
     {
       "name": "~/.tikoci is the user scope, never a project",
+      "profiles": ["project"],
       "tool": "centrs",
       "tree": ["user/.tikoci/centrs/", "user/src/p/"],
       "env": { "HOME": "{root}/user" },
@@ -142,6 +202,7 @@
     },
     {
       "name": "an alias of the home directory still stops the walk",
+      "profiles": ["project"],
       "tool": "centrs",
       "tree": ["user/.tikoci/", "user/src/p/", { "link": "alias", "to": "{root}/user" }],
       "env": { "HOME": "{root}/user" },
@@ -150,6 +211,7 @@
     },
     {
       "name": "a symlinked .tikoci is passed over and reported",
+      "profiles": ["project"],
       "tool": "centrs",
       "tree": ["elsewhere/", "user/src/p/lib/", { "link": "user/src/p/.tikoci", "to": "{root}/elsewhere" }],
       "env": { "HOME": "{root}/user" },
@@ -158,6 +220,7 @@
     },
     {
       "name": "TIKOCI_PROJECT=none turns discovery off",
+      "profiles": ["project"],
       "tool": "centrs",
       "tree": ["user/src/p/.tikoci/"],
       "env": { "HOME": "{root}/user", "TIKOCI_PROJECT": "none" },
@@ -166,6 +229,7 @@
     },
     {
       "name": "TIKOCI_PROJECT names a project from anywhere",
+      "profiles": ["project"],
       "tool": "centrs",
       "tree": ["user/src/p/.tikoci/", "user/other/"],
       "env": { "HOME": "{root}/user", "TIKOCI_PROJECT": "{root}/user/src/p" },
@@ -174,6 +238,7 @@
     },
     {
       "name": "a sandbox discovers no project",
+      "profiles": ["sandbox", "project"],
       "tool": "centrs",
       "tree": ["user/src/p/.tikoci/centrs/"],
       "env": { "HOME": "{root}/user", "TIKOCI_SANDBOX": "{root}/sandbox" },
@@ -182,6 +247,7 @@
     },
     {
       "name": "a git worktree anywhere uses its main checkout's local/",
+      "profiles": ["project-data"],
       "tool": "centrs",
       "tree": [
         "user/src/main/.tikoci/centrs/local/",
@@ -202,6 +268,7 @@
     },
     {
       "name": "a worktree inside its main checkout, with a relative gitdir",
+      "profiles": ["project-data"],
       "tool": "quickchr",
       "tree": [
         "user/src/main/.tikoci/quickchr/local/",
@@ -215,6 +282,7 @@
     },
     {
       "name": "a project below the checkout root maps to the same place in the main checkout",
+      "profiles": ["project-data"],
       "tool": "quickchr",
       "tree": [
         "user/src/main/.tikoci/quickchr/local/",
@@ -229,6 +297,7 @@
     },
     {
       "name": "a worktree nested in its main checkout, on a branch with no .tikoci/, has no project and reports the main checkout's",
+      "profiles": ["project"],
       "tool": "centrs",
       "tree": [
         "user/src/main/.tikoci/centrs/local/",
@@ -242,6 +311,7 @@
     },
     {
       "name": "a worktree beside its main checkout still finds a lab folder's .tikoci/ above both",
+      "profiles": ["project"],
       "tool": "centrs",
       "tree": [
         "user/lab/.tikoci/",
@@ -254,6 +324,7 @@
     },
     {
       "name": "a nested .tikoci/ that is not a worktree is its own project and never inherits",
+      "profiles": ["project-data"],
       "tool": "quickchr",
       "tree": ["user/src/p/.tikoci/quickchr/local/", "user/src/p/.git/", "user/src/p/examples/cmr/.tikoci/quickchr/"],
       "env": { "HOME": "{root}/user" },
@@ -262,6 +333,7 @@
     },
     {
       "name": "a worktree with a local/ of its own uses it",
+      "profiles": ["project-data"],
       "tool": "centrs",
       "tree": [
         "user/src/main/.tikoci/centrs/local/",
@@ -275,6 +347,7 @@
     },
     {
       "name": "a submodule is not a worktree",
+      "profiles": ["project-data"],
       "tool": "centrs",
       "tree": [
         "user/src/p/.tikoci/centrs/local/",
