@@ -89,9 +89,13 @@ re-download what the machine already has.
   ([isolation contract](https://tikoci.dev/house/skills/tikoci-home/references/isolation.md)).
   Until a tool adopts it, use the tool's own override (`QUICKCHR_DATA_DIR`,
   `CENTRS_CDB_FILE`, `DB_PATH=:memory:`), set in a preload, never the real one.
-- **Pass an explicit env to every child process**, built from an allowlist.
-  A spawned Bun process does not see later changes to `process.env`, so
-  without `env` it silently uses the real data directory.
+- **Pass an explicit env to every child process**, built from an allowlist
+  (tikoci-home's `hermeticEnv()`), never by copying `process.env`. A spawned
+  Bun process does not see later changes to `process.env`, so without `env`
+  it silently uses the real data directory. Run `bun` children with
+  `--no-env-file`, or Bun loads the checkout's `.env` and brings an override
+  back. Keep the real `HOME`: faking it moves the host scope where port
+  claims live, and the cache too unless `TIKOCI_CACHE_DIR` is set.
 - **Windows env names ignore case** (`HTTPS_PROXY` and `https_proxy` are one
   variable). Clear every spelling, then set; never set one and delete the
   other in the same loop.

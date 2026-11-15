@@ -42,40 +42,66 @@ behind. Check the quickchr version you depend on for the exact option names.
 ## Derive timeouts from the operation's budget
 
 ```ts
-// test/integration/timeouts.ts
-// test timeout > boots x boot budget + evidence capture + test body
-export function bootTestTimeout({ boots = 1, bodyMs = 60_000 } = {}): number {
-  return boots * defaultBootTimeout() + EVIDENCE_BUDGET_MS + bodyMs;
+// quickchr test/integration/timeouts.ts, abridged
+// test timeout > boots x boot budget + forensics + test body
+export function bootTestTimeoutFor(arch: Arch, accel: string, opts: BootTestTimeoutOptions = {}): number {
+  const boots = opts.boots ?? 1;
+  const budget = defaultBootTimeout(arch, opts.withPackages, accel);
+  return boots * budget + BOOT_FORENSICS_BUDGET_MS + TEST_BODY_HEADROOM_MS + (opts.extraMs ?? 0);
 }
 ```
 
-quickchr's 300 s literal ran under a 480 s boot budget on same-arch TCG, so
-Bun killed the test before the failure report was written (quickchr #106).
+The budget takes everything the library's own budget depends on: the guest
+architecture, the accelerator detected on this host and whether the boot
+installs packages (which doubles it). Leave one out and the copy can again be
+shorter than the boot it waits on. quickchr's 300 s literal ran under a 480 s
+boot budget on same-arch TCG, so Bun killed the test before the failure report
+was written (quickchr #106).
 
 ## Spawn children with an explicit env
 
 ```ts
-const env = { PATH: process.env.PATH ?? "", HOME: sandboxHome, TIKOCI_SANDBOX: sandbox };
-const proc = Bun.spawn(["bun", "src/cli.ts", "list"], { env, stdout: "pipe", stderr: "pipe" });
+import { hermeticEnv } from "./tikoci-paths.ts"; // copied from tikoci-home's scripts/
+
+const env = hermeticEnv(sandbox); // allowlist, real HOME, TIKOCI_SANDBOX, the user's cache
+const proc = Bun.spawn(["bun", "--no-env-file", "src/cli.ts", "list"], { env, stdout: "pipe", stderr: "pipe" });
 ```
 
 Without `env`, a spawned process keeps the environment the parent started
 with, not later `process.env` changes, and quickchr workers wrote into the
 real data directory (quickchr #214 review). Build `env` from an allowlist
-rather than spreading `process.env`, so an inherited override cannot leak in
+rather than spreading `process.env`, so an inherited override cannot leak in,
+and pass `--no-env-file` so Bun does not load the checkout's `.env` and add
+one back (centrs #666). Keep the real `HOME`: the allowlist carries the
+variables that locate the shared cache, and a fake `HOME` would also move the
+host scope where port claims live
 ([isolation contract](https://tikoci.dev/house/skills/tikoci-home/references/isolation.md)).
+A tool that has not adopted tikoci-home builds the same allowlist by hand and
+sets its own override instead of `TIKOCI_SANDBOX`.
 
 ## Undo a module mock
 
 ```ts
 import { afterAll, mock } from "bun:test";
 
+// quickchr test/unit/snapshot-budgets.test.ts, abridged
 const real = { ...(await import("../../src/lib/channels.ts")) };
-mock.module("../../src/lib/channels.ts", () => ({ ...real, resolveChannel: () => "7.20.8" }));
 afterAll(() => {
   mock.module("../../src/lib/channels.ts", () => real);
 });
+
+mock.module("../../src/lib/channels.ts", () => ({
+  ...real,
+  monitorCommand: async (_machineDir: string, command: string) => {
+    calls.push(command);
+    return command === "info snapshots" ? LISTING : "";
+  },
+}));
 ```
+
+quickchr's own version replaces every other export with a stub that throws
+when called, so a test that reaches an unexpected function fails by name
+instead of running the real one.
 
 `mock.restore()` left 28 failures in other files of the same run on Bun 1.4.4
 (quickchr #224). The other fix is to run the mocked test in a worker process.
@@ -100,11 +126,16 @@ there.
 ## Import a module with side effects safely
 
 ```ts
+// rosetta src/extract-docusaurus.test.ts, abridged
 process.env.DB_PATH = ":memory:";
-const { extractAll } = await import("../src/extract-all.ts");
+
+import { describe, expect, test } from "bun:test";
+
+const { parsePage } = await import("./extract-docusaurus.ts"); // imports db.ts at the top
 ```
 
-A static import is hoisted above the assignment and opens the real database.
+A static import of a module that reaches the database is hoisted above the
+assignment and opens the real one.
 rosetta saw it as an order-dependent CI flake (rosetta #98) and closed it with
 a test that scans test files for static imports that reach the database
 module.
@@ -122,12 +153,15 @@ set, because Windows treats them as one variable (quickchr #226).
 ## Assert output markers, not exit codes
 
 ```ts
+// after quickchr test/integration/examples-smoke.test.ts
 const proc = Bun.spawnSync(["sh", "examples/quickstart/quickstart.sh"], { env });
 const out = proc.stdout.toString();
 expect(proc.exitCode).toBe(0);
-expect(out).toContain("RouterOS");           // printed by the tool, not by echo
-expect(out).toContain("quickstart: done");   // the last line of the script
+expect(out).toContain("starting examples-quickstart-"); // the script's first step
+expect(out).toContain('"descriptorVersion": 1');        // printed by quickchr inspect, the last command
 ```
 
-A PowerShell parse error and a bare Python `return` past `sys.exit(rc)` each
+The last marker comes from the tool, not from the script's own `echo`, and from
+the final command, so a script that stops early or never reaches quickchr
+fails. A PowerShell parse error and a bare Python `return` past `sys.exit(rc)` each
 shipped an example that exited 0 having done nothing (quickchr #102).
