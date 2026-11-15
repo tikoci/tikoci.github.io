@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-15T11:30:50.724Z",
+  "generatedAt": "2026-11-15T17:46:30.707Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,7 +10,7 @@
     "otherHttpCalls": 11,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4638
+    "rateLimitRemaining": 4836
   },
   "sources": {
     "ros-current": "https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel> (MikroTik upgrade feed; body \"<version> <build-ts>\")",
@@ -135,9 +135,9 @@
             "headBranch": "main",
             "headSha": "0e476cea72d28ef8564a78acdd063553b72fd95e",
             "event": "schedule",
-            "runStartedAt": "2026-11-14T11:10:36Z",
-            "lastUpdatedAt": "2026-11-14T11:11:50Z",
-            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/43588768946",
+            "runStartedAt": "2026-11-15T11:43:42Z",
+            "lastUpdatedAt": "2026-11-15T11:44:51Z",
+            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/43710311727",
             "isHead": true
           },
           {
@@ -430,9 +430,9 @@
             "headBranch": "main",
             "headSha": "e568f7a3bc6a6265499d3189afc72f2f3e2dbc1d",
             "event": "schedule",
-            "runStartedAt": "2026-11-14T11:15:29Z",
-            "lastUpdatedAt": "2026-11-14T11:15:43Z",
-            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/43589156528",
+            "runStartedAt": "2026-11-15T11:47:57Z",
+            "lastUpdatedAt": "2026-11-15T11:48:13Z",
+            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/43710654233",
             "isHead": true
           },
           {
@@ -846,12 +846,12 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "d0102c84ab3813ec6d14d5451c47ac374c3d3e14",
+            "headSha": "dd7e0ad99aa51acc79f086fe5d71e65efbb511eb",
             "event": "schedule",
-            "runStartedAt": "2026-11-14T11:29:42Z",
-            "lastUpdatedAt": "2026-11-14T11:29:57Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/43590270947",
-            "isHead": false
+            "runStartedAt": "2026-11-15T11:57:47Z",
+            "lastUpdatedAt": "2026-11-15T11:57:56Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/43711424579",
+            "isHead": true
           }
         ]
       },
@@ -1617,12 +1617,12 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "6a695956176bdd0ee1f816fc43b24676f610348c",
+            "headSha": "6acbe2ea8a9da322c19f2126fdc7ed5b7995fa72",
             "event": "schedule",
-            "runStartedAt": "2026-11-14T12:20:02Z",
-            "lastUpdatedAt": "2026-11-14T12:59:41Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/43594289171",
-            "isHead": false
+            "runStartedAt": "2026-11-15T12:51:35Z",
+            "lastUpdatedAt": "2026-11-15T13:29:07Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/43715979749",
+            "isHead": true
           }
         ]
       },
@@ -3607,24 +3607,6 @@
       ]
     },
     {
-      "id": "ci-run-not-head:centrs:QA",
-      "rule": "ci-run-not-head",
-      "severity": "info",
-      "category": "ci",
-      "repos": [
-        "centrs"
-      ],
-      "summary": "centrs: QA latest run is not on the current head commit",
-      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
-      "evidence": [
-        "repos.centrs.ci.workflows[QA].headSha=6a695956176bdd0ee1f816fc43b24676f610348c",
-        "repos.centrs.ci.headSha=6acbe2ea8a9da322c19f2126fdc7ed5b7995fa72"
-      ],
-      "urls": [
-        "https://github.com/tikoci/centrs/actions/runs/43594289171"
-      ]
-    },
-    {
       "id": "ci-run-not-head:centrs:Release",
       "rule": "ci-run-not-head",
       "severity": "info",
@@ -3676,24 +3658,6 @@
       ],
       "urls": [
         "https://github.com/tikoci/quickchr/actions/runs/42367380248"
-      ]
-    },
-    {
-      "id": "ci-run-not-head:quickchr:RouterOS-Versions",
-      "rule": "ci-run-not-head",
-      "severity": "info",
-      "category": "ci",
-      "repos": [
-        "quickchr"
-      ],
-      "summary": "quickchr: RouterOS Versions latest run is not on the current head commit",
-      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
-      "evidence": [
-        "repos.quickchr.ci.workflows[RouterOS Versions].headSha=d0102c84ab3813ec6d14d5451c47ac374c3d3e14",
-        "repos.quickchr.ci.headSha=dd7e0ad99aa51acc79f086fe5d71e65efbb511eb"
-      ],
-      "urls": [
-        "https://github.com/tikoci/quickchr/actions/runs/43590270947"
       ]
     },
     {
