@@ -365,6 +365,22 @@ describe("local/ and trust", () => {
         expect(() => statSync(join(worktree, ".tikoci", "centrs", "local"))).toThrow();
     });
 
+    test("trusting from a worktree before the main checkout adopts creates only a hidden local/ there", () => {
+        const user = fakeUser();
+        expect(Bun.spawnSync(["git", "init", "-q", user.project]).exitCode).toBe(0);
+        const worktree = gitWorktree(user.project, join(user.home, "wt", "adopt"));
+        initProject(worktree, "centrs");
+        const paths = resolveTikociPaths("centrs", { env: user.env, cwd: worktree });
+        expect(paths.projectLocalDir).toBe(join(user.project, ".tikoci", "centrs", "local"));
+        const id = trustProject(paths);
+        expect(checkProject(paths)).toEqual({ state: "trusted", id, reason: "" });
+        expect(() => statSync(join(user.project, ".tikoci", "centrs", ".gitignore"))).toThrow();
+        writeFileSync(join(paths.projectLocalDir, "winbox.cdb"), "secret");
+        // Nothing for git to see, so merging the branch's tracked .tikoci/centrs/ later cannot collide.
+        const status = Bun.spawnSync(["git", "-C", user.project, "status", "--porcelain", "--untracked-files=all"]).stdout.toString();
+        expect(status).not.toContain(".tikoci");
+    });
+
     test("a nested .tikoci/ that is not a worktree needs its own trust", () => {
         const user = fakeUser();
         trustProject(project(user));

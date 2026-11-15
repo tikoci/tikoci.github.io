@@ -62,9 +62,11 @@ test checks this).
 - **No tool keeps project files yet.** centrs' MATRIX leans to
   `.tikoci/centrs/` and is ready to start.
 
-## Open questions for adoption
+## Adoption notes and open questions
 
 Each is the adopting repo's call; the house rule only says what must hold.
+The house's own open decisions are listed in SKILL.md; background for them
+is at the end of this page.
 
 - **quickchr's profile order** (fifth quickchr review). First `user`,
   `cache`, `sandbox` and `host`, which fix bugs quickchr has today:
@@ -88,7 +90,7 @@ Each is the adopting repo's call; the house rule only says what must hold.
   and realizes nothing per checkout.
 - **quickchr machine sockets move to `run/`.** The first review kept them in
   the machine directory. With project machines under
-  `projects/ID/machines/NAME/`, that path has no bounded length (about 128
+  `projects/ID/INSTANCE/machines/NAME/`, that path has no bounded length (about 128
   bytes for a 64-character name on macOS), so sockets and `qemu.pid` go in
   `$TIKOCI_RUNTIME_DIR/quickchr/SHORT-ID/` and `machine.json` records them.
 - **quickchr in a worktree**: how to name one worktree's instance, whether
@@ -127,13 +129,6 @@ Each is the adopting repo's call; the house rule only says what must hold.
   centrs' equivalent of a quickchr machine definition. It needs the trust
   step and a constitution change; it belongs to centrs' Workspace theme, not
   this round.
-- **How trust is recorded.** The reference resolver keeps one record per
-  tool and project. quickchr's third review proposed one shared record at
-  `~/.tikoci/trust/` with per-tool grants, so a lab needs one trust step
-  instead of one per tool. Deferred: the harder question is how tikoci trust
-  lines up with harness permission schemes (an agent allowed everything, a
-  container that already holds every file), which needs its own research.
-  Nothing in the layout or the variables depends on where records live.
 - **rosetta compiled binaries.** The DB beside the executable is a portable
   layout, but it fails in a read-only install directory. Options: keep it as an
   explicit portable mode, or default compiled builds to
@@ -142,3 +137,18 @@ Each is the adopting repo's call; the house rule only says what must hold.
   version's eviction must respect readers from another scope. rosetta's
   per-file SQLite locks already do; the collector must also stop comparing
   against a fixed `~/.rosetta`.
+
+## Background for the open decisions
+
+- **How trust is recorded.** The reference resolver keeps one record per
+  tool and project. quickchr's third review proposed one shared record at
+  `~/.tikoci/trust/` with per-tool grants, so a lab needs one trust step
+  instead of one per tool. Deferred by the maintainer: the harder question is
+  how tikoci trust lines up with harness permission schemes (an agent allowed
+  everything, a container that already holds every file), which needs its
+  own research. Nothing in the layout or the variables depends on where
+  records live.
+- **Links other than git worktrees.** git's own files prove a worktree's main
+  checkout without running git. jj workspaces and plain copies have no such
+  proof yet; until one is chosen, they are separate projects, trusted on
+  their own or named with `TIKOCI_PROJECT`.

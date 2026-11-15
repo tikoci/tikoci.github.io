@@ -92,11 +92,11 @@ export interface TikociPaths {
     /** .tikoci/ directories the walk passed over (a symlink, another user's), to report rather than skip silently. */
     skipped: string[];
     /**
-     * Set only when the run is in a git worktree with no .tikoci/ of its own
-     * (a branch cut before adoption): the walk stops at the worktree root
-     * instead of entering its own main checkout, and this names the project
-     * the main checkout uses at the same place. It is reported, never read:
-     * a tool says the main checkout has project data and how to name it.
+     * Set only when the run is in a git worktree nested in its own main
+     * checkout with no .tikoci/ of its own (a branch cut before adoption): the
+     * walk stepped over the main checkout, and this names the different project
+     * the main checkout uses at the same place. It is reported, never read: a
+     * tool says the main checkout has project data and how to name it.
      */
     mainProject: string | null;
     /** May evict from `cache`: the user's own runs, or a sandbox whose cache is inside it. */
@@ -304,7 +304,7 @@ function classifyTikociDir(candidate: string, options: ResolveOptions): "own" | 
 export interface Discovery {
     project: string | null;
     skipped: string[];
-    /** The git worktree whose root stopped the walk before it entered the worktree's own main checkout. */
+    /** The git worktree whose own main checkout the walk stepped over (it continued above the main checkout). */
     worktree: { checkout: string; main: string } | null;
 }
 
@@ -318,16 +318,18 @@ export interface Discovery {
  * tool stops at the nearest .tikoci/, whether or not it has a directory for
  * that tool, so tools in one run always agree on the project.
  *
- * The walk never passes a git worktree's root into that worktree's own main
- * checkout (one in .worktrees/ or .claude/worktrees/): a branch with no
- * .tikoci/ has no project wherever the worktree sits. A directory above an
- * unrelated checkout (a lab folder holding several repos) still counts.
+ * The walk never enters a git worktree's own main checkout. From a worktree
+ * inside it (.worktrees/, .claude/worktrees/) it steps over the main checkout
+ * and continues above it, so a worktree finds the same project wherever it
+ * sits: a branch with no .tikoci/ never picks up the main checkout's, while a
+ * lab folder's .tikoci/ above the main checkout still counts.
  */
 export function findProject(cwd: string, options: ResolveOptions & { userScope?: string } = {}): Discovery {
     const platform = options.platform ?? process.platform;
     const path = pathFor(platform);
     const skipped: string[] = [];
-    const none = (worktree: Discovery["worktree"] = null): Discovery => ({ project: null, skipped, worktree });
+    let passed: Discovery["worktree"] = null;
+    const none = (): Discovery => ({ project: null, skipped, worktree: passed });
     const user = userHome(options);
     // With no known home there is no safe place to stop, so discover nothing.
     if (user === undefined) return none();
@@ -339,14 +341,20 @@ export function findProject(cwd: string, options: ResolveOptions & { userScope?:
         const candidate = path.join(dir, ".tikoci");
         if (!(scope && samePath(candidate, scope, platform))) {
             const kind = classifyTikociDir(candidate, options);
-            if (kind === "own") return { project: dir, skipped, worktree: null };
+            if (kind === "own") return { project: dir, skipped, worktree: passed };
             if (kind === "skipped") skipped.push(candidate);
         }
-        const parent = path.dirname(dir);
-        if (parent === dir) return none();
+        let next = path.dirname(dir);
+        if (next === dir) return none();
         const worktree = worktreeAt(dir, platform);
-        if (worktree && isInside(worktree.main, parent, platform)) return none(worktree);
-        dir = parent;
+        if (worktree && isInside(worktree.main, next, platform)) {
+            // Step over the worktree's own main checkout, as a worktree beside it would.
+            passed = worktree;
+            if (isInside(worktree.main, stop, platform)) return none(); // the main checkout holds the home directory
+            next = path.dirname(worktree.main);
+            if (next === worktree.main) return none();
+        }
+        dir = next;
     }
 }
 
@@ -417,9 +425,9 @@ function findLocalProject(project: string, tool: string, platform: NodeJS.Platfo
     if (exists(path.join(project, ".tikoci", tool, "local"))) return { dir: project, source: "self" };
     const worktree = gitWorktreeRoot(project, platform);
     if (worktree) {
+        // Even when the main checkout has no .tikoci/ there yet: local/ belongs to the main checkout.
         const rel = path.relative(worktree.checkout, canonical(project, platform));
-        const root = path.join(worktree.main, rel);
-        if (isRealDirectory(path.join(root, ".tikoci"))) return { dir: root, source: "git-worktree" };
+        return { dir: path.join(worktree.main, rel), source: "git-worktree" };
     }
     return { dir: project, source: "self" };
 }
@@ -465,9 +473,10 @@ export function resolveTikociPaths(tool: string, options: ResolveOptions = {}): 
             ({ project, skipped } = found);
             if (project) projectSource = "discovered";
             if (found.worktree) {
-                // Where the main checkout would look from the same place, reported only.
+                // Where the main checkout would look from the same place, reported only, and only when it differs.
                 const rel = path.relative(found.worktree.checkout, canonical(cwd, platform));
-                mainProject = findProject(path.join(found.worktree.main, rel), { ...options, userScope: user }).project;
+                const main = findProject(path.join(found.worktree.main, rel), { ...options, userScope: user }).project;
+                mainProject = main !== null && (project === null || !samePath(main, project, platform)) ? main : null;
             }
         }
     }
@@ -598,16 +607,22 @@ export function ensureLocalDir(dir: string): void {
  * use. Refuses a symlinked .tikoci or tool directory.
  */
 export function initProject(root: string, tool: string): string {
+    const dir = makeToolDir(root, tool);
+    try {
+        writeFileSync(join(dir, ".gitignore"), PROJECT_GITIGNORE, { flag: "wx" });
+    } catch (error) {
+        if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
+    }
+    return dir;
+}
+
+/** Create root/.tikoci/tool/ with nothing in it, refusing a symlinked .tikoci or tool directory. */
+function makeToolDir(root: string, tool: string): string {
     checkTool(tool);
     const dir = join(root, ".tikoci", tool);
     mkdirSync(dir, { recursive: true });
     for (const part of [join(root, ".tikoci"), dir]) {
         if (!isRealDirectory(part)) throw new Error(`"${part}" must be a real directory, not a link or a file`);
-    }
-    try {
-        writeFileSync(join(dir, ".gitignore"), PROJECT_GITIGNORE, { flag: "wx" });
-    } catch (error) {
-        if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
     }
     return dir;
 }
@@ -691,7 +706,11 @@ export function checkProject(paths: TikociPaths): ProjectCheck {
  * its id, so its machines and records follow it; anything else gets a new id,
  * so a copy or a clone never shares the original's state. It trusts the
  * project the run uses for local/: for a git worktree, that is its main
- * checkout, so a worktree never gets a local/ of its own this way.
+ * checkout, so a worktree never gets a local/ of its own this way (and its
+ * credentials never vanish with the worktree). When the main checkout has no
+ * .tikoci/TOOL/ yet (a branch adopting it), only local/ is created there: its
+ * own .gitignore hides it from git, so merging the branch's tracked
+ * .tikoci/TOOL/ files later never meets an untracked file in the way.
  */
 export function trustProject(paths: TikociPaths): string {
     if (!paths.localProject || !paths.projectLocalDir || !paths.toolDir) throw new Error("no project, or no user scope for trust records");
@@ -699,7 +718,8 @@ export function trustProject(paths: TikociPaths): string {
     const projectLocalDir = paths.projectLocalDir;
     const check = checkProject(paths);
     if (check.state === "trusted") return check.id as string;
-    initProject(project, paths.tool);
+    if (paths.sources.localProject === "git-worktree") makeToolDir(project, paths.tool);
+    else initProject(project, paths.tool);
     ensureLocalDir(projectLocalDir);
     const id = check.state === "moved" && check.id ? check.id : randomBytes(6).toString("hex");
     const recordFile = trustRecordFile(paths, id);

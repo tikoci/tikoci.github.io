@@ -1,5 +1,5 @@
 {
-  "about": "Shared resolution cases for tikoci-home. An adopting repo runs these against its own resolver so every tool in a run agrees on scopes, the project and the main checkout. Each case gives a tool, an env, a working directory and, for filesystem cases, a tree to build under a fresh temporary {root} (canonical, with symlinks followed); `expect` lists the fields that must match. Tree entries: \"dir/\" makes a directory, {\"file\", \"text\"} a file, {\"link\", \"to\"} a symlink. `{root}` is replaced everywhere. Cases with `platform` need no filesystem; the others run on POSIX. Trust records are not covered: their format is open (SKILL.md). Each case lists the `profiles` it needs (SKILL.md, Adopting in profiles), and `fields` maps each checked field to the profile it belongs to: a repo runs the cases whose profiles it implements and compares only the fields of its profiles. `labels` gives the default label `deriveLabel()` must produce for a project directory name, null meaning the user has to set one.",
+  "about": "Shared resolution cases for tikoci-home. An adopting repo runs these against its own resolver so every tool in a run agrees on scopes, the project and the main checkout. Each case gives a tool, an env, a working directory and, for filesystem cases, a tree to build under a fresh temporary {root} (canonical, with symlinks followed); `expect` lists the fields that must match. Tree entries: \"dir/\" makes a directory, {\"file\", \"text\"} a file, {\"link\", \"to\"} a symlink. `{root}` is replaced everywhere. Cases with `platform` need no filesystem; the others run on POSIX. Trust records are not covered: their format is open (SKILL.md). Each case lists the `profiles` it needs (SKILL.md, Adopting in profiles), and `fields` maps each checked field to the profile it belongs to: a repo runs the cases whose profiles it implements and compares only the fields of its profiles. `version` rises whenever a case's expected result changes, so a copy can tell it is stale. `labels` gives the default label `deriveLabel()` must produce for a project directory name, null meaning the user has to set one.",
   "version": 1,
   "profiles": {
     "user": [],
@@ -311,6 +311,21 @@
       "expect": { "project": null, "localProject": null, "mainProject": "{root}/user/src/main" }
     },
     {
+      "name": "a worktree nested in its main checkout finds a lab folder's .tikoci/ above both, as one beside it does",
+      "profiles": ["project"],
+      "tool": "centrs",
+      "tree": [
+        "user/lab/.tikoci/",
+        "user/lab/main/.tikoci/centrs/",
+        { "file": "user/lab/main/.git/worktrees/old/commondir", "text": "../..\n" },
+        "user/lab/main/.worktrees/old/lib/",
+        { "file": "user/lab/main/.worktrees/old/.git", "text": "gitdir: ../../.git/worktrees/old\n" }
+      ],
+      "env": { "HOME": "{root}/user" },
+      "cwd": "{root}/user/lab/main/.worktrees/old/lib",
+      "expect": { "project": "{root}/user/lab", "mainProject": "{root}/user/lab/main" }
+    },
+    {
       "name": "a worktree beside its main checkout still finds a lab folder's .tikoci/ above both",
       "profiles": ["project"],
       "tool": "centrs",
@@ -336,6 +351,25 @@
       "env": { "HOME": "{root}/user" },
       "cwd": "{root}/user/.t3/worktrees/RouterOS_Lab/t3-6eb9a36a",
       "expect": { "localProject": "{root}/user/src/RouterOS_Lab", "defaultLabel": "routeros-lab" }
+    },
+    {
+      "name": "a worktree maps to its main checkout even before the main checkout has a .tikoci/ there",
+      "profiles": ["project-data"],
+      "tool": "centrs",
+      "tree": [
+        "user/src/main/",
+        { "file": "user/src/main/.git/worktrees/adopt/commondir", "text": "../..\n" },
+        "user/wt/adopt/.tikoci/centrs/",
+        { "file": "user/wt/adopt/.git", "text": "gitdir: {root}/user/src/main/.git/worktrees/adopt\n" }
+      ],
+      "env": { "HOME": "{root}/user" },
+      "cwd": "{root}/user/wt/adopt",
+      "expect": {
+        "project": "{root}/user/wt/adopt",
+        "localProject": "{root}/user/src/main",
+        "projectLocalDir": "{root}/user/src/main/.tikoci/centrs/local",
+        "sources": { "localProject": "git-worktree" }
+      }
     },
     {
       "name": "a nested .tikoci/ that is not a worktree is its own project and never inherits",

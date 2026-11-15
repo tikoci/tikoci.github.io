@@ -64,8 +64,8 @@ Every file has one of these lives:
 ## Profiles
 
 A repo adopts the parts it needs, not the whole skill: rosetta needs the user
-scope and a cache, centrs project data first, quickchr the host scope long
-before projects. Each profile is one section below. A repo names the ones it
+scope and a cache, centrs the user scope and sandboxes now and project data
+next, quickchr the host scope long before projects. Each profile is one section below. A repo names the ones it
 implements in its AGENTS.md `## House skills` entry, for example
 `tikoci-home (copied): user, cache, sandbox, host`.
 
@@ -150,7 +150,8 @@ Profile `user`. Every adopting tool starts here.
   `os.homedir()` only when reading the process environment itself. A supplied
   env with neither the home variable nor `TIKOCI_HOME` has no user scope: no
   default file resolves, no project is discovered and nothing is trusted
-  ([centrs#654](https://github.com/tikoci/centrs/issues/654)).
+  ([centrs#654](https://github.com/tikoci/centrs/issues/654)). The host scope
+  is the one exception ([Host scope](#host-scope)).
 - **Bun loads `.env` from the working directory**, even for a CLI whose
   shebang is `#!/usr/bin/env bun`
   ([centrs#666](https://github.com/tikoci/centrs/issues/666)), which bypasses
@@ -279,7 +280,7 @@ for a test or CI run:
 - config, secrets, state and trust records come only from `<dir>/<tool>/`,
   runtime files go under `<dir>/run/`;
 - no project is discovered (`TIKOCI_PROJECT` can name one, whose `local/` is
-  then read only with a trust record made inside the sandbox);
+  then read only with trust given inside the sandbox);
 - no legacy path, no OS keychain, no sudo, and no other program's files
   (`~/.ssh/known_hosts`, shell rc files);
 - host resources are claimed in the host scope like any run; an existing host
@@ -310,13 +311,14 @@ Profile `project`, needs `user`.
 - **The walk stops before the home directory.** `~/.tikoci` is the user
   scope, and reading it as a project would treat the user's own files as
   untrusted ones. Without a known home, nothing is discovered.
-- **The walk never leaves a git worktree into its own main checkout.** A
-  worktree in `.worktrees/` or `.claude/worktrees/` on a branch with no
-  `.tikoci/` (one cut before adoption) has no project, the same as a worktree
-  anywhere else. A directory above an unrelated checkout (a lab folder holding
-  several repos) still counts. The tool reports the project the main checkout
-  uses at the same place, so the user sees that the main checkout has project
-  data and how to name it; nothing is read from it.
+- **The walk never enters a git worktree's own main checkout.** From a
+  worktree in `.worktrees/` or `.claude/worktrees/`, it steps over the main
+  checkout and continues above it, so a worktree finds the same project
+  wherever it sits. On a branch with no `.tikoci/` (one cut before adoption)
+  that is usually none; a lab folder's `.tikoci/` above the main checkout
+  still counts. When the main checkout uses a different project from the same
+  place, the tool reports it, so the user sees that the main checkout has
+  project data and how to name it; nothing is read from it.
 - **`TIKOCI_PROJECT`** names a project explicitly, or turns discovery off with
   `none`. A tool that calls another tool's library passes the project it
   found (`TIKOCI_PROJECT=<dir>`), so the two cannot pick different projects.
@@ -423,7 +425,13 @@ and some syncs keep modes. Whatever records trust must tell these apart:
   trusted through the main checkout, and its own traveling files (its
   branch's machine definitions) are read as the main checkout's are: trust is
   by path, not content, so a `git pull` changes them too. Trusting from a
-  worktree trusts the main checkout.
+  worktree trusts the main checkout, so credentials never live in a worktree
+  that a harness may delete.
+- **This holds before the main checkout adopts.** On a branch that adds
+  `.tikoci/<tool>/`, `local/` still goes in the main checkout, at the same
+  place. Only `local/` is created there, with its own `.gitignore`, so git
+  sees nothing and merging the branch later meets no untracked file. From
+  then on the main checkout is a project holding that tool's data too.
 - **Everything else is a separate project.** A nested `.tikoci/` that is not
   a worktree (`examples/<lab>/`) never inherits from an enclosing one, and a
   `local/` that exists but fails the checks is reported, never skipped. A
@@ -508,8 +516,8 @@ has to name the other scope the same way in each. One form, scope first:
 ## Open decisions
 
 These are deliberately undecided. Each belongs to no profile, so no tool
-implements a guess; settling one is a revision of this skill and a line in
-the house CHANGELOG. Background for each is in
+implements a guess; settling one is a PR that revises this skill (and raises
+`version` in conformance.json when it changes a case). Background for each is in
 [references/layout.md](references/layout.md).
 
 - **How trust is recorded.** Per tool (the reference resolver's
