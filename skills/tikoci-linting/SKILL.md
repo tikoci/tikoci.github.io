@@ -101,7 +101,9 @@ can check belongs in the linter's config, not in an instruction file.
 - **zizmor** audits workflow security (`uvx zizmor --offline .` locally). Run
   it and report its findings, through code scanning or the job log; gate on it
   once the existing findings are triaged, as quickchr and centrs are doing.
-- **shellcheck -s sh --severity=warning** on every shell script and example.
+- **shellcheck -s sh --severity=warning** on every POSIX shell script and
+  example. A script that needs Bash (arrays, say) is an exception: it says why
+  in a comment and is checked with `shellcheck -s bash --severity=warning`.
   A local run may skip when shellcheck is missing and say so; CI installs it.
 - **hadolint** on Dockerfiles, where a repo has them.
 

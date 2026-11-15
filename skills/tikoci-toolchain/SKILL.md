@@ -75,11 +75,14 @@ a package:
 ## Languages
 
 - **TypeScript by default**, for shipped code and tests.
-- **Python only by decision**, for one-off tooling, test drivers or LLM work,
-  never for primary application code. Run it with `uv run` or `uvx`; no
+- **Python only by decision**, for one-off tooling, test drivers or LLM work.
+  Not for primary application code by default: tikoci tools share code,
+  tests and packaging in TypeScript, and a second language splits all three.
+  A repo that needs Python at its core records that like any other language
+  (below). Run it with `uv run` or `uvx`; no
   `venv`, Conda or pip-managed project environments. A script that only needs
   the standard library is easiest to run anywhere.
-- **Another language** (Swift, Go, C) is a recorded decision in the repo's
+- **Another language** (Python at the core, Swift, Go, C) is a recorded decision in the repo's
   AGENTS.md, with its build driven from the command line.
 
 ## Task entry points
@@ -93,7 +96,11 @@ a package:
 - **CI calls the same entry point a developer does**, not a copy of its steps
   in workflow YAML, so a green local run predicts a green CI run.
 - Make recipes are written as plain, idiomatic make (phony targets, pattern
-  rules) and run under `/bin/sh`, which is dash on Ubuntu runners.
+  rules) and run under `/bin/sh`, which is dash on Ubuntu runners. **Each
+  recipe line runs in its own shell**, so `set -eu` on one line protects
+  nothing on the next: join dependent lines with `&& \` or `; \`, or set
+  `.SHELLFLAGS := -eu -c` (and `.ONESHELL` if wanted) where GNU make 3.82 or
+  newer is guaranteed; macOS ships 3.81, which has neither.
 
 ## Shell
 
@@ -109,8 +116,9 @@ Scripts and Make recipes are POSIX `sh`, checked with `shellcheck -s sh`
 - **A backgrounded child that reads a temp file** races the parent's `EXIT`
   trap, which fires when the parent exits, possibly before the child reads the
   file. In background mode, do not delete it on exit: use a deterministic path
-  with no cleanup trap (reruns overwrite it), or `mktemp` with the trap
-  skipped. Changing only the file name keeps the bug.
+  per instance (keyed by its name, so a rerun of the same instance overwrites
+  only its own file) with no cleanup trap, or `mktemp` with the trap skipped.
+  Changing only the file name keeps the bug.
 
 ## Virtual machines
 

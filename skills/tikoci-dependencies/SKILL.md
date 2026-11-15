@@ -17,8 +17,8 @@ and the other tikoci tools. The Bun pin itself is in `tikoci-toolchain`.
 
 ## GitHub Actions
 
-- **Pin every action to a full commit SHA** with the release in a trailing
-  comment, the form Dependabot writes:
+- **Pin every remote action to a full commit SHA** with the release in a
+  trailing comment, the form Dependabot writes:
 
   ```yaml
   - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -29,7 +29,9 @@ and the other tikoci tools. The Bun pin itself is in `tikoci-toolchain`.
   The rule covers GitHub's own `actions/*` too: one rule is easier to follow
   and to check than a list of trusted owners. zizmor's `unpinned-uses` audit
   requires SHA pins for every action by default (since v1.20.0); CodeQL's
-  `actions/unpinned-tag` query still treats some owners as trusted.
+  `actions/unpinned-tag` query still treats some owners as trusted. A local
+  action (`uses: ./.github/actions/<name>`) has no ref to pin; it is reviewed
+  as part of the repo's own diff.
 - **Pinning needs Dependabot.** Enable the `github-actions` ecosystem
   (weekly, grouped into one PR) before or with the pins; without it, pinned
   actions silently freeze.
@@ -54,9 +56,13 @@ and the other tikoci tools. The Bun pin itself is in `tikoci-toolchain`.
 
 ## Packages
 
-- **The lockfile is the pin.** Ordinary semver ranges in package.json are
-  fine, because `bun.lock` decides what CI installs and changes only in a
-  reviewed diff.
+- **The lockfile is the pin** for this repo's own installs. Ordinary semver
+  ranges in package.json are fine, because `bun.lock` decides what CI installs
+  and changes only in a reviewed diff.
+- **A published package's ranges are a contract**, not a pin: consumers
+  resolve them in their own tree and never see this repo's `bun.lock`. Keep
+  the `dependencies` ranges of a published package to versions it is tested
+  with.
 - **Dependabot's `bun` ecosystem**, grouped and weekly, keeps packages from
   rotting; a repo may skip it and update by hand on a schedule it states.
 - **Upgrade dev tools on purpose.** A new Biome, TypeScript or cspell version
@@ -83,11 +89,14 @@ Review bots and scanners regularly ask to pin something. Check it against
 these rules before changing anything:
 
 - **An action on a tag**: agree, and pin it to a SHA with Dependabot enabled.
-- **The Bun version**: it is already pinned in `packageManager`; point to it.
+- **The Bun version**: check that every `setup-bun` step reads
+  `packageManager` (no inline `bun-version: latest`); then point to the pin.
 - **A runtime version that floats on purpose** (a Node `lts/*` job, a sibling
   on `next`): reply with the reason from this skill or the repo's AGENTS.md,
   and resolve the thread. Do not pin it to make the comment go away.
-- **A package range**: the lockfile already pins it; explain and resolve.
+- **A package range**: the lockfile pins it for this repo's installs; explain
+  and resolve. A concern about what downstream consumers resolve is real for a
+  published package; judge it on that.
 
 ## Sources
 

@@ -61,3 +61,6 @@ bashisms
 backgrounded
 Dockerfiles
 LLM
+# GNU make special variables (tikoci-toolchain)
+SHELLFLAGS
+ONESHELL
