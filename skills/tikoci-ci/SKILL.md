@@ -56,6 +56,13 @@ zizmor, and that is complete.
   quickchr's first arm64 run was green with every CHR test failing. On
   Windows, explicit `bash` is Git Bash instead of PowerShell, so one script
   serves every OS.
+- **On Windows, a CLI's tests run in its users' shell.** Git Bash is not
+  neutral: it sets `HOME` and MSYS path handling, which a PowerShell session
+  usually lacks, so a tool that reads `env.HOME ?? homedir()` (centrs) takes
+  a different branch from the one its Windows users hit. The step that runs
+  such a tool's tests sets `shell: pwsh`, unless its users are Git Bash
+  users, and checks `$LASTEXITCODE` itself instead of trusting a pipeline.
+  Scripting steps stay `bash`.
 - **Untrusted values reach a script through `env:`**, never as `${{ }}`
   inside `run:`: a PR title, branch name or dispatch input is shell code
   there (zizmor `template-injection`).
@@ -100,6 +107,9 @@ zizmor, and that is complete.
   repo with device behavior, the smoke integration tier on code changes**
   (`tikoci-testing`; the job is a recipe in patterns.md). Minutes, not tens
   of minutes. The channel sweep runs nightly, not per PR.
+- **Stage the device job behind the cheap ones**: smoke `needs` lint and
+  the Linux unit job and runs only when they passed, so a lint failure does
+  not boot a CHR for ten minutes (centrs `chr-smoke`).
 - **Docs-only diffs skip the heavy jobs** through a `changes` job and a
   job-level `if:`, **never a workflow-level `paths:` or `paths-ignore:`** on a
   workflow with a required check: a required check whose workflow never
@@ -117,12 +127,19 @@ zizmor, and that is complete.
 - **One gate job is the required check** (`CI gate` in the example): it
   `needs` every job and fails if any failed or was cancelled. Branch
   protection names one stable check whatever the matrix holds; whether to
-  require it at all is `tikoci-github`'s rule about bot pushes.
+  require it at all is `tikoci-github`'s rule about bot pushes. centrs
+  requires its checks by name instead (six, one per matrix aggregate); a
+  gate is the preferred path, not yet its practice.
+- **A `main`-health check stays outside the gate**, as its own required
+  check, so a red `CI gate` always means the PR broke something, and an
+  agent waiting on the gate never chases a failure that lives on `main`.
 - **A `main`-health check is optional**: a PR check that fails while the
   latest scheduled sweep (centrs) or `main` integration run (quickchr) is
   red, so a red `main` cannot rot quietly. The PR that fixes `main` runs the
-  integration workflow on its branch and is merged by an admin
-  (`tikoci-github`). The check says which runs count: centrs counts only
+  integration workflow on its branch and carries the override label
+  (centrs `fixes-main`), which passes the health check and keeps every
+  other required check; an admin merge, which skips them all, is the
+  fallback (`tikoci-github`). The check says which runs count: centrs counts only
   scheduled sweeps, while quickchr counts any completed `main.yml` run on
   `main`, so a dispatched run on `main` there is a manual refresh. A
   latest-Bun run never feeds it: keep that leg in a workflow or job the
@@ -149,9 +166,11 @@ default for a tool that runs on its users' Bun.
   setup-bun reads `bun-version` first and falls back to the file when it is
   empty (`src/index.ts`, v2.2.0), so pushes and PRs get the pin. Without a
   schedule, `BUN_VERSION` is just `${{ inputs.bun-version }}`.
-- **A `bun-version` dispatch input on every workflow that installs Bun**
-  (CI, QA, integration), empty by default, taking `latest` or an exact
-  version. It is how a Bun bump is tried before the pin moves, and how a
+- **A `bun-version` dispatch input on every workflow that tests** (CI, QA,
+  integration, lab), empty by default, taking `latest` or an exact
+  version. Release and deploy workflows build on the pin only: no input,
+  no `BUN_VERSION`, and a release that calls the QA sweep passes no Bun
+  override, so nothing published is built on an unpinned Bun. It is how a Bun bump is tried before the pin moves, and how a
   "breaks on Bun X" report is reproduced. Good dispatch inputs are the core
   of this rule; see "Dispatch for QA".
 - **A weekly scheduled CI run on `latest`, for a tool that runs on its
@@ -177,20 +196,25 @@ default for a tool that runs on its users' Bun.
   someone re-enables it in the Actions tab.
 - A repo with a nightly sweep may run the latest-Bun leg there instead,
   outside the must-pass set and outside whatever its `main`-health check
-  reads.
+  reads. A sweep that skips itself when nothing changed (centrs fingerprints
+  the commit and the resolved RouterOS versions) adds the resolved latest
+  Bun to that fingerprint, or the leg skips in exactly the quiet weeks a new
+  Bun lands; otherwise keep the leg on CI's weekly schedule.
 - **The pin check** (`tikoci-toolchain`) accepts exactly this
   `bun-version: ${{ env.BUN_VERSION }}` line next to `bun-version-file`, and
   no other inline version, and only while `BUN_VERSION` is defined once, at
   the workflow level, as one of the two expressions above, with no job or
   step `env:` redefining it; otherwise a PR could set it to anything and
-  still pass. rosetta, restraml and vscode-tikbook install `latest` on every
+  still pass. In a release or deploy workflow it rejects `BUN_VERSION`
+  outright. rosetta, restraml and vscode-tikbook install `latest` on every
   run today and move to the pin on adoption.
 
 ## Dispatch for QA
 
-- **Every workflow that runs tests or builds has `workflow_dispatch`** (CI,
-  QA, integration, lab, release), with an input for each thing it would
-  otherwise assume: Bun version, RouterOS target, platforms, test filter.
+- **Every workflow that runs tests has `workflow_dispatch`** (CI, QA,
+  integration, lab), with an input for each thing it would otherwise
+  assume: Bun version, RouterOS target, platforms, test filter. Release
+  takes only what it publishes (the version), never a Bun override.
   Defaults are the safe, pinned choice, and each input's description says
   what it changes. Good inputs make a run's hidden assumptions visible and
   let anyone try a new Bun or RouterOS on a branch without editing a
@@ -240,14 +264,16 @@ asks for.
   runs per PR, not as a standing step of a sweep. A test that fails
   sometimes is a bug to find, and a red sweep leg is something to read.
 - **A retry is an investigation tool.** While an open issue investigates a
-  flake in a device sweep (centrs's Windows and Intel Mac legs), the sweep
-  may retry the files that issue names once, to collect data without
+  flake in a device sweep's legs, the sweep may retry the files that issue
+  names once, to collect data without
   losing the rest of the sweep's signal. The issue says what data would
   close it, and the retry goes when it closes. The recipe is in
   patterns.md.
 - **Every file writes a record each run**, not only the retried ones: file,
-  attempts, outcome, the RouterOS version that booted rather than the
-  channel, platform, run and issue. Without the files that passed first
+  attempts, outcome, the RouterOS version the device reports rather than
+  the channel, platform, run and issue. Prefer the tool's own evidence
+  writer (centrs `CENTRS_INTEGRATION_REPORT`) and add what it lacks: a file
+  that fails before it writes still needs an outcome. Without the files that passed first
   time there is no rate: 3 retries could be 3 of 4 runs or 3 of 400. Each
   retry also gets a `::warning::` and a job summary line.
 - **Never retry a hang.** A timeout or watchdog kill is a different failure
@@ -255,11 +281,22 @@ asks for.
   Mac wedge hit the same file 7 times of 7). Budget the step for the
   retried files' second run, and reap leftover machines before it, so
   attempt 2 does not fail, or pass, on attempt 1's leftovers.
-- **centrs, on adoption**: it retries every failed file in `qa.yaml` today,
-  with annotations only. It scopes that to tracked files and adds the
-  records after its `qa-history` writer folds instead of rebasing
-  (patterns.md, "Bot data on a side branch"), or overlapping runs drop
-  records.
+- **Clearing a read flake is cheap and recorded.** Without a standing
+  retry, a red scheduled sweep can freeze merges in a repo whose
+  `main`-health check reads it, and a sweep that skips unchanged nights
+  keeps it red. Once someone has read the failure and opened or updated an
+  issue, rerun the failed jobs of that run
+  (`gh run rerun <id> --failed`): attempt 1's logs stay, the records carry
+  the attempt, and the health check reads the run's latest attempt. A rerun
+  nobody read first is a retry by hand.
+- **centrs, on adoption**: `qa.yaml` retries every failed file once on its
+  Linux legs, must-pass `stable` and `long-term` included, with annotations
+  only (its Windows and Intel Mac legs are dispatch-only and
+  `continue-on-error`). It opens an issue for whichever must-pass files
+  actually flake and scopes the retry to them, or drops it; checks that
+  `Main health` reads a rerun's latest attempt; and adds the records after
+  its `qa-history` writer folds instead of rebasing (patterns.md, "Bot data
+  on a side branch"), or overlapping runs drop records.
 - **Best-effort legs** (pre-release channels in centrs) are declared in one
   policy place, use `continue-on-error`, and record their failures. A gating
   job never has `continue-on-error`.

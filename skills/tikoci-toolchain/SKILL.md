@@ -86,7 +86,8 @@ a package:
   when adopting. The one inline version it accepts is the override that
   tikoci-ci puts next to `bun-version-file`, and only while `BUN_VERSION` is
   defined once, at the workflow level, from the dispatch input (and
-  `latest` on the schedule).
+  `latest` on the schedule). A release or deploy workflow gets no override:
+  it builds on the pin.
 - **CI can meet any Bun**, without a latest-Bun job on every PR: a
   `bun-version` dispatch input everywhere, and, for a tool that runs on its
   users' Bun, a weekly scheduled CI run on `latest` whose failure opens an

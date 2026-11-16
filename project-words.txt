@@ -28,6 +28,7 @@ gitdir
 gpt # OpenAI model names in Reviewer: lines (gpt-6.1-sol)
 gtimeout
 kvm
+LASTEXITCODE
 libsecret
 LLM
 llms
@@ -40,6 +41,7 @@ MIB
 mikropkl # declarative RouterOS VMs in Pkl, https://github.com/tikoci/mikropkl
 MikroTik
 mktemp
+MSYS
 mtimes
 netinstall # MikroTik's device flashing tool
 nodefaults

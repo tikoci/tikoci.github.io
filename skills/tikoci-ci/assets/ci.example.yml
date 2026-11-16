@@ -2,7 +2,7 @@
 #
 #   lint ────────────┐
 #   unit (each OS) ──┴─→ gate  (the one required check, where a repo requires one)
-#                          └─→ report  (a red scheduled run opens or updates an issue)
+#                          └─→ report  (a scheduled run opens or updates its issue)
 #
 # An example, not a template to copy whole: keep the parts the repo needs.
 # Every job runs a package script (package.example.json in tikoci-toolchain),
@@ -93,6 +93,9 @@ jobs:
       - name: Record versions
         run: |
           echo "- $RUNNER_OS: Bun $(bun --version) (requested: ${BUN_VERSION:-the pin})" >> "$GITHUB_STEP_SUMMARY"
+      # A CLI's Windows users are mostly in PowerShell, which Git Bash is not
+      # (it sets HOME): give the Windows leg its own step with `shell: pwsh`
+      # (tikoci-ci, "Every workflow").
       - name: Unit tests
         env:
           SCRIPT: ${{ runner.os == 'Linux' && 'test:coverage' || 'test' }}
@@ -142,10 +145,12 @@ jobs:
 
   # GitHub mails a scheduled run's failure only to whoever last edited the
   # cron line, so the weekly run files its own issue: one open issue per
-  # title, with a comment for each further red week.
+  # title, a comment for each further red week, and a "green again" comment
+  # (not a close: a person closes it) so the open issue never reads as current
+  # when it is not.
   report:
-    name: Report a red scheduled run
-    if: ${{ failure() && github.event_name == 'schedule' }}
+    name: Report the scheduled run
+    if: ${{ always() && github.event_name == 'schedule' }}
     needs: [gate]
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -156,12 +161,15 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
+          RESULT: ${{ needs.gate.result }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           TITLE: Weekly CI on the latest Bun is red
         run: |
           number=$(gh issue list --state open --search "in:title \"$TITLE\"" --json number,title \
             --jq '[.[] | select(.title == env.TITLE)][0].number // empty')
-          if [ -n "$number" ]; then
+          if [ "$RESULT" = "success" ]; then
+            if [ -n "$number" ]; then gh issue comment "$number" --body "Green again: $RUN_URL"; fi
+          elif [ -n "$number" ]; then
             gh issue comment "$number" --body "Still red: $RUN_URL"
           else
             gh issue create --title "$TITLE" --body "$(printf '%s\n\n%s\n' \

@@ -88,8 +88,24 @@ is the version to grow into once the rules grow:
 ## A device smoke job
 
 For a repo with device behavior: a short integration tier against a real
-CHR on code changes (`tikoci-testing`), behind the classifier above. Once
-the repo has a reusable integration workflow, this job is
+CHR on code changes (`tikoci-testing`), behind the classifier above and
+the cheap jobs. The logic to keep, whatever the shape:
+
+- **Staged**: it runs only after lint and the Linux unit job passed, so a
+  lint failure never boots a CHR. With a multi-OS unit matrix, split the
+  Linux leg out (centrs `unit-linux`) or the smoke waits for the slowest OS.
+- **Its own script**: the repo defines `test:integration:smoke` (centrs:
+  `chr:prefetch`, then `chr-smoke.test.ts`); `test:integration` is the whole
+  tier.
+- **Resolve once, restore, prefetch, then test**: the channel resolves to a
+  version that keys the image cache and is the version booted; the smoke
+  job only restores (the full sweep owns the key, "Caches" below); and the
+  download happens before the test step, never inside a test's timeout
+  (centrs #468).
+- **A real KVM probe and a step timeout under the job's**, so a hang still
+  reports.
+
+Once the repo has a reusable integration workflow, this job is
 `uses: ./.github/workflows/integration.yml` with a smoke filter (quickchr:
 `platforms: linux-x86` and its `anchor.test.ts` subset), not a second copy
 of the QEMU setup. Add a `routeros` dispatch input (default `stable`) for
@@ -98,8 +114,10 @@ the target.
 ````yaml
 smoke:
   name: Smoke integration (CHR)
-  needs: changes
-  if: ${{ needs.changes.outputs.heavy != 'false' }}
+  needs: [changes, lint, unit]
+  if: >-
+    ${{ !cancelled() && needs.lint.result == 'success' && needs.unit.result == 'success'
+    && needs.changes.outputs.heavy != 'false' }}
   runs-on: ubuntu-latest
   timeout-minutes: 25
   steps:
@@ -136,12 +154,30 @@ smoke:
         bun-version-file: package.json
     - name: Install dependencies
       run: bun install --frozen-lockfile
-    - name: Record versions
+    # The repo's resolver: a channel in, `version=<x.y.z>` out to
+    # $GITHUB_OUTPUT (centrs scripts/chr-cache-key.ts, quickchr
+    # scripts/ci-cache-key.ts). The cache key and the boot use this version.
+    - name: Resolve the RouterOS version
+      id: resolve
       env:
         ROUTEROS: ${{ inputs.routeros || 'stable' }}
+      run: bun scripts/chr-cache-key.ts --channel "$ROUTEROS"
+    # Restore only: the full sweep owns this key and saves it.
+    - name: Restore the CHR image cache
+      uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: ~/.local/share/quickchr/cache
+        key: chr-images-v1-${{ runner.os }}-${{ steps.resolve.outputs.version }}
+    - name: Prefetch the CHR image
+      env:
+        EXAMPLE_ROUTEROS: ${{ steps.resolve.outputs.version }}
+      run: bun run chr:prefetch
+    - name: Record versions
+      env:
+        ROUTEROS: ${{ steps.resolve.outputs.version }}
       run: |
         {
-          echo "- Bun $(bun --version), RouterOS target $ROUTEROS"
+          echo "- Bun $(bun --version), RouterOS $ROUTEROS"
           echo "- $(qemu-system-x86_64 --version | head -n 1)"
         } >> "$GITHUB_STEP_SUMMARY"
     # Integration tests boot, check and remove their own CHR (tikoci-testing).
@@ -152,8 +188,8 @@ smoke:
       # leaves no evidence (quickchr #76, #144).
       timeout-minutes: 15
       env:
-        EXAMPLE_ROUTEROS: ${{ inputs.routeros || 'stable' }}
-      run: bun run test:integration 2>&1 | tee "$RUNNER_TEMP/smoke-output.txt"
+        EXAMPLE_ROUTEROS: ${{ steps.resolve.outputs.version }}
+      run: bun run test:integration:smoke 2>&1 | tee "$RUNNER_TEMP/smoke-output.txt"
     - name: Summarize
       if: ${{ !cancelled() }}
       run: |
@@ -214,10 +250,16 @@ When the slow tier does not run per PR, a PR check reports `main` instead:
   sweep and fails while a must-pass channel failed. Only scheduled runs
   count, so a dispatched sweep does not clear it.
 
-Both are required checks with "require branches to be up to date" off. The
-override when the PR is the fix is in
-[tikoci-github](https://tikoci.dev/house/skills/tikoci-github/SKILL.md).
-Never fix the check by weakening its verdict.
+Both are required checks with "require branches to be up to date" off, and
+neither is inside the CI gate. When the PR is the fix, the override is a
+label the check reads (centrs `fixes-main`, read live by
+`scripts/qa-nightly.ts` `mainHealth`, so rerun the check after labelling):
+the PR still needs every other required check. An admin merge skips them
+all and is the fallback
+([tikoci-github](https://tikoci.dev/house/skills/tikoci-github/SKILL.md)).
+After a read flake, rerunning the failed jobs of the red run clears it
+when the check reads the run's latest attempt (tikoci-ci, "Failures and
+flakes"). Never fix the check by weakening its verdict.
 
 ## Caches
 
@@ -304,9 +346,15 @@ has it, a macOS runner needs `gtimeout` or the tool's own per-file
 watchdog. `pkill` there reaps every QEMU on the runner; with a tool that
 names its machines, remove only those.
 
+Prefer the tool's own evidence writer when it has one: centrs integration
+tests append JSONL to `CENTRS_INTEGRATION_REPORT` (`recordIntegrationEvidence`
+in `test/integration/chr.ts`) with the RouterOS version the device reports,
+the board and the protocol, and quickchr's `ci-data` has a `test-file` row
+for every file of every leg. centrs writes from inside passing tests, so a
+file that fails early writes nothing there: the loop's `record()` adds the
+outcome and attempts, and is the whole record in a repo with neither.
 Upload `files.ndjson` as an artifact, or fold it into the history the sweep
-already keeps (centrs `qa-history`, quickchr `ci-data`, whose `test-file`
-rows already cover every file of every leg). `passed-on-retry` over all
+already keeps (centrs `qa-history`, quickchr `ci-data`). `passed-on-retry` over all
 records for a file, per RouterOS version and platform, is the flake rate
 the issue needs; when it has enough data, the issue closes with a fix, and
 the retry list empties.
