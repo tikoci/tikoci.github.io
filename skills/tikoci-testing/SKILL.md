@@ -8,7 +8,7 @@ description: "How tikoci repos test: bun:test; unit tier on every PR, smoke inte
 How tikoci repos structure and write tests. Why the real router matters, and
 what "done" requires, are in
 [tikoci-grounding](https://tikoci.dev/house/skills/tikoci-grounding/SKILL.md);
-how CI wires the tiers belongs to `tikoci-ci`. Copyable
+how CI wires the tiers belongs to [tikoci-ci](https://tikoci.dev/house/skills/tikoci-ci/SKILL.md). Copyable
 patterns are in [references/patterns.md](references/patterns.md).
 
 ## Runner and layout

@@ -7,7 +7,7 @@ description: "tikoci linting, with starting configs in assets/: tight types (str
 
 Which linters tikoci repos run, how they are configured, and where each one
 runs. The toolchain they run on is in `tikoci-toolchain`; how CI wires the
-gate is in `tikoci-ci`.
+gate is in [tikoci-ci](https://tikoci.dev/house/skills/tikoci-ci/SKILL.md).
 
 ## The set
 

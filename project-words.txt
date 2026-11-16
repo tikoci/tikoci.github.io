@@ -1,6 +1,7 @@
 # Project dictionary for cspell. One word per line, sorted case-insensitively
 # (checked by `bun run lint:words`); a word that is not obvious says what it
 # is after " # ". See the tikoci-linting house skill.
+artipacked # zizmor audit for credentials left in a checkout
 autovlan
 backgrounded
 backlink
@@ -9,12 +10,14 @@ bunfig # bunfig.toml, Bun's config file
 bunx # run a package binary through Bun, https://bun.com/docs/cli/bunx
 CDB # WinBox address book format
 centrs # tikoci RouterOS CLI and library, https://github.com/tikoci/centrs
+choco # Chocolatey, the Windows package manager CLI
 CMR # MikroTik's controller for RouterOS fleets
 coderabbit # CodeRabbit config and file names (.coderabbit.yaml)
 coderabbitai # CodeRabbit's GitHub handle, as in @coderabbitai
 commondir
 crossref
 cwd
+dispatchable
 Dockerfiles
 edk # edk2, the UEFI firmware QEMU boots, https://github.com/tianocore/edk2
 efi
@@ -36,14 +39,19 @@ mktemp
 mtimes
 netinstall # MikroTik's device flashing tool
 nohup
+noninteractive # DEBIAN_FRONTEND=noninteractive for apt-get
+noprofile # bash --noprofile
+norc # bash --norc
 NUL
 Oid # GitHub object id, as in headRefOid
 ONESHELL # GNU make special target: one shell per recipe
 Pico # Pico CSS, https://picocss.com
 pids
+pipefail # bash set -o pipefail
 PSScriptAnalyzer # PowerShell linter, https://github.com/PowerShell/PSScriptAnalyzer
 quickchr # CHR VMs under QEMU, https://github.com/tikoci/quickchr
 restraml # RouterOS schema tools, https://github.com/tikoci/restraml
+rollups
 ros
 routeros
 rsc # RouterOS script file extension
@@ -75,3 +83,4 @@ winbox
 worktrees
 XDG
 zizmor # GitHub Actions security linter, https://github.com/zizmorcore/zizmor
+zizmorcore # zizmor GitHub org, as in zizmorcore/zizmor-action

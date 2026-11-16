@@ -27,6 +27,11 @@ Add detail as indented lines only when needed. Move finished items to *Done* (or
 - [ ] [deps] Adopt `tikoci-dependencies` here: add `.github/dependabot.yml`
       (`github-actions`, weekly, grouped), then pin the workflows' actions
       (`oven-sh/setup-bun@v2` and the rest) to commit SHAs. (#21, 3b)
+- [ ] [ci] Adopt `tikoci-ci` here: `check-pr.yaml` becomes the CI workflow (`push` to
+      `main`, the weekly latest-Bun run and a `bun-version` dispatch input; `shell: bash`),
+      plus `zizmor.yml` reporting to code scanning after the existing findings (7 high,
+      mostly unpinned actions) are fixed by the [deps] item. `deploy-pages.yaml` keeps
+      its own Bun pin and push rules. (#21, 3d)
 - [ ] [lint] Adopt the `tikoci-linting` starting configs here: the stricter tsconfig (TypeScript 7
       reports 20 `noUncheckedIndexedAccess` errors in build.ts and scripts/), `biome.jsonc` with
       `--error-on-warnings` (needs the `any` item below first), and one `.markdownlint-cli2.yaml`.

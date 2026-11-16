@@ -10,7 +10,7 @@ handled. **The defaults use only what a free organization gets for public
 repositories**: no paid add-on (Copilot, Code Quality and its AI findings,
 Advanced Security for private repos) is part of the house setup, so nothing
 breaks when a subscription lapses. The PR flow these settings serve is in `tikoci-pr-flow`; workflows
-themselves are in `tikoci-ci`. Commands to check and apply each setting are in
+themselves are in [tikoci-ci](https://tikoci.dev/house/skills/tikoci-ci/SKILL.md). Commands to check and apply each setting are in
 [references/settings.md](references/settings.md).
 
 ## Repository

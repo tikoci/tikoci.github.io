@@ -23,7 +23,7 @@ Planning: Phase 3 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 | PowerShell copies of examples | - | quickchr `examples/**/*.ps1`, `lint-powershell.yml`. |
 | Why pin; upgrade in its own PR; never pin backwards | quickchr-110 | quickchr `.github/instructions/ci.instructions.md`, quickchr #148. |
 | Pin checked mechanically | quickchr-110 | quickchr `scripts/check-bun-pin.ts`, which checks `.bun-version` (and that `actions/checkout` runs before `setup-bun`) and needs adapting to `packageManager`. |
-| CI against the latest Bun (open) | - | `bun-ci-version` in the conflicts table, maintainer direction in #21. |
+| CI against the latest Bun | - | Settles `bun-ci-version` (maintainer, 2026-11-16); the workflow side is in tikoci-ci. |
 | Commit `bun.lock` with the dependency change; frozen install in CI | centrs-51, restraml-41 | |
 | TypeScript default; Python only for tooling, via uv | user-15, user-16, centrs-45, quickchr-047 | centrs `python-uv.instructions.md` is the strong source. |
 | Other languages by recorded decision | user-15, user-20 | |

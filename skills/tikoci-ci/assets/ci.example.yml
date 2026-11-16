@@ -1,0 +1,252 @@
+# tikoci starting CI workflow. Save as .github/workflows/ci.yml. See tikoci-ci.
+#
+#   changes ─────────────┐ (docs-only: smoke skips)
+#   lint ────────────────┤
+#   unit (each OS) ──────┼─→ gate  (the one required check, where a repo requires one)
+#   smoke (CHR, stable) ─┘
+#
+# Every job runs a package script (package.example.json in tikoci-toolchain),
+# so `bun run lint` and `bun run test:coverage` reproduce a job locally.
+# A weekly scheduled run uses the latest Bun instead of the pin. Action SHAs are
+# the releases current when this file was written; Dependabot moves them.
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  schedule:
+    # Weekly: the same jobs on the latest Bun (tikoci-ci, "The Bun version").
+    - cron: "41 6 * * 1"
+  workflow_dispatch:
+    inputs:
+      bun-version:
+        description: "Bun to run: empty for the packageManager pin, `latest`, or an exact version"
+        type: string
+        default: ""
+      routeros:
+        description: "RouterOS target for the smoke job: a channel or an exact version"
+        type: string
+        default: stable
+
+permissions:
+  contents: read
+
+concurrency:
+  # A new push to a PR replaces its run; runs on main and scheduled runs finish.
+  group: ci-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+defaults:
+  run:
+    # An explicit `bash` runs with -o pipefail; the unspecified default does
+    # not, and `bun test | tee` would report the exit code of tee.
+    shell: bash
+
+env:
+  # Empty means the pin: setup-bun reads bun-version first, then bun-version-file.
+  BUN_VERSION: ${{ github.event_name == 'schedule' && 'latest' || inputs.bun-version }}
+
+jobs:
+  # Answers heavy=false only for a diff that no test, build or integration run
+  # reads. Any error answers heavy=true, and the jobs below test `!= 'false'`,
+  # so a missing answer also runs everything. Move this to a tested
+  # scripts/ci-changes.ts once the path rules grow (centrs does).
+  changes:
+    name: Classify changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read # the PR's file list
+    outputs:
+      heavy: ${{ steps.classify.outputs.heavy }}
+    steps:
+      - name: Classify the diff
+        id: classify
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+          # Paths nothing but people and agents read. Edit to fit the repo; a
+          # Markdown file a test parses is code, not docs.
+          DOCS_ONLY: '^(docs/.*|[^/]*\.md|LICENSE)$'
+        run: |
+          files=""
+          case "$GITHUB_EVENT_NAME" in
+            pull_request) files=$(gh pr diff "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --name-only) || files="" ;;
+            push) files=$(gh api --paginate "repos/$GITHUB_REPOSITORY/compare/$BEFORE...$AFTER" --jq '.files[].filename') || files="" ;;
+          esac
+          # A here-string, not a pipe: under pipefail an early `grep -q` exit
+          # can fail the writer, and the `!` would turn that into heavy=false.
+          # GitHub lists at most 3000 changed files, so a list that long may
+          # be partial: run everything.
+          count=$(grep -c . <<<"$files" || true)
+          heavy=true
+          if [ "$count" -gt 0 ] && [ "$count" -lt 3000 ] && ! grep -qvE "$DOCS_ONLY" <<<"$files"; then
+            heavy=false
+          fi
+          echo "heavy=$heavy" >> "$GITHUB_OUTPUT"
+          echo "Heavy jobs: $heavy ($GITHUB_EVENT_NAME, $count files)" >> "$GITHUB_STEP_SUMMARY"
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+          bun-version-file: package.json
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Lint
+        run: bun run lint
+
+  unit:
+    name: Unit (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        # The OSes the tool supports. Coverage is collected once, on Linux.
+        os: [ubuntu-latest]
+        # os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+          bun-version-file: package.json
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Record versions
+        run: |
+          echo "- $RUNNER_OS: Bun $(bun --version) (requested: ${BUN_VERSION:-the pin})" >> "$GITHUB_STEP_SUMMARY"
+      - name: Unit tests
+        env:
+          SCRIPT: ${{ runner.os == 'Linux' && 'test:coverage' || 'test' }}
+        run: bun run "$SCRIPT" 2>&1 | tee "$RUNNER_TEMP/unit-output.txt"
+      # The verdict and the coverage table in the summary; the full output
+      # and lcov in an artifact. Coverage is read, never a gate.
+      - name: Summarize
+        if: ${{ !cancelled() }}
+        run: |
+          {
+            echo "### Unit tests ($RUNNER_OS)"
+            echo '```text'
+            tail -n 40 "$RUNNER_TEMP/unit-output.txt"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload test output and coverage
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: unit-${{ matrix.os }}
+          path: |
+            ${{ runner.temp }}/unit-output.txt
+            coverage/lcov.info
+          if-no-files-found: ignore
+          retention-days: 14
+
+  # Delete this job in a repo without device behavior. It boots a real CHR
+  # through quickchr; the full channel sweep runs nightly (tikoci-testing).
+  smoke:
+    name: Smoke integration (CHR)
+    needs: changes
+    if: ${{ needs.changes.outputs.heavy != 'false' && github.event_name != 'schedule' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install QEMU
+        run: |
+          echo "::group::apt-get install"
+          sudo DEBIAN_FRONTEND=noninteractive apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends qemu-system-x86 qemu-utils
+          echo "::endgroup::"
+          command -v qemu-system-x86_64 >/dev/null || { echo "::error::QEMU did not install (infrastructure)"; exit 1; }
+      - name: Enable KVM
+        run: |
+          if [ -e /dev/kvm ]; then
+            sudo chmod 666 /dev/kvm
+          else
+            echo "::warning::/dev/kvm is missing; the CHR boots under TCG and is much slower."
+          fi
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+          bun-version-file: package.json
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Record versions
+        env:
+          ROUTEROS: ${{ inputs.routeros || 'stable' }}
+        run: |
+          {
+            echo "- Bun $(bun --version), RouterOS target $ROUTEROS"
+            echo "- $(qemu-system-x86_64 --version | head -n 1)"
+          } >> "$GITHUB_STEP_SUMMARY"
+      # Integration tests boot, check and remove their own CHR (tikoci-testing).
+      # The target is the repo's env knob; rename EXAMPLE_ to the tool's prefix.
+      - name: Smoke integration
+        env:
+          EXAMPLE_ROUTEROS: ${{ inputs.routeros || 'stable' }}
+        run: bun run test:integration 2>&1 | tee "$RUNNER_TEMP/smoke-output.txt"
+      - name: Summarize
+        if: ${{ !cancelled() }}
+        run: |
+          {
+            echo "### Smoke integration"
+            echo '```text'
+            tail -n 40 "$RUNNER_TEMP/smoke-output.txt"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      # Add the tool's machine logs and failure files to `path`. A data root
+      # under a dot directory needs include-hidden-files, or the upload is
+      # silently empty.
+      - name: Upload diagnostics
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: smoke-diagnostics
+          path: ${{ runner.temp }}/smoke-output.txt
+          include-hidden-files: true
+          retention-days: 7
+
+  # One stable name to require in branch protection, whatever the matrix holds.
+  # A skipped job (docs-only smoke) counts as passed; a failed or cancelled
+  # one fails the gate.
+  gate:
+    name: CI gate
+    if: ${{ always() }}
+    needs: [changes, lint, unit, smoke]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check needed jobs
+        env:
+          FAILED: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
+          RESULTS: ${{ toJSON(needs) }}
+        run: |
+          if [ "$FAILED" = "true" ]; then
+            echo "::error::A needed job failed or was cancelled."
+            printf '%s\n' "$RESULTS"
+            exit 1
+          fi
