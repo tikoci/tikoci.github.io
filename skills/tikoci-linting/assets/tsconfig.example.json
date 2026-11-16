@@ -1,0 +1,42 @@
+// tikoci starting tsconfig for a Bun repo. Save as tsconfig.json; adjust
+// "include" to the repo's directories. Bun runs the code and tsc only checks
+// it (`tsc --noEmit`). Based on `bun init`, with stricter checks from
+// TypeScript's own `tsc --init`. See tikoci-linting.
+{
+  "compilerOptions": {
+    // Bun runs TypeScript directly: modern output, bundler resolution.
+    "lib": ["ESNext"],
+    "target": "ESNext",
+    "module": "Preserve",
+    "moduleResolution": "bundler",
+    "moduleDetection": "force",
+    "types": ["bun"], // needs @types/bun in devDependencies
+    "allowImportingTsExtensions": true, // relative imports end in .ts
+    "verbatimModuleSyntax": true, // type-only imports say `import type`
+    "noEmit": true,
+    "skipLibCheck": true,
+
+    // Tight types: the type tells the story, so a diff shows what changed.
+    "strict": true,
+    "noUncheckedIndexedAccess": true, // arr[i] and record[key] may be undefined
+    "exactOptionalPropertyTypes": true, // `x?: T` means absent; write `x?: T | undefined` when undefined is a value
+    "noImplicitReturns": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+    // Only syntax TypeScript can erase: no enum, namespace or parameter
+    // properties. The code is JavaScript plus types; use a union of literals
+    // or an `as const` object instead.
+    "erasableSyntaxOnly": true,
+
+    // Off on purpose:
+    // - Biome reports unused imports, variables and parameters, with a fix.
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    // - noUncheckedIndexedAccess already types index access as possibly
+    //   undefined; requiring bracket syntax as well conflicts with Biome's
+    //   useLiteralKeys and adds churn, not safety.
+    "noPropertyAccessFromIndexSignature": false
+  },
+  "include": ["src", "test", "scripts", "examples", "*.ts"]
+}

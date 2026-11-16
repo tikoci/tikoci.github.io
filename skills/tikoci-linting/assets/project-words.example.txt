@@ -1,0 +1,12 @@
+# Project dictionary for cspell (save as project-words.txt). One word per
+# line, sorted case-insensitively, checked with:
+#   sed -e '/^#/d' -e 's/ *#.*//' -e '/^$/d' project-words.txt | LC_ALL=C sort -c -f -u
+# A word that is not obvious says what it is after " # ", with a URL for a
+# tool or repo. cspell ignores everything from the #.
+centrs # tikoci RouterOS CLI and library, https://github.com/tikoci/centrs
+CHR # Cloud Hosted Router: RouterOS as a VM
+MikroTik
+netinstall # MikroTik's device flashing tool
+quickchr # CHR VMs under QEMU, https://github.com/tikoci/quickchr
+routeros
+zizmor # GitHub Actions security linter, https://github.com/zizmorcore/zizmor

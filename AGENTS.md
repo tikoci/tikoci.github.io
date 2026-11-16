@@ -3,7 +3,7 @@
 This static site is the keeper of TIKOCI-wide metadata, conventions and collected
 observations, alongside the project site at <https://tikoci.dev>. Public contracts
 and durable URLs matter as much as rendered pages. Short recipes live in docs/;
-small open follow-ups live in TODO.md.
+small open follow-ups live in BACKLOG.md.
 
 This is the single instruction file for all agents. CLAUDE.md only imports it.
 
@@ -41,7 +41,7 @@ visited.
 - `bun run lint`: TypeScript, Biome, `lint:markdown` and `lint:skills`; no rendering
   or remote collection.
 - `bun run lint:markdown`: markdownlint-cli2 and cspell on all Markdown; project
-  words go in `project-words.txt`.
+  words go in `project-words.txt`, sorted (`lint:words` checks it).
 - `bun run lint:skills`: `scripts/check-skills.ts` on skills/, with the description
   budget in its output and the CI step summary.
 - `bun test test/`: fixture and committed-contract tests, no network.
@@ -61,7 +61,7 @@ these coverage limits.
 ## Contribution rules
 
 - Small fixes go straight to `main`. Bigger changes go through a PR. Changes
-  that need discussion get a GitHub issue. Track small nits in TODO.md, not as
+  that need discussion get a GitHub issue. Track small nits in BACKLOG.md, not as
   issues. Act on substantive automatic PR review findings, not prose or style
   nitpicks.
 - PRs use squash merge with the PR title and description as the commit message.

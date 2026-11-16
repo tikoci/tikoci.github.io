@@ -1,6 +1,6 @@
 ---
 name: tikoci-testing
-description: "How tikoci repos test: bun:test; unit tier on every PR, smoke integration on a real CHR via quickchr behind an env flag, a channel sweep nightly and before release, lab work outside CI. Every behavior change ships a test that can fail: assert what the code decides and output markers, not exit 0. Hermetic: TIKOCI_SANDBOX, explicit child env, port 0, cleanup in finally, timeouts from the operation's budget. Use when writing tests, mocks or test tiers."
+description: "How tikoci repos test: bun:test; unit tier on every PR, smoke integration on a real CHR via quickchr behind an env flag, a channel sweep nightly and before release, lab work by hand or a non-gating dispatch job. Every behavior change ships a test that can fail: assert what the code decides and output markers, not exit 0. Coverage tracked in CI, never a gate. Hermetic: TIKOCI_SANDBOX, explicit child env, port 0, cleanup in finally, timeouts from the operation's budget. Use when writing tests, mocks or test tiers."
 ---
 
 # Testing
@@ -27,6 +27,13 @@ patterns are in [references/patterns.md](references/patterns.md).
   `<TOOL>_INTEGRATION`.
 - **The RouterOS target is an env knob** (a channel or a pinned version), the
   same one a CI dispatch input sets, defaulting to `stable`.
+- **Test settings live in `bunfig.toml`** (`[test]`: preload, coverage
+  reporters); start from [bunfig.example.toml](assets/bunfig.example.toml).
+- **Coverage is tracked, never a gate.** CI runs `bun test --coverage` and
+  keeps the report (job summary or lcov artifact) as a rough map of untested
+  areas. Bun reports only the files a test loaded: a module no test imports
+  is missing from the report, not shown as uncovered. No `coverageThreshold`:
+  a number to defend invites tests written for the number.
 
 ## Tiers
 
@@ -36,7 +43,7 @@ patterns are in [references/patterns.md](references/patterns.md).
 | Smoke integration | QEMU and a CHR via quickchr | every code PR, `stable` channel | the core paths: does the CLI and library generally work against a real router |
 | Full sweep | as above | nightly when something changed, and before a release | every active RouterOS channel, the repeat counts and options that are too slow per PR |
 | Dispatch | expensive hosts or long boots | `workflow_dispatch` from any branch | cross-platform QA, architecture contrasts, VM boot suites |
-| Lab | anything | by hand, never in CI | semi-durable experiments with a `REPORT.md`, rerun to recheck an assumption |
+| Lab | anything | by hand, or a non-gating dispatch job; never a gate | semi-durable experiments with a `REPORT.md`, rerun to recheck an assumption |
 
 Docs-only changes run the repo checks, not the integration tier. A repo
 without device behavior has only the unit tier, and that is complete.

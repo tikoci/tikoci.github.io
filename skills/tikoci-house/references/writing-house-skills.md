@@ -13,7 +13,12 @@ For maintainers of tikoci/tikoci.github.io, and for anyone proposing a house rul
   truncate that listing, and GitHub code review picks skills by relevance, so
   the description must work on its own.
 - **The body repeats the operative rules** with the reason and the exceptions.
-  Detail, examples and sample configs go in `references/`, linked from the body.
+  Detail and examples go in `references/`, linked from the body.
+- **A rule about a config file ships a starting copy** in `assets/`, named
+  `*.example.*` (`biome.example.jsonc`) so no tool picks it up inside a copied
+  skill; `check-skills.ts` rejects the real names. The file codifies the prose
+  and saves the next agent from rebuilding it for a new repo. Run it on sample
+  code before publishing.
 - **Defaults, not mandates.** Write what a repo should do and why, so a repo
   that needs an exception can see what it gives up.
 - **A rule a linter can check becomes a lint rule.** The skill names the linter
@@ -32,8 +37,9 @@ skills/
   README.md                  layout and checks (published as /house/skills/README.md)
   tikoci-<area>/
     SKILL.md                 frontmatter + operative rules
-    references/              detail, examples, sample configs (optional)
-    scripts/  assets/        only if the skill needs them (optional)
+    references/              detail and examples (optional)
+    assets/                  starting configs, *.example.* (optional)
+    scripts/                 only if the skill needs them (optional)
 ```
 
 The directory is published unchanged at

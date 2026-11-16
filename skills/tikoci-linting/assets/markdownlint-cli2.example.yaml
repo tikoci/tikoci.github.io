@@ -1,0 +1,35 @@
+# tikoci starting markdownlint config. Save as .markdownlint-cli2.yaml: the
+# CLI and the VS Code extension both read it, so one file holds the rules and
+# the file list. Markdown linting catches what breaks rendering or tooling;
+# style that a renderer handles anyway stays off. See tikoci-linting.
+config:
+  default: true
+
+  # Off: busywork, or reflowing that makes noisy diffs.
+  MD013: false  # line length: editors and renderers wrap; rewrapping rewrites lines
+  MD033: false  # inline HTML: GitHub's allowed tags (details, abbr, kbd, sub) are welcome in human docs
+  MD036: false  # emphasis as heading: short emphasized asides are fine
+  MD041: false  # first line a heading: a README may open with a logo or badges
+  MD060: false  # table column alignment: padding cells is busywork
+
+  # Adjusted.
+  MD024:
+    siblings_only: true  # the same heading under different parents (changelog releases)
+
+  # Signal, kept explicit: these break rendering or the tools that read code blocks.
+  MD040: true  # every fence names a language (routeros, sh, typescript, text)
+  MD046:
+    style: fenced
+  MD048:
+    style: backtick
+
+# Which files.
+gitignore: true
+globs:
+  - "**/*.md"
+ignores:
+  - "CLAUDE.md"                    # one line: @AGENTS.md
+  - ".agents/skills/tikoci-*/**"   # house skills copied unchanged, linted at the source
+  - "**/fixtures/**"               # test inputs, malformed on purpose
+  - ".github/instructions/**"      # until the repo retires it (tikoci-house)
+  # Add the repo's generated docs here (output of a docs:* script).

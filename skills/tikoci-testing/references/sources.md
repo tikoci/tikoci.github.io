@@ -12,7 +12,8 @@ Planning: Phase 3 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 | `bun:test`, `describe`/`test`, `*.test.ts` | quickchr-064, user-29 | |
 | Integration behind an env flag; existing names kept | quickchr-064, centrs-28 | quickchr `QUICKCHR_INTEGRATION`, centrs `CENTRS_RUN_FAST_INTEGRATION`. |
 | RouterOS target as an env knob | quickchr-064 | quickchr `QUICKCHR_TEST_TARGET`, centrs `CENTRS_CHR_CHANNEL`. |
-| Tiers: unit, smoke, sweep, dispatch, lab | centrs-16, mikropkl-23, restraml-05, restraml-37, quickchr-085 | centrs `ci-test-tiers-and-release-versioning.instructions.md` is the strong source and names quickchr as the reference scheme. Settles `integration-cadence`. |
+| `bunfig.toml` for test settings; coverage tracked, never a gate | centrs-33, quickchr-128, PR #26 review | centrs: coverage is a trend, not a gate; quickchr's thresholds are warn-only. The maintainer's review of [PR #26](https://github.com/tikoci/tikoci.github.io/pull/26) (2026-11-15) sets "tracker, not gate". `bunfig.example.toml` was run with Bun 1.4.4. |
+| Tiers: unit, smoke, sweep, dispatch, lab | centrs-16, mikropkl-23, restraml-05, restraml-37, quickchr-085 | centrs `ci-test-tiers-and-release-versioning.instructions.md` is the strong source and names quickchr as the reference scheme, but quickchr's CI differs: `ci.yml` runs lint, unit, Windows unit and an integration-freshness check per PR, integration runs on push to main (`main.yml`), and labs run as non-gating dispatch jobs (`lab.yml`). quickchr moves integration to code PRs on adoption. Settles `integration-cadence`. |
 | Docs-only changes skip the integration tier | centrs-16 | |
 | Every behavior change ships a test | rosetta-14, quickchr-074 | |
 | Device behavior needs an integration test | quickchr-074, centrs-25, centrs-28 | |

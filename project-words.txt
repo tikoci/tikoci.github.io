@@ -1,47 +1,70 @@
+# Project dictionary for cspell. One word per line, sorted case-insensitively
+# (checked by `bun run lint:words`); a word that is not obvious says what it
+# is after " # ". See the tikoci-linting house skill.
 autovlan
+backgrounded
 backlink
-CDB
-centrs
-CMR
+bashisms
+bunfig # bunfig.toml, Bun's config file
+bunx # run a package binary through Bun, https://bun.com/docs/cli/bunx
+CDB # WinBox address book format
+centrs # tikoci RouterOS CLI and library, https://github.com/tikoci/centrs
+CMR # MikroTik's controller for RouterOS fleets
 commondir
 crossref
 cwd
+Dockerfiles
+edk # edk2, the UEFI firmware QEMU boots, https://github.com/tianocore/edk2
 efi
 frontmatter
 gitdir
 libsecret
+LLM
 llms
 LOCALAPPDATA
 lsbridge
 lsp
-MCP
+MCP # Model Context Protocol
 MIB
-mikropkl
+mikropkl # declarative RouterOS VMs in Pkl, https://github.com/tikoci/mikropkl
 MikroTik
+mktemp
 mtimes
-netinstall
+netinstall # MikroTik's device flashing tool
+nohup
 NUL
-Pico
+ONESHELL # GNU make special target: one shell per recipe
+Pico # Pico CSS, https://picocss.com
 pids
-quickchr
-restraml
+PSScriptAnalyzer # PowerShell linter, https://github.com/PowerShell/PSScriptAnalyzer
+quickchr # CHR VMs under QEMU, https://github.com/tikoci/quickchr
+restraml # RouterOS schema tools, https://github.com/tikoci/restraml
 ros
 routeros
-rsc
+rsc # RouterOS script file extension
 rskills
 sandboxed
+secretlint # secret scanner, https://github.com/secretlint/secretlint
+sed # stream editor (POSIX)
+shellcheck # shell script linter, https://www.shellcheck.net/
+SHELLFLAGS # GNU make variable: flags for the recipe shell
 SNMP
+socat # relays sockets and serial ports, http://www.dest-unreach.org/socat/
 strawman
 subfolders
-TCG
-tikbook
+TCG # QEMU's software CPU emulator
+tikbook # RouterOS notebooks for VS Code, https://github.com/tikoci/vscode-tikbook
 tikoci
+tsc
 uid
 UNC
 unparseable
 unvalidated
 USERPROFILE
 usr
+uvx # run a Python tool through uv, https://docs.astral.sh/uv/
+venv
 winbox
 worktrees
 XDG
+zizmor # GitHub Actions security linter, https://github.com/zizmorcore/zizmor

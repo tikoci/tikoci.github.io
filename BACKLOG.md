@@ -1,4 +1,4 @@
-# TODO — small follow-ups
+# Backlog: small follow-ups
 
 A lightweight list of nits and small follow-ups, kept in the repo instead of GitHub issues.
 
@@ -14,6 +14,18 @@ Add detail as indented lines only when needed. Move finished items to *Done* (or
 
 ## Open
 
+- [ ] [flow] Adopt `tikoci-pr-flow` here when it ships (#21, 3c): small fixes become PRs
+      labeled `skip-review` instead of pushes to `main` (bot snapshot commits stay direct),
+      plus a CodeRabbit config (no draft or incremental reviews, `!skip-review`) and a
+      `.github/pull_request_template.md`. Update the flow above and AGENTS.md then.
+      (#21 decisions, 2026-11-15)
+- [ ] [deps] Adopt `tikoci-dependencies` here: add `.github/dependabot.yml`
+      (`github-actions`, weekly, grouped), then pin the workflows' actions
+      (`oven-sh/setup-bun@v2` and the rest) to commit SHAs. (#21, 3b)
+- [ ] [lint] Adopt the `tikoci-linting` starting configs here: the stricter tsconfig (TypeScript 7
+      reports 20 `noUncheckedIndexedAccess` errors in build.ts and scripts/), `biome.jsonc` with
+      `--error-on-warnings` (needs the `any` item below first), and one `.markdownlint-cli2.yaml`.
+      (#21, 3b; PR #26 review)
 - [ ] [ci] Hourly persist commits to `main` on nearly every run, because the `attemptedAt` /
       `generatedAt` timestamps always change. Skip the commit when only timestamps changed,
       or persist less often (e.g. daily). If a human push races the run, that hour's deploy

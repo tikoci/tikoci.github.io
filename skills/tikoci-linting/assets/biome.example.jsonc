@@ -1,0 +1,45 @@
+// tikoci starting Biome config. Save as biome.jsonc (comments allowed) and
+// run `biome lint --error-on-warnings .` as part of the lint gate: a warning
+// is fixed or its rule is turned off here with a reason, never left standing.
+// See tikoci-linting.
+{
+  "$schema": "https://biomejs.dev/schemas/2.6.8/schema.json",
+  // Skip what git ignores (node_modules, dist, .scratch).
+  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+  // House skills copied unchanged are linted where they are written.
+  "files": { "includes": ["**", "!.agents/skills/tikoci-*"] },
+  // Lint only, the house default: in an existing repo a formatter's diffs cost
+  // review time and bury the change. A new repo may turn it on from the first
+  // commit (see tikoci-linting) and record that as a House exception.
+  "formatter": { "enabled": false },
+  // Import sorting rewrites lines the change did not touch, like a formatter.
+  "assist": { "enabled": false },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended",
+      "suspicious": {
+        // Use `unknown` and narrow it. An `any` the code cannot avoid gets a
+        // suppression comment that gives the reason.
+        "noExplicitAny": "error"
+      },
+      "style": {
+        // Narrow with a check (`if (!x) throw ...`) instead of asserting `!`.
+        "noNonNullAssertion": "error"
+      }
+    }
+  },
+  "overrides": [
+    {
+      // Tests need the looser escapes to reach into results and build odd
+      // inputs, and a failed `!` there is a failed test. Shipped code stays strict.
+      "includes": ["test/**"],
+      "linter": {
+        "rules": {
+          "suspicious": { "noExplicitAny": "off" },
+          "style": { "noNonNullAssertion": "off" }
+        }
+      }
+    }
+  ]
+}

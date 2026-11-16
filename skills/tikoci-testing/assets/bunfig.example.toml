@@ -1,0 +1,16 @@
+# tikoci starting bunfig.toml for tests. Save as bunfig.toml. See tikoci-testing.
+
+[test]
+# Hermetic setup that every test file needs (TIKOCI_SANDBOX, fixtures).
+# Keep the real HOME; see tikoci-testing. Delete the line if the repo has none.
+preload = ["./test/preload.ts"]
+
+# Coverage is collected only when asked (`bun test --coverage`, which CI
+# runs), so a local `bun test` stays fast.
+coverageReporter = ["text", "lcov"]
+coverageDir = "coverage"
+
+# Test helpers and generated code say nothing about test gaps.
+coveragePathIgnorePatterns = ["test/**", "**/generated/**"]
+
+# No coverageThreshold: coverage is tracked and read, never a gate.
