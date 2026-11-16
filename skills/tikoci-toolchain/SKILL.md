@@ -1,6 +1,6 @@
 ---
 name: tikoci-toolchain
-description: "tikoci toolchain: Bun runs, tests, installs and builds (not node, npm, npx or jest); one exact Bun pin in package.json packageManager, raised in its own PR, never lowered to dodge a failure; bun.lock committed with each dependency change; TypeScript by default, Node only where shipped code runs on Node, Python only for tooling via uv; package.json scripts are the entry point, a Makefile only for several runtimes; POSIX sh, or a Bun script once logic gets clever; tools outside bun install listed in the README; images built and tested in CI, not local Docker. Use when choosing a runtime, language, script, task runner or dev tool."
+description: "tikoci toolchain: Bun runs, tests, installs and builds (not node, npm, npx or jest); one exact Bun pin in package.json packageManager, raised in its own PR, never lowered to dodge a failure; bun.lock committed with each dependency change; TypeScript by default, Node only where shipped code runs on Node, Python only for tooling via uv; package.json scripts are the entry point, a Makefile only for several runtimes; POSIX sh, or a Bun script once logic gets clever; tools outside bun install listed in the developer docs; images built and tested in CI, not local Docker. Use when choosing a runtime, language, script, task runner or dev tool."
 ---
 
 # Toolchain
