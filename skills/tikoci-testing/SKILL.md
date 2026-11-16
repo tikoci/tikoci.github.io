@@ -1,6 +1,6 @@
 ---
 name: tikoci-testing
-description: "How tikoci repos test: bun:test; unit tier on every PR, smoke integration on a real CHR via quickchr behind an env flag, a channel sweep nightly and before release, lab work outside CI. Every behavior change ships a test that can fail: assert what the code decides and output markers, not exit 0. Coverage tracked in CI, never a gate. Hermetic: TIKOCI_SANDBOX, explicit child env, port 0, cleanup in finally, timeouts from the operation's budget. Use when writing tests, mocks or test tiers."
+description: "How tikoci repos test: bun:test; unit tier on every PR, smoke integration on a real CHR via quickchr behind an env flag, a channel sweep nightly and before release, lab work by hand or a non-gating dispatch job. Every behavior change ships a test that can fail: assert what the code decides and output markers, not exit 0. Coverage tracked in CI, never a gate. Hermetic: TIKOCI_SANDBOX, explicit child env, port 0, cleanup in finally, timeouts from the operation's budget. Use when writing tests, mocks or test tiers."
 ---
 
 # Testing
@@ -31,8 +31,9 @@ patterns are in [references/patterns.md](references/patterns.md).
   reporters); start from [bunfig.example.toml](assets/bunfig.example.toml).
 - **Coverage is tracked, never a gate.** CI runs `bun test --coverage` and
   keeps the report (job summary or lcov artifact) as a rough map of untested
-  areas. No `coverageThreshold`: a number to defend invites tests written for
-  the number.
+  areas. Bun reports only the files a test loaded: a module no test imports
+  is missing from the report, not shown as uncovered. No `coverageThreshold`:
+  a number to defend invites tests written for the number.
 
 ## Tiers
 

@@ -40,8 +40,10 @@ and the other tikoci tools. The Bun pin itself is in `tikoci-toolchain`.
   `SECURITY.md`): a tag picks up an action's security fix on the next run,
   while a SHA waits for a bot. The house takes the other side, because a tag
   can also be moved to malicious code with no diff to review (the tj-actions
-  compromise did exactly that), and Dependabot brings the fix within a week,
-  or at once through a security update. centrs and quickchr's floating
+  compromise did exactly that), and Dependabot proposes the fix within about
+  two weeks (a weekly check plus the cooldown). An urgent fix is a manual
+  bump, or a Dependabot security update where the repo enables them and an
+  advisory covers the action. centrs and quickchr's floating
   `actions/setup-node` change on adoption.
 - **A 7-day cooldown** on version updates, for both ecosystems, so a
   compromised release is usually found and pulled before Dependabot proposes

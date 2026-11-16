@@ -30,3 +30,6 @@ globs:
 ignores:
   - "CLAUDE.md"                    # one line: @AGENTS.md
   - ".agents/skills/tikoci-*/**"   # house skills copied unchanged, linted at the source
+  - "**/fixtures/**"               # test inputs, malformed on purpose
+  - ".github/instructions/**"      # until the repo retires it (tikoci-house)
+  # Add the repo's generated docs here (output of a docs:* script).
