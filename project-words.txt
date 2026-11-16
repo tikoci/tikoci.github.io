@@ -37,6 +37,7 @@ mtimes
 netinstall # MikroTik's device flashing tool
 nohup
 NUL
+Oid # GitHub object id, as in headRefOid
 ONESHELL # GNU make special target: one shell per recipe
 Pico # Pico CSS, https://picocss.com
 pids

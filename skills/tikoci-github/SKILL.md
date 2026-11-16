@@ -71,10 +71,12 @@ themselves are in `tikoci-ci`. Commands to check and apply each setting are in
   advanced workflow: start from
   [codeql-config.example.yml](assets/codeql-config.example.yml). Scanning
   thousands of old HTML pages is what made restraml's scan slow.
-- **Advanced setup** (a workflow, as centrs, rosetta and restraml run with
-  the `security-and-quality` suite) only for what default setup cannot do,
-  such as that suite, a house query pack or a build step; SECURITY.md says
-  why.
+- **The same config file adds queries, query packs and `query-filters`**,
+  which default setup keeps when it merges the file. **Advanced setup** (a
+  workflow, as centrs, rosetta and restraml run) is only for what the file
+  cannot do, such as a custom build step; SECURITY.md says why. GitHub lists
+  the `security-and-quality` suite as advanced-only, and whether a config
+  file's `queries:` brings it into default setup is untested.
 - **Secret scanning replaces a secret linter** in the gate; a repo that
   handles credentials in files may add secretlint (centrs).
 
@@ -109,11 +111,13 @@ themselves are in `tikoci-ci`. Commands to check and apply each setting are in
   record. In-code
   `codeql[...]` and `lgtm[...]` comments do not suppress an alert (centrs
   PR #233), and moving the code only changes its fingerprint. A
-  `query-filters` entry in an advanced setup's config file is the rule-wide
+  `query-filters` entry in the CodeQL config file is the rule-wide
   alternative.
-- **On an open PR, query alerts with `pr=<number>`**; without it the API
-  shows only the default branch. Check that an analysis exists for the PR's
-  head before reading an empty list as clean.
+- **On an open PR, query alerts with `pr=<number>`**; without it the alert
+  API shows only the default branch. An empty list counts only when a current
+  analysis exists: on `refs/pull/<n>/head` at the PR's head commit (default
+  setup), or on `refs/pull/<n>/merge` at a merge commit whose second parent is
+  that head (advanced setup).
 
 Commands and two common false positives are in
 [references/settings.md](references/settings.md).

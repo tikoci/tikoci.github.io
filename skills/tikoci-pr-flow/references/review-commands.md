@@ -1,7 +1,5 @@
 # Review commands
 
-<!-- cspell:ignore Oid -->
-
 The `gh` commands behind [tikoci-pr-flow](../SKILL.md), run from inside the
 repo's checkout. `gh` fills in `{owner}` and `{repo}` from the checkout, so
 the commands copy unchanged between repos. `gh` does not fill in the PR

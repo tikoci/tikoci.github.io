@@ -94,10 +94,21 @@ gh api "repos/{owner}/{repo}/code-scanning/alerts?pr=$N" \
   --jq '.[] | "\(.number) \(.rule.id) \(.most_recent_instance.location.path):\(.most_recent_instance.location.start_line)"'
 ```
 
-Without `pr` (or `ref`), the endpoints return the default branch only. Default
-setup scans `refs/pull/<n>/head`, an advanced workflow usually
-`refs/pull/<n>/merge`; `pr=` finds either. An empty alert list counts only when
-an analysis for the PR's head commit exists. The taint path of a data-flow
+Without `pr` (or `ref`), the alerts endpoint returns the default branch only,
+while the analyses endpoint lists every ref, so an unfiltered analysis says
+nothing about the default branch. Default setup scans `refs/pull/<n>/head` at
+the PR's head commit; an advanced workflow on `pull_request` scans
+`refs/pull/<n>/merge` at GitHub's test merge commit, whose second parent is the
+head. `pr=` finds either. An empty alert list counts only when a current
+analysis exists:
+
+```sh
+gh pr view "$N" --json headRefOid --jq .headRefOid             # the PR head
+gh api "repos/{owner}/{repo}/git/commits/<commit_sha>" \
+  --jq '[.parents[].sha]'                                     # a /merge analysis: head is the second parent
+```
+
+The taint path of a data-flow
 alert is not in the alert API; download the analysis as SARIF
 (`gh api -H "Accept: application/sarif+json" "repos/{owner}/{repo}/code-scanning/analyses/<id>"`,
 with an id from the first command) and read `results[].codeFlows`.
