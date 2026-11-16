@@ -52,6 +52,26 @@ gh api --paginate "repos/{owner}/{repo}/issues/$N/comments" \
   --jq '.[] | "\(.user.login) \(.created_at)\n\(.body)\n"'
 ```
 
+## Post a review
+
+A review with inline comments, from a JSON file (located findings in
+`comments`, cross-cutting points in `body`). `line` is the line number in the
+new file, on the right side of the diff; the commit is the head you read.
+
+```sh
+cat > .scratch/review.json <<'JSON'
+{
+  "commit_id": "FULL_HEAD_SHA",
+  "event": "COMMENT",
+  "body": "Reviewer: codex/gpt-6.1-sol (high) · head abc1234 · goal: <what it looked for>\n\nSummary.",
+  "comments": [
+    { "path": "src/example.ts", "line": 42, "side": "RIGHT", "body": "[P2] The finding, its evidence and the fix." }
+  ]
+}
+JSON
+gh api -X POST "repos/{owner}/{repo}/pulls/$N/reviews" --input .scratch/review.json --jq .html_url
+```
+
 ## Reply and resolve
 
 One call replies with the fixing commit and resolves the thread:

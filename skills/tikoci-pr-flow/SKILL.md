@@ -7,7 +7,7 @@ description: "tikoci PR flow: every change goes through a PR, opened as a draft 
 
 How a change travels from a branch to `main` in a tikoci repo, and how agents
 take part. The repository settings that enforce it (branch protection, merge
-method, Copilot's ruleset) are in `tikoci-github`; how CI runs on a PR is in
+method, labels) are in `tikoci-github`; how CI runs on a PR is in
 `tikoci-ci`.
 
 ## Every change is a PR
@@ -46,11 +46,18 @@ method, Copilot's ruleset) are in `tikoci-github`; how CI runs on a PR is in
   resources and missing cleanup, a test turned green by a skip, gate or longer
   timeout, claims without evidence, and docs, CHANGELOG, skills or issues the
   change leaves stale.
-- **The reviewer posts a GitHub review**: located findings as inline threads,
-  cross-cutting points in the body. Its first line names the reviewer, since
-  local agents post under a shared account:
-  `Reviewer: <harness>/<model> · head <sha7>`, plus `· session <id>` when the
-  harness exposes one.
+- **The reviewer posts a GitHub review with inline comments**: each located
+  finding as a thread on its line of the diff, cross-cutting points in the
+  review body. Not a conversation comment that cites line numbers: an inline
+  thread stays anchored to the diff and has to be resolved, a line number in
+  prose goes stale. The PR author's own account can post such a review; only
+  approving and requesting changes are blocked for the author.
+- **The review's first line names the reviewer**, because different agents
+  post under the same few accounts: harness, model and effort, the head it
+  read, the context it reviewed from when that is not this repo, and what it
+  looked for, plus a session id when the harness exposes one:
+  `Reviewer: codex/gpt-6.1-sol (high) · head e2038ee · goal: accuracy of the
+  GitHub settings and commands`.
 - **When the cross-review cannot run** (rate limited, not installed, not
   logged in), the PR description and the report say that no cross-review ran
   and why. It is never skipped silently.
@@ -63,10 +70,17 @@ method, Copilot's ruleset) are in `tikoci-github`; how CI runs on a PR is in
 
 ## Hosted review: once, on ready
 
-- **Marking ready triggers CodeRabbit**, and Copilot where the repo's
-  ruleset requests it. Each reviews once: drafts and later pushes get no
-  automatic review. Start from
+- **Reviews arrive from many places**: CodeRabbit, the local cross-review,
+  another repo's agents (a consumer reviewing an API change), other agents
+  such as Muse, Copilot where it is available, and people. Every thread is
+  answered the same way, whoever opened it; none of them is a required gate.
+- **Marking ready triggers CodeRabbit**, the one hosted reviewer the flow
+  counts on. It reviews once: drafts and later pushes get no automatic
+  review. Start from
   [coderabbit.example.yaml](assets/coderabbit.example.yaml).
+- **Copilot is optional.** Where a ruleset requests it, it reviews once on
+  ready; its pending review shows as a requested reviewer, not a check, and
+  nothing waits for it.
 - **Never post `@coderabbitai review`, and never wait for a rate-limit
   slot.** The CodeRabbit allowance is small and shared across tikoci repos,
   and the adversarial review already happened in the draft. A second hosted

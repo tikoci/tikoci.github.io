@@ -6,6 +6,8 @@
 #
 # CodeRabbit already reads AGENTS.md, CLAUDE.md and .github/instructions/ as
 # code guidelines, so repo rules are not repeated here as path_instructions.
+# A repo adds path_instructions only for guidance that matters to review
+# alone (routeros-skills asks for RouterOS accuracy in SKILL.md files).
 language: en-US
 tone_instructions: >-
   Terse and actionable. State the finding, the file and line, and the fix.

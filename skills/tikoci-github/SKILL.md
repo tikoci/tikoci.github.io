@@ -1,12 +1,15 @@
 ---
 name: tikoci-github
-description: "tikoci GitHub repo settings: repos in the tikoci org; squash merge only, branches deleted on merge; main under classic protection (conversation resolution, no force push; required checks only where no workflow pushes to main); Copilot reviews once via a ruleset; secret scanning with push protection, private vulnerability reporting, Dependabot alerts, CodeQL on code and workflows; read-only workflow token, SHA-pinned actions; zero open alerts, each dismissal with a reason; a SECURITY.md; token order TIKOCI_GITHUB_TOKEN, GH_TOKEN, GITHUB_TOKEN, gh auth token. Use when creating a repo, changing settings or handling an alert."
+description: "tikoci GitHub repo settings: repos in the tikoci org; squash merge only, branches deleted on merge; main under classic protection (conversation resolution, no force push; required checks only where no workflow pushes to main); only what a free org gets for public repos; secret scanning with push protection, private vulnerability reporting, Dependabot alerts, CodeQL on code and workflows; read-only workflow token, SHA-pinned actions; zero open alerts, each dismissal with a reason; a SECURITY.md; token order TIKOCI_GITHUB_TOKEN, GH_TOKEN, GITHUB_TOKEN, gh auth token. Use when creating a repo, changing settings or handling an alert."
 ---
 
 # GitHub settings
 
 How a tikoci repository is set up on GitHub, and how its security alerts are
-handled. The PR flow these settings serve is in `tikoci-pr-flow`; workflows
+handled. **The defaults use only what a free organization gets for public
+repositories**: no paid add-on (Copilot, Code Quality and its AI findings,
+Advanced Security for private repos) is part of the house setup, so nothing
+breaks when a subscription lapses. The PR flow these settings serve is in `tikoci-pr-flow`; workflows
 themselves are in `tikoci-ci`. Commands to check and apply each setting are in
 [references/settings.md](references/settings.md).
 
@@ -40,10 +43,14 @@ themselves are in `tikoci-ci`. Commands to check and apply each setting are in
   request" rule, and the workflow token cannot be on a bypass list (a GitHub
   App can). A repo with no bot pushes may also require a PR, with no required
   approvals (routeros-skills).
-- **Copilot reviews through a ruleset** ("Automatically request Copilot code
-  review") with "Review new pushes" and "Review draft pull requests" off, so
-  it reviews once on ready, like CodeRabbit. centrs, quickchr and rosetta
-  run it this way.
+- **No review is a required gate.** Reviews arrive from CodeRabbit, local
+  agents, other repos' agents and people (`tikoci-pr-flow`); conversation
+  resolution is what makes each one count. Where Copilot code review is
+  available it is one more optional reviewer, set up through a ruleset
+  ("Automatically request Copilot code review", with "Review new pushes" and
+  "Review draft pull requests" off) so it reviews once on ready, as in
+  centrs, quickchr and rosetta. Its pending review shows as a requested
+  reviewer, not a check, and nothing waits for it.
 
 ## Security settings
 
@@ -54,16 +61,20 @@ themselves are in `tikoci-ci`. Commands to check and apply each setting are in
 | Dependabot alerts and security updates | On. They cover GitHub Actions; Bun packages are not supported, so `bun audit` checks them ([tikoci-dependencies](https://tikoci.dev/house/skills/tikoci-dependencies/SKILL.md)). |
 | Code scanning | CodeQL default setup for `javascript-typescript` and `actions`, Extended suite. |
 | Workflow audit | zizmor, reported to code scanning ([tikoci-linting](https://tikoci.dev/house/skills/tikoci-linting/SKILL.md)). |
-| Code Quality | Where the org enables it. |
-| Dependency review | Optional: it sees only what the dependency graph supports, which excludes `bun.lock`. |
+| Dependency review | Off: it reads only what the dependency graph supports, which excludes `bun.lock`. |
+| Code Quality, AI findings | Not used: paid features. |
 
-- **Default setup** needs no workflow to pin or update. Path exclusions and
-  extra queries no longer need a workflow either: the
-  `github-codeql-config-file` repository property points default setup at a
-  CodeQL config file, set per repo or as an org default (GA since
-  2026-08-04). Advanced setup (a workflow, as centrs, rosetta and restraml
-  run with the `security-and-quality` suite) is for what default setup
-  cannot do, such as that suite or a build step; SECURITY.md says why.
+- **CodeQL default setup** needs no workflow to pin or update. A repo that
+  should skip paths (generated or historic docs, vendored copies, fixtures)
+  points default setup at a config file through the
+  `github-codeql-config-file` repository property, instead of moving to an
+  advanced workflow: start from
+  [codeql-config.example.yml](assets/codeql-config.example.yml). Scanning
+  thousands of old HTML pages is what made restraml's scan slow.
+- **Advanced setup** (a workflow, as centrs, rosetta and restraml run with
+  the `security-and-quality` suite) only for what default setup cannot do,
+  such as that suite, a house query pack or a build step; SECURITY.md says
+  why.
 - **Secret scanning replaces a secret linter** in the gate; a repo that
   handles credentials in files may add secretlint (centrs).
 
@@ -75,9 +86,15 @@ themselves are in `tikoci-ci`. Commands to check and apply each setting are in
   `excessive-permissions` audit checks this). Every tikoci repo surveyed still
   defaults to write: declare `permissions:` in each workflow first, then
   switch the default.
+- **Read-only does not limit reporting.** Artifacts, job summaries
+  (`$GITHUB_STEP_SUMMARY`) and annotations (`::error::`, `::warning::`) need
+  no token permission. A job raises only what its report writes: a PR comment
+  needs `pull-requests: write`, a SARIF upload `security-events: write`, a
+  check run `checks: write`, a pushed commit `contents: write`.
 - **Require actions pinned to a full commit SHA** in the allowed-actions
   policy, once the workflows are pinned and Dependabot keeps them current
-  (`tikoci-dependencies`). The policy turns a missed pin into a failed run.
+  (`tikoci-dependencies`). The policy turns a missed pin into a failed run,
+  so every repo stays consistent without anyone checking.
 - **Fork pull requests** keep GitHub's default: a first-time contributor's
   workflows wait for approval. No `pull_request_target` workflow runs code
   from the PR.
@@ -92,12 +109,11 @@ themselves are in `tikoci-ci`. Commands to check and apply each setting are in
   record. In-code
   `codeql[...]` and `lgtm[...]` comments do not suppress an alert (centrs
   PR #233), and moving the code only changes its fingerprint. A
-  `query-filters` entry in advanced setup is the rule-wide alternative.
+  `query-filters` entry in an advanced setup's config file is the rule-wide
+  alternative.
 - **On an open PR, query alerts with `pr=<number>`**; without it the API
   shows only the default branch. Check that an analysis exists for the PR's
   head before reading an empty list as clean.
-- **Code Quality findings are not in the code-scanning alert API.** Check its
-  tab too before reporting zero.
 
 Commands and two common false positives are in
 [references/settings.md](references/settings.md).

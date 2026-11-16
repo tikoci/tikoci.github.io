@@ -23,14 +23,14 @@ gh api "$R/actions/permissions"                            # sha_pinning_require
 gh api "$R/branches/main/protection" --jq '{conversation_resolution: .required_conversation_resolution.enabled,
   required_checks: [.required_status_checks.contexts[]?], requires_pr: (.required_pull_request_reviews != null),
   force_push: .allow_force_pushes.enabled, deletion: .allow_deletions.enabled, enforce_admins: .enforce_admins.enabled}'
-gh api "$R/rules/branches/main" --jq '.[] | {type, parameters}'   # Copilot review ruleset
+gh api "$R/rules/branches/main" --jq '.[] | {type, parameters}'   # optional Copilot review ruleset
 gh label list --search skip-review
 ```
 
 ## Apply
 
 The web UI has every setting: repo **Settings → General** (merge buttons),
-**Branches** (classic protection), **Rules → Rulesets** (Copilot review),
+**Branches** (classic protection), **Rules → Rulesets** (optional Copilot review),
 **Actions → General** (workflow permissions, allowed actions), and the
 security section (**Advanced Security**) for secret scanning, push
 protection, private vulnerability reporting, Dependabot and code scanning.
@@ -57,9 +57,31 @@ gh api -X PUT "$R/actions/permissions/workflow" -f default_workflow_permissions=
 gh api -X PUT "$R/actions/permissions" -F enabled=true -f allowed_actions=all -F sha_pinning_required=true
 ```
 
-Branch protection and the Copilot ruleset are easiest in the UI, where the
+Branch protection and an optional Copilot ruleset are easiest in the UI, where the
 required checks can be picked from recent runs. Then run the check commands
 again.
+
+## CodeQL config file for default setup
+
+For a repo whose default setup should skip paths
+([codeql-config.example.yml](../assets/codeql-config.example.yml)):
+
+1. Once per org, an org owner creates the custom property
+   `github-codeql-config-file`, type Text, with no default value (org
+   **Settings → Custom properties**).
+2. Commit the config as `.github/codeql/codeql-config.yml`.
+3. Set the repo's property (repo **Settings → Custom properties**) to
+   `./.github/codeql/codeql-config.yml`. It takes the same values as the
+   `config-file` input of `codeql-action/init`; a shared file in another repo
+   is `remote=OWNER/REPO@REF:PATH`
+   ([repository properties](https://docs.github.com/en/code-security/concepts/code-scanning/repository-properties)).
+4. After the next scan, check that the excluded paths are gone from the
+   analysis (the file count in the Actions log of the CodeQL run, or an alert
+   that disappears).
+
+GitHub's docs give no same-repo example of the property value, and none of
+this has run on a tikoci repo yet: the first repo to adopt it confirms step 3
+and step 4 and updates this page.
 
 ## Alerts on a PR
 

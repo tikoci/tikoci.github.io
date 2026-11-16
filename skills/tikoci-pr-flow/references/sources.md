@@ -15,7 +15,8 @@ Planning: Phase 3 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 | `gh`, not a GitHub MCP server | user-06 | |
 | Docs-only by path; `skip-review` set by the agent | centrs-07 | Settles `pr-flow-strictness`: centrs `isDocsOnlyPath` (`scripts/ci-changes.ts`) is the default, the label the escape hatch (centrs/quickchr review of PR #26). centrs `AGENTS.md` ("only when the maintainer directs it") changes on adoption. |
 | Cross-review by the other local agent, both ways | - | Maintainer, 2026-11-15; no source repo wrote it down. |
-| `Reviewer:` first line | centrs-06, centrs-41 | centrs `AGENTS.md` (Reviews and attribution). The `Session:` commit trailer stays a centrs practice. |
+| Inline review; `Reviewer:` first line with model, effort, context and goal | centrs-06, centrs-41 | centrs `AGENTS.md` (Reviews and attribution); settles `review-attribution` (maintainer, PR #27 review). Codex's review of #27 posted inline comments from the PR author's own account. The `Session:` commit trailer stays a centrs practice. |
+| Reviews from many sources; Copilot optional | - | Maintainer, PR #27 review (`paid-features`). |
 | What the review looks for | quickchr-007 | quickchr `AGENTS.md` (Review Guidelines), generalized from VMs to resources. |
 | Say when no cross-review ran | - | Maintainer, PR #26. |
 | Judgment-heavy PRs wait in draft | - | Maintainer, PR #26 review. |

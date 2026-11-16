@@ -20,6 +20,7 @@ edk # edk2, the UEFI firmware QEMU boots, https://github.com/tianocore/edk2
 efi
 frontmatter
 gitdir
+gpt # OpenAI model names in Reviewer: lines (gpt-6.1-sol)
 libsecret
 LLM
 llms

@@ -28,6 +28,7 @@ Vulnerabilities in RouterOS itself go to MikroTik, not here. -->
 | Dependabot alerts and security updates | enabled for GitHub Actions; Bun packages are not supported, so `bun audit` runs in CI |
 | Dependabot version updates | GitHub Actions and Bun, weekly |
 | Dependency review | not enabled: the dependency graph does not read `bun.lock` |
+| Code Quality, AI findings | not enabled: paid features |
 
 Open alerts are fixed, or dismissed in the Security tab with a written reason.
 
