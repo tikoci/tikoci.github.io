@@ -67,7 +67,7 @@ themselves are in `tikoci-ci`. Commands to check and apply each setting are in
 
 | Setting | House default |
 | --- | --- |
-| Secret scanning, push protection | On. Push protection for the repository is off by default even on public repos; a user's own push protection creates no alert. Generic patterns (private keys, basic-auth headers): on where the repo's settings offer them; whether a free org's public repo can is unchecked. |
+| Secret scanning, push protection | On. Push protection for the repository is off by default even on public repos; a user's own push protection creates no alert. Generic patterns (private keys, basic-auth headers) are not available on GitHub Free: the API accepts the setting and leaves it disabled. |
 | Private vulnerability reporting | On; SECURITY.md points to it. |
 | Dependabot alerts and security updates | On. They cover GitHub Actions; Bun packages are not supported, so `bun audit` checks them ([tikoci-dependencies](https://tikoci.dev/house/skills/tikoci-dependencies/SKILL.md)). |
 | Code scanning | CodeQL default setup for `javascript-typescript` and `actions`, Extended suite. |
@@ -92,7 +92,9 @@ themselves are in `tikoci-ci`. Commands to check and apply each setting are in
   the `security-and-quality` suite as advanced-only, and whether a config
   file's `queries:` brings it into default setup is untested.
 - **Secret scanning replaces a secret linter** in the gate; a repo that
-  handles credentials in files may add secretlint (centrs).
+  handles credentials in files may add secretlint (centrs), whose
+  recommended preset also covers the private keys and basic-auth URLs that
+  generic patterns would.
 - **Secret scanning does not see RouterOS credentials**: a WinBox address
   book (`.cdb`), a Dude database, a packet capture, or `admin:pw@host` in a
   log match no pattern. `.gitignore` keeps those file types out, with an
