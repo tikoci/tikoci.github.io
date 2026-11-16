@@ -11,7 +11,7 @@
     "lint:types": "tsc",
     "lint:code": "biome lint --error-on-warnings .",
     "lint:markdown": "markdownlint-cli2 && cspell lint --no-progress",
-    "lint:words": "grep -v -e '^#' -e '^$' project-words.txt | LC_ALL=C sort -c -f -u",
+    "lint:words": "sed -e '/^#/d' -e 's/ *#.*//' -e '/^$/d' project-words.txt | LC_ALL=C sort -c -f -u",
     "lint:fix": "biome lint --write .",
     "test": "bun test test/unit",
     "test:coverage": "bun test --coverage test/unit",

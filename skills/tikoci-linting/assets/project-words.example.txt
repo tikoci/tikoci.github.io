@@ -1,6 +1,6 @@
 # Project dictionary for cspell (save as project-words.txt). One word per
 # line, sorted case-insensitively, checked with:
-#   grep -v -e '^#' -e '^$' project-words.txt | LC_ALL=C sort -c -f -u
+#   sed -e '/^#/d' -e 's/ *#.*//' -e '/^$/d' project-words.txt | LC_ALL=C sort -c -f -u
 # A word that is not obvious says what it is after " # ", with a URL for a
 # tool or repo. cspell ignores everything from the #.
 centrs # tikoci RouterOS CLI and library, https://github.com/tikoci/centrs

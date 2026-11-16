@@ -168,7 +168,7 @@ a cost with no benefit. From
   that is not a mistake. **A typo is fixed in the source, never added.**
 - **One word per line, sorted case-insensitively**, so additions land in
   different places and merge cleanly. Check it in the lint gate:
-  `grep -v -e '^#' -e '^$' project-words.txt | LC_ALL=C sort -c -f -u`.
+  `sed -e '/^#/d' -e 's/ *#.*//' -e '/^$/d' project-words.txt | LC_ALL=C sort -c -f -u`.
   A repo with longer definitions (centrs `GLOSSARY.txt`) keeps them in a
   glossary doc and leaves a short note here.
 - **A word that is not obvious says what it is on the same line**, after
