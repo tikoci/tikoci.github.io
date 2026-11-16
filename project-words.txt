@@ -45,6 +45,7 @@ rsc # RouterOS script file extension
 rskills
 sandboxed
 secretlint # secret scanner, https://github.com/secretlint/secretlint
+sed # stream editor (POSIX)
 shellcheck # shell script linter, https://www.shellcheck.net/
 SHELLFLAGS # GNU make variable: flags for the recipe shell
 SNMP
