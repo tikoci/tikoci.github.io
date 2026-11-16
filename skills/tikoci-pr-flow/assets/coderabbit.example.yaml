@@ -4,6 +4,10 @@
 # already reviewed the draft, and the review allowance is small and shared
 # across tikoci repos. See tikoci-pr-flow.
 #
+# On open-source repos CodeRabbit applies the base branch's config: a PR that
+# changes this file is reviewed with main's old one, so a change shows only on
+# the next PR (tikoci/centrs#167).
+#
 # CodeRabbit already reads AGENTS.md, CLAUDE.md and .github/instructions/ as
 # code guidelines, so repo rules are not repeated here as path_instructions.
 # A repo adds path_instructions only for guidance that matters to review
@@ -16,6 +20,9 @@ reviews:
   profile: assertive
   poem: false # explicit: older configs defaulted to true
   in_progress_fortune: false # defaults to true
+  # The summary goes in the walkthrough comment, not the PR description, which
+  # becomes the squash commit's body.
+  high_level_summary_in_walkthrough: true
   auto_review:
     enabled: true
     drafts: false # the draft is for the local cross-review

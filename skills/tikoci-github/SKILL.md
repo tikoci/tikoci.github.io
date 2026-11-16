@@ -33,9 +33,20 @@ themselves are in `tikoci-ci`. Commands to check and apply each setting are in
 - **Required status checks only where no workflow pushes to `main`.** They
   apply to direct pushes too, and a snapshot workflow pushes a commit it
   created after its checks ran, so a required check rejects it (the
-  workflow token is not an admin). centrs, quickchr and rosetta require
-  their gate jobs; this repo, whose workflows commit snapshots, requires
-  none.
+  workflow token is not an admin). A workflow that only stores data can push
+  to a side branch instead and keep `main`'s checks (quickchr `ci-data`,
+  centrs's QA branch); this repo deploys its snapshots from `main`, so it
+  requires none.
+- **Require the repo's own gate jobs, not a bot's check.** CodeRabbit's
+  check is green or skipped whether it reviewed, skipped or was rate
+  limited, and a required one blocks merging when the service is down
+  (centrs requires one; it goes on adoption).
+- **A required check may report `main`'s health** rather than the PR's
+  (centrs `Main health (nightly QA)`, quickchr `Integration freshness`).
+  While `main` is red it fails every PR; when the PR is the fix, run the
+  integration workflow on the branch and the maintainer merges as admin,
+  which is what leaving admins unenforced is for. "Require branches to be up
+  to date" stays off (`strict: false` in both).
 - **Classic, not a ruleset, while workflows commit to `main`.** Classic
   protection can require resolved conversations without requiring a PR, so a
   snapshot workflow's `GITHUB_TOKEN` push and a maintainer's direct fix still
@@ -56,7 +67,7 @@ themselves are in `tikoci-ci`. Commands to check and apply each setting are in
 
 | Setting | House default |
 | --- | --- |
-| Secret scanning, push protection | On. Push protection for the repository is off by default even on public repos; a user's own push protection creates no alert. |
+| Secret scanning, push protection | On. Push protection for the repository is off by default even on public repos; a user's own push protection creates no alert. Generic patterns (private keys, basic-auth headers): on where the repo's settings offer them; whether a free org's public repo can is unchecked. |
 | Private vulnerability reporting | On; SECURITY.md points to it. |
 | Dependabot alerts and security updates | On. They cover GitHub Actions; Bun packages are not supported, so `bun audit` checks them ([tikoci-dependencies](https://tikoci.dev/house/skills/tikoci-dependencies/SKILL.md)). |
 | Code scanning | CodeQL default setup for `javascript-typescript` and `actions`, Extended suite. |
@@ -64,9 +75,12 @@ themselves are in `tikoci-ci`. Commands to check and apply each setting are in
 | Dependency review | Off: it reads only what the dependency graph supports, which excludes `bun.lock`. |
 | Code Quality, AI findings | Not used: paid features. |
 
-- **CodeQL default setup** needs no workflow to pin or update. A repo that
-  should skip paths (generated or historic docs, vendored copies, fixtures)
-  points default setup at a config file through the
+- **CodeQL default setup** needs no workflow to pin or update. It picks
+  languages from the repo's code, so check `languages` after enabling: one C
+  probe under `test/lab/` added `c-cpp` to quickchr. Drop a language whose
+  code does not ship by setting `languages` explicitly.
+- **A repo that should skip paths** (generated or historic docs, vendored
+  copies, fixtures) points default setup at a config file through the
   `github-codeql-config-file` repository property, instead of moving to an
   advanced workflow: start from
   [codeql-config.example.yml](assets/codeql-config.example.yml). Scanning
@@ -79,6 +93,11 @@ themselves are in `tikoci-ci`. Commands to check and apply each setting are in
   file's `queries:` brings it into default setup is untested.
 - **Secret scanning replaces a secret linter** in the gate; a repo that
   handles credentials in files may add secretlint (centrs).
+- **Secret scanning does not see RouterOS credentials**: a WinBox address
+  book (`.cdb`), a Dude database, a packet capture, or `admin:pw@host` in a
+  log match no pattern. `.gitignore` keeps those file types out, with an
+  explicit exception for synthetic fixtures (centrs
+  `test/fixtures/winbox-cdb/`), and the pre-public audit catches the rest.
 
 ## Actions settings
 
@@ -96,7 +115,10 @@ themselves are in `tikoci-ci`. Commands to check and apply each setting are in
 - **Require actions pinned to a full commit SHA** in the allowed-actions
   policy, once the workflows are pinned and Dependabot keeps them current
   (`tikoci-dependencies`). The policy turns a missed pin into a failed run,
-  so every repo stays consistent without anyone checking.
+  so every repo stays consistent without anyone checking. It has no
+  exceptions: pin every action first, including those a repo floats by
+  decision (quickchr's `actions/setup-node`, PR #223; centrs's tag refs,
+  #266), or the next run of that workflow fails.
 - **Fork pull requests** keep GitHub's default: a first-time contributor's
   workflows wait for approval. No `pull_request_target` workflow runs code
   from the PR.
@@ -104,7 +126,9 @@ themselves are in `tikoci-ci`. Commands to check and apply each setting are in
 ## Alerts
 
 - **Aim for zero open alerts on public repos**: code scanning, Dependabot
-  and secret scanning. A private repo may hold a lower bar.
+  and secret scanning. A private repo may hold a lower bar. On adoption,
+  triage zizmor's findings before reporting them to code scanning (about 33
+  in quickchr, #228), so the Security tab does not fill at once.
 - **Fix real findings. Dismiss a false positive in the Security tab** (or the
   API) only after showing the value is not sensitive or the reported flow
   cannot happen, with that as the written reason; the dismissal is the audit
@@ -114,12 +138,14 @@ themselves are in `tikoci-ci`. Commands to check and apply each setting are in
   `query-filters` entry in the CodeQL config file is the rule-wide
   alternative.
 - **On an open PR, query alerts with `pr=<number>`**; without it the alert
-  API shows only the default branch. An empty list counts only when a current
-  analysis exists: on `refs/pull/<n>/head` at the PR's head commit (default
-  setup), or on `refs/pull/<n>/merge` at a merge commit whose second parent is
-  that head (advanced setup).
+  API shows only the default branch. An empty list counts only when every
+  expected scan (each CodeQL language, zizmor) has a current analysis: on
+  `refs/pull/<n>/head` at the PR's head commit (default setup), or on
+  `refs/pull/<n>/merge` at a merge commit whose second parent is that head
+  (advanced setup). One tool's current analysis says nothing about another's.
 
-Commands and two common false positives are in
+Commands, two common false positives and a real finding that looks like one
+are in
 [references/settings.md](references/settings.md).
 
 ## SECURITY.md
@@ -128,7 +154,9 @@ Every repo has one, from
 [SECURITY.example.md](assets/SECURITY.example.md): report privately through
 private vulnerability reporting, never a public issue; the scope; the
 scanning that runs, and what does not run and why; the supported versions.
-Keep the scanning list true when a setting changes.
+Keep the scanning list true: compare it with the check commands in
+[references/settings.md](references/settings.md) whenever a setting changes
+(quickchr's listed four enabled features as off).
 
 ## GitHub API access
 

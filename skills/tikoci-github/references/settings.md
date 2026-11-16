@@ -6,6 +6,10 @@ Commands for the settings in [tikoci-github](../SKILL.md), run from inside
 the repo's checkout (`gh` fills in `{owner}` and `{repo}`). The read commands
 change nothing; run them before and after a change. Changing settings needs
 admin rights on the repo; the maintainer applies them or asks for them.
+`gh` runs as `GH_TOKEN` when it is set, otherwise as its own login, and never
+reads `TIKOCI_GITHUB_TOKEN`: that variable is for code calling the API
+(tikoci-github, GitHub API access). For the apply commands, use an admin
+login and unset a read-only `GH_TOKEN`.
 
 ## Check
 
@@ -50,11 +54,15 @@ gh api -X PUT "$R/private-vulnerability-reporting"
 gh api -X PUT "$R/vulnerability-alerts"
 gh api -X PUT "$R/automated-security-fixes"
 gh api -X PATCH "$R/code-scanning/default-setup" -f state=configured -f query_suite=extended
+# Then check the detected languages; to drop one whose code does not ship, list the rest:
+#   gh api -X PATCH "$R/code-scanning/default-setup" -f 'languages[]=javascript-typescript' -f 'languages[]=actions'
 
 # Actions: only after every workflow declares its own permissions: and pins its actions.
 gh api -X PUT "$R/actions/permissions/workflow" -f default_workflow_permissions=read \
   -F can_approve_pull_request_reviews=false
-gh api -X PUT "$R/actions/permissions" -F enabled=true -f allowed_actions=all -F sha_pinning_required=true
+# The PUT sets allowed_actions too: pass the current value back so a selected or local_only list stays.
+allowed=$(gh api "$R/actions/permissions" --jq .allowed_actions)
+gh api -X PUT "$R/actions/permissions" -F enabled=true -f allowed_actions="$allowed" -F sha_pinning_required=true
 ```
 
 Branch protection and an optional Copilot ruleset are easiest in the UI, where the
@@ -87,9 +95,9 @@ and step 4 and updates this page.
 
 ```sh
 N=123   # the PR number
-# The analyses for the PR, and the commit and ref each one scanned.
+# The analyses for the PR: the tool, category, ref and commit of each scan.
 gh api "repos/{owner}/{repo}/code-scanning/analyses?pr=$N" \
-  --jq '.[] | "\(.id) \(.ref) \(.commit_sha[0:7]) \(.category)"'
+  --jq '.[] | "\(.id) \(.tool.name) \(.category) \(.ref) \(.commit_sha[0:7])"'
 gh api "repos/{owner}/{repo}/code-scanning/alerts?pr=$N" \
   --jq '.[] | "\(.number) \(.rule.id) \(.most_recent_instance.location.path):\(.most_recent_instance.location.start_line)"'
 ```
@@ -99,8 +107,9 @@ while the analyses endpoint lists every ref, so an unfiltered analysis says
 nothing about the default branch. Default setup scans `refs/pull/<n>/head` at
 the PR's head commit; an advanced workflow on `pull_request` scans
 `refs/pull/<n>/merge` at GitHub's test merge commit, whose second parent is the
-head. `pr=` finds either. An empty alert list counts only when a current
-analysis exists:
+head. `pr=` finds either. An empty alert list counts only when each expected
+scan (tool and category: CodeQL per language, zizmor) has a current
+analysis; one tool's newer analysis does not cover another's:
 
 ```sh
 gh pr view "$N" --json headRefOid --jq .headRefOid             # the PR head
@@ -122,7 +131,7 @@ gh api -X PATCH "repos/{owner}/{repo}/code-scanning/alerts/<number>" \
   -f dismissed_comment='Logs the setting name, never its value.'
 ```
 
-## Two common false positives
+## Two common false positives, and a real finding
 
 From centrs (`.github/instructions/github-security-quality.instructions.md`):
 
@@ -137,3 +146,8 @@ From centrs (`.github/instructions/github-security-quality.instructions.md`):
 - **`js/insecure-temporary-file`** fires on a literal `/tmp` path and on a file
   written without an explicit mode. Write under the test's sandbox directory
   (`TIKOCI_SANDBOX`) with `mode: 0o600`, which also fixes the real problem.
+
+A credential printed on purpose is a real `js/clear-text-logging` finding,
+not a false positive: a CLI that prints a REST URL with the password in it,
+for the user to copy (quickchr). Mask the password, or dismiss as `won't fix`
+with the reason the output must carry it.

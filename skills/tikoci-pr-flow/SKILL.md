@@ -1,6 +1,6 @@
 ---
 name: tikoci-pr-flow
-description: "tikoci PR flow: every change goes through a PR, opened as a draft early, never left unpushed; docs and nits take the skip-review label; another local agent reviews the draft (Codex for Claude's work, or the reverse) before ready, and judgment-heavy PRs wait in draft for the maintainer; CodeRabbit reviews once on ready, never requested with @coderabbitai review; every finding is fixed or answered with evidence, then its thread resolved; a human squash-merges, the PR title as the commit subject. Use when opening, reviewing, answering or merging a PR."
+description: "tikoci PR flow: every change goes through a PR, opened as a draft early, never left unpushed; docs and nits take the skip-review label; another local agent reviews the draft (Codex for Claude's work, or the reverse) before ready, and judgment-heavy PRs wait in draft for the maintainer; PRs target main, not a stacked branch; CodeRabbit reviews once on ready, and an agent never requests another review; every finding is fixed, declined with evidence or tracked, then its thread resolved; a human squash-merges, with permission given per PR, the PR title as the commit subject. Use when opening, reviewing, answering or merging a PR."
 ---
 
 # PR flow
@@ -20,6 +20,11 @@ method, labels) are in `tikoci-github`; how CI runs on a PR is in
 - **One topic per PR.** A finding you did not cause: one or two small ones are
   fixed in place, a batch goes to BACKLOG.md, an issue or its own PR
   ([tikoci-linting](https://tikoci.dev/house/skills/tikoci-linting/SKILL.md)).
+- **Target `main`.** A PR stacked on another branch gets none of `main`'s
+  gates: CI runs on PRs to `main`, CodeRabbit skips other base branches, and
+  branch protection does not apply (quickchr #267's only check was
+  `CodeRabbit` skipped). Change its base to `main` before ready, or do not
+  stack.
 - **Add commits once a review has started** rather than force-pushing:
   threads and the reviewed commit range point at commits, and the squash
   merge flattens the branch anyway.
@@ -78,13 +83,19 @@ method, labels) are in `tikoci-github`; how CI runs on a PR is in
   counts on. It reviews once: drafts and later pushes get no automatic
   review. Start from
   [coderabbit.example.yaml](assets/coderabbit.example.yaml).
+- **The ready review can be rate limited**, which leaves the PR with no
+  hosted review (12 of 80 centrs PR heads; quickchr #252 and #275). The
+  hand-back then says no hosted review ran, and the maintainer decides
+  whether the cross-review is enough.
 - **Copilot is optional.** Where a ruleset requests it, it reviews once on
   ready; its pending review shows as a requested reviewer, not a check, and
   nothing waits for it.
-- **Never post `@coderabbitai review`, and never wait for a rate-limit
-  slot.** The CodeRabbit allowance is small and shared across tikoci repos,
-  and the adversarial review already happened in the draft. A second hosted
-  pass is the maintainer's call.
+- **An agent never requests a hosted review**: no `@coderabbitai review`,
+  no re-requesting Copilot, no waiting for a rate-limit slot. The CodeRabbit
+  allowance is small and shared across tikoci repos, and the adversarial
+  review already happened in the draft. A re-request is the maintainer's
+  call. User-level notes that say otherwise lose to this skill
+  (`tikoci-house` precedence).
 - **A push after the review gets no new bot review.** That is the
   configuration, not a failure: do not wait for one.
 - **A bot's green check means it ran**, not that it reviewed the head:
@@ -99,9 +110,12 @@ method, labels) are in `tikoci-github`; how CI runs on a PR is in
   Biome accepted the file CodeRabbit said it would reject).
 - **Read both places**: inline threads, and the conversation, where review
   bodies carry comments outside the diff.
-- **Fix it or answer it with evidence.** Act on substantive findings; a style
-  nit gets a quick fix or a one-line decline. Reply with the fixing commit
-  SHA, then resolve the thread.
+- **Every finding gets one of three answers**, then its thread is resolved:
+  *fixed*, with the fixing commit SHA; *declined*, with the evidence (the
+  command and its output, the doc, the source line), not an opinion; or
+  *tracked*, with the follow-up issue or BACKLOG.md item, for a valid
+  finding outside the PR's scope. A style nit gets a quick fix or a one-line
+  decline.
 - **A reply does not resolve a thread, and an outdated thread is not
   resolved.** `main` requires resolved conversations, so check the thread
   list, not the comment count.
@@ -124,12 +138,20 @@ The `gh` commands for each step are in
 
 ## Merge
 
-- **A human merges**, unless the agent was told to, or merging is part of
-  orchestration or CI automation.
+- **A human merges, and permission to merge is per PR.** Being able to
+  merge is not permission: no protection requires an approval. "Land it" or
+  "ship it as a PR" means open it for review, and an instruction to merge one
+  PR does not carry over to the next. Orchestration and CI automation merge
+  only where they are set up to.
 - **Squash merge**: the PR title becomes the commit subject and the
   description its body. Write the title short and imperative, so the history
   of `main` reads as a story; a conventional prefix (`feat:`) only where a
   tool reads it.
+- **GitHub adds a `Co-authored-by:` trailer** for each squashed commit's
+  co-author. Any other trailer a repo keeps (centrs `Session:`) goes at the
+  end of the description, or the squash drops it. CodeRabbit's summary stays
+  out of the description (the example config puts it in the walkthrough),
+  or it lands in `main`'s history.
 - **The description carries the detail**: what and why, linked issues, the
   checks run (and those not run, with the reason), the review rounds. Start
   from
@@ -141,6 +163,10 @@ The `gh` commands for each step are in
 When an orchestrator (T3 Code, or a harness's own subagents) splits the work:
 
 - **One issue per worker**, each writer in its own worktree.
+- **A writer in a shared checkout checks the branch** (`git status -sb`)
+  before each commit, and pushes to an explicit ref
+  (`git push origin HEAD:refs/heads/<branch>`): another session can switch
+  the checkout's branch mid-task (centrs).
 - **The orchestrator owns the tracker and the merge**: issue edits, BACKLOG.md
   and merging stay with it; workers report.
 - **Each worker runs its own gate** and reports the PR URL, its head SHA, and

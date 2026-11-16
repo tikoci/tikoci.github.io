@@ -14,9 +14,13 @@ link it here. -->
 ## Verification
 
 - [ ] `bun run check`
+- [ ] Integration run against a router or CHR, if the change touches one:
+      the local command, or the dispatched run's URL
 
 <!-- The commands run and what they showed. Name each check not run, and
-why (no CHR, no Windows host, a tool not installed). -->
+why (no CHR, no Windows host, a tool not installed). A repo that keeps a
+commit trailer (centrs Session:) puts it at the end of this description,
+which becomes the squash commit's body. -->
 
 ## Review
 
