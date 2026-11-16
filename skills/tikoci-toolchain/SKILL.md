@@ -84,12 +84,14 @@ a package:
   `engines.bun` allows it. quickchr's `scripts/check-bun-pin.ts` is the
   pattern, but it checks `.bun-version`; adapt it to read `packageManager`
   when adopting. The one inline version it accepts is the override that
-  tikoci-ci puts next to `bun-version-file`.
-- **CI also meets the latest Bun**, without a latest-Bun job on every PR: a
-  `bun-version` dispatch input, and a weekly scheduled CI run on `latest`
-  whose failure opens an issue
-  ([tikoci-ci](https://tikoci.dev/house/skills/tikoci-ci/SKILL.md), settles
-  `bun-ci-version`).
+  tikoci-ci puts next to `bun-version-file`, and only while `BUN_VERSION` is
+  defined once, at the workflow level, from the dispatch input (and
+  `latest` on the schedule).
+- **CI can meet any Bun**, without a latest-Bun job on every PR: a
+  `bun-version` dispatch input everywhere, and, for a tool that runs on its
+  users' Bun, a weekly scheduled CI run on `latest` whose failure opens an
+  issue ([tikoci-ci](https://tikoci.dev/house/skills/tikoci-ci/SKILL.md),
+  settles `bun-ci-version`).
 
 ## Lockfile
 

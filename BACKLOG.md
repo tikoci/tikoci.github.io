@@ -28,7 +28,8 @@ Add detail as indented lines only when needed. Move finished items to *Done* (or
       (`github-actions`, weekly, grouped), then pin the workflows' actions
       (`oven-sh/setup-bun@v2` and the rest) to commit SHAs. (#21, 3b)
 - [ ] [ci] Adopt `tikoci-ci` here: `check-pr.yaml` becomes the CI workflow (`push` to
-      `main`, the weekly latest-Bun run and a `bun-version` dispatch input; `shell: bash`),
+      `main`, a `bun-version` dispatch input, `shell: bash`; no weekly latest-Bun run, since
+      the site is built with its own pinned Bun and no user runs it on another),
       plus `zizmor.yml` reporting to code scanning after the existing findings (7 high,
       mostly unpinned actions) are fixed by the [deps] item. `deploy-pages.yaml` keeps
       its own Bun pin and push rules. (#21, 3d)

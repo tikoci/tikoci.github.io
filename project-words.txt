@@ -21,9 +21,13 @@ dispatchable
 Dockerfiles
 edk # edk2, the UEFI firmware QEMU boots, https://github.com/tianocore/edk2
 efi
+endgroup
+esac
 frontmatter
 gitdir
 gpt # OpenAI model names in Reviewer: lines (gpt-6.1-sol)
+gtimeout
+kvm
 libsecret
 LLM
 llms
@@ -38,6 +42,7 @@ MikroTik
 mktemp
 mtimes
 netinstall # MikroTik's device flashing tool
+nodefaults
 nohup
 noninteractive # DEBIAN_FRONTEND=noninteractive for apt-get
 noprofile # bash --noprofile
@@ -45,7 +50,9 @@ norc # bash --norc
 NUL
 Oid # GitHub object id, as in headRefOid
 ONESHELL # GNU make special target: one shell per recipe
+pgrep
 Pico # Pico CSS, https://picocss.com
+pidfile
 pids
 pipefail # bash set -o pipefail
 PSScriptAnalyzer # PowerShell linter, https://github.com/PowerShell/PSScriptAnalyzer

@@ -197,7 +197,8 @@ a cost with no benefit. From
 - **hadolint** on Dockerfiles, where a repo has them.
 - A local run may skip a tool that `bun install` does not provide (shellcheck,
   actionlint, hadolint) and say so; CI installs it, and the developer docs
-  list it (see `tikoci-toolchain`).
+  list it (see `tikoci-toolchain`). With `CI` set, a missing tool fails:
+  a skip there removes the gate silently the day an install step breaks.
 
 ## Skill descriptions
 

@@ -1,13 +1,18 @@
 ---
 name: tikoci-ci
-description: "tikoci CI workflows, starting files in assets/: jobs run the package scripts; fast PR gates; docs-only diffs skip heavy jobs by a job if, never paths: on a required workflow; one gate job is the required check; Bun pin, plus latest Bun weekly and by dispatch input; dispatch QA from any branch; summaries and artifacts agents can read; one recorded retry in device sweeps, none per PR; zizmor to code scanning. Use when writing or debugging a workflow or waiting on a run."
+description: "tikoci CI recipes, with example workflows in assets/: jobs run the package scripts; fast PR gates; docs-only diffs skip heavy jobs by a job if, never paths: on a required workflow; one gate job is the required check; Bun pin with a bun-version dispatch input, latest Bun weekly for tools on users' Bun; dispatch QA from any branch; summaries and artifacts agents can read; red is a finding, retries only investigate a tracked flake; zizmor to code scanning. Use when writing or debugging a workflow or waiting on a run."
 ---
 
 # CI
 
-How tikoci GitHub Actions workflows are laid out, what they run and what
-they report. Repository settings (protection, the read-only token, code
-scanning) are in
+The preferred paths for tikoci GitHub Actions workflows, catalogued from
+what the repos have already paid for: how they are laid out, what they run
+and what they report. A repo picks the ones it needs. The example workflows
+show them together as working files, not as a structure every repo copies:
+a CLI tool that runs on its users' Bun and boots CHRs (quickchr, centrs)
+needs more of this than a container project that ships its own Bun.
+
+Repository settings (protection, the read-only token, code scanning) are in
 [tikoci-github](https://tikoci.dev/house/skills/tikoci-github/SKILL.md);
 action pins in
 [tikoci-dependencies](https://tikoci.dev/house/skills/tikoci-dependencies/SKILL.md);
@@ -17,16 +22,17 @@ the linters in
 [tikoci-linting](https://tikoci.dev/house/skills/tikoci-linting/SKILL.md);
 the Bun pin in
 [tikoci-toolchain](https://tikoci.dev/house/skills/tikoci-toolchain/SKILL.md).
-Starting files: [ci.example.yml](assets/ci.example.yml) and
-[zizmor.example.yml](assets/zizmor.example.yml). Longer patterns (caches,
-retries, failure evidence, bot data, waiting) are in
+Examples: [ci.example.yml](assets/ci.example.yml) and
+[zizmor.example.yml](assets/zizmor.example.yml). Recipes (the docs-only
+classifier, a device smoke job, caches, a flake investigation, failure
+evidence, bot data, waiting) are in
 [references/patterns.md](references/patterns.md).
 
 ## Workflows
 
 | Workflow | Triggers | Runs | Gates |
 | --- | --- | --- | --- |
-| CI | PR and push to `main`, weekly, dispatch | lint, unit on each OS with coverage, smoke integration on code changes | yes, through one gate job |
+| CI | PR and push to `main`, dispatch, weekly where it applies | lint, unit on each OS with coverage, smoke integration on code changes where the repo has device behavior | yes, through one gate job |
 | QA or sweep | nightly, dispatch, called by release | every active RouterOS channel, slow options | must-pass legs only; may feed a `main`-health check |
 | Integration | dispatch, called by other workflows | any platform × RouterOS target × test filter, from any branch | never required |
 | Lab | dispatch | experiments, with a `REPORT.md` | never |
@@ -56,9 +62,17 @@ zizmor, and that is complete.
 - **`timeout-minutes` on every job**, from the measured duration plus
   headroom. A timeout rises only once you know why the job got slower
   ([tikoci-grounding](https://tikoci.dev/house/skills/tikoci-grounding/SKILL.md)).
-- **`concurrency` per PR with `cancel-in-progress` for PR runs only.** A
-  push to `main`, a schedule and a deploy finish; cancelling a data or deploy
-  run can drop a commit.
+- **Timeouts nest, each leaving room for the reporting after it**: job,
+  then the long step, then each test file. A job timeout cancels the job,
+  so its summary and upload steps never run; a step timeout fails only that
+  step. quickchr sets the test step 10 minutes under the job, after weeks of
+  hung legs with no artifacts (#76, #144).
+- **`concurrency` per PR, with `cancel-in-progress` for PR runs.** A
+  test-only workflow on `main` may also cancel a superseded run when
+  everything that reads its results skips cancelled runs (quickchr
+  `main.yml` and `ci-freshness.ts`): it saves runner time, while finishing
+  gives every `main` commit a verdict to bisect with. Data, deploy and
+  history-writing jobs never cancel: that can drop a commit or a record.
 - **`run:` blocks stay short.** Logic past a few lines moves to a
   `scripts/*.ts` a developer can run, and the workflow or the developer docs
   give each job's local command.
@@ -82,9 +96,10 @@ zizmor, and that is complete.
 - **Jobs run the package scripts**, not copies of their steps:
   `bun run lint`, `bun run test:coverage`, `bun run test:integration`, the
   parts of `bun run check`. A red job reproduces with one local command.
-- **Per PR: lint, unit on each OS the tool supports, coverage, and the smoke
-  integration tier on code changes** (`tikoci-testing`). Minutes, not tens of
-  minutes. The channel sweep runs nightly, not per PR.
+- **Per PR: lint, unit on each OS the tool supports, coverage, and, for a
+  repo with device behavior, the smoke integration tier on code changes**
+  (`tikoci-testing`; the job is a recipe in patterns.md). Minutes, not tens
+  of minutes. The channel sweep runs nightly, not per PR.
 - **Docs-only diffs skip the heavy jobs** through a `changes` job and a
   job-level `if:`, **never a workflow-level `paths:` or `paths-ignore:`** on a
   workflow with a required check: a required check whose workflow never
@@ -93,11 +108,12 @@ zizmor, and that is complete.
   (quickchr `main.yml`).
 - **A skip must be earned**, since it reads as green. The classifier answers
   "run everything" on any error, a partial file list, a schedule or a
-  dispatch, and checks both names of a renamed file, and the `if:` tests `!= 'false'` so a missing answer runs too. A
-  Markdown file a test or build reads is code, not docs. Lint and spelling
-  always run. The example's inline step is a start; centrs
-  `scripts/ci-changes.ts` is the tested version, with a unit test that fails
-  when a test starts reading a path it calls docs-only.
+  dispatch, and checks both names of a renamed file, and the `if:` tests
+  `!= 'false'` so a missing answer runs too. A file read by a job the
+  classifier can skip is code, not docs; a README only lint reads stays
+  docs, since lint and spelling always run. The recipe's inline step is a
+  start; centrs `scripts/ci-changes.ts` is the tested version, with a unit
+  test that fails when a test starts reading a path it calls docs-only.
 - **One gate job is the required check** (`CI gate` in the example): it
   `needs` every job and fails if any failed or was cancelled. Branch
   protection names one stable check whatever the matrix holds; whether to
@@ -114,9 +130,9 @@ zizmor, and that is complete.
 
 ## The Bun version
 
-Settles `bun-ci-version`. CI runs the `packageManager` pin, and checks the
-latest Bun on a schedule, so a Bun regression shows up without a standing
-chore and never on someone's unrelated PR.
+Settles `bun-ci-version`. CI runs the `packageManager` pin. Every repo
+needs a way to run another Bun on demand; a schedule on `latest` is the
+default for a tool that runs on its users' Bun.
 
 - **Each `setup-bun` step reads the pin and an optional override**:
 
@@ -131,28 +147,54 @@ chore and never on someone's unrelated PR.
   ```
 
   setup-bun reads `bun-version` first and falls back to the file when it is
-  empty (`src/index.ts`, v2.2.0), so pushes and PRs get the pin.
-- **A `bun-version` dispatch input** (empty by default) on the CI and QA
-  workflows, so anyone can run a branch on `latest` or an exact version.
-- **The weekly scheduled run of CI uses `latest`**: the same jobs, smoke
-  integration included, not a second mechanism, with the Bun that ran in the
-  summary. It never runs on a
-  PR and is never required. It may go red, and red is the signal: open an
-  issue. Our bug gets fixed; a Bun regression gets an upstream issue linked
-  from ours, and the pin stays until Bun fixes it. A repo with a nightly
-  sweep may run the latest-Bun leg there instead, outside the must-pass set
-  and outside whatever its `main`-health check reads.
+  empty (`src/index.ts`, v2.2.0), so pushes and PRs get the pin. Without a
+  schedule, `BUN_VERSION` is just `${{ inputs.bun-version }}`.
+- **A `bun-version` dispatch input on every workflow that installs Bun**
+  (CI, QA, integration), empty by default, taking `latest` or an exact
+  version. It is how a Bun bump is tried before the pin moves, and how a
+  "breaks on Bun X" report is reproduced. Good dispatch inputs are the core
+  of this rule; see "Dispatch for QA".
+- **A weekly scheduled CI run on `latest`, for a tool that runs on its
+  users' Bun**: a CLI or library people install with `bunx` or npm (centrs,
+  quickchr), where a developer machine or sandbox brings whatever Bun it
+  has. The same jobs, not a second mechanism; never on a PR, never
+  required. A repo that ships its own Bun (a container image built with it,
+  app-t3code) keeps the input and can skip the schedule, since its users
+  never meet another Bun.
+- **Red is the signal, and something has to file it.** GitHub mails a
+  scheduled run's failure only to whoever last edited the cron line, so the
+  example's `report` job opens an issue, or comments on the open one. Our
+  bug gets fixed; a Bun regression gets an upstream issue linked from ours,
+  and the pin stays until Bun fixes it.
+- **Tell Bun from the rest**: a scheduled run also meets whatever else
+  floats that week (RouterOS `stable` in a device job, the runner image).
+  Dispatch the same commit with `bun-version` empty; if that is red too,
+  the cause is not Bun.
+- **Keep the badge on the pin**: a README badge shows the workflow's latest
+  run, so filter it, `badge.svg?branch=main&event=push`.
+- **GitHub disables the schedules of a public repo after 60 days without
+  activity**, without a failure: a quiet repo loses its weekly run until
+  someone re-enables it in the Actions tab.
+- A repo with a nightly sweep may run the latest-Bun leg there instead,
+  outside the must-pass set and outside whatever its `main`-health check
+  reads.
 - **The pin check** (`tikoci-toolchain`) accepts exactly this
   `bun-version: ${{ env.BUN_VERSION }}` line next to `bun-version-file`, and
-  no other inline version. rosetta, restraml and vscode-tikbook install
-  `latest` on every run today and move to the pin on adoption.
+  no other inline version, and only while `BUN_VERSION` is defined once, at
+  the workflow level, as one of the two expressions above, with no job or
+  step `env:` redefining it; otherwise a PR could set it to anything and
+  still pass. rosetta, restraml and vscode-tikbook install `latest` on every
+  run today and move to the pin on adoption.
 
 ## Dispatch for QA
 
-- **QA, integration, lab and release workflows have `workflow_dispatch`**
-  with safe defaults, and each input says what it changes: RouterOS target,
-  platforms, test filter, Bun version. Inputs make the hidden assumptions of
-  a run visible.
+- **Every workflow that runs tests or builds has `workflow_dispatch`** (CI,
+  QA, integration, lab, release), with an input for each thing it would
+  otherwise assume: Bun version, RouterOS target, platforms, test filter.
+  Defaults are the safe, pinned choice, and each input's description says
+  what it changes. Good inputs make a run's hidden assumptions visible and
+  let anyone try a new Bun or RouterOS on a branch without editing a
+  workflow.
 - **Agents dispatch to ground a claim** on a platform they do not have:
   `gh workflow run integration.yml --ref <branch> -f platforms=macos-arm64 -f test-filter=exec.test.ts`
   (quickchr). Device integration runs are dispatchable so a PR can link the
@@ -177,7 +219,8 @@ chore and never on someone's unrelated PR.
   `include-hidden-files: true`, and the upload is then silently empty.
 - **Capture before cleanup.** On a timeout, dump the process state, logs
   and monitor output before tearing the machine down, and stop waiting as
-  soon as the process has died (mikropkl).
+  soon as the process has died (mikropkl). A step timeout, not a job
+  timeout, is what lets the upload run ("Every workflow").
 - **Machine-read values come from a `key=value` line or a JSON file**, never
   scraped from prose; artifact names say what they hold, not which harness
   made them (restraml).
@@ -186,25 +229,37 @@ chore and never on someone's unrelated PR.
 - **Coverage is read, never a gate**: the table in the summary, `lcov` in an
   artifact, no threshold (`tikoci-testing`).
 
-## Retries and flakes
+## Failures and flakes
 
-Settles `ci-retry`. A retry hides the evidence
+Settles `ci-retry`. A red run is a finding. The house would rather leave a
+run red than assume a flake: a retry hides the evidence
 [tikoci-grounding](https://tikoci.dev/house/skills/tikoci-grounding/SKILL.md)
-asks for, unless it is recorded.
+asks for.
 
-- **No retries in the unit tier or anything that runs per PR.** A unit test
-  that fails sometimes is a bug.
-- **The device integration sweep may retry a failed file once**, because a
-  real CHR in a shared runner has timing CI cannot control. Each retry is
-  recorded: a `::warning::` naming the file, a line in the job summary, and a
-  record (file, attempts, outcome, the RouterOS version that booted rather
-  than the channel, platform, run) in the
-  run's history, an artifact or a data branch. A real regression fails both
-  attempts and still gates.
-- **Those records are the flake statistics.** A file that needs its retry
-  repeatedly gets an issue and a local repro, never a raised timeout or a
-  skip. centrs retries per file in `qa.yaml` with annotations only; it adds
-  the record on adoption.
+- **No retry as a process**: not in the unit tier, not in anything that
+  runs per PR, not as a standing step of a sweep. A test that fails
+  sometimes is a bug to find, and a red sweep leg is something to read.
+- **A retry is an investigation tool.** While an open issue investigates a
+  flake in a device sweep (centrs's Windows and Intel Mac legs), the sweep
+  may retry the files that issue names once, to collect data without
+  losing the rest of the sweep's signal. The issue says what data would
+  close it, and the retry goes when it closes. The recipe is in
+  patterns.md.
+- **Every file writes a record each run**, not only the retried ones: file,
+  attempts, outcome, the RouterOS version that booted rather than the
+  channel, platform, run and issue. Without the files that passed first
+  time there is no rate: 3 retries could be 3 of 4 runs or 3 of 400. Each
+  retry also gets a `::warning::` and a job summary line.
+- **Never retry a hang.** A timeout or watchdog kill is a different failure
+  from an assertion, and a retry doubles its worst case (quickchr's Intel
+  Mac wedge hit the same file 7 times of 7). Budget the step for the
+  retried files' second run, and reap leftover machines before it, so
+  attempt 2 does not fail, or pass, on attempt 1's leftovers.
+- **centrs, on adoption**: it retries every failed file in `qa.yaml` today,
+  with annotations only. It scopes that to tracked files and adds the
+  records after its `qa-history` writer folds instead of rebasing
+  (patterns.md, "Bot data on a side branch"), or overlapping runs drop
+  records.
 - **Best-effort legs** (pre-release channels in centrs) are declared in one
   policy place, use `continue-on-error`, and record their failures. A gating
   job never has `continue-on-error`.
@@ -216,12 +271,18 @@ asks for, unless it is recorded.
   setup, with `security-events: write` on that job only. In SARIF mode it
   exits 0 with findings (zizmor 1.32.0), so the workflow reports and never
   gates.
-- **Triage first** (`tikoci-github`): fix each finding, or disable the rule in
-  `.github/zizmor.yml` with the reason, before the Security tab fills.
+- **Triage first** (`tikoci-github`), before the Security tab fills: fix
+  each finding, or suppress it as narrowly as it allows, with the reason
+  beside it. A trailing `# zizmor: ignore[unpinned-uses]` covers one line; a
+  policy (`rules.unpinned-uses.config.policies`) exempts one action and
+  keeps the rest pinned. Disable a rule in `zizmor.yml` (repo root or
+  `.github/`) only when it is wrong for the whole repo.
 - **Then gate in the lint script**: `uvx zizmor@<version> --offline .` exits
-  non-zero on findings (14 for high). CI installs uv; a local run without uv
-  says so and skips (`tikoci-linting`). Pin the zizmor version in both places
-  once it gates, so new audits arrive in a reviewed bump.
+  non-zero on findings (14 for high). CI installs uv. A local run without uv
+  says so and skips, but with `CI` set a missing tool fails, or the gate
+  disappears the day an install step breaks (`tikoci-linting`). Pin the
+  zizmor version in both places once it gates, so new audits arrive in a
+  reviewed bump.
 
 ## Bot data and deploys
 
