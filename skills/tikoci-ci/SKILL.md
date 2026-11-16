@@ -93,7 +93,7 @@ zizmor, and that is complete.
   (quickchr `main.yml`).
 - **A skip must be earned**, since it reads as green. The classifier answers
   "run everything" on any error, a partial file list, a schedule or a
-  dispatch, and the `if:` tests `!= 'false'` so a missing answer runs too. A
+  dispatch, and checks both names of a renamed file, and the `if:` tests `!= 'false'` so a missing answer runs too. A
   Markdown file a test or build reads is code, not docs. Lint and spelling
   always run. The example's inline step is a start; centrs
   `scripts/ci-changes.ts` is the tested version, with a unit test that fails
@@ -106,8 +106,11 @@ zizmor, and that is complete.
   latest scheduled sweep (centrs) or `main` integration run (quickchr) is
   red, so a red `main` cannot rot quietly. The PR that fixes `main` runs the
   integration workflow on its branch and is merged by an admin
-  (`tikoci-github`). The check reads only the runs it means: a dispatched or
-  latest-Bun run never clears or reddens it.
+  (`tikoci-github`). The check says which runs count: centrs counts only
+  scheduled sweeps, while quickchr counts any completed `main.yml` run on
+  `main`, so a dispatched run on `main` there is a manual refresh. A
+  latest-Bun run never feeds it: keep that leg in a workflow or job the
+  check does not read.
 
 ## The Bun version
 
@@ -131,8 +134,9 @@ chore and never on someone's unrelated PR.
   empty (`src/index.ts`, v2.2.0), so pushes and PRs get the pin.
 - **A `bun-version` dispatch input** (empty by default) on the CI and QA
   workflows, so anyone can run a branch on `latest` or an exact version.
-- **The weekly scheduled run of CI uses `latest`**: the same jobs, not a
-  second mechanism, with the Bun that ran in the summary. It never runs on a
+- **The weekly scheduled run of CI uses `latest`**: the same jobs, smoke
+  integration included, not a second mechanism, with the Bun that ran in the
+  summary. It never runs on a
   PR and is never required. It may go red, and red is the signal: open an
   issue. Our bug gets fixed; a Bun regression gets an upstream issue linked
   from ours, and the pin stays until Bun fixes it. A repo with a nightly
@@ -193,7 +197,8 @@ asks for, unless it is recorded.
 - **The device integration sweep may retry a failed file once**, because a
   real CHR in a shared runner has timing CI cannot control. Each retry is
   recorded: a `::warning::` naming the file, a line in the job summary, and a
-  record (file, attempt, outcome, RouterOS version, platform, run) in the
+  record (file, attempts, outcome, the RouterOS version that booted rather
+  than the channel, platform, run) in the
   run's history, an artifact or a data branch. A real regression fails both
   attempts and still gates.
 - **Those records are the flake statistics.** A file that needs its retry

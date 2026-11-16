@@ -90,15 +90,18 @@ and #104):
 ## A recorded retry
 
 For the device integration sweep only (tikoci-ci, "Retries and flakes").
-Each file runs alone; a failure runs once more, and both outcomes are
-recorded. Under `shell: bash` the pipeline's status is `bun test`'s, not
-`tee`'s.
+Each file runs alone; a failure runs once more, and the record says how many
+attempts it took. Under `shell: bash` the pipeline's status is `bun test`'s,
+not `tee`'s. The record names the RouterOS version that booted, not the
+channel asked for: resolve the channel once before the tests (a plan job, or
+a step like centrs `scripts/chr-cache-key.ts`) and pass the version in, so
+records from before and after a release stay apart.
 
 ```yaml
 - name: Integration sweep
   env:
     EXAMPLE_INTEGRATION: "1"
-    EXAMPLE_ROUTEROS: ${{ matrix.routeros }}
+    EXAMPLE_ROUTEROS: ${{ steps.resolve.outputs.version }} # e.g. 7.21.2, not "stable"
   run: |
     status=0
     for f in test/integration/*.test.ts; do
@@ -113,17 +116,19 @@ recorded. Under `shell: bash` the pipeline's status is `bun test`'s, not
         status=1
       fi
       echo "- \`$f\`: $outcome" >> "$GITHUB_STEP_SUMMARY"
-      printf '{"file":"%s","outcome":"%s","routeros":"%s","platform":"%s-%s","run":"%s"}\n' \
+      printf '{"file":"%s","attempts":2,"outcome":"%s","routeros":"%s","platform":"%s-%s","run":"%s"}\n' \
         "$f" "$outcome" "$EXAMPLE_ROUTEROS" "$RUNNER_OS" "$RUNNER_ARCH" "$GITHUB_RUN_ID" \
         >> "$RUNNER_TEMP/retries.ndjson"
     done
     exit "$status"
 ```
 
+A file that passes first time writes no record, so a record always means
+two attempts: `passed-on-retry` (the second passed) or `failed-twice`.
 Upload `retries.ndjson` as an artifact, or fold it into the history the
 sweep already keeps (centrs `qa-history`, quickchr `ci-data`). Counting
-`passed-on-retry` per file over a few weeks is the flake statistic; a file
-that keeps appearing gets an issue.
+`passed-on-retry` per file and RouterOS version over a few weeks is the
+flake statistic; a file that keeps appearing gets an issue.
 
 ## Failure evidence
 

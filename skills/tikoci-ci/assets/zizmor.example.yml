@@ -15,7 +15,8 @@ on:
   push:
     branches: [main]
   schedule:
-    # Weekly, so new audits in a new zizmor release reach main without a push.
+    # Weekly, so online audits (a newly vulnerable or impostor action
+    # reference) reach main without a push.
     - cron: "29 6 * * 1"
   workflow_dispatch:
 
@@ -42,8 +43,9 @@ jobs:
           persist-credentials: false
       - name: Run zizmor
         uses: zizmorcore/zizmor-action@45d7276c9ca790aabd705e31ca99c6185c3e76dd # v0.8.1
-        # The action installs the latest zizmor, which suits a report. Once
-        # zizmor gates, pin the same version here and in the lint script, so a
-        # new audit arrives as a reviewed bump.
+        # `version: latest` (the default) is the zizmor release this action
+        # release bundles (1.32.0 for v0.8.1), so new audits arrive with the
+        # Dependabot bump of the action. Once zizmor gates, pin the same
+        # version here and in the lint script, so both move together.
         # with:
         #   version: "1.32.0"

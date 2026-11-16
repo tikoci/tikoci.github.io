@@ -2,7 +2,8 @@
 
 The rules in [tikoci-ci](../SKILL.md) come from the November 2026 survey of
 tikoci instruction files and skills, the workflows of centrs, quickchr,
-rosetta, restraml, mikropkl and this repo (read on 2026-11-16), and the
+rosetta, restraml, mikropkl and this repo (read on 2026-11-16; one retired
+restraml rule is linked at its last commit), and the
 documentation of GitHub Actions, setup-bun and zizmor. Row ids refer to
 [2026-11-survey.tsv](https://github.com/tikoci/tikoci.github.io/blob/main/docs/house/2026-11-survey.tsv);
 settled disagreements are in
@@ -25,9 +26,9 @@ Planning: Phase 3 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 | Quiet installs and downloads | mikropkl-27 | mikropkl `CLAUDE.md` "CI conventions for apt-get and downloads". |
 | Jobs run package scripts | site-04, rosetta-12 | `tikoci-toolchain` (task entry points), `tikoci-linting` (one gate). |
 | Per-PR tiers | quickchr-014, quickchr-112 | `integration-cadence` (3a): smoke per code PR, sweep nightly. |
-| Docs-only by job `if:`, not `paths:` | - | centrs `scripts/ci-changes.ts` header and `test/unit/ci-changes.test.ts`; `tikoci-pr-flow` (path detection is the default). quickchr `main.yml` uses `paths-ignore` and is not a required check. The compare API pages its file list up to 3000 files: [compare two commits](https://docs.github.com/en/rest/commits/commits#compare-two-commits). |
+| Docs-only by job `if:`, not `paths:` | - | centrs `scripts/ci-changes.ts` header and `test/unit/ci-changes.test.ts`; `tikoci-pr-flow` (path detection is the default). quickchr `main.yml` uses `paths-ignore` and is not a required check. File-list caps, as centrs uses them (`PR_FILES_CAP = 3000`, `COMPARE_FILES_CAP = 300`, `previous_filename` for renames): [list pull request files](https://docs.github.com/en/rest/pulls/pulls#list-pull-requests-files), [compare two commits](https://docs.github.com/en/rest/commits/commits#compare-two-commits) (Codex review of PR #28). |
 | One gate job | - | centrs `Unit tests & coverage` aggregates the unit legs; `tikoci-github` (gate jobs, not a bot's check). |
-| `main`-health check | quickchr-014, quickchr-112 | quickchr `scripts/ci-freshness.ts`; centrs `scripts/qa-nightly.ts` (`Main health (nightly QA)`). |
+| `main`-health check | quickchr-014, quickchr-112 | quickchr `scripts/ci-freshness.ts` reads any completed `main.yml` run on `main`, dispatches included; centrs `scripts/qa-nightly.ts` (`Main health (nightly QA)`) counts only scheduled sweeps (Codex review of PR #28). |
 | The Bun version | - | Settles `bun-ci-version` (maintainer, 2026-11-16): a dispatch input, the weekly scheduled CI run on `latest`, red as the signal. setup-bun v2.2.0 `src/index.ts` reads `bun-version`, then `bun-version-file`, then package.json. `bun-version: latest` today: rosetta `test.yml`, `release-smoke.yml`, `device-map-refresh.yml`; restraml four workflows; vscode-tikbook `build.yaml`. |
 | Dispatch inputs with safe defaults | centrs-32 | centrs `github-actions-dispatch.instructions.md`. |
 | Agents dispatch to ground; one reusable workflow; plan job | quickchr-115 | quickchr `integration.yml` (#29). |
@@ -35,7 +36,7 @@ Planning: Phase 3 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 | Summary for the verdict, artifacts for depth | centrs-33 | centrs `github-actions-rich-data.instructions.md`; quickchr "Artifacts — Where to Look After a Failure". |
 | `include-hidden-files` | quickchr-126 | |
 | Capture before cleanup | mikropkl-28 | mikropkl "Boot diagnostics"; quickchr `failures/boot-failure-*.json`. |
-| Machine-read values from a marker line | restraml-40 | |
+| Machine-read values from a marker line | restraml-40 | Retired practice: restraml removed its nightly build in 0d35b78 (#121, 2026-10-28); the rule is in the [pre-removal `CLAUDE.md`](https://github.com/tikoci/restraml/blob/5f1e490037144d655c2c1ad503f4761043658f34/CLAUDE.md#L1013-L1019). |
 | Coverage read, never a gate | centrs-33 | `coverage-gate` (3b, `tikoci-testing`). |
 | Retries and flakes | - | Settles `ci-retry` (maintainer, 2026-11-16). centrs `qa.yaml` retries each failed integration file once with annotations; its pre-release legs are `continue-on-error`, defined in `scripts/qa-results-db.ts` (`channelPolicy`). quickchr `integration.yml` has no `continue-on-error`. |
 | zizmor report, triage, gate | - | From 3b (`tikoci-linting`) and 3c (`tikoci-github`). zizmor-action v0.8.1 `action.yml` (SARIF upload, category `zizmor`; its README: no failure on findings in this mode). zizmor [exit codes](https://docs.zizmor.sh/usage/#exit-codes): 0 in SARIF mode, 11 to 14 by highest severity; checked with zizmor 1.32.0 on this repo (SARIF 0, plain 14). centrs `codeql.yaml` runs zizmor this way today. |
@@ -51,9 +52,10 @@ Both run clean with actionlint 1.7 (with shellcheck 0.11.0) and zizmor 1.32.0
 (`--persona pedantic`, online audits on). The action SHAs are the latest
 releases on 2026-11-16: actions/checkout v7.0.1, oven-sh/setup-bun v2.2.0,
 actions/upload-artifact v7.0.2, zizmorcore/zizmor-action v0.8.1. The
-`changes` step was checked with GNU grep under `bash -eo pipefail`, including
-a 200,000-line list; the recorded retry in `patterns.md` was run against a
-stubbed `bun`.
+`changes` step was run under `bash -eo pipefail` against the live API (this
+PR and a rename commit) and a stubbed `gh` (a code-to-docs rename, a list at
+the 300 cap, docs only, an API error, a schedule); the recorded retry in
+`patterns.md` was run against a stubbed `bun`.
 
 ## Not taken
 

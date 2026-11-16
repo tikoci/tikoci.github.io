@@ -3,7 +3,7 @@
 #   changes ─────────────┐ (docs-only: smoke skips)
 #   lint ────────────────┤
 #   unit (each OS) ──────┼─→ gate  (the one required check, where a repo requires one)
-#   smoke (CHR, stable) ─┘
+#   smoke (CHR) ─────────┘
 #
 # Every job runs a package script (package.example.json in tikoci-toolchain),
 # so `bun run lint` and `bun run test:coverage` reproduce a job locally.
@@ -74,18 +74,28 @@ jobs:
           # Markdown file a test parses is code, not docs.
           DOCS_ONLY: '^(docs/.*|[^/]*\.md|LICENSE)$'
         run: |
-          files=""
+          # One line per changed file: its name and, for a rename, the old
+          # name too, since either may be code. GitHub lists at most 3000
+          # files for a PR and 300 for a compare; a list at the cap may be
+          # partial, so it runs everything (as centrs does).
+          records=""
+          cap=0
           case "$GITHUB_EVENT_NAME" in
-            pull_request) files=$(gh pr diff "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --name-only) || files="" ;;
-            push) files=$(gh api --paginate "repos/$GITHUB_REPOSITORY/compare/$BEFORE...$AFTER" --jq '.files[].filename') || files="" ;;
+            pull_request)
+              cap=3000
+              records=$(gh api --paginate "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/files?per_page=100" \
+                --jq '.[] | [.filename, .previous_filename // empty] | join("\t")') || records="" ;;
+            push)
+              cap=300
+              records=$(gh api "repos/$GITHUB_REPOSITORY/compare/$BEFORE...$AFTER" \
+                --jq '.files[] | [.filename, .previous_filename // empty] | join("\t")') || records="" ;;
           esac
+          count=$(grep -c . <<<"$records" || true)
+          names=$(tr '\t' '\n' <<<"$records")
           # A here-string, not a pipe: under pipefail an early `grep -q` exit
           # can fail the writer, and the `!` would turn that into heavy=false.
-          # GitHub lists at most 3000 changed files, so a list that long may
-          # be partial: run everything.
-          count=$(grep -c . <<<"$files" || true)
           heavy=true
-          if [ "$count" -gt 0 ] && [ "$count" -lt 3000 ] && ! grep -qvE "$DOCS_ONLY" <<<"$files"; then
+          if [ "$count" -gt 0 ] && [ "$count" -lt "$cap" ] && ! grep -qvE "$DOCS_ONLY" <<<"$names"; then
             heavy=false
           fi
           echo "heavy=$heavy" >> "$GITHUB_OUTPUT"
@@ -166,7 +176,7 @@ jobs:
   smoke:
     name: Smoke integration (CHR)
     needs: changes
-    if: ${{ needs.changes.outputs.heavy != 'false' && github.event_name != 'schedule' }}
+    if: ${{ needs.changes.outputs.heavy != 'false' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
