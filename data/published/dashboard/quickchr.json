@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-16T11:32:19.339Z",
+  "generatedAt": "2026-11-16T22:12:26.611Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -425,7 +425,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/167",
         "createdAt": "2026-09-20T17:34:20Z",
-        "updatedAt": "2026-09-20T19:03:43Z",
+        "updatedAt": "2026-11-16T15:35:47Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -436,7 +436,7 @@
           "needs-decision",
           "platform:mac"
         ],
-        "milestone": null
+        "milestone": "next"
       },
       {
         "number": 160,

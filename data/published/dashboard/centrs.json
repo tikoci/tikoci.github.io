@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "centrs",
-  "generatedAt": "2026-11-16T11:32:19.339Z",
+  "generatedAt": "2026-11-16T22:12:26.611Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -15,17 +15,17 @@
         "bot": 0
       },
       "prs": {
-        "total": 2,
-        "owner": 2,
+        "total": 3,
+        "owner": 3,
         "external": 0,
         "bot": 0,
-        "ownerReady": 1,
+        "ownerReady": 2,
         "ownerDraft": 1,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 26,
+      "fetched": 27,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
@@ -33,13 +33,26 @@
     "pullsEnriched": true,
     "items": [
       {
+        "number": 669,
+        "title": "fix(discover): ground the MNDP codec in the m2ir wire map (#668)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/pull/669",
+        "createdAt": "2026-11-16T12:08:26Z",
+        "updatedAt": "2026-11-16T22:09:39Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [],
+        "milestone": null
+      },
+      {
         "number": 668,
         "title": "discover/mndp: update the MNDP codec to the grounded wire map (TLV 14 is IPv6, header counter, TLVs 2–4/9/18/19)",
         "author": "mobileskyfi",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/668",
         "createdAt": "2026-11-16T02:18:39Z",
-        "updatedAt": "2026-11-16T04:58:05Z",
+        "updatedAt": "2026-11-16T15:16:06Z",
         "isPR": false,
         "draft": null,
         "labels": [
