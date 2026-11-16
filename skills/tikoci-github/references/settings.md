@@ -65,17 +65,23 @@ again.
 
 ```sh
 N=123   # the PR number
-gh api "repos/{owner}/{repo}/code-scanning/alerts?ref=refs/pull/$N/merge" \
+# The analyses for the PR, and the commit and ref each one scanned.
+gh api "repos/{owner}/{repo}/code-scanning/analyses?pr=$N" \
+  --jq '.[] | "\(.id) \(.ref) \(.commit_sha[0:7]) \(.category)"'
+gh api "repos/{owner}/{repo}/code-scanning/alerts?pr=$N" \
   --jq '.[] | "\(.number) \(.rule.id) \(.most_recent_instance.location.path):\(.most_recent_instance.location.start_line)"'
 ```
 
-Without `ref`, the endpoint returns default-branch alerts only. The taint path
-of a data-flow alert is not in the alert API; download the analysis as SARIF
+Without `pr` (or `ref`), the endpoints return the default branch only. Default
+setup scans `refs/pull/<n>/head`, an advanced workflow usually
+`refs/pull/<n>/merge`; `pr=` finds either. An empty alert list counts only when
+an analysis for the PR's head commit exists. The taint path of a data-flow
+alert is not in the alert API; download the analysis as SARIF
 (`gh api -H "Accept: application/sarif+json" "repos/{owner}/{repo}/code-scanning/analyses/<id>"`,
-with the id from `code-scanning/analyses?ref=refs/pull/$N/merge`) and read
-`results[].codeFlows`.
+with an id from the first command) and read `results[].codeFlows`.
 
-Dismiss with a reason (`false positive`, `won't fix`, `used in tests`):
+Dismiss only with evidence, and put the evidence in the reason
+(`false positive`, `won't fix`, `used in tests`):
 
 ```sh
 gh api -X PATCH "repos/{owner}/{repo}/code-scanning/alerts/<number>" \
@@ -90,9 +96,11 @@ From centrs (`.github/instructions/github-security-quality.instructions.md`):
 - **`js/clear-text-logging`** matches on names, not values: a boolean
   `passwordSet` counts as a password. It also over-taints through a shared
   helper, so a credential passed in one test can make an unrelated error path
-  look tainted. Read the SARIF flow; when its source is a name match or a
-  test, dismiss with a reason that says which. Do not rename a public field to
-  dodge it.
+  look tainted. A name match is also how the query finds real leaks (logging
+  `config.password`), so a name match alone is no reason to dismiss. Read the
+  SARIF flow, then dismiss only when the value is shown to be non-sensitive (a
+  boolean flag) or the flow cannot happen, and say which. Do not rename a
+  public field to dodge it.
 - **`js/insecure-temporary-file`** fires on a literal `/tmp` path and on a file
   written without an explicit mode. Write under the test's sandbox directory
   (`TIKOCI_SANDBOX`) with `mode: 0o600`, which also fixes the real problem.

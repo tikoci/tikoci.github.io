@@ -1,6 +1,6 @@
 ---
 name: tikoci-github
-description: "tikoci GitHub repo settings: repos in the tikoci org; squash merge only, branches deleted on merge; main under classic protection (conversation resolution, required checks, no force push) so bot pushes still work; Copilot reviews once via a ruleset; secret scanning with push protection, private vulnerability reporting, Dependabot alerts, CodeQL on code and workflows; read-only workflow token, SHA-pinned actions; zero open alerts, each dismissal with a reason; a SECURITY.md; token order TIKOCI_GITHUB_TOKEN, GH_TOKEN, GITHUB_TOKEN, gh auth token. Use when creating a repo, changing settings or handling an alert."
+description: "tikoci GitHub repo settings: repos in the tikoci org; squash merge only, branches deleted on merge; main under classic protection (conversation resolution, no force push; required checks only where no workflow pushes to main); Copilot reviews once via a ruleset; secret scanning with push protection, private vulnerability reporting, Dependabot alerts, CodeQL on code and workflows; read-only workflow token, SHA-pinned actions; zero open alerts, each dismissal with a reason; a SECURITY.md; token order TIKOCI_GITHUB_TOKEN, GH_TOKEN, GITHUB_TOKEN, gh auth token. Use when creating a repo, changing settings or handling an alert."
 ---
 
 # GitHub settings
@@ -25,9 +25,14 @@ themselves are in `tikoci-ci`. Commands to check and apply each setting are in
 ## Branch protection
 
 - **`main` uses classic branch protection**: require conversation
-  resolution, require the repo's gate jobs as status checks, block force
-  pushes and deletion, and leave admins unenforced so the maintainer can
-  unblock `main`.
+  resolution, block force pushes and deletion, and leave admins unenforced so
+  the maintainer can unblock `main`.
+- **Required status checks only where no workflow pushes to `main`.** They
+  apply to direct pushes too, and a snapshot workflow pushes a commit it
+  created after its checks ran, so a required check rejects it (the
+  workflow token is not an admin). centrs, quickchr and rosetta require
+  their gate jobs; this repo, whose workflows commit snapshots, requires
+  none.
 - **Classic, not a ruleset, while workflows commit to `main`.** Classic
   protection can require resolved conversations without requiring a PR, so a
   snapshot workflow's `GITHUB_TOKEN` push and a maintainer's direct fix still
@@ -52,10 +57,13 @@ themselves are in `tikoci-ci`. Commands to check and apply each setting are in
 | Code Quality | Where the org enables it. |
 | Dependency review | Optional: it sees only what the dependency graph supports, which excludes `bun.lock`. |
 
-- **Default setup** needs no workflow to pin or update. A repo that needs
-  `paths-ignore`, query filters or its own query pack uses advanced setup (a
-  workflow with the `security-and-quality` suite, as centrs, rosetta and
-  restraml do) and says why in SECURITY.md.
+- **Default setup** needs no workflow to pin or update. Path exclusions and
+  extra queries no longer need a workflow either: the
+  `github-codeql-config-file` repository property points default setup at a
+  CodeQL config file, set per repo or as an org default (GA since
+  2026-08-04). Advanced setup (a workflow, as centrs, rosetta and restraml
+  run with the `security-and-quality` suite) is for what default setup
+  cannot do, such as that suite or a build step; SECURITY.md says why.
 - **Secret scanning replaces a secret linter** in the gate; a repo that
   handles credentials in files may add secretlint (centrs).
 
@@ -79,12 +87,15 @@ themselves are in `tikoci-ci`. Commands to check and apply each setting are in
 - **Aim for zero open alerts on public repos**: code scanning, Dependabot
   and secret scanning. A private repo may hold a lower bar.
 - **Fix real findings. Dismiss a false positive in the Security tab** (or the
-  API) with a written reason; the dismissal is the audit record. In-code
+  API) only after showing the value is not sensitive or the reported flow
+  cannot happen, with that as the written reason; the dismissal is the audit
+  record. In-code
   `codeql[...]` and `lgtm[...]` comments do not suppress an alert (centrs
   PR #233), and moving the code only changes its fingerprint. A
   `query-filters` entry in advanced setup is the rule-wide alternative.
-- **On an open PR, query alerts by its merge ref**; the default query shows
-  only the default branch and looks empty.
+- **On an open PR, query alerts with `pr=<number>`**; without it the API
+  shows only the default branch. Check that an analysis exists for the PR's
+  head before reading an empty list as clean.
 - **Code Quality findings are not in the code-scanning alert API.** Check its
   tab too before reporting zero.
 
