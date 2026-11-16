@@ -6,10 +6,11 @@ Commands for the settings in [tikoci-github](../SKILL.md), run from inside
 the repo's checkout (`gh` fills in `{owner}` and `{repo}`). The read commands
 change nothing; run them before and after a change. Changing settings needs
 admin rights on the repo; the maintainer applies them or asks for them.
-`gh` runs as `GH_TOKEN` when it is set, otherwise as its own login, and never
-reads `TIKOCI_GITHUB_TOKEN`: that variable is for code calling the API
-(tikoci-github, GitHub API access). For the apply commands, use an admin
-login and unset a read-only `GH_TOKEN`.
+`gh` runs as `GH_TOKEN`, then `GITHUB_TOKEN`, then its stored login, and
+never reads `TIKOCI_GITHUB_TOKEN`: that variable is for code calling the API
+(tikoci-github, GitHub API access). For the apply commands, unset both
+`GH_TOKEN` and `GITHUB_TOKEN` to use an admin login, or set `GH_TOKEN` to an
+admin token.
 
 ## Check
 

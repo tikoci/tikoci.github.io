@@ -4,9 +4,11 @@
 # already reviewed the draft, and the review allowance is small and shared
 # across tikoci repos. See tikoci-pr-flow.
 #
-# On open-source repos CodeRabbit applies the base branch's config: a PR that
-# changes this file is reviewed with main's old one, so a change shows only on
-# the next PR (tikoci/centrs#167).
+# Which config a review used depends on the configuration source in
+# CodeRabbit's settings (Auto, default branch or custom). In tikoci/centrs#167
+# a PR that changed this file was reviewed with main's old one. Each review's
+# "Review info", "Run configuration" shows the file, branch and commit applied:
+# check it before trusting a config change.
 #
 # CodeRabbit already reads AGENTS.md, CLAUDE.md and .github/instructions/ as
 # code guidelines, so repo rules are not repeated here as path_instructions.
