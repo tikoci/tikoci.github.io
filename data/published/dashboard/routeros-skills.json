@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "routeros-skills",
-  "generatedAt": "2026-11-16T02:48:03.877Z",
+  "generatedAt": "2026-11-16T11:32:19.339Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -39,7 +39,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/pull/60",
         "createdAt": "2026-11-16T02:18:17Z",
-        "updatedAt": "2026-11-16T02:41:25Z",
+        "updatedAt": "2026-11-16T03:51:25Z",
         "isPR": true,
         "draft": true,
         "labels": [],

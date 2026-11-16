@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "centrs",
-  "generatedAt": "2026-11-16T02:48:03.877Z",
+  "generatedAt": "2026-11-16T11:32:19.339Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -39,14 +39,14 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/668",
         "createdAt": "2026-11-16T02:18:39Z",
-        "updatedAt": "2026-11-16T02:35:53Z",
+        "updatedAt": "2026-11-16T04:58:05Z",
         "isPR": false,
         "draft": null,
         "labels": [
           "enhancement",
           "cmd-discover"
         ],
-        "milestone": null
+        "milestone": "next"
       },
       {
         "number": 666,

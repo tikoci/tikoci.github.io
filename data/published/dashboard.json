@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-16T02:48:03.877Z",
+  "generatedAt": "2026-11-16T11:32:19.339Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,7 +10,7 @@
     "otherHttpCalls": 11,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4803
+    "rateLimitRemaining": 4836
   },
   "sources": {
     "ros-current": "https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel> (MikroTik upgrade feed; body \"<version> <build-ts>\")",
@@ -662,9 +662,9 @@
             "headBranch": "main",
             "headSha": "acd6566c090b9b8060a6bec849e8ad2ca8db5380",
             "event": "schedule",
-            "runStartedAt": "2026-11-15T05:18:11Z",
-            "lastUpdatedAt": "2026-11-15T05:18:26Z",
-            "lastUrl": "https://github.com/tikoci/fat-chr/actions/runs/43680489768",
+            "runStartedAt": "2026-11-16T05:15:54Z",
+            "lastUpdatedAt": "2026-11-16T05:16:13Z",
+            "lastUrl": "https://github.com/tikoci/fat-chr/actions/runs/43809088766",
             "isHead": true
           }
         ]
@@ -1653,14 +1653,14 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/centrs/issues/668",
             "createdAt": "2026-11-16T02:18:39Z",
-            "updatedAt": "2026-11-16T02:35:53Z",
+            "updatedAt": "2026-11-16T04:58:05Z",
             "isPR": false,
             "draft": null,
             "labels": [
               "enhancement",
               "cmd-discover"
             ],
-            "milestone": null
+            "milestone": "next"
           },
           {
             "number": 666,
@@ -2592,7 +2592,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/routeros-skills/pull/60",
             "createdAt": "2026-11-16T02:18:17Z",
-            "updatedAt": "2026-11-16T02:41:25Z",
+            "updatedAt": "2026-11-16T03:51:25Z",
             "isPR": true,
             "draft": true,
             "labels": [],
