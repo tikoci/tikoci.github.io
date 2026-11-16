@@ -1,0 +1,13 @@
+# tikoci starting CodeQL config for default setup. Save as
+# .github/codeql/codeql-config.yml, then set the repository property
+# github-codeql-config-file to ./.github/codeql/codeql-config.yml (repo
+# Settings, Custom properties). An org owner creates that Text property once,
+# with no org-wide value. Default setup merges this file into the
+# configuration it generates. See tikoci-github and references/settings.md.
+#
+# Skip what is not the repo's own code: scanning it costs time and finds
+# nothing anyone will fix.
+paths-ignore:
+  - "docs/**" # generated or historic HTML (restraml's slow scans)
+  - "test/fixtures/**" # inputs, not code
+  - "**/vendor/**" # copies of other projects

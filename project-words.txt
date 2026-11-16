@@ -10,6 +10,8 @@ bunx # run a package binary through Bun, https://bun.com/docs/cli/bunx
 CDB # WinBox address book format
 centrs # tikoci RouterOS CLI and library, https://github.com/tikoci/centrs
 CMR # MikroTik's controller for RouterOS fleets
+coderabbit # CodeRabbit config and file names (.coderabbit.yaml)
+coderabbitai # CodeRabbit's GitHub handle, as in @coderabbitai
 commondir
 crossref
 cwd
@@ -18,10 +20,12 @@ edk # edk2, the UEFI firmware QEMU boots, https://github.com/tianocore/edk2
 efi
 frontmatter
 gitdir
+gpt # OpenAI model names in Reviewer: lines (gpt-6.1-sol)
 libsecret
 LLM
 llms
 LOCALAPPDATA
+lockfiles
 lsbridge
 lsp
 MCP # Model Context Protocol
@@ -33,6 +37,7 @@ mtimes
 netinstall # MikroTik's device flashing tool
 nohup
 NUL
+Oid # GitHub object id, as in headRefOid
 ONESHELL # GNU make special target: one shell per recipe
 Pico # Pico CSS, https://picocss.com
 pids
@@ -44,6 +49,7 @@ routeros
 rsc # RouterOS script file extension
 rskills
 sandboxed
+SARIF # Static Analysis Results Interchange Format, code scanning's upload format
 secretlint # secret scanner, https://github.com/secretlint/secretlint
 sed # stream editor (POSIX)
 shellcheck # shell script linter, https://www.shellcheck.net/
@@ -59,6 +65,7 @@ tsc
 uid
 UNC
 unparseable
+unpushed
 unvalidated
 USERPROFILE
 usr

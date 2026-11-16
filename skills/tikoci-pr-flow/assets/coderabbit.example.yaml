@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# tikoci starting CodeRabbit config. Save as .coderabbit.yaml at the repo root.
+# CodeRabbit reviews once, when a PR is marked ready: another local agent has
+# already reviewed the draft, and the review allowance is small and shared
+# across tikoci repos. See tikoci-pr-flow.
+#
+# Which config a review used depends on the configuration source in
+# CodeRabbit's settings (Auto, default branch or custom). In tikoci/centrs#167
+# a PR that changed this file was reviewed with main's old one. Each review's
+# "Review info", "Run configuration" shows the file, branch and commit applied:
+# check it before trusting a config change.
+#
+# CodeRabbit already reads AGENTS.md, CLAUDE.md and .github/instructions/ as
+# code guidelines, so repo rules are not repeated here as path_instructions.
+# A repo adds path_instructions only for guidance that matters to review
+# alone (routeros-skills asks for RouterOS accuracy in SKILL.md files).
+language: en-US
+tone_instructions: >-
+  Terse and actionable. State the finding, the file and line, and the fix.
+  No praise, preamble, poems or filler.
+reviews:
+  profile: assertive
+  poem: false # explicit: older configs defaulted to true
+  in_progress_fortune: false # defaults to true
+  # The summary goes in the walkthrough comment, not the PR description, which
+  # becomes the squash commit's body.
+  high_level_summary_in_walkthrough: true
+  auto_review:
+    enabled: true
+    drafts: false # the draft is for the local cross-review
+    auto_incremental_review: false # one review per PR; later pushes get none
+    labels:
+      - "!skip-review" # a PR labeled skip-review gets no automatic review
+    ignore_usernames:
+      - "dependabot[bot]" # grouped version bumps; CI checks them
+  path_filters:
+    - "!.scratch/**"
+    - "!**/bun.lock" # CodeRabbit's defaults skip bun.lockb, not the text lockfile
+  tools:
+    # CI runs these with the repo's own config; a second report is noise.
+    markdownlint:
+      enabled: false
+    biome:
+      enabled: false
+    # Flags project names and RouterOS terms; cspell owns spelling.
+    languagetool:
+      enabled: false
