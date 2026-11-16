@@ -19,6 +19,11 @@ Add detail as indented lines only when needed. Move finished items to *Done* (or
       plus a CodeRabbit config (no draft or incremental reviews, `!skip-review`) and a
       `.github/pull_request_template.md`. Update the flow above and AGENTS.md then.
       (#21 decisions, 2026-11-15)
+- [ ] [github] Adopt `tikoci-github` here: a SECURITY.md, Dependabot security updates, delete
+      branches on merge, the `skip-review` label, and the CodeQL default setup on the Extended
+      suite (Default now). After the actions are pinned (the [deps] item), switch the workflow
+      token default to read (both workflows already declare `permissions:`) and require SHA
+      pins. (#21, 3c)
 - [ ] [deps] Adopt `tikoci-dependencies` here: add `.github/dependabot.yml`
       (`github-actions`, weekly, grouped), then pin the workflows' actions
       (`oven-sh/setup-bun@v2` and the rest) to commit SHAs. (#21, 3b)

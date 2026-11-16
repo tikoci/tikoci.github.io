@@ -1,0 +1,43 @@
+# Sources
+
+The rules in [tikoci-github](../SKILL.md) come from the November 2026 survey of
+tikoci instruction files and skills, the live settings of six tikoci repos
+(read with the commands in [settings.md](settings.md) on 2026-11-15), and
+GitHub's documentation. Row ids refer to
+[2026-11-survey.tsv](https://github.com/tikoci/tikoci.github.io/blob/main/docs/house/2026-11-survey.tsv);
+settled disagreements are in
+[2026-11-conflicts.tsv](https://github.com/tikoci/tikoci.github.io/blob/main/docs/house/2026-11-conflicts.tsv).
+Planning: Phase 3 of [issue #21](https://github.com/tikoci/tikoci.github.io/issues/21).
+
+## Rules
+
+| Rule | Rows | Notes |
+| --- | --- | --- |
+| Repos in the org | user-05 | |
+| Squash merge only; delete merged branches | site-06, quickchr-012 | Live: quickchr is squash-only with branch deletion; centrs, rosetta, routeros-skills and restraml allow all three merge methods. Settles `merge-method`. |
+| `skip-review` label | centrs-07 | centrs label description, reused. |
+| Audit before going public; synthetic fixtures | user-62 | |
+| Classic protection with conversation resolution | centrs-42, rskills-01, quickchr-013 | Live: centrs, quickchr, rosetta, routeros-skills and this repo use classic protection with conversation resolution; only routeros-skills also requires a PR. restraml has no protection on `main` (its one ruleset includes no branches). |
+| Classic, not a ruleset, while workflows push | site-14 | GitHub rulesets: conversation resolution is an option of "Require a pull request", and the bypass list takes roles, teams, GitHub Apps and Dependabot, not `GITHUB_TOKEN` ([available rules](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets), [creating rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/creating-rulesets-for-a-repository)). |
+| Copilot once, via a ruleset | centrs-41 | Live: centrs, quickchr and rosetta have the "Code Quality Copilot review for default branch" ruleset with `review_on_push: false` and `review_draft_pull_requests: false`. |
+| Secret scanning and push protection | - | Settles `secret-scan` (maintainer, 2026-11-15). Repository push protection is off by default ([about push protection](https://docs.github.com/en/code-security/secret-scanning/introduction/about-push-protection)). Live: on everywhere except quickchr. |
+| Private vulnerability reporting | rskills-11 | Live: on in all six repos. |
+| Dependabot alerts and security updates; no Bun | rskills-13, restraml-17 | Bun has version updates only, and the dependency graph does not list Bun ([supported ecosystems](https://docs.github.com/en/code-security/dependabot/ecosystems-supported-by-dependabot/supported-ecosystems-and-repositories)). Live: security updates off in routeros-skills and this repo. |
+| CodeQL default setup, `actions` included, Extended suite | rskills-13, centrs-34, user-87 | Proposed in `codeql-setup`. Live: default setup in this repo, quickchr (Default suite) and routeros-skills (Extended); advanced `security-and-quality` workflows in centrs, rosetta and restraml. `security-and-quality` exists only in advanced setup ([query suites](https://docs.github.com/en/code-security/code-scanning/managing-your-code-scanning-configuration/codeql-query-suites)). |
+| Code Quality where enabled | user-88 | GA 2026-07-20 for Team and Enterprise Cloud ([changelog](https://github.blog/changelog/2026-07-20-github-code-quality-is-now-generally-available)); rosetta `SECURITY.md`: its AI findings are not readable through `gh`. |
+| Dependency review optional | rskills-13, restraml-17 | centrs `SECURITY.md` leaves it off for lack of Bun lockfile support; rosetta, routeros-skills and restraml run it with `fail-on-severity: high`. |
+| Read-only workflow token; no PR approval by Actions | restraml-35 | Live: all six default to `write`, none lets Actions approve. Settles `workflow-permissions` (proposed). [Security hardening](https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions). |
+| SHA pinning required by policy | quickchr-111, rskills-13 | Policy added 2025-08-15 ([changelog](https://github.blog/changelog/2025-08-15-github-actions-policy-now-supports-blocking-and-sha-pinning-actions/)). Live: off everywhere. Workflow lockfiles (`actions.lock`, public preview since 2026-10-14) may replace inline SHAs later. |
+| Fork PR approval | - | GitHub's default ([org Actions settings](https://docs.github.com/en/organizations/managing-organization-settings/disabling-or-limiting-github-actions-for-your-organization)). |
+| Zero open alerts; dismiss with a reason | centrs-34, user-64, user-65, user-87 | |
+| In-code suppressions do not work | centrs-36 | centrs PR #233 (CodeQL 2.26.2). |
+| Alerts by merge ref; SARIF code flows | centrs-36 | |
+| Code Quality not in the alert API | user-88 | |
+| Two false positives | centrs-37 | centrs `github-security-quality.instructions.md`. |
+| SECURITY.md shape | rskills-11, rskills-13, centrs-34 | All five surveyed `SECURITY.md` files use Reporting, Scope, Code scanning, Supported versions. Absorbs the user-level `tikoci-security-md` skill. |
+| Token order | site-14, rosetta-37, user-76 | Settles `github-token-order`. |
+| One API helper | rosetta-37 | rosetta `src/github.ts` (`fetchGitHub()`, `githubApiHeaders()`); `fetch-helper` in the conflicts table. |
+
+Not taken here: user-89 (running the CodeQL code-quality suite locally)
+stays with the operator's tools. rosetta's `copilot-gate.yml`, which fails a
+check while Copilot's review is pending, is a repo choice.

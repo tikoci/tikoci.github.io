@@ -10,6 +10,8 @@ bunx # run a package binary through Bun, https://bun.com/docs/cli/bunx
 CDB # WinBox address book format
 centrs # tikoci RouterOS CLI and library, https://github.com/tikoci/centrs
 CMR # MikroTik's controller for RouterOS fleets
+coderabbit # CodeRabbit config and file names (.coderabbit.yaml)
+coderabbitai # CodeRabbit's GitHub handle, as in @coderabbitai
 commondir
 crossref
 cwd
@@ -22,6 +24,7 @@ libsecret
 LLM
 llms
 LOCALAPPDATA
+lockfiles
 lsbridge
 lsp
 MCP # Model Context Protocol
@@ -44,6 +47,7 @@ routeros
 rsc # RouterOS script file extension
 rskills
 sandboxed
+SARIF # Static Analysis Results Interchange Format, code scanning's upload format
 secretlint # secret scanner, https://github.com/secretlint/secretlint
 sed # stream editor (POSIX)
 shellcheck # shell script linter, https://www.shellcheck.net/
@@ -59,6 +63,7 @@ tsc
 uid
 UNC
 unparseable
+unpushed
 unvalidated
 USERPROFILE
 usr
