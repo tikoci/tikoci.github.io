@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-15T22:53:57.498Z",
+  "generatedAt": "2026-11-16T02:48:03.877Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,7 +10,7 @@
     "otherHttpCalls": 11,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4825
+    "rateLimitRemaining": 4803
   },
   "sources": {
     "ros-current": "https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel> (MikroTik upgrade feed; body \"<version> <build-ts>\")",
@@ -1623,8 +1623,8 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 23,
-            "owner": 23,
+            "total": 24,
+            "owner": 24,
             "external": 0,
             "bot": 0
           },
@@ -1639,13 +1639,29 @@
           }
         },
         "page": {
-          "fetched": 25,
+          "fetched": 26,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 668,
+            "title": "discover/mndp: update the MNDP codec to the grounded wire map (TLV 14 is IPv6, header counter, TLVs 2–4/9/18/19)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/668",
+            "createdAt": "2026-11-16T02:18:39Z",
+            "updatedAt": "2026-11-16T02:35:53Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement",
+              "cmd-discover"
+            ],
+            "milestone": null
+          },
           {
             "number": 666,
             "title": "Installed centrs reads CENTRS_* from the working directory's .env (Bun auto-load)",
@@ -1787,22 +1803,6 @@
               "proto-mac-telnet"
             ],
             "milestone": null
-          },
-          {
-            "number": 621,
-            "title": "Tip when a CDB record still uses legacy port=",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/issues/621",
-            "createdAt": "2026-11-04T01:29:48Z",
-            "updatedAt": "2026-11-11T21:43:38Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "UX",
-              "agent-ready"
-            ],
-            "milestone": null
           }
         ]
       },
@@ -1810,7 +1810,7 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 23,
+        "totalIssues": 24,
         "totalPRs": 2,
         "truncated": false,
         "byLabel": {},
@@ -2568,23 +2568,36 @@
             "bot": 0
           },
           "prs": {
-            "total": 5,
-            "owner": 3,
+            "total": 6,
+            "owner": 4,
             "external": 2,
             "bot": 0,
             "ownerReady": 2,
-            "ownerDraft": 1,
+            "ownerDraft": 2,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 25,
+          "fetched": 26,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 60,
+            "title": "docs(routeros-mndp): apply the grounded MNDP wire map (header, TLVs 1–19)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/pull/60",
+            "createdAt": "2026-11-16T02:18:17Z",
+            "updatedAt": "2026-11-16T02:41:25Z",
+            "isPR": true,
+            "draft": true,
+            "labels": [],
+            "milestone": null
+          },
           {
             "number": 59,
             "title": "docs: add routeros-cmr to README table and fix two reference TOCs",
@@ -2716,21 +2729,6 @@
               "skill:new"
             ],
             "milestone": null
-          },
-          {
-            "number": 47,
-            "title": "Config-skill triage — decided (do not re-triage)",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/routeros-skills/issues/47",
-            "createdAt": "2026-11-02T02:25:32Z",
-            "updatedAt": "2026-11-07T19:18:52Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "triage:accepted"
-            ],
-            "milestone": null
           }
         ]
       },
@@ -2739,7 +2737,7 @@
         "openIssues": 0,
         "openPRs": 2,
         "totalIssues": 20,
-        "totalPRs": 5,
+        "totalPRs": 6,
         "truncated": false,
         "byLabel": {
           "blocked:grounding": 1
@@ -3122,36 +3120,23 @@
             "bot": 0
           },
           "prs": {
-            "total": 1,
-            "owner": 1,
+            "total": 0,
+            "owner": 0,
             "external": 0,
             "bot": 0,
             "ownerReady": 0,
-            "ownerDraft": 1,
+            "ownerDraft": 0,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 2,
+          "fetched": 1,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
-          {
-            "number": 4,
-            "title": "docs(mndp): ground the MNDP wire map (header, TLVs 1–19, versions, timing)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/m2ir/pull/4",
-            "createdAt": "2026-11-15T19:48:57Z",
-            "updatedAt": "2026-11-15T22:25:26Z",
-            "isPR": true,
-            "draft": true,
-            "labels": [],
-            "milestone": null
-          },
           {
             "number": 3,
             "title": "Ground MNDP unpack TLV, unidentified MNDP values, and IP packing frames",
@@ -3172,7 +3157,7 @@
         "openIssues": 0,
         "openPRs": 0,
         "totalIssues": 1,
-        "totalPRs": 1,
+        "totalPRs": 0,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -3603,7 +3588,7 @@
       "repos": [
         "routeros-skills"
       ],
-      "summary": "routeros-skills: 2 open maintainer PRs (1 draft excluded)",
+      "summary": "routeros-skills: 2 open maintainer PRs (2 drafts excluded)",
       "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
       "evidence": [
         "repos.routeros-skills.work.counts.prs.ownerReady=2"

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "centrs",
-  "generatedAt": "2026-11-15T22:53:57.498Z",
+  "generatedAt": "2026-11-16T02:48:03.877Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,8 +9,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 23,
-        "owner": 23,
+        "total": 24,
+        "owner": 24,
         "external": 0,
         "bot": 0
       },
@@ -25,13 +25,29 @@
       }
     },
     "page": {
-      "fetched": 25,
+      "fetched": 26,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 668,
+        "title": "discover/mndp: update the MNDP codec to the grounded wire map (TLV 14 is IPv6, header counter, TLVs 2–4/9/18/19)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/issues/668",
+        "createdAt": "2026-11-16T02:18:39Z",
+        "updatedAt": "2026-11-16T02:35:53Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "cmd-discover"
+        ],
+        "milestone": null
+      },
       {
         "number": 666,
         "title": "Installed centrs reads CENTRS_* from the working directory's .env (Bun auto-load)",

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "m2ir",
-  "generatedAt": "2026-11-15T22:53:57.498Z",
+  "generatedAt": "2026-11-16T02:48:03.877Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -15,36 +15,23 @@
         "bot": 0
       },
       "prs": {
-        "total": 1,
-        "owner": 1,
+        "total": 0,
+        "owner": 0,
         "external": 0,
         "bot": 0,
         "ownerReady": 0,
-        "ownerDraft": 1,
+        "ownerDraft": 0,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 2,
+      "fetched": 1,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
-      {
-        "number": 4,
-        "title": "docs(mndp): ground the MNDP wire map (header, TLVs 1–19, versions, timing)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/m2ir/pull/4",
-        "createdAt": "2026-11-15T19:48:57Z",
-        "updatedAt": "2026-11-15T22:25:26Z",
-        "isPR": true,
-        "draft": true,
-        "labels": [],
-        "milestone": null
-      },
       {
         "number": 3,
         "title": "Ground MNDP unpack TLV, unidentified MNDP values, and IP packing frames",
