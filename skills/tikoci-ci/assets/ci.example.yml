@@ -79,7 +79,7 @@ jobs:
         os: [ubuntu-latest]
         # os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -99,6 +99,9 @@ jobs:
       # does not: test both branches, or run the Windows leg under `shell:
       # pwsh` (tikoci-ci, "Every workflow").
       - name: Unit tests
+        # Under the job's 15, so a hung test fails this step and the summary
+        # and upload still run (tikoci-ci, "Timeouts nest").
+        timeout-minutes: 10
         env:
           SCRIPT: ${{ runner.os == 'Linux' && 'test:coverage' || 'test' }}
         run: bun run "$SCRIPT" 2>&1 | tee "$RUNNER_TEMP/unit-output.txt"

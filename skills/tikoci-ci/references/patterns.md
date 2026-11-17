@@ -383,9 +383,18 @@ from before and after a release stay apart.
       if [ -z "$RETRY_ISSUE" ] || [[ " $RETRY_FILES " != *" $f "* ]]; then
         record "$f" 1 failed; status=1; continue
       fi
-      # Attempt 1 may have left a machine or a held port behind.
+      # Attempt 1 may have left a machine or a held port behind. Reap it,
+      # wait for it to exit (SIGKILL after 30 s), and skip the retry when
+      # it will not go, since attempt 2 would measure the leftovers.
       reaped=$(pgrep -fc qemu-system || true)
       pkill -f qemu-system || true
+      for _ in $(seq 30); do pgrep -f qemu-system >/dev/null || break; sleep 1; done
+      pkill -KILL -f qemu-system || true
+      for _ in $(seq 5); do pgrep -f qemu-system >/dev/null || break; sleep 1; done
+      if pgrep -f qemu-system >/dev/null; then
+        echo "::warning title=Not retried (#$RETRY_ISSUE)::$f failed and its QEMU did not exit"
+        record "$f" 1 failed-leftovers; status=1; continue
+      fi
       echo "::warning title=Retried (#$RETRY_ISSUE)::$f failed; reaped $reaped QEMU process(es) and running it once more"
       rc=0
       timeout --kill-after=30s "$FILE_CAP" bun test "$f" 2>&1 | tee -a "$out" || rc=$?

@@ -296,7 +296,8 @@ asks for.
   ignores SIGTERM eats the step's budget and every later file's record.
   Budget the step for the retried files' second run, and reap leftover
   machines before it, so attempt 2 does not fail, or pass, on attempt 1's
-  leftovers.
+  leftovers; wait until they have exited, and skip the retry when they
+  will not.
 - **Clearing a read flake is a rerun, tracked in an issue.** Without a
   standing retry, a red scheduled sweep can freeze merges in a repo whose
   `main`-health check reads it, and a sweep that skips unchanged nights
