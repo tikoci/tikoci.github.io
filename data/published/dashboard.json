@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-17T14:32:08.544Z",
+  "generatedAt": "2026-11-17T22:56:33.643Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,7 +10,7 @@
     "otherHttpCalls": 11,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4836
+    "rateLimitRemaining": 4837
   },
   "sources": {
     "ros-current": "https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel> (MikroTik upgrade feed; body \"<version> <build-ts>\")",
@@ -799,8 +799,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "954251ca10f9f9dfeeff1621079a030e58a4b32f",
-        "headUrl": "https://github.com/tikoci/quickchr/commit/954251ca10f9f9dfeeff1621079a030e58a4b32f",
+        "headSha": "939f87806339bc2e4b22b5771817987f4347728e",
+        "headUrl": "https://github.com/tikoci/quickchr/commit/939f87806339bc2e4b22b5771817987f4347728e",
         "workflows": [
           {
             "configured": "CI",
@@ -812,11 +812,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "954251ca10f9f9dfeeff1621079a030e58a4b32f",
+            "headSha": "939f87806339bc2e4b22b5771817987f4347728e",
             "event": "push",
-            "runStartedAt": "2026-11-17T11:19:43Z",
-            "lastUpdatedAt": "2026-11-17T11:22:45Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/44073010587",
+            "runStartedAt": "2026-11-17T18:46:43Z",
+            "lastUpdatedAt": "2026-11-17T18:50:01Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/44151490393",
             "isHead": true
           },
           {
@@ -851,7 +851,7 @@
             "runStartedAt": "2026-11-17T13:28:41Z",
             "lastUpdatedAt": "2026-11-17T13:28:53Z",
             "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/44093101650",
-            "isHead": true
+            "isHead": false
           }
         ]
       },
@@ -882,6 +882,24 @@
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 283,
+            "title": "credentials: decide how (or whether) MikroTik.com license credentials use the OS keychain (Bun.secrets) — hang risk for agents",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/283",
+            "createdAt": "2026-11-17T17:19:02Z",
+            "updatedAt": "2026-11-17T17:19:02Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "area:provisioning",
+              "area:library-api",
+              "P3",
+              "needs-decision"
+            ],
+            "milestone": null
+          },
           {
             "number": 280,
             "title": "provisioning: add a managed, batch-verified SSH key to an already-booted machine (set --ssh-key)",
@@ -1042,24 +1060,6 @@
               "P3",
               "needs-decision",
               "consumer:app-t3code"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 263,
-            "title": "research: managed host networks on Linux and Windows (privileged once, unprivileged machines)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/263",
-            "createdAt": "2026-11-11T13:43:11Z",
-            "updatedAt": "2026-11-11T13:43:11Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "area:networking",
-              "P3",
-              "research",
-              "platform:windows"
             ],
             "milestone": null
           }
@@ -1614,12 +1614,12 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "6acbe2ea8a9da322c19f2126fdc7ed5b7995fa72",
+            "headSha": "80a6f9f12196b3ef84d1038a08b9aba04b315f66",
             "event": "schedule",
-            "runStartedAt": "2026-11-16T13:51:09Z",
-            "lastUpdatedAt": "2026-11-16T13:51:21Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/43879778199",
-            "isHead": false
+            "runStartedAt": "2026-11-17T14:43:03Z",
+            "lastUpdatedAt": "2026-11-17T15:23:17Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/44106160965",
+            "isHead": true
           }
         ]
       },
@@ -3602,24 +3602,6 @@
       ]
     },
     {
-      "id": "ci-run-not-head:centrs:QA",
-      "rule": "ci-run-not-head",
-      "severity": "info",
-      "category": "ci",
-      "repos": [
-        "centrs"
-      ],
-      "summary": "centrs: QA latest run is not on the current head commit",
-      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
-      "evidence": [
-        "repos.centrs.ci.workflows[QA].headSha=6acbe2ea8a9da322c19f2126fdc7ed5b7995fa72",
-        "repos.centrs.ci.headSha=80a6f9f12196b3ef84d1038a08b9aba04b315f66"
-      ],
-      "urls": [
-        "https://github.com/tikoci/centrs/actions/runs/43879778199"
-      ]
-    },
-    {
       "id": "ci-run-not-head:centrs:Release",
       "rule": "ci-run-not-head",
       "severity": "info",
@@ -3667,10 +3649,28 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.quickchr.ci.workflows[Release].headSha=faac68793245d16afbd8b89e928754a102b5e4cb",
-        "repos.quickchr.ci.headSha=954251ca10f9f9dfeeff1621079a030e58a4b32f"
+        "repos.quickchr.ci.headSha=939f87806339bc2e4b22b5771817987f4347728e"
       ],
       "urls": [
         "https://github.com/tikoci/quickchr/actions/runs/42367380248"
+      ]
+    },
+    {
+      "id": "ci-run-not-head:quickchr:RouterOS-Versions",
+      "rule": "ci-run-not-head",
+      "severity": "info",
+      "category": "ci",
+      "repos": [
+        "quickchr"
+      ],
+      "summary": "quickchr: RouterOS Versions latest run is not on the current head commit",
+      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
+      "evidence": [
+        "repos.quickchr.ci.workflows[RouterOS Versions].headSha=954251ca10f9f9dfeeff1621079a030e58a4b32f",
+        "repos.quickchr.ci.headSha=939f87806339bc2e4b22b5771817987f4347728e"
+      ],
+      "urls": [
+        "https://github.com/tikoci/quickchr/actions/runs/44093101650"
       ]
     },
     {

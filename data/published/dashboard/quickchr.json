@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-17T14:32:08.544Z",
+  "generatedAt": "2026-11-17T22:56:33.643Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -91,6 +91,24 @@
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 283,
+        "title": "credentials: decide how (or whether) MikroTik.com license credentials use the OS keychain (Bun.secrets) — hang risk for agents",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/283",
+        "createdAt": "2026-11-17T17:19:02Z",
+        "updatedAt": "2026-11-17T17:19:02Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "area:provisioning",
+          "area:library-api",
+          "P3",
+          "needs-decision"
+        ],
+        "milestone": null
+      },
       {
         "number": 280,
         "title": "provisioning: add a managed, batch-verified SSH key to an already-booted machine (set --ssh-key)",
@@ -271,25 +289,6 @@
           "platform:windows"
         ],
         "milestone": null
-      },
-      {
-        "number": 261,
-        "title": "license: add has no --license-level, start ignores the stored credential, and --level unlimited is rejected by RouterOS",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/261",
-        "createdAt": "2026-11-08T05:11:48Z",
-        "updatedAt": "2026-11-17T03:19:19Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "area:cli",
-          "area:provisioning",
-          "P2",
-          "consumer:app-t3code"
-        ],
-        "milestone": "next"
       },
       {
         "number": 258,
