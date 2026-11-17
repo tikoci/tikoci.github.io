@@ -51,6 +51,7 @@ noninteractive # DEBIAN_FRONTEND=noninteractive for apt-get
 noprofile # bash --noprofile
 norc # bash --norc
 NUL
+OCI
 Oid # GitHub object id, as in headRefOid
 ONESHELL # GNU make special target: one shell per recipe
 pgrep
