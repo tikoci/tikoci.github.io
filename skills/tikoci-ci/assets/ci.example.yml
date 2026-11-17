@@ -155,7 +155,8 @@ jobs:
   # when it is not.
   report:
     name: Report the scheduled run
-    if: ${{ always() && github.event_name == 'schedule' }}
+    # !cancelled(): a cancelled run is neither red nor green.
+    if: ${{ !cancelled() && github.event_name == 'schedule' }}
     needs: [gate]
     runs-on: ubuntu-latest
     timeout-minutes: 5

@@ -165,6 +165,12 @@ smoke:
         bun-version-file: package.json
     - name: Install dependencies
       run: bun install --frozen-lockfile
+    # Name the tool's data root here, so the cache step and the tool cannot
+    # disagree whatever the default is this year (tikoci-home moves it).
+    # quickchr reads QUICKCHR_DATA_DIR and caches in <root>/cache; a tool on
+    # tikoci-home reads TIKOCI_CACHE_DIR. Outside a dot directory, too.
+    - name: Set the data root
+      run: echo "QUICKCHR_DATA_DIR=$RUNNER_TEMP/quickchr" >> "$GITHUB_ENV"
     # The repo's resolver: a channel in, `version=<x.y.z>` out to
     # $GITHUB_OUTPUT (centrs scripts/chr-cache-key.ts, quickchr
     # scripts/ci-cache-key.ts). The cache key and the boot use this version.
@@ -177,7 +183,7 @@ smoke:
     - name: Restore the CHR image cache
       uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
-        path: ~/.local/share/quickchr/cache
+        path: ${{ env.QUICKCHR_DATA_DIR }}/cache
         key: chr-images-v1-${{ runner.os }}-${{ steps.resolve.outputs.version }}
     - name: Prefetch the CHR image
       env:
@@ -210,9 +216,9 @@ smoke:
           tail -n 40 "$RUNNER_TEMP/smoke-output.txt"
           echo '```'
         } >> "$GITHUB_STEP_SUMMARY"
-    # Add the tool's machine logs and failure files to `path`. A data root
-    # under a dot directory needs include-hidden-files, or the upload is
-    # silently empty.
+    # The machine logs and failure files are under the data root; leave the
+    # image cache out. include-hidden-files keeps any dot path the tool
+    # writes, or the upload is silently thinner.
     - name: Upload diagnostics
       if: ${{ failure() }}
       uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
@@ -221,6 +227,8 @@ smoke:
         path: |
           ${{ runner.temp }}/smoke-output.txt
           ${{ runner.temp }}/kvm-probe.log
+          ${{ env.QUICKCHR_DATA_DIR }}
+          !${{ env.QUICKCHR_DATA_DIR }}/cache
         include-hidden-files: true
         retention-days: 7
 ````
@@ -367,49 +375,59 @@ from before and after a release stay apart.
         "$1" "$2" "$3" "$EXAMPLE_ROUTEROS" "$RUNNER_OS" "$RUNNER_ARCH" "$RETRY_ISSUE" "$GITHUB_RUN_ID" "$GITHUB_RUN_ATTEMPT" \
         >> "$RUNNER_TEMP/files.ndjson"
     }
+    classify() {
+      case "$1" in
+        124|137) echo timed-out ;;                    # timeout, then its SIGKILL
+        *) if [ "$1" -gt 128 ]; then echo killed; else echo failed; fi ;;
+      esac
+    }
+    # A failed file can leave its VM running: quickchr detaches QEMU, so
+    # killing `bun test` does not stop it. Stop it (SIGKILL after 30 s) and
+    # answer non-zero when it will not exit.
+    reap() {
+      pgrep -f qemu-system >/dev/null || return 0
+      echo "::warning::reaping $(pgrep -fc qemu-system || true) QEMU process(es) left by $f"
+      pkill -f qemu-system || true
+      for _ in $(seq 30); do pgrep -f qemu-system >/dev/null || return 0; sleep 1; done
+      pkill -KILL -f qemu-system || true
+      for _ in $(seq 5); do pgrep -f qemu-system >/dev/null || return 0; sleep 1; done
+      return 1
+    }
+    stuck() {
+      echo "::error::QEMU left by $f did not exit; stopping, so no later file is measured beside it"
+    }
     status=0
     for f in test/integration/*.test.ts; do
       rc=0
       timeout --kill-after=30s "$FILE_CAP" bun test "$f" 2>&1 | tee -a "$out" || rc=$?
       if [ "$rc" -eq 0 ]; then record "$f" 1 passed; continue; fi
-      # A hang (124, or 137 after the SIGKILL) or a death by any other
-      # signal is never retried, and only the files the issue names are.
-      if [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
-        record "$f" 1 timed-out; status=1; continue
+      first=$(classify "$rc")
+      # After every failure: reap, and stop the sweep when the reap fails.
+      if ! reap; then record "$f" 1 "$first"; status=1; stuck; break; fi
+      # Only an ordinary failure of a file the open issue names is retried,
+      # never a hang or a kill.
+      if [ "$first" != failed ] || [ -z "$RETRY_ISSUE" ] || [[ " $RETRY_FILES " != *" $f "* ]]; then
+        record "$f" 1 "$first"; status=1; continue
       fi
-      if [ "$rc" -gt 128 ]; then
-        record "$f" 1 killed; status=1; continue
-      fi
-      if [ -z "$RETRY_ISSUE" ] || [[ " $RETRY_FILES " != *" $f "* ]]; then
-        record "$f" 1 failed; status=1; continue
-      fi
-      # Attempt 1 may have left a machine or a held port behind. Reap it,
-      # wait for it to exit (SIGKILL after 30 s), and skip the retry when
-      # it will not go, since attempt 2 would measure the leftovers.
-      reaped=$(pgrep -fc qemu-system || true)
-      pkill -f qemu-system || true
-      for _ in $(seq 30); do pgrep -f qemu-system >/dev/null || break; sleep 1; done
-      pkill -KILL -f qemu-system || true
-      for _ in $(seq 5); do pgrep -f qemu-system >/dev/null || break; sleep 1; done
-      if pgrep -f qemu-system >/dev/null; then
-        echo "::warning title=Not retried (#$RETRY_ISSUE)::$f failed and its QEMU did not exit"
-        record "$f" 1 failed-leftovers; status=1; continue
-      fi
-      echo "::warning title=Retried (#$RETRY_ISSUE)::$f failed; reaped $reaped QEMU process(es) and running it once more"
+      echo "::warning title=Retried (#$RETRY_ISSUE)::$f failed; running it once more"
       rc=0
       timeout --kill-after=30s "$FILE_CAP" bun test "$f" 2>&1 | tee -a "$out" || rc=$?
       if [ "$rc" -eq 0 ]; then outcome=passed-on-retry; else outcome=failed-twice; status=1; fi
       record "$f" 2 "$outcome"
       echo "- \`$f\`: $outcome (#$RETRY_ISSUE)" >> "$GITHUB_STEP_SUMMARY"
+      if [ "$rc" -ne 0 ] && ! reap; then stuck; break; fi
     done
     exit "$status"
 ```
 
 Under `shell: bash` the pipeline's status is `timeout`'s, which is
-`bun test`'s, 124, or 137 after the SIGKILL, not `tee`'s. `timeout` is GNU coreutils: a Linux runner
-has it, a macOS runner needs `gtimeout` or the tool's own per-file
-watchdog. `pkill` there reaps every QEMU on the runner; with a tool that
-names its machines, remove only those.
+`bun test`'s, 124, or 137 after the SIGKILL, not `tee`'s. `timeout` is GNU
+coreutils: a Linux runner has it, a macOS runner needs `gtimeout` or the
+tool's own per-file watchdog. `pkill` there reaps every QEMU on the runner;
+with a tool that names its machines, remove only those. A reap that cannot
+confirm a clean runner stops the loop, as quickchr's file watchdog does
+(#77): running the remaining files beside a live VM turns one cause into a
+string of misleading failures.
 
 Prefer the tool's own evidence writer when it has one: centrs integration
 tests append JSONL to `CENTRS_INTEGRATION_REPORT` (`recordIntegrationEvidence`
@@ -421,11 +439,10 @@ outcome and attempts, and is the whole record in a repo with neither.
 `attempts` counts the loop's tries; `runAttempt` is the workflow attempt,
 which a rerun of failed jobs increments while `run` stays the same, so a
 history keyed on file, platform, version, run and `runAttempt` keeps the
-red attempt beside the rerun that cleared it.
-Upload `files.ndjson` as an artifact, or fold it into the history the sweep
-already keeps (centrs `qa-history`, quickchr `ci-data`). `passed-on-retry` over all
-records for a file, per RouterOS version and platform, is the flake rate
-the issue needs; when it has enough data, the issue closes with a fix, and
+red attempt beside the rerun that cleared it. Upload `files.ndjson` as an
+artifact, or fold it into the history the sweep already keeps (centrs
+`qa-history`, quickchr `ci-data`). `passed-on-retry` over all records for a
+file, per RouterOS version and platform, is the flake rate the issue needs; when it has enough data, the issue closes with a fix, and
 the retry list empties.
 
 ## Failure evidence

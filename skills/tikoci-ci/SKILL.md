@@ -139,9 +139,7 @@ zizmor, and that is complete.
 - **One gate job is the required check** (`CI gate` in the example): it
   `needs` every job and fails if any failed or was cancelled. Branch
   protection names one stable check whatever the matrix holds; whether to
-  require it at all is `tikoci-github`'s rule about bot pushes. centrs
-  requires its checks by name instead (six, one per matrix aggregate); a
-  gate is the preferred path, not yet its practice.
+  require it at all is `tikoci-github`'s rule about bot pushes.
 - **A `main`-health check stays outside the gate**, as its own required
   check, so a red `CI gate` always means the PR broke something, and an
   agent waiting on the gate never chases a failure that lives on `main`.
@@ -151,12 +149,12 @@ zizmor, and that is complete.
   integration workflow on its branch and, where the check reads one,
   carries its override label (centrs `fixes-main`), which passes the health
   check and keeps every other required check. Without a label (quickchr's
-  `Integration freshness` reads none), an admin merge, which skips them all,
-  is the path (`tikoci-github`). The check says which runs count: centrs counts only
-  scheduled sweeps, while quickchr counts any completed `main.yml` run on
-  `main`, so a dispatched run on `main` there is a manual refresh. A
-  latest-Bun run never feeds it: keep that leg in a workflow or job the
-  check does not read.
+  `Integration freshness` reads none), an admin merge, which skips them
+  all, is the path (`tikoci-github`). The check says which runs count:
+  centrs counts only scheduled sweeps, while quickchr counts any completed
+  `main.yml` run on `main`, so a dispatched run on `main` there is a manual
+  refresh. A latest-Bun run never feeds it: keep that leg in a workflow or
+  job the check does not read.
 
 ## The Bun version
 
@@ -183,9 +181,10 @@ default for a tool that runs on its users' Bun.
   integration, lab), empty by default, taking `latest` or an exact
   version. Release and deploy workflows build on the pin only: no input,
   no `BUN_VERSION`, and a release that calls the QA sweep passes no Bun
-  override, so nothing published is built on an unpinned Bun. It is how a Bun bump is tried before the pin moves, and how a
-  "breaks on Bun X" report is reproduced. Good dispatch inputs are the core
-  of this rule; see "Dispatch for QA".
+  override, so nothing published is built on an unpinned Bun. It is how a
+  Bun bump is tried before the pin moves, and how a "breaks on Bun X"
+  report is reproduced. Good dispatch inputs are the core of this rule; see
+  "Dispatch for QA".
 - **A weekly scheduled CI run on `latest`, for a tool that runs on its
   users' Bun**: a CLI or library people install with `bunx` or npm (centrs,
   quickchr), where a developer machine or sandbox brings whatever Bun it
@@ -219,8 +218,7 @@ default for a tool that runs on its users' Bun.
   the workflow level, as one of the two expressions above, with no job or
   step `env:` redefining it; otherwise a PR could set it to anything and
   still pass. In a release or deploy workflow it rejects `BUN_VERSION`
-  outright. rosetta, restraml and vscode-tikbook install `latest` on every
-  run today and move to the pin on adoption.
+  outright.
 
 ## Dispatch for QA
 
@@ -278,26 +276,29 @@ asks for.
   sometimes is a bug to find, and a red sweep leg is something to read.
 - **A retry is an investigation tool.** While an open issue investigates a
   flake in a device sweep's legs, the sweep may retry the files that issue
-  names once, to collect data without
-  losing the rest of the sweep's signal. The issue says what data would
-  close it, and the retry goes when it closes. The recipe is in
-  patterns.md.
+  names once, to collect data without losing the rest of the sweep's
+  signal. The issue says what data would close it, and the retry goes when
+  it closes. The recipe is in patterns.md.
 - **Every file writes a record each run**, not only the retried ones: file,
   attempts, outcome, the RouterOS version the device reports rather than
-  the channel, platform, run, workflow attempt and issue. Prefer the tool's own evidence
-  writer (centrs `CENTRS_INTEGRATION_REPORT`) and add what it lacks: a file
-  that fails before it writes still needs an outcome. Without the files that passed first
-  time there is no rate: 3 retries could be 3 of 4 runs or 3 of 400. Each
-  retry also gets a `::warning::` and a job summary line.
+  the channel, platform, run, workflow attempt and issue. Prefer the tool's
+  own evidence writer (centrs `CENTRS_INTEGRATION_REPORT`) and add what it
+  lacks: a file that fails before it writes still needs an outcome. Without
+  the files that passed first time there is no rate: 3 retries could be 3
+  of 4 runs or 3 of 400. Each retry also gets a `::warning::` and a job
+  summary line.
 - **Never retry a hang.** A timeout or watchdog kill, or any death by a
   signal, is a different failure from an assertion, and a retry doubles its
   worst case (quickchr's Intel Mac wedge hit the same file 7 times of 7). A
   per-file cap ends in SIGKILL (`timeout --kill-after`), or a test that
   ignores SIGTERM eats the step's budget and every later file's record.
-  Budget the step for the retried files' second run, and reap leftover
-  machines before it, so attempt 2 does not fail, or pass, on attempt 1's
-  leftovers; wait until they have exited, and skip the retry when they
-  will not.
+  Budget the step for the retried files' second run.
+- **Reap after every failure, and stop when the reap fails.** A tool that
+  detaches its VMs (quickchr) leaves one running when `bun test` dies, and
+  the next file, or the retry, fails or passes beside it. Stop leftover
+  machines after each failed file, wait until they have exited, and end the
+  loop with an `::error::` when they will not (quickchr's file watchdog,
+  #77).
 - **Clearing a read flake is a rerun, tracked in an issue.** Without a
   standing retry, a red scheduled sweep can freeze merges in a repo whose
   `main`-health check reads it, and a sweep that skips unchanged nights
@@ -306,14 +307,6 @@ asks for.
   (`gh run rerun <id> --failed`): attempt 1's logs stay, the records carry
   the attempt, and the health check reads the run's latest attempt. A rerun
   nobody read first is a retry by hand.
-- **centrs, on adoption**: `qa.yaml` retries every failed file once on its
-  Linux legs, must-pass `stable` and `long-term` included, with annotations
-  only (its Windows and Intel Mac legs are dispatch-only and
-  `continue-on-error`). It opens an issue for whichever must-pass files
-  actually flake and scopes the retry to them, or drops it; checks that
-  `Main health` reads a rerun's latest attempt; and adds the records after
-  its `qa-history` writer folds instead of rebasing (patterns.md, "Bot data
-  on a side branch"), or overlapping runs drop records.
 - **Best-effort legs** (pre-release channels in centrs) are declared in one
   policy place, use `continue-on-error`, and record their failures. A gating
   job never has `continue-on-error`.
@@ -380,6 +373,13 @@ pointer, not a settled rule; the logic is in patterns.md ("A RouterOS
 - **Read a failure in order**: `gh run view <id> --log-failed`, the job
   summary, then `gh run download <id>`. One red run is a lead
   ([tikoci-grounding](https://tikoci.dev/house/skills/tikoci-grounding/SKILL.md)).
+
+## Adoption
+
+What each repo changes when it adopts, and the fixes the skill's reviews
+found in other repos, are in
+[references/adoption.md](references/adoption.md). They are point-in-time
+and leave as each repo adopts.
 
 ## Sources
 
