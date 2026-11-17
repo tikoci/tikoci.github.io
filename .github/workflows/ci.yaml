@@ -132,9 +132,14 @@ jobs:
             # GHSA-fc5q-39xc-vjpf (picomatch, high, ReDoS): every release is
             # affected (<=4.0.7, the latest, on 2026-11-17). It reaches only
             # lint tooling (cspell and markdownlint-cli2, dev-only; `bun audit
-            # --production` is clean), which matches globs from this repo's
-            # own config against its own files; the ReDoS needs an attacker's
-            # extglob pattern. Drop it once a fixed release lands.
+            # --production` is clean), which matches globs from the repo's
+            # config and .gitignore against its files. A PR can change those,
+            # so a crafted extglob can hang its own `check` run: an accepted
+            # risk, since that job already runs the PR's code (build.ts, the
+            # tests), with a read-only token, no secrets and a 10-minute
+            # timeout, and a first-time contributor's run needs approval.
+            # Nothing that ships uses picomatch. Drop it once a fixed release
+            # lands.
             --ignore=GHSA-fc5q-39xc-vjpf
           )
           status=0
