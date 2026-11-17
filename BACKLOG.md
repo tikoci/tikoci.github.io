@@ -15,17 +15,9 @@ Add detail as indented lines only when needed. Move finished items to *Done* (or
 
 ## Open
 
-- [ ] [settings] Apply the `tikoci-github` settings here (maintainer's go-ahead): delete
-      branches on merge, Dependabot security updates, the `skip-review` label, CodeQL default
-      setup on the Extended suite (then check its languages), and SECURITY.md's table updated to
-      match. Once the action pins are on
-      `main`: a read-only workflow token default and required SHA pins. (#21, 3c)
-- [ ] [deps] `bun audit` reports 16 advisories (10 high). Six (`bun audit --production`) are
-      `brace-expansion` under `curlconverter > yamljs > glob > minimatch`, a production
-      dependency bundled into the curl parser page; check whether that path is reachable in
-      the browser. The rest are dev tools (markdownlint-cli2's markdown-it and KaTeX, among
-      others). Upgrade the lockfile with its lint fixes in one PR, then run `bun audit` in CI
-      and update SECURITY.md. (#21, 3b)
+- [ ] [settings] Finish `tikoci-github` here: a read-only workflow token default and required
+      SHA-pinned actions (all pinned since #29; `upload-pages-artifact` pins its nested
+      `upload-artifact` by SHA too). Needs the maintainer's go-ahead. (#21, 3c)
 - [ ] [house] Adopt `tikoci-toolchain` (`@types/bun` matching the pin exactly), `tikoci-testing`
       and `tikoci-grounding` here, or note why not under House exceptions. (#21)
 - [ ] [lint] Adopt the `tikoci-linting` starting configs here: the stricter tsconfig (TypeScript 7
@@ -54,6 +46,12 @@ Add detail as indented lines only when needed. Move finished items to *Done* (or
 
 ## Done
 
+- [x] [settings] `tikoci-github` settings applied 2026-11-17: delete branches on merge,
+      Dependabot security updates, the `skip-review` label, CodeQL default setup on the
+      Extended suite. (#21, 3c)
+- [x] [deps] `bun audit` fixed: `brace-expansion` 1.1.21 (under `curlconverter`) and
+      markdownlint-cli2 0.24.1; CI runs `bun audit`, ignoring one unreachable low KaTeX
+      advisory with the reason in `ci.yaml`. (#21, 3b)
 - [x] [flow] Adopt `tikoci-pr-flow`: every change is a PR, `skip-review` label, CodeRabbit
       config and PR template. (#21, 3c)
 - [x] [deps] Adopt `tikoci-dependencies`: `.github/dependabot.yml` and SHA-pinned actions. (#21, 3b)
