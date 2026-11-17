@@ -156,8 +156,8 @@ Not adopted yet (BACKLOG.md): `tikoci-linting` configs, `tikoci-toolchain`,
   repo is the source.
 - `deploy-pages.yaml` does not run `bun audit` before it publishes
   (`tikoci-ci`, "Dependency audit"): it deploys hourly snapshots, and a new
-  advisory would stop data refreshes. The routine audit covers the site
-  (BACKLOG.md).
+  advisory would stop data refreshes. No scheduled audit covers the site
+  yet; the weekly run is open work (BACKLOG.md).
 
 ## Data contracts and deployment
 

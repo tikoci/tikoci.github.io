@@ -166,9 +166,13 @@ Keep the scanning list true: compare it with the check commands in
 - **Apply the settings first, then fill the table from the read-back**, not
   from the starting file, whose states are the house defaults
   (tikoci.github.io#29 listed two settings as enabled before they were).
+- **Rows about workflows are checked against the workflows.** The read-back
+  covers repository settings only; the zizmor and `bun audit` rows are true
+  only when the repo's CI, scheduled and release workflows run them.
 - **Some changes are not immediate.** Switching the CodeQL suite starts a
-  setup run, and the API reports the old `query_suite` until it finishes;
-  read it back before the PR that claims it merges.
+  setup run, and the API reports the old `query_suite` until it finishes.
+  Wait for that run to finish, check its result, then read `query_suite`
+  back before filling the table.
 
 ## GitHub API access
 

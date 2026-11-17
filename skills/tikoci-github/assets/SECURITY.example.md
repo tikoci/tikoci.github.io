@@ -3,7 +3,9 @@
 <!-- tikoci starting SECURITY.md. Save at the repo root, replace OWNER/REPO
 and the placeholders. The State column shows the house defaults: fill it
 from the read-back commands in tikoci-github's references/settings.md after
-applying the settings, and compare again whenever a setting changes. -->
+applying the settings, and compare again whenever a setting changes. Rows
+about workflows (zizmor, bun audit) are checked against the repo's
+workflows instead: the read-back does not see them. -->
 
 ## Reporting a vulnerability
 
