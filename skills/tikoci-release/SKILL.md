@@ -111,13 +111,15 @@ Start from [release.example.yml](assets/release.example.yml) and
 ## Publishing to npm
 
 - **Trusted publishing (OIDC), no stored token.** The package's trusted
-  publisher on npmjs.com names the repo and the workflow file. Only the
+  publisher on npmjs.com names the repo and the workflow file, and its
+  "Allowed actions" include `npm publish`: one created since 2026-09-03
+  allows only `npm stage publish` until you choose more. Only the
   publish job gets `id-token: write`, on a GitHub-hosted runner, and
   provenance is generated without `--provenance` for a public repo and
   package
   ([npm docs](https://docs.npmjs.com/trusted-publishers)). It needs npm
-  11.5.1 or later, and moving a dist-tag over OIDC needs 11.21.0 and the
-  publisher's "Allow npm dist-tag" option. package.json's `repository.url`
+  11.5.1 or later, and moving a dist-tag over OIDC needs 11.21.0 and
+  `npm dist-tag` in the same "Allowed actions". package.json's `repository.url`
   must name the repo. Once a trusted publish works, set the package to
   "Require two-factor authentication and disallow tokens" and revoke the
   old automation token.

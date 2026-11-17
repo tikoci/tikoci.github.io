@@ -15,7 +15,9 @@
 # package.json or CHANGELOG.md and never pushes to main.
 #
 # One-time setup, outside this file: a trusted publisher for the package on
-# npmjs.com (this repo, this workflow file name, "Allow npm dist-tag" on), the
+# npmjs.com (this repo, this workflow file name, and under "Allowed actions"
+# both `npm publish` and `npm dist-tag`: one created since 2026-09-03 allows
+# only `npm stage publish` until you choose more), the
 # package.json `repository.url` naming this repo, and immutable releases on in
 # the repo settings. No NPM_TOKEN secret. Action SHAs are the releases current
 # when this file was written; Dependabot moves them.
@@ -125,8 +127,17 @@ jobs:
             echo "::error::Could not list tags (git exit $status)."
             exit 1
           fi
-          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+          # Only a 404 means "no such release"; an auth, rate-limit or network
+          # error fails. A draft has no tag and this token cannot see drafts,
+          # so a leftover draft shows up later, when the release job fails.
+          status=0
+          out=$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG" 2>&1) || status=$?
+          if [ "$status" -eq 0 ]; then
             echo "::error::A GitHub Release $TAG already exists."
+            exit 1
+          elif ! grep -q 'HTTP 404' <<< "$out"; then
+            printf '%s\n' "$out" >&2
+            echo "::error::Could not look up release $TAG (gh exit $status)."
             exit 1
           fi
       - name: Summarize
@@ -154,6 +165,8 @@ jobs:
     permissions:
       contents: read
       id-token: write # the OIDC token npm trades for a publish, and provenance
+    outputs:
+      published: ${{ steps.publish.outputs.published }}
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -186,13 +199,17 @@ jobs:
         run: npm pkg set version="$VERSION"
       # Add the build here if the package has one (bun run build).
       - name: Publish
+        id: publish
         env:
           CHANNEL: ${{ needs.plan.outputs.channel }}
-        run: npm publish --access public --tag "$CHANNEL"
+        run: |
+          npm publish --access public --tag "$CHANNEL"
+          echo "published=true" >> "$GITHUB_OUTPUT"
       # `next` has no line of its own: a fix lands on main and ships in the
       # next release, so `next` must never point below `latest`. The version
       # is published by now, so a re-dispatch stops at "already published";
-      # the summary names the command that finishes the job.
+      # the summary names the command that finishes the job, and the release
+      # job still runs.
       - name: Move the other dist-tags
         if: ${{ needs.plan.outputs.also-tag != '' }}
         env:
@@ -220,7 +237,11 @@ jobs:
   release:
     name: Tag and GitHub Release
     needs: [plan, publish]
-    if: ${{ needs.plan.outputs.tag != '' }}
+    # Once the version is on npm, its tag and release follow even if moving a
+    # dist-tag failed: a re-dispatch could not create them any more.
+    # !cancelled() replaces the implicit success(), which a failed publish
+    # job would not pass.
+    if: ${{ !cancelled() && needs.plan.outputs.tag != '' && needs.publish.outputs.published == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:

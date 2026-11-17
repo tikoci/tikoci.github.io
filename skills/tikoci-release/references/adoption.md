@@ -7,8 +7,8 @@ each repo tracks its own work.
 ## Every npm package (quickchr, centrs, rosetta)
 
 - Move from the `NPM_TOKEN` secret to trusted publishing: add the trusted
-  publisher on npmjs.com, check `repository.url`, add `npm` as a
-  devDependency, give only the publish job `id-token: write`, then disallow
+  publisher on npmjs.com allowing `npm publish` and `npm dist-tag`, check
+  `repository.url`, add `npm` as a devDependency, give only the publish job `id-token: write`, then disallow
   tokens on the package and revoke the automation token.
 - Run the full `bun audit` in the release workflow before publishing. None
   does today.

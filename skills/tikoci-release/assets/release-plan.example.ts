@@ -33,8 +33,15 @@ export interface Registry {
     distTags: Partial<Record<string, string>>;
 }
 
-const COMMITTED = /^(\d+\.\d+\.\d+)(-next)?$/;
-const HEADING = /^## (\d+\.\d+\.\d+) [—-] (next|\d{4}-\d{2}-\d{2})\s*$/;
+// Canonical SemVer numbers: npm would publish 01.2.0 as 1.2.0, and the tag
+// and the used-version check would then name a different version.
+const NUMBER = "(?:0|[1-9]\\d*)";
+const XYZ = `${NUMBER}\\.${NUMBER}\\.${NUMBER}`;
+const COMMITTED = new RegExp(`^(${XYZ})(-next)?$`);
+const HEADING = new RegExp(`^## (${XYZ}) [—-] (next|\\d{4}-\\d{2}-\\d{2})\\s*$`);
+
+/** A line that records a change: not blank, not a heading, not a comment. */
+const isEntry = (line: string) => /\S/.test(line) && !/^\s*(#|<!--)/.test(line);
 
 /** The CHANGELOG section for `version`: its label (`next` or a date) and body. */
 export function changelogSection(changelog: string, version: string): { label: string; body: string } | null {
@@ -74,7 +81,9 @@ export function planRelease(input: {
         if (!section || section.label === "next") {
             throw new Error(`CHANGELOG.md has no dated "## ${base} — YYYY-MM-DD" section`);
         }
-        if (section.body === "") throw new Error(`CHANGELOG.md section ${base} is empty`);
+        if (!section.body.split("\n").some(isEntry)) {
+            throw new Error(`CHANGELOG.md section ${base} lists no changes`);
+        }
         plan = { channel: "latest", version: base, tag: `v${base}`, alsoTag: ["next"] };
     }
     if (registry.versions.includes(plan.version)) {
