@@ -182,5 +182,5 @@ jobs:
           else
             gh issue create --title "$TITLE" --body "$(printf '%s\n\n%s\n' \
               "The weekly CI run on the latest Bun failed: $RUN_URL" \
-              "To tell Bun from the rest, dispatch CI on the same commit with bun-version empty. If that is red too, the cause is not Bun.")"
+              "To tell Bun from the rest, dispatch CI on the same commit with bun-version empty. If it fails the same jobs with the same errors, the cause is not Bun; a different failure settles nothing.")"
           fi

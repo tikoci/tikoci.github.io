@@ -302,6 +302,7 @@ gate:
   if: ${{ always() }}
   needs: [changes, lint, unit, smoke] # every job, the classifier included
   runs-on: ubuntu-latest
+  timeout-minutes: 5
   steps:
     - env:
         FAILED: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
