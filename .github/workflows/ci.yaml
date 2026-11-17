@@ -1,0 +1,60 @@
+# Lint, test and the offline build: the same `bun run check` a developer runs.
+# Adopted from tikoci-ci (https://tikoci.dev/house/skills/tikoci-ci/SKILL.md).
+# No weekly latest-Bun run: the site is built with its own pinned Bun, and
+# nobody runs it on another. The bun-version input checks one by hand.
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      bun-version:
+        description: "Bun to run: empty for the packageManager pin, `latest`, or an exact version"
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+defaults:
+  run:
+    # An explicit bash runs with -o pipefail.
+    shell: bash
+
+env:
+  # Empty means the pin: setup-bun reads bun-version first, then bun-version-file.
+  BUN_VERSION: ${{ inputs.bun-version }}
+
+jobs:
+  check:
+    name: Lint, test and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+          bun-version-file: package.json
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Record versions
+        run: |
+          echo "- Bun $(bun --version) (requested: ${BUN_VERSION:-the pin})" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Validate and build
+        run: bun run check

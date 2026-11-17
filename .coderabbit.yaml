@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# From tikoci-pr-flow (https://tikoci.dev/house/skills/tikoci-pr-flow/SKILL.md):
+# CodeRabbit reviews once, when a PR is marked ready, and skips PRs labeled
+# skip-review. It already reads AGENTS.md, so repo rules are not repeated here.
+language: en-US
+tone_instructions: >-
+  Terse and actionable. State the finding, the file and line, and the fix.
+  No praise, preamble, poems or filler.
+reviews:
+  profile: assertive
+  poem: false # explicit: older configs defaulted to true
+  in_progress_fortune: false # defaults to true
+  # The summary goes in the walkthrough comment, not the PR description, which
+  # becomes the squash commit's body.
+  high_level_summary_in_walkthrough: true
+  auto_review:
+    enabled: true
+    drafts: false # the draft is for the local cross-review
+    auto_incremental_review: false # one review per PR; later pushes get none
+    labels:
+      - "!skip-review" # a PR labeled skip-review gets no automatic review
+    ignore_usernames:
+      - "dependabot[bot]" # grouped version bumps; CI checks them
+  path_filters:
+    - "!.scratch/**"
+    - "!**/bun.lock" # CodeRabbit's defaults skip bun.lockb, not the text lockfile
+  tools:
+    # CI runs these with the repo's own config; a second report is noise.
+    markdownlint:
+      enabled: false
+    biome:
+      enabled: false
+    # Flags project names and RouterOS terms; cspell owns spelling.
+    languagetool:
+      enabled: false

@@ -38,7 +38,7 @@ Planning: Phase 3 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 | In-code suppressions do not work | centrs-36 | centrs PR #233 (CodeQL 2.26.2). |
 | Alerts by `pr=`; SARIF code flows | centrs-36 | centrs queries `ref=refs/pull/<n>/merge`, which fits its advanced workflow; default setup scans `refs/pull/<n>/head` (Codex review of PR #27, checked on this PR). |
 | Two false positives, and a real finding | centrs-37 | centrs `github-security-quality.instructions.md`; the real one is quickchr's (centrs/quickchr review of PR #27). |
-| SECURITY.md shape | rskills-11, rskills-13, centrs-34 | All five surveyed `SECURITY.md` files use Reporting, Scope, Code scanning, Supported versions. Absorbs the user-level `tikoci-security-md` skill. quickchr's lists four enabled features as off. |
+| SECURITY.md shape | rskills-11, rskills-13, centrs-34, user-90, user-91 | All five surveyed `SECURITY.md` files use Reporting, Scope, Code scanning, Supported versions. Absorbs the user-level `tikoci-security-md` skill. quickchr's lists four enabled features as off. |
 | Token order | site-14, rosetta-37, user-76 | Settles `github-token-order`. |
 | One API helper | rosetta-37 | rosetta `src/github.ts` (`fetchGitHub()`, `githubApiHeaders()`); `fetch-helper` in the conflicts table. |
 

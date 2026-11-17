@@ -34,4 +34,4 @@ they can point to.
 | Report checks not run | quickchr-136 | |
 | Run the repo's gate commands | centrs-09, rosetta-15 | The commands themselves are repo-local. |
 | Name the CI step that runs it | rosetta-27, rosetta-61 | rosetta's `VALIDATION.md` table stays repo-local. |
-| The record is current; device result in the commit | quickchr-040, centrs-25 | Where each record lives is `tikoci-work-tracking` and `tikoci-release`. |
+| The record is current; device result in the commit | quickchr-040, centrs-25 | Where each record lives is `tikoci-docs` and `tikoci-release`. |

@@ -120,7 +120,7 @@ export interface PagesSurveyFile {
 
 // ---------------------------------------------------------------------------
 // Auth comes from the shared resolver in fetch-github-data.ts
-// (TIKOCI_GITHUB_TOKEN -> GITHUB_TOKEN -> gh CLI -> anonymous).
+// (TIKOCI_GITHUB_TOKEN -> GH_TOKEN -> GITHUB_TOKEN -> gh CLI -> anonymous).
 // ---------------------------------------------------------------------------
 
 /** The survey's auth mode, recorded in `collection` (coverage is token-scoped). */

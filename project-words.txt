@@ -17,6 +17,7 @@ coderabbit # CodeRabbit config and file names (.coderabbit.yaml)
 coderabbitai # CodeRabbit's GitHub handle, as in @coderabbitai
 commondir
 crossref
+curlconverter # npm package behind the curl parser page
 cwd
 dispatchable
 Dockerfiles
