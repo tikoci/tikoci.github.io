@@ -18,12 +18,6 @@ Add detail as indented lines only when needed. Move finished items to *Done* (or
 - [ ] [settings] Finish `tikoci-github` here: a read-only workflow token default and required
       SHA-pinned actions (all pinned since #29; `upload-pages-artifact` pins its nested
       `upload-artifact` by SHA too). Needs the maintainer's go-ahead. (#21, 3c)
-- [ ] [ci] Move `bun audit` here to the `tikoci-ci` recipe (`audit-gating`): audit only PRs and
-      pushes that change `bun.lock` or any `package.json` (`ci.yaml` audits every PR today, #31).
-      The deploy skips it (House exceptions in AGENTS.md). (#21, #33)
-- [ ] [ci] A weekly soft-gate run with a report issue (`tikoci-ci`, "Soft gates get a periodic
-      signal"): the full `bun audit` first, then the other non-gating checks as they arrive.
-      Not urgent. (#21, #33)
 - [ ] [house] Adopt `tikoci-toolchain` (`@types/bun` matching the pin exactly), `tikoci-testing`
       and `tikoci-grounding` here, or note why not under House exceptions. (#21)
 - [ ] [lint] Adopt the `tikoci-linting` starting configs here: the stricter tsconfig (TypeScript 7
@@ -47,11 +41,15 @@ Add detail as indented lines only when needed. Move finished items to *Done* (or
       went from 21 to 25). (PR #17 review)
 - [ ] [settings] Turn on "Enforce HTTPS" in the repo's Pages settings: `tikoci.github.io`
       currently redirects to `http://tikoci.dev`. (PR #17 review)
-- [ ] [git] Check the local `fix/pr17-reviews` worktree branch (at the PR #17 head `e1b4cbf`,
-      no extra commits): delete it, or finish what it was for.
 
 ## Done
 
+- [x] [git] Deleted the local `fix/pr17-reviews` worktree branch (contained in #17), with the
+      other merged local and remote branches and the old review worktrees. (2026-11-17)
+- [x] [ci] `bun audit` follows the `tikoci-ci` recipe (`audit-gating`): only PRs and pushes that
+      change `bun.lock` or any `package.json`, plus a weekly full audit with a report issue that
+      the hourly deploy relies on. The `picomatch` ReDoS advisory (no fixed release, dev-only) is
+      ignored with its reason in `ci.yaml`. (#21, #33)
 - [x] [settings] `tikoci-github` settings applied 2026-11-17: delete branches on merge,
       Dependabot security updates, the `skip-review` label, CodeQL default setup on the
       Extended suite. (#21, 3c)

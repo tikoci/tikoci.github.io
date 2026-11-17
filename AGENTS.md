@@ -69,9 +69,12 @@ these coverage limits.
 - PRs use squash merge with the PR title and description as the commit message
   (`.github/pull_request_template.md`). `.github/workflows/ci.yaml` runs
   `bun run check` on PRs, on pushes to `main` and on dispatch (with a
-  `bun-version` input); `zizmor.yaml` reports workflow findings to code
-  scanning. These checks are advisory. `main` has classic branch protection
-  with only "require conversation resolution": a PR merges once every review
+  `bun-version` input). Its `audit` job runs `bun audit` only when a PR or
+  push changes `bun.lock` or a `package.json`, and in full on dispatch and
+  weekly; the weekly run opens or updates a "Weekly CI is red" issue.
+  `zizmor.yaml` reports workflow findings to code scanning. These checks are
+  advisory. `main` has classic branch protection with only "require
+  conversation resolution": a PR merges once every review
   thread is resolved (reply, then resolve), while the bot's direct pushes still
   work. Force pushes and deletion of `main` are blocked.
 - Keep changes small and focused, and add no dependencies without need. Use Bun
@@ -156,8 +159,8 @@ Not adopted yet (BACKLOG.md): `tikoci-linting` configs, `tikoci-toolchain`,
   repo is the source.
 - `deploy-pages.yaml` does not run `bun audit` before it publishes
   (`tikoci-ci`, "Dependency audit"): it deploys hourly snapshots, and a new
-  advisory would stop data refreshes. No scheduled audit covers the site
-  yet; the weekly run is open work (BACKLOG.md).
+  advisory would stop data refreshes. It relies on the weekly full audit in
+  `ci.yaml` instead.
 
 ## Data contracts and deployment
 
