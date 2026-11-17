@@ -109,14 +109,18 @@ console.log("Generating per-repo symbols (SVG + PNG)...");
 const P_DIR = join(DIST, "p");
 mkdirSync(P_DIR, { recursive: true });
 
+// Rounds here, not only in toPathData: opentype.js 2.0.0 turns a value just
+// off an integer (139.00000000000003) into NaN when it rounds it.
+const round2 = (v: number) => Math.round(v * 100) / 100;
+
 function translatePath(path: opentype.Path, dx: number, dy: number) {
     for (const cmd of path.commands) {
-        if ("x" in cmd) cmd.x += dx;
-        if ("y" in cmd) cmd.y += dy;
-        if ("x1" in cmd) cmd.x1 += dx;
-        if ("y1" in cmd) cmd.y1 += dy;
-        if ("x2" in cmd) cmd.x2 += dx;
-        if ("y2" in cmd) cmd.y2 += dy;
+        if ("x" in cmd) cmd.x = round2(cmd.x + dx);
+        if ("y" in cmd) cmd.y = round2(cmd.y + dy);
+        if ("x1" in cmd) cmd.x1 = round2(cmd.x1 + dx);
+        if ("y1" in cmd) cmd.y1 = round2(cmd.y1 + dy);
+        if ("x2" in cmd) cmd.x2 = round2(cmd.x2 + dx);
+        if ("y2" in cmd) cmd.y2 = round2(cmd.y2 + dy);
     }
 }
 
@@ -137,6 +141,7 @@ function glyphSvgPath(font: opentype.Font, sym: string, canvasSize = 256, glyphF
     translatePath(path, centerX, centerY);
 
     const d = path.toPathData(2);
+    if (d.includes("NaN")) throw new Error(`Glyph path for ${sym} contains NaN`);
 
     return `<svg xmlns="http://www.w3.org/2000/svg" width="${canvasSize}" height="${canvasSize}" viewBox="0 0 ${canvasSize} ${canvasSize}">` +
         `<style>path{fill:#1b1b1f}@media(prefers-color-scheme:dark){path{fill:#e4e1e8}}</style>` +
@@ -147,7 +152,7 @@ function glyphSvgPath(font: opentype.Font, sym: string, canvasSize = 256, glyphF
 let font: opentype.Font;
 try {
     const jetbrainsFontPath = join(ROOT, "data", "fonts", "JetBrainsMono-Regular.ttf");
-    font = opentype.loadSync(jetbrainsFontPath);
+    font = opentype.parse(readFileSync(jetbrainsFontPath));
 } catch (err) {
     throw new Error(`Failed to load JetBrains Mono font: ${err}`);
 }
