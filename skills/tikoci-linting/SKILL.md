@@ -1,6 +1,6 @@
 ---
 name: tikoci-linting
-description: "tikoci linting, with starting configs in assets/: tight types (strict tsc, noUncheckedIndexedAccess, exactOptionalPropertyTypes, erasable syntax only), Biome lint with the formatter off and warnings failing the gate, lenient markdownlint (no line length; GitHub HTML welcome; fences name a language), cspell with a sorted project-words.txt, actionlint, zizmor, shellcheck -s sh, hadolint. One lint gate CI runs; a finding you meet is fixed, not left; every suppression names the rule and the reason. Use when adding or configuring a linter, git hook, suppression or dictionary word."
+description: "tikoci linting, with starting configs in assets/: tight types (strict tsc, noUncheckedIndexedAccess, exactOptionalPropertyTypes, erasable syntax only), Biome lint on code, CSS and HTML with the formatter off and warnings failing the gate (noDescendingSpecificity off), lenient markdownlint (no line length; GitHub HTML welcome; fences name a language), cspell with a sorted project-words.txt, actionlint, zizmor, shellcheck -s sh, hadolint. One lint gate CI runs; a finding you meet is fixed, not left; every suppression names the rule and the reason. Use when adding or configuring a linter, git hook, suppression or dictionary word."
 ---
 
 # Linting

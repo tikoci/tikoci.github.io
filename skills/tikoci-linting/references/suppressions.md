@@ -44,6 +44,16 @@ function load(raw: any) { ... }
   a path (test files, generated code).
 - Biome reports a suppression that no longer matches anything, so it does not
   go stale.
+- CSS takes the same comment as a block comment, on the line before the
+  declaration, in a stylesheet or an HTML `<style>` block; `//` is not valid
+  CSS there and breaks the parse:
+
+```css
+.monaco-editor .suggest-widget.message {
+  /* biome-ignore lint/complexity/noImportantStyles: hides Monaco's empty-state box, which our provider replaces */
+  display: none !important;
+}
+```
 
 Full syntax: [Biome suppressions](https://biomejs.dev/analyzer/suppressions/).
 
