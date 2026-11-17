@@ -1,6 +1,6 @@
 ---
 name: tikoci-ci
-description: "tikoci CI recipes, with example workflows in assets/: jobs run the package scripts; fast PR gates; docs-only diffs skip heavy jobs by a job if, never paths: on a required workflow; one gate job is the required check; Bun pin with a bun-version dispatch input, latest Bun weekly for tools on users' Bun; dispatch QA from any branch; summaries and artifacts agents can read; red is a finding, retries only investigate a tracked flake; bun audit reported weekly, failing a PR or push only when it changes bun.lock or package.json; zizmor to code scanning. Use when writing or debugging a workflow or waiting on a run."
+description: "tikoci CI recipes, with example workflows in assets/: jobs run the package scripts; fast PR gates; docs-only diffs skip heavy jobs by a job if, never paths: on a required workflow; one gate job is the required check; Bun pin with a bun-version dispatch input, latest Bun weekly for tools on users' Bun; dispatch QA from any branch; summaries and artifacts agents can read; red is a finding, retries only investigate a tracked flake; bun audit when bun.lock or package.json changes, weekly and before every release, never on an ordinary PR; zizmor to code scanning. Use when writing or debugging a workflow or waiting on a run."
 ---
 
 # CI
@@ -338,24 +338,30 @@ asks for.
 `bun audit` is the vulnerability check for Bun packages, which Dependabot
 security updates do not cover
 ([tikoci-dependencies](https://tikoci.dev/house/skills/tikoci-dependencies/SKILL.md)).
-Advisories arrive without a commit, so where the audit runs decides who sees
-red. The `audit` job in [ci.example.yml](assets/ci.example.yml):
+Advisories arrive without a commit, so an audit on every PR would fail
+unrelated work. Settles `audit-gating` (maintainer, 2026-11-17): the audit
+runs when dependencies change, routinely out of band, and before anything
+ships. The `audit` job in [ci.example.yml](assets/ci.example.yml):
 
-- **The scheduled run audits everything**, and the `report` job opens or
-  updates its issue, so a new advisory is one tracked finding instead of a
-  red mark on every unrelated PR. A repo without a scheduled CI run gives the
-  audit job a weekly schedule of its own.
-- **A PR or push fails only on what it changed**: when it changes `bun.lock`
-  or `package.json`, any finding fails the job; otherwise findings are a
-  `::warning::` and the scheduled run owns them. A PR compares its merge
-  commit with the first parent (`fetch-depth: 2`); a push compares the whole
-  pushed range from `github.event.before`, not just its last commit. A new
-  branch, or a base that cannot be fetched, counts every finding.
-- **An audit that did not complete fails, always.** Bun exits 1 both for
-  advisories and when the registry is unreachable or answers with an error
-  object (which `--json` echoes), so only an advisory report counts as
-  findings: every package maps to advisories with an `id` and a
-  `severity`. Anything else is an `::error::`, never a warning.
+- **Never on an ordinary PR.** A PR or push that changes neither
+  `bun.lock` nor `package.json` does not call `bun audit` at all. One that
+  changes either is audited, and any finding fails it: updating
+  dependencies is the time to check them. A PR compares its merge commit
+  with the first parent (`fetch-depth: 2`); a push compares its whole range
+  from `github.event.before`. A new branch, or a base that cannot be
+  fetched, audits in full.
+- **Routinely, out of band.** The example's weekly scheduled run audits
+  everything, and the `report` job opens or updates its issue. Where the
+  routine audit lives is the repo's choice (its own weekly workflow, a
+  nightly sweep), as long as one exists.
+- **Before anything ships.** A release, publish or deploy workflow (npm
+  package, container image, site) runs the full audit first, with the same
+  ignores, and stops on findings; `tikoci-release` owns that workflow.
+- **An audit that did not complete fails** wherever it runs: Bun exits 1
+  both for advisories and when the registry is unreachable or answers with
+  an error object, so the job checks for an advisory report (every package
+  mapping to advisories with an `id` and a `severity`) only to say which it
+  was.
 - **It needs no `bun install`**: `bun audit` reads `bun.lock`.
 - **An advisory with no fixed release in range** is ignored by its id
   (`--ignore=GHSA-...`) with the reason and the removal condition beside it

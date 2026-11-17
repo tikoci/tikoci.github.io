@@ -26,7 +26,7 @@ Vulnerabilities in RouterOS itself go to MikroTik, not here. -->
 | zizmor workflow audit, reported to code scanning | enabled |
 | Secret scanning with push protection | enabled |
 | Private vulnerability reporting | enabled |
-| Dependabot alerts and security updates | enabled for GitHub Actions; Bun packages are not supported, so `bun audit` runs in CI |
+| Dependabot alerts and security updates | enabled for GitHub Actions; Bun packages are not supported, so `bun audit` runs on dependency changes, weekly and before each release |
 | Dependabot version updates | GitHub Actions and Bun, weekly |
 | Dependency review | not enabled: the dependency graph does not read `bun.lock` |
 | Code Quality, AI findings | not enabled: paid features |

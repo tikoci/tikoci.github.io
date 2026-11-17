@@ -18,10 +18,11 @@ Add detail as indented lines only when needed. Move finished items to *Done* (or
 - [ ] [settings] Finish `tikoci-github` here: a read-only workflow token default and required
       SHA-pinned actions (all pinned since #29; `upload-pages-artifact` pins its nested
       `upload-artifact` by SHA too). Needs the maintainer's go-ahead. (#21, 3c)
-- [ ] [ci] Move `bun audit` here to the `tikoci-ci` recipe once #33 merges: a weekly scheduled
-      audit with its report issue (this repo has no scheduled CI run), and PRs and pushes
-      failing only when they change `bun.lock` or `package.json`. Today `ci.yaml` gates every
-      PR on it (#31). (#21)
+- [ ] [ci] Move `bun audit` here to the `tikoci-ci` recipe once #33 merges (`audit-gating`):
+      audit only PRs and pushes that change `bun.lock` or `package.json` (`ci.yaml` audits every
+      PR today, #31), add a weekly audit with a report issue, and decide whether
+      `deploy-pages.yaml` audits before it publishes. It deploys hourly snapshots, so a new
+      advisory would stop data refreshes until fixed. (#21)
 - [ ] [house] Adopt `tikoci-toolchain` (`@types/bun` matching the pin exactly), `tikoci-testing`
       and `tikoci-grounding` here, or note why not under House exceptions. (#21)
 - [ ] [lint] Adopt the `tikoci-linting` starting configs here: the stricter tsconfig (TypeScript 7

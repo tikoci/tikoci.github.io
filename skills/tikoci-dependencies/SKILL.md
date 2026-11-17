@@ -70,10 +70,10 @@ and the other tikoci tools. The Bun pin itself is in `tikoci-toolchain`.
   schedule it states. It ignores `@types/bun`, which moves with the Bun pin
   (`tikoci-toolchain`).
 - **`bun audit` is the vulnerability check.** Dependabot security updates do
-  not support Bun, so version updates alone miss advisories. CI runs it as
-  `tikoci-ci` describes ("Dependency audit"): the scheduled run reports new
-  advisories, and a PR or push fails on findings only when it changes
-  `bun.lock` or `package.json`.
+  not support Bun, so version updates alone miss advisories. It runs as
+  `tikoci-ci` describes ("Dependency audit"): on a PR or push that changes
+  `bun.lock` or `package.json`, routinely out of band (the repo picks
+  where), and before anything ships; never on an ordinary PR.
 - **Fix findings with a reviewed upgrade.** `bun audit fix` upgrades within
   the declared ranges, except that it treats an exact pin as a caret range
   and rewrites it in package.json

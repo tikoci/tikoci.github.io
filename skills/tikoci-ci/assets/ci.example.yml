@@ -128,10 +128,10 @@ jobs:
           if-no-files-found: ignore
           retention-days: 14
 
-  # bun audit. Advisories arrive without a commit: the scheduled run audits
-  # everything and the report job files it, while a PR or push fails on
-  # findings only when it changes bun.lock or package.json (tikoci-ci,
-  # "Dependency audit"). An audit that does not complete always fails.
+  # bun audit (tikoci-ci, "Dependency audit"). Never on an ordinary PR: a PR
+  # or push audits only when it changes bun.lock or package.json, and the
+  # scheduled run audits everything, with the report job filing what it
+  # finds. Release workflows run the same audit before they publish.
   # bun audit reads bun.lock, so there is no install step.
   audit:
     name: Audit
@@ -143,7 +143,7 @@ jobs:
         with:
           persist-credentials: false
           # A PR's merge commit and its base (the first parent). A push
-          # fetches its `before` commit when it needs it.
+          # fetches its `before` commit.
           fetch-depth: 2
       - name: Setup Bun
         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
@@ -155,6 +155,24 @@ jobs:
           EVENT: ${{ github.event_name }}
           BEFORE: ${{ github.event.before }}
         run: |
+          # A PR is judged against its base, a push on its whole range. When
+          # neither dependency file changed, there is nothing to audit here.
+          # A new branch or a base that cannot be found audits in full.
+          case "$EVENT" in
+            pull_request) base=HEAD^1 ;;
+            push) base=$BEFORE ;;
+            *) base="" ;;
+          esac
+          case "$base" in 0000000000000000000000000000000000000000) base="" ;; esac
+          if [ -n "$base" ] && [ "$EVENT" = push ]; then
+            git fetch --quiet --no-tags --depth=1 origin "$base" || base=""
+          fi
+          if [ -n "$base" ] && git rev-parse --verify --quiet "$base^{commit}" > /dev/null &&
+            git diff --quiet "$base" HEAD -- bun.lock package.json; then
+            echo "No change to bun.lock or package.json: not audited here; the scheduled run audits everything."
+            exit 0
+          fi
+
           # An advisory with no fixed release in range: add its
           # --ignore=GHSA-... here, with the reason and the removal condition.
           audit_args=()
@@ -163,31 +181,13 @@ jobs:
           if [ "$status" -eq 0 ]; then exit 0; fi
           # Bun exits 1 for advisories and for an audit that did not complete
           # alike (a registry it cannot reach, or one that answers with an
-          # error object), so only an advisory report is findings: each
-          # package maps to advisories that carry an id and a severity.
+          # error object). Both fail; the message says which it was.
           report='type == "object" and length > 0 and all(.[]; type == "array" and length > 0 and all(.[]; type == "object" and has("id") and has("severity")))'
-          if ! jq -e "$report" "$RUNNER_TEMP/audit.json" > /dev/null 2>&1; then
+          if jq -e "$report" "$RUNNER_TEMP/audit.json" > /dev/null 2>&1; then
+            bun audit "${audit_args[@]}" || true # the readable report, for the log
+            echo "::error::bun audit found advisories."
+          else
             echo "::error::bun audit did not complete (exit $status), so nothing was checked."
-            exit 1
-          fi
-          bun audit "${audit_args[@]}" || true # the readable report, for the log
-          # The commits this run judges: a PR's merge commit against its base,
-          # a push's whole range. A schedule or dispatch, a new branch, or a base
-          # that cannot be fetched (a private repo without credentials): every
-          # finding counts.
-          case "$EVENT" in
-            pull_request) base=HEAD^1 ;;
-            push) base=$BEFORE ;;
-            *) exit 1 ;;
-          esac
-          case "$base" in "" | 0000000000000000000000000000000000000000) exit 1 ;; esac
-          if [ "$EVENT" = push ]; then
-            git fetch --quiet --no-tags --depth=1 origin "$base" || exit 1
-          fi
-          git rev-parse --verify --quiet "$base^{commit}" > /dev/null || exit 1
-          if git diff --quiet "$base" HEAD -- bun.lock package.json; then
-            echo "::warning::bun audit has findings this change did not bring; the scheduled run reports them."
-            exit 0
           fi
           exit 1
 
