@@ -24,6 +24,10 @@ Add detail as indented lines only when needed. Move finished items to *Done* (or
       reports 20 `noUncheckedIndexedAccess` errors in build.ts and scripts/), `biome.jsonc` with
       `--error-on-warnings` (needs the `any` item below first), and one `.markdownlint-cli2.yaml`.
       (#21, 3b; PR #26 review)
+      The example lints `src/**/*.html` too. That means removing the 3 `noDescendingSpecificity`
+      suppressions in `shared.css` (the rule is off), fixing or explaining the 5 `!important`s in
+      `project-map.html`, and the inline-script findings (`useTemplate` and the Plausible snippet
+      on every page). (PR #36 grounding)
 - [ ] [ci] Hourly persist commits to `main` on nearly every run, because the `attemptedAt` /
       `generatedAt` timestamps always change. Skip the commit when only timestamps changed,
       or persist less often (e.g. daily). If a human push races the run, that hour's deploy
