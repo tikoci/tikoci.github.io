@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-16T22:12:26.611Z",
+  "generatedAt": "2026-11-17T04:33:49.226Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,7 +10,7 @@
     "otherHttpCalls": 11,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4836
+    "rateLimitRemaining": 4837
   },
   "sources": {
     "ros-current": "https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel> (MikroTik upgrade feed; body \"<version> <build-ts>\")",
@@ -865,17 +865,17 @@
             "bot": 0
           },
           "prs": {
-            "total": 0,
-            "owner": 0,
+            "total": 1,
+            "owner": 1,
             "external": 0,
             "bot": 0,
-            "ownerReady": 0,
+            "ownerReady": 1,
             "ownerDraft": 0,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 52,
+          "fetched": 53,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
@@ -883,17 +883,70 @@
         "pullsEnriched": true,
         "items": [
           {
+            "number": 281,
+            "title": "fix(state): treat EPERM as a live foreign QEMU, never as dead (#259)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/pull/281",
+            "createdAt": "2026-11-17T03:30:43Z",
+            "updatedAt": "2026-11-17T03:49:31Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 280,
+            "title": "provisioning: add a managed, batch-verified SSH key to an already-booted machine (set --ssh-key)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/280",
+            "createdAt": "2026-11-17T03:20:08Z",
+            "updatedAt": "2026-11-17T03:20:08Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement",
+              "area:provisioning",
+              "P3",
+              "needs-decision",
+              "consumer:centrs"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 279,
+            "title": "ci: house tikoci-ci alignment — linter skip in CI, cancel-on-main",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/279",
+            "createdAt": "2026-11-16T22:46:44Z",
+            "updatedAt": "2026-11-17T03:19:51Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement",
+              "area:ci",
+              "P3"
+            ],
+            "milestone": "next"
+          },
+          {
             "number": 278,
             "title": "Move typescript from dependencies to devDependencies",
             "author": "mobileskyfi",
             "authorClass": "owner",
             "url": "https://github.com/tikoci/quickchr/issues/278",
             "createdAt": "2026-11-15T22:08:16Z",
-            "updatedAt": "2026-11-15T22:08:16Z",
+            "updatedAt": "2026-11-17T03:19:26Z",
             "isPR": false,
             "draft": null,
-            "labels": [],
-            "milestone": null
+            "labels": [
+              "area:ci",
+              "P3",
+              "dependencies"
+            ],
+            "milestone": "next"
           },
           {
             "number": 276,
@@ -902,7 +955,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/quickchr/issues/276",
             "createdAt": "2026-11-14T16:47:26Z",
-            "updatedAt": "2026-11-14T16:47:26Z",
+            "updatedAt": "2026-11-17T03:19:50Z",
             "isPR": false,
             "draft": null,
             "labels": [
@@ -910,7 +963,7 @@
               "area:library-api",
               "P3"
             ],
-            "milestone": null
+            "milestone": "next"
           },
           {
             "number": 271,
@@ -919,7 +972,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/quickchr/issues/271",
             "createdAt": "2026-11-11T17:40:46Z",
-            "updatedAt": "2026-11-13T03:09:21Z",
+            "updatedAt": "2026-11-17T03:19:09Z",
             "isPR": false,
             "draft": null,
             "labels": [
@@ -928,7 +981,7 @@
               "needs-decision",
               "platform:mac"
             ],
-            "milestone": "next"
+            "milestone": null
           },
           {
             "number": 269,
@@ -955,7 +1008,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/quickchr/issues/268",
             "createdAt": "2026-11-11T15:36:27Z",
-            "updatedAt": "2026-11-11T15:36:27Z",
+            "updatedAt": "2026-11-17T03:19:49Z",
             "isPR": false,
             "draft": null,
             "labels": [
@@ -964,7 +1017,7 @@
               "area:cli",
               "P3"
             ],
-            "milestone": null
+            "milestone": "next"
           },
           {
             "number": 266,
@@ -973,7 +1026,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/quickchr/issues/266",
             "createdAt": "2026-11-11T14:57:54Z",
-            "updatedAt": "2026-11-11T14:57:54Z",
+            "updatedAt": "2026-11-17T03:19:20Z",
             "isPR": false,
             "draft": null,
             "labels": [
@@ -984,7 +1037,7 @@
               "P3",
               "consumer:app-t3code"
             ],
-            "milestone": null
+            "milestone": "next"
           },
           {
             "number": 265,
@@ -1004,60 +1057,6 @@
               "consumer:app-t3code"
             ],
             "milestone": null
-          },
-          {
-            "number": 263,
-            "title": "research: managed host networks on Linux and Windows (privileged once, unprivileged machines)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/263",
-            "createdAt": "2026-11-11T13:43:11Z",
-            "updatedAt": "2026-11-11T13:43:11Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "area:networking",
-              "P3",
-              "research",
-              "platform:windows"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 261,
-            "title": "license: add has no --license-level, start ignores the stored credential, and --level unlimited is rejected by RouterOS",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/261",
-            "createdAt": "2026-11-08T05:11:48Z",
-            "updatedAt": "2026-11-11T14:49:47Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "bug",
-              "area:cli",
-              "area:provisioning",
-              "P2",
-              "consumer:app-t3code"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 259,
-            "title": "state: EPERM read as dead — list persists 'stopped' over a root-owned running QEMU",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/259",
-            "createdAt": "2026-11-07T19:34:59Z",
-            "updatedAt": "2026-11-07T19:34:59Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "bug",
-              "area:library-api",
-              "P2"
-            ],
-            "milestone": null
           }
         ]
       },
@@ -1066,7 +1065,7 @@
         "openIssues": 0,
         "openPRs": 0,
         "totalIssues": 52,
-        "totalPRs": 0,
+        "totalPRs": 1,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -1563,8 +1562,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "6acbe2ea8a9da322c19f2126fdc7ed5b7995fa72",
-        "headUrl": "https://github.com/tikoci/centrs/commit/6acbe2ea8a9da322c19f2126fdc7ed5b7995fa72",
+        "headSha": "80a6f9f12196b3ef84d1038a08b9aba04b315f66",
+        "headUrl": "https://github.com/tikoci/centrs/commit/80a6f9f12196b3ef84d1038a08b9aba04b315f66",
         "workflows": [
           {
             "configured": "CI",
@@ -1576,11 +1575,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "6acbe2ea8a9da322c19f2126fdc7ed5b7995fa72",
+            "headSha": "80a6f9f12196b3ef84d1038a08b9aba04b315f66",
             "event": "push",
-            "runStartedAt": "2026-11-14T21:48:59Z",
-            "lastUpdatedAt": "2026-11-14T21:51:49Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/43644795241",
+            "runStartedAt": "2026-11-16T22:45:26Z",
+            "lastUpdatedAt": "2026-11-16T22:48:12Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/43973073548",
             "isHead": true
           },
           {
@@ -1615,7 +1614,7 @@
             "runStartedAt": "2026-11-16T13:51:09Z",
             "lastUpdatedAt": "2026-11-16T13:51:21Z",
             "lastUrl": "https://github.com/tikoci/centrs/actions/runs/43879778199",
-            "isHead": true
+            "isHead": false
           }
         ]
       },
@@ -1623,58 +1622,29 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 24,
-            "owner": 24,
+            "total": 23,
+            "owner": 23,
             "external": 0,
             "bot": 0
           },
           "prs": {
-            "total": 3,
-            "owner": 3,
+            "total": 2,
+            "owner": 2,
             "external": 0,
             "bot": 0,
-            "ownerReady": 2,
+            "ownerReady": 1,
             "ownerDraft": 1,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 27,
+          "fetched": 25,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
-          {
-            "number": 669,
-            "title": "fix(discover): ground the MNDP codec in the m2ir wire map (#668)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/pull/669",
-            "createdAt": "2026-11-16T12:08:26Z",
-            "updatedAt": "2026-11-16T22:09:39Z",
-            "isPR": true,
-            "draft": false,
-            "labels": [],
-            "milestone": null
-          },
-          {
-            "number": 668,
-            "title": "discover/mndp: update the MNDP codec to the grounded wire map (TLV 14 is IPv6, header counter, TLVs 2–4/9/18/19)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/issues/668",
-            "createdAt": "2026-11-16T02:18:39Z",
-            "updatedAt": "2026-11-16T15:16:06Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "enhancement",
-              "cmd-discover"
-            ],
-            "milestone": "next"
-          },
           {
             "number": 666,
             "title": "Installed centrs reads CENTRS_* from the working directory's .env (Bun auto-load)",
@@ -1800,6 +1770,38 @@
             "draft": true,
             "labels": [],
             "milestone": null
+          },
+          {
+            "number": 624,
+            "title": "CHR integration: MAC-Telnet L2 tests flaky on main (console prompt timeout, MTWEI not ready)",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/624",
+            "createdAt": "2026-11-04T03:09:02Z",
+            "updatedAt": "2026-11-11T22:20:15Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "QA",
+              "proto-mac-telnet"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 621,
+            "title": "Tip when a CDB record still uses legacy port=",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/621",
+            "createdAt": "2026-11-04T01:29:48Z",
+            "updatedAt": "2026-11-11T21:43:38Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "UX",
+              "agent-ready"
+            ],
+            "milestone": null
           }
         ]
       },
@@ -1807,8 +1809,8 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 24,
-        "totalPRs": 3,
+        "totalIssues": 23,
+        "totalPRs": 2,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -2559,8 +2561,8 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 20,
-            "owner": 20,
+            "total": 21,
+            "owner": 21,
             "external": 0,
             "bot": 0
           },
@@ -2575,13 +2577,26 @@
           }
         },
         "page": {
-          "fetched": 25,
+          "fetched": 26,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 61,
+            "title": "routeros-mndp: IP-source fallback for missing TLV 17 is ungrounded (observed sources are 0.0.0.0)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/issues/61",
+            "createdAt": "2026-11-16T22:44:26Z",
+            "updatedAt": "2026-11-16T22:44:26Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
           {
             "number": 59,
             "title": "docs: add routeros-cmr to README table and fix two reference TOCs",
@@ -2713,21 +2728,6 @@
               "skill:new"
             ],
             "milestone": null
-          },
-          {
-            "number": 47,
-            "title": "Config-skill triage — decided (do not re-triage)",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/routeros-skills/issues/47",
-            "createdAt": "2026-11-02T02:25:32Z",
-            "updatedAt": "2026-11-07T19:18:52Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "triage:accepted"
-            ],
-            "milestone": null
           }
         ]
       },
@@ -2735,7 +2735,7 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 2,
-        "totalIssues": 20,
+        "totalIssues": 21,
         "totalPRs": 5,
         "truncated": false,
         "byLabel": {
@@ -3536,13 +3536,30 @@
       "repos": [
         "centrs"
       ],
-      "summary": "centrs: 2 open maintainer PRs (1 draft excluded)",
+      "summary": "centrs: 1 open maintainer PR (1 draft excluded)",
       "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
       "evidence": [
-        "repos.centrs.work.counts.prs.ownerReady=2"
+        "repos.centrs.work.counts.prs.ownerReady=1"
       ],
       "urls": [
         "https://github.com/tikoci/centrs/pulls"
+      ]
+    },
+    {
+      "id": "work-maintainer-prs:quickchr",
+      "rule": "work-maintainer-prs",
+      "severity": "pending",
+      "category": "work",
+      "repos": [
+        "quickchr"
+      ],
+      "summary": "quickchr: 1 open maintainer PR",
+      "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
+      "evidence": [
+        "repos.quickchr.work.counts.prs.ownerReady=1"
+      ],
+      "urls": [
+        "https://github.com/tikoci/quickchr/pulls"
       ]
     },
     {
@@ -3597,6 +3614,24 @@
       ]
     },
     {
+      "id": "ci-run-not-head:centrs:QA",
+      "rule": "ci-run-not-head",
+      "severity": "info",
+      "category": "ci",
+      "repos": [
+        "centrs"
+      ],
+      "summary": "centrs: QA latest run is not on the current head commit",
+      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
+      "evidence": [
+        "repos.centrs.ci.workflows[QA].headSha=6acbe2ea8a9da322c19f2126fdc7ed5b7995fa72",
+        "repos.centrs.ci.headSha=80a6f9f12196b3ef84d1038a08b9aba04b315f66"
+      ],
+      "urls": [
+        "https://github.com/tikoci/centrs/actions/runs/43879778199"
+      ]
+    },
+    {
       "id": "ci-run-not-head:centrs:Release",
       "rule": "ci-run-not-head",
       "severity": "info",
@@ -3608,7 +3643,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.centrs.ci.workflows[Release].headSha=b411207d943be31031bdbaba3ebc3fb4e36461d3",
-        "repos.centrs.ci.headSha=6acbe2ea8a9da322c19f2126fdc7ed5b7995fa72"
+        "repos.centrs.ci.headSha=80a6f9f12196b3ef84d1038a08b9aba04b315f66"
       ],
       "urls": [
         "https://github.com/tikoci/centrs/actions/runs/42104426954"

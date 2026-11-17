@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-16T22:12:26.611Z",
+  "generatedAt": "2026-11-17T04:33:49.226Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -74,17 +74,17 @@
         "bot": 0
       },
       "prs": {
-        "total": 0,
-        "owner": 0,
+        "total": 1,
+        "owner": 1,
         "external": 0,
         "bot": 0,
-        "ownerReady": 0,
+        "ownerReady": 1,
         "ownerDraft": 0,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 52,
+      "fetched": 53,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
@@ -92,17 +92,70 @@
     "pullsEnriched": true,
     "items": [
       {
+        "number": 281,
+        "title": "fix(state): treat EPERM as a live foreign QEMU, never as dead (#259)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/pull/281",
+        "createdAt": "2026-11-17T03:30:43Z",
+        "updatedAt": "2026-11-17T03:49:31Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 280,
+        "title": "provisioning: add a managed, batch-verified SSH key to an already-booted machine (set --ssh-key)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/280",
+        "createdAt": "2026-11-17T03:20:08Z",
+        "updatedAt": "2026-11-17T03:20:08Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "area:provisioning",
+          "P3",
+          "needs-decision",
+          "consumer:centrs"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 279,
+        "title": "ci: house tikoci-ci alignment — linter skip in CI, cancel-on-main",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/279",
+        "createdAt": "2026-11-16T22:46:44Z",
+        "updatedAt": "2026-11-17T03:19:51Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "area:ci",
+          "P3"
+        ],
+        "milestone": "next"
+      },
+      {
         "number": 278,
         "title": "Move typescript from dependencies to devDependencies",
         "author": "mobileskyfi",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/278",
         "createdAt": "2026-11-15T22:08:16Z",
-        "updatedAt": "2026-11-15T22:08:16Z",
+        "updatedAt": "2026-11-17T03:19:26Z",
         "isPR": false,
         "draft": null,
-        "labels": [],
-        "milestone": null
+        "labels": [
+          "area:ci",
+          "P3",
+          "dependencies"
+        ],
+        "milestone": "next"
       },
       {
         "number": 276,
@@ -111,7 +164,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/276",
         "createdAt": "2026-11-14T16:47:26Z",
-        "updatedAt": "2026-11-14T16:47:26Z",
+        "updatedAt": "2026-11-17T03:19:50Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -119,7 +172,7 @@
           "area:library-api",
           "P3"
         ],
-        "milestone": null
+        "milestone": "next"
       },
       {
         "number": 271,
@@ -128,7 +181,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/271",
         "createdAt": "2026-11-11T17:40:46Z",
-        "updatedAt": "2026-11-13T03:09:21Z",
+        "updatedAt": "2026-11-17T03:19:09Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -137,7 +190,7 @@
           "needs-decision",
           "platform:mac"
         ],
-        "milestone": "next"
+        "milestone": null
       },
       {
         "number": 269,
@@ -164,7 +217,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/268",
         "createdAt": "2026-11-11T15:36:27Z",
-        "updatedAt": "2026-11-11T15:36:27Z",
+        "updatedAt": "2026-11-17T03:19:49Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -173,7 +226,7 @@
           "area:cli",
           "P3"
         ],
-        "milestone": null
+        "milestone": "next"
       },
       {
         "number": 266,
@@ -182,7 +235,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/266",
         "createdAt": "2026-11-11T14:57:54Z",
-        "updatedAt": "2026-11-11T14:57:54Z",
+        "updatedAt": "2026-11-17T03:19:20Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -193,7 +246,7 @@
           "P3",
           "consumer:app-t3code"
         ],
-        "milestone": null
+        "milestone": "next"
       },
       {
         "number": 265,
@@ -239,7 +292,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/261",
         "createdAt": "2026-11-08T05:11:48Z",
-        "updatedAt": "2026-11-11T14:49:47Z",
+        "updatedAt": "2026-11-17T03:19:19Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -249,7 +302,7 @@
           "P2",
           "consumer:app-t3code"
         ],
-        "milestone": null
+        "milestone": "next"
       },
       {
         "number": 259,
@@ -258,7 +311,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/259",
         "createdAt": "2026-11-07T19:34:59Z",
-        "updatedAt": "2026-11-07T19:34:59Z",
+        "updatedAt": "2026-11-17T03:19:17Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -266,7 +319,7 @@
           "area:library-api",
           "P2"
         ],
-        "milestone": null
+        "milestone": "next"
       },
       {
         "number": 258,
@@ -313,7 +366,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/256",
         "createdAt": "2026-11-07T19:34:53Z",
-        "updatedAt": "2026-11-13T03:07:23Z",
+        "updatedAt": "2026-11-17T03:19:11Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -322,24 +375,6 @@
           "P2",
           "needs-decision",
           "platform:mac",
-          "consumer:app-t3code"
-        ],
-        "milestone": "next"
-      },
-      {
-        "number": 253,
-        "title": "Managed SSH key can only be created at first boot; no way to add one to a running machine",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/253",
-        "createdAt": "2026-11-03T16:40:37Z",
-        "updatedAt": "2026-11-11T14:49:45Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "area:provisioning",
-          "consumer:centrs",
           "consumer:app-t3code"
         ],
         "milestone": null
@@ -351,12 +386,13 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/243",
         "createdAt": "2026-10-30T20:27:23Z",
-        "updatedAt": "2026-11-03T22:28:12Z",
+        "updatedAt": "2026-11-17T03:19:34Z",
         "isPR": false,
         "draft": null,
         "labels": [
           "enhancement",
           "area:library-api",
+          "P4",
           "needs-decision"
         ],
         "milestone": null
@@ -368,10 +404,14 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/230",
         "createdAt": "2026-10-29T17:32:03Z",
-        "updatedAt": "2026-10-30T20:28:21Z",
+        "updatedAt": "2026-11-17T03:19:28Z",
         "isPR": false,
         "draft": null,
-        "labels": [],
+        "labels": [
+          "enhancement",
+          "area:examples",
+          "P4"
+        ],
         "milestone": "next"
       },
       {
@@ -381,10 +421,13 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/228",
         "createdAt": "2026-10-29T16:39:30Z",
-        "updatedAt": "2026-10-30T20:28:44Z",
+        "updatedAt": "2026-11-17T03:19:30Z",
         "isPR": false,
         "draft": null,
-        "labels": [],
+        "labels": [
+          "area:ci",
+          "P3"
+        ],
         "milestone": null
       },
       {
@@ -394,10 +437,15 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/216",
         "createdAt": "2026-10-28T22:03:21Z",
-        "updatedAt": "2026-10-30T20:28:34Z",
+        "updatedAt": "2026-11-17T03:19:32Z",
         "isPR": false,
         "draft": null,
-        "labels": [],
+        "labels": [
+          "enhancement",
+          "area:cli",
+          "P4",
+          "needs-decision"
+        ],
         "milestone": null
       },
       {
@@ -425,7 +473,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/167",
         "createdAt": "2026-09-20T17:34:20Z",
-        "updatedAt": "2026-11-16T15:35:47Z",
+        "updatedAt": "2026-11-17T03:19:12Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -436,7 +484,7 @@
           "needs-decision",
           "platform:mac"
         ],
-        "milestone": "next"
+        "milestone": null
       },
       {
         "number": 160,
@@ -453,24 +501,6 @@
           "area:cli",
           "area:library-api",
           "P4"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 153,
-        "title": "CI: Bun 1.4.2 segfaults mid-file on windows-x86 and the ledger records it as test-failure",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/153",
-        "createdAt": "2026-09-19T21:06:11Z",
-        "updatedAt": "2026-10-23T16:52:20Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "area:ci",
-          "P2",
-          "platform:windows"
         ],
         "milestone": null
       },
@@ -553,7 +583,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/125",
         "createdAt": "2026-08-02T16:57:08Z",
-        "updatedAt": "2026-09-19T21:30:53Z",
+        "updatedAt": "2026-11-17T03:20:04Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -603,7 +633,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/106",
         "createdAt": "2026-07-28T21:18:07Z",
-        "updatedAt": "2026-11-13T03:09:04Z",
+        "updatedAt": "2026-11-17T03:19:14Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -612,7 +642,7 @@
           "area:ci",
           "P2"
         ],
-        "milestone": "next"
+        "milestone": null
       },
       {
         "number": 97,
@@ -799,14 +829,14 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/52",
         "createdAt": "2026-07-03T16:44:48Z",
-        "updatedAt": "2026-10-30T20:28:24Z",
+        "updatedAt": "2026-11-17T03:19:16Z",
         "isPR": false,
         "draft": null,
         "labels": [
           "area:networking",
           "P3"
         ],
-        "milestone": "next"
+        "milestone": null
       },
       {
         "number": 49,

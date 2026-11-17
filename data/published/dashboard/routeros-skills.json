@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "routeros-skills",
-  "generatedAt": "2026-11-16T22:12:26.611Z",
+  "generatedAt": "2026-11-17T04:33:49.226Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,8 +9,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 20,
-        "owner": 20,
+        "total": 21,
+        "owner": 21,
         "external": 0,
         "bot": 0
       },
@@ -25,13 +25,26 @@
       }
     },
     "page": {
-      "fetched": 25,
+      "fetched": 26,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 61,
+        "title": "routeros-mndp: IP-source fallback for missing TLV 17 is ungrounded (observed sources are 0.0.0.0)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/61",
+        "createdAt": "2026-11-16T22:44:26Z",
+        "updatedAt": "2026-11-16T22:44:26Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
       {
         "number": 59,
         "title": "docs: add routeros-cmr to README table and fix two reference TOCs",
