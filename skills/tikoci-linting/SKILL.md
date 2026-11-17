@@ -7,7 +7,7 @@ description: "tikoci linting, with starting configs in assets/: tight types (str
 
 Which linters tikoci repos run, how they are configured, and where each one
 runs. The toolchain they run on is in `tikoci-toolchain`; how CI wires the
-gate is in `tikoci-ci`.
+gate is in [tikoci-ci](https://tikoci.dev/house/skills/tikoci-ci/SKILL.md).
 
 ## The set
 
@@ -197,7 +197,8 @@ a cost with no benefit. From
 - **hadolint** on Dockerfiles, where a repo has them.
 - A local run may skip a tool that `bun install` does not provide (shellcheck,
   actionlint, hadolint) and say so; CI installs it, and the developer docs
-  list it (see `tikoci-toolchain`).
+  list it (see `tikoci-toolchain`). With `CI` set, a missing tool fails:
+  a skip there removes the gate silently the day an install step breaks.
 
 ## Skill descriptions
 

@@ -60,6 +60,9 @@ because nobody ran the request by hand to see what came back.
   or disabled validation (`validate=false` in centrs) as a first move. A skip
   is the worst of these: a bumped timeout still runs the test, a skipped test
   never reports again. Filing an issue next to the skip does not make it safe.
+  A retry exists only to collect data on a flake an open issue is
+  investigating, and is recorded
+  ([tikoci-ci](https://tikoci.dev/house/skills/tikoci-ci/SKILL.md)).
 - **Gate only after a local repro proves a real, unfixable limit**, and cite
   that repro in the gate.
 - **A timeout is raised only once you know why the step is slow.** A step

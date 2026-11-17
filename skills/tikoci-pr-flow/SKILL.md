@@ -8,7 +8,7 @@ description: "tikoci PR flow: every change goes through a PR, opened as a draft 
 How a change travels from a branch to `main` in a tikoci repo, and how agents
 take part. The repository settings that enforce it (branch protection, merge
 method, labels) are in `tikoci-github`; how CI runs on a PR is in
-`tikoci-ci`.
+[tikoci-ci](https://tikoci.dev/house/skills/tikoci-ci/SKILL.md).
 
 ## Every change is a PR
 
@@ -35,7 +35,7 @@ method, labels) are in `tikoci-github`; how CI runs on a PR is in
 
 - **Docs-only changes are detected by path in CI**, which skips the heavy
   jobs (centrs `isDocsOnlyPath` in `scripts/ci-changes.ts`). Nothing has to
-  be remembered; the wiring is `tikoci-ci`.
+  be remembered; the wiring is [tikoci-ci](https://tikoci.dev/house/skills/tikoci-ci/SKILL.md).
 - **The `skip-review` label keeps CodeRabbit off** a PR that does not need a
   hosted review: docs, nits, a version bump. An agent sets it as needed, when
   creating the PR or at least before marking it ready, because ready triggers

@@ -1,0 +1,51 @@
+# tikoci starting zizmor workflow. Save as .github/workflows/zizmor.yml.
+# See tikoci-ci and tikoci-github.
+#
+# Audits the repo's workflows, actions and dependabot.yml, and uploads the
+# findings to code scanning (category "zizmor"), next to CodeQL default setup.
+# In this SARIF mode the job does not fail on findings: it reports. Triage
+# what is already there before adding this (fix, or disable a rule in
+# .github/zizmor.yml with the reason), then gate with `zizmor --offline .`
+# in the lint script, which exits non-zero on findings.
+name: zizmor
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  schedule:
+    # Weekly, so online audits (a newly vulnerable or impostor action
+    # reference) reach main without a push.
+    - cron: "29 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: zizmor-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  zizmor:
+    name: Analyze (zizmor)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      security-events: write # the SARIF upload
+      # actions: read        # add for a private repo
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Run zizmor
+        uses: zizmorcore/zizmor-action@45d7276c9ca790aabd705e31ca99c6185c3e76dd # v0.8.1
+        # `version: latest` (the default) is the zizmor release this action
+        # release bundles (1.32.0 for v0.8.1), so new audits arrive with the
+        # Dependabot bump of the action. Once zizmor gates, pin the same
+        # version here and in the lint script, so both move together.
+        # with:
+        #   version: "1.32.0"

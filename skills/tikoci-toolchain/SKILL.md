@@ -7,7 +7,7 @@ description: "tikoci toolchain: Bun runs, tests, installs and builds (not node, 
 
 What tikoci repos build and run with. Linters are in `tikoci-linting`,
 dependency and action pins in `tikoci-dependencies`, and how CI calls all
-of this in `tikoci-ci`.
+of this in [tikoci-ci](https://tikoci.dev/house/skills/tikoci-ci/SKILL.md).
 
 ## Bun is the runtime
 
@@ -61,7 +61,9 @@ a package:
 - **`packageManager` in package.json holds one exact version**
   (`"packageManager": "bun@1.4.4"`), and every `oven-sh/setup-bun` step reads
   it with `bun-version-file: package.json`. No `.bun-version` file and no
-  inline `bun-version:`: one file, one place to change.
+  inline version: one file, one place to change. The one exception is the
+  dispatch-input override tikoci-ci puts next to `bun-version-file` in a
+  workflow that tests (see the pin check below).
 - **Why pin:** when CI installs whatever Bun is newest, a Bun release turns
   tests red with no repository change to point at, and the innocent PR under
   review takes the blame (quickchr #148). A runtime upgrade is a toolchain
@@ -83,12 +85,16 @@ a package:
   `actions/checkout`; `@types/bun` and any Dockerfile match it; and
   `engines.bun` allows it. quickchr's `scripts/check-bun-pin.ts` is the
   pattern, but it checks `.bun-version`; adapt it to read `packageManager`
-  when adopting.
-- **Open (`bun-ci-version`)**: how CI also meets the latest Bun is not
-  settled. The direction is a `workflow_dispatch` input for the Bun version,
-  defaulting to the pin, plus a scheduled run against the latest Bun (inside
-  an existing nightly sweep where there is one, report-only); a latest-Bun job
-  on every PR is too much.
+  when adopting. The one inline version it accepts is the override that
+  tikoci-ci puts next to `bun-version-file`, and only while `BUN_VERSION` is
+  defined once, at the workflow level, from the dispatch input (and
+  `latest` on the schedule). A release or deploy workflow gets no override:
+  it builds on the pin.
+- **CI can meet any Bun**, without a latest-Bun job on every PR: a
+  `bun-version` dispatch input everywhere, and, for a tool that runs on its
+  users' Bun, a weekly scheduled CI run on `latest` whose failure opens an
+  issue ([tikoci-ci](https://tikoci.dev/house/skills/tikoci-ci/SKILL.md),
+  settles `bun-ci-version`).
 
 ## Lockfile
 
