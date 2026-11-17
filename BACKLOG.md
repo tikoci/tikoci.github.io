@@ -15,6 +15,9 @@ Add detail as indented lines only when needed. Move finished items to *Done* (or
 
 ## Open
 
+- [ ] [deps] `playwright` is a devDependency that nothing in the repo imports or runs (no
+      scripts, tests or workflows). Remove it, or document the manual workflow that needs
+      it, so Dependabot stops bumping an unused browser tool. (PR #32 review)
 - [ ] [settings] Finish `tikoci-github` here: a read-only workflow token default and required
       SHA-pinned actions (all pinned since #29; `upload-pages-artifact` pins its nested
       `upload-artifact` by SHA too). Needs the maintainer's go-ahead. (#21, 3c)
