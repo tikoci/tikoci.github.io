@@ -21,12 +21,13 @@ consumers. Vulnerabilities in RouterOS itself go to MikroTik, not here.
 
 | Check | State |
 | --- | --- |
-| CodeQL, default setup (`javascript-typescript`, `actions`), Extended suite | enabled |
+| CodeQL, default setup (`javascript-typescript`, `actions`) | enabled, Default suite (Extended planned) |
 | zizmor workflow audit, reported to code scanning | enabled |
 | Secret scanning with push protection | enabled |
 | Private vulnerability reporting | enabled |
-| Dependabot alerts and security updates | enabled for GitHub Actions; Bun packages are not supported |
-| `bun audit` | not in CI yet: its findings (all in dev tools) are fixed first |
+| Dependabot alerts | enabled for GitHub Actions; Bun packages are not supported |
+| Dependabot security updates | not enabled yet (planned) |
+| `bun audit` | not in CI yet: its existing findings are fixed first |
 | Dependabot version updates | GitHub Actions and Bun, weekly |
 | Dependency review | not enabled: the dependency graph does not read `bun.lock` |
 | Code Quality, AI findings | not enabled: paid features |

@@ -17,11 +17,15 @@ Add detail as indented lines only when needed. Move finished items to *Done* (or
 
 - [ ] [settings] Apply the `tikoci-github` settings here (maintainer's go-ahead): delete
       branches on merge, Dependabot security updates, the `skip-review` label, CodeQL default
-      setup on the Extended suite (then check its languages). Once the action pins are on
+      setup on the Extended suite (then check its languages), and SECURITY.md's table updated to
+      match. Once the action pins are on
       `main`: a read-only workflow token default and required SHA pins. (#21, 3c)
-- [ ] [deps] `bun audit` reports 16 advisories (10 high), all in dev tools (markdownlint-cli2's
-      markdown-it and KaTeX, among others): upgrade the lockfile with its lint fixes in one PR,
-      then run `bun audit` in CI and update SECURITY.md. (#21, 3b)
+- [ ] [deps] `bun audit` reports 16 advisories (10 high). Six (`bun audit --production`) are
+      `brace-expansion` under `curlconverter > yamljs > glob > minimatch`, a production
+      dependency bundled into the curl parser page; check whether that path is reachable in
+      the browser. The rest are dev tools (markdownlint-cli2's markdown-it and KaTeX, among
+      others). Upgrade the lockfile with its lint fixes in one PR, then run `bun audit` in CI
+      and update SECURITY.md. (#21, 3b)
 - [ ] [house] Adopt `tikoci-toolchain` (`@types/bun` matching the pin exactly), `tikoci-testing`
       and `tikoci-grounding` here, or note why not under House exceptions. (#21)
 - [ ] [lint] Adopt the `tikoci-linting` starting configs here: the stricter tsconfig (TypeScript 7
