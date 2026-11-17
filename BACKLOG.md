@@ -24,6 +24,17 @@ Add detail as indented lines only when needed. Move finished items to *Done* (or
       reports 20 `noUncheckedIndexedAccess` errors in build.ts and scripts/), `biome.jsonc` with
       `--error-on-warnings` (needs the `any` item below first), and one `.markdownlint-cli2.yaml`.
       (#21, 3b; PR #26 review)
+      Hold until the rest of #21 Phase 3 lands: later skills may change these configs
+      (maintainer, 2026-11-17). The example lints `src/**/*.html` too, which means removing
+      the 3 `noDescendingSpecificity` suppressions in `shared.css` (the rule is off) and fixing
+      or explaining the 5 `!important`s in `project-map.html`. (PR #36 grounding)
+- [ ] [lint] The Plausible snippet in the `<head>` of all 14 pages (and an expanded copy in
+      `404.html`) fails the house Biome config: `noAssignInExpressions` is an error, plus
+      `noArguments`. Move it verbatim into `shared.js` behind one `biome-ignore` naming both
+      rules (one comment can list several; `shared.js` loads before every page script that
+      calls `plausible()`), then check with Playwright that the pageview and a custom event
+      still reach `plausible.io/api/event`. restraml carries the same snippet. Part of the
+      lint adoption above. (PR #36 grounding)
 - [ ] [ci] Hourly persist commits to `main` on nearly every run, because the `attemptedAt` /
       `generatedAt` timestamps always change. Skip the commit when only timestamps changed,
       or persist less often (e.g. daily). If a human push races the run, that hour's deploy

@@ -49,7 +49,7 @@ machine facts.
 
 The house rows group into 17 skills (`skills.tsv`). Published skills live in
 [`skills/`](../../skills/) and at <https://tikoci.dev/house/>. `tikoci-house` ships in Phase 1
-and `tikoci-home` in Phase 2; the other 15 are Phase 3. Compared with the original strawman in
+and `tikoci-home` in Phase 2; the other 15 were planned for Phase 3. Compared with the original strawman in
 issue #21, the survey adds `tikoci-testing`, `tikoci-release`, `tikoci-interfaces` (errors,
 CLI, library and MCP surfaces, which quickchr, centrs and rosetta all write about),
 `tikoci-web` and `tikoci-crossref`, and splits GitHub work into `tikoci-ci` and
@@ -62,6 +62,10 @@ rows from `tikoci-interfaces`. Its LLM-friendly-code row went to `tikoci-toolcha
 its static-inventory row to `tikoci-web`; the `tikoci-security-md` rows moved to
 `tikoci-github`, which already absorbs that skill. `tikoci-crossref` is generated from
 `data/repo-config.ts`.
+
+On 2026-11-17 the maintainer deferred `tikoci-web`, leaving 13 for Phase 3: generic web
+practice is left to agents. Its CSS and HTML lint went to `tikoci-linting`, its
+static-inventory row to `tikoci-data`, and Pico gotchas stay in each repo's AGENTS.md.
 
 Observations that shape later phases:
 

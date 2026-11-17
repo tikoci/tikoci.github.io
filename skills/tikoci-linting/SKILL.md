@@ -1,6 +1,6 @@
 ---
 name: tikoci-linting
-description: "tikoci linting, with starting configs in assets/: tight types (strict tsc, noUncheckedIndexedAccess, exactOptionalPropertyTypes, erasable syntax only), Biome lint with the formatter off and warnings failing the gate, lenient markdownlint (no line length; GitHub HTML welcome; fences name a language), cspell with a sorted project-words.txt, actionlint, zizmor, shellcheck -s sh, hadolint. One lint gate CI runs; a finding you meet is fixed, not left; every suppression names the rule and the reason. Use when adding or configuring a linter, git hook, suppression or dictionary word."
+description: "tikoci linting, with starting configs in assets/: tight types (strict tsc, noUncheckedIndexedAccess, exactOptionalPropertyTypes, erasable syntax only), Biome lint on code, CSS and HTML with the formatter off and warnings failing the gate (noDescendingSpecificity off), lenient markdownlint (no line length; GitHub HTML welcome; fences name a language), cspell with a sorted project-words.txt, actionlint, zizmor, shellcheck -s sh, hadolint. One lint gate CI runs; a finding you meet is fixed, not left; every suppression names the rule and the reason. Use when adding or configuring a linter, git hook, suppression or dictionary word."
 ---
 
 # Linting
@@ -14,7 +14,7 @@ gate is in [tikoci-ci](https://tikoci.dev/house/skills/tikoci-ci/SKILL.md).
 | Checks | Tool | Starting config |
 | --- | --- | --- |
 | Types | `tsc --noEmit` | [tsconfig.example.json](assets/tsconfig.example.json) |
-| TypeScript and JavaScript lint | Biome 2.x, lint only | [biome.example.jsonc](assets/biome.example.jsonc) |
+| TypeScript, JavaScript, CSS and HTML lint | Biome 2.x, lint only | [biome.example.jsonc](assets/biome.example.jsonc) |
 | Markdown structure | markdownlint-cli2 | [markdownlint-cli2.example.yaml](assets/markdownlint-cli2.example.yaml) |
 | Spelling | cspell | [cspell.example.json](assets/cspell.example.json), [project-words.example.txt](assets/project-words.example.txt) |
 | Workflow YAML | actionlint | none needed |
@@ -127,6 +127,20 @@ From [biome.example.jsonc](assets/biome.example.jsonc):
 - **`noExplicitAny` and `noNonNullAssertion` are errors in shipped code**:
   use `unknown` and a check instead. Tests turn both off: they need the looser
   escapes to reach into results and build odd inputs.
+- **Stylesheets and HTML pages are linted too**, with their `<style>` and
+  `<script>` blocks, under the same rules as other code: no `files.includes`
+  that leaves them out, and no override that relaxes every page.
+- **`noDescendingSpecificity` is off.** It compares any two selectors that end
+  in the same element, whether or not they can match the same one, so it
+  flags unrelated components (`.hero-art svg` after a dropdown's icon rule).
+  Reordering a stylesheet to please it scatters each component's rules.
+- **`useTemplate` is off.** `"<b>" + name` and `` `<b>${name}` `` are the same
+  string, and neither escapes `name`: only an escaping helper does. A style
+  hint with no quality payoff, which Biome rates info, below the gate, but
+  prints on every run.
+- **`noImportantStyles` stays on.** An `!important` that overrides a
+  third-party widget's own CSS (Scalar, Monaco) keeps a suppression that names
+  the widget; one that only wins against the site's own rules is fixed.
 - **`biome.jsonc`**, so each non-default rule carries its reason as a comment.
 - **Keep Biome's `$schema` version, the package.json version and `bun.lock` in
   step**; a schema mismatch message usually means a local binary drifted from
