@@ -72,7 +72,8 @@ and the other tikoci tools. The Bun pin itself is in `tikoci-toolchain`.
 - **`bun audit` is the vulnerability check.** Dependabot security updates do
   not support Bun, so version updates alone miss advisories. CI runs it as
   `tikoci-ci` describes ("Dependency audit"): the scheduled run reports new
-  advisories, and a PR fails on the ones its own lockfile change brings.
+  advisories, and a PR or push fails on findings only when it changes
+  `bun.lock` or `package.json`.
 - **Fix findings with a reviewed upgrade.** `bun audit fix` upgrades within
   the declared ranges, except that it treats an exact pin as a caret range
   and rewrites it in package.json

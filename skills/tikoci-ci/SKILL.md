@@ -1,6 +1,6 @@
 ---
 name: tikoci-ci
-description: "tikoci CI recipes, with example workflows in assets/: jobs run the package scripts; fast PR gates; docs-only diffs skip heavy jobs by a job if, never paths: on a required workflow; one gate job is the required check; Bun pin with a bun-version dispatch input, latest Bun weekly for tools on users' Bun; dispatch QA from any branch; summaries and artifacts agents can read; red is a finding, retries only investigate a tracked flake; bun audit reported weekly, failing a PR only when it changes the lockfile; zizmor to code scanning. Use when writing or debugging a workflow or waiting on a run."
+description: "tikoci CI recipes, with example workflows in assets/: jobs run the package scripts; fast PR gates; docs-only diffs skip heavy jobs by a job if, never paths: on a required workflow; one gate job is the required check; Bun pin with a bun-version dispatch input, latest Bun weekly for tools on users' Bun; dispatch QA from any branch; summaries and artifacts agents can read; red is a finding, retries only investigate a tracked flake; bun audit reported weekly, failing a PR or push only when it changes bun.lock or package.json; zizmor to code scanning. Use when writing or debugging a workflow or waiting on a run."
 ---
 
 # CI
