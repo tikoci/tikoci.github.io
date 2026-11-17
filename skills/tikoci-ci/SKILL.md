@@ -56,13 +56,15 @@ zizmor, and that is complete.
   quickchr's first arm64 run was green with every CHR test failing. On
   Windows, explicit `bash` is Git Bash instead of PowerShell, so one script
   serves every OS.
-- **On Windows, a CLI's tests run in its users' shell.** Git Bash is not
+- **On Windows, know which shell a test step runs in.** Git Bash is not
   neutral: it sets `HOME` and MSYS path handling, which a PowerShell session
-  usually lacks, so a tool that reads `env.HOME ?? homedir()` (centrs) takes
-  a different branch from the one its Windows users hit. The step that runs
-  such a tool's tests sets `shell: pwsh`, unless its users are Git Bash
-  users, and checks `$LASTEXITCODE` itself instead of trusting a pipeline.
-  Scripting steps stay `bash`.
+  usually lacks, so code that reads `env.HOME` takes a different branch from
+  the one most Windows users hit. tikoci Bun code is meant to work on every
+  platform either way: a fallback such as `env.HOME ?? homedir()` (centrs)
+  is a reasonable safeguard, and a unit test with `HOME` set and unset
+  covers both branches from one `bash` script. Where the users' shell
+  matters more than one script, the Windows test step runs under
+  `shell: pwsh` and checks `$LASTEXITCODE` itself.
 - **Untrusted values reach a script through `env:`**, never as `${{ }}`
   inside `run:`: a PR title, branch name or dispatch input is shell code
   there (zizmor `template-injection`).
@@ -107,6 +109,11 @@ zizmor, and that is complete.
   repo with device behavior, the smoke integration tier on code changes**
   (`tikoci-testing`; the job is a recipe in patterns.md). Minutes, not tens
   of minutes. The channel sweep runs nightly, not per PR.
+- **A smoke test checks the final form from the product's side**: a quick,
+  broad "does the built thing work the way someone uses it", where unit and
+  integration tests aim at the code and the systems it talks to. Its shape
+  follows the product: a CLI against a CHR (centrs), a container installed
+  as a RouterOS `/app` (app-t3code).
 - **Stage the device job behind the cheap ones**: smoke `needs` lint and
   the Linux unit job and runs only when they passed, so a lint failure does
   not boot a CHR for ten minutes (centrs `chr-smoke`).
@@ -281,11 +288,11 @@ asks for.
   Mac wedge hit the same file 7 times of 7). Budget the step for the
   retried files' second run, and reap leftover machines before it, so
   attempt 2 does not fail, or pass, on attempt 1's leftovers.
-- **Clearing a read flake is cheap and recorded.** Without a standing
-  retry, a red scheduled sweep can freeze merges in a repo whose
+- **Clearing a read flake is a rerun, tracked in an issue.** Without a
+  standing retry, a red scheduled sweep can freeze merges in a repo whose
   `main`-health check reads it, and a sweep that skips unchanged nights
-  keeps it red. Once someone has read the failure and opened or updated an
-  issue, rerun the failed jobs of that run
+  keeps it red. Once someone has read the failure and opened an issue, or
+  added to an existing one, rerun the failed jobs of that run
   (`gh run rerun <id> --failed`): attempt 1's logs stay, the records carry
   the attempt, and the health check reads the run's latest attempt. A rerun
   nobody read first is a retry by hand.
@@ -320,6 +327,25 @@ asks for.
   disappears the day an install step breaks (`tikoci-linting`). Pin the
   zizmor version in both places once it gates, so new audits arrive in a
   reviewed bump.
+
+## Container apps
+
+A repo that ships a RouterOS `/app` container (app-t3code today) tests the
+image where it runs: under RouterOS `/container` on a CHR, not Docker
+(`tikoci-toolchain`). The pattern is young, from one repo, so it is a
+pointer, not a settled rule; the logic is in patterns.md ("A RouterOS
+`/app` container"):
+
+- **PRs build, `main` publishes a candidate, a later job promotes it.** The
+  release tags move only after the candidate passed, and only while its
+  commit is still `main`'s head.
+- **The CHR test runs after the publish**, from the published image, on
+  each architecture, and on a schedule and by dispatch with the RouterOS
+  version as an input.
+- **The Bun inside the image is the product's Bun**: a `bun-version` input
+  to try a new one, no weekly latest-Bun run.
+- A repo with an `/app` YAML and no image of its own (a rosetta formula)
+  can still take the CHR install test.
 
 ## Bot data and deploys
 

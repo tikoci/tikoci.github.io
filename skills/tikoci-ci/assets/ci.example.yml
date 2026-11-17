@@ -93,9 +93,9 @@ jobs:
       - name: Record versions
         run: |
           echo "- $RUNNER_OS: Bun $(bun --version) (requested: ${BUN_VERSION:-the pin})" >> "$GITHUB_STEP_SUMMARY"
-      # A CLI's Windows users are mostly in PowerShell, which Git Bash is not
-      # (it sets HOME): give the Windows leg its own step with `shell: pwsh`
-      # (tikoci-ci, "Every workflow").
+      # On Windows this is Git Bash, which sets HOME where PowerShell usually
+      # does not: test both branches, or run the Windows leg under `shell:
+      # pwsh` (tikoci-ci, "Every workflow").
       - name: Unit tests
         env:
           SCRIPT: ${{ runner.os == 'Linux' && 'test:coverage' || 'test' }}

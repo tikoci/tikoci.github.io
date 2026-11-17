@@ -87,9 +87,13 @@ is the version to grow into once the rules grow:
 
 ## A device smoke job
 
-For a repo with device behavior: a short integration tier against a real
-CHR on code changes (`tikoci-testing`), behind the classifier above and
-the cheap jobs. The logic to keep, whatever the shape:
+A smoke test is a quick, broad check of the final form from the product's
+side: does the built thing work the way someone uses it. Unit and
+integration tests aim at the code and the systems it talks to. The shape
+follows the product; this recipe is the CLI shape, a tool against a real
+CHR on code changes (`tikoci-testing`), behind the classifier above and the
+cheap jobs. The container shape is in the next section. The logic to keep,
+whatever the shape:
 
 - **Staged**: it runs only after lint and the Linux unit job passed, so a
   lint failure never boots a CHR. With a multi-OS unit matrix, split the
@@ -217,6 +221,45 @@ smoke:
 A scheduled run on `latest` Bun also boots that week's `stable`, so a red
 weekly run has two suspects; the Bun section of tikoci-ci has the dispatch
 that tells them apart.
+
+## A RouterOS `/app` container
+
+From app-t3code (`ci.yml`, `integration.yml`, `freshness.yml`), the one
+repo with this shape so far; read its workflows for the details. The
+logic:
+
+- **The `/app` YAML is a contract tested offline** in the lint and test
+  job (`bun run check`), on every PR.
+- **The image build skips docs-only changes and draft PRs.** "Docs" means
+  nothing the Dockerfile copies or the build runs. To build a draft anyway
+  (a test image before merge), dispatch the workflow on its branch.
+- **Test the image's own behavior on the runner before pushing**: app-t3code
+  loads the native image and runs `container-replacement.test.ts` against
+  it. Docker on a runner is a stand-in for the image, not for `/container`.
+- **`main` pushes a candidate tag** (`:sha-<commit>`) for both
+  architectures, the arm64 variant runs natively on an arm64 runner, and a
+  `promote` job then points the release tags the `/app` YAML pins at the
+  candidate's digest. It runs only while that commit is still `main`'s head,
+  and it never cancels.
+- **The CHR test is a separate workflow that runs after the publish**:
+  `workflow_run` on CI, only when `promote` succeeded. A `push` trigger
+  raced the build and tested the previous image, and a docs-only push
+  publishes nothing, which once left the CHR waiting out its whole budget
+  for an image that never came. It checks out the published commit, so the
+  YAML and the test match the image. Then it boots a CHR on each
+  architecture, installs the `/app` from GHCR and probes the web UI. It
+  also runs weekly and by dispatch (RouterOS version, expected app version).
+- **The Bun inside the image is the product's Bun**: the pin moves in a
+  reviewed bump, tried first through a `bun-version` input. Skip the weekly
+  latest-Bun run.
+- **Upstream drift has its own scheduled check**: `freshness.yml` compares
+  every pin with upstream daily and keeps one issue open while it is red
+  (`scripts/freshness-issue.sh`), the same idea as the CI example's
+  `report` job.
+
+A repo whose product includes an `/app` YAML without building the image
+(the maintainer names rosetta's formula) can take only the last stage:
+install the `/app` on a CHR and probe it.
 
 ## The gate job
 
