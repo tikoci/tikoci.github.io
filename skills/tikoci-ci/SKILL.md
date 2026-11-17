@@ -352,9 +352,10 @@ red. The `audit` job in [ci.example.yml](assets/ci.example.yml):
   pushed range from `github.event.before`, not just its last commit. A new
   branch, or a base that cannot be fetched, counts every finding.
 - **An audit that did not complete fails, always.** Bun exits 1 both for
-  advisories and when it cannot reach the registry, so only a JSON report
-  (`bun audit --json`) counts as findings; anything else is an `::error::`,
-  never a warning.
+  advisories and when the registry is unreachable or answers with an error
+  object (which `--json` echoes), so only an advisory report counts as
+  findings: every package maps to advisories with an `id` and a
+  `severity`. Anything else is an `::error::`, never a warning.
 - **It needs no `bun install`**: `bun audit` reads `bun.lock`.
 - **An advisory with no fixed release in range** is ignored by its id
   (`--ignore=GHSA-...`) with the reason and the removal condition beside it

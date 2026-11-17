@@ -162,8 +162,11 @@ jobs:
           bun audit --json "${audit_args[@]}" > "$RUNNER_TEMP/audit.json" || status=$?
           if [ "$status" -eq 0 ]; then exit 0; fi
           # Bun exits 1 for advisories and for an audit that did not complete
-          # (a registry it cannot reach) alike: only a JSON report is findings.
-          if ! jq -e 'type == "object" and length > 0' "$RUNNER_TEMP/audit.json" > /dev/null 2>&1; then
+          # alike (a registry it cannot reach, or one that answers with an
+          # error object), so only an advisory report is findings: each
+          # package maps to advisories that carry an id and a severity.
+          report='type == "object" and length > 0 and all(.[]; type == "array" and length > 0 and all(.[]; type == "object" and has("id") and has("severity")))'
+          if ! jq -e "$report" "$RUNNER_TEMP/audit.json" > /dev/null 2>&1; then
             echo "::error::bun audit did not complete (exit $status), so nothing was checked."
             exit 1
           fi
