@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-17T04:33:49.226Z",
+  "generatedAt": "2026-11-17T14:32:08.544Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -68,42 +68,29 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 52,
-        "owner": 52,
+        "total": 51,
+        "owner": 51,
         "external": 0,
         "bot": 0
       },
       "prs": {
-        "total": 1,
-        "owner": 1,
+        "total": 0,
+        "owner": 0,
         "external": 0,
         "bot": 0,
-        "ownerReady": 1,
+        "ownerReady": 0,
         "ownerDraft": 0,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 53,
+      "fetched": 51,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
-      {
-        "number": 281,
-        "title": "fix(state): treat EPERM as a live foreign QEMU, never as dead (#259)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/pull/281",
-        "createdAt": "2026-11-17T03:30:43Z",
-        "updatedAt": "2026-11-17T03:49:31Z",
-        "isPR": true,
-        "draft": false,
-        "labels": [],
-        "milestone": null
-      },
       {
         "number": 280,
         "title": "provisioning: add a managed, batch-verified SSH key to an already-booted machine (set --ssh-key)",
@@ -301,23 +288,6 @@
           "area:provisioning",
           "P2",
           "consumer:app-t3code"
-        ],
-        "milestone": "next"
-      },
-      {
-        "number": 259,
-        "title": "state: EPERM read as dead — list persists 'stopped' over a root-owned running QEMU",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/259",
-        "createdAt": "2026-11-07T19:34:59Z",
-        "updatedAt": "2026-11-17T03:19:17Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "area:library-api",
-          "P2"
         ],
         "milestone": "next"
       },

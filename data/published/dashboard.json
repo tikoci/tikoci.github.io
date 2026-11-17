@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-17T04:33:49.226Z",
+  "generatedAt": "2026-11-17T14:32:08.544Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,7 +10,7 @@
     "otherHttpCalls": 11,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4837
+    "rateLimitRemaining": 4836
   },
   "sources": {
     "ros-current": "https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel> (MikroTik upgrade feed; body \"<version> <build-ts>\")",
@@ -135,9 +135,9 @@
             "headBranch": "main",
             "headSha": "0e476cea72d28ef8564a78acdd063553b72fd95e",
             "event": "schedule",
-            "runStartedAt": "2026-11-16T12:23:46Z",
-            "lastUpdatedAt": "2026-11-16T12:25:00Z",
-            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/43866180290",
+            "runStartedAt": "2026-11-17T12:44:18Z",
+            "lastUpdatedAt": "2026-11-17T12:45:48Z",
+            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/44085945567",
             "isHead": true
           },
           {
@@ -430,9 +430,9 @@
             "headBranch": "main",
             "headSha": "e568f7a3bc6a6265499d3189afc72f2f3e2dbc1d",
             "event": "schedule",
-            "runStartedAt": "2026-11-16T12:29:37Z",
-            "lastUpdatedAt": "2026-11-16T12:29:56Z",
-            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/43867061349",
+            "runStartedAt": "2026-11-17T12:50:41Z",
+            "lastUpdatedAt": "2026-11-17T12:51:07Z",
+            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/44086950770",
             "isHead": true
           },
           {
@@ -662,9 +662,9 @@
             "headBranch": "main",
             "headSha": "acd6566c090b9b8060a6bec849e8ad2ca8db5380",
             "event": "schedule",
-            "runStartedAt": "2026-11-16T05:15:54Z",
-            "lastUpdatedAt": "2026-11-16T05:16:13Z",
-            "lastUrl": "https://github.com/tikoci/fat-chr/actions/runs/43809088766",
+            "runStartedAt": "2026-11-17T06:57:39Z",
+            "lastUpdatedAt": "2026-11-17T06:57:51Z",
+            "lastUrl": "https://github.com/tikoci/fat-chr/actions/runs/44035045936",
             "isHead": true
           }
         ]
@@ -799,8 +799,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "dd7e0ad99aa51acc79f086fe5d71e65efbb511eb",
-        "headUrl": "https://github.com/tikoci/quickchr/commit/dd7e0ad99aa51acc79f086fe5d71e65efbb511eb",
+        "headSha": "954251ca10f9f9dfeeff1621079a030e58a4b32f",
+        "headUrl": "https://github.com/tikoci/quickchr/commit/954251ca10f9f9dfeeff1621079a030e58a4b32f",
         "workflows": [
           {
             "configured": "CI",
@@ -812,11 +812,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "dd7e0ad99aa51acc79f086fe5d71e65efbb511eb",
+            "headSha": "954251ca10f9f9dfeeff1621079a030e58a4b32f",
             "event": "push",
-            "runStartedAt": "2026-11-14T20:15:47Z",
-            "lastUpdatedAt": "2026-11-14T20:18:48Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/43636551731",
+            "runStartedAt": "2026-11-17T11:19:43Z",
+            "lastUpdatedAt": "2026-11-17T11:22:45Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/44073010587",
             "isHead": true
           },
           {
@@ -846,11 +846,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "dd7e0ad99aa51acc79f086fe5d71e65efbb511eb",
+            "headSha": "954251ca10f9f9dfeeff1621079a030e58a4b32f",
             "event": "schedule",
-            "runStartedAt": "2026-11-16T12:46:58Z",
-            "lastUpdatedAt": "2026-11-16T12:47:10Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/43869685173",
+            "runStartedAt": "2026-11-17T13:28:41Z",
+            "lastUpdatedAt": "2026-11-17T13:28:53Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/44093101650",
             "isHead": true
           }
         ]
@@ -859,42 +859,29 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 52,
-            "owner": 52,
+            "total": 51,
+            "owner": 51,
             "external": 0,
             "bot": 0
           },
           "prs": {
-            "total": 1,
-            "owner": 1,
+            "total": 0,
+            "owner": 0,
             "external": 0,
             "bot": 0,
-            "ownerReady": 1,
+            "ownerReady": 0,
             "ownerDraft": 0,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 53,
+          "fetched": 51,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
-          {
-            "number": 281,
-            "title": "fix(state): treat EPERM as a live foreign QEMU, never as dead (#259)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/pull/281",
-            "createdAt": "2026-11-17T03:30:43Z",
-            "updatedAt": "2026-11-17T03:49:31Z",
-            "isPR": true,
-            "draft": false,
-            "labels": [],
-            "milestone": null
-          },
           {
             "number": 280,
             "title": "provisioning: add a managed, batch-verified SSH key to an already-booted machine (set --ssh-key)",
@@ -1057,6 +1044,24 @@
               "consumer:app-t3code"
             ],
             "milestone": null
+          },
+          {
+            "number": 263,
+            "title": "research: managed host networks on Linux and Windows (privileged once, unprivileged machines)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/263",
+            "createdAt": "2026-11-11T13:43:11Z",
+            "updatedAt": "2026-11-11T13:43:11Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "area:networking",
+              "P3",
+              "research",
+              "platform:windows"
+            ],
+            "milestone": null
           }
         ]
       },
@@ -1064,8 +1069,8 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 52,
-        "totalPRs": 1,
+        "totalIssues": 51,
+        "totalPRs": 0,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -3546,23 +3551,6 @@
       ]
     },
     {
-      "id": "work-maintainer-prs:quickchr",
-      "rule": "work-maintainer-prs",
-      "severity": "pending",
-      "category": "work",
-      "repos": [
-        "quickchr"
-      ],
-      "summary": "quickchr: 1 open maintainer PR",
-      "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
-      "evidence": [
-        "repos.quickchr.work.counts.prs.ownerReady=1"
-      ],
-      "urls": [
-        "https://github.com/tikoci/quickchr/pulls"
-      ]
-    },
-    {
       "id": "work-maintainer-prs:restraml",
       "rule": "work-maintainer-prs",
       "severity": "pending",
@@ -3679,7 +3667,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.quickchr.ci.workflows[Release].headSha=faac68793245d16afbd8b89e928754a102b5e4cb",
-        "repos.quickchr.ci.headSha=dd7e0ad99aa51acc79f086fe5d71e65efbb511eb"
+        "repos.quickchr.ci.headSha=954251ca10f9f9dfeeff1621079a030e58a4b32f"
       ],
       "urls": [
         "https://github.com/tikoci/quickchr/actions/runs/42367380248"

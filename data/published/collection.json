@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "attemptedAt": "2026-11-17T04:33:33.043Z",
+  "attemptedAt": "2026-11-17T14:31:45.684Z",
   "repositories": {
-    "observedAtMs": 1794890029217,
-    "observedAt": "2026-11-17T04:33:49.217Z",
+    "observedAtMs": 1794925928535,
+    "observedAt": "2026-11-17T14:32:08.535Z",
     "error": null
   },
   "note": "See per-signal state/error and generatedAt; failed signals may retain last-known-good observations."
