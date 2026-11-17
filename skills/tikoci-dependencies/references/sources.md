@@ -22,5 +22,5 @@ Planning: Phase 3 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 | Track a sibling's `next` tag | - | routeros-muse `package.json` and `AGENTS.md` ("Upstream, not forks"). |
 | Fix siblings upstream, never fork | - | routeros-muse `AGENTS.md`. |
 | Answering bots that ask for pins | quickchr-111 | Planned in #21. |
-| `bun audit fix`, `--production`, ignoring by GHSA | - | tikoci.github.io #31: 16 advisories, six through `curlconverter` (production), fixed within ranges; one KaTeX advisory with no fixed release in range ignored. |
+| `bun audit fix`, `--production`, ignoring by GHSA | - | tikoci.github.io #31: 16 advisories, six through `curlconverter` (production), fixed within ranges; one KaTeX advisory with no fixed release in range ignored. #33 review (Codex): `bun audit fix` rewrote an exact `minimist` pin `1.2.5` to `1.2.6` in package.json, as Bun documents. |
 | A clean run after a tool upgrade proves nothing | - | tikoci.github.io #31: the markdownlint-cli2 0.24.1 upgrade nested a second `micromark-core-commonmark` and disabled MD052 (Codex review). |

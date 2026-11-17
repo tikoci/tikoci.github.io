@@ -126,12 +126,12 @@ container:
   image: ghcr.io/tikoci/example:latest # zizmor: ignore[unpinned-images] the nightly job tests the newest image on purpose
 ```
 
-- `# zizmor: ignore[<audit>] reason` as a YAML comment on the first line
-  zizmor reports for the finding (several audits separated by commas). For
-  a step-level audit such as `artipacked` that is the step's `- name:` line;
-  on the `uses:` line it is not honored (zizmor 1.32.0). Keep it off a
-  pinned `uses:` line anyway: Dependabot rewrites the `# vX.Y.Z` comment
-  there.
+- `# zizmor: ignore[<audit>] reason` as a YAML comment anywhere in the
+  finding's span (several audits separated by commas). After another
+  comment it needs its own `#`: `# v7.0.1 # zizmor: ignore[artipacked] ...`
+  works, `# v7.0.1 zizmor: ignore[artipacked] ...` is ignored silently
+  (zizmor 1.32.0). Prefer the step's `- name:` line, away from the pin
+  comment Dependabot updates.
 
   ```yaml
   - name: Checkout # zizmor: ignore[artipacked] the snapshot push needs these credentials; the artifact holds only ./dist

@@ -129,9 +129,10 @@ jobs:
           retention-days: 14
 
   # bun audit. Advisories arrive without a commit: the scheduled run audits
-  # everything and the report job files it, while a PR or push fails only on
-  # findings when it changes bun.lock or package.json (tikoci-ci, "Dependency
-  # audit"). bun audit reads bun.lock, so there is no install step.
+  # everything and the report job files it, while a PR or push fails on
+  # findings only when it changes bun.lock or package.json (tikoci-ci,
+  # "Dependency audit"). An audit that does not complete always fails.
+  # bun audit reads bun.lock, so there is no install step.
   audit:
     name: Audit
     runs-on: ubuntu-latest
@@ -141,8 +142,8 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-          # HEAD^1 is then the PR's base (first parent of the merge commit)
-          # or the pushed commit's parent.
+          # A PR's merge commit and its base (the first parent). A push
+          # fetches its `before` commit when it needs it.
           fetch-depth: 2
       - name: Setup Bun
         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
@@ -152,15 +153,38 @@ jobs:
       - name: Audit dependencies
         env:
           EVENT: ${{ github.event_name }}
-        # An advisory with no fixed release in range: add --ignore=GHSA-...
-        # with the reason and the removal condition in a comment here.
+          BEFORE: ${{ github.event.before }}
         run: |
-          if bun audit; then exit 0; fi
-          if [ "$EVENT" = pull_request ] || [ "$EVENT" = push ]; then
-            if git diff --quiet HEAD^1 HEAD -- bun.lock package.json; then
-              echo "::warning::bun audit has findings this change did not bring; the scheduled run reports them."
-              exit 0
-            fi
+          # An advisory with no fixed release in range: add its
+          # --ignore=GHSA-... here, with the reason and the removal condition.
+          audit_args=()
+          status=0
+          bun audit --json "${audit_args[@]}" > "$RUNNER_TEMP/audit.json" || status=$?
+          if [ "$status" -eq 0 ]; then exit 0; fi
+          # Bun exits 1 for advisories and for an audit that did not complete
+          # (a registry it cannot reach) alike: only a JSON report is findings.
+          if ! jq -e 'type == "object" and length > 0' "$RUNNER_TEMP/audit.json" > /dev/null 2>&1; then
+            echo "::error::bun audit did not complete (exit $status), so nothing was checked."
+            exit 1
+          fi
+          bun audit "${audit_args[@]}" || true # the readable report, for the log
+          # The commits this run judges: a PR's merge commit against its base,
+          # a push's whole range. A schedule or dispatch, a new branch, or a base
+          # that cannot be fetched (a private repo without credentials): every
+          # finding counts.
+          case "$EVENT" in
+            pull_request) base=HEAD^1 ;;
+            push) base=$BEFORE ;;
+            *) exit 1 ;;
+          esac
+          case "$base" in "" | 0000000000000000000000000000000000000000) exit 1 ;; esac
+          if [ "$EVENT" = push ]; then
+            git fetch --quiet --no-tags --depth=1 origin "$base" || exit 1
+          fi
+          git rev-parse --verify --quiet "$base^{commit}" > /dev/null || exit 1
+          if git diff --quiet "$base" HEAD -- bun.lock package.json; then
+            echo "::warning::bun audit has findings this change did not bring; the scheduled run reports them."
+            exit 0
           fi
           exit 1
 
@@ -219,5 +243,5 @@ jobs:
           else
             gh issue create --title "$TITLE" --body "$(printf '%s\n\n%s\n' \
               "The weekly CI run (latest Bun, full dependency audit) failed: $RUN_URL" \
-              "A red Audit job is a new advisory. For Lint or Unit, dispatch CI on the same commit with bun-version empty to tell Bun from the rest: if it fails the same jobs with the same errors, the cause is not Bun; a different failure settles nothing.")"
+              "A red Audit job is an advisory when its log shows the report, and a registry or Bun problem when it says the audit did not complete. For any red job, dispatch CI on the same commit with bun-version empty to compare with the pin: if it fails the same jobs with the same errors, the cause is not Bun; a different failure settles nothing.")"
           fi

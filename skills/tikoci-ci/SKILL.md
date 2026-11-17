@@ -347,9 +347,14 @@ red. The `audit` job in [ci.example.yml](assets/ci.example.yml):
   audit job a weekly schedule of its own.
 - **A PR or push fails only on what it changed**: when it changes `bun.lock`
   or `package.json`, any finding fails the job; otherwise findings are a
-  `::warning::` and the scheduled run owns them. The job checks out with
-  `fetch-depth: 2`, so `HEAD^1` is the PR's base (the merge commit's first
-  parent) or the pushed commit's parent.
+  `::warning::` and the scheduled run owns them. A PR compares its merge
+  commit with the first parent (`fetch-depth: 2`); a push compares the whole
+  pushed range from `github.event.before`, not just its last commit. A new
+  branch, or a base that cannot be fetched, counts every finding.
+- **An audit that did not complete fails, always.** Bun exits 1 both for
+  advisories and when it cannot reach the registry, so only a JSON report
+  (`bun audit --json`) counts as findings; anything else is an `::error::`,
+  never a warning.
 - **It needs no `bun install`**: `bun audit` reads `bun.lock`.
 - **An advisory with no fixed release in range** is ignored by its id
   (`--ignore=GHSA-...`) with the reason and the removal condition beside it

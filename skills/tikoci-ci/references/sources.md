@@ -50,7 +50,7 @@ Planning: Phase 3 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 | Never rerun a Pages deploy | site-11 | This repo's `deploy-pages.yaml` and `docs/refresh-data.md`. |
 | Waiting on runs | user-112, user-113 | The id recorded before a dispatch: CodeRabbit on PR #28. Absorbs the user-level `gh-actions-waiting` skill (from its survey `intent`; the file is not on every machine). |
 | Caches keyed on the resolved version | quickchr-130 | quickchr `scripts/ci-cache-key.ts`, #91, #101, #104. |
-| Dependency audit: the scheduled run reports, a PR fails on its own lockfile change | - | tikoci.github.io #31: Codex noted a per-PR gate turns unrelated PRs red when an advisory is published. `bun audit` read `bun.lock` with no `node_modules` (Bun 1.4.4); the step ran under `bash -eo pipefail` against a stub `bun` for pull_request, push, schedule and dispatch. |
+| Dependency audit: the scheduled run reports, a PR fails on its own lockfile change | - | tikoci.github.io #31: Codex noted a per-PR gate turns unrelated PRs red when an advisory is published. `bun audit` read `bun.lock` with no `node_modules` (Bun 1.4.4); the step ran under `bash -eo pipefail` against a stub `bun` for pull_request, push, schedule and dispatch. #33 review (Codex): `HEAD^1` missed a lockfile change earlier in a multi-commit push, and a registry error (`.npmrc` pointing at a closed port) also exits 1, with no JSON report; both fixed and re-run. |
 
 ## Starting files
 

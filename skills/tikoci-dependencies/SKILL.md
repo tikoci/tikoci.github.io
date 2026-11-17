@@ -73,8 +73,11 @@ and the other tikoci tools. The Bun pin itself is in `tikoci-toolchain`.
   not support Bun, so version updates alone miss advisories. CI runs it as
   `tikoci-ci` describes ("Dependency audit"): the scheduled run reports new
   advisories, and a PR fails on the ones its own lockfile change brings.
-- **Fix findings with a reviewed lockfile upgrade.** `bun audit fix` upgrades
-  within the declared ranges; `bun audit --production` separates what ships
+- **Fix findings with a reviewed upgrade.** `bun audit fix` upgrades within
+  the declared ranges, except that it treats an exact pin as a caret range
+  and rewrites it in package.json
+  ([Bun docs](https://bun.sh/docs/pm/cli/audit#bun-audit-fix)), so review
+  both files. `bun audit --production` separates what ships
   from dev tools (`bun pm why <package>` shows the path). An advisory with no
   fixed release in range is ignored by its id (`--ignore=GHSA-...`), with the
   reason it does not apply and when to drop the ignore
