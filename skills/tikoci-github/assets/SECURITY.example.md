@@ -1,9 +1,11 @@
 # Security Policy
 
 <!-- tikoci starting SECURITY.md. Save at the repo root, replace OWNER/REPO
-and the placeholders. Keep the scanning table true: compare it with the
-check commands in tikoci-github's references/settings.md whenever a setting
-changes. -->
+and the placeholders. The State column shows the house defaults: fill it
+from the read-back commands in tikoci-github's references/settings.md after
+applying the settings, and compare again whenever a setting changes. Rows
+about workflows (zizmor, bun audit) are checked against the repo's
+workflows instead: the read-back does not see them. -->
 
 ## Reporting a vulnerability
 
@@ -26,7 +28,7 @@ Vulnerabilities in RouterOS itself go to MikroTik, not here. -->
 | zizmor workflow audit, reported to code scanning | enabled |
 | Secret scanning with push protection | enabled |
 | Private vulnerability reporting | enabled |
-| Dependabot alerts and security updates | enabled for GitHub Actions; Bun packages are not supported, so `bun audit` runs in CI |
+| Dependabot alerts and security updates | enabled for GitHub Actions; Bun packages are not supported, so `bun audit` runs on dependency changes, weekly and before each release |
 | Dependabot version updates | GitHub Actions and Bun, weekly |
 | Dependency review | not enabled: the dependency graph does not read `bun.lock` |
 | Code Quality, AI findings | not enabled: paid features |

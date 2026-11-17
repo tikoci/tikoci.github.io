@@ -41,11 +41,15 @@ Add detail as indented lines only when needed. Move finished items to *Done* (or
       went from 21 to 25). (PR #17 review)
 - [ ] [settings] Turn on "Enforce HTTPS" in the repo's Pages settings: `tikoci.github.io`
       currently redirects to `http://tikoci.dev`. (PR #17 review)
-- [ ] [git] Check the local `fix/pr17-reviews` worktree branch (at the PR #17 head `e1b4cbf`,
-      no extra commits): delete it, or finish what it was for.
 
 ## Done
 
+- [x] [git] Deleted the local `fix/pr17-reviews` worktree branch (contained in #17), with the
+      other merged local and remote branches and the old review worktrees. (2026-11-17)
+- [x] [ci] `bun audit` follows the `tikoci-ci` recipe (`audit-gating`): only PRs and pushes that
+      change `bun.lock` or any `package.json`, plus a weekly full audit with a report issue that
+      the hourly deploy relies on. The `picomatch` ReDoS advisory (no fixed release, dev-only) is
+      ignored with its reason in `ci.yaml`. (#21, #33)
 - [x] [settings] `tikoci-github` settings applied 2026-11-17: delete branches on merge,
       Dependabot security updates, the `skip-review` label, CodeQL default setup on the
       Extended suite. (#21, 3c)

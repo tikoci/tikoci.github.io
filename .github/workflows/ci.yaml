@@ -1,7 +1,13 @@
-# Lint, test and the offline build: the same `bun run check` a developer runs.
-# Adopted from tikoci-ci (https://tikoci.dev/house/skills/tikoci-ci/SKILL.md).
-# No weekly latest-Bun run: the site is built with its own pinned Bun, and
-# nobody runs it on another. The bun-version input checks one by hand.
+# Lint, test and the offline build: the same `bun run check` a developer runs,
+# plus `bun audit` when dependencies change. Adopted from tikoci-ci
+# (https://tikoci.dev/house/skills/tikoci-ci/SKILL.md).
+#
+#   check ── PRs, pushes to main, dispatch
+#   audit ── the same, plus weekly ──→ report  (the weekly run's issue)
+#
+# The weekly run is the full audit only, on the pinned Bun: the site is built
+# with its own Bun, and nobody runs it on another, so there is no latest-Bun
+# run. The bun-version input checks one by hand.
 name: CI
 
 on:
@@ -9,6 +15,11 @@ on:
     branches: [main]
   push:
     branches: [main]
+  schedule:
+    # Weekly: the full dependency audit (tikoci-ci, "Soft gates get a
+    # periodic signal"). The hourly deploy relies on it instead of auditing
+    # before it publishes (AGENTS.md, House exceptions).
+    - cron: "41 6 * * 1"
   workflow_dispatch:
     inputs:
       bun-version:
@@ -35,6 +46,7 @@ env:
 jobs:
   check:
     name: Lint, test and build
+    if: ${{ github.event_name != 'schedule' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -59,11 +71,132 @@ jobs:
       - name: Validate and build
         run: bun run check
 
-      # Dependabot security updates do not cover Bun packages (tikoci-dependencies).
-      # GHSA-238p-pmpm-9mq7 (KaTeX, low): micromark-extension-math@3.1.0, its
-      # latest, still requires katex ^0.16. Importing the package loads KaTeX
-      # (its index re-exports mathHtml), but markdownlint uses only the `math`
-      # syntax extension and never calls mathHtml or renderToString, the path
-      # the advisory needs. Drop the ignore once a fixed release lands.
+  # bun audit (tikoci-ci, "Dependency audit"). Never on an ordinary PR: a PR
+  # or push audits only when it changes bun.lock or any package.json, and the
+  # weekly run audits everything, with the report job filing what it finds.
+  # Dependabot security updates do not cover Bun packages (tikoci-dependencies).
+  # bun audit reads bun.lock, so there is no install step.
+  audit:
+    name: Audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          # A PR's merge commit and its base (the first parent). A push
+          # fetches its `before` commit.
+          fetch-depth: 2
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+          bun-version-file: package.json
+
       - name: Audit dependencies
-        run: bun audit --ignore=GHSA-238p-pmpm-9mq7
+        env:
+          EVENT: ${{ github.event_name }}
+          BEFORE: ${{ github.event.before }}
+        run: |
+          # A PR is judged against its base, a push on its whole range. When
+          # neither bun.lock nor any package.json changed, there is nothing to
+          # audit here. A new branch or a base that cannot be found audits in
+          # full, and so do the weekly run and a dispatch.
+          case "$EVENT" in
+            pull_request) base=HEAD^1 ;;
+            push) base=$BEFORE ;;
+            *) base="" ;;
+          esac
+          case "$base" in 0000000000000000000000000000000000000000) base="" ;; esac
+          if [ -n "$base" ] && [ "$EVENT" = push ]; then
+            git fetch --quiet --no-tags --depth=1 origin "$base" || base=""
+          fi
+          if [ -n "$base" ] && git rev-parse --verify --quiet "$base^{commit}" > /dev/null &&
+            git diff --quiet "$base" HEAD -- bun.lock ':(glob)**/package.json'; then
+            echo "No change to bun.lock or any package.json: not audited here; the weekly run audits everything."
+            exit 0
+          fi
+
+          # Advisories with no fixed release in range, each with the reason
+          # and when to drop it (tikoci-linting suppressions):
+          audit_args=(
+            # GHSA-238p-pmpm-9mq7 (KaTeX, low): micromark-extension-math@3.1.0,
+            # its latest, still requires katex ^0.16. Importing the package
+            # loads KaTeX (its index re-exports mathHtml), but markdownlint uses
+            # only the `math` syntax extension and never calls mathHtml or
+            # renderToString, the path the advisory needs. Drop it once a
+            # fixed release lands.
+            --ignore=GHSA-238p-pmpm-9mq7
+            # GHSA-fc5q-39xc-vjpf (picomatch, high, ReDoS): every release is
+            # affected (<=4.0.7, the latest, on 2026-11-17). It reaches only
+            # lint tooling (cspell and markdownlint-cli2, dev-only; `bun audit
+            # --production` is clean), which matches globs from the repo's
+            # config and .gitignore against its files. A PR can change those,
+            # so a crafted extglob can hang its own `check` run: an accepted
+            # risk, since that job already runs the PR's code (build.ts, the
+            # tests), with a read-only token, no secrets and a 10-minute
+            # timeout, and a first-time contributor's run needs approval.
+            # Nothing that ships uses picomatch. Drop it once a fixed release
+            # lands.
+            --ignore=GHSA-fc5q-39xc-vjpf
+          )
+          status=0
+          bun audit --json "${audit_args[@]}" > "$RUNNER_TEMP/audit.json" 2> "$RUNNER_TEMP/audit.err" || status=$?
+          cat "$RUNNER_TEMP/audit.err" >&2
+          # A registry Bun could not ask is a warn: or error: line, and a
+          # scoped registry's packages are then skipped even at exit 0. Any
+          # such line means not every package was checked.
+          if grep -Eq '^(warn|error):' "$RUNNER_TEMP/audit.err"; then
+            echo "::error::bun audit did not check every package (see its warnings above)."
+            exit 1
+          fi
+          if [ "$status" -eq 0 ]; then exit 0; fi
+          # Bun exits 1 for advisories and for an audit that did not complete
+          # alike (a registry it cannot reach, or one that answers with an
+          # error object). Both fail; the message says which it was.
+          report='type == "object" and length > 0 and all(.[]; type == "array" and length > 0 and all(.[]; type == "object" and has("id") and has("severity")))'
+          if jq -e "$report" "$RUNNER_TEMP/audit.json" > /dev/null 2>&1; then
+            bun audit "${audit_args[@]}" || true # the readable report, for the log
+            echo "::error::bun audit found advisories."
+          else
+            echo "::error::bun audit did not complete (exit $status), so nothing was checked."
+          fi
+          exit 1
+
+  # GitHub mails a scheduled run's failure only to whoever last edited the
+  # cron line, so the weekly run files its own issue: one open issue per
+  # title, a comment for each further red week, and a "green again" comment
+  # (not a close: a person closes it) so the open issue never reads as current
+  # when it is not.
+  report:
+    name: Report the weekly audit
+    # !cancelled() replaces the implicit success(), so it runs after a red
+    # audit too; a cancelled run is neither red nor green.
+    if: ${{ !cancelled() && github.event_name == 'schedule' }}
+    needs: [audit]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      issues: write # open or comment on the issue
+    steps:
+      - name: Open or update the issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RESULT: ${{ needs.audit.result }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          TITLE: Weekly CI is red
+        run: |
+          number=$(gh issue list --state open --search "in:title \"$TITLE\"" --json number,title \
+            --jq '[.[] | select(.title == env.TITLE)][0].number // empty')
+          if [ "$RESULT" = "success" ]; then
+            if [ -n "$number" ]; then gh issue comment "$number" --body "Green again: $RUN_URL"; fi
+          elif [ -n "$number" ]; then
+            gh issue comment "$number" --body "Still red: $RUN_URL"
+          else
+            gh issue create --title "$TITLE" --body "$(printf '%s\n\n%s\n' \
+              "The weekly full dependency audit failed: $RUN_URL" \
+              "The hourly deploy does not audit before it publishes and relies on this run (AGENTS.md, House exceptions). A red Audit job is an advisory when its log shows the report: fix it, or ignore it in ci.yaml with the reason and the removal condition. It is a registry or Bun problem when the log says the audit did not complete.")"
+          fi
