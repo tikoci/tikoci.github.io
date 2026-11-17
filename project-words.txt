@@ -16,6 +16,7 @@ CMR # MikroTik's controller for RouterOS fleets
 coderabbit # CodeRabbit config and file names (.coderabbit.yaml)
 coderabbitai # CodeRabbit's GitHub handle, as in @coderabbitai
 commondir
+commonmark # micromark-core-commonmark, the CommonMark parser markdownlint patches
 crossref
 curlconverter # npm package behind the curl parser page
 cwd
@@ -29,6 +30,7 @@ frontmatter
 gitdir
 gpt # OpenAI model names in Reviewer: lines (gpt-6.1-sol)
 gtimeout
+katex # KaTeX, the math renderer (npm package katex)
 kvm
 LASTEXITCODE
 libsecret

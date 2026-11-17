@@ -45,3 +45,5 @@ which asked for starting configs, tight types and lenient Markdown.
 | shellcheck `-s sh`; clever logic moves to a Bun script | quickchr-046, quickchr-049, PR #26 review | quickchr `scripts/lint-shell.sh`. |
 | hadolint | - | Planned in #21; no surveyed repo runs it yet. |
 | Description budget for copied skills | - | Phase 1 notes in #21; `scripts/check-skills.ts` here. |
+| The gate can fail | - | tikoci.github.io #31 (MD052 silently off with two `micromark-core-commonmark` copies) and `test/lint-tools.test.js`; the #21 handoff's rule to feed check commands an input that should fail (3b). |
+| zizmor ignore placement; `bun audit` ignores | - | tikoci.github.io #29 (an ignore on the `uses:` line was not honored by zizmor 1.32.0; the step's `- name:` line was) and #31 (the KaTeX reason corrected in review). |

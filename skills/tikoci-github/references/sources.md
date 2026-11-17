@@ -41,6 +41,7 @@ Planning: Phase 3 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 | SECURITY.md shape | rskills-11, rskills-13, centrs-34, user-90, user-91 | All five surveyed `SECURITY.md` files use Reporting, Scope, Code scanning, Supported versions. Absorbs the user-level `tikoci-security-md` skill. quickchr's lists four enabled features as off. |
 | Token order | site-14, rosetta-37, user-76 | Settles `github-token-order`. |
 | One API helper | rosetta-37 | rosetta `src/github.ts` (`fetchGitHub()`, `githubApiHeaders()`); `fetch-helper` in the conflicts table. |
+| Settings first, then SECURITY.md from the read-back; the suite switch is asynchronous | - | tikoci.github.io #29 (Codex: two settings listed before they were applied) and the 2026-11-17 switch to Extended, whose setup run queued while the API still read `default`. |
 
 Not taken here: user-89 (running the CodeQL code-quality suite locally)
 stays with the operator's tools. rosetta's `copilot-gate.yml`, which fails a

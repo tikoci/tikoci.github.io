@@ -1,9 +1,9 @@
 # Security Policy
 
 <!-- tikoci starting SECURITY.md. Save at the repo root, replace OWNER/REPO
-and the placeholders. Keep the scanning table true: compare it with the
-check commands in tikoci-github's references/settings.md whenever a setting
-changes. -->
+and the placeholders. The State column shows the house defaults: fill it
+from the read-back commands in tikoci-github's references/settings.md after
+applying the settings, and compare again whenever a setting changes. -->
 
 ## Reporting a vulnerability
 

@@ -1,6 +1,6 @@
 ---
 name: tikoci-ci
-description: "tikoci CI recipes, with example workflows in assets/: jobs run the package scripts; fast PR gates; docs-only diffs skip heavy jobs by a job if, never paths: on a required workflow; one gate job is the required check; Bun pin with a bun-version dispatch input, latest Bun weekly for tools on users' Bun; dispatch QA from any branch; summaries and artifacts agents can read; red is a finding, retries only investigate a tracked flake; zizmor to code scanning. Use when writing or debugging a workflow or waiting on a run."
+description: "tikoci CI recipes, with example workflows in assets/: jobs run the package scripts; fast PR gates; docs-only diffs skip heavy jobs by a job if, never paths: on a required workflow; one gate job is the required check; Bun pin with a bun-version dispatch input, latest Bun weekly for tools on users' Bun; dispatch QA from any branch; summaries and artifacts agents can read; red is a finding, retries only investigate a tracked flake; bun audit reported weekly, failing a PR only when it changes the lockfile; zizmor to code scanning. Use when writing or debugging a workflow or waiting on a run."
 ---
 
 # CI
@@ -332,6 +332,28 @@ asks for.
   disappears the day an install step breaks (`tikoci-linting`). Pin the
   zizmor version in both places once it gates, so new audits arrive in a
   reviewed bump.
+
+## Dependency audit
+
+`bun audit` is the vulnerability check for Bun packages, which Dependabot
+security updates do not cover
+([tikoci-dependencies](https://tikoci.dev/house/skills/tikoci-dependencies/SKILL.md)).
+Advisories arrive without a commit, so where the audit runs decides who sees
+red. The `audit` job in [ci.example.yml](assets/ci.example.yml):
+
+- **The scheduled run audits everything**, and the `report` job opens or
+  updates its issue, so a new advisory is one tracked finding instead of a
+  red mark on every unrelated PR. A repo without a scheduled CI run gives the
+  audit job a weekly schedule of its own.
+- **A PR or push fails only on what it changed**: when it changes `bun.lock`
+  or `package.json`, any finding fails the job; otherwise findings are a
+  `::warning::` and the scheduled run owns them. The job checks out with
+  `fetch-depth: 2`, so `HEAD^1` is the PR's base (the merge commit's first
+  parent) or the pushed commit's parent.
+- **It needs no `bun install`**: `bun audit` reads `bun.lock`.
+- **An advisory with no fixed release in range** is ignored by its id
+  (`--ignore=GHSA-...`) with the reason and the removal condition beside it
+  ([tikoci-linting suppressions](https://tikoci.dev/house/skills/tikoci-linting/references/suppressions.md)).
 
 ## Container apps
 

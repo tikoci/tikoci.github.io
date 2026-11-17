@@ -163,6 +163,13 @@ Keep the scanning list true: compare it with the check commands in
 [references/settings.md](references/settings.md) whenever a setting changes
 (quickchr's listed four enabled features as off).
 
+- **Apply the settings first, then fill the table from the read-back**, not
+  from the starting file, whose states are the house defaults
+  (tikoci.github.io#29 listed two settings as enabled before they were).
+- **Some changes are not immediate.** Switching the CodeQL suite starts a
+  setup run, and the API reports the old `query_suite` until it finishes;
+  read it back before the PR that claims it merges.
+
 ## GitHub API access
 
 - **Token order**: `TIKOCI_GITHUB_TOKEN`, then `GH_TOKEN`, then

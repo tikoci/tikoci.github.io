@@ -70,10 +70,21 @@ and the other tikoci tools. The Bun pin itself is in `tikoci-toolchain`.
   schedule it states. It ignores `@types/bun`, which moves with the Bun pin
   (`tikoci-toolchain`).
 - **`bun audit` is the vulnerability check.** Dependabot security updates do
-  not support Bun, so version updates alone miss advisories. Run `bun audit`
-  on a schedule or in CI, and fix findings with a reviewed lockfile upgrade.
+  not support Bun, so version updates alone miss advisories. CI runs it as
+  `tikoci-ci` describes ("Dependency audit"): the scheduled run reports new
+  advisories, and a PR fails on the ones its own lockfile change brings.
+- **Fix findings with a reviewed lockfile upgrade.** `bun audit fix` upgrades
+  within the declared ranges; `bun audit --production` separates what ships
+  from dev tools (`bun pm why <package>` shows the path). An advisory with no
+  fixed release in range is ignored by its id (`--ignore=GHSA-...`), with the
+  reason it does not apply and when to drop the ignore
+  ([suppressions](https://tikoci.dev/house/skills/tikoci-linting/references/suppressions.md)).
 - **Upgrade dev tools on purpose.** A new Biome, TypeScript or cspell version
-  can bring new lint findings; land the upgrade with its fixes.
+  can bring new lint findings; land the upgrade with its fixes. A clean run
+  after the upgrade proves nothing, so feed the tool an input it must reject
+  (`tikoci-linting`, "The gate can fail"): the markdownlint-cli2 upgrade in
+  tikoci.github.io#31 nested a second `micromark-core-commonmark`, and MD052
+  passed every undefined reference until the lockfile kept one copy.
 
 ## Publishing
 

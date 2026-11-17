@@ -1,7 +1,8 @@
 # tikoci starting CI workflow. Save as .github/workflows/ci.yml. See tikoci-ci.
 #
 #   lint ────────────┐
-#   unit (each OS) ──┴─→ gate  (the one required check, where a repo requires one)
+#   unit (each OS) ──┤
+#   audit ───────────┴─→ gate  (the one required check, where a repo requires one)
 #                          └─→ report  (a scheduled run opens or updates its issue)
 #
 # An example, not a template to copy whole: keep the parts the repo needs.
@@ -127,13 +128,49 @@ jobs:
           if-no-files-found: ignore
           retention-days: 14
 
+  # bun audit. Advisories arrive without a commit: the scheduled run audits
+  # everything and the report job files it, while a PR or push fails only on
+  # findings when it changes bun.lock or package.json (tikoci-ci, "Dependency
+  # audit"). bun audit reads bun.lock, so there is no install step.
+  audit:
+    name: Audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          # HEAD^1 is then the PR's base (first parent of the merge commit)
+          # or the pushed commit's parent.
+          fetch-depth: 2
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+          bun-version-file: package.json
+      - name: Audit dependencies
+        env:
+          EVENT: ${{ github.event_name }}
+        # An advisory with no fixed release in range: add --ignore=GHSA-...
+        # with the reason and the removal condition in a comment here.
+        run: |
+          if bun audit; then exit 0; fi
+          if [ "$EVENT" = pull_request ] || [ "$EVENT" = push ]; then
+            if git diff --quiet HEAD^1 HEAD -- bun.lock package.json; then
+              echo "::warning::bun audit has findings this change did not bring; the scheduled run reports them."
+              exit 0
+            fi
+          fi
+          exit 1
+
   # One stable name to require in branch protection, whatever the matrix holds.
   # A skipped job (a docs-only skip) counts as passed; a failed or cancelled
   # one fails the gate. Add each new job to `needs`.
   gate:
     name: CI gate
     if: ${{ always() }}
-    needs: [lint, unit]
+    needs: [lint, unit, audit]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -171,7 +208,7 @@ jobs:
           GH_REPO: ${{ github.repository }}
           RESULT: ${{ needs.gate.result }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          TITLE: Weekly CI on the latest Bun is red
+          TITLE: Weekly CI is red
         run: |
           number=$(gh issue list --state open --search "in:title \"$TITLE\"" --json number,title \
             --jq '[.[] | select(.title == env.TITLE)][0].number // empty')
@@ -181,6 +218,6 @@ jobs:
             gh issue comment "$number" --body "Still red: $RUN_URL"
           else
             gh issue create --title "$TITLE" --body "$(printf '%s\n\n%s\n' \
-              "The weekly CI run on the latest Bun failed: $RUN_URL" \
-              "To tell Bun from the rest, dispatch CI on the same commit with bun-version empty. If it fails the same jobs with the same errors, the cause is not Bun; a different failure settles nothing.")"
+              "The weekly CI run (latest Bun, full dependency audit) failed: $RUN_URL" \
+              "A red Audit job is a new advisory. For Lint or Unit, dispatch CI on the same commit with bun-version empty to tell Bun from the rest: if it fails the same jobs with the same errors, the cause is not Bun; a different failure settles nothing.")"
           fi
