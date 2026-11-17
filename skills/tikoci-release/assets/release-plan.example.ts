@@ -100,7 +100,9 @@ export function planRelease(input: {
 
 /** The registry document for `name`; a package never published is empty. */
 export async function readRegistry(name: string): Promise<Registry> {
-    const url = `https://registry.npmjs.org/${name.replace("/", "%2f")}`;
+    // The whole name is one path segment (@scope%2Fname); the registry is the
+    // only host this asks, by design.
+    const url = `https://registry.npmjs.org/${encodeURIComponent(name)}`;
     const response = await fetch(url, { headers: { accept: "application/vnd.npm.install-v1+json" } });
     if (response.status === 404) return { versions: [], distTags: {} };
     if (!response.ok) throw new Error(`${url} answered ${response.status}`);
