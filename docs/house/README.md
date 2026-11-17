@@ -55,6 +55,14 @@ CLI, library and MCP surfaces, which quickchr, centrs and rosetta all write abou
 `tikoci-web` and `tikoci-crossref`, and splits GitHub work into `tikoci-ci` and
 `tikoci-github`. Local agent notes fold into `tikoci-house`.
 
+Regrouped on 2026-11-16, after 3d, to 16 skills: `tikoci-repo-files` and
+`tikoci-work-tracking` merged into `tikoci-docs` (both were mostly "one home per kind
+of information"), and `tikoci-structure` became `tikoci-data`, taking the `sql-as-rag`
+rows from `tikoci-interfaces`. Its LLM-friendly-code row went to `tikoci-toolchain` and
+its static-inventory row to `tikoci-web`; the `tikoci-security-md` rows moved to
+`tikoci-github`, which already absorbs that skill. `tikoci-crossref` is generated from
+`data/repo-config.ts`.
+
 Observations that shape later phases:
 
 - The same rule is often written three or four times: grounding and no-masking
