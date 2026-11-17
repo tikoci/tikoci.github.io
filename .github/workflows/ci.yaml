@@ -60,9 +60,10 @@ jobs:
         run: bun run check
 
       # Dependabot security updates do not cover Bun packages (tikoci-dependencies).
-      # GHSA-238p-pmpm-9mq7 (KaTeX, low): micromark-extension-math@3.1.0 still
-      # requires katex ^0.16, and markdownlint imports only its syntax extension,
-      # never the HTML renderer that loads KaTeX. Drop the ignore once a fixed
-      # micromark-extension-math lands.
+      # GHSA-238p-pmpm-9mq7 (KaTeX, low): micromark-extension-math@3.1.0, its
+      # latest, still requires katex ^0.16. Importing the package loads KaTeX
+      # (its index re-exports mathHtml), but markdownlint uses only the `math`
+      # syntax extension and never calls mathHtml or renderToString, the path
+      # the advisory needs. Drop the ignore once a fixed release lands.
       - name: Audit dependencies
         run: bun audit --ignore=GHSA-238p-pmpm-9mq7
