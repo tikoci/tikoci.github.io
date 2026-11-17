@@ -55,6 +55,8 @@ gh api -X PUT "$R/private-vulnerability-reporting"
 gh api -X PUT "$R/vulnerability-alerts"
 gh api -X PUT "$R/automated-security-fixes"
 gh api -X PATCH "$R/code-scanning/default-setup" -f state=configured -f query_suite=extended
+# That starts a setup run; query_suite reads the old value until the run finishes.
+# Wait for the run titled "CodeQL Setup" (gh run list --workflow CodeQL) to succeed, then read back.
 # Then check the detected languages; to drop one whose code does not ship, list the rest:
 #   gh api -X PATCH "$R/code-scanning/default-setup" -f 'languages[]=javascript-typescript' -f 'languages[]=actions'
 

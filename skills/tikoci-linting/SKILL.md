@@ -55,6 +55,13 @@ file. How to silence one finding, per tool, is in
   a RouterOS repo adds `tikoci.tikbook`.
 - **Output stays short**, so an agent can read the failure without losing its
   context.
+- **The gate can fail.** Each linter in the gate has been seen to reject an
+  input it must reject, and a test keeps it that way where a silent pass is
+  possible: tikoci.github.io's
+  [`test/lint-tools.test.js`](https://github.com/tikoci/tikoci.github.io/blob/main/test/lint-tools.test.js)
+  feeds markdownlint an undefined reference and expects MD052. Repeat the
+  probe after upgrading a tool or refreshing the lockfile: a duplicate copy
+  of a package the tool patches switched that rule off with no error.
 - **Every generated file has a `--check` mode** (regenerate in memory, fail
   on a difference), and the gate runs it, so committed output cannot drift
   from its source (centrs `docs:cli:check`).

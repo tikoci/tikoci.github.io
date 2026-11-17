@@ -1,7 +1,8 @@
 # tikoci starting CI workflow. Save as .github/workflows/ci.yml. See tikoci-ci.
 #
 #   lint ────────────┐
-#   unit (each OS) ──┴─→ gate  (the one required check, where a repo requires one)
+#   unit (each OS) ──┤
+#   audit ───────────┴─→ gate  (the one required check, where a repo requires one)
 #                          └─→ report  (a scheduled run opens or updates its issue)
 #
 # An example, not a template to copy whole: keep the parts the repo needs.
@@ -127,13 +128,85 @@ jobs:
           if-no-files-found: ignore
           retention-days: 14
 
+  # bun audit (tikoci-ci, "Dependency audit"). Never on an ordinary PR: a PR
+  # or push audits only when it changes bun.lock or any package.json, and the
+  # scheduled run audits everything, with the report job filing what it
+  # finds. Release workflows run the same audit before they publish.
+  # bun audit reads bun.lock, so there is no install step.
+  audit:
+    name: Audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          # A PR's merge commit and its base (the first parent). A push
+          # fetches its `before` commit.
+          fetch-depth: 2
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+          bun-version-file: package.json
+      - name: Audit dependencies
+        env:
+          EVENT: ${{ github.event_name }}
+          BEFORE: ${{ github.event.before }}
+        run: |
+          # A PR is judged against its base, a push on its whole range. When
+          # neither bun.lock nor any package.json (each workspace has its
+          # own) changed, there is nothing to audit here. A new branch or a
+          # base that cannot be found audits in full.
+          case "$EVENT" in
+            pull_request) base=HEAD^1 ;;
+            push) base=$BEFORE ;;
+            *) base="" ;;
+          esac
+          case "$base" in 0000000000000000000000000000000000000000) base="" ;; esac
+          if [ -n "$base" ] && [ "$EVENT" = push ]; then
+            git fetch --quiet --no-tags --depth=1 origin "$base" || base=""
+          fi
+          if [ -n "$base" ] && git rev-parse --verify --quiet "$base^{commit}" > /dev/null &&
+            git diff --quiet "$base" HEAD -- bun.lock ':(glob)**/package.json'; then
+            echo "No change to bun.lock or any package.json: not audited here; the scheduled run audits everything."
+            exit 0
+          fi
+
+          # An advisory with no fixed release in range: add its
+          # --ignore=GHSA-... here, with the reason and the removal condition.
+          audit_args=()
+          status=0
+          bun audit --json "${audit_args[@]}" > "$RUNNER_TEMP/audit.json" 2> "$RUNNER_TEMP/audit.err" || status=$?
+          cat "$RUNNER_TEMP/audit.err" >&2
+          # A registry Bun could not ask is a warn: or error: line, and a
+          # scoped registry's packages are then skipped even at exit 0. Any
+          # such line means not every package was checked.
+          if grep -Eq '^(warn|error):' "$RUNNER_TEMP/audit.err"; then
+            echo "::error::bun audit did not check every package (see its warnings above)."
+            exit 1
+          fi
+          if [ "$status" -eq 0 ]; then exit 0; fi
+          # Bun exits 1 for advisories and for an audit that did not complete
+          # alike (a registry it cannot reach, or one that answers with an
+          # error object). Both fail; the message says which it was.
+          report='type == "object" and length > 0 and all(.[]; type == "array" and length > 0 and all(.[]; type == "object" and has("id") and has("severity")))'
+          if jq -e "$report" "$RUNNER_TEMP/audit.json" > /dev/null 2>&1; then
+            bun audit "${audit_args[@]}" || true # the readable report, for the log
+            echo "::error::bun audit found advisories."
+          else
+            echo "::error::bun audit did not complete (exit $status), so nothing was checked."
+          fi
+          exit 1
+
   # One stable name to require in branch protection, whatever the matrix holds.
   # A skipped job (a docs-only skip) counts as passed; a failed or cancelled
   # one fails the gate. Add each new job to `needs`.
   gate:
     name: CI gate
     if: ${{ always() }}
-    needs: [lint, unit]
+    needs: [lint, unit, audit]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -171,7 +244,7 @@ jobs:
           GH_REPO: ${{ github.repository }}
           RESULT: ${{ needs.gate.result }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          TITLE: Weekly CI on the latest Bun is red
+          TITLE: Weekly CI is red
         run: |
           number=$(gh issue list --state open --search "in:title \"$TITLE\"" --json number,title \
             --jq '[.[] | select(.title == env.TITLE)][0].number // empty')
@@ -181,6 +254,6 @@ jobs:
             gh issue comment "$number" --body "Still red: $RUN_URL"
           else
             gh issue create --title "$TITLE" --body "$(printf '%s\n\n%s\n' \
-              "The weekly CI run on the latest Bun failed: $RUN_URL" \
-              "To tell Bun from the rest, dispatch CI on the same commit with bun-version empty. If it fails the same jobs with the same errors, the cause is not Bun; a different failure settles nothing.")"
+              "The weekly CI run (latest Bun, full dependency audit) failed: $RUN_URL" \
+              "A red Audit job is an advisory when its log shows the report, and a registry or Bun problem when it says the audit did not complete. For any red job, dispatch CI on the same commit with bun-version empty to compare with the pin: if it fails the same jobs with the same errors, the cause is not Bun; a different failure settles nothing.")"
           fi

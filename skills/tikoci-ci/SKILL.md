@@ -1,6 +1,6 @@
 ---
 name: tikoci-ci
-description: "tikoci CI recipes, with example workflows in assets/: jobs run the package scripts; fast PR gates; docs-only diffs skip heavy jobs by a job if, never paths: on a required workflow; one gate job is the required check; Bun pin with a bun-version dispatch input, latest Bun weekly for tools on users' Bun; dispatch QA from any branch; summaries and artifacts agents can read; red is a finding, retries only investigate a tracked flake; zizmor to code scanning. Use when writing or debugging a workflow or waiting on a run."
+description: "tikoci CI recipes, with example workflows in assets/: jobs run the package scripts; fast PR gates; docs-only diffs skip heavy jobs by a job if, never paths: on a required workflow; one gate job is the required check; Bun pin with a bun-version dispatch input, latest Bun weekly for tools on users' Bun; dispatch QA from any branch; summaries and artifacts agents can read; red is a finding, retries only investigate a tracked flake; bun audit on a PR or push that changes bun.lock or any package.json, weekly, and before every release or publish, never on an ordinary PR or push; soft gates get a periodic signal; zizmor to code scanning. Use when writing or debugging a workflow or waiting on a run."
 ---
 
 # CI
@@ -332,6 +332,57 @@ asks for.
   disappears the day an install step breaks (`tikoci-linting`). Pin the
   zizmor version in both places once it gates, so new audits arrive in a
   reviewed bump.
+
+## Soft gates get a periodic signal
+
+A check that does not gate every PR still needs a routine run and a signal
+someone sees when it is red. Examples: an audit of unchanged dependencies,
+zizmor's online audits, the latest Bun, a device sweep. By default the
+signal is the scheduled run's `report` job, which opens or updates an issue.
+Another scheme works if a person reads it (a `main`-health check, a
+dashboard). The principle weighs most for what a repo ships (an npm
+package, a container image), where a finding that escapes reaches users.
+Internal CI and dev tooling still get the routine run, at lower priority.
+
+## Dependency audit
+
+`bun audit` is the vulnerability check for Bun packages, which Dependabot
+security updates do not cover
+([tikoci-dependencies](https://tikoci.dev/house/skills/tikoci-dependencies/SKILL.md)).
+Advisories arrive without a commit, so an audit on every PR would fail
+unrelated work. Settles `audit-gating` (maintainer, 2026-11-17): the audit
+runs when dependencies change, routinely out of band, and before anything
+ships. The `audit` job in [ci.example.yml](assets/ci.example.yml):
+
+- **Never on an ordinary PR.** A PR or push that changes neither
+  `bun.lock` nor any `package.json` (each workspace has its own) does not
+  call `bun audit` at all. One that changes them is audited, and any finding
+  fails it: updating
+  dependencies is the time to check them. A PR compares its merge commit
+  with the first parent (`fetch-depth: 2`); a push compares its whole range
+  from `github.event.before`. A new branch, or a base that cannot be
+  fetched, audits in full.
+- **Routinely, out of band.** The example's weekly scheduled run audits
+  everything, and the `report` job opens or updates its issue. Where the
+  routine audit lives is the repo's choice (its own weekly workflow, a
+  nightly sweep), as long as one exists.
+- **Before anything ships.** A release or publish workflow (npm package,
+  container image) runs the full audit first, with the same ignores, and
+  stops on findings; `tikoci-release` owns that workflow. A deploy that
+  publishes on a timer (tikoci.github.io deploys hourly snapshots) may rely
+  on the routine audit instead, noted under `## House exceptions`; an npm
+  package or container never does.
+- **An audit that did not complete fails** wherever it runs. Bun exits 1
+  both for advisories and when the registry is unreachable or answers with
+  an error object; a scoped registry that fails only prints a `warn:` that
+  its packages were skipped, and exits 0. So any `warn:` or `error:` line
+  from `bun audit` fails the job, and the advisory-report check (every
+  package mapping to advisories with an `id` and a `severity`) only says
+  which failure it was.
+- **It needs no `bun install`**: `bun audit` reads `bun.lock`.
+- **An advisory with no fixed release in range** is ignored by its id
+  (`--ignore=GHSA-...`) with the reason and the removal condition beside it
+  ([tikoci-linting suppressions](https://tikoci.dev/house/skills/tikoci-linting/references/suppressions.md)).
 
 ## Container apps
 

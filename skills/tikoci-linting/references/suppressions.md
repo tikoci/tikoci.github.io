@@ -126,8 +126,18 @@ container:
   image: ghcr.io/tikoci/example:latest # zizmor: ignore[unpinned-images] the nightly job tests the newest image on purpose
 ```
 
-- `# zizmor: ignore[<audit>] reason` as a YAML comment on the finding's line
-  (several audits separated by commas).
+- `# zizmor: ignore[<audit>] reason` as a YAML comment anywhere in the
+  finding's span (several audits separated by commas). After another
+  comment it needs its own `#`: `# v7.0.1 # zizmor: ignore[artipacked] ...`
+  works, `# v7.0.1 zizmor: ignore[artipacked] ...` is ignored silently
+  (zizmor 1.32.0). Prefer the step's `- name:` line, away from the pin
+  comment Dependabot updates.
+
+  ```yaml
+  - name: Checkout # zizmor: ignore[artipacked] the snapshot push needs these credentials; the artifact holds only ./dist
+    uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+  ```
+
 - **Never suppress `template-injection`.** GitHub expands `${{ }}` before the
   shell runs, so quoting does not help. Pass the value through `env:` and
   quote the shell variable instead
@@ -136,6 +146,27 @@ container:
   `file.yml:line` or `file.yml:line:column`.
 
 Full syntax: [zizmor, ignoring results](https://docs.zizmor.sh/usage/#ignoring-results).
+
+## bun audit
+
+<!-- cspell:ignore pmpm -->
+
+```yaml
+# GHSA-238p-pmpm-9mq7 (KaTeX, low): micromark-extension-math@3.1.0, its
+# latest, still requires katex ^0.16. markdownlint loads KaTeX but never
+# calls its renderer, the path the advisory needs. Drop the ignore once a
+# fixed release lands.
+run: bun audit --ignore=GHSA-238p-pmpm-9mq7
+```
+
+- `--ignore=<GHSA or id>`, repeatable, on the command in CI, with the comment
+  beside it. There is no config file for it.
+- The reason says why the advisory does not apply here (the vulnerable path
+  is never called, not just "dev only"), and the removal condition names
+  the release to wait for.
+- Check the reason against the code: in tikoci.github.io#31 "KaTeX is never
+  loaded" was false (an index re-export loads it), and "never invoked" was
+  the true claim.
 
 ## hadolint
 
