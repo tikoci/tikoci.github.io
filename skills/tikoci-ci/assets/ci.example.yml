@@ -129,7 +129,7 @@ jobs:
           retention-days: 14
 
   # bun audit (tikoci-ci, "Dependency audit"). Never on an ordinary PR: a PR
-  # or push audits only when it changes bun.lock or package.json, and the
+  # or push audits only when it changes bun.lock or any package.json, and the
   # scheduled run audits everything, with the report job filing what it
   # finds. Release workflows run the same audit before they publish.
   # bun audit reads bun.lock, so there is no install step.
@@ -156,8 +156,9 @@ jobs:
           BEFORE: ${{ github.event.before }}
         run: |
           # A PR is judged against its base, a push on its whole range. When
-          # neither dependency file changed, there is nothing to audit here.
-          # A new branch or a base that cannot be found audits in full.
+          # neither bun.lock nor any package.json (each workspace has its
+          # own) changed, there is nothing to audit here. A new branch or a
+          # base that cannot be found audits in full.
           case "$EVENT" in
             pull_request) base=HEAD^1 ;;
             push) base=$BEFORE ;;
@@ -168,8 +169,8 @@ jobs:
             git fetch --quiet --no-tags --depth=1 origin "$base" || base=""
           fi
           if [ -n "$base" ] && git rev-parse --verify --quiet "$base^{commit}" > /dev/null &&
-            git diff --quiet "$base" HEAD -- bun.lock package.json; then
-            echo "No change to bun.lock or package.json: not audited here; the scheduled run audits everything."
+            git diff --quiet "$base" HEAD -- bun.lock ':(glob)**/package.json'; then
+            echo "No change to bun.lock or any package.json: not audited here; the scheduled run audits everything."
             exit 0
           fi
 
@@ -177,7 +178,15 @@ jobs:
           # --ignore=GHSA-... here, with the reason and the removal condition.
           audit_args=()
           status=0
-          bun audit --json "${audit_args[@]}" > "$RUNNER_TEMP/audit.json" || status=$?
+          bun audit --json "${audit_args[@]}" > "$RUNNER_TEMP/audit.json" 2> "$RUNNER_TEMP/audit.err" || status=$?
+          cat "$RUNNER_TEMP/audit.err" >&2
+          # A registry Bun could not ask is a warn: or error: line, and a
+          # scoped registry's packages are then skipped even at exit 0. Any
+          # such line means not every package was checked.
+          if grep -Eq '^(warn|error):' "$RUNNER_TEMP/audit.err"; then
+            echo "::error::bun audit did not check every package (see its warnings above)."
+            exit 1
+          fi
           if [ "$status" -eq 0 ]; then exit 0; fi
           # Bun exits 1 for advisories and for an audit that did not complete
           # alike (a registry it cannot reach, or one that answers with an

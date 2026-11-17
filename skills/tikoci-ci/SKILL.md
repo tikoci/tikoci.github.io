@@ -1,6 +1,6 @@
 ---
 name: tikoci-ci
-description: "tikoci CI recipes, with example workflows in assets/: jobs run the package scripts; fast PR gates; docs-only diffs skip heavy jobs by a job if, never paths: on a required workflow; one gate job is the required check; Bun pin with a bun-version dispatch input, latest Bun weekly for tools on users' Bun; dispatch QA from any branch; summaries and artifacts agents can read; red is a finding, retries only investigate a tracked flake; bun audit when bun.lock or package.json changes, weekly and before every release, never on an ordinary PR; soft gates get a periodic signal; zizmor to code scanning. Use when writing or debugging a workflow or waiting on a run."
+description: "tikoci CI recipes, with example workflows in assets/: jobs run the package scripts; fast PR gates; docs-only diffs skip heavy jobs by a job if, never paths: on a required workflow; one gate job is the required check; Bun pin with a bun-version dispatch input, latest Bun weekly for tools on users' Bun; dispatch QA from any branch; summaries and artifacts agents can read; red is a finding, retries only investigate a tracked flake; bun audit when bun.lock or any package.json changes, weekly and before every release, never on an ordinary PR; soft gates get a periodic signal; zizmor to code scanning. Use when writing or debugging a workflow or waiting on a run."
 ---
 
 # CI
@@ -355,8 +355,9 @@ runs when dependencies change, routinely out of band, and before anything
 ships. The `audit` job in [ci.example.yml](assets/ci.example.yml):
 
 - **Never on an ordinary PR.** A PR or push that changes neither
-  `bun.lock` nor `package.json` does not call `bun audit` at all. One that
-  changes either is audited, and any finding fails it: updating
+  `bun.lock` nor any `package.json` (each workspace has its own) does not
+  call `bun audit` at all. One that changes them is audited, and any finding
+  fails it: updating
   dependencies is the time to check them. A PR compares its merge commit
   with the first parent (`fetch-depth: 2`); a push compares its whole range
   from `github.event.before`. A new branch, or a base that cannot be
@@ -371,11 +372,13 @@ ships. The `audit` job in [ci.example.yml](assets/ci.example.yml):
   publishes on a timer (tikoci.github.io deploys hourly snapshots) may rely
   on the routine audit instead, noted under `## House exceptions`; an npm
   package or container never does.
-- **An audit that did not complete fails** wherever it runs: Bun exits 1
+- **An audit that did not complete fails** wherever it runs. Bun exits 1
   both for advisories and when the registry is unreachable or answers with
-  an error object, so the job checks for an advisory report (every package
-  mapping to advisories with an `id` and a `severity`) only to say which it
-  was.
+  an error object; a scoped registry that fails only prints a `warn:` that
+  its packages were skipped, and exits 0. So any `warn:` or `error:` line
+  from `bun audit` fails the job, and the advisory-report check (every
+  package mapping to advisories with an `id` and a `severity`) only says
+  which failure it was.
 - **It needs no `bun install`**: `bun audit` reads `bun.lock`.
 - **An advisory with no fixed release in range** is ignored by its id
   (`--ignore=GHSA-...`) with the reason and the removal condition beside it
