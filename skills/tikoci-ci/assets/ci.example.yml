@@ -155,7 +155,9 @@ jobs:
   # when it is not.
   report:
     name: Report the scheduled run
-    # !cancelled(): a cancelled run is neither red nor green.
+    # !cancelled() is a status function, so it replaces the implicit success()
+    # and runs after a red gate too (GitHub's recommended form of always());
+    # a cancelled run is neither red nor green.
     if: ${{ !cancelled() && github.event_name == 'schedule' }}
     needs: [gate]
     runs-on: ubuntu-latest
