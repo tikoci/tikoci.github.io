@@ -74,14 +74,19 @@ zizmor, and that is complete.
 - **Timeouts nest, each leaving room for the reporting after it**: job,
   then the long step, then each test file. A job timeout cancels the job,
   so its summary and upload steps never run; a step timeout fails only that
-  step. quickchr sets the test step 10 minutes under the job, after weeks of
-  hung legs with no artifacts (#76, #144).
+  step. The job's timeout covers setup, the step's cap and the reporting
+  together, so a hang reaches the step timeout first: budget from the
+  measured setup time, not only the test. quickchr sets the test step 10
+  minutes under the job, after weeks of hung legs with no artifacts (#76,
+  #144).
 - **`concurrency` per PR, with `cancel-in-progress` for PR runs.** A
   test-only workflow on `main` may also cancel a superseded run when
   everything that reads its results skips cancelled runs (quickchr
   `main.yml` and `ci-freshness.ts`): it saves runner time, while finishing
   gives every `main` commit a verdict to bisect with. Data, deploy and
   history-writing jobs never cancel: that can drop a commit or a record.
+  Their group also sets `queue: max`: with `cancel-in-progress: false`
+  alone, a newer pending run still replaces the one already pending.
 - **`run:` blocks stay short.** Logic past a few lines moves to a
   `scripts/*.ts` a developer can run, and the workflow or the developer docs
   give each job's local command.
@@ -143,10 +148,11 @@ zizmor, and that is complete.
 - **A `main`-health check is optional**: a PR check that fails while the
   latest scheduled sweep (centrs) or `main` integration run (quickchr) is
   red, so a red `main` cannot rot quietly. The PR that fixes `main` runs the
-  integration workflow on its branch and carries the override label
-  (centrs `fixes-main`), which passes the health check and keeps every
-  other required check; an admin merge, which skips them all, is the
-  fallback (`tikoci-github`). The check says which runs count: centrs counts only
+  integration workflow on its branch and, where the check reads one,
+  carries its override label (centrs `fixes-main`), which passes the health
+  check and keeps every other required check. Without a label (quickchr's
+  `Integration freshness` reads none), an admin merge, which skips them all,
+  is the path (`tikoci-github`). The check says which runs count: centrs counts only
   scheduled sweeps, while quickchr counts any completed `main.yml` run on
   `main`, so a dispatched run on `main` there is a manual refresh. A
   latest-Bun run never feeds it: keep that leg in a workflow or job the

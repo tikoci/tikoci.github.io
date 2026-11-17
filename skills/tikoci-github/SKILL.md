@@ -44,10 +44,11 @@ themselves are in [tikoci-ci](https://tikoci.dev/house/skills/tikoci-ci/SKILL.md
 - **A required check may report `main`'s health** rather than the PR's
   (centrs `Main health (nightly QA)`, quickchr `Integration freshness`).
   While `main` is red it fails every PR. When the PR is the fix, run the
-  integration workflow on the branch and add an override label the check
-  reads (centrs `fixes-main`; rerun the check after labelling), so the PR
-  still merges on its other required checks. An admin merge, which skips
-  them all, is the fallback, and what leaving admins unenforced is for.
+  integration workflow on the branch. Where the check reads an override
+  label (centrs `fixes-main`; rerun the check after labelling), add it, so
+  the PR still merges on its other required checks. Where it reads none
+  (quickchr `Integration freshness`), the maintainer merges as admin, which
+  skips them all and is what leaving admins unenforced is for.
   "Require branches to be up to date" stays off (`strict: false` in both).
 - **Classic, not a ruleset, while workflows commit to `main`.** Classic
   protection can require resolved conversations without requiring a PR, so a

@@ -302,11 +302,12 @@ When the slow tier does not run per PR, a PR check reports `main` instead:
   count, so a dispatched sweep does not clear it.
 
 Both are required checks with "require branches to be up to date" off, and
-neither is inside the CI gate. When the PR is the fix, the override is a
-label the check reads (centrs `fixes-main`, read live by
+neither is inside the CI gate. When the PR is the fix, the preferred
+override is a label the check reads (centrs `fixes-main`, read live by
 `scripts/qa-nightly.ts` `mainHealth`, so rerun the check after labelling):
-the PR still needs every other required check. An admin merge skips them
-all and is the fallback
+the PR still needs every other required check. quickchr's check reads no
+label, so there an admin merge, which skips them all, is the path; adding a
+label override to a check is the way to get the better one
 ([tikoci-github](https://tikoci.dev/house/skills/tikoci-github/SKILL.md)).
 After a read flake, rerunning the failed jobs of the red run clears it
 when the check reads the run's latest attempt (tikoci-ci, "Failures and
@@ -472,16 +473,19 @@ start a fresh run; do not change site code for it.
 ## Waiting and reading a run
 
 ```sh
+before=$(gh run list --workflow integration.yml --branch my-branch --limit 1 --json databaseId --jq '.[0].databaseId // 0')
 gh workflow run integration.yml --ref my-branch -f test-filter=exec.test.ts
-gh run list --workflow integration.yml --branch my-branch --limit 1 --json databaseId,status
+gh run list --workflow integration.yml --branch my-branch --limit 1 --json databaseId,status   # until the id is not $before
 gh run watch <run-id> --exit-status       # exits non-zero when the run fails
 gh pr checks <pr> --watch                 # every check on a PR
 gh run view <run-id> --log-failed         # the failed steps only
 gh run download <run-id> -n unit-ubuntu-latest
 ```
 
-- `gh run list` right after `gh workflow run` may not show the new run yet;
-  an empty answer means "look again", not "no run".
+- `gh run list` right after `gh workflow run` may not show the new run yet,
+  and its newest entry can be an older run of the same workflow and branch.
+  Record the newest id before dispatching, and watch only a run whose id
+  differs; an empty or unchanged answer means "look again", not "no run".
 - A loop around any of these treats an empty or failed answer as not done,
   and a connection error is not a rate limit.
 - Run long waits in the background, or through the harness's own wait for

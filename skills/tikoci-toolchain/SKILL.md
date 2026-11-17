@@ -61,7 +61,9 @@ a package:
 - **`packageManager` in package.json holds one exact version**
   (`"packageManager": "bun@1.4.4"`), and every `oven-sh/setup-bun` step reads
   it with `bun-version-file: package.json`. No `.bun-version` file and no
-  inline `bun-version:`: one file, one place to change.
+  inline version: one file, one place to change. The one exception is the
+  dispatch-input override tikoci-ci puts next to `bun-version-file` in a
+  workflow that tests (see the pin check below).
 - **Why pin:** when CI installs whatever Bun is newest, a Bun release turns
   tests red with no repository change to point at, and the innocent PR under
   review takes the blame (quickchr #148). A runtime upgrade is a toolchain

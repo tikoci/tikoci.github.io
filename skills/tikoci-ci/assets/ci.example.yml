@@ -33,8 +33,10 @@ permissions:
   contents: read
 
 concurrency:
-  # A new push to a PR replaces its run; runs on main and scheduled runs finish
-  # (tikoci-ci, "Every workflow", for when main may cancel too).
+  # A new push to a PR replaces its run; runs on main and scheduled runs
+  # finish, though a newer pending run replaces an older pending one. That is
+  # fine for tests; a data or deploy group sets `queue: max` instead
+  # (tikoci-ci, "Every workflow", also for when main may cancel).
   group: ci-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
