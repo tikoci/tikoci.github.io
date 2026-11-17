@@ -34,7 +34,9 @@ changes:
         # One line per changed file: its name and, for a rename, the old
         # name too, since either may be code. GitHub lists at most 3000
         # files for a PR and 300 for a compare; a list at the cap may be
-        # partial, so it runs everything.
+        # partial, so it runs everything. A push compare counts only when
+        # it is `ahead`: after a force push it is `diverged`, its files omit
+        # what the old head had, and the jq error runs everything.
         records=""
         cap=0
         case "$GITHUB_EVENT_NAME" in
@@ -45,7 +47,8 @@ changes:
           push)
             cap=300
             records=$(gh api "repos/$GITHUB_REPOSITORY/compare/$BEFORE...$AFTER" \
-              --jq '.files[] | [.filename, .previous_filename // empty] | join("\t")') || records="" ;;
+              --jq 'if .status == "ahead" then .files[] | [.filename, .previous_filename // empty] | join("\t")
+                    else error("compare is \(.status), not ahead") end') || records="" ;;
         esac
         count=$(grep -c . <<<"$records" || true)
         names=$(tr '\t' '\n' <<<"$records")
@@ -136,6 +139,9 @@ smoke:
         sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends qemu-system-x86 qemu-utils
         echo "::endgroup::"
         command -v qemu-system-x86_64 >/dev/null || { echo "::error::QEMU did not install (infrastructure)"; exit 1; }
+    # The probe's answer reaches the tests through the tool's accelerator
+    # knob (quickchr: QUICKCHR_ACCEL), since the tool alone would see a
+    # writable /dev/kvm and pick KVM anyway.
     - name: Enable and probe KVM
       run: |
         if [ -e /dev/kvm ]; then sudo chmod 666 /dev/kvm; fi
@@ -150,6 +156,7 @@ smoke:
           echo "::warning::KVM did not initialize; the CHR boots under TCG and is much slower."
           cat "$RUNNER_TEMP/kvm-probe.log"
         fi
+        echo "QUICKCHR_ACCEL=$accel" >> "$GITHUB_ENV"
         echo "- Accelerator: $accel" >> "$GITHUB_STEP_SUMMARY"
     - name: Setup Bun
       uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
@@ -229,7 +236,8 @@ repo with this shape so far; read its workflows for the details. The
 logic:
 
 - **The `/app` YAML is a contract tested offline** in the lint and test
-  job (`bun run check`), on every PR.
+  job on every PR (`test/app-yaml.test.ts`, run by `bun run test`; `check`
+  there is lint only).
 - **The image build skips docs-only changes and draft PRs.** "Docs" means
   nothing the Dockerfile copies or the build runs. To build a draft anyway
   (a test image before merge), dispatch the workflow on its branch.
@@ -350,22 +358,26 @@ from before and after a release stay apart.
     EXAMPLE_ROUTEROS: ${{ steps.resolve.outputs.version }} # e.g. 7.21.2, not "stable"
     RETRY_ISSUE: "123"                                     # the open issue; empty: no retries
     RETRY_FILES: test/integration/exec.test.ts             # the files it names, space-separated
-    FILE_CAP: 8m
+    FILE_CAP: 8m # then SIGTERM, and SIGKILL 30 s later if it is still there
   run: |
     out="$RUNNER_TEMP/integration-output.txt"
     record() {
-      printf '{"file":"%s","attempts":%s,"outcome":"%s","routeros":"%s","platform":"%s-%s","issue":"%s","run":"%s"}\n' \
-        "$1" "$2" "$3" "$EXAMPLE_ROUTEROS" "$RUNNER_OS" "$RUNNER_ARCH" "$RETRY_ISSUE" "$GITHUB_RUN_ID" \
+      printf '{"file":"%s","attempts":%s,"outcome":"%s","routeros":"%s","platform":"%s-%s","issue":"%s","run":"%s","runAttempt":%s}\n' \
+        "$1" "$2" "$3" "$EXAMPLE_ROUTEROS" "$RUNNER_OS" "$RUNNER_ARCH" "$RETRY_ISSUE" "$GITHUB_RUN_ID" "$GITHUB_RUN_ATTEMPT" \
         >> "$RUNNER_TEMP/files.ndjson"
     }
     status=0
     for f in test/integration/*.test.ts; do
       rc=0
-      timeout "$FILE_CAP" bun test "$f" 2>&1 | tee -a "$out" || rc=$?
+      timeout --kill-after=30s "$FILE_CAP" bun test "$f" 2>&1 | tee -a "$out" || rc=$?
       if [ "$rc" -eq 0 ]; then record "$f" 1 passed; continue; fi
-      # A hang (124) is never retried, and only the files the issue names are.
-      if [ "$rc" -eq 124 ]; then
+      # A hang (124, or 137 after the SIGKILL) or a death by any other
+      # signal is never retried, and only the files the issue names are.
+      if [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
         record "$f" 1 timed-out; status=1; continue
+      fi
+      if [ "$rc" -gt 128 ]; then
+        record "$f" 1 killed; status=1; continue
       fi
       if [ -z "$RETRY_ISSUE" ] || [[ " $RETRY_FILES " != *" $f "* ]]; then
         record "$f" 1 failed; status=1; continue
@@ -375,7 +387,7 @@ from before and after a release stay apart.
       pkill -f qemu-system || true
       echo "::warning title=Retried (#$RETRY_ISSUE)::$f failed; reaped $reaped QEMU process(es) and running it once more"
       rc=0
-      timeout "$FILE_CAP" bun test "$f" 2>&1 | tee -a "$out" || rc=$?
+      timeout --kill-after=30s "$FILE_CAP" bun test "$f" 2>&1 | tee -a "$out" || rc=$?
       if [ "$rc" -eq 0 ]; then outcome=passed-on-retry; else outcome=failed-twice; status=1; fi
       record "$f" 2 "$outcome"
       echo "- \`$f\`: $outcome (#$RETRY_ISSUE)" >> "$GITHUB_STEP_SUMMARY"
@@ -384,7 +396,7 @@ from before and after a release stay apart.
 ```
 
 Under `shell: bash` the pipeline's status is `timeout`'s, which is
-`bun test`'s or 124, not `tee`'s. `timeout` is GNU coreutils: a Linux runner
+`bun test`'s, 124, or 137 after the SIGKILL, not `tee`'s. `timeout` is GNU coreutils: a Linux runner
 has it, a macOS runner needs `gtimeout` or the tool's own per-file
 watchdog. `pkill` there reaps every QEMU on the runner; with a tool that
 names its machines, remove only those.
@@ -396,6 +408,10 @@ the board and the protocol, and quickchr's `ci-data` has a `test-file` row
 for every file of every leg. centrs writes from inside passing tests, so a
 file that fails early writes nothing there: the loop's `record()` adds the
 outcome and attempts, and is the whole record in a repo with neither.
+`attempts` counts the loop's tries; `runAttempt` is the workflow attempt,
+which a rerun of failed jobs increments while `run` stays the same, so a
+history keyed on file, platform, version, run and `runAttempt` keeps the
+red attempt beside the rerun that cleared it.
 Upload `files.ndjson` as an artifact, or fold it into the history the sweep
 already keeps (centrs `qa-history`, quickchr `ci-data`). `passed-on-retry` over all
 records for a file, per RouterOS version and platform, is the flake rate

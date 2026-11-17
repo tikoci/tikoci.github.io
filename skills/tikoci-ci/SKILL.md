@@ -278,16 +278,19 @@ asks for.
   patterns.md.
 - **Every file writes a record each run**, not only the retried ones: file,
   attempts, outcome, the RouterOS version the device reports rather than
-  the channel, platform, run and issue. Prefer the tool's own evidence
+  the channel, platform, run, workflow attempt and issue. Prefer the tool's own evidence
   writer (centrs `CENTRS_INTEGRATION_REPORT`) and add what it lacks: a file
   that fails before it writes still needs an outcome. Without the files that passed first
   time there is no rate: 3 retries could be 3 of 4 runs or 3 of 400. Each
   retry also gets a `::warning::` and a job summary line.
-- **Never retry a hang.** A timeout or watchdog kill is a different failure
-  from an assertion, and a retry doubles its worst case (quickchr's Intel
-  Mac wedge hit the same file 7 times of 7). Budget the step for the
-  retried files' second run, and reap leftover machines before it, so
-  attempt 2 does not fail, or pass, on attempt 1's leftovers.
+- **Never retry a hang.** A timeout or watchdog kill, or any death by a
+  signal, is a different failure from an assertion, and a retry doubles its
+  worst case (quickchr's Intel Mac wedge hit the same file 7 times of 7). A
+  per-file cap ends in SIGKILL (`timeout --kill-after`), or a test that
+  ignores SIGTERM eats the step's budget and every later file's record.
+  Budget the step for the retried files' second run, and reap leftover
+  machines before it, so attempt 2 does not fail, or pass, on attempt 1's
+  leftovers.
 - **Clearing a read flake is a rerun, tracked in an issue.** Without a
   standing retry, a red scheduled sweep can freeze merges in a repo whose
   `main`-health check reads it, and a sweep that skips unchanged nights
