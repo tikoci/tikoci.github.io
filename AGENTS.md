@@ -50,6 +50,9 @@ visited.
 - `bun run collect`: explicit hourly repository/dashboard refresh.
 - `bun run survey:pages`: explicit slower Pages inventory refresh.
 
+`playwright` is a devDependency on purpose, though no script, test or workflow
+uses it: agents use it to check UI work in the browser during a session.
+
 Run `bun run check` before committing.
 
 GitHub auth for collection, in order: TIKOCI_GITHUB_TOKEN, GH_TOKEN,
