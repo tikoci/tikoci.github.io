@@ -53,9 +53,12 @@ changes:
         count=$(grep -c . <<<"$records" || true)
         names=$(tr '\t' '\n' <<<"$records")
         # A here-string, not a pipe: under pipefail an early `grep -q` exit
-        # can fail the writer, and the `!` would turn that into heavy=false.
+        # can fail the writer. Only grep's 1 ("no line outside DOCS_ONLY")
+        # skips; 0 is code, and 2 (a bad pattern) runs everything too.
+        rc=0
+        grep -qvE "$DOCS_ONLY" <<<"$names" || rc=$?
         heavy=true
-        if [ "$count" -gt 0 ] && [ "$count" -lt "$cap" ] && ! grep -qvE "$DOCS_ONLY" <<<"$names"; then
+        if [ "$count" -gt 0 ] && [ "$count" -lt "$cap" ] && [ "$rc" -eq 1 ]; then
           heavy=false
         fi
         echo "heavy=$heavy" >> "$GITHUB_OUTPUT"
@@ -204,6 +207,8 @@ smoke:
       # report steps still run; a job timeout cancels them, and a hung CHR
       # leaves no evidence (quickchr #76, #144).
       timeout-minutes: 15
+      # Explicit, so pipefail holds wherever the job is copied to.
+      shell: bash
       env:
         EXAMPLE_ROUTEROS: ${{ steps.resolve.outputs.version }}
       run: bun run test:integration:smoke 2>&1 | tee "$RUNNER_TEMP/smoke-output.txt"
@@ -261,8 +266,12 @@ logic:
   `workflow_run` on CI, only when `promote` succeeded. A `push` trigger
   raced the build and tested the previous image, and a docs-only push
   publishes nothing, which once left the CHR waiting out its whole budget
-  for an image that never came. It checks out the published commit, so the
-  YAML and the test match the image. Then it boots a CHR on each
+  for an image that never came. It installs that commit's candidate
+  (`:sha-<commit>`), not the release tags, so a superseded commit whose
+  `promote` skipped tagging still tests its own image. A test that installs
+  the release tags gates instead on an output `promote` sets after tagging.
+  It checks out the published commit, so the YAML and the test match the
+  image. Then it boots a CHR on each
   architecture, installs the `/app` from GHCR and probes the web UI. It
   also runs weekly and by dispatch (RouterOS version, expected app version).
 - **The Bun inside the image is the product's Bun**: the pin moves in a
@@ -273,9 +282,14 @@ logic:
   (`scripts/freshness-issue.sh`), the same idea as the CI example's
   `report` job.
 
-A repo whose product includes an `/app` YAML without building the image
-(the maintainer names rosetta's formula) can take only the last stage:
-install the `/app` on a CHR and probe it.
+rosetta has both halves for its own image. `release.yml` pushes a
+sha-tagged image, runs `smoke-oci` (real MCP sessions against it on both
+architectures) and only then moves the version and floating tags
+(`promote-oci`, rosetta #246). `app-integration.yml` (rosetta #245) is the
+CHR stage: a CHR per architecture runs the README's `/app/add` block and
+completes an MCP session through the app's UI URL; it is dispatch-only. A
+repo whose `/app` YAML points at someone else's image can take the CHR
+stage alone.
 
 ## The gate job
 
@@ -362,6 +376,7 @@ from before and after a release stay apart.
   # The step's timeout leaves the job room to report. Budget: every file's
   # cap, twice for the files under investigation, plus a reserve.
   timeout-minutes: 50
+  shell: bash # pipefail, and the [[ ]] below
   env:
     EXAMPLE_INTEGRATION: "1"
     EXAMPLE_ROUTEROS: ${{ steps.resolve.outputs.version }} # e.g. 7.21.2, not "stable"

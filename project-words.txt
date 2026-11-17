@@ -1,6 +1,7 @@
 # Project dictionary for cspell. One word per line, sorted case-insensitively
 # (checked by `bun run lint:words`); a word that is not obvious says what it
 # is after " # ". See the tikoci-linting house skill.
+appyamlschemas
 artipacked # zizmor audit for credentials left in a checkout
 autovlan
 backgrounded

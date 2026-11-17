@@ -199,8 +199,10 @@ default for a tool that runs on its users' Bun.
   and the pin stays until Bun fixes it.
 - **Tell Bun from the rest**: a scheduled run also meets whatever else
   floats that week (RouterOS `stable` in a device job, the runner image).
-  Dispatch the same commit with `bun-version` empty; if that is red too,
-  the cause is not Bun.
+  Dispatch the same commit with `bun-version` empty. If that fails the same
+  jobs with the same errors, the cause is not Bun; a different failure (an
+  infrastructure one, say) settles nothing, so compare before ruling Bun
+  out.
 - **Keep the badge on the pin**: a README badge shows the workflow's latest
   run, so filter it, `badge.svg?branch=main&event=push`.
 - **GitHub disables the schedules of a public repo after 60 days without
@@ -333,10 +335,10 @@ asks for.
 
 ## Container apps
 
-A repo that ships a RouterOS `/app` container (app-t3code today) tests the
-image where it runs: under RouterOS `/container` on a CHR, not Docker
-(`tikoci-toolchain`). The pattern is young, from one repo, so it is a
-pointer, not a settled rule; the logic is in patterns.md ("A RouterOS
+A repo that ships a RouterOS `/app` container (app-t3code, rosetta) tests
+the image where it runs: under RouterOS `/container` on a CHR, not Docker
+(`tikoci-toolchain`). The pattern is young, mostly from app-t3code, so it
+is a pointer, not a settled rule; the logic is in patterns.md ("A RouterOS
 `/app` container"):
 
 - **PRs build, `main` publishes a candidate, a later job promotes it.** The
@@ -347,8 +349,9 @@ pointer, not a settled rule; the logic is in patterns.md ("A RouterOS
   version as an input.
 - **The Bun inside the image is the product's Bun**: a `bun-version` input
   to try a new one, no weekly latest-Bun run.
-- A repo with an `/app` YAML and no image of its own (a rosetta formula)
-  can still take the CHR install test.
+- rosetta's dispatch-only `app-integration.yml` is the CHR install test on
+  its own; a repo whose `/app` YAML points at someone else's image can take
+  that stage alone.
 
 ## Bot data and deploys
 
