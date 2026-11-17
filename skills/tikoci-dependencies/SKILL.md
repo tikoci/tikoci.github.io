@@ -74,6 +74,10 @@ and the other tikoci tools. The Bun pin itself is in `tikoci-toolchain`.
   `tikoci-ci` describes ("Dependency audit"): on a PR or push that changes
   `bun.lock` or `package.json`, routinely out of band (the repo picks
   where), and before anything ships; never on an ordinary PR.
+- **Dependabot alerts are not a substitute.** GitHub's dependency graph
+  reads `package.json`, not `bun.lock`, so alerts cover direct dependencies
+  by their ranges only. On tikoci.github.io, none of the 16 advisories
+  `bun audit` reported (all transitive) raised an alert.
 - **Fix findings with a reviewed upgrade.** `bun audit fix` upgrades within
   the declared ranges, except that it treats an exact pin as a caret range
   and rewrites it in package.json
