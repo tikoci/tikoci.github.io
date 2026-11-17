@@ -1,0 +1,258 @@
+# tikoci starting release workflow for an npm package. Save as
+# .github/workflows/release.yml, with release-plan.example.ts as
+# scripts/release-plan.ts. See tikoci-release.
+#
+#   plan     main only, lint, unit, full bun audit, the release plan
+#     └─→ publish   npm through trusted publishing; `latest` also moves `next`
+#           └─→ release   vX.Y.Z and its GitHub Release (stable versions only)
+#
+#   gh workflow run release.yml -f dry-run=true   # every check; publishes nothing
+#   gh workflow run release.yml                   # what package.json says
+#
+# The committed version picks the channel (release-plan.ts): X.Y.Z-next
+# publishes a numbered preview to `next`, X.Y.Z publishes to `latest`. There
+# is no channel input to disagree with it. The workflow never writes
+# package.json or CHANGELOG.md and never pushes to main.
+#
+# One-time setup, outside this file: a trusted publisher for the package on
+# npmjs.com (this repo, this workflow file name, "Allow npm dist-tag" on), the
+# package.json `repository.url` naming this repo, and immutable releases on in
+# the repo settings. No NPM_TOKEN secret. Action SHAs are the releases current
+# when this file was written; Dependabot moves them.
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: "Run every check and publish nothing"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+# Never two releases at once, and never cancel one halfway.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  plan:
+    name: Check and plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      name: ${{ steps.plan.outputs.name }}
+      channel: ${{ steps.plan.outputs.channel }}
+      version: ${{ steps.plan.outputs.version }}
+      tag: ${{ steps.plan.outputs.tag }}
+      also-tag: ${{ steps.plan.outputs.also-tag }}
+    steps:
+      - name: Refuse anything but main
+        if: ${{ github.ref != 'refs/heads/main' }}
+        env:
+          REF: ${{ github.ref }}
+        run: |
+          echo "::error::Releases run from main only (got $REF)."
+          exit 1
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # A release builds on the pin, with no bun-version override
+      # (tikoci-ci, "The Bun version").
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version-file: package.json
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      # The commit that ships is the commit checked here: provenance attests
+      # this run's commit, so a green run on another commit proves nothing
+      # about it. A repo with a slow device sweep may instead read that
+      # sweep's result for this exact commit (tikoci-release, "Gates").
+      - name: Lint
+        run: bun run lint
+      - name: Unit tests
+        run: bun run test
+      # The full audit, with the same --ignore list as CI (tikoci-ci,
+      # "Dependency audit"): anything that ships is audited first, and an
+      # audit that did not complete fails too.
+      - name: Audit dependencies
+        run: |
+          audit_args=()
+          status=0
+          bun audit --json "${audit_args[@]}" > "$RUNNER_TEMP/audit.json" 2> "$RUNNER_TEMP/audit.err" || status=$?
+          cat "$RUNNER_TEMP/audit.err" >&2
+          if grep -Eq '^(warn|error):' "$RUNNER_TEMP/audit.err"; then
+            echo "::error::bun audit did not check every package (see its warnings above)."
+            exit 1
+          fi
+          if [ "$status" -eq 0 ]; then exit 0; fi
+          report='type == "object" and length > 0 and all(.[]; type == "array" and length > 0 and all(.[]; type == "object" and has("id") and has("severity")))'
+          if jq -e "$report" "$RUNNER_TEMP/audit.json" > /dev/null 2>&1; then
+            bun audit "${audit_args[@]}" || true # the readable report, for the log
+            echo "::error::bun audit found advisories."
+          else
+            echo "::error::bun audit did not complete (exit $status), so nothing was checked."
+          fi
+          exit 1
+      - name: Plan the release
+        id: plan
+        env:
+          RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          bun scripts/release-plan.ts plan --run-number "$RUN_NUMBER" | tee "$RUNNER_TEMP/plan.txt"
+          cat "$RUNNER_TEMP/plan.txt" >> "$GITHUB_OUTPUT"
+      - name: Refuse a tag or release that exists
+        if: ${{ steps.plan.outputs.tag != '' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.plan.outputs.tag }}
+        run: |
+          # Exit 2 is "no such tag"; anything else but 0 is a failed lookup.
+          status=0
+          git ls-remote --exit-code --tags origin "refs/tags/$TAG" > /dev/null || status=$?
+          if [ "$status" -eq 0 ]; then
+            echo "::error::Tag $TAG already exists."
+            exit 1
+          elif [ "$status" -ne 2 ]; then
+            echo "::error::Could not list tags (git exit $status)."
+            exit 1
+          fi
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            echo "::error::A GitHub Release $TAG already exists."
+            exit 1
+          fi
+      - name: Summarize
+        env:
+          DRY_RUN: ${{ inputs.dry-run }}
+          VERSION: ${{ steps.plan.outputs.version }}
+          CHANNEL: ${{ steps.plan.outputs.channel }}
+          TAG: ${{ steps.plan.outputs.tag }}
+        run: |
+          {
+            echo "## Release $VERSION"
+            echo "- npm dist-tag: \`$CHANNEL\`"
+            echo "- git tag and GitHub Release: ${TAG:-none (a preview)}"
+            echo "- dry run: $DRY_RUN"
+            echo "- Bun $(bun --version), commit $GITHUB_SHA"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  publish:
+    name: Publish to npm
+    needs: plan
+    if: ${{ !inputs.dry-run }}
+    # Trusted publishing works only on GitHub-hosted runners.
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write # the OIDC token npm trades for a publish, and provenance
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version-file: package.json
+      - name: Setup Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "lts/*"
+          registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false # no cache in a release build
+      # Trusted publishing needs npm 11.5.1 or later, and a dist-tag command
+      # over OIDC 11.21.0; Node's bundled npm can be older (Node 26.13 has
+      # 11.20.0). So npm is a devDependency, pinned by bun.lock, audited and
+      # updated by Dependabot like any other, and runs on this Node.
+      - name: Install dependencies
+        run: |
+          bun install --frozen-lockfile
+          echo "$PWD/node_modules/.bin" >> "$GITHUB_PATH"
+      - name: Record versions
+        run: echo "- Node $(node --version), npm $(npm --version), Bun $(bun --version)" >> "$GITHUB_STEP_SUMMARY"
+      # A preview's number exists only in this runner and is never committed.
+      - name: Set the version
+        env:
+          VERSION: ${{ needs.plan.outputs.version }}
+        run: npm pkg set version="$VERSION"
+      # Add the build here if the package has one (bun run build).
+      - name: Publish
+        env:
+          CHANNEL: ${{ needs.plan.outputs.channel }}
+        run: npm publish --access public --tag "$CHANNEL"
+      # `next` has no line of its own: a fix lands on main and ships in the
+      # next release, so `next` must never point below `latest`. The version
+      # is published by now, so a re-dispatch stops at "already published";
+      # the summary names the command that finishes the job.
+      - name: Move the other dist-tags
+        if: ${{ needs.plan.outputs.also-tag != '' }}
+        env:
+          NAME: ${{ needs.plan.outputs.name }}
+          VERSION: ${{ needs.plan.outputs.version }}
+          ALSO_TAG: ${{ needs.plan.outputs.also-tag }}
+        run: |
+          failed=()
+          IFS=',' read -r -a tags <<< "$ALSO_TAG"
+          for tag in "${tags[@]}"; do
+            npm dist-tag add "$NAME@$VERSION" "$tag" || failed+=("$tag")
+          done
+          if [ "${#failed[@]}" -gt 0 ]; then
+            {
+              echo "## Published, but a dist-tag did not move"
+              echo "\`$NAME@$VERSION\` is published. From a shell with publish rights:"
+              echo '```sh'
+              for tag in "${failed[@]}"; do echo "npm dist-tag add $NAME@$VERSION $tag"; done
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "::error::Could not move: ${failed[*]}"
+            exit 1
+          fi
+
+  release:
+    name: Tag and GitHub Release
+    needs: [plan, publish]
+    if: ${{ needs.plan.outputs.tag != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write # create the tag and the release
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version-file: package.json
+      # Notes are the CHANGELOG section. With immutable releases on, a release
+      # that carries assets is created with --draft, the assets uploaded, then
+      # published (gh release edit --draft=false); this one has none.
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ needs.plan.outputs.tag }}
+          VERSION: ${{ needs.plan.outputs.version }}
+        run: |
+          bun scripts/release-plan.ts notes "$VERSION" > "$RUNNER_TEMP/notes.md"
+          if ! gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --title "$TAG" --notes-file "$RUNNER_TEMP/notes.md"; then
+            {
+              echo "## Published to npm, but no GitHub Release"
+              echo "From a shell on this commit:"
+              echo '```sh'
+              echo "bun scripts/release-plan.ts notes $VERSION > notes.md"
+              echo "gh release create $TAG --target $GITHUB_SHA --title $TAG --notes-file notes.md"
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi

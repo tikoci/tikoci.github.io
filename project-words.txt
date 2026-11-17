@@ -30,6 +30,7 @@ frontmatter
 gitdir
 gpt # OpenAI model names in Reviewer: lines (gpt-6.1-sol)
 gtimeout
+hvf
 katex # KaTeX, the math renderer (npm package katex)
 kvm
 LASTEXITCODE
@@ -53,6 +54,7 @@ nohup
 noninteractive # DEBIAN_FRONTEND=noninteractive for apt-get
 noprofile # bash --noprofile
 norc # bash --norc
+npmjs
 NUL
 OCI
 Oid # GitHub object id, as in headRefOid
@@ -64,6 +66,7 @@ pids
 pipefail # bash set -o pipefail
 PSScriptAnalyzer # PowerShell linter, https://github.com/PowerShell/PSScriptAnalyzer
 quickchr # CHR VMs under QEMU, https://github.com/tikoci/quickchr
+releaseflags
 restraml # RouterOS schema tools, https://github.com/tikoci/restraml
 rollups
 ros
