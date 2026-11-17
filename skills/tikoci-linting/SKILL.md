@@ -134,6 +134,10 @@ From [biome.example.jsonc](assets/biome.example.jsonc):
   in the same element, whether or not they can match the same one, so it
   flags unrelated components (`.hero-art svg` after a dropdown's icon rule).
   Reordering a stylesheet to please it scatters each component's rules.
+- **`useTemplate` is off.** `"<b>" + name` and `` `<b>${name}` `` are the same
+  string, and neither escapes `name`: only an escaping helper does. A style
+  hint with no quality payoff, which Biome rates info, below the gate, but
+  prints on every run.
 - **`noImportantStyles` stays on.** An `!important` that overrides a
   third-party widget's own CSS (Scalar, Monaco) keeps a suppression that names
   the widget; one that only wins against the site's own rules is fixed.

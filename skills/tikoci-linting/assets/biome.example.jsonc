@@ -29,7 +29,11 @@
         // It flags any later selector that ends in the same element as a more
         // specific earlier one, whether or not both can match one element.
         // None of its 18 findings in two Pico sites was a bug.
-        "noDescendingSpecificity": "off"
+        "noDescendingSpecificity": "off",
+        // Concatenation and a template literal build the same string, and
+        // neither escapes anything (escapeHtml does), so this is style only.
+        // Biome rates it info, below the gate, yet it prints on every run.
+        "useTemplate": "off"
       }
     }
   },
