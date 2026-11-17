@@ -52,24 +52,28 @@ visited.
 
 Run `bun run check` before committing.
 
-GitHub auth for collection, in order: TIKOCI_GITHUB_TOKEN, GITHUB_TOKEN,
-`gh auth token`, then anonymous. Ordinary builds do not resolve credentials. The
+GitHub auth for collection, in order: TIKOCI_GITHUB_TOKEN, GH_TOKEN,
+GITHUB_TOKEN, `gh auth token`, then anonymous. Ordinary builds do not resolve credentials. The
 optional CI override may be needed to read cross-repo Pages settings; with the
 default workflow token those can come back unknown or 404. The dataset records
 these coverage limits.
 
 ## Contribution rules
 
-- Small fixes go straight to `main`. Bigger changes go through a PR. Changes
-  that need discussion get a GitHub issue. Track small nits in BACKLOG.md, not as
-  issues. Act on substantive automatic PR review findings, not prose or style
-  nitpicks.
-- PRs use squash merge with the PR title and description as the commit message.
-  `.github/workflows/check-pr.yaml` runs lint, Bun tests and the offline build on
-  PRs targeting `main`. These checks are advisory. `main` has classic branch
-  protection with only "require conversation resolution": a PR merges once
-  every review thread is resolved (reply, then resolve), while direct pushes
-  remain available. Force pushes and deletion of `main` are blocked.
+- Every change goes through a PR, following `tikoci-pr-flow`: open a draft
+  early, label docs and nits `skip-review` at creation, have another local
+  agent review the draft before ready, and never request a CodeRabbit review.
+  Only the deploy workflow's snapshot commits push to `main` directly. Changes
+  that need discussion get a GitHub issue; small nits go in BACKLOG.md, not
+  issues.
+- PRs use squash merge with the PR title and description as the commit message
+  (`.github/pull_request_template.md`). `.github/workflows/ci.yaml` runs
+  `bun run check` on PRs, on pushes to `main` and on dispatch (with a
+  `bun-version` input); `zizmor.yaml` reports workflow findings to code
+  scanning. These checks are advisory. `main` has classic branch protection
+  with only "require conversation resolution": a PR merges once every review
+  thread is resolved (reply, then resolve), while the bot's direct pushes still
+  work. Force pushes and deletion of `main` are blocked.
 - Keep changes small and focused, and add no dependencies without need. Use Bun
   and Biome (formatter disabled), semantic HTML and vanilla browser code. Commits
   use short imperative subjects.
@@ -132,8 +136,19 @@ fills the /house/ index from src/house/index.html, and writes
 skills/tikoci-house/references/writing-house-skills.md before adding or
 changing one.
 
-This repo uses: `tikoci-house` (copied, in `.agents/skills/`; `.claude/skills`
-links there).
+This repo uses:
+
+- `tikoci-house`, `tikoci-pr-flow` (copied, in `.agents/skills/`;
+  `.claude/skills` links there).
+- `tikoci-github`: before changing repo settings, SECURITY.md or GitHub API
+  auth, read <https://tikoci.dev/house/skills/tikoci-github/SKILL.md>.
+- `tikoci-dependencies`: before adding or updating a dependency or action, read
+  <https://tikoci.dev/house/skills/tikoci-dependencies/SKILL.md>.
+- `tikoci-ci`: before changing a workflow, read
+  <https://tikoci.dev/house/skills/tikoci-ci/SKILL.md>.
+
+Not adopted yet (BACKLOG.md): `tikoci-linting` configs, `tikoci-toolchain`,
+`tikoci-testing`, `tikoci-grounding`.
 
 ## House exceptions
 

@@ -1,0 +1,28 @@
+# From tikoci-dependencies (https://tikoci.dev/house/skills/tikoci-dependencies/SKILL.md).
+version: 2
+updates:
+  # Action SHAs, bumped weekly in one grouped PR.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    # Version updates wait until a release is a week old; security updates do not.
+    cooldown:
+      default-days: 7
+    groups:
+      github-actions:
+        patterns: ["*"]
+
+  # Packages in package.json and bun.lock.
+  - package-ecosystem: bun
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      bun:
+        patterns: ["*"]
+    ignore:
+      # Moves with the Bun pin in packageManager (tikoci-toolchain).
+      - dependency-name: "@types/bun"

@@ -4,9 +4,10 @@ A lightweight list of nits and small follow-ups, kept in the repo instead of Git
 
 How work flows here:
 
-- **Small fix** → commit directly to `main`, then tick it off or delete it here.
-- **Bigger change** → open a PR (automatic reviewers comment on PRs; act on substantive
-  findings, not prose or style nitpicks).
+- **Small fix** → a PR labeled `skip-review` (`tikoci-pr-flow`), then tick it off or
+  delete it here.
+- **Bigger change** → a draft PR, cross-reviewed before ready (automatic reviewers comment
+  on ready PRs; act on substantive findings, not prose or style nitpicks).
 - **Needs discussion** → open a GitHub issue and link it from the item.
 
 Format: one `- [ ]` line per item, with the area in brackets and the source in parentheses.
@@ -14,25 +15,15 @@ Add detail as indented lines only when needed. Move finished items to *Done* (or
 
 ## Open
 
-- [ ] [flow] Adopt `tikoci-pr-flow` here when it ships (#21, 3c): small fixes become PRs
-      labeled `skip-review` instead of pushes to `main` (bot snapshot commits stay direct),
-      plus a CodeRabbit config (no draft or incremental reviews, `!skip-review`) and a
-      `.github/pull_request_template.md`. Update the flow above and AGENTS.md then.
-      (#21 decisions, 2026-11-15)
-- [ ] [github] Adopt `tikoci-github` here: a SECURITY.md, Dependabot security updates, delete
-      branches on merge, the `skip-review` label, and the CodeQL default setup on the Extended
-      suite (Default now). After the actions are pinned (the [deps] item), switch the workflow
-      token default to read (both workflows already declare `permissions:`) and require SHA
-      pins. (#21, 3c)
-- [ ] [deps] Adopt `tikoci-dependencies` here: add `.github/dependabot.yml`
-      (`github-actions`, weekly, grouped), then pin the workflows' actions
-      (`oven-sh/setup-bun@v2` and the rest) to commit SHAs. (#21, 3b)
-- [ ] [ci] Adopt `tikoci-ci` here: `check-pr.yaml` becomes the CI workflow (`push` to
-      `main`, a `bun-version` dispatch input, `shell: bash`; no weekly latest-Bun run, since
-      the site is built with its own pinned Bun and no user runs it on another),
-      plus `zizmor.yml` reporting to code scanning after the existing findings (7 high,
-      mostly unpinned actions) are fixed by the [deps] item. `deploy-pages.yaml` keeps
-      its own Bun pin and push rules. (#21, 3d)
+- [ ] [settings] Apply the `tikoci-github` settings here (maintainer's go-ahead): delete
+      branches on merge, Dependabot security updates, the `skip-review` label, CodeQL default
+      setup on the Extended suite (then check its languages). Once the action pins are on
+      `main`: a read-only workflow token default and required SHA pins. (#21, 3c)
+- [ ] [deps] `bun audit` reports 16 advisories (10 high), all in dev tools (markdownlint-cli2's
+      markdown-it and KaTeX, among others): upgrade the lockfile with its lint fixes in one PR,
+      then run `bun audit` in CI and update SECURITY.md. (#21, 3b)
+- [ ] [house] Adopt `tikoci-toolchain` (`@types/bun` matching the pin exactly), `tikoci-testing`
+      and `tikoci-grounding` here, or note why not under House exceptions. (#21)
 - [ ] [lint] Adopt the `tikoci-linting` starting configs here: the stricter tsconfig (TypeScript 7
       reports 20 `noUncheckedIndexedAccess` errors in build.ts and scripts/), `biome.jsonc` with
       `--error-on-warnings` (needs the `any` item below first), and one `.markdownlint-cli2.yaml`.
@@ -59,6 +50,12 @@ Add detail as indented lines only when needed. Move finished items to *Done* (or
 
 ## Done
 
+- [x] [flow] Adopt `tikoci-pr-flow`: every change is a PR, `skip-review` label, CodeRabbit
+      config and PR template. (#21, 3c)
+- [x] [deps] Adopt `tikoci-dependencies`: `.github/dependabot.yml` and SHA-pinned actions. (#21, 3b)
+- [x] [ci] Adopt `tikoci-ci`: `ci.yaml` (was `check-pr.yaml`) and `zizmor.yaml`. (#21, 3d)
+- [x] [github] Adopt `tikoci-github` files: SECURITY.md and the house token order
+      (`GH_TOKEN` added). Settings are the open [settings] item. (#21, 3c)
 - [x] [docs] Restore a short reference list of the `src/shared.js` helpers (theme switcher,
       `SITE_TOOLS`, fetch helpers, `debounce`, cancel token, query params, share button,
       `escapeHtml`) — now in `AGENTS.md`. #17 cut it. (PR #17 review)
