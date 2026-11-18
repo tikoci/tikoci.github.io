@@ -1,6 +1,7 @@
 # Project dictionary for cspell. One word per line, sorted case-insensitively
 # (checked by `bun run lint:words`); a word that is not obvious says what it
 # is after " # ". See the tikoci-linting house skill.
+affordances
 appyamlschemas
 artipacked # zizmor audit for credentials left in a checkout
 autovlan
@@ -10,9 +11,11 @@ bashisms
 btest # MikroTik bandwidth-test protocol
 bunfig # bunfig.toml, Bun's config file
 bunx # run a package binary through Bun, https://bun.com/docs/cli/bunx
+CANTOPEN # SQLite result code SQLITE_CANTOPEN
 CDB # WinBox address book format
 centrs # tikoci RouterOS CLI and library, https://github.com/tikoci/centrs
 choco # Chocolatey, the Windows package manager CLI
+cliref # rosetta CLI Reference crosswalk (cli-reference-links.tsv)
 CMR # MikroTik's controller for RouterOS fleets
 coderabbit # CodeRabbit config and file names (.coderabbit.yaml)
 coderabbitai # CodeRabbit's GitHub handle, as in @coderabbitai
@@ -21,17 +24,25 @@ commonmark # micromark-core-commonmark, the CommonMark parser markdownlint patch
 crossref
 curlconverter # npm package behind the curl parser page
 cwd
+DDL # SQL data definition language
 dispatchable
 Dockerfiles
 edk # edk2, the UEFI firmware QEMU boots, https://github.com/tianocore/edk2
+EEXIST # POSIX errno: file exists
 efi
 endgroup
+ENOENT # POSIX errno: no such file
 esac
+EXDEV # POSIX errno: cross-device link
+fanout # centrs FanoutData, a result across many targets
 frontmatter
+FTS # SQLite full-text search
 gitdir
 gpt # OpenAI model names in Reviewer: lines (gpt-6.1-sol)
 gtimeout
 hvf
+inodes # file system index nodes
+IOERR # SQLITE_IOERR_VNODE
 katex # KaTeX, the math renderer (npm package katex)
 kvm
 LASTEXITCODE
@@ -48,8 +59,10 @@ MIB
 mikropkl # declarative RouterOS VMs in Pkl, https://github.com/tikoci/mikropkl
 MikroTik
 mktemp
+modelcontextprotocol # npm scope of the MCP SDK, @modelcontextprotocol/sdk
 MSYS
 mtimes
+mytool # placeholder tool name in code samples
 netinstall # MikroTik's device flashing tool
 nodefaults
 nohup
@@ -68,6 +81,7 @@ pidfile
 pids
 pipefail # bash set -o pipefail
 PSScriptAnalyzer # PowerShell linter, https://github.com/PowerShell/PSScriptAnalyzer
+QGA # QEMU guest agent
 quickchr # CHR VMs under QEMU, https://github.com/tikoci/quickchr
 releaseflags
 restraml # RouterOS schema tools, https://github.com/tikoci/restraml
@@ -83,10 +97,12 @@ secretlint # secret scanner, https://github.com/secretlint/secretlint
 sed # stream editor (POSIX)
 shellcheck # shell script linter, https://www.shellcheck.net/
 SHELLFLAGS # GNU make variable: flags for the recipe shell
+shm # SQLite WAL shared-memory sidecar file (-shm)
 SNMP
 socat # relays sockets and serial ports, http://www.dest-unreach.org/socat/
 strawman
 subfolders
+subshell
 TCG # QEMU's software CPU emulator
 tgz
 tikbook # RouterOS notebooks for VS Code, https://github.com/tikoci/vscode-tikbook
@@ -102,6 +118,7 @@ USERPROFILE
 usr
 uvx # run a Python tool through uv, https://docs.astral.sh/uv/
 venv
+VNODE # SQLITE_IOERR_VNODE
 winbox
 worktrees
 XDG

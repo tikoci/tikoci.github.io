@@ -67,6 +67,13 @@ On 2026-11-17 the maintainer deferred `tikoci-web`, leaving 13 for Phase 3: gene
 practice is left to agents. Its CSS and HTML lint went to `tikoci-linting`, its
 static-inventory row to `tikoci-data`, and Pico gotchas stay in each repo's AGENTS.md.
 
+On 2026-11-17, after 3e, the maintainer renamed the 3f pair so their names say when they
+apply: `tikoci-interfaces` became `tikoci-cli-mcp`, and `tikoci-data` became
+`tikoci-data-contracts`, narrowed to data that code builds and others read. Rows already
+covered elsewhere moved: never hand-edit generated output to `tikoci-docs`, "type what you
+use" to `tikoci-testing`, the TUI-audit row and the examples-as-spec row to
+`tikoci-cli-mcp`. Structured formats over prose became a `tikoci-docs` section.
+
 Observations that shape later phases:
 
 - The same rule is often written three or four times: grounding and no-masking

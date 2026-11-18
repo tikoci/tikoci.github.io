@@ -227,7 +227,7 @@ A repo that copies many skills into `.agents/skills/` checks the total size of
 their descriptions, because harnesses list every description up front and
 may truncate the listing. This repo's
 [`scripts/check-skills.ts`](https://github.com/tikoci/tikoci.github.io/blob/main/scripts/check-skills.ts)
-does it for house skills (8000 characters, printed per skill). The budget is
+does it for house skills (10000 characters, printed per skill). The budget is
 a trigger for a cleanup pass (move detail to `references/`), not a reason to
 leave a rule out.
 
