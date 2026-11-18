@@ -14,10 +14,12 @@ const NAME_MAX = 64;
 const DESCRIPTION_MAX = 1024;
 /**
  * House budget for all descriptions together. Harnesses list every description
- * up front and may truncate the listing when it overflows; the planned 17 skills
- * at ~470 characters each fit. Raise it deliberately, not to make a check pass.
+ * up front and may truncate the listing when it overflows. Started at 8000 for
+ * 17 planned skills at ~470 characters; raised to 10000 in 3f (#21) for 15
+ * skills whose descriptions state their rules, until the cleanup pass once the
+ * set is done. Raise it deliberately, not to make a check pass.
  */
-export const DESCRIPTION_BUDGET = 8000;
+export const DESCRIPTION_BUDGET = 10000;
 
 const NAME_PATTERN = /^tikoci-[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const FRONTMATTER_KEYS = new Set(["name", "description", "license", "compatibility", "metadata", "allowed-tools"]);

@@ -71,7 +71,7 @@ build refuses to publish skills that fail them:
     inside the skill directory;
   - `skills/README.md`, published beside the skills, gets the same path, host
     and link checks;
-  - all descriptions together within the house budget (8000 characters).
+  - all descriptions together within the house budget (10000 characters).
 
 The budget keeps the full listing readable in harnesses that load every
 description. The check prints each skill's description size and the total, and

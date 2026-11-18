@@ -158,7 +158,7 @@ test("allows generic tool paths, URLs, anchors and links in code", () => {
 test("the description budget covers all skills together", () => {
     const root = join(temp(), "skills");
     const description = "y".repeat(1000);
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i <= DESCRIPTION_BUDGET / 1000; i++) {
         const name = `tikoci-s${i}`;
         mkdirSync(join(root, name), { recursive: true });
         writeFileSync(join(root, name, "SKILL.md"), `---\nname: ${name}\ndescription: ${description}\n---\n# H\n`);
