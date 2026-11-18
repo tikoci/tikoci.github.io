@@ -43,15 +43,39 @@ test("a dependency edge without explicit readiness is labeled a package, not an 
     expect(rows[0]).toContain("| package |");
 });
 
-test("generation refuses to write a map from invalid house skills", () => {
+/** A skills directory holding `skills` ({ name: SKILL.md text }), removed after `body` runs. */
+function withSkills(skills, body) {
     const root = mkdtempSync(join(tmpdir(), "tikoci-crossref-"));
     try {
-        mkdirSync(join(root, "tikoci-probe"));
-        writeFileSync(join(root, "tikoci-probe", "SKILL.md"), "no frontmatter\n");
-        expect(() => renderCrossref(root)).toThrow(/fix the house skills before generating the crossref/);
+        for (const [name, text] of Object.entries(skills)) {
+            mkdirSync(join(root, name));
+            writeFileSync(join(root, name, "SKILL.md"), text);
+        }
+        return body(root);
     } finally {
         rmSync(root, { recursive: true, force: true });
     }
+}
+
+const probe = (name, description) => `---\nname: ${name}\ndescription: ${JSON.stringify(description)}\n---\n\n# Probe\n`;
+
+test("generation refuses to write a map from invalid house skills", () => {
+    withSkills({ "tikoci-probe": "no frontmatter\n" }, root => {
+        expect(() => renderCrossref(root)).toThrow(/tikoci-probe: SKILL.md needs YAML frontmatter/);
+    });
+});
+
+test("generation validates the new crossref, not the committed one", () => {
+    // A broken committed crossref does not block its own replacement.
+    withSkills({ "tikoci-probe": probe("tikoci-probe", "Rules. Use when probing."), "tikoci-crossref": "stale\n" }, root => {
+        expect(renderCrossref(root)).toContain("| probing | [`tikoci-probe`]");
+    });
+    // Other skills that fit the budget alone overflow it with the new crossref's description.
+    const filler = "x".repeat(965);
+    const skills = Object.fromEntries(Array.from({ length: 10 }, (_, i) => [`tikoci-probe-${i}`, probe(`tikoci-probe-${i}`, `${filler} Use when probing ${i}.`)]));
+    withSkills(skills, root => {
+        expect(() => renderCrossref(root)).toThrow(/descriptions total \d+ characters \(budget 10000\)/);
+    });
 });
 
 test("the task table takes the final Use when clause and refuses a description without one", () => {
@@ -61,16 +85,10 @@ test("the task table takes the final Use when clause and refuses a description w
 
 test("a multiline description stays one table row with its skill link", () => {
     expect(cell("a | b\r\n  c")).toBe("a \\| b c");
-    const root = mkdtempSync(join(tmpdir(), "tikoci-crossref-"));
-    try {
-        mkdirSync(join(root, "tikoci-probe"));
-        writeFileSync(join(root, "tikoci-probe", "SKILL.md"),
-            '---\nname: tikoci-probe\ndescription: "Rules. Use when checking pipes | and wrapped\\nclauses."\n---\n\n# Probe\n');
+    withSkills({ "tikoci-probe": '---\nname: tikoci-probe\ndescription: "Rules. Use when checking pipes | and wrapped\\nclauses."\n---\n\n# Probe\n' }, root => {
         const rows = renderCrossref(root).split("\n").filter(line => line.includes("checking pipes"));
         expect(rows).toEqual(["| checking pipes \\| and wrapped clauses | [`tikoci-probe`](https://tikoci.dev/house/skills/tikoci-probe/SKILL.md) |"]);
-    } finally {
-        rmSync(root, { recursive: true, force: true });
-    }
+    });
 });
 
 test("the web tools table follows the Tools menu and refuses a reshaped entry", () => {

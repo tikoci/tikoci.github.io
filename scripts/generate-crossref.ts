@@ -8,7 +8,8 @@
 //
 //   bun run generate:crossref           write the file
 //   bun scripts/generate-crossref.ts --check   exit 1 if the file is stale
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { HOMEPAGE_SECTIONS } from "../data/homepage-config";
 import {
@@ -169,16 +170,39 @@ function dataTable(): string[] {
     return [...org, ...repos];
 }
 
+/**
+ * Task rows from the other skills. Errors are not checked here: the old
+ * crossref may be the invalid one, so renderCrossref validates its own
+ * output in place of it instead.
+ */
 function taskTable(skillsDir: string): string[] {
-    const report = checkSkills(skillsDir);
-    if (report.errors.length) throw new Error(`fix the house skills before generating the crossref:\n${report.errors.join("\n")}`);
-    return report.skills
+    return checkSkills(skillsDir).skills
         .filter(skill => skill.name !== CROSSREF_NAME)
         .map(skill => `| ${cell(taskClause(skill.name, skill.description))} | [\`${skill.name}\`](${HOUSE}/${skill.name}/SKILL.md) |`);
 }
 
-/** The complete SKILL.md text. Deterministic for the same inputs. */
+/**
+ * The complete SKILL.md text. Deterministic for the same inputs. Throws unless
+ * the house skills, with this text in place of the committed crossref, pass
+ * check-skills, description budget included.
+ */
 export function renderCrossref(skillsDir = SKILLS_DIR): string {
+    const text = renderText(skillsDir);
+    const scratch = mkdtempSync(join(tmpdir(), "tikoci-crossref-check-"));
+    try {
+        cpSync(skillsDir, scratch, { recursive: true });
+        rmSync(join(scratch, CROSSREF_NAME), { recursive: true, force: true });
+        mkdirSync(join(scratch, CROSSREF_NAME));
+        writeFileSync(join(scratch, CROSSREF_NAME, "SKILL.md"), text);
+        const { errors } = checkSkills(scratch);
+        if (errors.length) throw new Error(`the house skills with this crossref fail check-skills:\n${errors.join("\n")}`);
+    } finally {
+        rmSync(scratch, { recursive: true, force: true });
+    }
+    return text;
+}
+
+function renderText(skillsDir: string): string {
     return [
         "---",
         `name: ${CROSSREF_NAME}`,
