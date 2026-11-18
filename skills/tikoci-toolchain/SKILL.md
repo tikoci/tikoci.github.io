@@ -128,12 +128,17 @@ Code is read by agents as often as by people, so write it plainly:
   already there.
 - **Names that say what a thing is**, so comments explain why, never restate
   what the code says.
+- **Crash early**: no preemptive `try`/`catch`. Catch where the error can be
+  handled or reported (for CLIs and MCP servers, the boundary in
+  [tikoci-cli-mcp](https://tikoci.dev/house/skills/tikoci-cli-mcp/SKILL.md)).
 
 ## Web pages
 
 - **Semantic HTML first** (`article`, `details`, `dialog`, `table`), with a
   little plain CSS on top, before a CSS or front-end framework. Pico v2 is
   how tikoci.dev and restraml look today: a style guide, not a requirement.
+- **Work within a framework the repo already uses; adding one is a recorded
+  decision** in AGENTS.md, like another language.
 - **A build step is fine** when Bun and CI run it: `bun build`, or static
   pages generated in CI for GitHub Pages.
 
@@ -147,6 +152,8 @@ gate and the lint scripts (`tikoci-linting`), the test tiers
 
 - **A Bun-only repo has no Makefile.** package.json scripts are the entry
   points, and `bun run check` is the gate a developer and CI both run.
+- **No other task runner** (`just`, Taskfile) unless the repo already uses
+  one.
 - **A repo with several runtimes or compilers has one Makefile** as its entry
   point. It calls the package scripts for the JavaScript lifecycle and owns
   the rest (data pipelines, image builds, multi-step checks). Never define the

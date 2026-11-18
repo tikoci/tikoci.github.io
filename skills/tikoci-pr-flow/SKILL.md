@@ -95,8 +95,9 @@ method, labels) are in `tikoci-github`; how CI runs on a PR is in
   allowance is small and shared across tikoci repos, and the adversarial
   review already happened in the draft. A re-request is the maintainer's
   call. User-level notes that say otherwise lose to this skill
-  (`tikoci-house` precedence), including the `coderabbit-routing` skill the
-  CodeRabbit CLI installs and reinstalls.
+  (`tikoci-house` precedence), including personal routing skills and the
+  skills the CodeRabbit CLI installs into agent skill directories
+  (`coderabbit skills`).
 - **A push after the review gets no new bot review.** That is the
   configuration, not a failure: do not wait for one.
 - **A bot's green check means it ran**, not that it reviewed the head:

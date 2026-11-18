@@ -117,6 +117,7 @@ strawman
 subfolders
 subshell
 tangentsoft # tangentsoft.com RouterOS guides
+Taskfile # the go-task task runner's file
 TCG # QEMU's software CPU emulator
 tgz
 tikbook # RouterOS notebooks for VS Code, https://github.com/tikoci/vscode-tikbook
