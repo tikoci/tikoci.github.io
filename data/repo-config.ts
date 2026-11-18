@@ -33,8 +33,19 @@ export interface RepoOverride {
     externalLinks?: ExternalLink[];
     /** Files to fetch at build time and make viewable in a modal on the landing page */
     viewableFiles?: string[];
+    /** What this repo is the place to look for, as short topics (domains,
+     *  artifacts, formats). Feeds the generated tikoci-crossref house skill;
+     *  the first entry is the repo's role. Not shown on the site. */
+    owns?: string[];
 }
 
+/**
+ * A curated edge between two repos. For "dependency" and
+ * "artifact-consumption" readiness, `source` is the repo that provides and
+ * `target` the repo that uses it; for associations the direction carries no
+ * meaning. Edges with a verifiedNote feed the tikoci-crossref dependency
+ * table.
+ */
 export interface Relationship {
     source: string;
     target: string;
@@ -103,11 +114,19 @@ export const DEFAULT_SYMBOL = "\u2370";  // ⍰ quad question — unknown, disco
 /** Per-repo overrides keyed by repo name */
 export const REPO_OVERRIDES: Record<string, RepoOverride> = {
     mikropkl: {
+        owns: [
+            "declarative RouterOS VMs from pkl manifests (UTM, QEMU)",
+            "CHR VM bundles per RouterOS version",
+        ],
         bonusDocs: ["Files/UTM.md", "Files/QEMU.md"],
         category: "virtualization",
         viewableFiles: ["Files/UTM.md", "Files/QEMU.md"],
     },
     "fat-chr": {
+        owns: [
+            "UEFI-bootable CHR images with extra packages",
+            "CHR image releases per RouterOS version",
+        ],
         category: "virtualization",
         metaDescription: "Build UEFI-bootable MikroTik RouterOS CHR images with extra-packages pre-installed — ready for QEMU, UTM, and other hypervisors by TIKOCI.",
         externalLinks: [
@@ -115,18 +134,32 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
         ],
     },
     "quickchr": {
+        owns: [
+            "disposable CHR VMs on QEMU, as a CLI and a Bun library",
+            "CHR test labs: networking, provisioning, licenses",
+            "the RouterOS versions tested on CHR",
+        ],
         category: "virtualization",
         externalLinks: [
             { label: "GitHub", url: "https://github.com/tikoci/quickchr", style: "primary", description: "Source, releases, and docs" },
         ],
     },
     "donny": {
+        owns: [
+            "The Dude database (`dude.db`)",
+        ],
         category: "dev-tools",
         externalLinks: [
             { label: "GitHub", url: "https://github.com/tikoci/donny", style: "primary", description: "Source and releases" },
         ],
     },
     restraml: {
+        owns: [
+            "RouterOS command trees per version (`inspect.json`)",
+            "RAML and OpenAPI schemas for the REST API",
+            "`/app` YAML JSON schemas",
+            "web tools: command lookup, schema diff, API explorer, `/app` editor",
+        ],
         category: "web-tools",
         externalLinks: [
             { label: "Schema Downloads", url: "https://tikoci.github.io/restraml/", style: "primary", description: "Browse & download RouterOS API schemas" },
@@ -138,6 +171,10 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
         ],
     },
     rosetta: {
+        owns: [
+            "RouterOS documentation search as an MCP server (SQLite FTS)",
+            "the `ros-help.db` docs database: pages, commands, devices, changelogs",
+        ],
         category: "ai",
         externalLinks: [
             { label: "Latest Release", url: "https://github.com/tikoci/rosetta/releases/latest", style: "primary", description: "Current build & changelog" },
@@ -145,6 +182,9 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
         ],
     },
     "routeros-skills": {
+        owns: [
+            "public `routeros-*` agent skills: using RouterOS and tikoci tools",
+        ],
         category: "ai",
         externalLinks: [
             { label: "Latest Release", url: "https://github.com/tikoci/routeros-skills/releases", style: "primary", description: "Releases on GitHub" },
@@ -152,6 +192,9 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
         ],
     },
     "routeros-muse": {
+        owns: [
+            "an agent workspace and web UI for RouterOS networks (preview)",
+        ],
         category: "ai",
         tagline: "Preview RouterOS network workspace and web UI for Meta Muse Code",
         externalLinks: [
@@ -159,74 +202,158 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
         ],
     },
     "lsp-routeros-ts": {
+        owns: [
+            "the RouterOS script language server (LSP)",
+            "a RouterOS script corpus (`test-data/corpus.sqlite`)",
+        ],
         category: "dev-tools",
         metaDescription: "RouterOS Language Server (LSP) for VS Code, NeoVim, and other editors — syntax checking and accurate code completions for MikroTik scripting.",
         vscodeExtensionId: "TIKOCI.lsp-routeros-ts",
     },
     "vscode-tikbook": {
+        owns: [
+            "VS Code notebooks for RouterOS scripts",
+            "`/app` YAML editing in VS Code",
+        ],
         category: "dev-tools",
         metaDescription: "TikBook adds MikroTik RouterOS notebook support to VS Code — write, run, and share RouterOS scripts as interactive cells from your editor.",
         vscodeExtensionId: "TIKOCI.tikbook",
     },
     "winbox-deb": {
+        owns: [
+            "the WinBox 4 Debian package",
+        ],
         category: "dev-tools",
     },
     "make.d": {
+        owns: [
+            "an Alpine `/container` base managed by `make`",
+        ],
         category: "containers",
         dockerImages: ["ammo74/make.d", "ammo74/make.d-max"],
     },
     netinstall: {
+        owns: [
+            "netinstall in a `/container` or with `make`",
+        ],
         category: "containers",
         dockerImages: ["ammo74/netinstall"],
     },
     serial2http: {
+        owns: [
+            "a serial port over HTTP (RFC 2217) container",
+        ],
         category: "containers",
         dockerImages: ["ammo74/serial2http"],
     },
     cligames: {
+        owns: [
+            "CLI games over telnet in a container",
+        ],
         category: "containers",
         dockerImages: ["ammo74/cligames"],
     },
     "mikrotik-gpl": {
+        owns: [
+            "RouterOS GPL source requests and snapshots",
+        ],
         category: "scripts",
     },
     "chr-utm": {
+        owns: [
+            "CHR as a UTM bundle for Intel macOS",
+        ],
         category: "virtualization",
         metaDescription: "Run MikroTik RouterOS as a VM on Intel macOS — pre-built UTM bundle for Cloud Hosted Router (CHR) with networking support included by TIKOCI.",
     },
     nginx: {
+        owns: [
+            "an nginx container with CORS and X.509",
+        ],
         category: "containers",
         metaDescription: "nginx container for MikroTik RouterOS with CORS headers and X.509 certificate handling — deploy as a reverse proxy using the RouterOS /container subsystem.",
     },
     "traefik-wabt": {
+        owns: [
+            "a Traefik container for Wasm plugin experiments",
+        ],
         category: "containers",
     },
     "traefik-wasm-grain": {
+        owns: [
+            "a Traefik Wasm plugin written in Grain",
+        ],
         category: "containers",
         externalLinks: [
             { label: "Traefik Plugin Catalog", url: "https://plugins.traefik.io/plugins/666374dee8d831193077b35b/example-wasm-plugin-using-grain", style: "primary", description: "Published on the official Traefik plugin marketplace" },
         ],
     },
     netserver: {
+        owns: [
+            "netperf's `netserver` for Flent speed tests",
+        ],
         category: "scripts",
     },
     adventure: {
+        owns: [
+            "Colossal Cave Adventure in a container",
+        ],
         category: "containers",
     },
     wargames: {
+        owns: [
+            "the WarGames simulator in a container",
+        ],
         category: "containers",
     },
     centrs: {
+        owns: [
+            "RouterOS device access as a CLI and library: REST, native API, SSH, MAC-Telnet, MNDP",
+            "checking a RouterOS command before it runs (`centrs explain`)",
+            "the WinBox address book (CDB) and router credentials",
+        ],
         category: "dev-tools",
         tagline: "Multi-protocol RouterOS API library for TypeScript with built-in CLI",
     },
     "bench-routeros-tools": {
+        owns: [
+            "benchmarks of agent RouterOS tooling: MCPs, skills, retrieval",
+        ],
         category: "ai",
         tagline: "Benchmark AI agent RouterOS support across MCPs, skills, and retrieval",
         externalLinks: [
             { label: "GitHub", url: "https://github.com/tikoci/bench-routeros-tools", style: "primary", description: "Benchmarks and results" },
         ],
     },
+    m2ir: {
+        owns: [
+            "RouterOS binary protocols and formats as a YAML schema: M2 (`nv::message`), WinBox, CDB, MNDP, RoMON, the Dude store",
+        ],
+        category: "dev-tools",
+    },
+    "app-t3code": {
+        owns: ["a RouterOS `/app` container for T3 Code"],
+        category: "containers",
+    },
+    enbeep: {
+        owns: ["announcing a router's MAC and IP through its beeper (experiment)"],
+        category: "scripts",
+    },
+};
+
+/**
+ * Topic → repo pairs the tikoci-crossref description names, in order, so the
+ * skill listing alone routes the most common cross-repo questions. Keep the
+ * topics short: every character counts against the house description budget.
+ */
+export const CROSSREF_HEADLINES: Record<string, string> = {
+    "CHR VMs": "quickchr",
+    "device access": "centrs",
+    "command schemas": "restraml",
+    "docs search": "rosetta",
+    "script LSP": "lsp-routeros-ts",
+    "agent skills": "routeros-skills",
+    "binary protocols": "m2ir",
 };
 
 /** Graph edges between repos */
@@ -252,31 +379,51 @@ export const RELATIONSHIPS: Relationship[] = [
     { source: "lsp-routeros-ts", target: "vscode-tikbook", type: "sibling" },
 
     // Virtualization family
-    { source: "mikropkl", target: "fat-chr", type: "sibling" },
+    { source: "fat-chr", target: "mikropkl", type: "sibling", readiness: "artifact-consumption",
+      verifiedNote: "mikropkl's Manifests/chr.x86_64.apple.pkl downloads the fat-chr release image (surveyed 2026-11-18)" },
     { source: "mikropkl", target: "chr-utm", type: "sibling" },
     { source: "quickchr", target: "fat-chr", type: "sibling" },
     { source: "quickchr", target: "mikropkl", type: "ecosystem" },
 
-    // API schema ecosystem
-    { source: "restraml", target: "rosetta", type: "ecosystem" },
+    // quickchr boots the CHRs other repos test and build against
+    { source: "quickchr", target: "restraml", type: "dependency", readiness: "dependency",
+      verifiedNote: "restraml's scripts/deep-inspect-multi-arch.ts boots its per-architecture CHRs with @tikoci/quickchr (devDependency; surveyed 2026-11-18)" },
+    { source: "quickchr", target: "centrs", type: "dependency", readiness: "dependency",
+      verifiedNote: "centrs's CHR integration tests use @tikoci/quickchr (devDependency; surveyed 2026-11-18)" },
+    { source: "quickchr", target: "m2ir", type: "dependency", readiness: "dependency",
+      verifiedNote: "m2ir's probe harnesses boot CHRs with @tikoci/quickchr (devDependency; surveyed 2026-11-18)" },
+
+    // API schema ecosystem: restraml publishes per-version trees on its Pages site
+    { source: "restraml", target: "rosetta", type: "ecosystem", readiness: "artifact-consumption",
+      verifiedNote: "rosetta's src/restraml.ts reads inspect.json per version from restraml's Pages site (surveyed 2026-11-18)" },
+    { source: "restraml", target: "centrs", type: "ecosystem", readiness: "artifact-consumption",
+      verifiedNote: "centrs's scripts/restraml-trees.ts pins restraml command trees for the explain catalog (surveyed 2026-11-18)" },
+    { source: "restraml", target: "vscode-tikbook", type: "ecosystem", readiness: "artifact-consumption",
+      verifiedNote: "vscode-tikbook's src/app-yaml.ts loads the /app YAML JSON schemas from restraml's Pages site (surveyed 2026-11-18)" },
     { source: "restraml", target: "lsp-routeros-ts", type: "ecosystem" },
+    { source: "rosetta", target: "restraml", type: "ecosystem", readiness: "artifact-consumption",
+      verifiedNote: "restraml's OpenAPI workflows download rosetta's latest ros-help.db.gz to add documentation (surveyed 2026-11-18)" },
 
     // MCP/AI layer
     { source: "rosetta", target: "lsp-routeros-ts", type: "topic" },
     { source: "rosetta", target: "routeros-skills", type: "ecosystem" },
     { source: "routeros-skills", target: "donny", type: "sibling" },
 
-    // RouterOS Muse workspace tooling
-    { source: "routeros-muse", target: "quickchr", type: "ecosystem" },
-    { source: "routeros-muse", target: "centrs", type: "ecosystem" },
-    { source: "routeros-muse", target: "rosetta", type: "ecosystem" },
+    // RouterOS Muse builds on the published libraries
+    { source: "quickchr", target: "routeros-muse", type: "ecosystem", readiness: "dependency",
+      verifiedNote: "routeros-muse's package.json depends on @tikoci/quickchr@next (surveyed 2026-11-18)" },
+    { source: "centrs", target: "routeros-muse", type: "ecosystem", readiness: "dependency",
+      verifiedNote: "routeros-muse's package.json depends on @tikoci/centrs@next (surveyed 2026-11-18)" },
+    { source: "rosetta", target: "routeros-muse", type: "ecosystem", readiness: "dependency",
+      verifiedNote: "routeros-muse's package.json depends on @tikoci/rosetta@next (surveyed 2026-11-18)" },
 
     // Network scripts family
     { source: "netserver", target: "netinstall", type: "topic" },
 
     // TypeScript API layer
     { source: "centrs", target: "rosetta", type: "ecosystem" },
-    { source: "centrs", target: "lsp-routeros-ts", type: "sibling" },
+    { source: "lsp-routeros-ts", target: "centrs", type: "sibling", readiness: "artifact-consumption",
+      verifiedNote: "centrs pins lsp-routeros-ts's test-data/corpus.sqlite by commit and SHA-256 for its explain census (surveyed 2026-11-18)" },
 
     // AI benchmarking
     { source: "bench-routeros-tools", target: "rosetta", type: "topic" },

@@ -392,9 +392,11 @@ describe("buildReadinessLinks", () => {
         expect(links.length).toBeGreaterThan(0);
         for (const link of links) {
             expect(["dependency", "artifact-consumption", "association"]).toContain(link.kind);
-            expect(link.verified).toBe(false);
-            expect(link.note).toBeNull();
+            // Verified exactly when repo-config.ts carries the evidence.
+            expect(link.verified).toBe(link.note !== null);
+            if (link.kind === "artifact-consumption") expect(link.verified).toBe(true);
         }
+        expect(links.some((l) => l.verified)).toBe(true);
         // make.d lineage is conceptual, not a build dependency: the map keeps
         // its dependency styling while the dashboard treats it as association.
         const maked = links.filter((l) => l.source === "make.d");

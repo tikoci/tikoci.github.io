@@ -15,9 +15,10 @@ const DESCRIPTION_MAX = 1024;
 /**
  * House budget for all descriptions together. Harnesses list every description
  * up front and may truncate the listing when it overflows. Started at 8000 for
- * 17 planned skills at ~470 characters; raised to 10000 in 3f (#21) for 15
- * skills (14 written, tikoci-crossref next) whose descriptions state their
- * rules, until the cleanup pass once the set is done. Raise it deliberately, not to make a check pass.
+ * 17 planned skills at ~470 characters; raised to 10000 in 3f (#21) for the
+ * 15 skills of Phase 3 (the last, tikoci-crossref, in 3g) whose descriptions
+ * state their rules, until the cleanup pass once the set is done. Raise it
+ * deliberately, not to make a check pass.
  */
 export const DESCRIPTION_BUDGET = 10000;
 

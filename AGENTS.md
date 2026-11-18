@@ -142,6 +142,12 @@ fills the /house/ index from src/house/index.html, and writes
 skills/tikoci-house/references/writing-house-skills.md before adding or
 changing one.
 
+`skills/tikoci-crossref/SKILL.md` is generated: run `bun run generate:crossref`
+after changing `owns`, `category`, `RELATIONSHIPS` or `CROSSREF_HEADLINES` in
+`data/repo-config.ts`, a homepage section title, or any skill's description,
+whose final "Use when" clause feeds its task table. `test/house-crossref.test.js`
+fails when the file is stale. It reads authored config only, never snapshots.
+
 This repo uses:
 
 - `tikoci-house`, `tikoci-pr-flow` (copied, in `.agents/skills/`;

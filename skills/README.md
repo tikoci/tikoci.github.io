@@ -11,6 +11,11 @@ Start with [tikoci-house](tikoci-house/SKILL.md): how repos adopt these skills
 and where agent instructions live. Writing and checking a skill:
 [tikoci-house/references/writing-house-skills.md](tikoci-house/references/writing-house-skills.md).
 
+[tikoci-crossref](tikoci-crossref/SKILL.md) is generated from
+`data/repo-config.ts` and the other skills' descriptions by
+`bun run generate:crossref`; edit those, not the file. Reference it by URL
+rather than copying it: it changes whenever a repo does.
+
 ## Published files
 
 | URL | Holds |

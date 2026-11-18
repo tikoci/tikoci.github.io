@@ -16,6 +16,7 @@
     "lint:markdown": "markdownlint-cli2 && cspell lint --no-progress && bun run lint:words",
     "lint:words": "sed -e '/^#/d' -e 's/ *#.*//' -e '/^$/d' project-words.txt | LC_ALL=C sort -c -f -u || { echo 'project-words.txt: keep words sorted (case-insensitive) and unique' >&2; exit 1; }",
     "lint:skills": "bun scripts/check-skills.ts",
+    "generate:crossref": "bun scripts/generate-crossref.ts",
     "lint:fix": "bunx @biomejs/biome lint --fix ."
   },
   "devDependencies": {

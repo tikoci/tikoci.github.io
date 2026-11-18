@@ -80,9 +80,10 @@ the `truncated`/`page` flags instead.
 `{ source, target, type, kind, verified, note }`. `type` is the curated
 project-map edge; `kind` is its readiness meaning (`dependency`,
 `artifact-consumption`, `association`). `verified` is true only with a
-`verifiedNote` in config. Currently all edges are unverified associations
-or claimed dependencies — findings never derive from relationships, and no
-edge implies a blocker.
+`verifiedNote` in config, and every `artifact-consumption` edge is verified.
+For `dependency` and `artifact-consumption`, `source` provides and `target`
+uses; an association has no direction. Findings never derive from
+relationships, and no edge implies a blocker.
 
 ## Findings
 
