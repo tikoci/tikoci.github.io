@@ -34,3 +34,8 @@ Planning: Phase 3 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 | Module mocks leak in Bun | quickchr-076 | Bun 1.4.4, quickchr #224. |
 | Mock HTTP at the layer the code uses | quickchr-055 | |
 | Timeouts derived from the operation's budget | quickchr-071 | quickchr `test/integration/timeouts.ts` (#106). |
+| Name a channel, not a version; pin only when the version is the point | quickchr-066, quickchr-123 | Maintainer, 2026-11-17 (read of #37): CI moves with RouterOS through channels; a pin only where a specific version is the point of the test. |
+| Versions from `NEWESTa7.<channel>` or tikoci.dev `ros-versions.json` | restraml-20 | quickchr `src/lib/versions.ts` (`UPGRADE_BASE`); tikoci.github.io `src/dashboard-schema.md` (`/data/ros-versions.json`). Feeds read 2026-11-17: stable and testing `7.25.1`, long-term `7.24.6`, development `7.26beta5`. |
+| Use quickchr's version helpers; RouterOS versions are not SemVer | user-73 | quickchr `src/index.ts` exports `resolveVersion`, `resolveAllVersions`, `compareRouterOsVersion`, `parseVersionParts`, `selectActiveChannels`; routeros-skills `routeros-fundamentals/references/version-parsing.md`. |
+| Channels are not ordered; the active set; must-pass is the repo's call | centrs-16 | centrs `scripts/qa-active-channels.ts` (the boundary: quickchr answers what is worth booting, centrs what must pass). |
+| A new RouterOS version is a trigger | quickchr-113 | tikoci-ci patterns, "A new RouterOS version". |

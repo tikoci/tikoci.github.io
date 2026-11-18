@@ -24,8 +24,8 @@ the Bun pin in
 [tikoci-toolchain](https://tikoci.dev/house/skills/tikoci-toolchain/SKILL.md).
 Examples: [ci.example.yml](assets/ci.example.yml) and
 [zizmor.example.yml](assets/zizmor.example.yml). Recipes (the docs-only
-classifier, a device smoke job, caches, a flake investigation, failure
-evidence, bot data, waiting) are in
+classifier, a device smoke job, a new RouterOS version as a trigger,
+caches, a flake investigation, failure evidence, bot data, waiting) are in
 [references/patterns.md](references/patterns.md).
 
 ## Workflows

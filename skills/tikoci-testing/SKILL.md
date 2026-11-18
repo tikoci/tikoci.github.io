@@ -48,6 +48,51 @@ patterns are in [references/patterns.md](references/patterns.md).
 Docs-only changes run the repo checks, not the integration tier. A repo
 without device behavior has only the unit tier, and that is complete.
 
+## RouterOS versions
+
+Every tikoci project talks to RouterOS, and RouterOS answers the same
+question differently across releases
+([tikoci-grounding](https://tikoci.dev/house/skills/tikoci-grounding/SKILL.md)).
+
+- **Name a channel, not a version.** Tests, CI jobs and examples target
+  `stable`, `long-term`, `testing` or `development` and resolve it when they
+  run, so CI moves with RouterOS on its own. Pin a version only when that
+  version is the point: a regression on one release, the two sides of a
+  declared version split, a minimum a feature needs, or a controlled
+  contrast. The pin says why, next to it.
+- **Resolve once, record the version.** A run resolves each channel to a
+  version once and uses that version for the cache key and the boot. Its
+  results name the version the device reports, never only the channel
+  ([tikoci-ci patterns](https://tikoci.dev/house/skills/tikoci-ci/references/patterns.md),
+  "Caches" and "Failure evidence").
+- **Where versions come from**: MikroTik's plain-text feed per channel,
+  `https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel>`, which answers
+  `<version> <unix time>` (`7.25.1 1793623193`). tikoci.dev republishes all
+  four, with a state per channel, as one document:
+  `https://tikoci.dev/data/ros-versions.json`.
+- **Do not hand-roll parsing or comparing.** RouterOS versions are not
+  SemVer: `7.22`, `7.22.1`, `7.23beta2`, `7.22rc4`, where a missing patch is
+  `.0` and betas and release candidates sort before their release
+  (`7.24beta2 < 7.24rc1 < 7.24 < 7.24.1`). TypeScript uses quickchr's
+  exports: `resolveVersion`, `resolveAllVersions`, `compareRouterOsVersion`,
+  `parseVersionParts`, `selectActiveChannels`. A shell step or another
+  language follows routeros-fundamentals'
+  [version-parsing reference](https://github.com/tikoci/routeros-skills/blob/main/routeros-fundamentals/references/version-parsing.md),
+  which also covers download URLs.
+- **Channels are not ordered.** `testing` can equal `stable` or trail it as
+  a stale rc, and `development` is usually, not always, the newest. Which
+  channels are worth booting comes from the live versions: `stable` and
+  `long-term` always, a pre-release channel when it is at or ahead of
+  `stable` (quickchr `selectActiveChannels`, used by centrs's
+  `scripts/qa-active-channels.ts`). Which of them must pass is the repo's
+  call; in centrs only `stable` and `long-term` gate.
+- **A new RouterOS version is a trigger.** A daily job reads the feeds and
+  starts what a new version needs: quickchr dispatches a full integration
+  run for any version it has never tested, restraml and mikropkl build their
+  per-version outputs, and centrs's nightly sweep runs when a resolved
+  version (or `main`) changed. Recipe: tikoci-ci patterns, "A new RouterOS
+  version".
+
 ## What gets a test
 
 - **Every behavior change ships with a test** that covers it, in the same

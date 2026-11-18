@@ -291,6 +291,35 @@ completes an MCP session through the app's UI URL; it is dispatch-only. A
 repo whose `/app` YAML points at someone else's image can take the CHR
 stage alone.
 
+## A new RouterOS version
+
+Runs that follow a channel pick up a new release on their own, at their
+next scheduled run. A version check makes the release itself the trigger,
+so a break shows up the day MikroTik ships, not at the next unrelated PR.
+quickchr's `ros-versions.yml` is the reference, and restraml and mikropkl
+run the same shape in `auto.yaml`:
+
+- **Daily, plus dispatch.** Read
+  `https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel>` for each
+  channel (the first field is the version), or
+  `https://tikoci.dev/data/ros-versions.json` in one fetch. A channel that
+  answers nothing is a warning for that channel, never an empty version
+  passed on.
+- **Compare with what was already done**, recorded where CI can read it:
+  quickchr keeps `tested-versions.json` on its `ci-data` branch (written by
+  the integration run), and restraml and mikropkl check whether a release
+  for that version exists.
+- **Dispatch the work for each new version**, by version, not channel, so
+  the run tests exactly what was found. A version that ran and failed is
+  not dispatched again: its red run stays visible until someone fixes and
+  re-runs it by hand. A `skip-versions` dispatch input covers a known-broken
+  pre-release.
+- **Guard an empty list.** A matrix built from no new versions must skip
+  the job, not fail or run with an empty value.
+- A nightly sweep can fold the same check into its pre-flight instead:
+  centrs sweeps only when `main` or a resolved channel version differs from
+  the fingerprint the last sweep committed.
+
 ## The gate job
 
 Branch protection names checks by job name, and a matrix job's name changes
