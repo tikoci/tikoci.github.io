@@ -1,6 +1,6 @@
 ---
 name: tikoci-toolchain
-description: "tikoci toolchain: Bun runs, tests, installs and builds (not node, npm, npx or jest); one exact Bun pin in package.json packageManager, raised in its own PR, never lowered to dodge a failure; bun.lock committed with each dependency change; TypeScript by default, Node only where shipped code runs on Node, Python only for tooling via uv; package.json scripts are the entry point, a Makefile only for several runtimes; POSIX sh, or a Bun script once logic gets clever; tools outside bun install listed in the developer docs; images built and tested in CI, not local Docker. Use when choosing a runtime, language, script, task runner or dev tool, or shaping code and web pages."
+description: "tikoci toolchain: Bun runs, tests, installs and builds (not node, npm, npx or jest); one exact Bun pin in package.json packageManager, raised in its own PR, never lowered to dodge a failure; bun.lock committed with each dependency change; TypeScript by default, Node only where shipped code runs on Node, Python only for tooling via uv; package.json scripts are the entry point, a Makefile only for several runtimes; POSIX sh, or a Bun script once logic gets clever; tools outside bun install listed in the developer docs; images built and tested in CI, not local Docker; plain, consistent code; semantic HTML and plain CSS before a framework. Use when choosing a runtime, language, script, task runner or dev tool, or shaping code and web pages."
 ---
 
 # Toolchain
@@ -156,11 +156,10 @@ gate and the lint scripts (`tikoci-linting`), the test tiers
   substantive non-Bun work.
 - **CI calls the same entry point a developer does** for the checks, not a
   copy of their steps in workflow YAML, so a green local run predicts a green
-  CI run. Build logic beyond a few steps also lives in a script or make
-  target that CI calls. Image builds are the exception: they run only in CI
-  (no local Docker requirement, below), with their logic in the Dockerfile.
-  Per-OS setup (installing QEMU on macOS, Windows or Linux runners) belongs
-  in the workflow.
+  CI run. Some work runs only in CI (image builds, publishing); once a repo
+  has more than package.json and workflow YAML, keep the layers clear: the
+  workflow sets up the runner (installing QEMU on macOS, Windows or Linux)
+  and calls a script, a make target or the Dockerfile, which hold the logic.
 - Make recipes are written as plain, idiomatic make (phony targets, pattern
   rules) and run under `/bin/sh`, which is dash on Ubuntu runners. **Each
   recipe line runs in its own shell**, so `set -eu` on one line protects
