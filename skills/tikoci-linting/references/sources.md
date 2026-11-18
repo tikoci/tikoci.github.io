@@ -29,7 +29,7 @@ which asked for starting configs, tight types and lenient Markdown.
 | `useTemplate` off | restraml-06 | Maintainer, 2026-11-17: no rule that is pedantic without a quality purpose. Biome 2.6.8 `explain useTemplate`: group style, default severity info, fix unsafe; `--error-on-warnings` still exits 0 on it. It found 24 in this repo's HTML and 26 in restraml's (restraml already turns it off). Concatenation and a template literal print the same unescaped markup under Bun; the escaping in `chr-images.html` comes from `escapeHtml` either way. |
 | `biome.jsonc` with reasons as comments | user-108, PR #26 review | Replaces "biome.json is plain JSON, reasons elsewhere". |
 | Lenient Markdown: line length, HTML, alignment off | user-108, PR #26 review | centrs and quickchr already turn off MD013 and MD060 and allow GitHub's HTML. |
-| One `.markdownlint-cli2.yaml` with `config:`; no `.markdownlintignore` | user-108 | Fewer files; two-file setups still work. rosetta still has a `.markdownlintignore`. |
+| One `.markdownlint-cli2.yaml` with `config:`; no `.markdownlintignore` | user-108 | Fewer files; a `.markdownlint.yaml` beside it still works. markdownlint-cli2's README says it does not support `.markdownlintignore`, so rosetta's has no effect (Phase 4 review, 3h). |
 | Tag fenced code blocks; `routeros` for RouterOS | user-111, PR #26 review | tikbook runs `routeros` blocks. |
 | Human docs may use GitHub HTML and Mermaid | PR #26 review | |
 | `.vscode/extensions.json` recommends the linters' extensions | PR #26 review | centrs, m2ir and rosetta recommend Biome, markdownlint, cspell and Bun extensions today; personal tools (agent harnesses) stay out. |

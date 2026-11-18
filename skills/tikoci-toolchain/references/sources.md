@@ -27,7 +27,9 @@ Planning: Phase 3 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 | Commit `bun.lock` with the dependency change; frozen install in CI | centrs-51, restraml-41 | |
 | TypeScript default; Python only for tooling, via uv | user-15, user-16, centrs-45, quickchr-047 | centrs `python-uv.instructions.md` is the strong source. |
 | Other languages by recorded decision | user-15, user-20 | |
-| Bun-only repos use package scripts; a Makefile for several runtimes; CI calls the same entry point | user-21, rosetta-17, mikropkl-34 | Settles `task-runner`. routeros-skills has a Makefile that wraps `bun run check`; under this rule it can go. |
+| Code shape: simple, consistent, self-documenting | user-13 | Mapped here in the survey and added in 3h (#21), after the Phase 4 review found it only in user-level notes. |
+| Web pages: semantic HTML and plain CSS first; a build step is fine | user-17, user-67 | 3h (maintainer, 2026-11-18): "no build step" dated from single-file pages posted to the MikroTik forum; Bun and CI now build. Pico is a style guide. The rest of the deferred `tikoci-web` rows are in #40. |
+| Bun-only repos use package scripts; a Makefile for several runtimes; CI calls the same entry point | user-21, rosetta-17, mikropkl-34 | Settles `task-runner`. 3h (maintainer, 2026-11-18): a short step may stay a package script, but package.json and CI do not hold substantive non-Bun build logic. routeros-skills has a Makefile that wraps `bun run check`; under this rule it can go. |
 | `package.example.json` sketch of the referenced package.json parts | PR #26 review | Run with Bun 1.4.4 on sample code: `check`, `lint:fix`, `test:coverage`, `test:integration`. |
 | `.gitattributes`: LF, CRLF for batch files, generated files marked | PR #26 review | routeros-skills and lsp-routeros-ts mark generated files today. |
 | Tools outside `bun install` listed in the developer docs | PR #26 review | The maintainer's review of [PR #26](https://github.com/tikoci/tikoci.github.io/pull/26), 2026-11-15. |

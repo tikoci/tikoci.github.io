@@ -1,6 +1,6 @@
 ---
 name: tikoci-toolchain
-description: "tikoci toolchain: Bun runs, tests, installs and builds (not node, npm, npx or jest); one exact Bun pin in package.json packageManager, raised in its own PR, never lowered to dodge a failure; bun.lock committed with each dependency change; TypeScript by default, Node only where shipped code runs on Node, Python only for tooling via uv; package.json scripts are the entry point, a Makefile only for several runtimes; POSIX sh, or a Bun script once logic gets clever; tools outside bun install listed in the developer docs; images built and tested in CI, not local Docker. Use when choosing a runtime, language, script, task runner or dev tool."
+description: "tikoci toolchain: Bun runs, tests, installs and builds (not node, npm, npx or jest); one exact Bun pin in package.json packageManager, raised in its own PR, never lowered to dodge a failure; bun.lock committed with each dependency change; TypeScript by default, Node only where shipped code runs on Node, Python only for tooling via uv; package.json scripts are the entry point, a Makefile only for several runtimes; POSIX sh, or a Bun script once logic gets clever; tools outside bun install listed in the developer docs; images built and tested in CI, not local Docker. Use when choosing a runtime, language, script, task runner or dev tool, or shaping code and web pages."
 ---
 
 # Toolchain
@@ -118,6 +118,25 @@ a package:
 - **Another language** (Python at the core, Swift, Go, C) is a recorded decision in the repo's
   AGENTS.md, with its build driven from the command line.
 
+## Code shape
+
+Code is read by agents as often as by people, so write it plainly:
+
+- **Simple, direct patterns** over clever ones, and few layers between a
+  call and the work it does.
+- **One way to do one job** across the repo: the next change copies what is
+  already there.
+- **Names that say what a thing is**, so comments explain why, never restate
+  what the code says.
+
+## Web pages
+
+- **Semantic HTML first** (`article`, `details`, `dialog`, `table`), with a
+  little plain CSS on top, before a CSS or front-end framework. Pico v2 is
+  how tikoci.dev and restraml look today: a style guide, not a requirement.
+- **A build step is fine** when Bun and CI run it: `bun build`, or static
+  pages generated in CI for GitHub Pages.
+
 ## Task entry points
 
 [package.example.json](assets/package.example.json) sketches the parts of
@@ -131,9 +150,10 @@ gate and the lint scripts (`tikoci-linting`), the test tiers
 - **A repo with several runtimes or compilers has one Makefile** as its entry
   point. It calls the package scripts for the JavaScript lifecycle and owns
   the rest (data pipelines, image builds, multi-step checks). Never define the
-  same task in both.
-- **CI calls the same entry point a developer does** for the checks
-  themselves, not a copy of its steps in workflow YAML, so a green local run
+  same task in both. A couple of lines that fit a package script stay there;
+  package.json does not drive substantive non-Bun work.
+- **CI calls the same entry point a developer does** for the checks and the
+  build, not a copy of their steps in workflow YAML, so a green local run
   predicts a green CI run. Per-OS setup (installing QEMU on macOS, Windows or
   Linux runners) belongs in the workflow.
 - Make recipes are written as plain, idiomatic make (phony targets, pattern

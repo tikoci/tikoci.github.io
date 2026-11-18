@@ -155,7 +155,9 @@ a cost with no benefit. From
 
 - **One `.markdownlint-cli2.yaml`** holds the rules (under `config:`) and the
   file list; the CLI and the VS Code extension both read it. Each non-default
-  rule has a comment saying why.
+  rule has a comment saying why. Exclusions go in its `ignores:`:
+  markdownlint-cli2 silently skips `.markdownlintignore`, a file of the older
+  markdownlint-cli.
 - **Off**: line length, inline HTML, emphasis as a heading, first line as a
   heading, table column alignment.
 - **Tag every fenced code block** with a language (`text`, `sh`, `typescript`,

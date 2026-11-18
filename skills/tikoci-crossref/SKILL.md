@@ -171,7 +171,7 @@ Each row is the "Use when" clause of a [house skill](https://tikoci.dev/house/).
 | opening, reviewing, answering or merging a PR | [`tikoci-pr-flow`](https://tikoci.dev/house/skills/tikoci-pr-flow/SKILL.md) |
 | cutting a release or changing versions, the CHANGELOG or a release workflow | [`tikoci-release`](https://tikoci.dev/house/skills/tikoci-release/SKILL.md) |
 | writing tests, mocks or test tiers | [`tikoci-testing`](https://tikoci.dev/house/skills/tikoci-testing/SKILL.md) |
-| choosing a runtime, language, script, task runner or dev tool | [`tikoci-toolchain`](https://tikoci.dev/house/skills/tikoci-toolchain/SKILL.md) |
+| choosing a runtime, language, script, task runner or dev tool, or shaping code and web pages | [`tikoci-toolchain`](https://tikoci.dev/house/skills/tikoci-toolchain/SKILL.md) |
 
 ## Web tools
 
