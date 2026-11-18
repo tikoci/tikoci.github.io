@@ -272,11 +272,15 @@ jobs:
             fi
             echo "$NAME@$VERSION is already published from this tarball; continuing."
           elif [ "$status" -ne 0 ] && grep -q E404 <<< "$out"; then
-            current=$(tag_now "$CHANNEL")
-            if [ -n "$current" ] && ! newer "$VERSION" "$current"; then
-              echo "::error::\`$CHANNEL\` is at $current now, not older than $VERSION; dispatch a new release."
-              exit 1
-            fi
+            # Every version must be newer than `latest`, and a preview newer
+            # than `next` too, as the plan checked when it ran.
+            for tag in latest "$CHANNEL"; do
+              current=$(tag_now "$tag")
+              if [ -n "$current" ] && ! newer "$VERSION" "$current"; then
+                echo "::error::\`$tag\` is at $current now, not older than $VERSION; dispatch a new release."
+                exit 1
+              fi
+            done
             npm publish "$RUNNER_TEMP/pack/$TARBALL" --access public --tag "$CHANNEL" --ignore-scripts
           else
             printf '%s\n' "$out" >&2
@@ -385,9 +389,19 @@ jobs:
                 echo "::error::Tag $TAG points at $actual, not at the published commit $GITHUB_SHA."
                 exit 1
               fi
-              if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1 ||
-                gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --verify-tag \
-                  --title "$TAG" --notes-file "$RUNNER_TEMP/notes.md"; then
+              # This token sees drafts. A published release counts as done; a
+              # draft is someone's unfinished work, for a person to publish or
+              # delete before the re-run.
+              if draft=$(gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json isDraft --jq .isDraft 2> /dev/null); then
+                if [ "$draft" = true ]; then
+                  echo "::error::A draft release $TAG exists. Review it, then publish it (gh release edit $TAG --draft=false) or delete it, and re-run the failed jobs."
+                  exit 1
+                fi
+                created=true
+                break
+              fi
+              if gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --verify-tag \
+                --title "$TAG" --notes-file "$RUNNER_TEMP/notes.md"; then
                 created=true
                 break
               fi
