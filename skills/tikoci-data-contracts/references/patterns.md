@@ -9,8 +9,9 @@ fail: a trigger that deletes with a plain `DELETE`, a row dropped by the
 database (which must leave the previous data in place), a schema version
 that does not match, a version stamp with no tables behind it, a download
 missing a table readers need, a WAL file at the destination, replacing a
-file a client holds, each missing provenance stamp, and a schema version
-that disagrees with the pragma. A reader whose file was swapped between
+file a client holds, an installer whose file was replaced after it opened
+it, each missing provenance stamp, and a schema version that disagrees
+with the pragma. A reader whose file was swapped between
 opening and starting its transaction was probed separately.
 
 ## An FTS5 index kept by triggers
@@ -136,7 +137,11 @@ open. This sample refuses instead, given three things:
   does, and retire old files separately.
 
 A first install uses `linkSync`, which creates the destination only if it
-does not exist, so two installers cannot both skip the guard.
+does not exist, so two installers cannot both skip the guard. A
+replacement records the destination's inode before opening its guard and
+checks it again once it holds the lock: if another installer replaced the
+file in between, the lock is on a file no reader can reach any more, so
+the installer refuses rather than overwrite the newer file.
 
 `src/install.ts`:
 
@@ -192,7 +197,9 @@ export function openOwned(path: string): Database {
  * rollback-journal mode an EXCLUSIVE lock on the old file succeeds only when
  * no owner holds it, so the replacement is renamed in under that lock, which
  * POSIX allows; on Windows the rename fails while any handle is open, so
- * install to a new path there instead.
+ * install to a new path there instead. The lock proves something only if
+ * the path still names the locked file: another installer may have replaced
+ * it after this one opened it.
  */
 export function installDatabase(tmpPath: string, finalPath: string): void {
   try {
@@ -204,6 +211,7 @@ export function installDatabase(tmpPath: string, finalPath: string): void {
     } catch (error) {
       if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
     }
+    const before = statSync(finalPath).ino;
     const guard = new Database(finalPath);
     try {
       const mode = guard.query<{ journal_mode: string }, []>("PRAGMA journal_mode").get()?.journal_mode;
@@ -213,6 +221,10 @@ export function installDatabase(tmpPath: string, finalPath: string): void {
         guard.run("BEGIN EXCLUSIVE");
       } catch {
         throw new Error(`${finalPath} is in use; stop its clients and retry`);
+      }
+      if (statSync(finalPath).ino !== before) {
+        guard.run("ROLLBACK");
+        throw new Error(`${finalPath} was replaced during this install; retry`);
       }
       renameSync(tmpPath, finalPath);
       guard.run("ROLLBACK");
@@ -409,6 +421,32 @@ describe("install", () => {
     createSchema(wal);
     wal.close();
     expect(() => installDatabase(download(dir, 2), final)).toThrow("is in wal mode");
+  });
+
+  test("an installer whose file was replaced after it opened it refuses", () => {
+    const dir = mkdtempSync(join(tmpdir(), "install-"));
+    const final = join(dir, "db.sqlite");
+    installDatabase(download(dir, 1), final);
+    const slow = download(dir, 3);
+    // Pause installer A after it opens its guard; meanwhile B installs and a reader takes B's file.
+    const query = Database.prototype.query;
+    let owner: Database | undefined;
+    let paused = false;
+    Database.prototype.query = function (this: Database, sql: string) {
+      if (!paused && sql === "PRAGMA journal_mode" && this.filename === final) {
+        paused = true;
+        installDatabase(download(dir, 2), final);
+        owner = openOwned(final);
+      }
+      return query.call(this, sql);
+    } as typeof query;
+    try {
+      expect(() => installDatabase(slow, final)).toThrow("was replaced during this install");
+    } finally {
+      Database.prototype.query = query;
+    }
+    expect(pageCount(final)).toBe(2);
+    owner?.close();
   });
 
   test("a file a client holds is not replaced; a free one is", () => {
