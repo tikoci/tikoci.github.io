@@ -33,6 +33,12 @@ Related rules live elsewhere:
   marked experimental. The contract names them, and names the parts a
   consumer may rely on. "Consumers ignore unknown fields" is the usual
   flexible part (tikoci.dev `/metadata/schema.md`).
+- **It says what is authoritative.** When a database indexes committed
+  raw files, the files are the evidence and the database is rebuilt from
+  them; a corrupt raw file fails the build rather than disappearing from
+  the index (lsp-routeros-ts `docs/corpus.md`: manifests and captures are
+  authoritative, and `corpus.sqlite` is an index rebuilt from them, with a
+  size budget checked before it replaces the old file).
 - **It also says what a release build keeps.** A table pruned or sampled
   in the shipped file says so, since a consumer cannot tell pruning from
   missing data: rosetta's `command_versions` keeps the full history, while
@@ -82,18 +88,29 @@ From tikoci.dev's dashboard and metadata contracts (`src/dashboard-schema.md`,
   ends `success`, so its readers inspect the jobs, not the conclusion, and
   it records its fingerprint only when every must-pass leg recorded a
   result (`ci-test-tiers-and-release-versioning.instructions.md`).
+- **Getting an answer and what the answer says are separate fields.** A
+  capture that succeeded can hold a device error; a capture that failed
+  is left out of the totals rather than counted as a result
+  (lsp-routeros-ts `capture_observations`: acquisition status apart from
+  response class).
+- **An observation records its inputs**, so it can be checked against
+  today's: lsp-routeros-ts hashes each submitted source and marks it
+  `matched`, `stale` or `source-missing` against the current file, and
+  `unknown` where history cannot tell. An annotation not yet made is
+  unknown, not absent.
 - **Write down the interpretation pitfalls**: a full 100-item page is a
   lower bound; a tag existing does not prove a build passed.
 
 ## SQLite
 
-For a store that is queried (search, joins, an MCP knowledge base). The
-open `sqlite-vs-json` row leans this way: SQLite for a queried store; a
+For a store that is queried (search, joins, an MCP knowledge base).
+Settled `sqlite-vs-json`: SQLite for a queried store; a
 sorted, generated TSV beside it for derived results a reviewer must see
 change, with a drift check in CI (rosetta `cli-reference-links.tsv`);
 JSON or TSV for a published document small enough to review in a PR;
 JSONL for an append-only log kept in git (centrs `qa-runs.jsonl`). Each
-rule is general; rosetta is the fullest example, and
+rule is general; rosetta and the lsp-routeros-ts corpus are the examples,
+and
 [references/patterns.md](references/patterns.md) has the code.
 
 - **`bun:sqlite`, opened on first use, not at import.** A store the tool
@@ -105,11 +122,13 @@ rule is general; rosetta is the fullest example, and
   coupling, not a model (`extractor-import-side-effects.instructions.md`).
 - **A database others only read ships in rollback-journal mode.** Even a
   read-only open of a WAL file creates `-wal` and `-shm` files beside it,
-  and fails where it cannot (`SQLITE_READONLY_DIRECTORY` on Linux; rosetta
-  hit a shared-memory failure on macOS). Run `PRAGMA journal_mode=DELETE`
-  before upload. A consumer that installs a WAL file converts a private
-  temp copy, probes it, then renames it into place, which is what rosetta
-  does today (`src/setup.ts`, `convertToRollbackJournal`).
+  and fails where it cannot (`SQLITE_CANTOPEN` on macOS when the `-shm`
+  file is missing, `SQLITE_READONLY_DIRECTORY` on Linux in a read-only
+  directory). The builder writes rollback-journal mode and renames the
+  finished file into place (lsp-routeros-ts `scripts/build-corpus-db.ts`).
+  A consumer that installs a WAL file converts a private temp copy, probes
+  it, then renames it into place, which is what rosetta does today
+  (`src/setup.ts`, `convertToRollbackJournal`).
 - **Prove a file is unused with SQLite's own locks, never with file
   times.** Each reader holds a read transaction for its lifetime, and a
   cleanup deletes a file only while it holds `BEGIN EXCLUSIVE`, which no

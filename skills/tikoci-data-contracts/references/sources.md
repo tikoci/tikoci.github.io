@@ -8,13 +8,14 @@ disagreements are in
 Planning: Phase 3 of [issue #21](https://github.com/tikoci/tikoci.github.io/issues/21).
 The skill was planned as `tikoci-structure`, then `tikoci-data`, and was
 renamed and narrowed on 2026-11-17. Repo files were read at rosetta a51b201,
-restraml 0e476ce and centrs 80a6f9f. The centrs and rosetta agents
+restraml 0e476ce, centrs 80a6f9f and lsp-routeros-ts 1d0999f. The centrs and rosetta agents
 reviewed #38; rules they added name them below.
 
 | Rule | Rows | Notes |
 | --- | --- | --- |
 | Contract first, reviewed on real data | - | tikoci.github.io `AGENTS.md` ("Data first") and `docs/add-dataset.md`. |
 | A contract says what is flexible | - | Maintainer, 2026-11-17. tikoci.github.io `data/metadata/schema.md` ("Consumers must ignore unknown fields"); restraml `docs/deep-inspect.future.schema.json` (a design target nothing emits). |
+| What is authoritative: raw files, the database rebuilt from them | - | Maintainer suggested lsp-routeros-ts as a second example (2026-11-18). lsp-routeros-ts `docs/corpus.md` (evidence contract), `scripts/build-corpus-db.ts` (`maxDatabaseBytes` in `test-data/corpus-policy.json`). |
 | What a release build keeps | - | rosetta review of #38. rosetta `command-versions-vs-presence.instructions.md`. |
 | Cross-repo output: strict schema plus consumer-side tests | restraml-24 | restraml `CLAUDE.md` "Downstream consumer contract" (`docs/deep-inspect.schema.json`, `rosetta-consumer.test.ts`, `docs/deep-inspect.md` "Downstream consumers"). |
 | The consumer pins the producer version in one file, gates on drift | - | centrs review of #38. centrs `scripts/restraml-trees.ts`; census `--check` scripts in `lint:ci` (`package.json`). |
@@ -23,9 +24,10 @@ reviewed #38; rules they added name them below.
 | Public data from an allowlist | - | tikoci.github.io `docs/add-dataset.md`. |
 | Observed vs attempted; last-good evidence; signal states; pitfalls | - | tikoci.github.io `src/dashboard-schema.md` ("Signal states", "Interpretation pitfalls") and `data/metadata/schema.md`. |
 | A run that checked nothing is `unknown` | - | centrs review of #38. centrs `ci-test-tiers-and-release-versioning.instructions.md` (the nightly sweep and its fingerprint). |
-| SQLite for queried stores; generated TSV, JSON or TSV, JSONL | user-14 | Open `sqlite-vs-json`: the user-level note prefers SQLite over large JSON, while tikoci.github.io publishes JSON snapshots. The lean grew in the centrs and rosetta reviews of #38: rosetta `cli-reference-links.tsv` (`V-cliref-link-drift` in `VALIDATION.md`) and `rosetta export` (MANUAL.md); centrs `scripts/qa-history.ts` (`qa-runs.jsonl`). |
+| Acquisition apart from the result; observations record their inputs | - | lsp-routeros-ts `docs/corpus.md` ("Outcomes and causes"; `matched`, `stale`, `source-missing`, `unknown`); `acquisition_status` and `response_class` in `scripts/corpus-db-evidence.ts`. |
+| SQLite for queried stores; generated TSV, JSON or TSV, JSONL | user-14 | Settled `sqlite-vs-json` (maintainer, 2026-11-18). Before: the user-level note prefers SQLite over large JSON, while tikoci.github.io publishes JSON snapshots. The lean grew in the centrs and rosetta reviews of #38: rosetta `cli-reference-links.tsv` (`V-cliref-link-drift` in `VALIDATION.md`) and `rosetta export` (MANUAL.md); centrs `scripts/qa-history.ts` (`qa-runs.jsonl`). |
 | `bun:sqlite`, WAL, foreign keys, path override; open on first use | rosetta-30 | rosetta `database.instructions.md`; `bun:sqlite` is also in tikoci-toolchain. Open on first use: rosetta review of #38, rosetta `extractor-import-side-effects.instructions.md`. |
-| Read-only databases ship in rollback-journal mode | - | rosetta `src/db.ts` (`DB_READONLY`, `initDb()` skips WAL), `convertToRollbackJournal` in `src/db-lifecycle.ts`, called from `src/setup.ts` at install; the release asset itself is still WAL (rosetta review of #38). rosetta's `database.instructions.md` still says WAL for every database; the code is newer (Codex review of #38). The read-only open was measured for #38: under Bun 1.4.4 (SQLite 3.53.4) on Linux it creates `-wal` and `-shm` and fails with `SQLITE_READONLY_DIRECTORY` in a read-only directory; rosetta's CHANGELOG records the macOS failure. |
+| Read-only databases ship in rollback-journal mode | - | rosetta `src/db.ts` (`DB_READONLY`, `initDb()` skips WAL), `convertToRollbackJournal` in `src/db-lifecycle.ts`, called from `src/setup.ts` at install; the release asset itself is still WAL (rosetta review of #38). rosetta's `database.instructions.md` still says WAL for every database; the code is newer (Codex review of #38). The read-only open: `SQLITE_CANTOPEN` on macOS with no `-shm` file (the rosetta review of #38, run on macOS; rosetta CHANGELOG); measured for #38 under Bun 1.4.4 (SQLite 3.53.4) on Linux, where it creates `-wal` and `-shm` and fails with `SQLITE_READONLY_DIRECTORY` in a read-only directory. The builder writing rollback-journal mode and renaming into place: lsp-routeros-ts `scripts/build-corpus-db.ts`. |
 | Locks prove a file unused, not file times | - | rosetta `src/db-lifecycle.ts`, `DESIGN.md` "Managed generation lifecycle" (#151, #165). |
 | A file with more than one writer: lock and revision check | - | centrs review of #38. centrs `src/data/winbox-cdb-lock.ts` (#581). |
 | FTS external content kept by triggers; `'rebuild'`; content check | rosetta-30 | rosetta `database.instructions.md` ("FTS5 Triggers"), the triggers in `src/db.ts`, the `'rebuild'` calls in `src/extract-docusaurus.ts` and `src/extract-html.ts` (rosetta review of #38). The `'integrity-check'` rank-1 behavior was measured for #38 ([SQLite FTS5](https://sqlite.org/fts5.html), "The 'integrity-check' Command"). |

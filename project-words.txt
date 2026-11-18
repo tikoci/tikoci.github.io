@@ -11,6 +11,7 @@ bashisms
 btest # MikroTik bandwidth-test protocol
 bunfig # bunfig.toml, Bun's config file
 bunx # run a package binary through Bun, https://bun.com/docs/cli/bunx
+CANTOPEN # SQLite result code SQLITE_CANTOPEN
 CDB # WinBox address book format
 centrs # tikoci RouterOS CLI and library, https://github.com/tikoci/centrs
 choco # Chocolatey, the Windows package manager CLI

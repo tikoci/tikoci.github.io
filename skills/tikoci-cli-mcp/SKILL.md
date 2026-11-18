@@ -75,7 +75,7 @@ which keeps its warnings on stdout (CONSTITUTION, "Text stdout is data"):
   library throws one error class carrying the code. No vague codes: quickchr
   has `BOOT_TIMEOUT` and `QGA_TIMEOUT`, never a bare `TIMEOUT`. A code that
   shipped keeps its meaning. The spelling (`family/slug` or `UPPER_SNAKE`)
-  is the repo's (open `error-code-style`).
+  is the repo's (settled `error-code-style`).
 - **Keep the tool's errors apart from the system's**, whatever the
   spelling: a code says who failed. A RouterOS refusal maps to its own code
   family with the original string kept (centrs `routeros/*`, grounded on
@@ -122,22 +122,20 @@ which keeps its warnings on stdout (CONSTITUTION, "Text stdout is data"):
 
 ## A doctor
 
-Where a tool has outside dependencies or a complex setup (QEMU and
-firmware, a downloaded database, a device), a `doctor` command or library
-call checks what would fail later and says how to fix each item. Errors can
-suggest running it.
-
-- quickchr `doctor` (`QuickCHR.doctor()` in the library) checks QEMU,
-  firmware, acceleration, helper tools, its directories and machines, with
-  install hints; `--json` returns the checks, it names
-  `quickchr remove <name>` for a broken machine, and it suggests pruning
-  cached images older than `long-term`.
-- rosetta's verdict (`classifyDbGrounding`) is one pure function behind the
-  `routeros_stats` tool, the MCP startup banner and `bun run db:doctor`,
-  which exits non-zero when the database is not `ok`, so CI and hooks can
-  use it.
-- centrs `check` (designed, not built) applies the same idea to a target:
-  a battery of checks on a router, returned in the standard envelope.
+- **When outside dependencies or the environment cause whole classes of
+  failure** (a binary, firmware, a downloaded database, credentials, a
+  device the tool reaches), consider a `doctor` command or library call
+  that checks the tool's own setup and names the fix for each problem.
+  Its job is to rule setup out: after it passes, an agent can tell a
+  failed call apart from a broken install.
+- **Not every tool needs one; every tool flags setup it has not done.** An
+  error or tip names the missing step where the tool first notices it
+  (centrs `tip/no-devices`, `tip/credentials-missing`), and errors in a
+  class the doctor covers suggest running it.
+- **Scripts can run a doctor**: `--json` returns the checks, and a non-zero
+  exit on a problem lets CI and hooks use it. quickchr `doctor` checks
+  QEMU, firmware, acceleration and helper tools; rosetta `db:doctor`
+  prints the same database verdict as its stats tool and startup banner.
 
 ## Layers
 
