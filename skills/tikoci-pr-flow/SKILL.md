@@ -101,7 +101,7 @@ method, labels) are in `tikoci-github`; how CI runs on a PR is in
 - **The CodeRabbit CLI is only for a repo not yet on GitHub**, as a final
   local pass after the paired Claude/Codex review. A repo on GitHub never
   gets a CLI review: its hosted review runs on ready, unless the PR is
-  `skip-review` or the review is rate limited.
+  `skip-review`, its base is not `main`, or the review is rate limited.
 - **A push after the review gets no new bot review.** That is the
   configuration, not a failure: do not wait for one.
 - **A bot's green check means it ran**, not that it reviewed the head:
