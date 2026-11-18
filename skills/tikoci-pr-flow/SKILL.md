@@ -98,6 +98,14 @@ method, labels) are in `tikoci-github`; how CI runs on a PR is in
   (`tikoci-house` precedence), including personal routing skills and the
   skills the CodeRabbit CLI installs into agent skill directories
   (`coderabbit skills`).
+- **The CodeRabbit CLI is only for a repo not yet on GitHub**, as a final
+  local pass after the paired Claude/Codex review. With no PR to comment on,
+  that review reads a fixed local commit and reports in the session, and each
+  finding is fixed or goes in the repo's backlog file before the first push.
+  A repo on GitHub never gets a CLI review: its hosted review runs on ready,
+  unless the configuration skips the PR (`skip-review`, a base other than
+  `main`, an ignored author such as Dependabot) or the review is rate
+  limited.
 - **A push after the review gets no new bot review.** That is the
   configuration, not a failure: do not wait for one.
 - **A bot's green check means it ran**, not that it reviewed the head:

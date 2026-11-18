@@ -1,6 +1,6 @@
 ---
 name: tikoci-house
-description: "How a tikoci repo sets up agent instructions and skills. AGENTS.md is the one entry file and CLAUDE.md is the single line @AGENTS.md; add no new .github/instructions files. Repo skills live in .agents/skills (.claude/skills links to it); house tikoci-* skills from tikoci.dev/house/skills are copied unchanged or referenced by URL, listed in AGENTS.md, and any deviation is noted once under House exceptions. Precedence: the maintainer's explicit instruction, then the nearest AGENTS.md, then house skills, then user-level notes. Temporary work goes in a gitignored .scratch/. Machine facts (paths, hosts, accounts, harnesses) stay in the operator's local agent notes, never in a repo or skill. Use when creating or editing AGENTS.md, CLAUDE.md, .agents/ or a SKILL.md, adopting a house skill, or deciding where a rule belongs."
+description: "How a tikoci repo sets up agent instructions and skills. AGENTS.md is the one entry file and CLAUDE.md is the single line @AGENTS.md; add no new .github/instructions files. Repo skills live in .agents/skills (.claude/skills links to it); house tikoci-* skills from tikoci.dev/house/skills are copied unchanged or referenced by URL, listed in AGENTS.md, and any deviation is noted once under House exceptions. Precedence: the maintainer's explicit instruction, then the nearest AGENTS.md, then house skills, then user-level notes. Temporary work goes in a gitignored .scratch/. Machine facts (paths, hosts, accounts, harnesses) stay in the operator's local agent notes (~/.agents/AGENTS.md), never in a repo or skill. Use when creating or editing AGENTS.md, CLAUDE.md, .agents/ or a SKILL.md, adopting a house skill, or deciding where a rule belongs."
 ---
 
 # tikoci house conventions
@@ -112,11 +112,27 @@ something, move it to its proper place in the same change that relies on it.
 
 Facts about one operator's setup stay out of repos and skills: home paths, host
 names, CPU architecture, installed harnesses and subscriptions, connected
-machines, account names, local checkouts. They live in the operator's
-user-level agent files (for example `~/.claude/CLAUDE.md` or
-`~/.codex/AGENTS.md`). A skill that needs such a fact says "see the local agent
-notes" and assumes only the usual toolset: Bun, Claude Code, Codex, T3 Code and
-hosted CodeRabbit.
+machines, account names, local checkouts. They live in one user-level notes
+file, `~/.agents/AGENTS.md`, that Claude Code and Codex both load:
+`~/.claude/CLAUDE.md` is the one line `@~/.agents/AGENTS.md`, and
+`~/.codex/AGENTS.md` is a symlink to it. Start from
+[local-notes.example.md](assets/local-notes.example.md). Check it in a fresh
+session of each harness: a custom `CODEX_HOME` or a non-empty
+`AGENTS.override.md` changes what Codex reads, and some app modes skip imports
+from outside the working directory.
+
+- **Machine facts and a pointer to the house skills, never rules.** A rule
+  found there gets a house home or is dropped.
+- **List the other machines an orchestrator reaches** (T3 Code's linked
+  environments): name, OS and CPU, role, and whether it is permanent or a test
+  box. An agent then knows the topology without a tool call.
+- **User-level skills live in `~/.agents/skills/`**, other harnesses' skill
+  directories link there, and `tikoci-house` is a copy fetched from
+  tikoci.dev: a link into a checkout serves whatever branch it is on.
+
+A skill that needs such a fact says "see the local agent notes" and assumes
+only the usual toolset: Bun, Claude Code, Codex, T3 Code and hosted
+CodeRabbit.
 
 ## Writing house skills
 

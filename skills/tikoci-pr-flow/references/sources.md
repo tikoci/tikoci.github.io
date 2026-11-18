@@ -42,7 +42,8 @@ agent convention) and restraml-27 (retrying a rejected bot push, which
 `tikoci-ci` settles as `rejected-bot-push`). user-25 (squash local
 fix-attempt chains before pushing) is covered by the squash merge. user-101
 and user-103 (routing CodeRabbit reviews for repos without a GitHub remote)
-stay in the operator's local notes. A personal `coderabbit-routing` skill
+became the CLI rule in 3h (maintainer, 2026-11-18): the CLI only before a
+repo is on GitHub. A personal `coderabbit-routing` skill
 told agents to post `@coderabbitai review`; this skill overrides it
 (maintainer, PR #27). It is the operator's own skill, not the CLI's: the
 CodeRabbit CLI installs its own skills into agent skill directories when
