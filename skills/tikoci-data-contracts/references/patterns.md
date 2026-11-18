@@ -129,15 +129,19 @@ open. This sample refuses instead, given three things:
   straight after opening and then checks the path still names the file it
   opened (rosetta compares inodes in `acquireOwnership`). Without that
   check, an installer can swap the file between a reader's open and its
-  first read.
+  first read. A reader that fails part way closes its connection, since a
+  leaked one keeps its lock.
 - **The old file is in rollback-journal mode.** A WAL reader does not
   block `BEGIN EXCLUSIVE`, so the installer refuses a WAL destination.
 - **POSIX.** The rename under the lock fails on Windows while any handle
   is open; there, install each version under its own name, as rosetta
   does, and retire old files separately.
 
-A first install uses `linkSync`, which creates the destination only if it
-does not exist, so two installers cannot both skip the guard. A
+The download is staged beside the destination, because neither the link
+nor the rename crosses filesystems; the installer says so rather than fail
+with `EXDEV`. A first install uses `linkSync`, which creates the
+destination only if it does not exist, so two installers cannot both skip
+the guard. A
 replacement records the destination's inode before opening its guard and
 checks it again once it holds the lock: if another installer replaced the
 file in between, the lock is on a file no reader can reach any more, so
@@ -148,6 +152,7 @@ the installer refuses rather than overwrite the newer file.
 ```ts
 import { Database } from "bun:sqlite";
 import { existsSync, linkSync, renameSync, rmSync, statSync } from "node:fs";
+import { dirname } from "node:path";
 import { SCHEMA_VERSION } from "./schema.ts";
 
 /** Every table a reader of this database queries; a version stamp alone proves nothing. */
@@ -184,9 +189,14 @@ export function openOwned(path: string): Database {
   for (let attempt = 0; attempt < 3; attempt++) {
     const before = statSync(path).ino;
     const conn = new Database(path, { readonly: true });
-    conn.run("BEGIN");
-    conn.query("SELECT count(*) FROM sqlite_schema").get(); // takes the shared lock
-    if (statSync(path).ino === before) return conn;
+    try {
+      conn.run("BEGIN");
+      conn.query("SELECT count(*) FROM sqlite_schema").get(); // takes the shared lock
+      if (statSync(path).ino === before) return conn;
+    } catch (error) {
+      conn.close(); // a leaked connection would keep its lock
+      throw error;
+    }
     conn.close();
   }
   throw new Error(`${path} kept changing while opening it`);
@@ -199,10 +209,14 @@ export function openOwned(path: string): Database {
  * POSIX allows; on Windows the rename fails while any handle is open, so
  * install to a new path there instead. The lock proves something only if
  * the path still names the locked file: another installer may have replaced
- * it after this one opened it.
+ * it after this one opened it. Both the link and the rename need tmpPath on
+ * the same filesystem as finalPath: stage the download in its directory.
  */
 export function installDatabase(tmpPath: string, finalPath: string): void {
   try {
+    if (statSync(tmpPath).dev !== statSync(dirname(finalPath)).dev) {
+      throw new Error(`${tmpPath} is on another filesystem; stage the download beside ${finalPath}`);
+    }
     prepare(tmpPath);
     try {
       // Creates finalPath only if it does not exist, so two installers cannot both take this path.
@@ -287,7 +301,7 @@ directory; none touches a real database.
 ```ts
 import { Database } from "bun:sqlite";
 import { describe, expect, test } from "bun:test";
-import { existsSync, mkdtempSync } from "node:fs";
+import { existsSync, mkdtempSync, renameSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { classifyGrounding, stampProvenance } from "../src/grounding.ts";
@@ -447,6 +461,29 @@ describe("install", () => {
     }
     expect(pageCount(final)).toBe(2);
     owner?.close();
+  });
+
+  test("a reader whose file vanishes mid-open releases its lock", () => {
+    const dir = mkdtempSync(join(tmpdir(), "install-"));
+    const final = join(dir, "db.sqlite");
+    const moved = join(dir, "moved.sqlite");
+    installDatabase(download(dir, 2), final);
+    // Move the file away while the reader opens it, so its inode check throws.
+    const query = Database.prototype.query;
+    Database.prototype.query = function (this: Database, sql: string) {
+      const statement = query.call(this, sql);
+      if (sql.startsWith("SELECT count(*) FROM sqlite_schema") && this.filename === final) renameSync(final, moved);
+      return statement;
+    } as typeof query;
+    try {
+      expect(() => openOwned(final)).toThrow("ENOENT");
+    } finally {
+      Database.prototype.query = query;
+    }
+    const writer = new Database(moved);
+    writer.run("BEGIN EXCLUSIVE"); // fails with "database is locked" if the reader leaked
+    writer.run("ROLLBACK");
+    writer.close();
   });
 
   test("a file a client holds is not replaced; a free one is", () => {

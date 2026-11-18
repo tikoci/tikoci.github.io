@@ -31,7 +31,9 @@ edk # edk2, the UEFI firmware QEMU boots, https://github.com/tianocore/edk2
 EEXIST # POSIX errno: file exists
 efi
 endgroup
+ENOENT # POSIX errno: no such file
 esac
+EXDEV # POSIX errno: cross-device link
 fanout # centrs FanoutData, a result across many targets
 frontmatter
 FTS # SQLite full-text search
