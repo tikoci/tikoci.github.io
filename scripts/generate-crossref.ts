@@ -12,7 +12,7 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { HOMEPAGE_SECTIONS } from "../data/homepage-config";
 import {
-    CROSSREF_EXTRA_SECTIONS, CROSSREF_HEADLINES, DASHBOARD_REPOS, RELATIONSHIPS, REPO_OVERRIDES, type Relationship, type RepoOverride,
+    CROSSREF_EXTRA_SECTIONS, CROSSREF_HEADLINES, DASHBOARD_REPOS, RELATIONSHIPS, REPO_OVERRIDES, readinessOf, type Relationship, type RepoOverride,
 } from "../data/repo-config";
 import { checkSkills, SKILLS_DIR } from "./check-skills";
 
@@ -52,7 +52,7 @@ const urlCell = (url: string) => (url.includes("<") ? `\`${url}\`` : `<${url}>`)
 /** Edges the crossref lists: verified uses, where `source` provides and `target` uses. */
 export function verifiedUses(relationships: Relationship[] = RELATIONSHIPS): Relationship[] {
     return relationships
-        .filter(rel => rel.verifiedNote && rel.readiness && rel.readiness !== "association")
+        .filter(rel => rel.verifiedNote && readinessOf(rel) !== "association")
         .sort((a, b) => a.source.localeCompare(b.source) || a.target.localeCompare(b.target));
 }
 
@@ -135,13 +135,14 @@ function repoSections(): string[] {
     });
 }
 
-function dependencyTable(): string[] {
+/** Dependency table rows: verified uses, labeled package or artifact. */
+export function dependencyRows(relationships: Relationship[] = RELATIONSHIPS): string[] {
     const named = new Set(Object.keys(REPO_OVERRIDES));
-    return verifiedUses().map(rel => {
+    return verifiedUses(relationships).map(rel => {
         for (const repo of [rel.source, rel.target]) {
             if (!named.has(repo)) throw new Error(`relationship names ${repo}, which has no REPO_OVERRIDES entry`);
         }
-        const kind = rel.readiness === "dependency" ? "package" : "artifact";
+        const kind = readinessOf(rel) === "dependency" ? "package" : "artifact";
         return `| ${repoLink(rel.source)} | ${repoLink(rel.target)} | ${kind} | ${cell(rel.verifiedNote ?? "")} |`;
     });
 }
@@ -169,7 +170,9 @@ function dataTable(): string[] {
 }
 
 function taskTable(skillsDir: string): string[] {
-    return checkSkills(skillsDir).skills
+    const report = checkSkills(skillsDir);
+    if (report.errors.length) throw new Error(`fix the house skills before generating the crossref:\n${report.errors.join("\n")}`);
+    return report.skills
         .filter(skill => skill.name !== CROSSREF_NAME)
         .map(skill => `| ${cell(taskClause(skill.name, skill.description))} | [\`${skill.name}\`](${HOUSE}/${skill.name}/SKILL.md) |`);
 }
@@ -231,7 +234,7 @@ export function renderCrossref(skillsDir = SKILLS_DIR): string {
         "",
         "| Provides | Used by | Kind | Evidence |",
         "| --- | --- | --- | --- |",
-        ...dependencyTable(),
+        ...dependencyRows(),
         "",
         "A change to a provider's published file is a contract change for each user",
         `below it ([tikoci-data-contracts](${HOUSE}/tikoci-data-contracts/SKILL.md)).`,

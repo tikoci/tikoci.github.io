@@ -71,6 +71,11 @@ export interface Relationship {
     verifiedNote?: string;
 }
 
+/** A relationship's readiness, with the defaults documented on `readiness`. */
+export function readinessOf(rel: Relationship): NonNullable<Relationship["readiness"]> {
+    return rel.readiness ?? (rel.type === "dependency" ? "dependency" : "association");
+}
+
 /**
  * APL-themed Unicode symbol for each project.
  *

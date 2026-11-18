@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { HOMEPAGE_SECTIONS } from "../data/homepage-config";
 import { CROSSREF_EXTRA_SECTIONS, CROSSREF_HEADLINES, RELATIONSHIPS, REPO_OVERRIDES } from "../data/repo-config";
-import { CROSSREF_PATH, cell, renderCrossref, siteTools, taskClause, verifiedUses } from "../scripts/generate-crossref";
+import { CROSSREF_PATH, cell, dependencyRows, renderCrossref, siteTools, taskClause, verifiedUses } from "../scripts/generate-crossref";
 
 test("the committed tikoci-crossref skill is current (run `bun run generate:crossref`)", () => {
     expect(readFileSync(CROSSREF_PATH, "utf-8")).toBe(renderCrossref());
@@ -32,8 +32,26 @@ test("artifact consumption is always verified, and only verified uses reach the 
         { source: "a", target: "c", type: "dependency", readiness: "dependency" },
         { source: "a", target: "d", type: "sibling", readiness: "association", verifiedNote: "a note on an association" },
         { source: "a", target: "e", type: "ecosystem", verifiedNote: "no readiness" },
+        { source: "a", target: "f", type: "dependency", verifiedNote: "readiness defaults to dependency" },
     ]);
-    expect(uses.map(rel => rel.target)).toEqual(["b"]);
+    expect(uses.map(rel => rel.target)).toEqual(["b", "f"]);
+});
+
+test("a dependency edge without explicit readiness is labeled a package, not an artifact", () => {
+    const rows = dependencyRows([{ source: "quickchr", target: "centrs", type: "dependency", verifiedNote: "centrs's package.json" }]);
+    expect(rows).toHaveLength(1);
+    expect(rows[0]).toContain("| package |");
+});
+
+test("generation refuses to write a map from invalid house skills", () => {
+    const root = mkdtempSync(join(tmpdir(), "tikoci-crossref-"));
+    try {
+        mkdirSync(join(root, "tikoci-probe"));
+        writeFileSync(join(root, "tikoci-probe", "SKILL.md"), "no frontmatter\n");
+        expect(() => renderCrossref(root)).toThrow(/fix the house skills before generating the crossref/);
+    } finally {
+        rmSync(root, { recursive: true, force: true });
+    }
 });
 
 test("the task table takes the final Use when clause and refuses a description without one", () => {
