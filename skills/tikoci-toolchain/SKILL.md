@@ -150,12 +150,17 @@ gate and the lint scripts (`tikoci-linting`), the test tiers
 - **A repo with several runtimes or compilers has one Makefile** as its entry
   point. It calls the package scripts for the JavaScript lifecycle and owns
   the rest (data pipelines, image builds, multi-step checks). Never define the
-  same task in both. A couple of lines that fit a package script stay there;
-  package.json does not drive substantive non-Bun work.
-- **CI calls the same entry point a developer does** for the checks and the
-  build, not a copy of their steps in workflow YAML, so a green local run
-  predicts a green CI run. Per-OS setup (installing QEMU on macOS, Windows or
-  Linux runners) belongs in the workflow.
+  same task in both. In such a repo `make check` is the gate, and CI jobs call
+  make targets where other house skills say package scripts. A couple of
+  lines that fit a package script stay there; package.json does not drive
+  substantive non-Bun work.
+- **CI calls the same entry point a developer does** for the checks, not a
+  copy of their steps in workflow YAML, so a green local run predicts a green
+  CI run. Build logic beyond a few steps also lives in a script or make
+  target that CI calls. Image builds are the exception: they run only in CI
+  (no local Docker requirement, below), with their logic in the Dockerfile.
+  Per-OS setup (installing QEMU on macOS, Windows or Linux runners) belongs
+  in the workflow.
 - Make recipes are written as plain, idiomatic make (phony targets, pattern
   rules) and run under `/bin/sh`, which is dash on Ubuntu runners. **Each
   recipe line runs in its own shell**, so `set -eu` on one line protects
