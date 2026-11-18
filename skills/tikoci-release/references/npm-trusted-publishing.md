@@ -41,10 +41,13 @@ These details go stale faster than the rules in [SKILL.md](../SKILL.md).
 ## The first release
 
 - **Make it a `next` preview.** It proves the OIDC identity, the
-  environment and the publish permission, and a failure leaves nothing to
-  repair. A preview moves no dist-tag, so the dist-tag permission is first
-  used at the first stable cut: check "Allowed actions" by hand before that.
-  No dry run can check any of this; only a real publish does.
+  environment and the publish permission. Its only effect is a numbered
+  preview with `next` pointing at it. A failed run can still have published,
+  if the registry accepted the version before the response failed, so check
+  `npm view <name> dist-tags` before trying again. The workflow moves no
+  other dist-tag for a preview, so the dist-tag permission is first used at
+  the first stable cut: check "Allowed actions" by hand before that. No dry
+  run can check any of this; only a real publish does.
 - **Confirm provenance** on the published version's npm page: it should
   name this repo, the workflow and the commit. Publishing a packed tarball
   (`npm publish <file>.tgz`) rather than the directory is untested here.

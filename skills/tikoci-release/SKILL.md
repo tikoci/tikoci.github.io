@@ -39,7 +39,8 @@ platform list) needs its own grounding in app-t3code, make.d and rosetta;
 
 ## Versions and channels
 
-- **SemVer.** While a package is 0.x, a breaking change bumps the minor.
+- **SemVer.** A breaking change bumps the major, or the minor while a
+  package is 0.x.
 - **Two npm channels: `latest` and `next`.** The committed version in
   package.json picks the channel, and nothing else does:
   - `X.Y.Z-next` while main works toward X.Y.Z. A release run publishes

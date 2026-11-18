@@ -241,7 +241,9 @@ jobs:
       # Idempotent, so "Re-run failed jobs" finishes a run whose dist-tag or
       # release step failed: a re-run keeps the run number, the version and
       # the tarball, and a version already on npm from this exact tarball
-      # counts as published. Only a 404 means "not published yet".
+      # counts as published. Only a 404 means "not published yet". A re-run
+      # also keeps the plan, which may be old by now, so the channel is read
+      # again and never moved backwards.
       - name: Publish
         id: publish
         env:
@@ -251,6 +253,16 @@ jobs:
           TARBALL: ${{ needs.plan.outputs.tarball }}
           INTEGRITY: ${{ needs.plan.outputs.integrity }}
         run: |
+          newer() { bun -e 'process.exit(Bun.semver.order(process.argv[1], process.argv[2]) > 0 ? 0 : 1)' "$1" "$2"; }
+          # The version a dist-tag points at now; empty for no tag or no package.
+          tag_now() {
+            local out status=0
+            out=$(npm view "$NAME" "dist-tags.$1" 2>&1) || status=$?
+            if [ "$status" -eq 0 ]; then printf '%s' "$out"; return 0; fi
+            grep -q E404 <<< "$out" && return 0
+            printf '%s\n' "$out" >&2
+            return 1
+          }
           status=0
           out=$(npm view "$NAME@$VERSION" dist.integrity 2>&1) || status=$?
           if [ "$status" -eq 0 ] && [ -n "$out" ]; then
@@ -260,6 +272,11 @@ jobs:
             fi
             echo "$NAME@$VERSION is already published from this tarball; continuing."
           elif [ "$status" -ne 0 ] && grep -q E404 <<< "$out"; then
+            current=$(tag_now "$CHANNEL")
+            if [ -n "$current" ] && ! newer "$VERSION" "$current"; then
+              echo "::error::\`$CHANNEL\` is at $current now, not older than $VERSION; dispatch a new release."
+              exit 1
+            fi
             npm publish "$RUNNER_TEMP/pack/$TARBALL" --access public --tag "$CHANNEL" --ignore-scripts
           else
             printf '%s\n' "$out" >&2
@@ -271,7 +288,9 @@ jobs:
       # next release, so `next` never points below `latest`. Nothing after a
       # publish can be redone by a re-dispatch ("already published"), so this
       # idempotent call is tried three times before the summary names the
-      # command that finishes the job; the release job runs either way.
+      # command that finishes the job; the release job runs either way. Each
+      # try reads the tag again and leaves it alone when it is already at
+      # this version or a newer one (a later release got there first).
       - name: Move the other dist-tags
         if: ${{ needs.plan.outputs.also-tag != '' }}
         env:
@@ -279,12 +298,20 @@ jobs:
           VERSION: ${{ needs.plan.outputs.version }}
           ALSO_TAG: ${{ needs.plan.outputs.also-tag }}
         run: |
+          newer() { bun -e 'process.exit(Bun.semver.order(process.argv[1], process.argv[2]) > 0 ? 0 : 1)' "$1" "$2"; }
           failed=()
           IFS=',' read -r -a tags <<< "$ALSO_TAG"
           for tag in "${tags[@]}"; do
             moved=false
             for attempt in 1 2 3; do
-              if npm dist-tag add "$NAME@$VERSION" "$tag"; then moved=true; break; fi
+              if current=$(npm view "$NAME" "dist-tags.$tag"); then
+                if [ -n "$current" ] && ! newer "$VERSION" "$current"; then
+                  echo "\`$tag\` is already at $current; left alone."
+                  moved=true
+                  break
+                fi
+                if npm dist-tag add "$NAME@$VERSION" "$tag"; then moved=true; break; fi
+              fi
               [ "$attempt" -eq 3 ] || sleep $((attempt * 10))
             done
             [ "$moved" = true ] || failed+=("$tag")
@@ -327,8 +354,11 @@ jobs:
       # Notes are the CHANGELOG section. With immutable releases on, a release
       # that carries assets is created with --draft, the assets uploaded, then
       # published (gh release edit --draft=false); this one has none.
-      # Creating a release is not idempotent: before trying again, a release
-      # that already exists for this tag at this commit counts as done.
+      # The tag is created at this commit first, and a tag that already exists
+      # must point here: `gh release create --target` would otherwise take an
+      # existing tag on another commit, and an immutable release would lock
+      # that in. Each try then counts an existing release for the verified tag
+      # as done, since creating one is not idempotent.
       - name: Create the release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -336,17 +366,31 @@ jobs:
           VERSION: ${{ needs.plan.outputs.version }}
         run: |
           bun scripts/release-plan.ts notes "$VERSION" > "$RUNNER_TEMP/notes.md"
+          # The commit a tag names, through an annotated tag object if need be.
+          tag_commit() {
+            local ref
+            ref=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$TAG" --jq '.object.type + " " + .object.sha' 2> /dev/null) || return 1
+            if [ "${ref%% *}" = tag ]; then
+              gh api "repos/$GITHUB_REPOSITORY/git/tags/${ref#* }" --jq .object.sha
+            else
+              printf '%s\n' "${ref#* }"
+            fi
+          }
           created=false
           for attempt in 1 2 3; do
-            if gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
-              --title "$TAG" --notes-file "$RUNNER_TEMP/notes.md"; then
-              created=true
-              break
-            fi
-            target=$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG" --jq .target_commitish 2> /dev/null || true)
-            if [ "$target" = "$GITHUB_SHA" ]; then
-              created=true
-              break
+            # Fails harmlessly when the tag exists; the check below decides.
+            gh api "repos/$GITHUB_REPOSITORY/git/refs" -f ref="refs/tags/$TAG" -f sha="$GITHUB_SHA" > /dev/null 2>&1 || true
+            if actual=$(tag_commit); then
+              if [ "$actual" != "$GITHUB_SHA" ]; then
+                echo "::error::Tag $TAG points at $actual, not at the published commit $GITHUB_SHA."
+                exit 1
+              fi
+              if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1 ||
+                gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --verify-tag \
+                  --title "$TAG" --notes-file "$RUNNER_TEMP/notes.md"; then
+                created=true
+                break
+              fi
             fi
             [ "$attempt" -eq 3 ] || sleep $((attempt * 10))
           done
@@ -356,7 +400,8 @@ jobs:
               echo "Re-run the failed jobs of this run; if that fails too, from a shell on this commit:"
               echo '```sh'
               echo "bun scripts/release-plan.ts notes $VERSION > notes.md"
-              echo "gh release create $TAG --target $GITHUB_SHA --title $TAG --notes-file notes.md"
+              echo "gh api repos/$GITHUB_REPOSITORY/git/refs -f ref=refs/tags/$TAG -f sha=$GITHUB_SHA"
+              echo "gh release create $TAG --verify-tag --title $TAG --notes-file notes.md"
               echo '```'
             } >> "$GITHUB_STEP_SUMMARY"
             exit 1

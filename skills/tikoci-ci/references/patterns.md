@@ -302,13 +302,18 @@ run the same shape in `auto.yaml`:
 - **Daily, plus dispatch.** Read
   `https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel>` for each
   channel (the first field is the version), or
-  `https://tikoci.dev/data/ros-versions.json` in one fetch. A channel that
-  answers nothing is a warning for that channel, never an empty version
-  passed on.
+  `https://tikoci.dev/data/ros-versions.json` in one fetch. A channel the
+  repo must cover (`stable`, and `long-term` where it gates) or the combined
+  feed answering nothing fails the check, as restraml's does for `stable`;
+  a pre-release channel that answers nothing may be a warning and skipped.
+  Never pass an empty version on.
 - **Compare with what was already done**, recorded where CI can read it:
   quickchr keeps `tested-versions.json` on its `ci-data` branch (written by
   the integration run), and restraml and mikropkl check whether a release
-  for that version exists. A record the check cannot read fails the check;
+  for that version exists. A release only appears after a build succeeds,
+  so that check retries a failed version every day; only a record of
+  attempts, failures included, keeps the rule below. A record the check
+  cannot read fails the check;
   only a record that does not exist yet reads as empty. Otherwise one
   failed fetch marks every version untested and dispatches them all again,
   failures included (quickchr's `|| echo '{}'` fallback does this today).

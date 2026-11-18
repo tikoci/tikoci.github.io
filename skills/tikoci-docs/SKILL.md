@@ -151,9 +151,10 @@ Issue and PR linking is in
 - **A URL that shipped code prints is the strictest kind**: every installed
   version prints it for as long as anyone runs it. Every centrs error
   carries a `detailsUrl` under `https://tikoci.dev/centrs/errors/`.
-  - Print the final URL: HTTPS, the canonical domain, the trailing slash. A
-    URL that works only after a redirect is broken for agent fetch tools
-    that stop at the redirect (centrs #464).
+  - Print the final URL: HTTPS, the canonical domain, and the trailing
+    slash on a page or directory URL (never on a file). A URL that works
+    only after a redirect is broken for agent fetch tools that stop at the
+    redirect (centrs #464).
   - When a code's meaning narrows, its page says what it meant before,
     because older versions still print it with the old meaning.
 - **An `/app` repo publishes contracts too**: the YAML at its raw URL and

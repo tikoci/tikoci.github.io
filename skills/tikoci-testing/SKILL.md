@@ -84,7 +84,11 @@ question differently across releases
   - Browser, Node or shell code (quickchr ships Bun-only source) ports
     routeros-fundamentals'
     [version-parsing reference](https://github.com/tikoci/routeros-skills/blob/main/routeros-fundamentals/references/version-parsing.md),
-    which also covers download URLs.
+    which also covers download URLs. Its `compareVersions` sorts newest
+    first and returns `NaN` for equal releases (`Infinity - Infinity`). A
+    port returns a negative number when the first version is older, as
+    `compareRouterOsVersion` does, and 0 for equal versions, so a check
+    like "at or ahead of `stable`" works with either.
   - Either way, a unit test holds these vectors: `7.9 < 7.10`;
     `7.24beta2 < 7.24beta10 < 7.24rc1 < 7.24 < 7.24.1`; `7.22 == 7.22.0`;
     `6.49.18 < 7.1`.

@@ -10,9 +10,11 @@ each repo tracks its own work.
   [npm-trusted-publishing.md](npm-trusted-publishing.md): the main-only
   `npm` environment, the trusted publisher naming it, `npm` as a
   devDependency, a first `next` preview, then tokens disallowed. Today a
-  branch dispatch of an edited release workflow gets the org `NPM_TOKEN`, so
-  the environment closes a live gap even before trusted publishing (centrs
-  review of #37).
+  branch dispatch of an edited release workflow gets the org `NPM_TOKEN`
+  (centrs review of #37). An environment does not guard an org or repo
+  secret, which reaches any workflow that omits `environment:`; until the
+  token is revoked, move it into the `npm` environment's own secrets
+  (CodeRabbit review of #37).
 - Keep each release workflow's file name: the trusted publisher names it,
   and the run number restarts on a rename.
 - Run `bun run audit` (tikoci-ci `audit.example.ts`) in the release

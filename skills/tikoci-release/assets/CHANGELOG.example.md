@@ -10,7 +10,7 @@ same PR as the change, under Added, Changed, Deprecated, Removed, Fixed or
 Security. Refactors, tests and CI changes with no effect outside the repo get
 none; git history has them. Reasons go in DESIGN.md, plans in issues.
 
-## 1.3.0 — next
+## 0.3.0 — next
 
 ### Added
 
@@ -20,7 +20,7 @@ none; git history has them. Reasons go in DESIGN.md, plans in issues.
 
 - `example get` exits 2, not 0, when the item does not exist (#40).
 
-## 1.2.0 — 2026-11-03
+## 0.2.0 — 2026-11-03
 
 ### Changed
 
@@ -28,7 +28,7 @@ none; git history has them. Reasons go in DESIGN.md, plans in issues.
   is gone (#35).
 - The minimum Bun is now 1.4.4 (`engines.bun`).
 
-## 1.1.0 — 2026-10-12
+## 0.1.0 — 2026-10-12
 
 ### Added
 
