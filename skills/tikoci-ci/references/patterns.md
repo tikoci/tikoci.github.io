@@ -308,7 +308,10 @@ run the same shape in `auto.yaml`:
 - **Compare with what was already done**, recorded where CI can read it:
   quickchr keeps `tested-versions.json` on its `ci-data` branch (written by
   the integration run), and restraml and mikropkl check whether a release
-  for that version exists.
+  for that version exists. A record the check cannot read fails the check;
+  only a record that does not exist yet reads as empty. Otherwise one
+  failed fetch marks every version untested and dispatches them all again,
+  failures included (quickchr's `|| echo '{}'` fallback does this today).
 - **Dispatch the work for each new version**, by version, not channel, so
   the run tests exactly what was found. A version that ran and failed is
   not dispatched again: its red run stays visible until someone fixes and

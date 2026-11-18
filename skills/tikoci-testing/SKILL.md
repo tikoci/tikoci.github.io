@@ -59,7 +59,9 @@ question differently across releases
   run, so CI moves with RouterOS on its own. Pin a version only when that
   version is the point: a regression on one release, the two sides of a
   declared version split, a minimum a feature needs, or a controlled
-  contrast. The pin says why, next to it.
+  contrast. The pin says why, next to it. RouterOS 6 has no channel: it is
+  pinned by version, a boot-only target with no REST (quickchr
+  `isRouterOs6`), and the `NEWESTa7` feeds are 7.x only.
 - **Resolve once, record the version.** A run resolves each channel to a
   version once and uses that version for the cache key and the boot. Its
   results name the version the device reports, never only the channel
@@ -72,13 +74,20 @@ question differently across releases
   `https://tikoci.dev/data/ros-versions.json`.
 - **Do not hand-roll parsing or comparing.** RouterOS versions are not
   SemVer: `7.22`, `7.22.1`, `7.23beta2`, `7.22rc4`, where a missing patch is
-  `.0` and betas and release candidates sort before their release
-  (`7.24beta2 < 7.24rc1 < 7.24 < 7.24.1`). TypeScript uses quickchr's
-  exports: `resolveVersion`, `resolveAllVersions`, `compareRouterOsVersion`,
-  `parseVersionParts`, `selectActiveChannels`. A shell step or another
-  language follows routeros-fundamentals'
-  [version-parsing reference](https://github.com/tikoci/routeros-skills/blob/main/routeros-fundamentals/references/version-parsing.md),
-  which also covers download URLs.
+  `.0`, betas sort before release candidates and both before their release.
+  `semver.coerce` and a comparator that ignores beta versus rc both get this
+  wrong (vscode-tikbook and restraml do today).
+  - Bun code that depends on quickchr uses its exports: `resolveVersion`,
+    `resolveAllVersions`, `selectActiveChannels`, and
+    `compareRouterOsVersion` to sort. Not `parseVersionParts`, which drops
+    the beta or rc suffix.
+  - Browser, Node or shell code (quickchr ships Bun-only source) ports
+    routeros-fundamentals'
+    [version-parsing reference](https://github.com/tikoci/routeros-skills/blob/main/routeros-fundamentals/references/version-parsing.md),
+    which also covers download URLs.
+  - Either way, a unit test holds these vectors: `7.9 < 7.10`;
+    `7.24beta2 < 7.24beta10 < 7.24rc1 < 7.24 < 7.24.1`; `7.22 == 7.22.0`;
+    `6.49.18 < 7.1`.
 - **Channels are not ordered.** `testing` can equal `stable` or trail it as
   a stale rc, and `development` is usually, not always, the newest. Which
   channels are worth booting comes from the live versions: `stable` and
@@ -86,6 +95,10 @@ question differently across releases
   `stable` (quickchr `selectActiveChannels`, used by centrs's
   `scripts/qa-active-channels.ts`). Which of them must pass is the repo's
   call; in centrs only `stable` and `long-term` gate.
+- **Boot each version once.** Two channels often resolve to the same
+  version (`testing` and `stable` are both `7.25.1` today), so a matrix
+  keys its legs on the resolved version and lists every channel that
+  resolved to it.
 - **A new RouterOS version is a trigger.** A daily job reads the feeds and
   starts what a new version needs: quickchr dispatches a full integration
   run for any version it has never tested, restraml and mikropkl build their

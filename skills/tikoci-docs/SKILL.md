@@ -23,7 +23,7 @@ and the CHANGELOG's mechanics in
 | Rules an agent needs while editing an area | AGENTS.md or a repo skill (tikoci-house) |
 | Why it is built this way; what was tried and dropped | DESIGN.md |
 | A fact the code relies on | a comment at that code, and a test that pins it |
-| Recipes, procedures and grounded facts | docs/, one topic per file |
+| Recipes, procedures, and facts no single piece of code owns | docs/, one topic per file |
 | What shipped | CHANGELOG.md |
 | Work with an end point | an issue |
 | Small items | the repo's small-items home (BACKLOG.md by default) |
@@ -59,8 +59,9 @@ How a repo tracks work is its own business. These are the defaults:
   shapes in use:
   - a short list in BACKLOG.md, the default, and the name for a dedicated
     file;
-  - BACKLOG.md as a map into the tracker: label views and a few anchors
-    (quickchr, after its list grew too long to triage);
+  - BACKLOG.md as a map into the tracker, where small items are
+    low-priority issues and the file links to their label views (quickchr,
+    after its list grew too long to triage);
   - a section of a status file (centrs's Nits in docs/MATRIX.md);
   - a pinned roadmap issue grouping open themes (app-t3code #30).
 

@@ -59,6 +59,7 @@ jobs:
       tag: ${{ steps.plan.outputs.tag }}
       also-tag: ${{ steps.plan.outputs.also-tag }}
       tarball: ${{ steps.pack.outputs.tarball }}
+      integrity: ${{ steps.pack.outputs.integrity }}
     steps:
       # A clear message only: the `npm` environment is what stops a branch
       # from publishing, since a branch can edit this file.
@@ -154,6 +155,7 @@ jobs:
           # first(.[]) reads either.
           tarball=$(jq -r 'first(.[]).filename' "$RUNNER_TEMP/pack.json")
           echo "tarball=$tarball" >> "$GITHUB_OUTPUT"
+          echo "integrity=$(jq -r 'first(.[]).integrity' "$RUNNER_TEMP/pack.json")" >> "$GITHUB_OUTPUT"
           {
             echo "### Files in $tarball"
             echo '```text'
@@ -236,13 +238,34 @@ jobs:
         with:
           name: package
           path: ${{ runner.temp }}/pack
+      # Idempotent, so "Re-run failed jobs" finishes a run whose dist-tag or
+      # release step failed: a re-run keeps the run number, the version and
+      # the tarball, and a version already on npm from this exact tarball
+      # counts as published. Only a 404 means "not published yet".
       - name: Publish
         id: publish
         env:
+          NAME: ${{ needs.plan.outputs.name }}
+          VERSION: ${{ needs.plan.outputs.version }}
           CHANNEL: ${{ needs.plan.outputs.channel }}
           TARBALL: ${{ needs.plan.outputs.tarball }}
+          INTEGRITY: ${{ needs.plan.outputs.integrity }}
         run: |
-          npm publish "$RUNNER_TEMP/pack/$TARBALL" --access public --tag "$CHANNEL" --ignore-scripts
+          status=0
+          out=$(npm view "$NAME@$VERSION" dist.integrity 2>&1) || status=$?
+          if [ "$status" -eq 0 ] && [ -n "$out" ]; then
+            if [ "$out" != "$INTEGRITY" ]; then
+              echo "::error::$NAME@$VERSION is already published with different contents."
+              exit 1
+            fi
+            echo "$NAME@$VERSION is already published from this tarball; continuing."
+          elif [ "$status" -ne 0 ] && grep -q E404 <<< "$out"; then
+            npm publish "$RUNNER_TEMP/pack/$TARBALL" --access public --tag "$CHANNEL" --ignore-scripts
+          else
+            printf '%s\n' "$out" >&2
+            echo "::error::Could not ask the registry about $NAME@$VERSION (npm exit $status)."
+            exit 1
+          fi
           echo "published=true" >> "$GITHUB_OUTPUT"
       # `next` has no line of its own: a fix lands on main and ships in the
       # next release, so `next` never points below `latest`. Nothing after a
@@ -269,7 +292,8 @@ jobs:
           if [ "${#failed[@]}" -gt 0 ]; then
             {
               echo "## Published, but a dist-tag did not move"
-              echo "\`$NAME@$VERSION\` is published. From a shell with publish rights"
+              echo "\`$NAME@$VERSION\` is published. Re-run the failed jobs of this run;"
+              echo "if that fails too, from a shell with publish rights"
               echo "(add --otp=<code> once the package disallows tokens):"
               echo '```sh'
               for tag in "${failed[@]}"; do echo "npm dist-tag add $NAME@$VERSION $tag"; done
@@ -329,7 +353,7 @@ jobs:
           if [ "$created" != true ]; then
             {
               echo "## Published to npm, but no GitHub Release"
-              echo "From a shell on this commit:"
+              echo "Re-run the failed jobs of this run; if that fails too, from a shell on this commit:"
               echo '```sh'
               echo "bun scripts/release-plan.ts notes $VERSION > notes.md"
               echo "gh release create $TAG --target $GITHUB_SHA --title $TAG --notes-file notes.md"

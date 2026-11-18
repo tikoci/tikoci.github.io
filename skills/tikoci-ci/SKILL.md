@@ -370,10 +370,11 @@ release workflow runs too, so the checks and the ignore list exist once:
   routine audit lives is the repo's choice (its own weekly workflow, a
   nightly sweep), as long as one exists.
 - **Before anything ships.** A release or publish workflow (npm package,
-  container image) runs the same script first and stops on findings; `tikoci-release` owns that workflow. A deploy that
-  publishes on a timer (tikoci.github.io deploys hourly snapshots) may rely
-  on the routine audit instead, noted under `## House exceptions`; an npm
-  package or container never does.
+  container image) runs the same script first and stops on findings;
+  `tikoci-release` owns that workflow. A deploy that publishes on a timer
+  (tikoci.github.io deploys hourly snapshots) may rely on the routine audit
+  instead, noted under `## House exceptions`; an npm package or container
+  never does.
 - **An audit that did not complete fails** wherever it runs. Bun exits 1
   both for advisories and when the registry is unreachable or answers with
   an error object; a scoped registry that fails only prints a `warn:` that

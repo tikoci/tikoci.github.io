@@ -17,8 +17,9 @@ These details go stale faster than the rules in [SKILL.md](../SKILL.md).
    12.0 and 12.1 publish through OIDC but cannot move `next`. Node's
    bundled npm can be older (Node 26.13.1 ships 11.20.0). npm 12 prints
    `npm pack --json` as an object keyed by package name, where npm 11
-   printed an array; the workflow reads either. npm 12 needs Node `^22.22.2 || ^24.15.0 || >=26`, which
-   `actions/setup-node` with `lts/*` meets.
+   printed an array; the workflow reads either. npm 12 needs Node
+   `^22.22.2 || ^24.15.0 || >=26`, which `actions/setup-node` with `lts/*`
+   meets.
 3. **`repository.url` in package.json** names this repo exactly; npm
    documents that a mismatch can fail the publish.
 4. **Immutable releases** on, and the `v*` tag ruleset (SKILL.md, "Tags and

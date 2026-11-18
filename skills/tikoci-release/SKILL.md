@@ -25,10 +25,9 @@ permissions, the Bun pin) is in
   commit that was.
 - **Who starts the run follows from what ships.** An npm `latest` release
   is a person's call: a stable-cut PR, then a dispatch. Previews to `next`
-  are dispatched today; a scheduled run that publishes one when main has
-  changed, under the same gates, is the direction. An image that mostly
-  repackages another project's release may promote every passing `main`
-  build from CI once its final-form test is robust (app-t3code).
+  are dispatched too. An image that mostly repackages another project's
+  release may promote every passing `main` build from CI once its
+  final-form test is robust (app-t3code).
 - **A bad release is fixed forward** with a new version or build.
 
 **Container images and RouterOS `/app`**: tikoci-ci, "Container apps", has
@@ -158,9 +157,12 @@ Start from [release.example.yml](assets/release.example.yml),
   (`release-plan.ts`; centrs `scripts/release-plan.ts`, quickchr
   `scripts/release-prep.ts`). The workflow only runs it.
 - **Publishing cannot be undone.** After `npm publish`, a re-dispatch stops
-  at "already published". So the calls after it (moving a dist-tag,
-  creating the GitHub Release) try a bounded few times, then print the
-  exact command that finishes the job. That is outside tikoci-ci's retry
+  at "already published". So the publish step is idempotent: a version
+  already on npm from this exact tarball (same integrity) counts as
+  published, and "Re-run failed jobs" finishes a run whose later steps
+  failed. The calls after it (moving a dist-tag, creating the GitHub
+  Release) try a bounded few times, then print the exact command that
+  finishes the job, for when a re-run fails too. That is outside tikoci-ci's retry
   rule, which is about test results, where a retry hides evidence: here
   the call either takes effect or the repair is printed. Retry only an
   idempotent call; before retrying one that is not, check whether the first
@@ -192,8 +194,9 @@ Start from [release.example.yml](assets/release.example.yml),
   [references/npm-trusted-publishing.md](references/npm-trusted-publishing.md).
 - **npm publishes, not `bun publish`**, which has no OIDC. `npm` is a
   devDependency (12.2.0 or later, or 11.21.0 on the 11.x line: the first
-  versions that move a dist-tag over OIDC), so `bun.lock` pins it, the audit sees it and Dependabot updates
-  it; an ad-hoc `npm install -g` or `bunx npm` runs whatever is newest.
+  versions that move a dist-tag over OIDC), so `bun.lock` pins it, the
+  audit sees it and Dependabot updates it; an ad-hoc `npm install -g` or
+  `bunx npm` runs whatever is newest.
 - **What ships**: a published package's `dependencies` hold only what runs
   ([tikoci-dependencies](https://tikoci.dev/house/skills/tikoci-dependencies/SKILL.md)).
 
@@ -207,10 +210,12 @@ first one to move records what it found in
   the workflow with the CHANGELOG section as notes, after the npm publish.
   With immutable releases, a release made first and a publish that then
   fails use up the tag name for a version npm never got: the release and
-  its tag can be deleted, but the name can never be reused. The job that creates it is the only one with `contents: write`.
-- **Immutable releases on** (repository settings). A published release's
-  tag cannot move or be deleted, its assets cannot change, and GitHub
-  attests it (`gh release verify`)
+  its tag can be deleted, but the name can never be reused. The job that
+  creates it is the only one with `contents: write`.
+- **Immutable releases on** (repository settings). While a published
+  release exists, its tag cannot move or be deleted and its assets cannot
+  change; deleting the release frees the tag, never its name. GitHub
+  attests each one (`gh release verify`)
   ([GitHub docs](https://docs.github.com/en/code-security/concepts/supply-chain-security/immutable-releases)).
   A release with assets is created as a draft, the assets uploaded, then
   published. A repo that repairs published assets in place (mikropkl
