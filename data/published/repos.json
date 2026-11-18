@@ -1,27 +1,8 @@
 [
   {
-    "name": "rosetta",
-    "description": "MCP Server with RouterOS docs + commands + products + changelogs, using SQLite-as-RAG, sourced from MikroTik",
-    "stars": 56,
-    "language": "TypeScript",
-    "topics": [
-      "ai",
-      "bun",
-      "claude-code",
-      "copilot",
-      "mcp",
-      "mcp-server",
-      "mikrotik",
-      "routeros",
-      "typescript"
-    ],
-    "html_url": "https://github.com/tikoci/rosetta",
-    "category": "ai"
-  },
-  {
     "name": "routeros-skills",
     "description": "Custom instruction SKILL.md for MikroTik RouterOS v7",
-    "stars": 91,
+    "stars": 92,
     "language": "Shell",
     "topics": [
       "claude",
@@ -37,6 +18,25 @@
       "tikoci"
     ],
     "html_url": "https://github.com/tikoci/routeros-skills",
+    "category": "ai"
+  },
+  {
+    "name": "rosetta",
+    "description": "MCP Server with RouterOS docs + commands + products + changelogs, using SQLite-as-RAG, sourced from MikroTik",
+    "stars": 57,
+    "language": "TypeScript",
+    "topics": [
+      "ai",
+      "bun",
+      "claude-code",
+      "copilot",
+      "mcp",
+      "mcp-server",
+      "mikrotik",
+      "routeros",
+      "typescript"
+    ],
+    "html_url": "https://github.com/tikoci/rosetta",
     "category": "ai"
   },
   {

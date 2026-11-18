@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "rosetta",
-  "generatedAt": "2026-11-18T04:28:14.325Z",
+  "generatedAt": "2026-11-18T14:07:04.695Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,8 +9,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 30,
-        "owner": 29,
+        "total": 31,
+        "owner": 30,
         "external": 0,
         "bot": 1
       },
@@ -25,13 +25,29 @@
       }
     },
     "page": {
-      "fetched": 30,
+      "fetched": 31,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 253,
+        "title": "Review tikoci house skills (tikoci.github.io#21) for adoption; fix stale WAL note",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/rosetta/issues/253",
+        "createdAt": "2026-11-18T12:03:32Z",
+        "updatedAt": "2026-11-18T12:03:32Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "documentation",
+          "blocked"
+        ],
+        "milestone": null
+      },
       {
         "number": 252,
         "title": "Scheduled device-map refresh: committed artifacts drifted from live sources",
