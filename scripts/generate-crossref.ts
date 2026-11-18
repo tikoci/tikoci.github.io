@@ -15,7 +15,7 @@ import { HOMEPAGE_SECTIONS } from "../data/homepage-config";
 import {
     CROSSREF_EXTRA_SECTIONS, CROSSREF_HEADLINES, DASHBOARD_REPOS, RELATIONSHIPS, REPO_OVERRIDES, readinessOf, type Relationship, type RepoOverride,
 } from "../data/repo-config";
-import { checkSkills, SKILLS_DIR } from "./check-skills";
+import { checkSkills, SKILLS_DIR, type Skill } from "./check-skills";
 
 export const CROSSREF_NAME = "tikoci-crossref";
 export const CROSSREF_PATH = join(SKILLS_DIR, CROSSREF_NAME, "SKILL.md");
@@ -65,7 +65,14 @@ export function taskClause(name: string, description: string): string {
 }
 
 /** A table cell: line breaks would end the row, and a pipe would end the cell. */
-export const cell = (text: string) => text.replace(/\s*\r?\n\s*/g, " ").replaceAll("|", "\\|");
+/**
+ * Table-cell text: line breaks (CRLF, LF or a bare CR) fold to one space, and
+ * each pipe is escaped after doubling any backslashes before it, so a `\|`
+ * in the source renders as written instead of ending the cell.
+ */
+export const cell = (text: string) => text
+    .replace(/\s*(?:\r\n|\r|\n)\s*/g, " ")
+    .replace(/(\\*)\|/g, (_, slashes: string) => `${slashes}${slashes}\\|`);
 const repoLink = (repo: string) => `[\`${repo}\`](${GITHUB}/${repo})`;
 const decodeEntities = (text: string) => text.replaceAll("&amp;", "&");
 
@@ -170,39 +177,39 @@ function dataTable(): string[] {
     return [...org, ...repos];
 }
 
-/**
- * Task rows from the other skills. Errors are not checked here: the old
- * crossref may be the invalid one, so renderCrossref validates its own
- * output in place of it instead.
- */
-function taskTable(skillsDir: string): string[] {
-    return checkSkills(skillsDir).skills
+/** Task rows from the other skills, sorted by directory name. */
+function taskTable(skills: Skill[]): string[] {
+    return skills
         .filter(skill => skill.name !== CROSSREF_NAME)
         .map(skill => `| ${cell(taskClause(skill.name, skill.description))} | [\`${skill.name}\`](${HOUSE}/${skill.name}/SKILL.md) |`);
 }
 
 /**
- * The complete SKILL.md text. Deterministic for the same inputs. Throws unless
- * the house skills, with this text in place of the committed crossref, pass
+ * The complete SKILL.md text. Deterministic for the same inputs. It works on
+ * a scratch copy of skills/ with the old crossref SKILL.md removed, so a
+ * broken one never feeds the task table or blocks its replacement. It throws
+ * unless that copy, with the new text where the CLI writes it, passes
  * check-skills, description budget included.
  */
 export function renderCrossref(skillsDir = SKILLS_DIR): string {
-    const text = renderText(skillsDir);
     const scratch = mkdtempSync(join(tmpdir(), "tikoci-crossref-check-"));
     try {
         cpSync(skillsDir, scratch, { recursive: true });
-        rmSync(join(scratch, CROSSREF_NAME), { recursive: true, force: true });
-        mkdirSync(join(scratch, CROSSREF_NAME));
-        writeFileSync(join(scratch, CROSSREF_NAME, "SKILL.md"), text);
+        const target = join(scratch, CROSSREF_NAME, "SKILL.md");
+        rmSync(target, { force: true });
+        // Errors are checked below, once the new crossref is in place.
+        const text = renderText(checkSkills(scratch).skills);
+        mkdirSync(dirname(target), { recursive: true });
+        writeFileSync(target, text);
         const { errors } = checkSkills(scratch);
         if (errors.length) throw new Error(`the house skills with this crossref fail check-skills:\n${errors.join("\n")}`);
+        return text;
     } finally {
         rmSync(scratch, { recursive: true, force: true });
     }
-    return text;
 }
 
-function renderText(skillsDir: string): string {
+function renderText(skills: Skill[]): string {
     return [
         "---",
         `name: ${CROSSREF_NAME}`,
@@ -269,7 +276,7 @@ function renderText(skillsDir: string): string {
         "",
         "| Use when | Skill |",
         "| --- | --- |",
-        ...taskTable(skillsDir),
+        ...taskTable(skills),
         "",
         "## Web tools",
         "",

@@ -187,11 +187,11 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
             { path: "docs/mikrotik-bug-native-api-inspect.md", holds: "`/console/inspect` completion non-determinism over the native API, with the workaround." },
         ],
         publishedData: [
-            { url: "https://tikoci.github.io/restraml/docs-index.json", holds: "Index of the published files, with `latestVersion` and `latestStableVersion`." },
+            { url: "https://tikoci.github.io/restraml/docs-index.json", holds: "Index of the published files, with `latestVersion` and `latestStableVersion`; `versions[]` lists each version's `files` and `dirs`. Not every version has every file: check it before fetching." },
             { url: "https://tikoci.github.io/restraml/<version>/inspect.json", holds: "Command tree for the base packages; `<version>/extra/` has the same files for all x86 extra packages." },
-            { url: "https://tikoci.github.io/restraml/<version>/deep-inspect.json", holds: "Command tree enriched with completion metadata (format: `deep-inspect.schema.json`); `extra/` adds per-architecture trees and their diff." },
+            { url: "https://tikoci.github.io/restraml/<version>/deep-inspect.json", holds: "Command tree enriched with completion metadata (format: `deep-inspect.schema.json`); `extra/` adds per-architecture trees and their diff. Recent versions only." },
             { url: "https://tikoci.github.io/restraml/<version>/schema.raml", holds: "RAML 1.0 schema of the REST API; `openapi.json` beside it is OpenAPI 3.0 where generated." },
-            { url: "https://tikoci.github.io/restraml/<version>/app.json", holds: "The built-in `/app` list as the router reports it." },
+            { url: "https://tikoci.github.io/restraml/<version>/app.json", holds: "The built-in `/app` list as the router reports it. Recent versions only." },
             { url: "https://tikoci.github.io/restraml/routeros-app-yaml-schema.latest.json", holds: "`/app` YAML JSON schema (and `-store-schema`, `.editor.json` variants); per version under `<version>/`." },
         ],
         category: "web-tools",
@@ -385,7 +385,8 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
     },
     m2ir: {
         owns: [
-            "RouterOS binary protocols and formats as a YAML schema: M2 (`nv::message`), WinBox, CDB, MNDP, RoMON, the Dude store",
+            "RouterOS binary protocols and formats: YAML schemas for M2 (`nv::message`), WinBox IPC and the Dude store",
+            "research and implementation pointers for WinBox CDB, MNDP, RoMON, MAC-Telnet and RouterOS files (no schema yet)",
         ],
         category: "dev-tools",
         crossrefGroup: "internals",

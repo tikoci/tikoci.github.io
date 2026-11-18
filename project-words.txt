@@ -48,6 +48,7 @@ gtimeout
 hvf
 inodes # file system index nodes
 IOERR # SQLITE_IOERR_VNODE
+IPC
 katex # KaTeX, the math renderer (npm package katex)
 kvm
 LASTEXITCODE

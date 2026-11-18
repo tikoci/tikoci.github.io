@@ -95,7 +95,7 @@ Reference repos for how RouterOS works inside, then the research, corpora, examp
 
 | Repo | Place to look for | Packages |
 | --- | --- | --- |
-| [`m2ir`](https://github.com/tikoci/m2ir) | RouterOS binary protocols and formats as a YAML schema: M2 (`nv::message`), WinBox, CDB, MNDP, RoMON, the Dude store | - |
+| [`m2ir`](https://github.com/tikoci/m2ir) | RouterOS binary protocols and formats: YAML schemas for M2 (`nv::message`), WinBox IPC and the Dude store; research and implementation pointers for WinBox CDB, MNDP, RoMON, MAC-Telnet and RouterOS files (no schema yet) | - |
 | [`mikrotik-gpl`](https://github.com/tikoci/mikrotik-gpl) | RouterOS GPL source requests and snapshots | - |
 
 Research, corpora, examples and protocol notes in other repos:
@@ -206,11 +206,11 @@ version. Each is a contract with the repos that read it.
 | <https://tikoci.dev/data/dashboard.json> | Per-repo CI, npm, release and RouterOS version signals, findings, and these relationships with their readiness ([contract](https://tikoci.dev/dashboard-schema.md)). | [`tikoci.github.io`](https://github.com/tikoci/tikoci.github.io) |
 | <https://tikoci.dev/metadata/index.json> | Discovery for the independent datasets, such as the GitHub Pages inventory. | [`tikoci.github.io`](https://github.com/tikoci/tikoci.github.io) |
 | <https://tikoci.dev/house/index.json> | The house skills and their files. | [`tikoci.github.io`](https://github.com/tikoci/tikoci.github.io) |
-| <https://tikoci.github.io/restraml/docs-index.json> | Index of the published files, with `latestVersion` and `latestStableVersion`. | [`restraml`](https://github.com/tikoci/restraml) |
+| <https://tikoci.github.io/restraml/docs-index.json> | Index of the published files, with `latestVersion` and `latestStableVersion`; `versions[]` lists each version's `files` and `dirs`. Not every version has every file: check it before fetching. | [`restraml`](https://github.com/tikoci/restraml) |
 | `https://tikoci.github.io/restraml/<version>/inspect.json` | Command tree for the base packages; `<version>/extra/` has the same files for all x86 extra packages. | [`restraml`](https://github.com/tikoci/restraml) |
-| `https://tikoci.github.io/restraml/<version>/deep-inspect.json` | Command tree enriched with completion metadata (format: `deep-inspect.schema.json`); `extra/` adds per-architecture trees and their diff. | [`restraml`](https://github.com/tikoci/restraml) |
+| `https://tikoci.github.io/restraml/<version>/deep-inspect.json` | Command tree enriched with completion metadata (format: `deep-inspect.schema.json`); `extra/` adds per-architecture trees and their diff. Recent versions only. | [`restraml`](https://github.com/tikoci/restraml) |
 | `https://tikoci.github.io/restraml/<version>/schema.raml` | RAML 1.0 schema of the REST API; `openapi.json` beside it is OpenAPI 3.0 where generated. | [`restraml`](https://github.com/tikoci/restraml) |
-| `https://tikoci.github.io/restraml/<version>/app.json` | The built-in `/app` list as the router reports it. | [`restraml`](https://github.com/tikoci/restraml) |
+| `https://tikoci.github.io/restraml/<version>/app.json` | The built-in `/app` list as the router reports it. Recent versions only. | [`restraml`](https://github.com/tikoci/restraml) |
 | <https://tikoci.github.io/restraml/routeros-app-yaml-schema.latest.json> | `/app` YAML JSON schema (and `-store-schema`, `.editor.json` variants); per version under `<version>/`. | [`restraml`](https://github.com/tikoci/restraml) |
 
 ## The TIKOCI look

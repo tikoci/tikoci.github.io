@@ -70,6 +70,15 @@ test("generation validates the new crossref, not the committed one", () => {
     withSkills({ "tikoci-probe": probe("tikoci-probe", "Rules. Use when probing."), "tikoci-crossref": "stale\n" }, root => {
         expect(renderCrossref(root)).toContain("| probing | [`tikoci-probe`]");
     });
+    // Nor does one whose frontmatter names another skill.
+    withSkills({ "tikoci-probe": probe("tikoci-probe", "Rules. Use when probing."), "tikoci-crossref": probe("tikoci-crossre", "Old. Use when x.") }, root => {
+        expect(renderCrossref(root)).not.toContain("tikoci-crossre`");
+    });
+    // The CLI rewrites only SKILL.md, so a stray file beside it still fails.
+    withSkills({ "tikoci-probe": probe("tikoci-probe", "Rules. Use when probing."), "tikoci-crossref": "stale\n" }, root => {
+        writeFileSync(join(root, "tikoci-crossref", "unexpected.txt"), "x\n");
+        expect(() => renderCrossref(root)).toThrow(/tikoci-crossref: unexpected entry "unexpected.txt"/);
+    });
     // Other skills that fit the budget alone overflow it with the new crossref's description.
     const filler = "x".repeat(965);
     const skills = Object.fromEntries(Array.from({ length: 10 }, (_, i) => [`tikoci-probe-${i}`, probe(`tikoci-probe-${i}`, `${filler} Use when probing ${i}.`)]));
@@ -83,11 +92,19 @@ test("the task table takes the final Use when clause and refuses a description w
     expect(() => taskClause("tikoci-x", "Rules only.")).toThrow(/tikoci-x: description has no "Use when/);
 });
 
-test("a multiline description stays one table row with its skill link", () => {
-    expect(cell("a | b\r\n  c")).toBe("a \\| b c");
-    withSkills({ "tikoci-probe": '---\nname: tikoci-probe\ndescription: "Rules. Use when checking pipes | and wrapped\\nclauses."\n---\n\n# Probe\n' }, root => {
-        const rows = renderCrossref(root).split("\n").filter(line => line.includes("checking pipes"));
-        expect(rows).toEqual(["| checking pipes \\| and wrapped clauses | [`tikoci-probe`](https://tikoci.dev/house/skills/tikoci-probe/SKILL.md) |"]);
+test("descriptions with line breaks or pipes stay one table row with their skill link", () => {
+    expect(cell("a | b\r\n  c\rd")).toBe("a \\| b c d");
+    // Rendered cells: [task, link] per row, as a Markdown reader sees them.
+    const cells = (markdown) => [...Bun.markdown.html(markdown).matchAll(/<tr>([\s\S]*?)<\/tr>/g)]
+        .map(([, row]) => [...row.matchAll(/<td>([\s\S]*?)<\/td>/g)].map(([, text]) => text))
+        .filter(row => row.length);
+    const description = "Rules. Use when checking pipes | escaped \\\\| pipes,\\r bare CRs and wrapped\\nclauses.";
+    withSkills({ "tikoci-probe": `---\nname: tikoci-probe\ndescription: "${description}"\n---\n\n# Probe\n` }, root => {
+        const tasks = renderCrossref(root).split("## House skills by task")[1].split("\n## ")[0];
+        expect(cells(tasks)).toEqual([[
+            "checking pipes | escaped \\| pipes, bare CRs and wrapped clauses",
+            '<a href="https://tikoci.dev/house/skills/tikoci-probe/SKILL.md"><code>tikoci-probe</code></a>',
+        ]]);
     });
 });
 
