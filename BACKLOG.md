@@ -35,6 +35,12 @@ Add detail as indented lines only when needed. Move finished items to *Done* (or
       calls `plausible()`), then check with Playwright that the pageview and a custom event
       still reach `plausible.io/api/event`. restraml carries the same snippet. Part of the
       lint adoption above. (PR #36 grounding)
+- [ ] [site] Make the site's categories match the crossref's groups, then drop `crossrefGroup`.
+      netserver goes to Containers; mikrotik-gpl and m2ir go to a new "RouterOS internals"
+      homepage section and map category (m2ir is under dev-tools now). The "RouterOS Scripts"
+      section keeps the `/scripts/*.rsc` files, which have external consumers. Regenerate the
+      crossref; its `internals` extra section then comes from `homepage-config.ts`. Agreed
+      after #21 and PR #39 (maintainer, 2026-11-18). (PR #39)
 - [ ] [ci] Hourly persist commits to `main` on nearly every run, because the `attemptedAt` /
       `generatedAt` timestamps always change. Skip the commit when only timestamps changed,
       or persist less often (e.g. daily). If a human push races the run, that hour's deploy

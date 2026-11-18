@@ -11,7 +11,10 @@ For maintainers of tikoci/tikoci.github.io, and for anyone proposing a house rul
 - **The description states the rules themselves**: "Use X, not Y, when Z", then
   when to load the skill. Harnesses list every description up front and may
   truncate that listing, and GitHub code review picks skills by relevance, so
-  the description must work on its own.
+  the description must work on its own. End it with one "Use when ..."
+  sentence: the task table in
+  [tikoci-crossref](https://tikoci.dev/house/skills/tikoci-crossref/SKILL.md)
+  is generated from that clause.
 - **The body repeats the operative rules** with the reason and the exceptions.
   Detail and examples go in `references/`, linked from the body.
 - **A rule about a config file ships a starting copy** in `assets/`, named

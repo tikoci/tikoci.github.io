@@ -8,6 +8,7 @@ autovlan
 backgrounded
 backlink
 bashisms
+bootable
 btest # MikroTik bandwidth-test protocol
 bunfig # bunfig.toml, Bun's config file
 bunx # run a package binary through Bun, https://bun.com/docs/cli/bunx
@@ -15,6 +16,7 @@ CANTOPEN # SQLite result code SQLITE_CANTOPEN
 CDB # WinBox address book format
 centrs # tikoci RouterOS CLI and library, https://github.com/tikoci/centrs
 choco # Chocolatey, the Windows package manager CLI
+cligames # tikoci/cligames, CLI games container
 cliref # rosetta CLI Reference crosswalk (cli-reference-links.tsv)
 CMR # MikroTik's controller for RouterOS fleets
 coderabbit # CodeRabbit config and file names (.coderabbit.yaml)
@@ -30,11 +32,14 @@ Dockerfiles
 edk # edk2, the UEFI firmware QEMU boots, https://github.com/tianocore/edk2
 EEXIST # POSIX errno: file exists
 efi
+enbeep # tikoci/enbeep, acoustic announcement experiment
 endgroup
 ENOENT # POSIX errno: no such file
 esac
+eworm # eworm-de/routeros-scripts, a third-party RouterOS script collection
 EXDEV # POSIX errno: cross-device link
 fanout # centrs FanoutData, a result across many targets
+Flent # network speed test tool
 frontmatter
 FTS # SQLite full-text search
 gitdir
@@ -43,6 +48,7 @@ gtimeout
 hvf
 inodes # file system index nodes
 IOERR # SQLITE_IOERR_VNODE
+IPC
 katex # KaTeX, the math renderer (npm package katex)
 kvm
 LASTEXITCODE
@@ -59,11 +65,13 @@ MIB
 mikropkl # declarative RouterOS VMs in Pkl, https://github.com/tikoci/mikropkl
 MikroTik
 mktemp
+MNDP # MikroTik Neighbor Discovery Protocol
 modelcontextprotocol # npm scope of the MCP SDK, @modelcontextprotocol/sdk
 MSYS
 mtimes
 mytool # placeholder tool name in code samples
 netinstall # MikroTik's device flashing tool
+netperf # network benchmark whose server is netserver
 nodefaults
 nohup
 noninteractive # DEBIAN_FRONTEND=noninteractive for apt-get
@@ -71,24 +79,29 @@ noprofile # bash --noprofile
 norc # bash --norc
 npmjs
 NUL
+NVRAM
 OCI
 Oid # GitHub object id, as in headRefOid
 ONESHELL # GNU make special target: one shell per recipe
 otp
+parseil # parseIL, RouterOS :parse intermediate language
 pgrep
 Pico # Pico CSS, https://picocss.com
 pidfile
 pids
 pipefail # bash set -o pipefail
+pkl # Apple's configuration language, used by mikropkl
 PSScriptAnalyzer # PowerShell linter, https://github.com/PowerShell/PSScriptAnalyzer
 QGA # QEMU guest agent
 quickchr # CHR VMs under QEMU, https://github.com/tikoci/quickchr
+RAML # RESTful API Modeling Language
 releaseflags
 restraml # RouterOS schema tools, https://github.com/tikoci/restraml
 retag
 rollups
 ros
 routeros
+routeroslsp # npm @tikoci/routeroslsp
 rsc # RouterOS script file extension
 rskills
 sandboxed
@@ -103,12 +116,14 @@ socat # relays sockets and serial ports, http://www.dest-unreach.org/socat/
 strawman
 subfolders
 subshell
+tangentsoft # tangentsoft.com RouterOS guides
 TCG # QEMU's software CPU emulator
 tgz
 tikbook # RouterOS notebooks for VS Code, https://github.com/tikoci/vscode-tikbook
 tikoci
 tini # a container init process
 tsc
+UEFI
 uid
 UNC
 unparseable
@@ -116,9 +131,13 @@ unpushed
 unvalidated
 USERPROFILE
 usr
+UTM # macOS virtual machine app
 uvx # run a Python tool through uv, https://docs.astral.sh/uv/
 venv
+virtio
 VNODE # SQLITE_IOERR_VNODE
+wabt # WebAssembly Binary Toolkit, tikoci/traefik-wabt
+wargames # tikoci/wargames
 winbox
 worktrees
 XDG

@@ -33,6 +33,7 @@ import {
     DASHBOARD_REPOS,
     RELATIONSHIPS,
     ROS_CHANNELS,
+    readinessOf,
     type DashboardOverride,
     type RosCoverageKind,
     type RosLocator,
@@ -790,7 +791,7 @@ export function buildReadinessLinks(): ReadinessLink[] {
         source: rel.source,
         target: rel.target,
         type: rel.type,
-        kind: rel.readiness ?? (rel.type === "dependency" ? "dependency" : "association"),
+        kind: readinessOf(rel),
         verified: !!rel.verifiedNote,
         note: rel.verifiedNote ?? null,
     }));

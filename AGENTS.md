@@ -116,7 +116,8 @@ setting it forces light mode.
 - `initThemeSwitcher(id?, defaultTheme?)`: the auto/light/dark toggle.
 - `TIKOCI`: org constants (`owner`, `pagesUrl`).
 - `SITE_TOOLS` + `initToolsDropdown(listId)`: tools navigation. Add new tool
-  pages to `SITE_TOOLS`. Category menus are authored on each full-nav page.
+  pages to `SITE_TOOLS`, then run `bun run generate:crossref`. Category menus
+  are authored on each full-nav page.
 - `initGitHubDropdown(listId)`: lazy list of org repos.
 - `fetchGitHubContents(repo, path)`: Contents API directory listing.
 - `fetchGitHubPagesFile(repo, path)`: raw file from GitHub Pages, with no API
@@ -141,6 +142,14 @@ fills the /house/ index from src/house/index.html, and writes
 `/house/index.json`; both are durable URLs. Invalid skills fail the build. See
 skills/tikoci-house/references/writing-house-skills.md before adding or
 changing one.
+
+`skills/tikoci-crossref/SKILL.md` is generated: run `bun run generate:crossref`
+after changing `owns`, `publishedData`, `reference`, `category`,
+`crossrefGroup`, `RELATIONSHIPS`, `CROSSREF_HEADLINES` or
+`CROSSREF_EXTRA_SECTIONS` in `data/repo-config.ts`, a homepage section title,
+`SITE_TOOLS` in `src/shared.js`, or any skill's description,
+whose final "Use when" clause feeds its task table. `test/house-crossref.test.js`
+fails when the file is stale. It reads authored config only, never snapshots.
 
 This repo uses:
 
