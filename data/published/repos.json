@@ -120,7 +120,8 @@
       "t3code",
       "tikoci"
     ],
-    "html_url": "https://github.com/tikoci/app-t3code"
+    "html_url": "https://github.com/tikoci/app-t3code",
+    "category": "containers"
   },
   {
     "name": "enbeep",
@@ -128,7 +129,8 @@
     "stars": 2,
     "language": "TypeScript",
     "topics": [],
-    "html_url": "https://github.com/tikoci/enbeep"
+    "html_url": "https://github.com/tikoci/enbeep",
+    "category": "web-tools"
   },
   {
     "name": "m2ir",
@@ -136,7 +138,8 @@
     "stars": 3,
     "language": "TypeScript",
     "topics": [],
-    "html_url": "https://github.com/tikoci/m2ir"
+    "html_url": "https://github.com/tikoci/m2ir",
+    "category": "dev-tools"
   },
   {
     "name": "routeros-muse",

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "routeros-muse",
-  "generatedAt": "2026-11-18T14:07:04.695Z",
+  "generatedAt": "2026-11-18T22:00:57.483Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -33,13 +33,13 @@
     "pullsEnriched": true,
     "items": [
       {
-        "number": 9,
-        "title": "Bump the bun group across 1 directory with 4 updates",
+        "number": 10,
+        "title": "Bump the bun group across 1 directory with 5 updates",
         "author": "dependabot[bot]",
         "authorClass": "bot",
-        "url": "https://github.com/tikoci/routeros-muse/pull/9",
-        "createdAt": "2026-11-11T17:06:30Z",
-        "updatedAt": "2026-11-11T17:06:34Z",
+        "url": "https://github.com/tikoci/routeros-muse/pull/10",
+        "createdAt": "2026-11-18T17:06:39Z",
+        "updatedAt": "2026-11-18T17:06:44Z",
         "isPR": true,
         "draft": false,
         "labels": [

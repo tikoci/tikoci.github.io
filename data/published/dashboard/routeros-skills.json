@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "routeros-skills",
-  "generatedAt": "2026-11-18T14:07:04.695Z",
+  "generatedAt": "2026-11-18T22:00:57.483Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,8 +9,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 21,
-        "owner": 21,
+        "total": 23,
+        "owner": 23,
         "external": 0,
         "bot": 0
       },
@@ -25,13 +25,39 @@
       }
     },
     "page": {
-      "fetched": 26,
+      "fetched": 28,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 63,
+        "title": "Point tikoci-* setup at the house skills on tikoci.dev",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/63",
+        "createdAt": "2026-11-18T20:39:01Z",
+        "updatedAt": "2026-11-18T20:39:01Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 62,
+        "title": "Native-API /console/inspect completion drops entries; use .proplist=completion or REST",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/62",
+        "createdAt": "2026-11-18T20:38:59Z",
+        "updatedAt": "2026-11-18T20:38:59Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
       {
         "number": 61,
         "title": "routeros-mndp: IP-source fallback for missing TLV 17 is ungrounded (observed sources are 0.0.0.0)",
