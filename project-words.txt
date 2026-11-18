@@ -41,6 +41,7 @@ LOCALAPPDATA
 lockfiles
 lsbridge
 lsp
+MAKED # make.d environment variable prefix
 MCP # Model Context Protocol
 MIB
 mikropkl # declarative RouterOS VMs in Pkl, https://github.com/tikoci/mikropkl
@@ -59,6 +60,7 @@ NUL
 OCI
 Oid # GitHub object id, as in headRefOid
 ONESHELL # GNU make special target: one shell per recipe
+otp
 pgrep
 Pico # Pico CSS, https://picocss.com
 pidfile
@@ -68,6 +70,7 @@ PSScriptAnalyzer # PowerShell linter, https://github.com/PowerShell/PSScriptAnal
 quickchr # CHR VMs under QEMU, https://github.com/tikoci/quickchr
 releaseflags
 restraml # RouterOS schema tools, https://github.com/tikoci/restraml
+retag
 rollups
 ros
 routeros
@@ -84,6 +87,7 @@ socat # relays sockets and serial ports, http://www.dest-unreach.org/socat/
 strawman
 subfolders
 TCG # QEMU's software CPU emulator
+tgz
 tikbook # RouterOS notebooks for VS Code, https://github.com/tikoci/vscode-tikbook
 tikoci
 tsc
