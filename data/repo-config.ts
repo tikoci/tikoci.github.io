@@ -389,7 +389,11 @@ export const RELATIONSHIPS: Relationship[] = [
     { source: "quickchr", target: "restraml", type: "dependency", readiness: "dependency",
       verifiedNote: "restraml's scripts/deep-inspect-multi-arch.ts boots its per-architecture CHRs with @tikoci/quickchr (devDependency; surveyed 2026-11-18)" },
     { source: "quickchr", target: "centrs", type: "dependency", readiness: "dependency",
-      verifiedNote: "centrs's CHR integration tests use @tikoci/quickchr (devDependency; surveyed 2026-11-18)" },
+      verifiedNote: "centrs's src/resolver/quickchr-provider.ts loads @tikoci/quickchr (optionalDependency) to resolve --quickchr targets; its CHR tests use it too (surveyed 2026-11-18)" },
+    { source: "quickchr", target: "rosetta", type: "dependency", readiness: "dependency",
+      verifiedNote: "rosetta's app-integration.yml installs @tikoci/quickchr and scripts/app-integration.ts boots CHRs with it (surveyed 2026-11-18)" },
+    { source: "quickchr", target: "app-t3code", type: "dependency", readiness: "dependency",
+      verifiedNote: "app-t3code's Dockerfile installs @tikoci/quickchr into the shipped image (surveyed 2026-11-18)" },
     { source: "quickchr", target: "m2ir", type: "dependency", readiness: "dependency",
       verifiedNote: "m2ir's probe harnesses boot CHRs with @tikoci/quickchr (devDependency; surveyed 2026-11-18)" },
 
@@ -399,14 +403,16 @@ export const RELATIONSHIPS: Relationship[] = [
     { source: "restraml", target: "centrs", type: "ecosystem", readiness: "artifact-consumption",
       verifiedNote: "centrs's scripts/restraml-trees.ts pins restraml command trees for the explain catalog (surveyed 2026-11-18)" },
     { source: "restraml", target: "vscode-tikbook", type: "ecosystem", readiness: "artifact-consumption",
-      verifiedNote: "vscode-tikbook's src/app-yaml.ts loads the /app YAML JSON schemas from restraml's Pages site (surveyed 2026-11-18)" },
-    { source: "restraml", target: "lsp-routeros-ts", type: "ecosystem" },
+      verifiedNote: "vscode-tikbook bundles restraml's /app YAML JSON schemas in resources/schemas/ (read by src/app-yaml.ts) and names their Pages URLs in the $schema comment of new files (surveyed 2026-11-18)" },
+    { source: "restraml", target: "lsp-routeros-ts", type: "ecosystem", readiness: "artifact-consumption",
+      verifiedNote: "lsp-routeros-ts's scripts/collect-required-args.ts reads restraml's per-version schema from a restraml checkout's docs/ by default (surveyed 2026-11-18)" },
     { source: "rosetta", target: "restraml", type: "ecosystem", readiness: "artifact-consumption",
       verifiedNote: "restraml's OpenAPI workflows download rosetta's latest ros-help.db.gz to add documentation (surveyed 2026-11-18)" },
 
     // MCP/AI layer
     { source: "rosetta", target: "lsp-routeros-ts", type: "topic" },
-    { source: "rosetta", target: "routeros-skills", type: "ecosystem" },
+    { source: "routeros-skills", target: "rosetta", type: "ecosystem", readiness: "artifact-consumption",
+      verifiedNote: "rosetta's src/extract-skills.ts fetches the routeros-skills SKILL.md files during its release workflow (surveyed 2026-11-18)" },
     { source: "routeros-skills", target: "donny", type: "sibling" },
 
     // RouterOS Muse builds on the published libraries
@@ -416,6 +422,10 @@ export const RELATIONSHIPS: Relationship[] = [
       verifiedNote: "routeros-muse's package.json depends on @tikoci/centrs@next (surveyed 2026-11-18)" },
     { source: "rosetta", target: "routeros-muse", type: "ecosystem", readiness: "dependency",
       verifiedNote: "routeros-muse's package.json depends on @tikoci/rosetta@next (surveyed 2026-11-18)" },
+    { source: "routeros-skills", target: "routeros-muse", type: "ecosystem", readiness: "dependency",
+      verifiedNote: "routeros-muse's package.json pins routeros-skills by commit and src/lib/routeros-skills.ts reads its SKILL.md files (surveyed 2026-11-18)" },
+    { source: "centrs", target: "app-t3code", type: "dependency", readiness: "dependency",
+      verifiedNote: "app-t3code's Dockerfile installs @tikoci/centrs into the shipped image (surveyed 2026-11-18)" },
 
     // Network scripts family
     { source: "netserver", target: "netinstall", type: "topic" },

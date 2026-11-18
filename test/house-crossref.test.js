@@ -1,8 +1,10 @@
 import { expect, test } from "bun:test";
-import { readFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { HOMEPAGE_SECTIONS } from "../data/homepage-config";
 import { CROSSREF_HEADLINES, RELATIONSHIPS, REPO_OVERRIDES } from "../data/repo-config";
-import { CROSSREF_PATH, renderCrossref, taskClause, verifiedUses } from "../scripts/generate-crossref";
+import { CROSSREF_PATH, cell, renderCrossref, taskClause, verifiedUses } from "../scripts/generate-crossref";
 
 test("the committed tikoci-crossref skill is current (run `bun run generate:crossref`)", () => {
     expect(readFileSync(CROSSREF_PATH, "utf-8")).toBe(renderCrossref());
@@ -37,4 +39,18 @@ test("artifact consumption is always verified, and only verified uses reach the 
 test("the task table takes the final Use when clause and refuses a description without one", () => {
     expect(taskClause("tikoci-x", "Rules. Use X, not Y. Use when editing AGENTS.md or a SKILL.md.")).toBe("editing AGENTS.md or a SKILL.md");
     expect(() => taskClause("tikoci-x", "Rules only.")).toThrow(/tikoci-x: description has no "Use when/);
+});
+
+test("a multiline description stays one table row with its skill link", () => {
+    expect(cell("a | b\r\n  c")).toBe("a \\| b c");
+    const root = mkdtempSync(join(tmpdir(), "tikoci-crossref-"));
+    try {
+        mkdirSync(join(root, "tikoci-probe"));
+        writeFileSync(join(root, "tikoci-probe", "SKILL.md"),
+            '---\nname: tikoci-probe\ndescription: "Rules. Use when checking pipes | and wrapped\\nclauses."\n---\n\n# Probe\n');
+        const rows = renderCrossref(root).split("\n").filter(line => line.includes("checking pipes"));
+        expect(rows).toEqual(["| checking pipes \\| and wrapped clauses | [`tikoci-probe`](https://tikoci.dev/house/skills/tikoci-probe/SKILL.md) |"]);
+    } finally {
+        rmSync(root, { recursive: true, force: true });
+    }
 });

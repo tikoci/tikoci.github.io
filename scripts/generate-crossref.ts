@@ -7,7 +7,7 @@
 //
 //   bun run generate:crossref           write the file
 //   bun scripts/generate-crossref.ts --check   exit 1 if the file is stale
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { HOMEPAGE_SECTIONS } from "../data/homepage-config";
 import { CROSSREF_HEADLINES, DASHBOARD_REPOS, RELATIONSHIPS, REPO_OVERRIDES, type Relationship } from "../data/repo-config";
@@ -34,7 +34,8 @@ export function taskClause(name: string, description: string): string {
     return description.slice(at + "Use when ".length).trim().replace(/\.$/, "");
 }
 
-const cell = (text: string) => text.replaceAll("|", "\\|");
+/** A table cell: line breaks would end the row, and a pipe would end the cell. */
+export const cell = (text: string) => text.replace(/\s*\r?\n\s*/g, " ").replaceAll("|", "\\|");
 const repoLink = (repo: string) => `[\`${repo}\`](${GITHUB}/${repo})`;
 const decodeEntities = (text: string) => text.replaceAll("&amp;", "&");
 
@@ -196,7 +197,12 @@ export function renderCrossref(skillsDir = SKILLS_DIR): string {
 
 if (import.meta.main) {
     const expected = renderCrossref();
-    const current = existsSync(CROSSREF_PATH) ? readFileSync(CROSSREF_PATH, "utf-8") : null;
+    let current: string | null = null;
+    try {
+        current = readFileSync(CROSSREF_PATH, "utf-8");
+    } catch (err) {
+        if ((err as NodeJS.ErrnoException).code !== "ENOENT") throw err;
+    }
     if (process.argv.includes("--check")) {
         if (current !== expected) {
             console.error(`✗ ${CROSSREF_PATH} is stale; run \`bun run generate:crossref\``);

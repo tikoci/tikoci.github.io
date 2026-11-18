@@ -107,18 +107,24 @@ which claim no use.
 
 | Provides | Used by | Kind | Evidence |
 | --- | --- | --- | --- |
+| [`centrs`](https://github.com/tikoci/centrs) | [`app-t3code`](https://github.com/tikoci/app-t3code) | package | app-t3code's Dockerfile installs @tikoci/centrs into the shipped image (surveyed 2026-11-18) |
 | [`centrs`](https://github.com/tikoci/centrs) | [`routeros-muse`](https://github.com/tikoci/routeros-muse) | package | routeros-muse's package.json depends on @tikoci/centrs@next (surveyed 2026-11-18) |
 | [`fat-chr`](https://github.com/tikoci/fat-chr) | [`mikropkl`](https://github.com/tikoci/mikropkl) | artifact | mikropkl's Manifests/chr.x86_64.apple.pkl downloads the fat-chr release image (surveyed 2026-11-18) |
 | [`lsp-routeros-ts`](https://github.com/tikoci/lsp-routeros-ts) | [`centrs`](https://github.com/tikoci/centrs) | artifact | centrs pins lsp-routeros-ts's test-data/corpus.sqlite by commit and SHA-256 for its explain census (surveyed 2026-11-18) |
-| [`quickchr`](https://github.com/tikoci/quickchr) | [`centrs`](https://github.com/tikoci/centrs) | package | centrs's CHR integration tests use @tikoci/quickchr (devDependency; surveyed 2026-11-18) |
+| [`quickchr`](https://github.com/tikoci/quickchr) | [`app-t3code`](https://github.com/tikoci/app-t3code) | package | app-t3code's Dockerfile installs @tikoci/quickchr into the shipped image (surveyed 2026-11-18) |
+| [`quickchr`](https://github.com/tikoci/quickchr) | [`centrs`](https://github.com/tikoci/centrs) | package | centrs's src/resolver/quickchr-provider.ts loads @tikoci/quickchr (optionalDependency) to resolve --quickchr targets; its CHR tests use it too (surveyed 2026-11-18) |
 | [`quickchr`](https://github.com/tikoci/quickchr) | [`m2ir`](https://github.com/tikoci/m2ir) | package | m2ir's probe harnesses boot CHRs with @tikoci/quickchr (devDependency; surveyed 2026-11-18) |
 | [`quickchr`](https://github.com/tikoci/quickchr) | [`restraml`](https://github.com/tikoci/restraml) | package | restraml's scripts/deep-inspect-multi-arch.ts boots its per-architecture CHRs with @tikoci/quickchr (devDependency; surveyed 2026-11-18) |
+| [`quickchr`](https://github.com/tikoci/quickchr) | [`rosetta`](https://github.com/tikoci/rosetta) | package | rosetta's app-integration.yml installs @tikoci/quickchr and scripts/app-integration.ts boots CHRs with it (surveyed 2026-11-18) |
 | [`quickchr`](https://github.com/tikoci/quickchr) | [`routeros-muse`](https://github.com/tikoci/routeros-muse) | package | routeros-muse's package.json depends on @tikoci/quickchr@next (surveyed 2026-11-18) |
 | [`restraml`](https://github.com/tikoci/restraml) | [`centrs`](https://github.com/tikoci/centrs) | artifact | centrs's scripts/restraml-trees.ts pins restraml command trees for the explain catalog (surveyed 2026-11-18) |
+| [`restraml`](https://github.com/tikoci/restraml) | [`lsp-routeros-ts`](https://github.com/tikoci/lsp-routeros-ts) | artifact | lsp-routeros-ts's scripts/collect-required-args.ts reads restraml's per-version schema from a restraml checkout's docs/ by default (surveyed 2026-11-18) |
 | [`restraml`](https://github.com/tikoci/restraml) | [`rosetta`](https://github.com/tikoci/rosetta) | artifact | rosetta's src/restraml.ts reads inspect.json per version from restraml's Pages site (surveyed 2026-11-18) |
-| [`restraml`](https://github.com/tikoci/restraml) | [`vscode-tikbook`](https://github.com/tikoci/vscode-tikbook) | artifact | vscode-tikbook's src/app-yaml.ts loads the /app YAML JSON schemas from restraml's Pages site (surveyed 2026-11-18) |
+| [`restraml`](https://github.com/tikoci/restraml) | [`vscode-tikbook`](https://github.com/tikoci/vscode-tikbook) | artifact | vscode-tikbook bundles restraml's /app YAML JSON schemas in resources/schemas/ (read by src/app-yaml.ts) and names their Pages URLs in the $schema comment of new files (surveyed 2026-11-18) |
 | [`rosetta`](https://github.com/tikoci/rosetta) | [`restraml`](https://github.com/tikoci/restraml) | artifact | restraml's OpenAPI workflows download rosetta's latest ros-help.db.gz to add documentation (surveyed 2026-11-18) |
 | [`rosetta`](https://github.com/tikoci/rosetta) | [`routeros-muse`](https://github.com/tikoci/routeros-muse) | package | routeros-muse's package.json depends on @tikoci/rosetta@next (surveyed 2026-11-18) |
+| [`routeros-skills`](https://github.com/tikoci/routeros-skills) | [`rosetta`](https://github.com/tikoci/rosetta) | artifact | rosetta's src/extract-skills.ts fetches the routeros-skills SKILL.md files during its release workflow (surveyed 2026-11-18) |
+| [`routeros-skills`](https://github.com/tikoci/routeros-skills) | [`routeros-muse`](https://github.com/tikoci/routeros-muse) | package | routeros-muse's package.json pins routeros-skills by commit and src/lib/routeros-skills.ts reads its SKILL.md files (surveyed 2026-11-18) |
 
 A change to a provider's published file is a contract change for each user
 below it ([tikoci-data-contracts](https://tikoci.dev/house/skills/tikoci-data-contracts/SKILL.md)).
