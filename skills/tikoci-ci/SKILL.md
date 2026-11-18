@@ -352,7 +352,10 @@ security updates do not cover
 Advisories arrive without a commit, so an audit on every PR would fail
 unrelated work. Settles `audit-gating` (maintainer, 2026-11-17): the audit
 runs when dependencies change, routinely out of band, and before anything
-ships. The `audit` job in [ci.example.yml](assets/ci.example.yml):
+ships. The `audit` job in [ci.example.yml](assets/ci.example.yml) decides
+whether to audit; the audit itself is one script,
+[audit.example.ts](assets/audit.example.ts) (`bun run audit`), which the
+release workflow runs too, so the checks and the ignore list exist once:
 
 - **Never on an ordinary PR.** A PR or push that changes neither
   `bun.lock` nor any `package.json` (each workspace has its own) does not
@@ -367,8 +370,7 @@ ships. The `audit` job in [ci.example.yml](assets/ci.example.yml):
   routine audit lives is the repo's choice (its own weekly workflow, a
   nightly sweep), as long as one exists.
 - **Before anything ships.** A release or publish workflow (npm package,
-  container image) runs the full audit first, with the same ignores, and
-  stops on findings; `tikoci-release` owns that workflow. A deploy that
+  container image) runs the same script first and stops on findings; `tikoci-release` owns that workflow. A deploy that
   publishes on a timer (tikoci.github.io deploys hourly snapshots) may rely
   on the routine audit instead, noted under `## House exceptions`; an npm
   package or container never does.
@@ -376,12 +378,14 @@ ships. The `audit` job in [ci.example.yml](assets/ci.example.yml):
   both for advisories and when the registry is unreachable or answers with
   an error object; a scoped registry that fails only prints a `warn:` that
   its packages were skipped, and exits 0. So any `warn:` or `error:` line
-  from `bun audit` fails the job, and the advisory-report check (every
+  from `bun audit` fails the script, and the advisory-report check (every
   package mapping to advisories with an `id` and a `severity`) only says
   which failure it was.
-- **It needs no `bun install`**: `bun audit` reads `bun.lock`.
-- **An advisory with no fixed release in range** is ignored by its id
-  (`--ignore=GHSA-...`) with the reason and the removal condition beside it
+- **It needs no `bun install`**: `bun audit` reads `bun.lock`, and the
+  script uses only Bun.
+- **An advisory with no fixed release in range** goes in the script's
+  ignore list by its id (`GHSA-...`), with the reason and the removal
+  condition beside it
   ([tikoci-linting suppressions](https://tikoci.dev/house/skills/tikoci-linting/references/suppressions.md)).
 
 ## Container apps

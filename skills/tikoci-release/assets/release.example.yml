@@ -1,9 +1,12 @@
 # tikoci starting release workflow for an npm package. Save as
 # .github/workflows/release.yml, with release-plan.example.ts as
-# scripts/release-plan.ts. See tikoci-release.
+# scripts/release-plan.ts and tikoci-ci's audit.example.ts as scripts/audit.ts.
+# See tikoci-release.
 #
-#   plan     main only, lint, unit, full bun audit, the release plan
-#     └─→ publish   npm through trusted publishing; `latest` also moves `next`
+#   plan      main only; bun run check, bun run audit, the plan; build,
+#     │       pack and smoke-test the tarball (all of it on a dry run too)
+#     └─→ publish   that tarball, in the main-only `npm` environment, through
+#           │       trusted publishing; `latest` also moves `next` forward
 #           └─→ release   vX.Y.Z and its GitHub Release (stable versions only)
 #
 #   gh workflow run release.yml -f dry-run=true   # every check; publishes nothing
@@ -12,16 +15,17 @@
 # The committed version picks the channel (release-plan.ts): X.Y.Z-next
 # publishes a numbered preview to `next`, X.Y.Z publishes to `latest`. There
 # is no channel input to disagree with it. The workflow never writes
-# package.json or CHANGELOG.md and never pushes to main.
+# package.json or CHANGELOG.md and never pushes to main. Keep this file's
+# name once it has published: the trusted publisher names it, and the run
+# number that numbers previews restarts on a rename.
 #
-# One-time setup, outside this file: a trusted publisher for the package on
-# npmjs.com (this repo, this workflow file name, and under "Allowed actions"
-# both `npm publish` and `npm dist-tag`: one created since 2026-09-03 allows
-# only `npm stage publish` until you choose more), the
-# package.json `repository.url` naming this repo, and immutable releases on in
-# the repo settings. No NPM_TOKEN secret. Action SHAs are the releases current
-# when this file was written; Dependabot moves them.
+# One-time setup outside this file, in tikoci-release
+# references/npm-trusted-publishing.md: the `npm` environment limited to
+# main, the trusted publisher on npmjs.com, `repository.url`, `npm` as a
+# devDependency, and immutable releases. No NPM_TOKEN secret. Action SHAs
+# are the releases current when this file was written; Dependabot moves them.
 name: Release
+run-name: Release${{ inputs.dry-run && ' (dry run)' || '' }} • ${{ github.ref_name }}
 
 on:
   workflow_dispatch:
@@ -45,16 +49,19 @@ defaults:
 
 jobs:
   plan:
-    name: Check and plan
+    name: Check, plan and pack
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     outputs:
       name: ${{ steps.plan.outputs.name }}
       channel: ${{ steps.plan.outputs.channel }}
       version: ${{ steps.plan.outputs.version }}
       tag: ${{ steps.plan.outputs.tag }}
       also-tag: ${{ steps.plan.outputs.also-tag }}
+      tarball: ${{ steps.pack.outputs.tarball }}
     steps:
+      # A clear message only: the `npm` environment is what stops a branch
+      # from publishing, since a branch can edit this file.
       - name: Refuse anything but main
         if: ${{ github.ref != 'refs/heads/main' }}
         env:
@@ -72,38 +79,27 @@ jobs:
         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
           bun-version-file: package.json
+      - name: Setup Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "lts/*"
+          package-manager-cache: false # no cache in a release build
+      # npm is a devDependency (at least 11.21.0), pinned by bun.lock and
+      # audited like any other; Node's bundled npm can be older.
       - name: Install dependencies
-        run: bun install --frozen-lockfile
-      # The commit that ships is the commit checked here: provenance attests
-      # this run's commit, so a green run on another commit proves nothing
-      # about it. A repo with a slow device sweep may instead read that
-      # sweep's result for this exact commit (tikoci-release, "Gates").
-      - name: Lint
-        run: bun run lint
-      - name: Unit tests
-        run: bun run test
-      # The full audit, with the same --ignore list as CI (tikoci-ci,
-      # "Dependency audit"): anything that ships is audited first, and an
-      # audit that did not complete fails too.
-      - name: Audit dependencies
         run: |
-          audit_args=()
-          status=0
-          bun audit --json "${audit_args[@]}" > "$RUNNER_TEMP/audit.json" 2> "$RUNNER_TEMP/audit.err" || status=$?
-          cat "$RUNNER_TEMP/audit.err" >&2
-          if grep -Eq '^(warn|error):' "$RUNNER_TEMP/audit.err"; then
-            echo "::error::bun audit did not check every package (see its warnings above)."
-            exit 1
-          fi
-          if [ "$status" -eq 0 ]; then exit 0; fi
-          report='type == "object" and length > 0 and all(.[]; type == "array" and length > 0 and all(.[]; type == "object" and has("id") and has("severity")))'
-          if jq -e "$report" "$RUNNER_TEMP/audit.json" > /dev/null 2>&1; then
-            bun audit "${audit_args[@]}" || true # the readable report, for the log
-            echo "::error::bun audit found advisories."
-          else
-            echo "::error::bun audit did not complete (exit $status), so nothing was checked."
-          fi
-          exit 1
+          bun install --frozen-lockfile
+          echo "$PWD/node_modules/.bin" >> "$GITHUB_PATH"
+      # The repo's whole gate, on the commit that ships: provenance attests
+      # this run's commit, so a green run on another commit proves nothing
+      # about it.
+      - name: Check
+        run: bun run check
+      # A device bar goes here: a passed run of this exact commit
+      # (head_sha == GITHUB_SHA), or the release waits or fails. A dry run
+      # reports it as it stands and waits for nothing (tikoci-release, "Gates").
+      - name: Audit dependencies
+        run: bun run audit
       - name: Plan the release
         id: plan
         env:
@@ -140,6 +136,47 @@ jobs:
             echo "::error::Could not look up release $TAG (gh exit $status)."
             exit 1
           fi
+      # A preview's number exists only in this runner and is never committed.
+      - name: Set the version
+        env:
+          VERSION: ${{ steps.plan.outputs.version }}
+        run: npm pkg set version="$VERSION"
+      - name: Build
+        run: bun run --if-present build
+      # What npm receives is this tarball, byte for byte.
+      - name: Pack
+        id: pack
+        run: |
+          mkdir -p "$RUNNER_TEMP/pack"
+          npm pack --json --pack-destination "$RUNNER_TEMP/pack" > "$RUNNER_TEMP/pack.json"
+          tarball=$(jq -r '.[0].filename' "$RUNNER_TEMP/pack.json")
+          echo "tarball=$tarball" >> "$GITHUB_OUTPUT"
+          {
+            echo "### Files in $tarball"
+            echo '```text'
+            jq -r '.[0].files[].path' "$RUNNER_TEMP/pack.json"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      # Install the tarball where nothing else is, and use it: a file missing
+      # from `files` breaks every consumer, and only a new version fixes it.
+      # Replace the import with the package's own smoke (its bin --version).
+      - name: Smoke-test the tarball
+        env:
+          NAME: ${{ steps.plan.outputs.name }}
+          TARBALL: ${{ steps.pack.outputs.tarball }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/smoke"
+          cd "$RUNNER_TEMP/smoke"
+          echo '{ "private": true }' > package.json
+          bun add "$RUNNER_TEMP/pack/$TARBALL"
+          bun -e "await import(process.env.NAME)"
+      - name: Upload the tarball
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: package
+          path: ${{ runner.temp }}/pack/${{ steps.pack.outputs.tarball }}
+          if-no-files-found: error
+          retention-days: 7
       - name: Summarize
         env:
           DRY_RUN: ${{ inputs.dry-run }}
@@ -152,13 +189,16 @@ jobs:
             echo "- npm dist-tag: \`$CHANNEL\`"
             echo "- git tag and GitHub Release: ${TAG:-none (a preview)}"
             echo "- dry run: $DRY_RUN"
-            echo "- Bun $(bun --version), commit $GITHUB_SHA"
+            echo "- Node $(node --version), npm $(npm --version), Bun $(bun --version), commit $GITHUB_SHA"
           } >> "$GITHUB_STEP_SUMMARY"
 
   publish:
     name: Publish to npm
     needs: plan
     if: ${{ !inputs.dry-run }}
+    # Deployment branches: main only. The trusted publisher names this
+    # environment, so a branch that edits this file still cannot publish.
+    environment: npm
     # Trusted publishing works only on GitHub-hosted runners.
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -168,6 +208,8 @@ jobs:
     outputs:
       published: ${{ steps.publish.outputs.published }}
     steps:
+      # Only for bun.lock's npm: --ignore-scripts, and nothing else from the
+      # repo runs in the one job that can publish.
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -181,35 +223,29 @@ jobs:
         with:
           node-version: "lts/*"
           registry-url: "https://registry.npmjs.org"
-          package-manager-cache: false # no cache in a release build
-      # Trusted publishing needs npm 11.5.1 or later, and a dist-tag command
-      # over OIDC 11.21.0; Node's bundled npm can be older (Node 26.13 has
-      # 11.20.0). So npm is a devDependency, pinned by bun.lock, audited and
-      # updated by Dependabot like any other, and runs on this Node.
-      - name: Install dependencies
+          package-manager-cache: false
+      - name: Install npm
         run: |
-          bun install --frozen-lockfile
+          bun install --frozen-lockfile --ignore-scripts
           echo "$PWD/node_modules/.bin" >> "$GITHUB_PATH"
-      - name: Record versions
-        run: echo "- Node $(node --version), npm $(npm --version), Bun $(bun --version)" >> "$GITHUB_STEP_SUMMARY"
-      # A preview's number exists only in this runner and is never committed.
-      - name: Set the version
-        env:
-          VERSION: ${{ needs.plan.outputs.version }}
-        run: npm pkg set version="$VERSION"
-      # Add the build here if the package has one (bun run build).
+      - name: Download the tarball
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: package
+          path: ${{ runner.temp }}/pack
       - name: Publish
         id: publish
         env:
           CHANNEL: ${{ needs.plan.outputs.channel }}
+          TARBALL: ${{ needs.plan.outputs.tarball }}
         run: |
-          npm publish --access public --tag "$CHANNEL"
+          npm publish "$RUNNER_TEMP/pack/$TARBALL" --access public --tag "$CHANNEL" --ignore-scripts
           echo "published=true" >> "$GITHUB_OUTPUT"
       # `next` has no line of its own: a fix lands on main and ships in the
-      # next release, so `next` must never point below `latest`. The version
-      # is published by now, so a re-dispatch stops at "already published";
-      # the summary names the command that finishes the job, and the release
-      # job still runs.
+      # next release, so `next` never points below `latest`. Nothing after a
+      # publish can be redone by a re-dispatch ("already published"), so this
+      # idempotent call is tried three times before the summary names the
+      # command that finishes the job; the release job runs either way.
       - name: Move the other dist-tags
         if: ${{ needs.plan.outputs.also-tag != '' }}
         env:
@@ -220,12 +256,18 @@ jobs:
           failed=()
           IFS=',' read -r -a tags <<< "$ALSO_TAG"
           for tag in "${tags[@]}"; do
-            npm dist-tag add "$NAME@$VERSION" "$tag" || failed+=("$tag")
+            moved=false
+            for attempt in 1 2 3; do
+              if npm dist-tag add "$NAME@$VERSION" "$tag"; then moved=true; break; fi
+              [ "$attempt" -eq 3 ] || sleep $((attempt * 10))
+            done
+            [ "$moved" = true ] || failed+=("$tag")
           done
           if [ "${#failed[@]}" -gt 0 ]; then
             {
               echo "## Published, but a dist-tag did not move"
-              echo "\`$NAME@$VERSION\` is published. From a shell with publish rights:"
+              echo "\`$NAME@$VERSION\` is published. From a shell with publish rights"
+              echo "(add --otp=<code> once the package disallows tokens):"
               echo '```sh'
               for tag in "${failed[@]}"; do echo "npm dist-tag add $NAME@$VERSION $tag"; done
               echo '```'
@@ -258,6 +300,8 @@ jobs:
       # Notes are the CHANGELOG section. With immutable releases on, a release
       # that carries assets is created with --draft, the assets uploaded, then
       # published (gh release edit --draft=false); this one has none.
+      # Creating a release is not idempotent: before trying again, a release
+      # that already exists for this tag at this commit counts as done.
       - name: Create the release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -265,8 +309,21 @@ jobs:
           VERSION: ${{ needs.plan.outputs.version }}
         run: |
           bun scripts/release-plan.ts notes "$VERSION" > "$RUNNER_TEMP/notes.md"
-          if ! gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
-            --title "$TAG" --notes-file "$RUNNER_TEMP/notes.md"; then
+          created=false
+          for attempt in 1 2 3; do
+            if gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+              --title "$TAG" --notes-file "$RUNNER_TEMP/notes.md"; then
+              created=true
+              break
+            fi
+            target=$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG" --jq .target_commitish 2> /dev/null || true)
+            if [ "$target" = "$GITHUB_SHA" ]; then
+              created=true
+              break
+            fi
+            [ "$attempt" -eq 3 ] || sleep $((attempt * 10))
+          done
+          if [ "$created" != true ]; then
             {
               echo "## Published to npm, but no GitHub Release"
               echo "From a shell on this commit:"
