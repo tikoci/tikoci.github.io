@@ -144,8 +144,9 @@ skills/tikoci-house/references/writing-house-skills.md before adding or
 changing one.
 
 `skills/tikoci-crossref/SKILL.md` is generated: run `bun run generate:crossref`
-after changing `owns`, `publishedData`, `category`, `RELATIONSHIPS` or
-`CROSSREF_HEADLINES` in `data/repo-config.ts`, a homepage section title,
+after changing `owns`, `publishedData`, `reference`, `category`,
+`crossrefGroup`, `RELATIONSHIPS`, `CROSSREF_HEADLINES` or
+`CROSSREF_EXTRA_SECTIONS` in `data/repo-config.ts`, a homepage section title,
 `SITE_TOOLS` in `src/shared.js`, or any skill's description,
 whose final "Use when" clause feeds its task table. `test/house-crossref.test.js`
 fails when the file is stale. It reads authored config only, never snapshots.

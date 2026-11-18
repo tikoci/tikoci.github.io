@@ -3,7 +3,7 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "nod
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { HOMEPAGE_SECTIONS } from "../data/homepage-config";
-import { CROSSREF_HEADLINES, RELATIONSHIPS, REPO_OVERRIDES } from "../data/repo-config";
+import { CROSSREF_EXTRA_SECTIONS, CROSSREF_HEADLINES, RELATIONSHIPS, REPO_OVERRIDES } from "../data/repo-config";
 import { CROSSREF_PATH, cell, renderCrossref, siteTools, taskClause, verifiedUses } from "../scripts/generate-crossref";
 
 test("the committed tikoci-crossref skill is current (run `bun run generate:crossref`)", () => {
@@ -71,6 +71,21 @@ test("published data URLs are absolute, and only a <version> placeholder is allo
             expect(file.url, repo).toMatch(/^https:\/\//);
             expect(file.url.replaceAll("<version>", ""), repo).not.toMatch(/[<>]/);
             expect(file.holds.trim(), repo).not.toBe("");
+        }
+    }
+});
+
+test("crossref groups and reference paths are well formed", () => {
+    const groups = new Set([
+        ...HOMEPAGE_SECTIONS.map(section => section.mapCategory).filter(Boolean),
+        ...CROSSREF_EXTRA_SECTIONS.map(section => section.id),
+    ]);
+    for (const [repo, override] of Object.entries(REPO_OVERRIDES)) {
+        if (override.crossrefGroup) expect(groups.has(override.crossrefGroup), `${repo}: ${override.crossrefGroup}`).toBe(true);
+        for (const ref of override.reference ?? []) {
+            expect(ref.path, repo).toMatch(/^[^/]/);
+            expect(ref.path.split("/"), repo).not.toContain("..");
+            expect(ref.holds.trim(), repo).not.toBe("");
         }
     }
 });

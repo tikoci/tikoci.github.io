@@ -24,7 +24,8 @@ and a test there fails when this file is stale.
 - **Do not restate this map** in an `AGENTS.md`, `CLAUDE.md` or user-level
   notes. A missing or wrong row is a PR against
   [`data/repo-config.ts`](https://github.com/tikoci/tikoci.github.io/blob/main/data/repo-config.ts):
-  `owns`, `category` and `publishedData` for a repo, `RELATIONSHIPS` with a
+  `owns`, `category`, `crossrefGroup`, `reference` and `publishedData` for a
+  repo, `RELATIONSHIPS` with a
   `verifiedNote` for a dependency, `CROSSREF_HEADLINES` for the description;
   the web tools come from `SITE_TOOLS` in `src/shared.js`.
 - **Machine facts stay local**: where checkouts live and what is registered
@@ -34,7 +35,7 @@ and a test there fails when this file is stale.
 
 ## Repos
 
-Public repos with an entry in `data/repo-config.ts`, grouped as on
+Public repos with an entry in `data/repo-config.ts`, grouped mostly as on
 <https://tikoci.dev/>. The first topic is the repo's role.
 
 ### AI & Agents
@@ -53,7 +54,6 @@ Public repos with an entry in `data/repo-config.ts`, grouped as on
 | [`centrs`](https://github.com/tikoci/centrs) | RouterOS device access as a CLI and library: REST, native API, SSH, MAC-Telnet, MNDP; checking a RouterOS command before it runs (`centrs explain`); the WinBox address book (CDB) and router credentials | npm `@tikoci/centrs` |
 | [`donny`](https://github.com/tikoci/donny) | The Dude database (`dude.db`) | - |
 | [`lsp-routeros-ts`](https://github.com/tikoci/lsp-routeros-ts) | the RouterOS script language server (LSP); a RouterOS script corpus (`test-data/corpus.sqlite`) | npm `@tikoci/routeroslsp`, VS Code `TIKOCI.lsp-routeros-ts` |
-| [`m2ir`](https://github.com/tikoci/m2ir) | RouterOS binary protocols and formats as a YAML schema: M2 (`nv::message`), WinBox, CDB, MNDP, RoMON, the Dude store | - |
 | [`vscode-tikbook`](https://github.com/tikoci/vscode-tikbook) | VS Code notebooks for RouterOS scripts; `/app` YAML editing in VS Code | VS Code `TIKOCI.tikbook` |
 | [`winbox-deb`](https://github.com/tikoci/winbox-deb) | the WinBox 4 Debian package | - |
 
@@ -61,6 +61,7 @@ Public repos with an entry in `data/repo-config.ts`, grouped as on
 
 | Repo | Place to look for | Packages |
 | --- | --- | --- |
+| [`enbeep`](https://github.com/tikoci/enbeep) | a web page that decodes a router's MAC and IP from its beeper (experiment) | - |
 | [`restraml`](https://github.com/tikoci/restraml) | RouterOS command trees per version (`inspect.json`); RAML and OpenAPI schemas for the REST API; `/app` YAML JSON schemas; web tools: command lookup, schema diff, API explorer, `/app` editor | - |
 
 ### Virtualization & CHR
@@ -81,19 +82,40 @@ Public repos with an entry in `data/repo-config.ts`, grouped as on
 | [`cligames`](https://github.com/tikoci/cligames) | CLI games over telnet in a container | Docker Hub `ammo74/cligames` |
 | [`make.d`](https://github.com/tikoci/make.d) | an Alpine `/container` base managed by `make` | Docker Hub `ammo74/make.d`, Docker Hub `ammo74/make.d-max` |
 | [`netinstall`](https://github.com/tikoci/netinstall) | netinstall in a `/container` or with `make` | Docker Hub `ammo74/netinstall` |
+| [`netserver`](https://github.com/tikoci/netserver) | netperf's `netserver` for Flent speed tests, as a container | - |
 | [`nginx`](https://github.com/tikoci/nginx) | an nginx container with CORS and X.509 | - |
 | [`serial2http`](https://github.com/tikoci/serial2http) | a serial port over HTTP (RFC 2217) container | Docker Hub `ammo74/serial2http` |
 | [`traefik-wabt`](https://github.com/tikoci/traefik-wabt) | a Traefik container for Wasm plugin experiments | - |
 | [`traefik-wasm-grain`](https://github.com/tikoci/traefik-wasm-grain) | a Traefik Wasm plugin written in Grain | - |
 | [`wargames`](https://github.com/tikoci/wargames) | the WarGames simulator in a container | - |
 
-### RouterOS Scripts
+### RouterOS internals
+
+Reference repos for how RouterOS works inside, then the research, corpora, examples and protocol notes kept in other repos.
 
 | Repo | Place to look for | Packages |
 | --- | --- | --- |
-| [`enbeep`](https://github.com/tikoci/enbeep) | announcing a router's MAC and IP through its beeper (experiment) | - |
+| [`m2ir`](https://github.com/tikoci/m2ir) | RouterOS binary protocols and formats as a YAML schema: M2 (`nv::message`), WinBox, CDB, MNDP, RoMON, the Dude store | - |
 | [`mikrotik-gpl`](https://github.com/tikoci/mikrotik-gpl) | RouterOS GPL source requests and snapshots | - |
-| [`netserver`](https://github.com/tikoci/netserver) | netperf's `netserver` for Flent speed tests | - |
+
+Research, corpora, examples and protocol notes in other repos:
+
+| Where | Holds |
+| --- | --- |
+| [`bench-routeros-tools/REPORT.md`](https://github.com/tikoci/bench-routeros-tools/blob/HEAD/REPORT.md) | Benchmark results across MCPs, skills and retrieval. |
+| [`centrs/commands/`](https://github.com/tikoci/centrs/tree/HEAD/commands/) | Each command's executable spec: a README with protocol notes (MAC-Telnet, btest, MNDP, WinBox CDB) and examples mapped to tests. |
+| [`centrs/docs/MATRIX.md`](https://github.com/tikoci/centrs/blob/HEAD/docs/MATRIX.md) | Capability status per command and protocol. |
+| [`lsp-routeros-ts/test-data/`](https://github.com/tikoci/lsp-routeros-ts/tree/HEAD/test-data/) | RouterOS script corpus (forum, eworm, tangentsoft and TikBook scripts, live captures), indexed into `corpus.sqlite`; contract in `docs/corpus.md`. |
+| [`lsp-routeros-ts/docs/syntax-inspection-map.md`](https://github.com/tikoci/lsp-routeros-ts/blob/HEAD/docs/syntax-inspection-map.md) | Which live probe (`/console/inspect` highlight, completion, `:parse`) answers which syntax question. |
+| [`lsp-routeros-ts/docs/parseil-format.md`](https://github.com/tikoci/lsp-routeros-ts/blob/HEAD/docs/parseil-format.md) | The `:parse` intermediate language; `highlight-format.md` beside it covers highlight tokens. |
+| [`mikropkl/Lab/`](https://github.com/tikoci/mikropkl/tree/HEAD/Lab/) | QEMU and CHR experiments: guest agent, virtio-9p, arm64, direct kernel boot, extra NICs, NVRAM. |
+| [`quickchr/examples/`](https://github.com/tikoci/quickchr/tree/HEAD/examples/) | Runnable CLI and library examples against real CHRs: CMR, device-mode, Dude, MNDP, file transfer, version matrix (`COVERAGE.md` maps them). |
+| [`restraml/docs/deep-inspect.md`](https://github.com/tikoci/restraml/blob/HEAD/docs/deep-inspect.md) | How the per-architecture deep-inspect trees are built, and what was learned shipping them. |
+| [`restraml/docs/mikrotik-bug-native-api-inspect.md`](https://github.com/tikoci/restraml/blob/HEAD/docs/mikrotik-bug-native-api-inspect.md) | `/console/inspect` completion non-determinism over the native API, with the workaround. |
+| [`rosetta/briefings/`](https://github.com/tikoci/rosetta/tree/HEAD/briefings/) | Grounded research notes and decision memos. |
+| [`routeros-skills/routeros-proprietary-protocols/SKILL.md`](https://github.com/tikoci/routeros-skills/blob/HEAD/routeros-proprietary-protocols/SKILL.md) | Index of MikroTik protocols and file formats, by port, EtherType or artifact, with known docs and implementations. |
+| [`vscode-tikbook/test-corpus/discourse-bookmarks/`](https://github.com/tikoci/vscode-tikbook/tree/HEAD/test-corpus/discourse-bookmarks/) | RouterOS scripts collected from MikroTik forum posts. |
+| [`vscode-tikbook/docs/research/`](https://github.com/tikoci/vscode-tikbook/tree/HEAD/docs/research/) | Research notes: `/console/inspect` API patterns, CHR in VS Code, restraml integration. |
 
 Not listed: [tikoci.github.io](https://github.com/tikoci/tikoci.github.io), the source of this skill,
 which owns <https://tikoci.dev>, the house skills, and the tools and data below.

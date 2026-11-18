@@ -11,7 +11,9 @@
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { HOMEPAGE_SECTIONS } from "../data/homepage-config";
-import { CROSSREF_HEADLINES, DASHBOARD_REPOS, RELATIONSHIPS, REPO_OVERRIDES, type Relationship } from "../data/repo-config";
+import {
+    CROSSREF_EXTRA_SECTIONS, CROSSREF_HEADLINES, DASHBOARD_REPOS, RELATIONSHIPS, REPO_OVERRIDES, type Relationship, type RepoOverride,
+} from "../data/repo-config";
 import { checkSkills, SKILLS_DIR } from "./check-skills";
 
 export const CROSSREF_NAME = "tikoci-crossref";
@@ -85,29 +87,50 @@ function description(): string {
         + "Use when a task crosses repos, or to find the repo or house skill that owns a topic.";
 }
 
+/** The crossref section a repo is listed under. */
+const groupOf = (override: RepoOverride) => override.crossrefGroup ?? override.category;
+
+/** Research, corpora and examples kept inside repos, linked on their default branch. */
+function referenceTable(): string[] {
+    const rows = Object.entries(REPO_OVERRIDES)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .flatMap(([repo, override]) => (override.reference ?? []).map(ref => {
+            const kind = ref.path.endsWith("/") ? "tree" : "blob";
+            const url = `${GITHUB}/${repo}/${kind}/HEAD/${ref.path.split("/").map(encodeURIComponent).join("/")}`;
+            return `| [\`${repo}/${ref.path}\`](${url}) | ${cell(ref.holds)} |`;
+        }));
+    if (!rows.length) return [];
+    return ["Research, corpora, examples and protocol notes in other repos:", "", "| Where | Holds |", "| --- | --- |", ...rows, ""];
+}
+
 function repoSections(): string[] {
     const repos = Object.entries(REPO_OVERRIDES).filter(([, override]) => override.owns?.length);
-    const categories = HOMEPAGE_SECTIONS.filter(section => section.mapCategory);
-    const known = new Set(categories.map(section => section.mapCategory));
-    const stray = repos.filter(([, override]) => !override.category || !known.has(override.category)).map(([repo]) => repo);
-    if (stray.length) throw new Error(`repos with owns need a category from HOMEPAGE_SECTIONS: ${stray.join(", ")}`);
+    const sections = [
+        ...HOMEPAGE_SECTIONS.flatMap(section => (section.mapCategory
+            ? [{ id: section.mapCategory, title: decodeEntities(section.title), intro: "", extra: false }]
+            : [])),
+        ...CROSSREF_EXTRA_SECTIONS.map(section => ({ ...section, extra: true })),
+    ];
+    const known = new Set(sections.map(section => section.id));
+    const stray = repos.filter(([, override]) => !known.has(groupOf(override) ?? "")).map(([repo]) => repo);
+    if (stray.length) throw new Error(`repos with owns need a homepage category or a CROSSREF_EXTRA_SECTIONS group: ${stray.join(", ")}`);
 
-    return categories.flatMap(section => {
+    return sections.flatMap(section => {
         const rows = repos
-            .filter(([, override]) => override.category === section.mapCategory)
+            .filter(([, override]) => groupOf(override) === section.id)
             .sort(([a], [b]) => a.localeCompare(b))
             .map(([repo, override]) => {
                 const shipped = packages(repo);
                 return `| ${repoLink(repo)} | ${cell((override.owns ?? []).join("; "))} | ${shipped.length ? cell(shipped.join(", ")) : "-"} |`;
             });
-        if (!rows.length) return [];
+        const references = section.id === "internals" ? referenceTable() : [];
+        if (!rows.length && !references.length) return [];
         return [
-            `### ${decodeEntities(section.title)}`,
+            `### ${section.title}`,
             "",
-            "| Repo | Place to look for | Packages |",
-            "| --- | --- | --- |",
-            ...rows,
-            "",
+            ...(section.intro ? [section.intro, ""] : []),
+            ...(rows.length ? ["| Repo | Place to look for | Packages |", "| --- | --- | --- |", ...rows, ""] : []),
+            ...references,
         ];
     });
 }
@@ -180,7 +203,8 @@ export function renderCrossref(skillsDir = SKILLS_DIR): string {
         "- **Do not restate this map** in an `AGENTS.md`, `CLAUDE.md` or user-level",
         "  notes. A missing or wrong row is a PR against",
         `  [\`data/repo-config.ts\`](${SOURCE}/blob/main/data/repo-config.ts):`,
-        "  `owns`, `category` and `publishedData` for a repo, `RELATIONSHIPS` with a",
+        "  `owns`, `category`, `crossrefGroup`, `reference` and `publishedData` for a",
+        "  repo, `RELATIONSHIPS` with a",
         "  `verifiedNote` for a dependency, `CROSSREF_HEADLINES` for the description;",
         "  the web tools come from `SITE_TOOLS` in `src/shared.js`.",
         "- **Machine facts stay local**: where checkouts live and what is registered",
@@ -190,7 +214,7 @@ export function renderCrossref(skillsDir = SKILLS_DIR): string {
         "",
         "## Repos",
         "",
-        "Public repos with an entry in `data/repo-config.ts`, grouped as on",
+        "Public repos with an entry in `data/repo-config.ts`, grouped mostly as on",
         "<https://tikoci.dev/>. The first topic is the repo's role.",
         "",
         ...repoSections(),

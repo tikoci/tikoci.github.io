@@ -41,6 +41,13 @@ export interface RepoOverride {
      *  stands for a RouterOS version. Feeds the tikoci-crossref "Published data"
      *  table. Not shown on the site. */
     publishedData?: { url: string; holds: string }[];
+    /** Research, corpora, examples and protocol notes inside the repo, as paths
+     *  on its default branch (a directory ends with "/"). Listed under "RouterOS
+     *  internals" in tikoci-crossref. Not shown on the site. */
+    reference?: { path: string; holds: string }[];
+    /** tikoci-crossref section when it differs from `category`: a homepage
+     *  category or a CROSSREF_EXTRA_SECTIONS id. The site keeps `category`. */
+    crossrefGroup?: string;
 }
 
 /**
@@ -122,6 +129,9 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
             "declarative RouterOS VMs from pkl manifests (UTM, QEMU)",
             "CHR VM bundles per RouterOS version",
         ],
+        reference: [
+            { path: "Lab/", holds: "QEMU and CHR experiments: guest agent, virtio-9p, arm64, direct kernel boot, extra NICs, NVRAM." },
+        ],
         bonusDocs: ["Files/UTM.md", "Files/QEMU.md"],
         category: "virtualization",
         viewableFiles: ["Files/UTM.md", "Files/QEMU.md"],
@@ -143,6 +153,9 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
             "CHR test labs: networking, provisioning, licenses",
             "the RouterOS versions tested on CHR",
         ],
+        reference: [
+            { path: "examples/", holds: "Runnable CLI and library examples against real CHRs: CMR, device-mode, Dude, MNDP, file transfer, version matrix (`COVERAGE.md` maps them)." },
+        ],
         category: "virtualization",
         externalLinks: [
             { label: "GitHub", url: "https://github.com/tikoci/quickchr", style: "primary", description: "Source, releases, and docs" },
@@ -163,6 +176,10 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
             "RAML and OpenAPI schemas for the REST API",
             "`/app` YAML JSON schemas",
             "web tools: command lookup, schema diff, API explorer, `/app` editor",
+        ],
+        reference: [
+            { path: "docs/deep-inspect.md", holds: "How the per-architecture deep-inspect trees are built, and what was learned shipping them." },
+            { path: "docs/mikrotik-bug-native-api-inspect.md", holds: "`/console/inspect` completion non-determinism over the native API, with the workaround." },
         ],
         publishedData: [
             { url: "https://tikoci.github.io/restraml/docs-index.json", holds: "Index of the published files, with `latestVersion` and `latestStableVersion`." },
@@ -187,6 +204,9 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
             "RouterOS documentation search as an MCP server (SQLite FTS)",
             "the `ros-help.db` docs database: pages, commands, devices, changelogs",
         ],
+        reference: [
+            { path: "briefings/", holds: "Grounded research notes and decision memos." },
+        ],
         category: "ai",
         externalLinks: [
             { label: "Latest Release", url: "https://github.com/tikoci/rosetta/releases/latest", style: "primary", description: "Current build & changelog" },
@@ -196,6 +216,9 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
     "routeros-skills": {
         owns: [
             "public `routeros-*` agent skills: using RouterOS and tikoci tools",
+        ],
+        reference: [
+            { path: "routeros-proprietary-protocols/SKILL.md", holds: "Index of MikroTik protocols and file formats, by port, EtherType or artifact, with known docs and implementations." },
         ],
         category: "ai",
         externalLinks: [
@@ -218,6 +241,11 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
             "the RouterOS script language server (LSP)",
             "a RouterOS script corpus (`test-data/corpus.sqlite`)",
         ],
+        reference: [
+            { path: "test-data/", holds: "RouterOS script corpus (forum, eworm, tangentsoft and TikBook scripts, live captures), indexed into `corpus.sqlite`; contract in `docs/corpus.md`." },
+            { path: "docs/syntax-inspection-map.md", holds: "Which live probe (`/console/inspect` highlight, completion, `:parse`) answers which syntax question." },
+            { path: "docs/parseil-format.md", holds: "The `:parse` intermediate language; `highlight-format.md` beside it covers highlight tokens." },
+        ],
         category: "dev-tools",
         metaDescription: "RouterOS Language Server (LSP) for VS Code, NeoVim, and other editors — syntax checking and accurate code completions for MikroTik scripting.",
         vscodeExtensionId: "TIKOCI.lsp-routeros-ts",
@@ -226,6 +254,10 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
         owns: [
             "VS Code notebooks for RouterOS scripts",
             "`/app` YAML editing in VS Code",
+        ],
+        reference: [
+            { path: "test-corpus/discourse-bookmarks/", holds: "RouterOS scripts collected from MikroTik forum posts." },
+            { path: "docs/research/", holds: "Research notes: `/console/inspect` API patterns, CHR in VS Code, restraml integration." },
         ],
         category: "dev-tools",
         metaDescription: "TikBook adds MikroTik RouterOS notebook support to VS Code — write, run, and share RouterOS scripts as interactive cells from your editor.",
@@ -270,6 +302,7 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
             "RouterOS GPL source requests and snapshots",
         ],
         category: "scripts",
+        crossrefGroup: "internals",
     },
     "chr-utm": {
         owns: [
@@ -302,9 +335,10 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
     },
     netserver: {
         owns: [
-            "netperf's `netserver` for Flent speed tests",
+            "netperf's `netserver` for Flent speed tests, as a container",
         ],
         category: "scripts",
+        crossrefGroup: "containers",
     },
     adventure: {
         owns: [
@@ -324,12 +358,19 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
             "checking a RouterOS command before it runs (`centrs explain`)",
             "the WinBox address book (CDB) and router credentials",
         ],
+        reference: [
+            { path: "commands/", holds: "Each command's executable spec: a README with protocol notes (MAC-Telnet, btest, MNDP, WinBox CDB) and examples mapped to tests." },
+            { path: "docs/MATRIX.md", holds: "Capability status per command and protocol." },
+        ],
         category: "dev-tools",
         tagline: "Multi-protocol RouterOS API library for TypeScript with built-in CLI",
     },
     "bench-routeros-tools": {
         owns: [
             "benchmarks of agent RouterOS tooling: MCPs, skills, retrieval",
+        ],
+        reference: [
+            { path: "REPORT.md", holds: "Benchmark results across MCPs, skills and retrieval." },
         ],
         category: "ai",
         tagline: "Benchmark AI agent RouterOS support across MCPs, skills, and retrieval",
@@ -342,16 +383,29 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
             "RouterOS binary protocols and formats as a YAML schema: M2 (`nv::message`), WinBox, CDB, MNDP, RoMON, the Dude store",
         ],
         category: "dev-tools",
+        crossrefGroup: "internals",
     },
     "app-t3code": {
         owns: ["a RouterOS `/app` container for T3 Code"],
         category: "containers",
     },
     enbeep: {
-        owns: ["announcing a router's MAC and IP through its beeper (experiment)"],
-        category: "scripts",
+        owns: ["a web page that decodes a router's MAC and IP from its beeper (experiment)"],
+        category: "web-tools",
     },
 };
+
+/**
+ * tikoci-crossref sections beyond the homepage categories, after them in this
+ * order. A repo joins one through `crossrefGroup`.
+ */
+export const CROSSREF_EXTRA_SECTIONS: { id: string; title: string; intro: string }[] = [
+    {
+        id: "internals",
+        title: "RouterOS internals",
+        intro: "Reference repos for how RouterOS works inside, then the research, corpora, examples and protocol notes kept in other repos.",
+    },
+];
 
 /**
  * Topic → repo pairs the tikoci-crossref description names, in order, so the
