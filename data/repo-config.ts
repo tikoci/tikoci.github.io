@@ -37,6 +37,10 @@ export interface RepoOverride {
      *  artifacts, formats). Feeds the generated tikoci-crossref house skill;
      *  the first entry is the repo's role. Not shown on the site. */
     owns?: string[];
+    /** Files the repo publishes at stable URLs for other code to read; `<version>`
+     *  stands for a RouterOS version. Feeds the tikoci-crossref "Published data"
+     *  table. Not shown on the site. */
+    publishedData?: { url: string; holds: string }[];
 }
 
 /**
@@ -159,6 +163,14 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
             "RAML and OpenAPI schemas for the REST API",
             "`/app` YAML JSON schemas",
             "web tools: command lookup, schema diff, API explorer, `/app` editor",
+        ],
+        publishedData: [
+            { url: "https://tikoci.github.io/restraml/docs-index.json", holds: "Index of the published files, with `latestVersion` and `latestStableVersion`." },
+            { url: "https://tikoci.github.io/restraml/<version>/inspect.json", holds: "Command tree for the base packages; `<version>/extra/` has the same files for all x86 extra packages." },
+            { url: "https://tikoci.github.io/restraml/<version>/deep-inspect.json", holds: "Command tree enriched with completion metadata (format: `deep-inspect.schema.json`); `extra/` adds per-architecture trees and their diff." },
+            { url: "https://tikoci.github.io/restraml/<version>/schema.raml", holds: "RAML 1.0 schema of the REST API; `openapi.json` beside it is OpenAPI 3.0 where generated." },
+            { url: "https://tikoci.github.io/restraml/<version>/app.json", holds: "The built-in `/app` list as the router reports it." },
+            { url: "https://tikoci.github.io/restraml/routeros-app-yaml-schema.latest.json", holds: "`/app` YAML JSON schema (and `-store-schema`, `.editor.json` variants); per version under `<version>/`." },
         ],
         category: "web-tools",
         externalLinks: [

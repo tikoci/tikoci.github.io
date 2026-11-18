@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { HOMEPAGE_SECTIONS } from "../data/homepage-config";
 import { CROSSREF_HEADLINES, RELATIONSHIPS, REPO_OVERRIDES } from "../data/repo-config";
-import { CROSSREF_PATH, cell, renderCrossref, taskClause, verifiedUses } from "../scripts/generate-crossref";
+import { CROSSREF_PATH, cell, renderCrossref, siteTools, taskClause, verifiedUses } from "../scripts/generate-crossref";
 
 test("the committed tikoci-crossref skill is current (run `bun run generate:crossref`)", () => {
     expect(readFileSync(CROSSREF_PATH, "utf-8")).toBe(renderCrossref());
@@ -52,5 +52,25 @@ test("a multiline description stays one table row with its skill link", () => {
         expect(rows).toEqual(["| checking pipes \\| and wrapped clauses | [`tikoci-probe`](https://tikoci.dev/house/skills/tikoci-probe/SKILL.md) |"]);
     } finally {
         rmSync(root, { recursive: true, force: true });
+    }
+});
+
+test("the web tools table follows the Tools menu and refuses a reshaped entry", () => {
+    const tools = siteTools();
+    expect(tools.length).toBeGreaterThan(5);
+    expect(tools.find(tool => tool.label === "Command Lookup")?.href).toBe("https://tikoci.github.io/restraml/lookup.html");
+    const menu = (entry) => `x\nconst SITE_TOOLS = [\n    { label: 'A', href: '/a.html' },\n${entry}\n];\n`;
+    expect(siteTools(menu("    { label: 'B', href: '/b.html' },"))).toEqual([{ label: "A", href: "/a.html" }, { label: "B", href: "/b.html" }]);
+    expect(() => siteTools(menu("    { label: 'B', href: '/b.html', icon: 'x' },"))).toThrow(/unexpected SITE_TOOLS entry/);
+    expect(() => siteTools("const TOOLS = [];")).toThrow(/SITE_TOOLS array not found/);
+});
+
+test("published data URLs are absolute, and only a <version> placeholder is allowed", () => {
+    for (const [repo, override] of Object.entries(REPO_OVERRIDES)) {
+        for (const file of override.publishedData ?? []) {
+            expect(file.url, repo).toMatch(/^https:\/\//);
+            expect(file.url.replaceAll("<version>", ""), repo).not.toMatch(/[<>]/);
+            expect(file.holds.trim(), repo).not.toBe("");
+        }
     }
 });

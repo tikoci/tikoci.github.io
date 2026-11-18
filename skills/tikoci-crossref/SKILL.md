@@ -24,8 +24,9 @@ and a test there fails when this file is stale.
 - **Do not restate this map** in an `AGENTS.md`, `CLAUDE.md` or user-level
   notes. A missing or wrong row is a PR against
   [`data/repo-config.ts`](https://github.com/tikoci/tikoci.github.io/blob/main/data/repo-config.ts):
-  `owns` and `category` for a repo, `RELATIONSHIPS` with a `verifiedNote` for a
-  dependency, `CROSSREF_HEADLINES` for the description.
+  `owns`, `category` and `publishedData` for a repo, `RELATIONSHIPS` with a
+  `verifiedNote` for a dependency, `CROSSREF_HEADLINES` for the description;
+  the web tools come from `SITE_TOOLS` in `src/shared.js`.
 - **Machine facts stay local**: where checkouts live and what is registered
   on one machine belong in the operator's agent notes ([tikoci-house](https://tikoci.dev/house/skills/tikoci-house/SKILL.md)).
 - **Using the tools rather than developing them?** Start at
@@ -95,7 +96,7 @@ Public repos with an entry in `data/repo-config.ts`, grouped as on
 | [`netserver`](https://github.com/tikoci/netserver) | netperf's `netserver` for Flent speed tests | - |
 
 Not listed: [tikoci.github.io](https://github.com/tikoci/tikoci.github.io), the source of this skill,
-which owns <https://tikoci.dev>, the house skills and the org datasets below.
+which owns <https://tikoci.dev>, the house skills, and the tools and data below.
 
 ## Dependencies
 
@@ -150,17 +151,45 @@ Each row is the "Use when" clause of a [house skill](https://tikoci.dev/house/).
 | writing tests, mocks or test tiers | [`tikoci-testing`](https://tikoci.dev/house/skills/tikoci-testing/SKILL.md) |
 | choosing a runtime, language, script, task runner or dev tool | [`tikoci-toolchain`](https://tikoci.dev/house/skills/tikoci-toolchain/SKILL.md) |
 
-## Org metadata
+## Web tools
 
-Collected by tikoci.github.io (hourly; the Pages inventory weekly) and
-published at durable URLs:
+The Tools menu on every tikoci.dev page (`SITE_TOOLS` in tikoci.github.io's
+`src/shared.js`). Browser-only pages that may fetch live data when opened;
+change a tool in the repo that serves it.
 
-| URL | Holds |
-| --- | --- |
-| <https://tikoci.dev/data/repos.json> | Public repos with description, stars, topics and category. |
-| <https://tikoci.dev/data/dashboard.json> | Per-repo CI, npm, release and RouterOS version signals, findings, and these relationships with their readiness ([contract](https://tikoci.dev/dashboard-schema.md)). |
-| <https://tikoci.dev/metadata/index.json> | Discovery for the independent datasets, such as the GitHub Pages inventory. |
-| <https://tikoci.dev/house/index.json> | The house skills and their files. |
+| Tool | URL | Repo |
+| --- | --- | --- |
+| Project Map | <https://tikoci.dev/project-map.html> | [`tikoci.github.io`](https://github.com/tikoci/tikoci.github.io) |
+| Status | <https://tikoci.dev/status.html> | [`tikoci.github.io`](https://github.com/tikoci/tikoci.github.io) |
+| CHR Images | <https://tikoci.dev/chr-images.html> | [`tikoci.github.io`](https://github.com/tikoci/tikoci.github.io) |
+| curl2rsc | <https://tikoci.dev/curl2rsc.html> | [`tikoci.github.io`](https://github.com/tikoci/tikoci.github.io) |
+| Netinstall | <https://tikoci.github.io/p/netinstall> | [`tikoci.github.io`](https://github.com/tikoci/tikoci.github.io) |
+| API Explorer | <https://tikoci.github.io/restraml/openapi.html> | [`restraml`](https://github.com/tikoci/restraml) |
+| /app Editor | <https://tikoci.github.io/restraml/tikapp.html> | [`restraml`](https://github.com/tikoci/restraml) |
+| Schema Diff | <https://tikoci.github.io/restraml/diff.html> | [`restraml`](https://github.com/tikoci/restraml) |
+| Command Lookup | <https://tikoci.github.io/restraml/lookup.html> | [`restraml`](https://github.com/tikoci/restraml) |
+| Schema Downloads | <https://tikoci.github.io/restraml> | [`restraml`](https://github.com/tikoci/restraml) |
+| RouterOS KB MCP | <https://tikoci.dev/p/rosetta> | [`tikoci.github.io`](https://github.com/tikoci/tikoci.github.io) |
+| For Agents Only | <https://tikoci.dev/llm.html> | [`tikoci.github.io`](https://github.com/tikoci/tikoci.github.io) |
+
+## Published data
+
+Files other code reads, at durable URLs. tikoci.github.io's are collected
+hourly (the Pages inventory weekly); restraml's are built per RouterOS
+version. Each is a contract with the repos that read it.
+
+| URL | Holds | Repo |
+| --- | --- | --- |
+| <https://tikoci.dev/data/repos.json> | Public repos with description, stars, topics and category. | [`tikoci.github.io`](https://github.com/tikoci/tikoci.github.io) |
+| <https://tikoci.dev/data/dashboard.json> | Per-repo CI, npm, release and RouterOS version signals, findings, and these relationships with their readiness ([contract](https://tikoci.dev/dashboard-schema.md)). | [`tikoci.github.io`](https://github.com/tikoci/tikoci.github.io) |
+| <https://tikoci.dev/metadata/index.json> | Discovery for the independent datasets, such as the GitHub Pages inventory. | [`tikoci.github.io`](https://github.com/tikoci/tikoci.github.io) |
+| <https://tikoci.dev/house/index.json> | The house skills and their files. | [`tikoci.github.io`](https://github.com/tikoci/tikoci.github.io) |
+| <https://tikoci.github.io/restraml/docs-index.json> | Index of the published files, with `latestVersion` and `latestStableVersion`. | [`restraml`](https://github.com/tikoci/restraml) |
+| `https://tikoci.github.io/restraml/<version>/inspect.json` | Command tree for the base packages; `<version>/extra/` has the same files for all x86 extra packages. | [`restraml`](https://github.com/tikoci/restraml) |
+| `https://tikoci.github.io/restraml/<version>/deep-inspect.json` | Command tree enriched with completion metadata (format: `deep-inspect.schema.json`); `extra/` adds per-architecture trees and their diff. | [`restraml`](https://github.com/tikoci/restraml) |
+| `https://tikoci.github.io/restraml/<version>/schema.raml` | RAML 1.0 schema of the REST API; `openapi.json` beside it is OpenAPI 3.0 where generated. | [`restraml`](https://github.com/tikoci/restraml) |
+| `https://tikoci.github.io/restraml/<version>/app.json` | The built-in `/app` list as the router reports it. | [`restraml`](https://github.com/tikoci/restraml) |
+| <https://tikoci.github.io/restraml/routeros-app-yaml-schema.latest.json> | `/app` YAML JSON schema (and `-store-schema`, `.editor.json` variants); per version under `<version>/`. | [`restraml`](https://github.com/tikoci/restraml) |
 
 ## The TIKOCI look
 

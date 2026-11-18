@@ -2,7 +2,8 @@
 // Generates skills/tikoci-crossref/SKILL.md, the house map of which tikoci
 // repo owns which topic (issue #21, 3g). Inputs are authored and reviewed in
 // PRs only: data/repo-config.ts, data/homepage-config.ts (category order and
-// titles) and the other house skills' descriptions. Collected snapshots are
+// titles), the Tools menu in src/shared.js (SITE_TOOLS) and the other house
+// skills' descriptions. Collected snapshots are
 // never read, so the hourly refresh cannot make the committed file stale.
 //
 //   bun run generate:crossref           write the file
@@ -19,6 +20,32 @@ export const CROSSREF_PATH = join(SKILLS_DIR, CROSSREF_NAME, "SKILL.md");
 const HOUSE = "https://tikoci.dev/house/skills";
 const GITHUB = "https://github.com/tikoci";
 const SOURCE = `${GITHUB}/tikoci.github.io`;
+const SITE = "https://tikoci.dev";
+const SHARED_JS = join(import.meta.dirname, "..", "src", "shared.js");
+
+export interface SiteTool {
+    label: string;
+    href: string;
+}
+
+/**
+ * The Tools menu every page shows, read from SITE_TOOLS in src/shared.js (a
+ * browser script, so it is parsed rather than imported). Throws when the array
+ * or one of its entries does not have the expected `{ label: '…', href: '…' }`
+ * shape, so a reformatted menu fails the generator instead of dropping tools.
+ */
+export function siteTools(sharedJs = readFileSync(SHARED_JS, "utf-8")): SiteTool[] {
+    const block = sharedJs.match(/\nconst SITE_TOOLS = \[\n([\s\S]*?)\n\];/)?.[1];
+    if (!block) throw new Error("src/shared.js: SITE_TOOLS array not found");
+    return block.split("\n").filter(line => line.trim()).map(line => {
+        const entry = line.match(/^\s*\{ label: '([^']+)', href: '([^']+)' \},?\s*$/);
+        if (!entry) throw new Error(`src/shared.js: unexpected SITE_TOOLS entry: ${line.trim()}`);
+        return { label: entry[1], href: entry[2] };
+    });
+}
+
+/** A URL as a Markdown autolink, or as code when it holds a `<placeholder>`. */
+const urlCell = (url: string) => (url.includes("<") ? `\`${url}\`` : `<${url}>`);
 
 /** Edges the crossref lists: verified uses, where `source` provides and `target` uses. */
 export function verifiedUses(relationships: Relationship[] = RELATIONSHIPS): Relationship[] {
@@ -96,6 +123,28 @@ function dependencyTable(): string[] {
     });
 }
 
+function toolTable(): string[] {
+    return siteTools().map(tool => {
+        const url = tool.href.startsWith("/") ? `${SITE}${tool.href}` : tool.href;
+        const repo = /^https:\/\/tikoci\.(?:github\.io|dev)\/restraml(?:\/|$)/.test(url) ? "restraml" : "tikoci.github.io";
+        return `| ${cell(tool.label)} | <${url}> | ${repoLink(repo)} |`;
+    });
+}
+
+function dataTable(): string[] {
+    const org = [
+        [`${SITE}/data/repos.json`, "Public repos with description, stars, topics and category."],
+        [`${SITE}/data/dashboard.json`, `Per-repo CI, npm, release and RouterOS version signals, findings, and these relationships with their readiness ([contract](${SITE}/dashboard-schema.md)).`],
+        [`${SITE}/metadata/index.json`, "Discovery for the independent datasets, such as the GitHub Pages inventory."],
+        [`${SITE}/house/index.json`, "The house skills and their files."],
+    ].map(([url, holds]) => `| ${urlCell(url)} | ${cell(holds)} | ${repoLink("tikoci.github.io")} |`);
+    const repos = Object.entries(REPO_OVERRIDES)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .flatMap(([repo, override]) => (override.publishedData ?? [])
+            .map(file => `| ${urlCell(file.url)} | ${cell(file.holds)} | ${repoLink(repo)} |`));
+    return [...org, ...repos];
+}
+
 function taskTable(skillsDir: string): string[] {
     return checkSkills(skillsDir).skills
         .filter(skill => skill.name !== CROSSREF_NAME)
@@ -131,8 +180,9 @@ export function renderCrossref(skillsDir = SKILLS_DIR): string {
         "- **Do not restate this map** in an `AGENTS.md`, `CLAUDE.md` or user-level",
         "  notes. A missing or wrong row is a PR against",
         `  [\`data/repo-config.ts\`](${SOURCE}/blob/main/data/repo-config.ts):`,
-        "  `owns` and `category` for a repo, `RELATIONSHIPS` with a `verifiedNote` for a",
-        "  dependency, `CROSSREF_HEADLINES` for the description.",
+        "  `owns`, `category` and `publishedData` for a repo, `RELATIONSHIPS` with a",
+        "  `verifiedNote` for a dependency, `CROSSREF_HEADLINES` for the description;",
+        "  the web tools come from `SITE_TOOLS` in `src/shared.js`.",
         "- **Machine facts stay local**: where checkouts live and what is registered",
         `  on one machine belong in the operator's agent notes ([tikoci-house](${HOUSE}/tikoci-house/SKILL.md)).`,
         "- **Using the tools rather than developing them?** Start at",
@@ -145,7 +195,7 @@ export function renderCrossref(skillsDir = SKILLS_DIR): string {
         "",
         ...repoSections(),
         `Not listed: [tikoci.github.io](${SOURCE}), the source of this skill,`,
-        "which owns <https://tikoci.dev>, the house skills and the org datasets below.",
+        "which owns <https://tikoci.dev>, the house skills, and the tools and data below.",
         "",
         "## Dependencies",
         "",
@@ -170,17 +220,25 @@ export function renderCrossref(skillsDir = SKILLS_DIR): string {
         "| --- | --- |",
         ...taskTable(skillsDir),
         "",
-        "## Org metadata",
+        "## Web tools",
         "",
-        "Collected by tikoci.github.io (hourly; the Pages inventory weekly) and",
-        "published at durable URLs:",
+        "The Tools menu on every tikoci.dev page (`SITE_TOOLS` in tikoci.github.io's",
+        "`src/shared.js`). Browser-only pages that may fetch live data when opened;",
+        "change a tool in the repo that serves it.",
         "",
-        "| URL | Holds |",
-        "| --- | --- |",
-        "| <https://tikoci.dev/data/repos.json> | Public repos with description, stars, topics and category. |",
-        "| <https://tikoci.dev/data/dashboard.json> | Per-repo CI, npm, release and RouterOS version signals, findings, and these relationships with their readiness ([contract](https://tikoci.dev/dashboard-schema.md)). |",
-        "| <https://tikoci.dev/metadata/index.json> | Discovery for the independent datasets, such as the GitHub Pages inventory. |",
-        "| <https://tikoci.dev/house/index.json> | The house skills and their files. |",
+        "| Tool | URL | Repo |",
+        "| --- | --- | --- |",
+        ...toolTable(),
+        "",
+        "## Published data",
+        "",
+        "Files other code reads, at durable URLs. tikoci.github.io's are collected",
+        "hourly (the Pages inventory weekly); restraml's are built per RouterOS",
+        "version. Each is a contract with the repos that read it.",
+        "",
+        "| URL | Holds | Repo |",
+        "| --- | --- | --- |",
+        ...dataTable(),
         "",
         "## The TIKOCI look",
         "",
