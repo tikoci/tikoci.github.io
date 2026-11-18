@@ -113,9 +113,13 @@ something, move it to its proper place in the same change that relies on it.
 Facts about one operator's setup stay out of repos and skills: home paths, host
 names, CPU architecture, installed harnesses and subscriptions, connected
 machines, account names, local checkouts. They live in one user-level notes
-file, `~/.agents/AGENTS.md`, that every harness loads: `~/.claude/CLAUDE.md` is
-the one line `@~/.agents/AGENTS.md`, and `~/.codex/AGENTS.md` is a symlink to
-it. Start from [local-notes.example.md](assets/local-notes.example.md).
+file, `~/.agents/AGENTS.md`, that Claude Code and Codex both load:
+`~/.claude/CLAUDE.md` is the one line `@~/.agents/AGENTS.md`, and
+`~/.codex/AGENTS.md` is a symlink to it. Start from
+[local-notes.example.md](assets/local-notes.example.md). Check it in a fresh
+session of each harness: a custom `CODEX_HOME` or a non-empty
+`AGENTS.override.md` changes what Codex reads, and some app modes skip imports
+from outside the working directory.
 
 - **Machine facts and a pointer to the house skills, never rules.** A rule
   found there gets a house home or is dropped.

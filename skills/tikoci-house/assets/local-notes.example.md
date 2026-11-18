@@ -29,4 +29,4 @@ reachable before relying on it.
 | Name | OS, CPU | Role | Lifetime |
 | --- | --- | --- | --- |
 | `<name>` | `<OS>`, `<CPU>` | `<role, for example the main workstation>` | permanent |
-| `<name>` | RouterOS CHR with a T3 Code `/app` | test box | may fail tests or be deleted |
+| `<name>` | `<OS>`, `<CPU>` | `<role, for example a test box>` | `<may be deleted>` |
