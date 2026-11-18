@@ -77,12 +77,13 @@ const SRC_DIR = join(import.meta.dir, "..", "src");
 const registered = new Set<string>(errorCatalog.map((entry) => entry.code));
 
 test("every thrown code is registered", () => {
-  const thrown = /new MyToolError\(\s*"([A-Z0-9_]+)"/g;
+  const thrown = /new MyToolError\(\s*(["'`])([A-Z0-9_]+)\1/g;
   const missing: string[] = [];
   for (const rel of new Glob("**/*.ts").scanSync({ cwd: SRC_DIR })) {
     const text = readFileSync(join(SRC_DIR, rel), "utf8");
     for (const match of text.matchAll(thrown)) {
-      if (match[1] && !registered.has(match[1])) missing.push(`${rel}: ${match[1]}`);
+      const code = match[2];
+      if (code && !registered.has(code)) missing.push(`${rel}: ${code}`);
     }
   }
   expect(missing).toEqual([]);
