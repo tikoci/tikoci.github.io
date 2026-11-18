@@ -55,7 +55,9 @@ Related rules live elsewhere:
   differs from the committed one. Moving the pin is a reviewed change that
   regenerates everything built from it: centrs builds its explain menus
   and catalog from restraml `/console/inspect` trees pinned in
-  `scripts/restraml-trees.ts`, with census `--check` scripts in `lint:ci`.
+  `scripts/restraml-trees.ts`, and its QA workflow runs
+  `explain:menus:check` and `explain:catalog:check` (networked, so outside
+  the offline `lint:ci`).
 - **Each document versions itself.** A `schemaVersion` per document,
   independent of every other document. Additive fields are compatible;
   removing or renaming a field, or changing what it means, bumps the
@@ -126,22 +128,31 @@ and
   file is missing, `SQLITE_READONLY_DIRECTORY` on Linux in a read-only
   directory). The builder writes rollback-journal mode and renames the
   finished file into place (lsp-routeros-ts `scripts/build-corpus-db.ts`).
-  A consumer that installs a WAL file converts a private temp copy, probes
-  it, then renames it into place, which is what rosetta does today
-  (`src/setup.ts`, `convertToRollbackJournal`).
-- **Prove a file is unused with SQLite's own locks, never with file
-  times.** Each reader holds a read transaction for its lifetime, and a
-  cleanup deletes a file only while it holds `BEGIN EXCLUSIVE`, which no
-  live reader allows. rosetta keeps one database per version this way
-  (`src/db-lifecycle.ts`, #151), after an age rule deleted a file under a
-  running client (#165).
+  A consumer that installs a WAL file converts a private temp copy and
+  checks it holds what the tool needs, which is what rosetta does today
+  (`src/setup.ts`, `convertToRollbackJournal`). An atomic rename keeps
+  readers from seeing half a file; it does not make replacing an open one
+  safe (below).
+- **Retire a database only when you can prove no reader has it, never by
+  file times**: an age rule deleted rosetta's file under a running client
+  (#165). One proof, for read-only files in rollback-journal mode: each
+  reader holds a read transaction for its lifetime, and cleanup deletes a
+  file only while it holds `BEGIN EXCLUSIVE`, which no live reader allows
+  (rosetta `src/db-lifecycle.ts`, #151). It does not work in WAL mode,
+  where `BEGIN EXCLUSIVE` succeeds beside a reader, and renaming under the
+  lock is POSIX-only; rosetta skips WAL files and deletes differently on
+  Windows.
 - **Never delete or swap a database a client has open**: on macOS it fails
   in every journal mode (`SQLITE_IOERR_VNODE`). Stop the clients first, or
   write a new file beside it.
-- **A file with more than one writer, SQLite or not, needs a lock and a
-  revision check**: lock, re-read, compare the revision you loaded, then
-  replace. An atomic rename stops a half-written file, not a lost update
-  (centrs `src/data/winbox-cdb-lock.ts` for WinBox's CDB, #581).
+- **More than one writer**: in SQLite, write in transactions and let its
+  locks coordinate; never replace a database file another process writes.
+  A change built from a snapshot read earlier compares a revision when it
+  writes. A store replaced as a whole file needs a lock, a re-read and a
+  revision check before the replace: an atomic rename stops a half-written
+  file, not a lost update. A writer that ignores the lock still gets
+  through (centrs `src/data/winbox-cdb-lock.ts`, #581: WinBox does not
+  take it).
 - **FTS5 is an external-content index kept in sync by triggers**: the FTS
   table names its content table, and AFTER INSERT, DELETE and UPDATE
   triggers keep it current, removing an old row with the `'delete'`

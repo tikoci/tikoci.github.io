@@ -6,7 +6,8 @@ sample was run under Bun 1.4.4 with `bun test` (the MCP one with
 `@modelcontextprotocol/sdk` 1.32.2), including probes that must fail (an
 unregistered code in each quote style, a new or renamed tool, a flipped
 annotation, a description with no arrow, one composed from variables, an
-arrow only in a comment, a description the source scan cannot find), and
+arrow only in a comment or a schema field, a description the source scan
+cannot find), and
 checked with TypeScript 7.0.2 under the house `tsconfig.example.json` and
 Biome 2.6.6 under the house `biome.example.jsonc` with
 `--error-on-warnings`. The printed route was run through `sh`.
@@ -185,8 +186,12 @@ describe("frozen tool registry", () => {
     const problems: string[] = [];
     for (const block of blocks) {
       const name = block.match(/server\.registerTool\(\s*["']([^"']+)["']/)?.[1] ?? "?";
-      // The description is a string literal: "…", '…' or `…` with no ${}.
-      const description = block.match(/description:\s*(["'`])([\s\S]*?)\1/)?.[2];
+      // Supported format: the description is the config object's first
+      // property, a string literal ("…", '…' or `…` with no ${}). Anchoring
+      // it there keeps a schema field's description from standing in for it.
+      const description = block.match(
+        /^server\.registerTool\(\s*["'][^"']+["']\s*,\s*\{\s*description:\s*(["'`])([\s\S]*?)\1/,
+      )?.[2];
       if (description === undefined) problems.push(`${name}: description not found`);
       else if (!description.includes("→")) problems.push(`${name}: no → in description`);
     }
@@ -196,12 +201,12 @@ describe("frozen tool registry", () => {
 ```
 
 The regex reads the source, so it needs no database or MCP client and runs
-in the unit tier. It tests the description itself, not the whole
-registration: an arrow in a comment, a schema field or the handler must not
-pass it, and a description it cannot find fails the test rather than being
-skipped. It cannot see a tool list built at run time, a description
-composed from variables or the annotations; the in-process client above
-can.
+in the unit tier. It accepts one registration format, the description as
+the config's first property, and fails anything else: a description it
+cannot find, an arrow in a comment, a schema field's description standing
+in for a missing tool description. It cannot see a tool list built at run
+time, a description composed from variables or the annotations; the
+in-process client above can.
 
 ## A command that pastes
 

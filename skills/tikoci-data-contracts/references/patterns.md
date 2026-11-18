@@ -6,8 +6,10 @@ with the tests at the end, and checked with TypeScript 7.0.2 under the
 house `tsconfig.example.json` and Biome 2.6.6 under the house
 `biome.example.jsonc` with `--error-on-warnings`. The probes that must
 fail: a trigger that deletes with a plain `DELETE`, a row dropped by the
-database, a schema version that does not match, each missing provenance
-stamp, and a schema version that disagrees with the pragma.
+database (which must leave the previous data in place), a schema version
+that does not match, a version stamp with no tables behind it, replacing
+a file a client holds, each missing provenance stamp, and a schema
+version that disagrees with the pragma.
 
 ## An FTS5 index kept by triggers
 
@@ -68,7 +70,11 @@ external-content table.
 From rosetta's extractors (`V-extractor-no-silent-drops`, #90). Read the
 count back from the database rather than counting the inserts you sent: a
 constraint, a trigger or `INSERT OR IGNORE` can drop a row without an
-error.
+error. The check runs inside the transaction, so a gap rolls the load
+back and the previous data stays. Finalize a statement from `prepare()`:
+`bun:sqlite` keeps the file open after `close()` while one is
+outstanding, and the next step that needs the file to itself fails with
+"database is locked".
 
 `src/load.ts`:
 
@@ -81,16 +87,25 @@ export interface Page {
   body: string;
 }
 
-/** Load parsed pages and fail when the table does not hold every one of them. */
+/**
+ * Replace the pages with a parsed set, all or nothing. The stored count is
+ * read back inside the transaction, so a gap rolls the load back and the
+ * previous data stays.
+ */
 export function loadPages(db: Database, parsed: Page[]): void {
   const insert = db.prepare("INSERT INTO pages (id, title, body) VALUES (?, ?, ?)");
-  db.transaction(() => {
-    db.run("DELETE FROM pages");
-    for (const page of parsed) insert.run(page.id, page.title, page.body);
-  })();
-  const stored = db.query<{ n: number }, []>("SELECT count(*) AS n FROM pages").get()?.n ?? 0;
-  if (stored !== parsed.length) {
-    throw new Error(`parsed ${parsed.length} pages but stored ${stored}`);
+  try {
+    db.transaction(() => {
+      db.run("DELETE FROM pages");
+      for (const page of parsed) insert.run(page.id, page.title, page.body);
+      const stored = db.query<{ n: number }, []>("SELECT count(*) AS n FROM pages").get()?.n ?? 0;
+      if (stored !== parsed.length) {
+        throw new Error(`parsed ${parsed.length} pages but stored ${stored}`);
+      }
+    })();
+  } finally {
+    // A statement not finalized keeps the file open after close().
+    insert.finalize();
   }
 }
 ```
@@ -99,24 +114,31 @@ export function loadPages(db: Database, parsed: Page[]): void {
 
 From rosetta `src/setup.ts` and `src/db-lifecycle.ts`. Even a read-only
 open of a WAL file creates `-wal` and `-shm` beside it, so the installer
-converts a private temp copy to rollback-journal mode, checks it, and only
-then renames it into place. Better still, the builder runs the same
+converts a private temp copy to rollback-journal mode, checks that it
+holds what the tool needs (a version stamp alone proves nothing), and only
+then puts it in place. Better still, the builder runs the same
 `PRAGMA journal_mode=DELETE` before upload.
+
+An atomic rename does not make it safe to replace a file a client has
+open. This sample refuses instead: its clients hold a read transaction
+for their lifetime, so `BEGIN EXCLUSIVE` on the old file fails while any
+of them runs. That proof works only in rollback-journal mode (a WAL
+reader does not block it), and the rename under the lock only on POSIX.
+rosetta avoids both limits by installing each version under its own name
+and retiring old files separately.
 
 `src/install.ts`:
 
 ```ts
 import { Database } from "bun:sqlite";
-import { renameSync, rmSync } from "node:fs";
+import { existsSync, renameSync, rmSync } from "node:fs";
 import { SCHEMA_VERSION } from "./schema.ts";
 
-/**
- * Install a downloaded database so read-only clients can open it: convert the
- * private temp copy to rollback-journal mode, probe it, then rename it into
- * place. A rename within one directory is atomic, so a reader sees the old
- * file or the new one, never half of either.
- */
-export function installDatabase(tmpPath: string, finalPath: string): void {
+/** The least a usable download holds; a version stamp alone proves nothing. */
+const MIN_PAGES = 1;
+
+/** Convert a private temp copy to rollback-journal mode and check it is usable. */
+function prepare(tmpPath: string): void {
   const conn = new Database(tmpPath);
   try {
     conn.run("PRAGMA journal_mode=DELETE");
@@ -124,13 +146,44 @@ export function installDatabase(tmpPath: string, finalPath: string): void {
     if (version !== SCHEMA_VERSION) {
       throw new Error(`downloaded schema ${version} does not match this build (${SCHEMA_VERSION})`);
     }
-  } catch (error) {
+    // Query the tables the tool needs: a missing table throws "no such table".
+    const pages = conn.query<{ n: number }, []>("SELECT count(*) AS n FROM pages").get()?.n ?? 0;
+    if (pages < MIN_PAGES) throw new Error(`downloaded database has ${pages} pages`);
+  } finally {
     conn.close();
-    rmSync(tmpPath, { force: true });
-    throw error;
   }
-  conn.close();
-  renameSync(tmpPath, finalPath);
+}
+
+/**
+ * Install a downloaded database for read-only clients. Each client holds a
+ * read transaction on the installed file for its lifetime, so in
+ * rollback-journal mode an EXCLUSIVE lock on the old file succeeds only when
+ * no client has it open. The replacement is renamed in under that lock, which
+ * POSIX allows; on Windows the rename fails while any handle is open, so
+ * install to a new path there instead.
+ */
+export function installDatabase(tmpPath: string, finalPath: string): void {
+  try {
+    prepare(tmpPath);
+    if (!existsSync(finalPath)) {
+      renameSync(tmpPath, finalPath);
+      return;
+    }
+    const guard = new Database(finalPath);
+    try {
+      try {
+        guard.run("BEGIN EXCLUSIVE");
+      } catch {
+        throw new Error(`${finalPath} is in use; stop its clients and retry`);
+      }
+      renameSync(tmpPath, finalPath);
+      guard.run("ROLLBACK");
+    } finally {
+      guard.close();
+    }
+  } finally {
+    rmSync(tmpPath, { force: true });
+  }
 }
 ```
 
@@ -139,8 +192,9 @@ export function installDatabase(tmpPath: string, finalPath: string): void {
 From rosetta `scripts/stamp-db-meta.ts` and `classifyDbGrounding` in
 `src/paths.ts`, cut down. CI stamps the meta table; one pure function
 turns the stamps into a verdict that the stats tool, the startup banner
-and a doctor all print. rosetta adds `tag_behind`, which compares
-`release_tag` with the latest release.
+and a doctor all print. rosetta adds `tag_behind`, which compares the
+stamped release tag with the running code's base version; it does not
+look up newer releases.
 
 `src/grounding.ts`:
 
@@ -155,7 +209,11 @@ export type Grounding = "ok" | "schema_mismatch" | "internal_inconsistent" | "un
 /** CI stamps provenance at build time; the schema version is stamped twice, in the pragma and here. */
 export function stampProvenance(db: Database, values: Record<(typeof STAMPS)[number], string>): void {
   const put = db.prepare("INSERT OR REPLACE INTO db_meta (key, value) VALUES (?, ?)");
-  for (const key of STAMPS) put.run(key, values[key]);
+  try {
+    for (const key of STAMPS) put.run(key, values[key]);
+  } finally {
+    put.finalize();
+  }
 }
 
 /** One pure verdict behind the stats tool, the startup banner and the doctor. */
@@ -230,8 +288,9 @@ describe("FTS triggers", () => {
 });
 
 describe("stored, not attempted", () => {
-  test("a dropped row fails the load", () => {
+  test("a dropped row fails the load and keeps the previous data", () => {
     const db = fresh();
+    loadPages(db, [{ id: 1, title: "Old", body: "kept" }]);
     db.run("CREATE TRIGGER drop_dupes BEFORE INSERT ON pages WHEN new.title = 'Dup' BEGIN SELECT RAISE(IGNORE); END");
     expect(() =>
       loadPages(db, [
@@ -239,35 +298,75 @@ describe("stored, not attempted", () => {
         { id: 2, title: "Kept", body: "b" },
       ]),
     ).toThrow("parsed 2 pages but stored 1");
+    expect(db.query("SELECT title FROM pages").all()).toEqual([{ title: "Old" }]);
   });
 });
 
 describe("install", () => {
-  test("a WAL file is converted, then opens read-only", () => {
-    const dir = mkdtempSync(join(tmpdir(), "install-"));
-    const tmp = join(dir, "db.sqlite.tmp");
-    const final = join(dir, "db.sqlite");
+  function download(dir: string, pages: number, version = SCHEMA_VERSION): string {
+    const tmp = join(dir, `db.sqlite.tmp-${pages}-${version}`);
     const build = new Database(tmp);
     build.run("PRAGMA journal_mode=WAL");
     createSchema(build);
+    loadPages(
+      build,
+      Array.from({ length: pages }, (_, i) => ({ id: i + 1, title: `Page ${i + 1}`, body: "text" })),
+    );
+    build.run(`PRAGMA user_version = ${version}`);
     build.close();
+    return tmp;
+  }
+  const pageCount = (path: string) => {
+    const reader = new Database(path, { readonly: true });
+    const n = reader.query<{ n: number }, []>("SELECT count(*) AS n FROM pages").get()?.n;
+    reader.close();
+    return n;
+  };
+
+  test("a WAL download is converted, then opens read-only", () => {
+    const dir = mkdtempSync(join(tmpdir(), "install-"));
+    const final = join(dir, "db.sqlite");
+    const tmp = download(dir, 2);
     installDatabase(tmp, final);
     expect(existsSync(tmp)).toBe(false);
     const reader = new Database(final, { readonly: true });
-    const mode = reader.query<{ journal_mode: string }, []>("PRAGMA journal_mode").get()?.journal_mode;
-    expect(mode).toBe("delete");
+    expect(reader.query<{ journal_mode: string }, []>("PRAGMA journal_mode").get()?.journal_mode).toBe("delete");
     reader.close();
   });
 
   test("a schema mismatch is refused and the temp file removed", () => {
     const dir = mkdtempSync(join(tmpdir(), "install-"));
-    const tmp = join(dir, "db.sqlite.tmp");
-    const old = new Database(tmp);
-    old.run(`PRAGMA user_version = ${SCHEMA_VERSION - 1}`);
-    old.close();
+    const tmp = download(dir, 2, SCHEMA_VERSION - 1);
     expect(() => installDatabase(tmp, join(dir, "db.sqlite"))).toThrow("does not match");
     expect(existsSync(tmp)).toBe(false);
     expect(existsSync(join(dir, "db.sqlite"))).toBe(false);
+  });
+
+  test("a version stamp without the tables is refused", () => {
+    const dir = mkdtempSync(join(tmpdir(), "install-"));
+    const final = join(dir, "db.sqlite");
+    installDatabase(download(dir, 2), final);
+    const tmp = join(dir, "stamp-only.tmp");
+    const stub = new Database(tmp);
+    stub.run(`PRAGMA user_version = ${SCHEMA_VERSION}`);
+    stub.close();
+    expect(() => installDatabase(tmp, final)).toThrow("no such table");
+    expect(pageCount(final)).toBe(2);
+  });
+
+  test("a file a client holds is not replaced; a free one is", () => {
+    const dir = mkdtempSync(join(tmpdir(), "install-"));
+    const final = join(dir, "db.sqlite");
+    installDatabase(download(dir, 2), final);
+    const owner = new Database(final, { readonly: true });
+    owner.run("BEGIN");
+    owner.query("SELECT count(*) FROM pages").get();
+    expect(() => installDatabase(download(dir, 3), final)).toThrow("is in use");
+    expect(pageCount(final)).toBe(2);
+    owner.run("ROLLBACK");
+    owner.close();
+    installDatabase(download(dir, 3), final);
+    expect(pageCount(final)).toBe(3);
   });
 });
 
