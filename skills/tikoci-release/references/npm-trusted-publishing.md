@@ -11,10 +11,13 @@ These details go stale faster than the rules in [SKILL.md](../SKILL.md).
    deployment branches limited to `main`. A job that names it from another
    branch fails before it starts. A solo maintainer can later add a required
    reviewer there with no workflow change.
-2. **`npm` as a devDependency**: `bun add --dev npm`, at least 11.21.0.
-   Trusted publishing needs npm 11.5.1, and moving a dist-tag over OIDC
-   needs 11.21.0. Node's bundled npm can be older (Node 26.13.1 ships
-   11.20.0). npm 12 needs Node `^22.22.2 || ^24.15.0 || >=26`, which
+2. **`npm` as a devDependency**: `bun add --dev npm`, 12.2.0 or later (or
+   11.21.0 on the 11.x line). Trusted publishing needs npm 11.5.1, but
+   moving a dist-tag over OIDC needs 11.21.0 on 11.x and 12.2.0 on 12.x;
+   12.0 and 12.1 publish through OIDC but cannot move `next`. Node's
+   bundled npm can be older (Node 26.13.1 ships 11.20.0). npm 12 prints
+   `npm pack --json` as an object keyed by package name, where npm 11
+   printed an array; the workflow reads either. npm 12 needs Node `^22.22.2 || ^24.15.0 || >=26`, which
    `actions/setup-node` with `lts/*` meets.
 3. **`repository.url` in package.json** names this repo exactly; npm
    documents that a mismatch can fail the publish.

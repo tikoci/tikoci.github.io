@@ -37,8 +37,9 @@ each repo tracks its own work.
   released commit (`head_sha == GITHUB_SHA`); the PR gate keeps its
   "latest completed run" rule.
 - `prepare` creates the tag and GitHub Release before `npm publish`. Under
-  immutable releases a publish that fails after that leaves a release that
-  cannot be deleted for a version npm never got, so publish comes first.
+  immutable releases a publish that fails after that uses up the tag name
+  (a deleted immutable release's tag name cannot be reused) for a version
+  npm never got, so publish comes first.
 - `next` releases are GitHub prereleases promoted by hand
   (`gh release edit vX.Y.Z --prerelease=false --latest`, after
   `npm dist-tag add … latest`); both go, with the `ref: v${VERSION}`

@@ -138,8 +138,9 @@ Start from [release.example.yml](assets/release.example.yml),
   - `bun run audit`, the same script and ignore list CI uses, which stops
     on findings and on an audit that did not complete (tikoci-ci,
     "Dependency audit"). Anything that ships is audited first.
-  - The version is unused on npm and newer than both channels, and for a
-    stable release the tag and the GitHub Release are unused too.
+  - The version is unused on npm and newer than `latest`, a preview is also
+    newer than `next`, and for a stable release the tag and the GitHub
+    Release are unused too.
   - The CHANGELOG section, as above.
   - A device bar counts only for a run of this exact commit
     (`head_sha == GITHUB_SHA`); if none has finished, the release waits or
@@ -190,8 +191,8 @@ Start from [release.example.yml](assets/release.example.yml),
   options on npmjs.com:
   [references/npm-trusted-publishing.md](references/npm-trusted-publishing.md).
 - **npm publishes, not `bun publish`**, which has no OIDC. `npm` is a
-  devDependency (at least 11.21.0, which moving a dist-tag over OIDC
-  needs), so `bun.lock` pins it, the audit sees it and Dependabot updates
+  devDependency (12.2.0 or later, or 11.21.0 on the 11.x line: the first
+  versions that move a dist-tag over OIDC), so `bun.lock` pins it, the audit sees it and Dependabot updates
   it; an ad-hoc `npm install -g` or `bunx npm` runs whatever is newest.
 - **What ships**: a published package's `dependencies` hold only what runs
   ([tikoci-dependencies](https://tikoci.dev/house/skills/tikoci-dependencies/SKILL.md)).
@@ -205,8 +206,8 @@ first one to move records what it found in
 - **Stable releases only**: tag `vX.Y.Z` on the released commit, created by
   the workflow with the CHANGELOG section as notes, after the npm publish.
   With immutable releases, a release made first and a publish that then
-  fails leave a release that cannot be deleted for a version npm never
-  got. The job that creates it is the only one with `contents: write`.
+  fails use up the tag name for a version npm never got: the release and
+  its tag can be deleted, but the name can never be reused. The job that creates it is the only one with `contents: write`.
 - **Immutable releases on** (repository settings). A published release's
   tag cannot move or be deleted, its assets cannot change, and GitHub
   attests it (`gh release verify`)

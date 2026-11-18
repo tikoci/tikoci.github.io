@@ -84,7 +84,8 @@ jobs:
         with:
           node-version: "lts/*"
           package-manager-cache: false # no cache in a release build
-      # npm is a devDependency (at least 11.21.0), pinned by bun.lock and
+      # npm is a devDependency (12.2.0 or later, or 11.21.0 on the 11.x line:
+      # the first to move a dist-tag over OIDC), pinned by bun.lock and
       # audited like any other; Node's bundled npm can be older.
       - name: Install dependencies
         run: |
@@ -149,12 +150,14 @@ jobs:
         run: |
           mkdir -p "$RUNNER_TEMP/pack"
           npm pack --json --pack-destination "$RUNNER_TEMP/pack" > "$RUNNER_TEMP/pack.json"
-          tarball=$(jq -r '.[0].filename' "$RUNNER_TEMP/pack.json")
+          # npm 11 prints an array, npm 12 an object keyed by package name;
+          # first(.[]) reads either.
+          tarball=$(jq -r 'first(.[]).filename' "$RUNNER_TEMP/pack.json")
           echo "tarball=$tarball" >> "$GITHUB_OUTPUT"
           {
             echo "### Files in $tarball"
             echo '```text'
-            jq -r '.[0].files[].path' "$RUNNER_TEMP/pack.json"
+            jq -r 'first(.[]).files[].path' "$RUNNER_TEMP/pack.json"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
       # Install the tarball where nothing else is, and use it: a file missing
