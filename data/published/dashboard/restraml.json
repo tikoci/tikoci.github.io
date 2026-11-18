@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "restraml",
-  "generatedAt": "2026-11-17T22:56:33.643Z",
+  "generatedAt": "2026-11-18T04:28:14.325Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -105,8 +105,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 16,
-        "owner": 13,
+        "total": 17,
+        "owner": 14,
         "external": 0,
         "bot": 3
       },
@@ -121,13 +121,29 @@
       }
     },
     "page": {
-      "fetched": 20,
+      "fetched": 21,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 124,
+        "title": "compareVersions sorts betas above rcs of the same version (7.25beta5 > 7.25rc3)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/restraml/issues/124",
+        "createdAt": "2026-11-18T01:36:19Z",
+        "updatedAt": "2026-11-18T01:36:19Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "javascript"
+        ],
+        "milestone": null
+      },
       {
         "number": 123,
         "title": "Support loading /app YAML Editor content from a URL",

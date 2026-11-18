@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-17T22:56:33.643Z",
+  "generatedAt": "2026-11-18T04:28:14.325Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -68,8 +68,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 51,
-        "owner": 51,
+        "total": 52,
+        "owner": 52,
         "external": 0,
         "bot": 0
       },
@@ -84,13 +84,30 @@
       }
     },
     "page": {
-      "fetched": 51,
+      "fetched": 52,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 284,
+        "title": "ros-versions.yml: an unreadable tested-versions.json re-dispatches every version, including failed ones",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/284",
+        "createdAt": "2026-11-18T01:36:22Z",
+        "updatedAt": "2026-11-18T01:36:22Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "area:ci",
+          "P3"
+        ],
+        "milestone": null
+      },
       {
         "number": 283,
         "title": "credentials: decide how (or whether) MikroTik.com license credentials use the OS keychain (Bun.secrets) — hang risk for agents",

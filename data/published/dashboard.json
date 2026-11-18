@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-17T22:56:33.643Z",
+  "generatedAt": "2026-11-18T04:28:14.325Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,7 +10,7 @@
     "otherHttpCalls": 11,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4837
+    "rateLimitRemaining": 4806
   },
   "sources": {
     "ros-current": "https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel> (MikroTik upgrade feed; body \"<version> <build-ts>\")",
@@ -180,8 +180,8 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 16,
-            "owner": 13,
+            "total": 17,
+            "owner": 14,
             "external": 0,
             "bot": 3
           },
@@ -196,13 +196,29 @@
           }
         },
         "page": {
-          "fetched": 20,
+          "fetched": 21,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 124,
+            "title": "compareVersions sorts betas above rcs of the same version (7.25beta5 > 7.25rc3)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/restraml/issues/124",
+            "createdAt": "2026-11-18T01:36:19Z",
+            "updatedAt": "2026-11-18T01:36:19Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug",
+              "javascript"
+            ],
+            "milestone": null
+          },
           {
             "number": 123,
             "title": "Support loading /app YAML Editor content from a URL",
@@ -333,19 +349,6 @@
               "app-yaml-schema"
             ],
             "milestone": null
-          },
-          {
-            "number": 112,
-            "title": "Remove nightly (ab) build support — MikroTik no longer publishes nightly builds",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/restraml/issues/112",
-            "createdAt": "2026-10-27T14:02:45Z",
-            "updatedAt": "2026-10-27T14:02:45Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [],
-            "milestone": null
           }
         ]
       },
@@ -353,7 +356,7 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 16,
+        "totalIssues": 17,
         "totalPRs": 4,
         "truncated": false,
         "byLabel": {},
@@ -859,8 +862,8 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 51,
-            "owner": 51,
+            "total": 52,
+            "owner": 52,
             "external": 0,
             "bot": 0
           },
@@ -875,13 +878,30 @@
           }
         },
         "page": {
-          "fetched": 51,
+          "fetched": 52,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 284,
+            "title": "ros-versions.yml: an unreadable tested-versions.json re-dispatches every version, including failed ones",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/284",
+            "createdAt": "2026-11-18T01:36:22Z",
+            "updatedAt": "2026-11-18T01:36:22Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug",
+              "area:ci",
+              "P3"
+            ],
+            "milestone": null
+          },
           {
             "number": 283,
             "title": "credentials: decide how (or whether) MikroTik.com license credentials use the OS keychain (Bun.secrets) — hang risk for agents",
@@ -1043,25 +1063,6 @@
               "consumer:app-t3code"
             ],
             "milestone": "next"
-          },
-          {
-            "number": 265,
-            "title": "provisioning: set /system/identity to the machine name when quickchr provisions (opt out with --no-identity)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/265",
-            "createdAt": "2026-11-11T14:53:59Z",
-            "updatedAt": "2026-11-11T15:36:15Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "enhancement",
-              "area:provisioning",
-              "P3",
-              "needs-decision",
-              "consumer:app-t3code"
-            ],
-            "milestone": null
           }
         ]
       },
@@ -1069,7 +1070,7 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 51,
+        "totalIssues": 52,
         "totalPRs": 0,
         "truncated": false,
         "byLabel": {},
@@ -2447,8 +2448,8 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 1,
-            "owner": 0,
+            "total": 2,
+            "owner": 1,
             "external": 1,
             "bot": 0
           },
@@ -2463,13 +2464,28 @@
           }
         },
         "page": {
-          "fetched": 1,
+          "fetched": 2,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 3,
+            "title": "Version sorts use semver.coerce, so 7.24beta2, 7.24rc1 and 7.24 compare equal",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/vscode-tikbook/issues/3",
+            "createdAt": "2026-11-18T01:36:21Z",
+            "updatedAt": "2026-11-18T01:36:21Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug"
+            ],
+            "milestone": null
+          },
           {
             "number": 2,
             "title": "Hope to add script formatting capabilities",
@@ -2489,7 +2505,7 @@
         "state": "ok",
         "openIssues": 1,
         "openPRs": 0,
-        "totalIssues": 1,
+        "totalIssues": 2,
         "totalPRs": 0,
         "truncated": false,
         "byLabel": {},
@@ -2793,29 +2809,78 @@
       ],
       "detail": "data/dashboard/netinstall.json",
       "ci": {
-        "state": "ok",
-        "defaultBranch": "master",
-        "headSha": "0c13a683bfc66ac888db0345ca3839549c51bed6",
-        "headUrl": "https://github.com/tikoci/netinstall/commit/0c13a683bfc66ac888db0345ca3839549c51bed6",
+        "state": "partial",
+        "defaultBranch": "main",
+        "headSha": null,
+        "headUrl": null,
         "workflows": [
           {
             "configured": "repo-as-web",
             "name": "repo-as-web",
             "path": ".github/workflows/repo-as-web.yaml",
             "present": true,
-            "state": "ok",
-            "status": "completed",
-            "conclusion": "success",
-            "lastConclusion": "success",
-            "headBranch": "master",
-            "headSha": "0c13a683bfc66ac888db0345ca3839549c51bed6",
-            "event": "push",
-            "runStartedAt": "2026-03-30T19:39:57Z",
-            "lastUpdatedAt": "2026-03-30T19:40:18Z",
-            "lastUrl": "https://github.com/tikoci/netinstall/actions/runs/23764019575",
-            "isHead": true
+            "state": "unknown",
+            "status": null,
+            "conclusion": null,
+            "lastConclusion": null,
+            "headBranch": null,
+            "headSha": null,
+            "event": null,
+            "runStartedAt": null,
+            "lastUpdatedAt": null,
+            "lastUrl": null,
+            "isHead": null,
+            "error": "no runs on the default branch",
+            "lastKnownGood": {
+              "observedAt": "2026-11-17T22:56:33.643Z",
+              "value": {
+                "configured": "repo-as-web",
+                "name": "repo-as-web",
+                "path": ".github/workflows/repo-as-web.yaml",
+                "present": true,
+                "state": "ok",
+                "status": "completed",
+                "conclusion": "success",
+                "lastConclusion": "success",
+                "headBranch": "master",
+                "headSha": "0c13a683bfc66ac888db0345ca3839549c51bed6",
+                "event": "push",
+                "runStartedAt": "2026-03-30T19:39:57Z",
+                "lastUpdatedAt": "2026-03-30T19:40:18Z",
+                "lastUrl": "https://github.com/tikoci/netinstall/actions/runs/23764019575",
+                "isHead": true
+              }
+            }
           }
-        ]
+        ],
+        "lastKnownGood": {
+          "observedAt": "2026-11-17T22:56:33.643Z",
+          "value": {
+            "state": "ok",
+            "defaultBranch": "master",
+            "headSha": "0c13a683bfc66ac888db0345ca3839549c51bed6",
+            "headUrl": "https://github.com/tikoci/netinstall/commit/0c13a683bfc66ac888db0345ca3839549c51bed6",
+            "workflows": [
+              {
+                "configured": "repo-as-web",
+                "name": "repo-as-web",
+                "path": ".github/workflows/repo-as-web.yaml",
+                "present": true,
+                "state": "ok",
+                "status": "completed",
+                "conclusion": "success",
+                "lastConclusion": "success",
+                "headBranch": "master",
+                "headSha": "0c13a683bfc66ac888db0345ca3839549c51bed6",
+                "event": "push",
+                "runStartedAt": "2026-03-30T19:39:57Z",
+                "lastUpdatedAt": "2026-03-30T19:40:18Z",
+                "lastUrl": "https://github.com/tikoci/netinstall/actions/runs/23764019575",
+                "isHead": true
+              }
+            ]
+          }
+        }
       },
       "work": {
         "state": "ok",
@@ -3461,6 +3526,23 @@
       ],
       "urls": [
         "https://github.com/tikoci/rosetta/actions/runs/40597758516"
+      ]
+    },
+    {
+      "id": "ci-no-default-runs:netinstall:repo-as-web",
+      "rule": "ci-no-default-runs",
+      "severity": "gap",
+      "category": "ci",
+      "repos": [
+        "netinstall"
+      ],
+      "summary": "netinstall: repo-as-web never ran on main",
+      "detail": "The workflow exists but has no runs on the default branch. There is no passing evidence either way — this answers 'is CI passing?' with unknown, not yes.",
+      "evidence": [
+        "repos.netinstall.ci.workflows[repo-as-web].state=unknown"
+      ],
+      "urls": [
+        "https://github.com/tikoci/netinstall/actions"
       ]
     },
     {

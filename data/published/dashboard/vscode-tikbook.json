@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "vscode-tikbook",
-  "generatedAt": "2026-11-17T22:56:33.643Z",
+  "generatedAt": "2026-11-18T04:28:14.325Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,8 +9,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 1,
-        "owner": 0,
+        "total": 2,
+        "owner": 1,
         "external": 1,
         "bot": 0
       },
@@ -25,13 +25,28 @@
       }
     },
     "page": {
-      "fetched": 1,
+      "fetched": 2,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 3,
+        "title": "Version sorts use semver.coerce, so 7.24beta2, 7.24rc1 and 7.24 compare equal",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/vscode-tikbook/issues/3",
+        "createdAt": "2026-11-18T01:36:21Z",
+        "updatedAt": "2026-11-18T01:36:21Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug"
+        ],
+        "milestone": null
+      },
       {
         "number": 2,
         "title": "Hope to add script formatting capabilities",
