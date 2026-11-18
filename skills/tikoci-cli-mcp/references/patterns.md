@@ -3,7 +3,8 @@
 Copyable code for the rules in [tikoci-cli-mcp](../SKILL.md), adapted from
 quickchr, centrs and rosetta. `mytool` stands for the tool's name. Each
 sample was run under Bun 1.4.4 with `bun test`, including probes that must
-fail (an unregistered code, a new tool, a description with no arrow), and
+fail (an unregistered code, a new tool, a description with no arrow, an
+arrow only in a comment, a description the test cannot find), and
 checked with TypeScript 7.0.2 under the house `tsconfig.example.json` and
 Biome 2.6.6 under the house `biome.example.jsonc` with
 `--error-on-warnings`. The printed route was run through `sh`.
@@ -123,14 +124,26 @@ describe("frozen tool registry", () => {
 
   test("every description points to a next tool", () => {
     const blocks = MCP_SOURCE.split(/(?=server\.registerTool\()/).slice(1);
-    for (const block of blocks) expect(block).toContain("→");
+    const problems: string[] = [];
+    for (const block of blocks) {
+      const name = block.match(/server\.registerTool\(\s*["']([^"']+)["']/)?.[1] ?? "?";
+      // The description is a string literal: "…", '…' or `…` with no ${}.
+      const description = block.match(/description:\s*(["'`])([\s\S]*?)\1/)?.[2];
+      if (description === undefined) problems.push(`${name}: description not found`);
+      else if (!description.includes("→")) problems.push(`${name}: no → in description`);
+    }
+    expect(problems).toEqual([]);
   });
 });
 ```
 
 The regex reads the source, so it needs no database or MCP client and runs
-in the unit tier. A server that builds its tool list at run time lists it
-through an in-process MCP client instead.
+in the unit tier. It tests the description itself, not the whole
+registration: an arrow in a comment, a schema field or the handler must not
+pass it, and a description it cannot find fails the test rather than being
+skipped. A server that builds its tool list at run time, or composes
+descriptions from variables, lists its tools through an in-process MCP
+client instead.
 
 ## A command that pastes
 

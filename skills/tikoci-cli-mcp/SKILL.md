@@ -27,7 +27,9 @@ quickchr for testing the surface, rosetta for MCP descriptions.
 There is no house output shape; each repo structures its own (settled
 `output-shape`). centrs returns one envelope on every surface (`ok`, `data`,
 `warnings`, `tips`, `error`, `meta`) and renders text from it without loss;
-quickchr prints the result and sends tips to stderr. Both meet the rules:
+quickchr prints the result and sends tips to stderr. These are the rules;
+one known exception is centrs's fan-out text, a report rather than data,
+which keeps its warnings on stdout (CONSTITUTION, "Text stdout is data"):
 
 - **stdout is the result**, so `tool … --json | jq` works without filtering.
   Progress, prompts and notes go to stderr.
@@ -79,9 +81,15 @@ quickchr prints the result and sends tips to stderr. Both meet the rules:
   `PROVISIONING_WINDOW_CLOSED`). An option already in effect is a no-op, so
   a script that passes the same flags every time is not punished. Absent is
   not `false`: keep "not given" apart from `--no-<flag>`.
-- **All or nothing.** The caller gets what it asked for or an error. Partial
-  success with warnings is an error; roll back, so the retry is the same
+- **An operation that creates or changes one thing is all or nothing.** The
+  caller gets the machine or setting it asked for, or an error; partial
+  success with warnings is an error, and a rollback makes the retry the same
   command (quickchr provisioning).
+- **An operation across many targets reports each one.** centrs fan-out
+  returns every target's result, failures included, and exits `0` when all
+  succeeded, `2` when some failed and `1` when the run itself failed; it
+  does not roll back the targets that succeeded. A read keeps what it got
+  and says what is missing.
 - **A missing local tool** is detected where practical, with an install hint
   for each platform.
 - **Crash early while failure modes are unknown.** No preemptive
@@ -90,10 +98,10 @@ quickchr prints the result and sends tips to stderr. Both meet the rules:
 
 ## A doctor
 
-A tool with outside dependencies or state (QEMU and firmware, a downloaded
-database, a device) has a `doctor`: a command, and a library call, that checks
-what would fail later and says how to fix each item. Errors suggest running
-it.
+Where a tool has outside dependencies or a complex setup (QEMU and
+firmware, a downloaded database, a device), a `doctor` command or library
+call checks what would fail later and says how to fix each item. Errors can
+suggest running it.
 
 - quickchr `doctor` (`QuickCHR.doctor()` in the library) checks QEMU,
   firmware, acceleration, helper tools, its directories and machines, with

@@ -1,6 +1,6 @@
 ---
 name: tikoci-data-contracts
-description: "tikoci data that code builds and others read (published JSON, a SQLite database in a release, inventories, committed snapshots): a reviewed contract before any consumer, saying what is flexible and what is not; cross-repo output pinned by a strict schema plus consumer-side tests; additive changes compatible, others bump a per-document schemaVersion, which is not a freshness time; failures keep last-good evidence with its original time. SQLite via bun:sqlite: WAL, FTS kept by triggers, rebuilds that rerun, CI provenance a doctor checks; FTS5 BM25 as an MCP retrieval layer. Use when designing a dataset, schema, database, extractor or published file."
+description: "tikoci data that code builds and others read (published JSON, a SQLite database in a release, inventories, committed snapshots): a reviewed contract before any consumer, saying what is flexible and what is not; cross-repo output pinned by a strict schema plus consumer-side tests; additive changes compatible, others bump a per-document schemaVersion, which is not a freshness time; failures keep last-good evidence with its original time. SQLite via bun:sqlite: WAL where written, release files read-only, FTS kept by triggers, rebuilds that rerun, CI provenance a doctor checks; FTS5 BM25 as an MCP retrieval layer. Use when designing a dataset, schema, database, extractor or published file."
 ---
 
 # Data contracts
@@ -62,7 +62,8 @@ From tikoci.dev's dashboard and metadata contracts (`src/dashboard-schema.md`,
   The current state and error stay authoritative; the evidence is there to
   read, not to pass off as current.
 - **Each signal has a state**: `ok` (answered, including known-empty),
-  `partial` (truncated), `unknown` (unanswerable, no transport failure),
+  `partial` (incomplete: truncated, or some of its requests failed),
+  `unknown` (unanswerable, no transport failure),
   `error` (the fetch failed, with the detail). A recent timestamp does not
   mean complete coverage.
 - **Write down the interpretation pitfalls**: a full 100-item page is a
@@ -74,8 +75,16 @@ For a store that is queried (search, joins, an MCP knowledge base); a
 document small enough to review in a PR stays JSON or TSV (open
 `sqlite-vs-json`). From rosetta `.github/instructions/`:
 
-- **`bun:sqlite` only**, opened once per process, with WAL and foreign keys
-  turned on where it is opened. An environment variable overrides the path.
+- **`bun:sqlite` only.** A store the tool writes is opened once per
+  process, with WAL and foreign keys turned on where it is opened. An
+  environment variable overrides the path.
+- **A released database a client only reads is opened read-only**, in
+  rollback-journal mode rather than WAL. rosetta keeps one file per
+  version, and each client holds a read transaction on a separate owner
+  connection for its lifetime; a cleanup may delete a generation only
+  while it holds `BEGIN EXCLUSIVE`, which no live owner allows, so SQLite's
+  own locks prove nobody is reading (rosetta `src/db.ts`,
+  `src/db-lifecycle.ts`, #151).
 - **FTS5 tables are kept by triggers** on their content tables; code never
   writes a `*_fts` table directly.
 - **A schema change updates the DDL and the code that fills it**, together,
@@ -93,8 +102,9 @@ document small enough to review in a PR stays JSON or TSV (open
   `provenance_incomplete`, `tag_behind`), and the stats tool, the startup
   banner and a doctor command all use it. Grounding uses the latest
   release database.
-- **Replace a live database atomically**, and stop its clients first:
-  swapping a WAL database under an open reader can cause I/O errors.
+- **Never delete or swap a database a client has open**: on macOS it fails
+  in every journal mode (`SQLITE_IOERR_VNODE`). Stop the clients first, or
+  write a new file beside it, as rosetta's per-version generations do.
 
 ## FTS as the retrieval layer
 
@@ -104,9 +114,11 @@ rosetta `DESIGN.md` "SQL-as-RAG Pattern":
   FTS5 with BM25 ranking, served over MCP, is the practical middle between
   grep and a vector database: no embeddings, sub-millisecond queries.
   rosetta puts the line near 500K documents.
-- **Pick the tokenizer per column**: `porter unicode61` for prose, plain
-  `unicode61` for identifiers such as model numbers, which stemming mangles,
-  with a `LIKE` substring fallback, since FTS matches whole tokens.
+- **Pick the tokenizer per FTS table**, since FTS5 sets it for the whole
+  table: `porter unicode61` for prose (rosetta `pages_fts`), plain
+  `unicode61` in a separate table for identifiers such as model numbers,
+  which stemming mangles (`devices_fts`), with a `LIKE` substring fallback,
+  since FTS matches whole tokens.
 - **FTS for text, SQL `WHERE` for structured filters.** A search falls back
   from `AND` to `OR` before it returns nothing.
 - **Serve the schema and a query guide** as MCP resources, so an agent

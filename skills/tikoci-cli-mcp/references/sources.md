@@ -22,7 +22,7 @@ quickchr 939f878, rosetta a51b201 and restraml 0e476ce.
 | A way to more information, in whatever form | centrs-14 | Settles `error-details` (maintainer, 2026-11-17). centrs `docs/errors/README.md` (per-code pages, drift guard). The rosetta `bunx` refresh gap is the maintainer's example. |
 | Recovery commands run as printed | quickchr-098 | quickchr `provisioning.instructions.md` "A refusal's route must be a line you can paste"; `shellQuote()` in `src/lib/names.ts`. |
 | Refuse, never drop; absent is not `false` | quickchr-096 | quickchr `provisioning.instructions.md` (`PROVISIONING_WINDOW_CLOSED`, #176; `flagOptionalBool()`, #185). |
-| All or nothing; roll back | quickchr-105 | quickchr `provisioning.instructions.md` "Provisioning Failure Modes" and `rollbackFailedProvisioning()`. |
+| All or nothing for one thing; per-target results across many | quickchr-105 | quickchr `provisioning.instructions.md` "Provisioning Failure Modes" and `rollbackFailedProvisioning()`; centrs CONSTITUTION fan-out (`FanoutData`, exit codes 0, 2, 1). Scoped in the Codex review of #38. |
 | Missing local tool: install hint per platform | centrs-14 | centrs `actionable-errors.instructions.md`; quickchr `QuickCHRError`'s `installHint`. |
 | Crash early while failure modes are unknown | user-31 | A user-level note; catching at the output boundary reconciles it with typed errors. |
 | A doctor | - | Maintainer, 2026-11-17. quickchr `cmdDoctor` in `src/cli/index.ts` and `QuickCHR.doctor()`; rosetta `local-db-grounding.instructions.md` (`classifyDbGrounding`, `db:doctor`); centrs `commands/check/README.md` (designed). |
@@ -30,7 +30,7 @@ quickchr 939f878, rosetta a51b201 and restraml 0e476ce.
 | Shared core, thin adapters | rosetta-48 | rosetta `query-core-not-adapter.instructions.md`. That rosetta's own code is still too coupled is the maintainer's read (2026-11-17). |
 | One helper for external calls | - | Settled `fetch-helper` (quickchr-022, quickchr-053). |
 | `--help` before dispatch; flag registry; declared arity; removed flags | quickchr-035 | quickchr `general.instructions.md` "CLI Conventions" (`wantsCommandHelp`, `ADD_FLAGS`/`START_FLAGS`, `VALUE_FLAGS`, `REMOVED_FLAGS`, the two unit tests). |
-| A few verbs, not one tool per command | user-61 | centrs `commands/mcp/README.md` "Why a scoped surface" (the benchmark figures); rosetta `DESIGN.md` "Why endpoint-shaped MCP is not the answer". |
+| A few verbs, not one tool per command | - | centrs `commands/mcp/README.md` "Why a scoped surface" (the benchmark figures); rosetta `DESIGN.md` "Why endpoint-shaped MCP is not the answer". |
 | Descriptions route: boundaries, arrows, empty-result hints | rosetta-45 | rosetta `mcp-tool-descriptions.instructions.md`; the arrow test in `src/mcp-contract.test.ts`. |
 | CLI's shape; `isError` on failure | - | centrs `commands/mcp/README.md` "Intent". |
 | Validate in code; honest annotations; write gates | restraml-28 | restraml `CLAUDE.md` "WebMCP" (`untrustedContentHint` rule); centrs `commands/mcp/README.md` (`destructiveHint` on `execute`, `mcp=rw` plus `confirm: true`). |

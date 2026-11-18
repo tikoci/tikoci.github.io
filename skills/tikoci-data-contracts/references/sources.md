@@ -21,11 +21,12 @@ and restraml 0e476ce.
 | Observed vs attempted; last-good evidence; signal states; pitfalls | - | tikoci.github.io `src/dashboard-schema.md` ("Signal states", "Interpretation pitfalls") and `data/metadata/schema.md`. |
 | SQLite for queried stores, JSON or TSV for reviewed documents | user-14 | Open `sqlite-vs-json`: the user-level note prefers SQLite over large JSON, while tikoci.github.io publishes JSON snapshots. |
 | `bun:sqlite`, WAL, foreign keys, one connection, path override | rosetta-30 | rosetta `database.instructions.md`; `bun:sqlite` is also in tikoci-toolchain. |
+| Released databases read-only, rollback journal, owner connections | - | rosetta `src/db.ts` (`DB_READONLY`, `initDb()` skips WAL) and `src/db-lifecycle.ts` (#151). rosetta's `database.instructions.md` still says WAL for every database; the code is newer (Codex review of #38). |
 | FTS kept by triggers; schema change updates the DDL and the code that fills it | rosetta-30 | rosetta `database.instructions.md` ("FTS5 Triggers", "Schema Changes"). |
 | Rebuilds rerun | rosetta-35 | rosetta `extractor-idempotent.instructions.md`. |
 | Provenance stamps | rosetta-32 | rosetta `db-meta-stamping.instructions.md` and `scripts/stamp-db-meta.ts`. |
-| Local builds untrusted; one classifier; atomic replacement | - | rosetta `local-db-grounding.instructions.md` (`classifyDbGrounding`, `db-sync`, the WAL note). |
-| FTS5 BM25 over MCP; tokenizers; LIKE fallback; AND then OR | user-118 | rosetta `DESIGN.md` "SQL-as-RAG Pattern" and "FTS5 for text, SQL WHERE for structured queries"; `searchPages` in `src/query.ts`. |
+| Local builds untrusted; one classifier; never swap an open database | - | rosetta `local-db-grounding.instructions.md` (`classifyDbGrounding`, `db-sync`, the WAL note); `src/db-lifecycle.ts` header (`SQLITE_IOERR_VNODE`). |
+| FTS5 BM25 over MCP; tokenizers per table; LIKE fallback; AND then OR | user-118 | rosetta `DESIGN.md` "SQL-as-RAG Pattern" and "FTS5 for text, SQL WHERE for structured queries"; `pages_fts` and `devices_fts` in `src/db.ts`; `searchPages` in `src/query.ts`. FTS5 sets `tokenize` per table ([SQLite FTS5](https://sqlite.org/fts5.html)). |
 | Serve the schema and a query guide as resources | - | rosetta `src/mcp.ts` resources (the DDL resource: "Read this before constructing raw SQL queries"). |
 | Static inventory; capability from files; derived origin | restraml-21 | restraml `CLAUDE.md` "Published docs inventory"; tikoci.github.io `fetchGitHubPagesFile` in `src/shared.js`. Moved here from the deferred `tikoci-web`. |
 

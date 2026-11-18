@@ -130,15 +130,17 @@ Issue and PR linking is in
 
 - **A list with columns is a data file, not paragraphs.** TSV for tables
   people edit (the house survey and skill list, tikoci-home's
-  `layout.tsv`), TOML for configuration people edit, JSON for what a tool
-  writes and reads. A Markdown file beside it explains the table and links
+  `layout.tsv`), TOML for definitions people edit, JSON for what a tool
+  writes and reads. A tikoci tool's own settings are the exception:
+  `<tool>.env` with `KEY=value`
+  ([tikoci-home](https://tikoci.dev/house/skills/tikoci-home/SKILL.md)). A Markdown file beside it explains the table and links
   to it. A script can read it, a diff shows the one row that changed, and
   it stays easy to edit by hand, which JSON is not.
 - **Let checks read the file**: tikoci-home's `conformance.json` holds the
   cases every resolver is tested against, so the doc and the test cannot
   disagree.
-- **Do not convert existing files for uniformity**; use the format for new
-  files. Data that others consume has a contract
+- **Do not convert existing files for uniformity**; use these formats for
+  new files. Data that others consume has a contract
   ([tikoci-data-contracts](https://tikoci.dev/house/skills/tikoci-data-contracts/SKILL.md)).
 
 ## README
