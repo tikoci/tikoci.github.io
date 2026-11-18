@@ -112,7 +112,10 @@ question differently across releases
 - **Type what you use, not what RouterOS returns.** Response shapes drift
   between versions, so code checks that a reply is a JSON object, reads the
   fields it needs by name and handles a missing one, rather than typing
-  every attribute (quickchr `routeros-rest.instructions.md`).
+  every attribute (quickchr `routeros-rest.instructions.md`). REST replies
+  encode every value as a string, numbers and booleans included (`"1500"`,
+  `"true"`), so convert each field where it is read; a version change then
+  shows as a missing field rather than a wrong type.
 
 ## What gets a test
 

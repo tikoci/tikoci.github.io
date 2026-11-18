@@ -41,13 +41,23 @@ which keeps its warnings on stdout (CONSTITUTION, "Text stdout is data"):
   with `2>/dev/null` once it knows the tool. A `--json` mode keeps
   everything in one document.
 - **A tip names a next command or a better-suited tool.** It never restates
-  what just happened, and an environment variable silences it
-  (`QUICKCHR_NO_TIPS=1`). Tips are not gated on a TTY: their audience,
-  agents and first-time users, usually runs without one.
+  what just happened. Tips are not gated on a TTY: their audience, agents
+  and first-time users, usually runs without one.
+- **A caller can drop tips**: stderr does it in text mode, and a stable
+  code on each tip, shaped like a warning, lets it drop one kind and keep
+  the rest (centrs `tip/*`). An environment variable is one more way
+  (`QUICKCHR_NO_TIPS=1`), not a requirement.
+- **A warning that every normal run carries is noise in text mode.** Keep
+  it in `--json` and leave it out of text, or agents learn to skip the
+  warnings line and miss the one that matters (centrs leaves
+  `transport/provider-trust`, which rides every quickchr run, out of text).
 - **Plain text when stdout is not a terminal**: no ANSI escapes, and
   `NO_COLOR` forces it on a terminal too (rosetta `browse`).
 - **A big result is summarized, with a way to the rest**: a capped list
-  with a count, a stats block, and the flag or tool that returns more.
+  with a count, a stats block, and the flag or tool that returns more. This
+  holds for MCP too, where hosts cap or cut large tool results and an agent
+  then sees a broken JSON document: bound the size and say what was
+  clipped (open in centrs #605).
 
 ## Errors
 
@@ -55,6 +65,10 @@ which keeps its warnings on stdout (CONSTITUTION, "Text stdout is data"):
   next action: a one-sentence message, a one-sentence fix. Internals (a stack,
   a raw exception, the transport detail) ride as structured cause data, not
   in the message.
+- **Each field has one name on every surface.** Renaming a shipped field
+  (`fix` to `remediation`, `detailsUrl` beside `details_url`) is a breaking
+  change with a CHANGELOG entry, and a spec that names one while the code
+  emits the other is drift (centrs is reconciling exactly this).
 - **One registry of codes is the source of truth**, and a test fails on a
   thrown code that is not in it: centrs `src/core/error-catalog.ts` with
   `test/unit/error-catalog.test.ts`, quickchr's `ErrorCode` union. The
@@ -62,16 +76,19 @@ which keeps its warnings on stdout (CONSTITUTION, "Text stdout is data"):
   has `BOOT_TIMEOUT` and `QGA_TIMEOUT`, never a bare `TIMEOUT`. A code that
   shipped keeps its meaning. The spelling (`family/slug` or `UPPER_SNAKE`)
   is the repo's (open `error-code-style`).
-- **Keep the tool's errors apart from the system's.** A RouterOS refusal
-  maps to its own code family with the original string kept (centrs
-  `routeros/*`, grounded on CHR in `src/core/routeros-errors.ts`).
+- **Keep the tool's errors apart from the system's**, whatever the
+  spelling: a code says who failed. A RouterOS refusal maps to its own code
+  family with the original string kept (centrs `routeros/*`, grounded on
+  CHR in `src/core/routeros-errors.ts`).
 - **A way to more information, when one line is not enough**, in whatever
   form fits (settled `error-details`): a page per code, a GitHub URL, or
   another command. centrs gives every code a page at a stable `details_url`,
   which pays off because its codes span a CLI, an API and MCP over several
-  transports. The gap to watch is a failure with an obvious next step the
-  tool does not name: rosetta run through `bunx` does not suggest
-  refreshing its cached database.
+  transports. The gap to watch is a failure the tool could detect but does
+  not name. rosetta's offline error names `--refresh`, and its stale-client
+  notice names the package spec to check; what it cannot see, a bare
+  `bunx` serving its cache without asking the registry, it documents
+  instead (MANUAL.md, "How Updates Work").
 - **A recovery command runs as printed**: one command per line, a caveat as
   a comment in that line's language, every interpolated value shell-quoted.
   quickchr's routes once ended in `(power-cycles the machine)`, and `(` opens
@@ -87,9 +104,16 @@ which keeps its warnings on stdout (CONSTITUTION, "Text stdout is data"):
   command (quickchr provisioning).
 - **An operation across many targets reports each one.** centrs fan-out
   returns every target's result, failures included, and exits `0` when all
-  succeeded, `2` when some failed and `1` when the run itself failed; it
-  does not roll back the targets that succeeded. A read keeps what it got
-  and says what is missing.
+  succeeded, `2` when some failed, and `1` when every target failed or the
+  run itself did; it does not roll back the targets that succeeded. A read
+  keeps what it got and says what is missing.
+- **A write across many targets is confirmed once, up front**, and the
+  refusal without it names the blast radius (how many targets). An empty
+  selection is an error for a write and a warning for a read, so a
+  mistyped selector never passes as a successful bulk write (centrs #460).
+- **A write that was sent is never retried**, on one target or many: it
+  may already have run. It fails with a warning that the outcome is
+  unknown (centrs `transport/write-outcome-unknown`, #448).
 - **A missing local tool** is detected where practical, with an install hint
   for each platform.
 - **Crash early while failure modes are unknown.** No preemptive
@@ -112,8 +136,8 @@ suggest running it.
   `routeros_stats` tool, the MCP startup banner and `bun run db:doctor`,
   which exits non-zero when the database is not `ok`, so CI and hooks can
   use it.
-- centrs `check` is designed as a device doctor whose checks return the
-  standard envelope.
+- centrs `check` (designed, not built) applies the same idea to a target:
+  a battery of checks on a router, returned in the standard envelope.
 
 ## Layers
 
@@ -146,10 +170,12 @@ suggest running it.
 ## MCP
 
 - **A handful of verbs over the core, not one tool per underlying
-  command.** centrs's benchmark: a 166-tool server cost about 28K
-  always-on tokens, and the right tool was a clear top-three pick only 62%
-  of the time. centrs exposes its CLI verbs (`explain`, `validate`,
-  `retrieve`, `execute`); rosetta argues the same in DESIGN.md ("Why
+  command.** bench-routeros-tools measured a third-party RouterOS server
+  with 166 tools: about 28K always-on tokens, and the right tool was a
+  clear top-three pick only 62% of the time. centrs exposes six tools that
+  follow its CLI verbs (`centrs_explain`, `centrs_validate`,
+  `centrs_retrieve`, `centrs_execute`, plus `centrs_devices` and
+  `centrs_discover`); rosetta argues the same in DESIGN.md ("Why
   endpoint-shaped MCP is not the answer").
 - **Tool descriptions are interface**: they state knowledge boundaries
   (versions covered, export date), point to the next call with workflow
@@ -157,20 +183,37 @@ suggest running it.
   bare empty list.
 - **Results use the CLI's shape**, as JSON text; a failure also sets the
   MCP result's `isError`, so a host shows it failed without parsing.
+  `isError` means the call failed, not that one target did: a fan-out
+  that completed with some targets failed is not an error (centrs
+  `src/mcp/server.ts`). Typed output (`structuredContent` with an
+  `outputSchema`) beside the text is an open choice; decide it on purpose
+  (centrs #605).
+- **Not found is an error only when the caller named the thing.** A lookup
+  by exact id or title that finds nothing sets `isError` and names the
+  next step (rosetta `routeros_get_page`); a search with no hits succeeds
+  and carries the empty-result hints.
 - **Validate in code** even when the input schema constrains a field: the
   schema helps the agent, the descriptive runtime error lets it retry
   (restraml WebMCP).
 - **Annotations are honest.** `readOnlyHint` only on tools that cannot
   write; a tool that may write advertises the worst case
   (`destructiveHint: true` on centrs `execute`) and enforces the real gate
-  in code. A write goes through an explicit gate (centrs: the device's
-  allowlist entry plus `confirm: true`). On WebMCP page tools, restraml sets
-  `untrustedContentHint` whenever any string in the result comes from
-  outside the repo.
-- **The tool list is frozen in a test.** Adding, removing or renaming a tool
-  updates the registry, the expected-tools list in the contract test and
-  the CHANGELOG together (rosetta `EXPECTED_TOOLS` in
-  `src/mcp-contract.test.ts`). A description-only edit needs no CHANGELOG.
+  in code. On WebMCP page tools, restraml sets `untrustedContentHint`
+  whenever any string in the result comes from outside the repo.
+- **A write opt-in lives where the agent cannot reach it**: per target, off
+  by default, and changed only by a person through the CLI or a config
+  file, never by a tool on the same server. A `confirm: true` the agent
+  supplies guards against accidents, not against the agent. centrs has the
+  shape (a device's `mcp=rw` plus `confirm: true`) and the trap: an agent
+  can set `mcp=rw` through `centrs_devices` today, a gap its MATRIX
+  records.
+- **The tool list is frozen in a test, with its annotations.** The test
+  connects a real MCP client to the server in process and snapshots what a
+  host sees: each tool's name and annotations. Adding, removing or renaming
+  a tool, or flipping `readOnlyHint`, fails it until the list and the
+  CHANGELOG are updated together. rosetta freezes names by reading the
+  source (`EXPECTED_TOOLS` in `src/mcp-contract.test.ts`), the fallback for
+  a server with no SDK client. A description-only edit needs no CHANGELOG.
 - **Resources for whole datasets, tools for queries**: a CSV export an
   agent attaches on purpose is a resource; ranked, filtered retrieval stays
   a tool (rosetta).
@@ -209,7 +252,7 @@ suggest running it.
 ## Patterns and sources
 
 [references/patterns.md](references/patterns.md) has copyable code: a tips
-helper, an error registry with its test, a frozen tool list, and quoting a
-printed command. [references/sources.md](references/sources.md) lists the
+helper, an error registry with its test, a frozen tool surface, and
+quoting a printed command. [references/sources.md](references/sources.md) lists the
 survey rows and repo files behind each rule. Planning: Phase 3 of
 [issue #21](https://github.com/tikoci/tikoci.github.io/issues/21).

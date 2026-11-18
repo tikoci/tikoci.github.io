@@ -131,7 +131,9 @@ Issue and PR linking is in
 - **A list with columns is a data file, not paragraphs.** TSV for tables
   people edit (the house survey and skill list, tikoci-home's
   `layout.tsv`), TOML for definitions people edit, JSON for what a tool
-  writes and reads. A tikoci tool's own settings are the exception:
+  writes and reads, JSONL for an append-only log kept in git (one line
+  per record, so an append is a one-line diff and two writers rarely
+  conflict; centrs `qa-runs.jsonl`). A tikoci tool's own settings are the exception:
   `<tool>.env` with `KEY=value`
   ([tikoci-home](https://tikoci.dev/house/skills/tikoci-home/SKILL.md)). A Markdown file beside it explains the table and links
   to it. A script can read it, a diff shows the one row that changed, and

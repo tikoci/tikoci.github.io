@@ -14,6 +14,7 @@ bunx # run a package binary through Bun, https://bun.com/docs/cli/bunx
 CDB # WinBox address book format
 centrs # tikoci RouterOS CLI and library, https://github.com/tikoci/centrs
 choco # Chocolatey, the Windows package manager CLI
+cliref # rosetta CLI Reference crosswalk (cli-reference-links.tsv)
 CMR # MikroTik's controller for RouterOS fleets
 coderabbit # CodeRabbit config and file names (.coderabbit.yaml)
 coderabbitai # CodeRabbit's GitHub handle, as in @coderabbitai
@@ -53,6 +54,7 @@ MIB
 mikropkl # declarative RouterOS VMs in Pkl, https://github.com/tikoci/mikropkl
 MikroTik
 mktemp
+modelcontextprotocol # npm scope of the MCP SDK, @modelcontextprotocol/sdk
 MSYS
 mtimes
 mytool # placeholder tool name in code samples
@@ -90,6 +92,7 @@ secretlint # secret scanner, https://github.com/secretlint/secretlint
 sed # stream editor (POSIX)
 shellcheck # shell script linter, https://www.shellcheck.net/
 SHELLFLAGS # GNU make variable: flags for the recipe shell
+shm # SQLite WAL shared-memory sidecar file (-shm)
 SNMP
 socat # relays sockets and serial ports, http://www.dest-unreach.org/socat/
 strawman

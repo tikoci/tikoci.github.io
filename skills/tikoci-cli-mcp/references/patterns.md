@@ -2,9 +2,11 @@
 
 Copyable code for the rules in [tikoci-cli-mcp](../SKILL.md), adapted from
 quickchr, centrs and rosetta. `mytool` stands for the tool's name. Each
-sample was run under Bun 1.4.4 with `bun test`, including probes that must
-fail (an unregistered code, a new tool, a description with no arrow, an
-arrow only in a comment, a description the test cannot find), and
+sample was run under Bun 1.4.4 with `bun test` (the MCP one with
+`@modelcontextprotocol/sdk` 1.32.2), including probes that must fail (an
+unregistered code in each quote style, a new or renamed tool, a flipped
+annotation, a description with no arrow, one composed from variables, an
+arrow only in a comment, a description the source scan cannot find), and
 checked with TypeScript 7.0.2 under the house `tsconfig.example.json` and
 Biome 2.6.6 under the house `biome.example.jsonc` with
 `--error-on-warnings`. The printed route was run through `sh`.
@@ -99,11 +101,66 @@ The `ErrorCode` type already rejects an unregistered literal at compile time;
 the scan also catches a code cast from a string and keeps the test
 meaningful in a repo that turns type checking off for some files.
 
-## A frozen tool list
+## A frozen tool surface
 
-From rosetta `src/mcp-contract.test.ts`: adding, removing or renaming a tool
-fails the test until the list, and the CHANGELOG, are updated on purpose.
-The same file checks that every description carries a workflow arrow.
+Freeze what the server serves, not what its source says. The test connects
+a real MCP client to the server in process (the SDK's `InMemoryTransport`,
+as in centrs `test/unit/mcp-server-result.test.ts`) and compares each
+tool's name and annotations with a list kept in the test. Adding, removing
+or renaming a tool, or flipping `readOnlyHint`, fails it until the list,
+and the CHANGELOG, are updated on purpose. Descriptions built from
+variables are checked as a host sees them. The server module exports a
+`createServer()` that builds the server without connecting a transport.
+
+`test/mcp-surface.test.ts`:
+
+```ts
+import { afterAll, beforeAll, describe, expect, test } from "bun:test";
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
+import { createServer } from "../src/server.ts";
+
+// What a host sees. A change here is a surface change: update it on purpose,
+// with a CHANGELOG entry when a tool is added, removed or renamed.
+const EXPECTED = {
+  mytool_get_page: { readOnlyHint: true },
+  mytool_search: { readOnlyHint: true },
+};
+
+const server = createServer();
+const client = new Client({ name: "surface-test", version: "0.0.0" });
+
+beforeAll(async () => {
+  const [clientSide, serverSide] = InMemoryTransport.createLinkedPair();
+  await server.connect(serverSide);
+  await client.connect(clientSide);
+});
+
+afterAll(async () => {
+  await client.close();
+  await server.close();
+});
+
+describe("MCP surface", () => {
+  test("tools and annotations match the frozen list", async () => {
+    const { tools } = await client.listTools();
+    const served = Object.fromEntries(tools.map((tool) => [tool.name, tool.annotations ?? {}]));
+    expect(served).toEqual(EXPECTED);
+  });
+
+  test("every description points to a next tool", async () => {
+    const { tools } = await client.listTools();
+    const missing = tools.filter((tool) => !tool.description?.includes("→")).map((tool) => tool.name);
+    expect(missing).toEqual([]);
+  });
+});
+```
+
+### Without an SDK client
+
+From rosetta `src/mcp-contract.test.ts`, for a server the test cannot
+connect to in process: read the tool names and descriptions from the
+source.
 
 ```ts
 import { describe, expect, test } from "bun:test";
@@ -142,9 +199,9 @@ The regex reads the source, so it needs no database or MCP client and runs
 in the unit tier. It tests the description itself, not the whole
 registration: an arrow in a comment, a schema field or the handler must not
 pass it, and a description it cannot find fails the test rather than being
-skipped. A server that builds its tool list at run time, or composes
-descriptions from variables, lists its tools through an in-process MCP
-client instead.
+skipped. It cannot see a tool list built at run time, a description
+composed from variables or the annotations; the in-process client above
+can.
 
 ## A command that pastes
 
