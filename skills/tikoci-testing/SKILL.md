@@ -109,6 +109,10 @@ question differently across releases
   per-version outputs, and centrs's nightly sweep runs when a resolved
   version (or `main`) changed. Recipe: tikoci-ci patterns, "A new RouterOS
   version".
+- **Type what you use, not what RouterOS returns.** Response shapes drift
+  between versions, so code checks that a reply is a JSON object, reads the
+  fields it needs by name and handles a missing one, rather than typing
+  every attribute (quickchr `routeros-rest.instructions.md`).
 
 ## What gets a test
 

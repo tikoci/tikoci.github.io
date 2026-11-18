@@ -1,6 +1,7 @@
 # Project dictionary for cspell. One word per line, sorted case-insensitively
 # (checked by `bun run lint:words`); a word that is not obvious says what it
 # is after " # ". See the tikoci-linting house skill.
+affordances
 appyamlschemas
 artipacked # zizmor audit for credentials left in a checkout
 autovlan
@@ -21,6 +22,7 @@ commonmark # micromark-core-commonmark, the CommonMark parser markdownlint patch
 crossref
 curlconverter # npm package behind the curl parser page
 cwd
+DDL # SQL data definition language
 dispatchable
 Dockerfiles
 edk # edk2, the UEFI firmware QEMU boots, https://github.com/tianocore/edk2
@@ -28,6 +30,7 @@ efi
 endgroup
 esac
 frontmatter
+FTS # SQLite full-text search
 gitdir
 gpt # OpenAI model names in Reviewer: lines (gpt-6.1-sol)
 gtimeout
@@ -50,6 +53,7 @@ MikroTik
 mktemp
 MSYS
 mtimes
+mytool # placeholder tool name in code samples
 netinstall # MikroTik's device flashing tool
 nodefaults
 nohup
@@ -68,6 +72,7 @@ pidfile
 pids
 pipefail # bash set -o pipefail
 PSScriptAnalyzer # PowerShell linter, https://github.com/PowerShell/PSScriptAnalyzer
+QGA # QEMU guest agent
 quickchr # CHR VMs under QEMU, https://github.com/tikoci/quickchr
 releaseflags
 restraml # RouterOS schema tools, https://github.com/tikoci/restraml
@@ -87,6 +92,7 @@ SNMP
 socat # relays sockets and serial ports, http://www.dest-unreach.org/socat/
 strawman
 subfolders
+subshell
 TCG # QEMU's software CPU emulator
 tgz
 tikbook # RouterOS notebooks for VS Code, https://github.com/tikoci/vscode-tikbook

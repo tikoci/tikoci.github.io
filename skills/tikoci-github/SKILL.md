@@ -183,7 +183,7 @@ Keep the scanning list true: compare it with the check commands in
   build or test resolves none.
 - **One helper makes every call**, handling auth, timeouts and errors
   (rosetta `fetchGitHub()` in `src/github.ts`); the general rule is
-  `tikoci-interfaces`. CI passes `GITHUB_TOKEN: ${{ github.token }}`
+  [tikoci-cli-mcp](https://tikoci.dev/house/skills/tikoci-cli-mcp/SKILL.md). CI passes `GITHUB_TOKEN: ${{ github.token }}`
   explicitly to the step that needs it.
 - **Never print or commit a token.**
 

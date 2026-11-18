@@ -126,6 +126,21 @@ Issue and PR linking is in
 - **A CLI change updates its docs and examples in the same PR**: the
   per-command page, its examples, and the README if it shows that command.
 
+## Structured over prose
+
+- **A list with columns is a data file, not paragraphs.** TSV for tables
+  people edit (the house survey and skill list, tikoci-home's
+  `layout.tsv`), TOML for configuration people edit, JSON for what a tool
+  writes and reads. A Markdown file beside it explains the table and links
+  to it. A script can read it, a diff shows the one row that changed, and
+  it stays easy to edit by hand, which JSON is not.
+- **Let checks read the file**: tikoci-home's `conformance.json` holds the
+  cases every resolver is tested against, so the doc and the test cannot
+  disagree.
+- **Do not convert existing files for uniformity**; use the format for new
+  files. Data that others consume has a contract
+  ([tikoci-data-contracts](https://tikoci.dev/house/skills/tikoci-data-contracts/SKILL.md)).
+
 ## README
 
 - **Short**: what it is, how to install it, a quick start, and links to the
