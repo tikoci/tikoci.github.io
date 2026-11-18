@@ -28,6 +28,7 @@ DDL # SQL data definition language
 dispatchable
 Dockerfiles
 edk # edk2, the UEFI firmware QEMU boots, https://github.com/tianocore/edk2
+EEXIST # POSIX errno: file exists
 efi
 endgroup
 esac
@@ -38,6 +39,7 @@ gitdir
 gpt # OpenAI model names in Reviewer: lines (gpt-6.1-sol)
 gtimeout
 hvf
+inodes # file system index nodes
 IOERR # SQLITE_IOERR_VNODE
 katex # KaTeX, the math renderer (npm package katex)
 kvm

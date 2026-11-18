@@ -4,18 +4,21 @@ Copyable code for the rules in [tikoci-cli-mcp](../SKILL.md), adapted from
 quickchr, centrs and rosetta. `mytool` stands for the tool's name. Each
 sample was run under Bun 1.4.4 with `bun test` (the MCP one with
 `@modelcontextprotocol/sdk` 1.32.2), including probes that must fail (an
-unregistered code in each quote style, a new or renamed tool, a flipped
+unregistered code in each quote style or as a cast `family/slug` literal,
+a new, renamed or commented-out tool, a flipped
 annotation, a description with no arrow, one composed from variables, an
-arrow only in a comment or a schema field, a description the source scan
-cannot find), and
+arrow only in a comment, a schema field or a `${}` interpolation, a
+description the source scan cannot find), and
 checked with TypeScript 7.0.2 under the house `tsconfig.example.json` and
 Biome 2.6.6 under the house `biome.example.jsonc` with
-`--error-on-warnings`. The printed route was run through `sh`.
+`--error-on-warnings`. The printed route was run through `sh`, and the
+tip checked for escapes with stderr redirected.
 
 ## Tips on stderr
 
 From quickchr `src/cli/tips.ts`. A tip names a next command; the
-environment variable silences it; it is not gated on a TTY.
+environment variable silences it; it is not gated on a TTY, though its
+color is: no escapes unless stderr is a terminal and `NO_COLOR` is unset.
 
 ```ts
 /** True when tips are switched off for this run. */
@@ -27,7 +30,9 @@ export function tipsSuppressed(): boolean {
 /** Print one tip line to stderr. No-op when tips are suppressed. */
 export function tip(line: string): void {
   if (tipsSuppressed()) return;
-  const dim = process.env.NO_COLOR ? (s: string) => s : (s: string) => `\x1b[2m${s}\x1b[0m`;
+  // Color only on a terminal: tips go to stderr, so that is the stream to check.
+  const color = process.stderr.isTTY && !process.env.NO_COLOR;
+  const dim = color ? (s: string) => `\x1b[2m${s}\x1b[0m` : (s: string) => s;
   console.error(dim(`tip: ${line}`));
 }
 ```
@@ -80,7 +85,8 @@ const SRC_DIR = join(import.meta.dir, "..", "src");
 const registered = new Set<string>(errorCatalog.map((entry) => entry.code));
 
 test("every thrown code is registered", () => {
-  const thrown = /new MyToolError\(\s*(["'`])([A-Z0-9_]+)\1/g;
+  // Any literal code, UPPER_SNAKE or family/slug, cast or not.
+  const thrown = /new MyToolError\(\s*(["'`])([^"'`$\s]+)\1/g;
   const missing: string[] = [];
   for (const rel of new Glob("**/*.ts").scanSync({ cwd: SRC_DIR })) {
     const text = readFileSync(join(SRC_DIR, rel), "utf8");
@@ -175,14 +181,15 @@ export const EXPECTED_TOOLS = ["mytool_search", "mytool_get_page"] as const;
 describe("frozen tool registry", () => {
   test("registered tools match EXPECTED_TOOLS", () => {
     const found = Array.from(
-      MCP_SOURCE.matchAll(/server\.registerTool\(\s*["']([^"']+)["']/g),
+      // A registration starts its line, so a commented-out one is not counted.
+      MCP_SOURCE.matchAll(/^\s*server\.registerTool\(\s*["']([^"']+)["']/gm),
       (match) => match[1],
     );
     expect(found.sort()).toEqual([...EXPECTED_TOOLS].sort());
   });
 
   test("every description points to a next tool", () => {
-    const blocks = MCP_SOURCE.split(/(?=server\.registerTool\()/).slice(1);
+    const blocks = MCP_SOURCE.split(/^(?=\s*server\.registerTool\()/m).slice(1);
     const problems: string[] = [];
     for (const block of blocks) {
       const name = block.match(/server\.registerTool\(\s*["']([^"']+)["']/)?.[1] ?? "?";
@@ -190,9 +197,10 @@ describe("frozen tool registry", () => {
       // property, a string literal ("…", '…' or `…` with no ${}). Anchoring
       // it there keeps a schema field's description from standing in for it.
       const description = block.match(
-        /^server\.registerTool\(\s*["'][^"']+["']\s*,\s*\{\s*description:\s*(["'`])([\s\S]*?)\1/,
+        /^\s*server\.registerTool\(\s*["'][^"']+["']\s*,\s*\{\s*description:\s*(["'`])([\s\S]*?)\1/,
       )?.[2];
       if (description === undefined) problems.push(`${name}: description not found`);
+      else if (description.includes("${")) problems.push(`${name}: composed description; use the in-process client`);
       else if (!description.includes("→")) problems.push(`${name}: no → in description`);
     }
     expect(problems).toEqual([]);
@@ -201,12 +209,13 @@ describe("frozen tool registry", () => {
 ```
 
 The regex reads the source, so it needs no database or MCP client and runs
-in the unit tier. It accepts one registration format, the description as
-the config's first property, and fails anything else: a description it
-cannot find, an arrow in a comment, a schema field's description standing
-in for a missing tool description. It cannot see a tool list built at run
-time, a description composed from variables or the annotations; the
-in-process client above can.
+in the unit tier. It accepts one registration format, a call that starts
+its line with the description as the config's first property, and fails
+anything else: a description it cannot find, an arrow in a comment, a
+schema field's description standing in for a missing tool description, a
+template with `${}`. A line-commented registration is not counted; one
+inside a `/* */` block still is. It cannot see a tool list built at run
+time or the annotations; the in-process client above can.
 
 ## A command that pastes
 

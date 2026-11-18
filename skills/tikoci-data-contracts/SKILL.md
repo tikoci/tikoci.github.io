@@ -136,9 +136,11 @@ and
 - **Retire a database only when you can prove no reader has it, never by
   file times**: an age rule deleted rosetta's file under a running client
   (#165). One proof, for read-only files in rollback-journal mode: each
-  reader holds a read transaction for its lifetime, and cleanup deletes a
-  file only while it holds `BEGIN EXCLUSIVE`, which no live reader allows
-  (rosetta `src/db-lifecycle.ts`, #151). It does not work in WAL mode,
+  reader starts a read transaction straight after opening, checks the path
+  still names the file it opened, and holds the transaction for its
+  lifetime; cleanup deletes a file only while it holds `BEGIN EXCLUSIVE`,
+  which no reader holding its transaction allows (rosetta
+  `src/db-lifecycle.ts`, #151). It does not work in WAL mode,
   where `BEGIN EXCLUSIVE` succeeds beside a reader, and renaming under the
   lock is POSIX-only; rosetta skips WAL files and deletes differently on
   Windows.

@@ -7,9 +7,11 @@ house `tsconfig.example.json` and Biome 2.6.6 under the house
 `biome.example.jsonc` with `--error-on-warnings`. The probes that must
 fail: a trigger that deletes with a plain `DELETE`, a row dropped by the
 database (which must leave the previous data in place), a schema version
-that does not match, a version stamp with no tables behind it, replacing
-a file a client holds, each missing provenance stamp, and a schema
-version that disagrees with the pragma.
+that does not match, a version stamp with no tables behind it, a download
+missing a table readers need, a WAL file at the destination, replacing a
+file a client holds, each missing provenance stamp, and a schema version
+that disagrees with the pragma. A reader whose file was swapped between
+opening and starting its transaction was probed separately.
 
 ## An FTS5 index kept by triggers
 
@@ -115,26 +117,36 @@ export function loadPages(db: Database, parsed: Page[]): void {
 From rosetta `src/setup.ts` and `src/db-lifecycle.ts`. Even a read-only
 open of a WAL file creates `-wal` and `-shm` beside it, so the installer
 converts a private temp copy to rollback-journal mode, checks that it
-holds what the tool needs (a version stamp alone proves nothing), and only
-then puts it in place. Better still, the builder runs the same
+has every table its readers query and some content (a version stamp alone
+proves nothing), and only then puts it in place. Better still, the builder runs the same
 `PRAGMA journal_mode=DELETE` before upload.
 
 An atomic rename does not make it safe to replace a file a client has
-open. This sample refuses instead: its clients hold a read transaction
-for their lifetime, so `BEGIN EXCLUSIVE` on the old file fails while any
-of them runs. That proof works only in rollback-journal mode (a WAL
-reader does not block it), and the rename under the lock only on POSIX.
-rosetta avoids both limits by installing each version under its own name
-and retiring old files separately.
+open. This sample refuses instead, given three things:
+
+- **Readers open through `openOwned()`**, which starts a read transaction
+  straight after opening and then checks the path still names the file it
+  opened (rosetta compares inodes in `acquireOwnership`). Without that
+  check, an installer can swap the file between a reader's open and its
+  first read.
+- **The old file is in rollback-journal mode.** A WAL reader does not
+  block `BEGIN EXCLUSIVE`, so the installer refuses a WAL destination.
+- **POSIX.** The rename under the lock fails on Windows while any handle
+  is open; there, install each version under its own name, as rosetta
+  does, and retire old files separately.
+
+A first install uses `linkSync`, which creates the destination only if it
+does not exist, so two installers cannot both skip the guard.
 
 `src/install.ts`:
 
 ```ts
 import { Database } from "bun:sqlite";
-import { existsSync, renameSync, rmSync } from "node:fs";
+import { existsSync, linkSync, renameSync, rmSync, statSync } from "node:fs";
 import { SCHEMA_VERSION } from "./schema.ts";
 
-/** The least a usable download holds; a version stamp alone proves nothing. */
+/** Every table a reader of this database queries; a version stamp alone proves nothing. */
+const REQUIRED_TABLES = ["pages", "pages_fts", "db_meta"] as const;
 const MIN_PAGES = 1;
 
 /** Convert a private temp copy to rollback-journal mode and check it is usable. */
@@ -146,7 +158,11 @@ function prepare(tmpPath: string): void {
     if (version !== SCHEMA_VERSION) {
       throw new Error(`downloaded schema ${version} does not match this build (${SCHEMA_VERSION})`);
     }
-    // Query the tables the tool needs: a missing table throws "no such table".
+    const present = new Set(
+      conn.query<{ name: string }, []>("SELECT name FROM sqlite_schema WHERE type = 'table'").all().map((row) => row.name),
+    );
+    const missing = REQUIRED_TABLES.filter((table) => !present.has(table));
+    if (missing.length > 0) throw new Error(`downloaded database lacks ${missing.join(", ")}`);
     const pages = conn.query<{ n: number }, []>("SELECT count(*) AS n FROM pages").get()?.n ?? 0;
     if (pages < MIN_PAGES) throw new Error(`downloaded database has ${pages} pages`);
   } finally {
@@ -155,22 +171,44 @@ function prepare(tmpPath: string): void {
 }
 
 /**
- * Install a downloaded database for read-only clients. Each client holds a
- * read transaction on the installed file for its lifetime, so in
+ * A reader's connection, owning the file for its lifetime: it starts a read
+ * transaction straight after opening, then checks that the path still names
+ * the file it opened, since an installer may have swapped it in between.
+ */
+export function openOwned(path: string): Database {
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const before = statSync(path).ino;
+    const conn = new Database(path, { readonly: true });
+    conn.run("BEGIN");
+    conn.query("SELECT count(*) FROM sqlite_schema").get(); // takes the shared lock
+    if (statSync(path).ino === before) return conn;
+    conn.close();
+  }
+  throw new Error(`${path} kept changing while opening it`);
+}
+
+/**
+ * Install a downloaded database for readers that use openOwned(). In
  * rollback-journal mode an EXCLUSIVE lock on the old file succeeds only when
- * no client has it open. The replacement is renamed in under that lock, which
+ * no owner holds it, so the replacement is renamed in under that lock, which
  * POSIX allows; on Windows the rename fails while any handle is open, so
  * install to a new path there instead.
  */
 export function installDatabase(tmpPath: string, finalPath: string): void {
   try {
     prepare(tmpPath);
-    if (!existsSync(finalPath)) {
-      renameSync(tmpPath, finalPath);
+    try {
+      // Creates finalPath only if it does not exist, so two installers cannot both take this path.
+      linkSync(tmpPath, finalPath);
       return;
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
     }
     const guard = new Database(finalPath);
     try {
+      const mode = guard.query<{ journal_mode: string }, []>("PRAGMA journal_mode").get()?.journal_mode;
+      // A WAL reader does not block BEGIN EXCLUSIVE, so the lock would prove nothing.
+      if (mode !== "delete") throw new Error(`${finalPath} is in ${mode} mode; stop its clients and replace it by hand`);
       try {
         guard.run("BEGIN EXCLUSIVE");
       } catch {
@@ -182,7 +220,7 @@ export function installDatabase(tmpPath: string, finalPath: string): void {
       guard.close();
     }
   } finally {
-    rmSync(tmpPath, { force: true });
+    if (existsSync(tmpPath)) rmSync(tmpPath);
   }
 }
 ```
@@ -241,7 +279,7 @@ import { existsSync, mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { classifyGrounding, stampProvenance } from "../src/grounding.ts";
-import { installDatabase } from "../src/install.ts";
+import { installDatabase, openOwned } from "../src/install.ts";
 import { loadPages } from "../src/load.ts";
 import { createSchema, SCHEMA_VERSION } from "../src/schema.ts";
 
@@ -350,17 +388,34 @@ describe("install", () => {
     const stub = new Database(tmp);
     stub.run(`PRAGMA user_version = ${SCHEMA_VERSION}`);
     stub.close();
-    expect(() => installDatabase(tmp, final)).toThrow("no such table");
+    expect(() => installDatabase(tmp, final)).toThrow("lacks pages");
     expect(pageCount(final)).toBe(2);
+  });
+
+  test("a download missing a table readers need is refused", () => {
+    const dir = mkdtempSync(join(tmpdir(), "install-"));
+    const tmp = download(dir, 2);
+    const conn = new Database(tmp);
+    conn.run("DROP TABLE pages_fts");
+    conn.close();
+    expect(() => installDatabase(tmp, join(dir, "db.sqlite"))).toThrow("lacks pages_fts");
+  });
+
+  test("a WAL file at the destination is refused, not replaced", () => {
+    const dir = mkdtempSync(join(tmpdir(), "install-"));
+    const final = join(dir, "db.sqlite");
+    const wal = new Database(final);
+    wal.run("PRAGMA journal_mode=WAL");
+    createSchema(wal);
+    wal.close();
+    expect(() => installDatabase(download(dir, 2), final)).toThrow("is in wal mode");
   });
 
   test("a file a client holds is not replaced; a free one is", () => {
     const dir = mkdtempSync(join(tmpdir(), "install-"));
     const final = join(dir, "db.sqlite");
     installDatabase(download(dir, 2), final);
-    const owner = new Database(final, { readonly: true });
-    owner.run("BEGIN");
-    owner.query("SELECT count(*) FROM pages").get();
+    const owner = openOwned(final);
     expect(() => installDatabase(download(dir, 3), final)).toThrow("is in use");
     expect(pageCount(final)).toBe(2);
     owner.run("ROLLBACK");

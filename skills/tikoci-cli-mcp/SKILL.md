@@ -204,7 +204,8 @@ which keeps its warnings on stdout (CONSTITUTION, "Text stdout is data"):
   supplies guards against accidents, not against the agent. centrs has the
   shape (a device's `mcp=rw` plus `confirm: true`) and the trap: an agent
   can set `mcp=rw` through `centrs_devices` today, a gap its MATRIX
-  records.
+  records. The gate holds only against an agent limited to the MCP
+  server; one that can run the CLI or edit the config can open it too.
 - **The tool list is frozen in a test, with its annotations.** The test
   connects a real MCP client to the server in process and snapshots what a
   host sees: each tool's name and annotations. Adding, removing or renaming
