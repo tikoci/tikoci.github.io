@@ -26,10 +26,11 @@ a package:
 | `dotenv` | nothing: Bun loads `.env` (but see shipped CLIs below) |
 | `execa`, `child_process` wrappers | `Bun.$`, `Bun.spawn` |
 
-- **Publishing is the exception**: `npm publish --provenance` and
-  `npm dist-tag` need the npm CLI (`actions/setup-node` in the release
-  workflow), because provenance and dist-tags are npm registry features. The
-  release rules belong to `tikoci-release`.
+- **Publishing is the exception**: `npm pack`, `npm publish` and
+  `npm dist-tag` need the npm CLI, because trusted publishing, provenance and
+  dist-tags are npm registry features. The release workflow runs npm from an
+  `npm` devDependency on `actions/setup-node`'s Node. The release rules
+  belong to `tikoci-release`.
 - **A shipped CLI does not read the working directory's `.env`.** Bun loads
   `.env` from wherever it runs, so an installed tool would pick up an
   unrelated project's settings (centrs #666). Start the bin with
@@ -122,7 +123,8 @@ a package:
 [package.example.json](assets/package.example.json) sketches the parts of
 package.json the house skills refer to: the `packageManager` pin, the `check`
 gate and the lint scripts (`tikoci-linting`), the test tiers
-(`tikoci-testing`) and the dev tools that `bun install` provides.
+(`tikoci-testing`), the `audit` script (`tikoci-ci`) and the dev tools that
+`bun install` provides.
 
 - **A Bun-only repo has no Makefile.** package.json scripts are the entry
   points, and `bun run check` is the gate a developer and CI both run.

@@ -7,6 +7,7 @@
   },
   "scripts": {
     "check": "bun run lint && bun run test",
+    "audit": "bun scripts/audit.ts",
     "lint": "bun run lint:types && bun run lint:code && bun run lint:markdown && bun run lint:words",
     "lint:types": "tsc",
     "lint:code": "biome lint --error-on-warnings .",

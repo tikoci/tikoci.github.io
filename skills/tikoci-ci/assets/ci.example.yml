@@ -174,31 +174,9 @@ jobs:
             exit 0
           fi
 
-          # An advisory with no fixed release in range: add its
-          # --ignore=GHSA-... here, with the reason and the removal condition.
-          audit_args=()
-          status=0
-          bun audit --json "${audit_args[@]}" > "$RUNNER_TEMP/audit.json" 2> "$RUNNER_TEMP/audit.err" || status=$?
-          cat "$RUNNER_TEMP/audit.err" >&2
-          # A registry Bun could not ask is a warn: or error: line, and a
-          # scoped registry's packages are then skipped even at exit 0. Any
-          # such line means not every package was checked.
-          if grep -Eq '^(warn|error):' "$RUNNER_TEMP/audit.err"; then
-            echo "::error::bun audit did not check every package (see its warnings above)."
-            exit 1
-          fi
-          if [ "$status" -eq 0 ]; then exit 0; fi
-          # Bun exits 1 for advisories and for an audit that did not complete
-          # alike (a registry it cannot reach, or one that answers with an
-          # error object). Both fail; the message says which it was.
-          report='type == "object" and length > 0 and all(.[]; type == "array" and length > 0 and all(.[]; type == "object" and has("id") and has("severity")))'
-          if jq -e "$report" "$RUNNER_TEMP/audit.json" > /dev/null 2>&1; then
-            bun audit "${audit_args[@]}" || true # the readable report, for the log
-            echo "::error::bun audit found advisories."
-          else
-            echo "::error::bun audit did not complete (exit $status), so nothing was checked."
-          fi
-          exit 1
+          # The audit itself, and its ignore list, live in scripts/audit.ts
+          # (audit.example.ts), which the release workflow runs too.
+          bun run audit
 
   # One stable name to require in branch protection, whatever the matrix holds.
   # A skipped job (a docs-only skip) counts as passed; a failed or cancelled
