@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "routeros-skills",
-  "generatedAt": "2026-11-18T22:00:57.483Z",
+  "generatedAt": "2026-11-19T03:35:08.300Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,8 +9,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 23,
-        "owner": 23,
+        "total": 25,
+        "owner": 25,
         "external": 0,
         "bot": 0
       },
@@ -25,13 +25,39 @@
       }
     },
     "page": {
-      "fetched": 28,
+      "fetched": 30,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 65,
+        "title": "routeros-sniffer: correct filter-stream, sniff-id, keepalives and file names from CHR captures",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/65",
+        "createdAt": "2026-11-19T03:21:14Z",
+        "updatedAt": "2026-11-19T03:21:14Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 64,
+        "title": "Command trees: ARM64 CHR has packages an x86 tree misses",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/64",
+        "createdAt": "2026-11-18T22:11:29Z",
+        "updatedAt": "2026-11-18T22:29:03Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
       {
         "number": 63,
         "title": "Point tikoci-* setup at the house skills on tikoci.dev",

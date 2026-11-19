@@ -1,5 +1,20 @@
 [
   {
+    "name": "tzsp-sniff",
+    "description": "Receive and decode RouterOS TZSP packet streams without root: a CLI and TypeScript library sized for agents",
+    "stars": 1,
+    "language": "TypeScript",
+    "topics": [
+      "agents",
+      "mikrotik",
+      "packet-capture",
+      "routeros",
+      "sniffer",
+      "tzsp"
+    ],
+    "html_url": "https://github.com/tikoci/tzsp-sniff"
+  },
+  {
     "name": "routeros-skills",
     "description": "Custom instruction SKILL.md for MikroTik RouterOS v7",
     "stars": 92,

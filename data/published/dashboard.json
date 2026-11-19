@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-18T22:00:57.483Z",
+  "generatedAt": "2026-11-19T03:35:08.300Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,7 +10,7 @@
     "otherHttpCalls": 11,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4837
+    "rateLimitRemaining": 4835
   },
   "sources": {
     "ros-current": "https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel> (MikroTik upgrade feed; body \"<version> <build-ts>\")",
@@ -2582,8 +2582,8 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 23,
-            "owner": 23,
+            "total": 25,
+            "owner": 25,
             "external": 0,
             "bot": 0
           },
@@ -2598,13 +2598,39 @@
           }
         },
         "page": {
-          "fetched": 28,
+          "fetched": 30,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 65,
+            "title": "routeros-sniffer: correct filter-stream, sniff-id, keepalives and file names from CHR captures",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/issues/65",
+            "createdAt": "2026-11-19T03:21:14Z",
+            "updatedAt": "2026-11-19T03:21:14Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 64,
+            "title": "Command trees: ARM64 CHR has packages an x86 tree misses",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/issues/64",
+            "createdAt": "2026-11-18T22:11:29Z",
+            "updatedAt": "2026-11-18T22:29:03Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
           {
             "number": 63,
             "title": "Point tikoci-* setup at the house skills on tikoci.dev",
@@ -2711,38 +2737,6 @@
               "skill:new"
             ],
             "milestone": null
-          },
-          {
-            "number": 51,
-            "title": "New skill: routeros-users-aaa",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/routeros-skills/issues/51",
-            "createdAt": "2026-11-02T02:26:21Z",
-            "updatedAt": "2026-11-07T19:18:49Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "triage:accepted",
-              "skill:new"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 50,
-            "title": "New skill: routeros-routing-v7",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/routeros-skills/issues/50",
-            "createdAt": "2026-11-02T02:26:20Z",
-            "updatedAt": "2026-11-02T13:31:51Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "triage:accepted",
-              "skill:new"
-            ],
-            "milestone": null
           }
         ]
       },
@@ -2750,7 +2744,7 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 2,
-        "totalIssues": 23,
+        "totalIssues": 25,
         "totalPRs": 5,
         "truncated": false,
         "byLabel": {
