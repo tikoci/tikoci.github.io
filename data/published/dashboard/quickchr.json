@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-19T13:19:19.071Z",
+  "generatedAt": "2026-11-19T22:12:27.943Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -68,8 +68,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 52,
-        "owner": 52,
+        "total": 56,
+        "owner": 56,
         "external": 0,
         "bot": 0
       },
@@ -84,13 +84,164 @@
       }
     },
     "page": {
-      "fetched": 52,
+      "fetched": 56,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 296,
+        "title": "docs: a recipe for using the library in another project's integration tests (prefetch, start, remove)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/296",
+        "createdAt": "2026-11-19T22:02:19Z",
+        "updatedAt": "2026-11-19T22:02:19Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "documentation",
+          "area:library-api",
+          "area:docs",
+          "P2",
+          "consumer:centrs",
+          "consumer:tzsp-sniff"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 295,
+        "title": "Image cache directory apart from the data directory (QUICKCHR_CACHE_DIR)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/295",
+        "createdAt": "2026-11-19T22:02:18Z",
+        "updatedAt": "2026-11-19T22:02:18Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "area:library-api",
+          "P4",
+          "needs-decision",
+          "consumer:tzsp-sniff"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 294,
+        "title": "remove: removeOrphan deletes an unreadable machine's directory while its QEMU may still run",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/294",
+        "createdAt": "2026-11-19T21:34:42Z",
+        "updatedAt": "2026-11-19T22:02:51Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "area:cli",
+          "area:library-api",
+          "P3",
+          "consumer:tzsp-sniff"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 293,
+        "title": "Default arch under Rosetta picks x86 (reads process.arch)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/293",
+        "createdAt": "2026-11-19T21:34:41Z",
+        "updatedAt": "2026-11-19T22:02:48Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "area:library-api",
+          "P3",
+          "platform:mac",
+          "consumer:tzsp-sniff"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 292,
+        "title": "One deadline for consumers: own the add/start/remove budget composition",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/292",
+        "createdAt": "2026-11-19T21:34:40Z",
+        "updatedAt": "2026-11-19T22:02:47Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "area:library-api",
+          "P3",
+          "needs-decision",
+          "consumer:tzsp-sniff"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 291,
+        "title": "start() of an existing machine ignores timeoutExtra",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/291",
+        "createdAt": "2026-11-19T21:34:39Z",
+        "updatedAt": "2026-11-19T22:02:46Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "area:cli",
+          "area:library-api",
+          "P2",
+          "consumer:tzsp-sniff"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 290,
+        "title": "Library prints image lines to stdout despite onProgress",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/290",
+        "createdAt": "2026-11-19T21:34:37Z",
+        "updatedAt": "2026-11-19T22:02:44Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "area:library-api",
+          "P3",
+          "consumer:tzsp-sniff"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 287,
+        "title": "networking: --no-network (networks: []) silently gets the default user NIC instead of none",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/287",
+        "createdAt": "2026-11-19T19:01:37Z",
+        "updatedAt": "2026-11-19T19:01:37Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "area:networking",
+          "area:cli",
+          "P3"
+        ],
+        "milestone": null
+      },
       {
         "number": 284,
         "title": "ros-versions.yml: an unreadable tested-versions.json re-dispatches every version, including failed ones",
@@ -163,40 +314,6 @@
         "milestone": "next"
       },
       {
-        "number": 278,
-        "title": "Move typescript from dependencies to devDependencies",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/278",
-        "createdAt": "2026-11-15T22:08:16Z",
-        "updatedAt": "2026-11-17T03:19:26Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "area:ci",
-          "P3",
-          "dependencies"
-        ],
-        "milestone": "next"
-      },
-      {
-        "number": 276,
-        "title": "paths: with HOME unset, the data dir becomes relative to the cwd (and disagrees with the config dir)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/276",
-        "createdAt": "2026-11-14T16:47:26Z",
-        "updatedAt": "2026-11-17T03:19:50Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "area:library-api",
-          "P3"
-        ],
-        "milestone": "next"
-      },
-      {
         "number": 271,
         "title": "networking(macos): named shared (and host-only) managed networks — shared:<name> with its own subnet",
         "author": "mobileskyfi",
@@ -229,44 +346,6 @@
           "area:ci",
           "P3",
           "platform:windows"
-        ],
-        "milestone": "next"
-      },
-      {
-        "number": 268,
-        "title": "start: a machine with --add-network but no user NIC waits out the full boot timeout",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/268",
-        "createdAt": "2026-11-11T15:36:27Z",
-        "updatedAt": "2026-11-17T03:19:49Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "area:networking",
-          "area:cli",
-          "P3"
-        ],
-        "milestone": "next"
-      },
-      {
-        "number": 266,
-        "title": "snapshot: document that save/load/delete cover every --add-disk disk (grounded); fix stopped-delete claim and two list glitches",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/266",
-        "createdAt": "2026-11-11T14:57:54Z",
-        "updatedAt": "2026-11-17T03:19:20Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "documentation",
-          "area:qemu",
-          "area:cli",
-          "P3",
-          "consumer:app-t3code"
         ],
         "milestone": "next"
       },
@@ -881,7 +960,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/44",
         "createdAt": "2026-07-03T16:44:29Z",
-        "updatedAt": "2026-10-21T13:59:18Z",
+        "updatedAt": "2026-11-19T19:01:20Z",
         "isPR": false,
         "draft": null,
         "labels": [

@@ -1,23 +1,31 @@
 [
   {
-    "name": "tzsp-sniff",
-    "description": "Receive and decode RouterOS TZSP packet streams without root: a CLI and TypeScript library sized for agents",
-    "stars": 1,
+    "name": "quickchr",
+    "description": "`quickchr` - Fastest path to MikroTik RouterOS CHR instance for testing and scripts -– agent ready, human friendly",
+    "stars": 10,
     "language": "TypeScript",
     "topics": [
-      "agents",
+      "ai",
+      "automation",
+      "bun",
+      "chr",
+      "claude-ai",
+      "cli",
+      "copilot-enabled",
       "mikrotik",
-      "packet-capture",
       "routeros",
-      "sniffer",
-      "tzsp"
+      "testing-library",
+      "testing-tools",
+      "tikoci",
+      "wizard"
     ],
-    "html_url": "https://github.com/tikoci/tzsp-sniff"
+    "html_url": "https://github.com/tikoci/quickchr",
+    "category": "virtualization"
   },
   {
     "name": "routeros-skills",
     "description": "Custom instruction SKILL.md for MikroTik RouterOS v7",
-    "stars": 92,
+    "stars": 94,
     "language": "Shell",
     "topics": [
       "claude",
@@ -34,6 +42,30 @@
     ],
     "html_url": "https://github.com/tikoci/routeros-skills",
     "category": "ai"
+  },
+  {
+    "name": "mikrotik-gpl",
+    "description": "Collection of GPL Source Code in RouterOS",
+    "stars": 53,
+    "language": "C",
+    "topics": [],
+    "html_url": "https://github.com/tikoci/mikrotik-gpl",
+    "category": "scripts"
+  },
+  {
+    "name": "tzsp-sniff",
+    "description": "Receive and decode RouterOS TZSP packet streams without root: a CLI and TypeScript library sized for agents",
+    "stars": 1,
+    "language": "TypeScript",
+    "topics": [
+      "agents",
+      "mikrotik",
+      "packet-capture",
+      "routeros",
+      "sniffer",
+      "tzsp"
+    ],
+    "html_url": "https://github.com/tikoci/tzsp-sniff"
   },
   {
     "name": "rosetta",
@@ -88,38 +120,6 @@
     ],
     "html_url": "https://github.com/tikoci/centrs",
     "category": "dev-tools"
-  },
-  {
-    "name": "quickchr",
-    "description": "`quickchr` - Fastest path to MikroTik RouterOS CHR instance for testing and scripts -– agent ready, human friendly",
-    "stars": 10,
-    "language": "TypeScript",
-    "topics": [
-      "ai",
-      "automation",
-      "bun",
-      "chr",
-      "claude-ai",
-      "cli",
-      "copilot-enabled",
-      "mikrotik",
-      "routeros",
-      "testing-library",
-      "testing-tools",
-      "tikoci",
-      "wizard"
-    ],
-    "html_url": "https://github.com/tikoci/quickchr",
-    "category": "virtualization"
-  },
-  {
-    "name": "mikrotik-gpl",
-    "description": "Collection of GPL Source Code in RouterOS",
-    "stars": 52,
-    "language": "C",
-    "topics": [],
-    "html_url": "https://github.com/tikoci/mikrotik-gpl",
-    "category": "scripts"
   },
   {
     "name": "app-t3code",
