@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-20T12:59:50.292Z",
+  "generatedAt": "2026-11-20T21:12:10.047Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -1411,7 +1411,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/rosetta/issues/250",
             "createdAt": "2026-11-02T02:32:46Z",
-            "updatedAt": "2026-11-02T03:22:17Z",
+            "updatedAt": "2026-11-20T18:35:57Z",
             "isPR": false,
             "draft": null,
             "labels": [],
@@ -1620,9 +1620,9 @@
             "headBranch": "main",
             "headSha": "80a6f9f12196b3ef84d1038a08b9aba04b315f66",
             "event": "schedule",
-            "runStartedAt": "2026-11-19T14:33:31Z",
-            "lastUpdatedAt": "2026-11-19T14:33:50Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/44545040962",
+            "runStartedAt": "2026-11-20T14:11:49Z",
+            "lastUpdatedAt": "2026-11-20T14:12:01Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/44751120767",
             "isHead": true
           }
         ]
@@ -2556,8 +2556,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "aa007fb1a1ba85433e1e8e7a368b939fde044eec",
-        "headUrl": "https://github.com/tikoci/routeros-skills/commit/aa007fb1a1ba85433e1e8e7a368b939fde044eec",
+        "headSha": "2f62cac0b42d02f558e2c15ac7b19ac54534f540",
+        "headUrl": "https://github.com/tikoci/routeros-skills/commit/2f62cac0b42d02f558e2c15ac7b19ac54534f540",
         "workflows": [
           {
             "configured": "CI",
@@ -2569,11 +2569,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "aa007fb1a1ba85433e1e8e7a368b939fde044eec",
+            "headSha": "2f62cac0b42d02f558e2c15ac7b19ac54534f540",
             "event": "push",
-            "runStartedAt": "2026-11-16T20:59:47Z",
-            "lastUpdatedAt": "2026-11-16T21:00:05Z",
-            "lastUrl": "https://github.com/tikoci/routeros-skills/actions/runs/43955471539",
+            "runStartedAt": "2026-11-20T20:52:55Z",
+            "lastUpdatedAt": "2026-11-20T20:53:19Z",
+            "lastUrl": "https://github.com/tikoci/routeros-skills/actions/runs/44815324543",
             "isHead": true
           }
         ]
@@ -2582,23 +2582,23 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 26,
-            "owner": 26,
+            "total": 17,
+            "owner": 17,
             "external": 0,
             "bot": 0
           },
           "prs": {
-            "total": 5,
-            "owner": 3,
-            "external": 2,
+            "total": 1,
+            "owner": 1,
+            "external": 0,
             "bot": 0,
-            "ownerReady": 2,
+            "ownerReady": 0,
             "ownerDraft": 1,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 31,
+          "fetched": 18,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
@@ -2606,45 +2606,80 @@
         "pullsEnriched": true,
         "items": [
           {
+            "number": 73,
+            "title": "docs(quickchr): refresh for quickchr 0.6.0; test recipe, /app on CHR, --secure-login",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/pull/73",
+            "createdAt": "2026-11-20T21:10:55Z",
+            "updatedAt": "2026-11-20T21:11:05Z",
+            "isPR": true,
+            "draft": true,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 69,
+            "title": "New skill: routeros-tikoci-rosetta (thin: when to use rosetta, export/MCP/DB)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/issues/69",
+            "createdAt": "2026-11-20T18:35:52Z",
+            "updatedAt": "2026-11-20T19:06:11Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "skill:new",
+              "tool:rosetta"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 68,
+            "title": "routeros-tikoci-centrs: check #54's 19 review findings against centrs 0.1.10",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/issues/68",
+            "createdAt": "2026-11-20T18:34:19Z",
+            "updatedAt": "2026-11-20T18:34:19Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "skill:refresh",
+              "tool:centrs"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 67,
+            "title": "routeros-cmr: re-ground on 7.26beta5+ (caller policy, script policy, pairing, VLAN)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/issues/67",
+            "createdAt": "2026-11-20T18:15:55Z",
+            "updatedAt": "2026-11-20T18:15:55Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "skill:refresh"
+            ],
+            "milestone": null
+          },
+          {
             "number": 66,
             "title": "routeros-tikoci-quickchr: the recipe for using quickchr in another project's tests (prefetch, one start(), remove)",
             "author": "mobileskyfi",
             "authorClass": "owner",
             "url": "https://github.com/tikoci/routeros-skills/issues/66",
             "createdAt": "2026-11-19T23:40:24Z",
-            "updatedAt": "2026-11-19T23:40:24Z",
+            "updatedAt": "2026-11-20T18:14:19Z",
             "isPR": false,
             "draft": null,
             "labels": [
               "documentation",
-              "skill:refresh"
+              "skill:refresh",
+              "tool:quickchr"
             ],
-            "milestone": null
-          },
-          {
-            "number": 65,
-            "title": "routeros-sniffer: correct filter-stream, sniff-id, keepalives and file names from CHR captures",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/routeros-skills/issues/65",
-            "createdAt": "2026-11-19T03:21:14Z",
-            "updatedAt": "2026-11-19T03:21:14Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [],
-            "milestone": null
-          },
-          {
-            "number": 64,
-            "title": "Command trees: ARM64 CHR has packages an x86 tree misses",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/routeros-skills/issues/64",
-            "createdAt": "2026-11-18T22:11:29Z",
-            "updatedAt": "2026-11-18T22:29:03Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [],
             "milestone": null
           },
           {
@@ -2654,48 +2689,9 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/routeros-skills/issues/63",
             "createdAt": "2026-11-18T20:39:01Z",
-            "updatedAt": "2026-11-18T20:39:01Z",
+            "updatedAt": "2026-11-20T20:50:49Z",
             "isPR": false,
             "draft": null,
-            "labels": [],
-            "milestone": null
-          },
-          {
-            "number": 62,
-            "title": "Native-API /console/inspect completion drops entries; use .proplist=completion or REST",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/routeros-skills/issues/62",
-            "createdAt": "2026-11-18T20:38:59Z",
-            "updatedAt": "2026-11-18T20:38:59Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [],
-            "milestone": null
-          },
-          {
-            "number": 61,
-            "title": "routeros-mndp: IP-source fallback for missing TLV 17 is ungrounded (observed sources are 0.0.0.0)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/routeros-skills/issues/61",
-            "createdAt": "2026-11-16T22:44:26Z",
-            "updatedAt": "2026-11-16T22:44:26Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [],
-            "milestone": null
-          },
-          {
-            "number": 59,
-            "title": "docs: add routeros-cmr to README table and fix two reference TOCs",
-            "author": "joyshmitz",
-            "authorClass": "external",
-            "url": "https://github.com/tikoci/routeros-skills/pull/59",
-            "createdAt": "2026-11-12T05:26:50Z",
-            "updatedAt": "2026-11-12T05:28:31Z",
-            "isPR": true,
-            "draft": false,
             "labels": [],
             "milestone": null
           },
@@ -2706,36 +2702,61 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/routeros-skills/issues/56",
             "createdAt": "2026-11-07T10:58:17Z",
-            "updatedAt": "2026-11-07T19:18:54Z",
+            "updatedAt": "2026-11-20T18:14:17Z",
             "isPR": false,
             "draft": null,
-            "labels": [],
+            "labels": [
+              "tool:centrs",
+              "tool:quickchr"
+            ],
             "milestone": null
           },
           {
-            "number": 55,
-            "title": "Add a thin navigator for MikroTik proprietary protocols and file formats",
+            "number": 52,
+            "title": "New skill: routeros-certificates",
             "author": "Amm0Bot",
             "authorClass": "owner",
-            "url": "https://github.com/tikoci/routeros-skills/issues/55",
-            "createdAt": "2026-11-06T17:31:03Z",
-            "updatedAt": "2026-11-07T16:37:24Z",
+            "url": "https://github.com/tikoci/routeros-skills/issues/52",
+            "createdAt": "2026-11-02T02:26:23Z",
+            "updatedAt": "2026-11-20T17:56:27Z",
             "isPR": false,
             "draft": null,
-            "labels": [],
+            "labels": [
+              "triage:accepted",
+              "skill:new"
+            ],
             "milestone": null
           },
           {
-            "number": 54,
-            "title": "docs(routeros-centrs): refresh for centrs 0.1.9",
-            "author": "mobileskyfi",
+            "number": 51,
+            "title": "New skill: routeros-users-aaa",
+            "author": "Amm0Bot",
             "authorClass": "owner",
-            "url": "https://github.com/tikoci/routeros-skills/pull/54",
-            "createdAt": "2026-11-03T04:33:54Z",
-            "updatedAt": "2026-11-03T06:51:16Z",
-            "isPR": true,
-            "draft": false,
-            "labels": [],
+            "url": "https://github.com/tikoci/routeros-skills/issues/51",
+            "createdAt": "2026-11-02T02:26:21Z",
+            "updatedAt": "2026-11-20T17:56:26Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "triage:accepted",
+              "skill:new"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 50,
+            "title": "New skill: routeros-routing-v7",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/issues/50",
+            "createdAt": "2026-11-02T02:26:20Z",
+            "updatedAt": "2026-11-20T17:56:24Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "triage:accepted",
+              "skill:new"
+            ],
             "milestone": null
           }
         ]
@@ -2743,38 +2764,13 @@
       "community": {
         "state": "ok",
         "openIssues": 0,
-        "openPRs": 2,
-        "totalIssues": 26,
-        "totalPRs": 5,
+        "openPRs": 0,
+        "totalIssues": 17,
+        "totalPRs": 1,
         "truncated": false,
-        "byLabel": {
-          "blocked:grounding": 1
-        },
+        "byLabel": {},
         "byMilestone": {},
-        "newest": [
-          {
-            "number": 59,
-            "title": "docs: add routeros-cmr to README table and fix two reference TOCs",
-            "author": "joyshmitz",
-            "url": "https://github.com/tikoci/routeros-skills/pull/59",
-            "createdAt": "2026-11-12T05:26:50Z",
-            "isPR": true,
-            "labels": [],
-            "milestone": null
-          },
-          {
-            "number": 19,
-            "title": "feat: add routeros-capsman skill",
-            "author": "rewkong1150",
-            "url": "https://github.com/tikoci/routeros-skills/pull/19",
-            "createdAt": "2026-08-11T09:34:17Z",
-            "isPR": true,
-            "labels": [
-              "blocked:grounding"
-            ],
-            "milestone": null
-          }
-        ]
+        "newest": []
       },
       "release": {
         "state": "ok",
@@ -3667,40 +3663,6 @@
       ],
       "urls": [
         "https://github.com/tikoci/restraml/pulls"
-      ]
-    },
-    {
-      "id": "work-external-prs:routeros-skills",
-      "rule": "work-external-prs",
-      "severity": "pending",
-      "category": "work",
-      "repos": [
-        "routeros-skills"
-      ],
-      "summary": "routeros-skills: 2 open external PRs",
-      "detail": "External pull requests await maintainer review. Review queue depth, not an alert.",
-      "evidence": [
-        "repos.routeros-skills.work.counts.prs.external=2"
-      ],
-      "urls": [
-        "https://github.com/tikoci/routeros-skills/pulls"
-      ]
-    },
-    {
-      "id": "work-maintainer-prs:routeros-skills",
-      "rule": "work-maintainer-prs",
-      "severity": "pending",
-      "category": "work",
-      "repos": [
-        "routeros-skills"
-      ],
-      "summary": "routeros-skills: 2 open maintainer PRs (1 draft excluded)",
-      "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
-      "evidence": [
-        "repos.routeros-skills.work.counts.prs.ownerReady=2"
-      ],
-      "urls": [
-        "https://github.com/tikoci/routeros-skills/pulls"
       ]
     },
     {

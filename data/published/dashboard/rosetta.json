@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "rosetta",
-  "generatedAt": "2026-11-20T12:59:50.292Z",
+  "generatedAt": "2026-11-20T21:12:10.047Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -81,7 +81,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/rosetta/issues/250",
         "createdAt": "2026-11-02T02:32:46Z",
-        "updatedAt": "2026-11-02T03:22:17Z",
+        "updatedAt": "2026-11-20T18:35:57Z",
         "isPR": false,
         "draft": null,
         "labels": [],

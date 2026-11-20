@@ -1,5 +1,14 @@
 [
   {
+    "name": "m2ir",
+    "description": "Unified YAML schema (CC0) for MikroTik RouterOS binary formats — M2/nv::message, WinBox app protocol & CDB, MNDP, Dude object store, RoMON. A reference knowledge base.",
+    "stars": 4,
+    "language": "TypeScript",
+    "topics": [],
+    "html_url": "https://github.com/tikoci/m2ir",
+    "category": "dev-tools"
+  },
+  {
     "name": "quickchr",
     "description": "`quickchr` - Fastest path to MikroTik RouterOS CHR instance for testing and scripts -– agent ready, human friendly",
     "stars": 10,
@@ -146,15 +155,6 @@
     "topics": [],
     "html_url": "https://github.com/tikoci/enbeep",
     "category": "web-tools"
-  },
-  {
-    "name": "m2ir",
-    "description": "Unified YAML schema (CC0) for MikroTik RouterOS binary formats — M2/nv::message, WinBox app protocol & CDB, MNDP, Dude object store, RoMON. A reference knowledge base.",
-    "stars": 3,
-    "language": "TypeScript",
-    "topics": [],
-    "html_url": "https://github.com/tikoci/m2ir",
-    "category": "dev-tools"
   },
   {
     "name": "routeros-muse",

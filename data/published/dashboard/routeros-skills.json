@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "routeros-skills",
-  "generatedAt": "2026-11-20T12:59:50.292Z",
+  "generatedAt": "2026-11-20T21:12:10.047Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,23 +9,23 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 26,
-        "owner": 26,
+        "total": 17,
+        "owner": 17,
         "external": 0,
         "bot": 0
       },
       "prs": {
-        "total": 5,
-        "owner": 3,
-        "external": 2,
+        "total": 1,
+        "owner": 1,
+        "external": 0,
         "bot": 0,
-        "ownerReady": 2,
+        "ownerReady": 0,
         "ownerDraft": 1,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 31,
+      "fetched": 18,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
@@ -33,45 +33,80 @@
     "pullsEnriched": true,
     "items": [
       {
+        "number": 73,
+        "title": "docs(quickchr): refresh for quickchr 0.6.0; test recipe, /app on CHR, --secure-login",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/pull/73",
+        "createdAt": "2026-11-20T21:10:55Z",
+        "updatedAt": "2026-11-20T21:11:05Z",
+        "isPR": true,
+        "draft": true,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 69,
+        "title": "New skill: routeros-tikoci-rosetta (thin: when to use rosetta, export/MCP/DB)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/69",
+        "createdAt": "2026-11-20T18:35:52Z",
+        "updatedAt": "2026-11-20T19:06:11Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "skill:new",
+          "tool:rosetta"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 68,
+        "title": "routeros-tikoci-centrs: check #54's 19 review findings against centrs 0.1.10",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/68",
+        "createdAt": "2026-11-20T18:34:19Z",
+        "updatedAt": "2026-11-20T18:34:19Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "skill:refresh",
+          "tool:centrs"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 67,
+        "title": "routeros-cmr: re-ground on 7.26beta5+ (caller policy, script policy, pairing, VLAN)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/67",
+        "createdAt": "2026-11-20T18:15:55Z",
+        "updatedAt": "2026-11-20T18:15:55Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "skill:refresh"
+        ],
+        "milestone": null
+      },
+      {
         "number": 66,
         "title": "routeros-tikoci-quickchr: the recipe for using quickchr in another project's tests (prefetch, one start(), remove)",
         "author": "mobileskyfi",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/66",
         "createdAt": "2026-11-19T23:40:24Z",
-        "updatedAt": "2026-11-19T23:40:24Z",
+        "updatedAt": "2026-11-20T18:14:19Z",
         "isPR": false,
         "draft": null,
         "labels": [
           "documentation",
-          "skill:refresh"
+          "skill:refresh",
+          "tool:quickchr"
         ],
-        "milestone": null
-      },
-      {
-        "number": 65,
-        "title": "routeros-sniffer: correct filter-stream, sniff-id, keepalives and file names from CHR captures",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/issues/65",
-        "createdAt": "2026-11-19T03:21:14Z",
-        "updatedAt": "2026-11-19T03:21:14Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 64,
-        "title": "Command trees: ARM64 CHR has packages an x86 tree misses",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/issues/64",
-        "createdAt": "2026-11-18T22:11:29Z",
-        "updatedAt": "2026-11-18T22:29:03Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [],
         "milestone": null
       },
       {
@@ -81,48 +116,9 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/63",
         "createdAt": "2026-11-18T20:39:01Z",
-        "updatedAt": "2026-11-18T20:39:01Z",
+        "updatedAt": "2026-11-20T20:50:49Z",
         "isPR": false,
         "draft": null,
-        "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 62,
-        "title": "Native-API /console/inspect completion drops entries; use .proplist=completion or REST",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/issues/62",
-        "createdAt": "2026-11-18T20:38:59Z",
-        "updatedAt": "2026-11-18T20:38:59Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 61,
-        "title": "routeros-mndp: IP-source fallback for missing TLV 17 is ungrounded (observed sources are 0.0.0.0)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/issues/61",
-        "createdAt": "2026-11-16T22:44:26Z",
-        "updatedAt": "2026-11-16T22:44:26Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 59,
-        "title": "docs: add routeros-cmr to README table and fix two reference TOCs",
-        "author": "joyshmitz",
-        "authorClass": "external",
-        "url": "https://github.com/tikoci/routeros-skills/pull/59",
-        "createdAt": "2026-11-12T05:26:50Z",
-        "updatedAt": "2026-11-12T05:28:31Z",
-        "isPR": true,
-        "draft": false,
         "labels": [],
         "milestone": null
       },
@@ -133,36 +129,13 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/56",
         "createdAt": "2026-11-07T10:58:17Z",
-        "updatedAt": "2026-11-07T19:18:54Z",
+        "updatedAt": "2026-11-20T18:14:17Z",
         "isPR": false,
         "draft": null,
-        "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 55,
-        "title": "Add a thin navigator for MikroTik proprietary protocols and file formats",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/issues/55",
-        "createdAt": "2026-11-06T17:31:03Z",
-        "updatedAt": "2026-11-07T16:37:24Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 54,
-        "title": "docs(routeros-centrs): refresh for centrs 0.1.9",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/pull/54",
-        "createdAt": "2026-11-03T04:33:54Z",
-        "updatedAt": "2026-11-03T06:51:16Z",
-        "isPR": true,
-        "draft": false,
-        "labels": [],
+        "labels": [
+          "tool:centrs",
+          "tool:quickchr"
+        ],
         "milestone": null
       },
       {
@@ -172,7 +145,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/52",
         "createdAt": "2026-11-02T02:26:23Z",
-        "updatedAt": "2026-11-02T13:31:54Z",
+        "updatedAt": "2026-11-20T17:56:27Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -188,7 +161,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/51",
         "createdAt": "2026-11-02T02:26:21Z",
-        "updatedAt": "2026-11-07T19:18:49Z",
+        "updatedAt": "2026-11-20T17:56:26Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -204,7 +177,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/50",
         "createdAt": "2026-11-02T02:26:20Z",
-        "updatedAt": "2026-11-02T13:31:51Z",
+        "updatedAt": "2026-11-20T17:56:24Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -220,7 +193,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/49",
         "createdAt": "2026-11-02T02:26:19Z",
-        "updatedAt": "2026-11-02T13:31:50Z",
+        "updatedAt": "2026-11-20T17:56:22Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -236,56 +209,12 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/48",
         "createdAt": "2026-11-02T02:26:17Z",
-        "updatedAt": "2026-11-02T13:31:49Z",
+        "updatedAt": "2026-11-20T18:16:42Z",
         "isPR": false,
         "draft": null,
         "labels": [
           "triage:accepted",
           "skill:new"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 47,
-        "title": "Config-skill triage — decided (do not re-triage)",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/issues/47",
-        "createdAt": "2026-11-02T02:25:32Z",
-        "updatedAt": "2026-11-07T19:18:52Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "triage:accepted"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 44,
-        "title": "routeros-centrs: refresh for centrs 0.1.8 / 0.1.9-next (wait/until, --query, --cmr, stderr envelopes, closed rough edges)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/issues/44",
-        "createdAt": "2026-10-26T04:07:06Z",
-        "updatedAt": "2026-11-11T19:03:09Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 40,
-        "title": "Coverage gaps: AAA/users and routing; plus a skill-discovery meta-skill idea",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/issues/40",
-        "createdAt": "2026-10-19T19:12:47Z",
-        "updatedAt": "2026-11-02T02:26:30Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "triage:reference-only"
         ],
         "milestone": null
       },
@@ -296,28 +225,13 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/39",
         "createdAt": "2026-10-19T19:12:37Z",
-        "updatedAt": "2026-11-02T02:25:52Z",
+        "updatedAt": "2026-11-20T18:14:11Z",
         "isPR": false,
         "draft": null,
         "labels": [
           "enhancement",
-          "triage:reference-only"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 38,
-        "title": "References pipeline: build skill references/ from rosetta export",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/issues/38",
-        "createdAt": "2026-10-19T19:12:26Z",
-        "updatedAt": "2026-11-02T13:32:39Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "triage:accepted"
+          "triage:reference-only",
+          "tool:centrs"
         ],
         "milestone": null
       },
@@ -328,42 +242,13 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/37",
         "createdAt": "2026-10-19T02:30:20Z",
-        "updatedAt": "2026-11-07T19:19:02Z",
+        "updatedAt": "2026-11-20T18:14:20Z",
         "isPR": false,
         "draft": null,
         "labels": [
           "enhancement",
-          "skill:refresh"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 36,
-        "title": "Field gotchas from adelomer12/routeros-inverterscout → app-yaml skill candidates",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/issues/36",
-        "createdAt": "2026-10-19T01:49:25Z",
-        "updatedAt": "2026-11-02T02:25:43Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "skill:refresh"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 34,
-        "title": "routeros-cmr: a controller login is not the limit; watching a long fleet script",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/pull/34",
-        "createdAt": "2026-10-15T11:34:20Z",
-        "updatedAt": "2026-11-12T04:34:08Z",
-        "isPR": true,
-        "draft": false,
-        "labels": [
-          "blocked:grounding"
+          "skill:refresh",
+          "tool:quickchr"
         ],
         "milestone": null
       },
@@ -374,38 +259,10 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/33",
         "createdAt": "2026-10-07T18:17:46Z",
-        "updatedAt": "2026-11-07T19:19:10Z",
+        "updatedAt": "2026-11-20T20:46:30Z",
         "isPR": false,
         "draft": null,
         "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 32,
-        "title": "routeros-centrs: teach NDJSON outcome consumption after centrs #400",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/issues/32",
-        "createdAt": "2026-10-06T23:18:38Z",
-        "updatedAt": "2026-11-07T19:18:44Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 29,
-        "title": "feat(skills): routeros-w60g; remote etherboot arming; PoE device-mode confirmation",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/pull/29",
-        "createdAt": "2026-09-24T15:43:32Z",
-        "updatedAt": "2026-11-02T14:07:28Z",
-        "isPR": true,
-        "draft": true,
-        "labels": [
-          "blocked:grounding"
-        ],
         "milestone": null
       },
       {
@@ -415,11 +272,12 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/28",
         "createdAt": "2026-09-21T15:36:05Z",
-        "updatedAt": "2026-11-07T19:18:57Z",
+        "updatedAt": "2026-11-20T18:14:22Z",
         "isPR": false,
         "draft": null,
         "labels": [
-          "documentation"
+          "documentation",
+          "tool:quickchr"
         ],
         "milestone": null
       },
@@ -430,7 +288,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/27",
         "createdAt": "2026-09-21T15:36:03Z",
-        "updatedAt": "2026-09-21T15:36:03Z",
+        "updatedAt": "2026-11-20T17:56:34Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -451,34 +309,6 @@
         "labels": [
           "documentation"
         ],
-        "milestone": null
-      },
-      {
-        "number": 19,
-        "title": "feat: add routeros-capsman skill",
-        "author": "rewkong1150",
-        "authorClass": "external",
-        "url": "https://github.com/tikoci/routeros-skills/pull/19",
-        "createdAt": "2026-08-11T09:34:17Z",
-        "updatedAt": "2026-11-02T14:07:44Z",
-        "isPR": true,
-        "draft": true,
-        "labels": [
-          "blocked:grounding"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 18,
-        "title": "routeros-app-yaml SKILL needs \"refresh\"",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/issues/18",
-        "createdAt": "2026-07-18T17:31:53Z",
-        "updatedAt": "2026-09-21T15:36:09Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [],
         "milestone": null
       }
     ]
