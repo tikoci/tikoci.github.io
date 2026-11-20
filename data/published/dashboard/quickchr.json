@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-19T22:12:27.943Z",
+  "generatedAt": "2026-11-20T03:25:04.664Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -68,8 +68,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 56,
-        "owner": 56,
+        "total": 55,
+        "owner": 55,
         "external": 0,
         "bot": 0
       },
@@ -84,7 +84,7 @@
       }
     },
     "page": {
-      "fetched": 56,
+      "fetched": 55,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
@@ -92,33 +92,26 @@
     "pullsEnriched": true,
     "items": [
       {
-        "number": 296,
-        "title": "docs: a recipe for using the library in another project's integration tests (prefetch, start, remove)",
+        "number": 298,
+        "title": "start: a failure after spawning QEMU, before the first state save, deletes the machine directory and leaves QEMU running",
         "author": "mobileskyfi",
         "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/296",
-        "createdAt": "2026-11-19T22:02:19Z",
-        "updatedAt": "2026-11-19T22:02:19Z",
+        "url": "https://github.com/tikoci/quickchr/issues/298",
+        "createdAt": "2026-11-20T00:04:44Z",
+        "updatedAt": "2026-11-20T00:04:44Z",
         "isPR": false,
         "draft": null,
-        "labels": [
-          "documentation",
-          "area:library-api",
-          "area:docs",
-          "P2",
-          "consumer:centrs",
-          "consumer:tzsp-sniff"
-        ],
+        "labels": [],
         "milestone": null
       },
       {
         "number": 295,
-        "title": "Image cache directory apart from the data directory (QUICKCHR_CACHE_DIR)",
+        "title": "cache: adopt tikoci-home's cache profile (QUICKCHR_CACHE_DIR / TIKOCI_CACHE_DIR apart from the data dir)",
         "author": "mobileskyfi",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/295",
         "createdAt": "2026-11-19T22:02:18Z",
-        "updatedAt": "2026-11-19T22:02:18Z",
+        "updatedAt": "2026-11-19T22:17:47Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -137,7 +130,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/294",
         "createdAt": "2026-11-19T21:34:42Z",
-        "updatedAt": "2026-11-19T22:02:51Z",
+        "updatedAt": "2026-11-19T23:22:15Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -175,7 +168,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/292",
         "createdAt": "2026-11-19T21:34:40Z",
-        "updatedAt": "2026-11-19T22:02:47Z",
+        "updatedAt": "2026-11-19T22:33:12Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -183,25 +176,6 @@
           "area:library-api",
           "P3",
           "needs-decision",
-          "consumer:tzsp-sniff"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 291,
-        "title": "start() of an existing machine ignores timeoutExtra",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/291",
-        "createdAt": "2026-11-19T21:34:39Z",
-        "updatedAt": "2026-11-19T22:02:46Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "area:cli",
-          "area:library-api",
-          "P2",
           "consumer:tzsp-sniff"
         ],
         "milestone": null

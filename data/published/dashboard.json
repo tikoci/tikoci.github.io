@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-19T22:12:27.943Z",
+  "generatedAt": "2026-11-20T03:25:04.664Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,7 +10,7 @@
     "otherHttpCalls": 11,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4836
+    "rateLimitRemaining": 4835
   },
   "sources": {
     "ros-current": "https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel> (MikroTik upgrade feed; body \"<version> <build-ts>\")",
@@ -802,8 +802,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "47b02eac53ad7a05694c4a524563cc7ea5242053",
-        "headUrl": "https://github.com/tikoci/quickchr/commit/47b02eac53ad7a05694c4a524563cc7ea5242053",
+        "headSha": "5573f30b9c588f0772114748395c578251630b27",
+        "headUrl": "https://github.com/tikoci/quickchr/commit/5573f30b9c588f0772114748395c578251630b27",
         "workflows": [
           {
             "configured": "CI",
@@ -815,11 +815,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "47b02eac53ad7a05694c4a524563cc7ea5242053",
+            "headSha": "5573f30b9c588f0772114748395c578251630b27",
             "event": "push",
-            "runStartedAt": "2026-11-19T20:35:58Z",
-            "lastUpdatedAt": "2026-11-19T20:39:08Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/44610311366",
+            "runStartedAt": "2026-11-19T23:29:54Z",
+            "lastUpdatedAt": "2026-11-19T23:33:07Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/44638138617",
             "isHead": true
           },
           {
@@ -837,7 +837,7 @@
             "runStartedAt": "2026-11-19T20:36:12Z",
             "lastUpdatedAt": "2026-11-19T20:41:22Z",
             "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/44610349112",
-            "isHead": true
+            "isHead": false
           },
           {
             "configured": "RouterOS Versions",
@@ -862,8 +862,8 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 56,
-            "owner": 56,
+            "total": 55,
+            "owner": 55,
             "external": 0,
             "bot": 0
           },
@@ -878,7 +878,7 @@
           }
         },
         "page": {
-          "fetched": 56,
+          "fetched": 55,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
@@ -886,33 +886,26 @@
         "pullsEnriched": true,
         "items": [
           {
-            "number": 296,
-            "title": "docs: a recipe for using the library in another project's integration tests (prefetch, start, remove)",
+            "number": 298,
+            "title": "start: a failure after spawning QEMU, before the first state save, deletes the machine directory and leaves QEMU running",
             "author": "mobileskyfi",
             "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/296",
-            "createdAt": "2026-11-19T22:02:19Z",
-            "updatedAt": "2026-11-19T22:02:19Z",
+            "url": "https://github.com/tikoci/quickchr/issues/298",
+            "createdAt": "2026-11-20T00:04:44Z",
+            "updatedAt": "2026-11-20T00:04:44Z",
             "isPR": false,
             "draft": null,
-            "labels": [
-              "documentation",
-              "area:library-api",
-              "area:docs",
-              "P2",
-              "consumer:centrs",
-              "consumer:tzsp-sniff"
-            ],
+            "labels": [],
             "milestone": null
           },
           {
             "number": 295,
-            "title": "Image cache directory apart from the data directory (QUICKCHR_CACHE_DIR)",
+            "title": "cache: adopt tikoci-home's cache profile (QUICKCHR_CACHE_DIR / TIKOCI_CACHE_DIR apart from the data dir)",
             "author": "mobileskyfi",
             "authorClass": "owner",
             "url": "https://github.com/tikoci/quickchr/issues/295",
             "createdAt": "2026-11-19T22:02:18Z",
-            "updatedAt": "2026-11-19T22:02:18Z",
+            "updatedAt": "2026-11-19T22:17:47Z",
             "isPR": false,
             "draft": null,
             "labels": [
@@ -931,7 +924,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/quickchr/issues/294",
             "createdAt": "2026-11-19T21:34:42Z",
-            "updatedAt": "2026-11-19T22:02:51Z",
+            "updatedAt": "2026-11-19T23:22:15Z",
             "isPR": false,
             "draft": null,
             "labels": [
@@ -969,7 +962,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/quickchr/issues/292",
             "createdAt": "2026-11-19T21:34:40Z",
-            "updatedAt": "2026-11-19T22:02:47Z",
+            "updatedAt": "2026-11-19T22:33:12Z",
             "isPR": false,
             "draft": null,
             "labels": [
@@ -977,25 +970,6 @@
               "area:library-api",
               "P3",
               "needs-decision",
-              "consumer:tzsp-sniff"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 291,
-            "title": "start() of an existing machine ignores timeoutExtra",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/291",
-            "createdAt": "2026-11-19T21:34:39Z",
-            "updatedAt": "2026-11-19T22:02:46Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "bug",
-              "area:cli",
-              "area:library-api",
-              "P2",
               "consumer:tzsp-sniff"
             ],
             "milestone": null
@@ -1070,6 +1044,25 @@
               "needs-decision"
             ],
             "milestone": null
+          },
+          {
+            "number": 280,
+            "title": "provisioning: add a managed, batch-verified SSH key to an already-booted machine (set --ssh-key)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/280",
+            "createdAt": "2026-11-17T03:20:08Z",
+            "updatedAt": "2026-11-17T03:20:08Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement",
+              "area:provisioning",
+              "P3",
+              "needs-decision",
+              "consumer:centrs"
+            ],
+            "milestone": null
           }
         ]
       },
@@ -1077,7 +1070,7 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 56,
+        "totalIssues": 55,
         "totalPRs": 0,
         "truncated": false,
         "byLabel": {},
@@ -1644,23 +1637,39 @@
             "bot": 0
           },
           "prs": {
-            "total": 3,
+            "total": 4,
             "owner": 3,
             "external": 0,
-            "bot": 0,
+            "bot": 1,
             "ownerReady": 1,
             "ownerDraft": 2,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 26,
+          "fetched": 27,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 671,
+            "title": "build(deps-dev): bump the npm group with 4 updates",
+            "author": "dependabot[bot]",
+            "authorClass": "bot",
+            "url": "https://github.com/tikoci/centrs/pull/671",
+            "createdAt": "2026-11-20T01:35:03Z",
+            "updatedAt": "2026-11-20T01:35:08Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [
+              "dependencies",
+              "javascript"
+            ],
+            "milestone": null
+          },
           {
             "number": 670,
             "title": "docs(matrix): track centrs findings from the house skill reviews",
@@ -1799,22 +1808,6 @@
             "draft": true,
             "labels": [],
             "milestone": null
-          },
-          {
-            "number": 624,
-            "title": "CHR integration: MAC-Telnet L2 tests flaky on main (console prompt timeout, MTWEI not ready)",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/issues/624",
-            "createdAt": "2026-11-04T03:09:02Z",
-            "updatedAt": "2026-11-11T22:20:15Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "QA",
-              "proto-mac-telnet"
-            ],
-            "milestone": null
           }
         ]
       },
@@ -1823,7 +1816,7 @@
         "openIssues": 0,
         "openPRs": 0,
         "totalIssues": 23,
-        "totalPRs": 3,
+        "totalPRs": 4,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -2589,8 +2582,8 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 25,
-            "owner": 25,
+            "total": 26,
+            "owner": 26,
             "external": 0,
             "bot": 0
           },
@@ -2605,13 +2598,29 @@
           }
         },
         "page": {
-          "fetched": 30,
+          "fetched": 31,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 66,
+            "title": "routeros-tikoci-quickchr: the recipe for using quickchr in another project's tests (prefetch, one start(), remove)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/issues/66",
+            "createdAt": "2026-11-19T23:40:24Z",
+            "updatedAt": "2026-11-19T23:40:24Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "documentation",
+              "skill:refresh"
+            ],
+            "milestone": null
+          },
           {
             "number": 65,
             "title": "routeros-sniffer: correct filter-stream, sniff-id, keepalives and file names from CHR captures",
@@ -2728,22 +2737,6 @@
             "draft": false,
             "labels": [],
             "milestone": null
-          },
-          {
-            "number": 52,
-            "title": "New skill: routeros-certificates",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/routeros-skills/issues/52",
-            "createdAt": "2026-11-02T02:26:23Z",
-            "updatedAt": "2026-11-02T13:31:54Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "triage:accepted",
-              "skill:new"
-            ],
-            "milestone": null
           }
         ]
       },
@@ -2751,7 +2744,7 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 2,
-        "totalIssues": 25,
+        "totalIssues": 26,
         "totalPRs": 5,
         "truncated": false,
         "byLabel": {
@@ -3747,6 +3740,24 @@
       ]
     },
     {
+      "id": "ci-run-not-head:quickchr:Release",
+      "rule": "ci-run-not-head",
+      "severity": "info",
+      "category": "ci",
+      "repos": [
+        "quickchr"
+      ],
+      "summary": "quickchr: Release latest run is not on the current head commit",
+      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
+      "evidence": [
+        "repos.quickchr.ci.workflows[Release].headSha=47b02eac53ad7a05694c4a524563cc7ea5242053",
+        "repos.quickchr.ci.headSha=5573f30b9c588f0772114748395c578251630b27"
+      ],
+      "urls": [
+        "https://github.com/tikoci/quickchr/actions/runs/44610349112"
+      ]
+    },
+    {
       "id": "ci-run-not-head:quickchr:RouterOS-Versions",
       "rule": "ci-run-not-head",
       "severity": "info",
@@ -3758,7 +3769,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.quickchr.ci.workflows[RouterOS Versions].headSha=939f87806339bc2e4b22b5771817987f4347728e",
-        "repos.quickchr.ci.headSha=47b02eac53ad7a05694c4a524563cc7ea5242053"
+        "repos.quickchr.ci.headSha=5573f30b9c588f0772114748395c578251630b27"
       ],
       "urls": [
         "https://github.com/tikoci/quickchr/actions/runs/44531072691"

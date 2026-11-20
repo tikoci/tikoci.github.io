@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "routeros-skills",
-  "generatedAt": "2026-11-19T22:12:27.943Z",
+  "generatedAt": "2026-11-20T03:25:04.664Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,8 +9,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 25,
-        "owner": 25,
+        "total": 26,
+        "owner": 26,
         "external": 0,
         "bot": 0
       },
@@ -25,13 +25,29 @@
       }
     },
     "page": {
-      "fetched": 30,
+      "fetched": 31,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 66,
+        "title": "routeros-tikoci-quickchr: the recipe for using quickchr in another project's tests (prefetch, one start(), remove)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/66",
+        "createdAt": "2026-11-19T23:40:24Z",
+        "updatedAt": "2026-11-19T23:40:24Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "documentation",
+          "skill:refresh"
+        ],
+        "milestone": null
+      },
       {
         "number": 65,
         "title": "routeros-sniffer: correct filter-stream, sniff-id, keepalives and file names from CHR captures",

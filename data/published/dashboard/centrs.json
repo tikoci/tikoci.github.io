@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "centrs",
-  "generatedAt": "2026-11-19T22:12:27.943Z",
+  "generatedAt": "2026-11-20T03:25:04.664Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -15,23 +15,39 @@
         "bot": 0
       },
       "prs": {
-        "total": 3,
+        "total": 4,
         "owner": 3,
         "external": 0,
-        "bot": 0,
+        "bot": 1,
         "ownerReady": 1,
         "ownerDraft": 2,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 26,
+      "fetched": 27,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 671,
+        "title": "build(deps-dev): bump the npm group with 4 updates",
+        "author": "dependabot[bot]",
+        "authorClass": "bot",
+        "url": "https://github.com/tikoci/centrs/pull/671",
+        "createdAt": "2026-11-20T01:35:03Z",
+        "updatedAt": "2026-11-20T01:35:08Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [
+          "dependencies",
+          "javascript"
+        ],
+        "milestone": null
+      },
       {
         "number": 670,
         "title": "docs(matrix): track centrs findings from the house skill reviews",
