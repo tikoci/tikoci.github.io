@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "routeros-skills",
-  "generatedAt": "2026-11-20T21:12:10.047Z",
+  "generatedAt": "2026-11-21T02:23:08.998Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,8 +9,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 17,
-        "owner": 17,
+        "total": 10,
+        "owner": 10,
         "external": 0,
         "bot": 0
       },
@@ -25,7 +25,7 @@
       }
     },
     "page": {
-      "fetched": 18,
+      "fetched": 11,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
@@ -33,13 +33,13 @@
     "pullsEnriched": true,
     "items": [
       {
-        "number": 73,
-        "title": "docs(quickchr): refresh for quickchr 0.6.0; test recipe, /app on CHR, --secure-login",
+        "number": 76,
+        "title": "docs(mndp): point at m2ir's canonical MNDP YAML",
         "author": "mobileskyfi",
         "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/pull/73",
-        "createdAt": "2026-11-20T21:10:55Z",
-        "updatedAt": "2026-11-20T21:11:05Z",
+        "url": "https://github.com/tikoci/routeros-skills/pull/76",
+        "createdAt": "2026-11-21T02:19:20Z",
+        "updatedAt": "2026-11-21T02:19:29Z",
         "isPR": true,
         "draft": true,
         "labels": [],
@@ -62,54 +62,6 @@
         "milestone": null
       },
       {
-        "number": 68,
-        "title": "routeros-tikoci-centrs: check #54's 19 review findings against centrs 0.1.10",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/issues/68",
-        "createdAt": "2026-11-20T18:34:19Z",
-        "updatedAt": "2026-11-20T18:34:19Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "skill:refresh",
-          "tool:centrs"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 67,
-        "title": "routeros-cmr: re-ground on 7.26beta5+ (caller policy, script policy, pairing, VLAN)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/issues/67",
-        "createdAt": "2026-11-20T18:15:55Z",
-        "updatedAt": "2026-11-20T18:15:55Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "skill:refresh"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 66,
-        "title": "routeros-tikoci-quickchr: the recipe for using quickchr in another project's tests (prefetch, one start(), remove)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/issues/66",
-        "createdAt": "2026-11-19T23:40:24Z",
-        "updatedAt": "2026-11-20T18:14:19Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "documentation",
-          "skill:refresh",
-          "tool:quickchr"
-        ],
-        "milestone": null
-      },
-      {
         "number": 63,
         "title": "Point tikoci-* setup at the house skills on tikoci.dev",
         "author": "mobileskyfi",
@@ -120,22 +72,6 @@
         "isPR": false,
         "draft": null,
         "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 56,
-        "title": "quickchr/centrs skills: recommend --secure-login for SSH/SFTP use (managed key is first-boot only)",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/issues/56",
-        "createdAt": "2026-11-07T10:58:17Z",
-        "updatedAt": "2026-11-20T18:14:17Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "tool:centrs",
-          "tool:quickchr"
-        ],
         "milestone": null
       },
       {
@@ -219,40 +155,6 @@
         "milestone": null
       },
       {
-        "number": 39,
-        "title": "API operational details gap (vs wiresage/routeros-api)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/issues/39",
-        "createdAt": "2026-10-19T19:12:37Z",
-        "updatedAt": "2026-11-20T18:14:11Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "triage:reference-only",
-          "tool:centrs"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 37,
-        "title": "routeros-quickchr-cli skill: no /app-on-CHR path (container.npk, extra disk, REST add, use-https gotcha)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/issues/37",
-        "createdAt": "2026-10-19T02:30:20Z",
-        "updatedAt": "2026-11-20T18:14:20Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "skill:refresh",
-          "tool:quickchr"
-        ],
-        "milestone": null
-      },
-      {
         "number": 33,
         "title": "Scripting field findings (7.24.5): snmp-get aborts scripts past on-error, :execute + global function silent under limited policy, ~60 KB file write cap, gmt-offset in seconds",
         "author": "mobileskyfi",
@@ -266,29 +168,13 @@
         "milestone": null
       },
       {
-        "number": 28,
-        "title": "routeros-container / routeros-app-yaml: add references/ for testing with quickchr + centrs",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/issues/28",
-        "createdAt": "2026-09-21T15:36:05Z",
-        "updatedAt": "2026-11-20T18:14:22Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "documentation",
-          "tool:quickchr"
-        ],
-        "milestone": null
-      },
-      {
         "number": 27,
         "title": "routeros-container: 7.24/7.25 refresh + example command lines (companion to #18)",
         "author": "mobileskyfi",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/routeros-skills/issues/27",
         "createdAt": "2026-09-21T15:36:03Z",
-        "updatedAt": "2026-11-20T17:56:34Z",
+        "updatedAt": "2026-11-20T22:15:35Z",
         "isPR": false,
         "draft": null,
         "labels": [

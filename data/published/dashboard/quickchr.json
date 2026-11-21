@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-20T21:12:10.047Z",
+  "generatedAt": "2026-11-21T02:23:08.998Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -68,8 +68,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 55,
-        "owner": 55,
+        "total": 56,
+        "owner": 56,
         "external": 0,
         "bot": 0
       },
@@ -84,13 +84,33 @@
       }
     },
     "page": {
-      "fetched": 55,
+      "fetched": 56,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 299,
+        "title": "networking: a named per-machine guest→host receive port, in the inspect descriptor (TZSP, syslog, NetFlow)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/299",
+        "createdAt": "2026-11-20T22:45:46Z",
+        "updatedAt": "2026-11-20T22:45:46Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "area:networking",
+          "area:cli",
+          "area:library-api",
+          "needs-decision",
+          "consumer:tzsp-sniff"
+        ],
+        "milestone": null
+      },
       {
         "number": 298,
         "title": "start: a failure after spawning QEMU, before the first state save, deletes the machine directory and leaves QEMU running",

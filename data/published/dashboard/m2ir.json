@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "m2ir",
-  "generatedAt": "2026-11-20T21:12:10.047Z",
+  "generatedAt": "2026-11-21T02:23:08.998Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -15,17 +15,17 @@
         "bot": 0
       },
       "prs": {
-        "total": 0,
-        "owner": 0,
+        "total": 1,
+        "owner": 1,
         "external": 0,
         "bot": 0,
         "ownerReady": 0,
-        "ownerDraft": 0,
+        "ownerDraft": 1,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 1,
+      "fetched": 2,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
@@ -33,13 +33,26 @@
     "pullsEnriched": true,
     "items": [
       {
+        "number": 12,
+        "title": "docs(mndp): scope the TLV 17 IP-source fallback to the evidence",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/m2ir/pull/12",
+        "createdAt": "2026-11-21T02:17:42Z",
+        "updatedAt": "2026-11-21T02:17:51Z",
+        "isPR": true,
+        "draft": true,
+        "labels": [],
+        "milestone": null
+      },
+      {
         "number": 3,
         "title": "Ground MNDP unpack TLV, unidentified MNDP values, and IP packing frames",
         "author": "Amm0Bot",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/m2ir/issues/3",
         "createdAt": "2026-11-07T16:35:07Z",
-        "updatedAt": "2026-11-07T16:35:07Z",
+        "updatedAt": "2026-11-21T02:18:01Z",
         "isPR": false,
         "draft": null,
         "labels": [],
