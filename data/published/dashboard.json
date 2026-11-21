@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-21T11:14:08.791Z",
+  "generatedAt": "2026-11-21T18:03:36.893Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -135,9 +135,9 @@
             "headBranch": "main",
             "headSha": "0e476cea72d28ef8564a78acdd063553b72fd95e",
             "event": "schedule",
-            "runStartedAt": "2026-11-20T12:27:34Z",
-            "lastUpdatedAt": "2026-11-20T12:28:40Z",
-            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/44735944504",
+            "runStartedAt": "2026-11-21T12:02:57Z",
+            "lastUpdatedAt": "2026-11-21T12:04:05Z",
+            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/44901962779",
             "isHead": true
           },
           {
@@ -433,9 +433,9 @@
             "headBranch": "main",
             "headSha": "e568f7a3bc6a6265499d3189afc72f2f3e2dbc1d",
             "event": "schedule",
-            "runStartedAt": "2026-11-20T12:35:06Z",
-            "lastUpdatedAt": "2026-11-20T12:35:19Z",
-            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/44736997234",
+            "runStartedAt": "2026-11-21T12:14:12Z",
+            "lastUpdatedAt": "2026-11-21T12:14:26Z",
+            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/44902881939",
             "isHead": true
           },
           {
@@ -802,8 +802,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "127549f8e81b55aaaf555222b3cc8f043c336f74",
-        "headUrl": "https://github.com/tikoci/quickchr/commit/127549f8e81b55aaaf555222b3cc8f043c336f74",
+        "headSha": "e1ab1709d8b8a18aec55131bb2158c676dea0c6c",
+        "headUrl": "https://github.com/tikoci/quickchr/commit/e1ab1709d8b8a18aec55131bb2158c676dea0c6c",
         "workflows": [
           {
             "configured": "CI",
@@ -815,11 +815,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "127549f8e81b55aaaf555222b3cc8f043c336f74",
+            "headSha": "e1ab1709d8b8a18aec55131bb2158c676dea0c6c",
             "event": "push",
-            "runStartedAt": "2026-11-21T01:14:18Z",
-            "lastUpdatedAt": "2026-11-21T01:17:31Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/44848948085",
+            "runStartedAt": "2026-11-21T17:36:18Z",
+            "lastUpdatedAt": "2026-11-21T17:39:12Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/44930960783",
             "isHead": true
           },
           {
@@ -849,11 +849,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "5573f30b9c588f0772114748395c578251630b27",
+            "headSha": "127549f8e81b55aaaf555222b3cc8f043c336f74",
             "event": "schedule",
-            "runStartedAt": "2026-11-20T12:55:42Z",
-            "lastUpdatedAt": "2026-11-20T12:55:53Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/44739866163",
+            "runStartedAt": "2026-11-21T12:40:43Z",
+            "lastUpdatedAt": "2026-11-21T12:40:52Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/44905096437",
             "isHead": false
           }
         ]
@@ -862,74 +862,29 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 56,
-            "owner": 56,
+            "total": 54,
+            "owner": 54,
             "external": 0,
             "bot": 0
           },
           "prs": {
-            "total": 1,
-            "owner": 1,
+            "total": 0,
+            "owner": 0,
             "external": 0,
             "bot": 0,
             "ownerReady": 0,
-            "ownerDraft": 1,
+            "ownerDraft": 0,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 57,
+          "fetched": 54,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
-          {
-            "number": 303,
-            "title": "feat(networking): named guest→host receive ports (--receive) + hostGateway in the descriptor (#299)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/pull/303",
-            "createdAt": "2026-11-21T02:51:27Z",
-            "updatedAt": "2026-11-21T05:31:32Z",
-            "isPR": true,
-            "draft": true,
-            "labels": [],
-            "milestone": null
-          },
-          {
-            "number": 299,
-            "title": "networking: a named per-machine guest→host receive port, in the inspect descriptor (TZSP, syslog, NetFlow)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/299",
-            "createdAt": "2026-11-20T22:45:46Z",
-            "updatedAt": "2026-11-21T02:40:13Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "enhancement",
-              "area:networking",
-              "area:cli",
-              "area:library-api",
-              "consumer:tzsp-sniff"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 298,
-            "title": "start: a failure after spawning QEMU, before the first state save, deletes the machine directory and leaves QEMU running",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/298",
-            "createdAt": "2026-11-20T00:04:44Z",
-            "updatedAt": "2026-11-20T00:04:44Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [],
-            "milestone": null
-          },
           {
             "number": 295,
             "title": "cache: adopt tikoci-home's cache profile (QUICKCHR_CACHE_DIR / TIKOCI_CACHE_DIR apart from the data dir)",
@@ -1058,6 +1013,60 @@
               "P3"
             ],
             "milestone": null
+          },
+          {
+            "number": 283,
+            "title": "credentials: decide how (or whether) MikroTik.com license credentials use the OS keychain (Bun.secrets) — hang risk for agents",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/283",
+            "createdAt": "2026-11-17T17:19:02Z",
+            "updatedAt": "2026-11-17T17:19:02Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "area:provisioning",
+              "area:library-api",
+              "P3",
+              "needs-decision"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 280,
+            "title": "provisioning: add a managed, batch-verified SSH key to an already-booted machine (set --ssh-key)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/280",
+            "createdAt": "2026-11-17T03:20:08Z",
+            "updatedAt": "2026-11-17T03:20:08Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement",
+              "area:provisioning",
+              "P3",
+              "needs-decision",
+              "consumer:centrs"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 279,
+            "title": "ci: house tikoci-ci alignment — linter skip in CI, cancel-on-main",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/279",
+            "createdAt": "2026-11-16T22:46:44Z",
+            "updatedAt": "2026-11-17T03:19:51Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement",
+              "area:ci",
+              "P3"
+            ],
+            "milestone": "next"
           }
         ]
       },
@@ -1065,8 +1074,8 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 56,
-        "totalPRs": 1,
+        "totalIssues": 54,
+        "totalPRs": 0,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -1613,12 +1622,12 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "80a6f9f12196b3ef84d1038a08b9aba04b315f66",
+            "headSha": "3cf57aead59c7c4a560d54c65a1e7cffd6f96017",
             "event": "schedule",
-            "runStartedAt": "2026-11-20T14:11:49Z",
-            "lastUpdatedAt": "2026-11-20T14:12:01Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/44751120767",
-            "isHead": false
+            "runStartedAt": "2026-11-21T13:36:23Z",
+            "lastUpdatedAt": "2026-11-21T14:14:14Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/44909700278",
+            "isHead": true
           }
         ]
       },
@@ -2558,8 +2567,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "a3cad174b242d98af80f388322eb713eb12857e0",
-        "headUrl": "https://github.com/tikoci/routeros-skills/commit/a3cad174b242d98af80f388322eb713eb12857e0",
+        "headSha": "09eda2318e5d73c654b38a8b70f3f73d639693c9",
+        "headUrl": "https://github.com/tikoci/routeros-skills/commit/09eda2318e5d73c654b38a8b70f3f73d639693c9",
         "workflows": [
           {
             "configured": "CI",
@@ -2571,11 +2580,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "a3cad174b242d98af80f388322eb713eb12857e0",
+            "headSha": "09eda2318e5d73c654b38a8b70f3f73d639693c9",
             "event": "push",
-            "runStartedAt": "2026-11-21T06:02:36Z",
-            "lastUpdatedAt": "2026-11-21T06:02:53Z",
-            "lastUrl": "https://github.com/tikoci/routeros-skills/actions/runs/44873652620",
+            "runStartedAt": "2026-11-21T13:25:08Z",
+            "lastUpdatedAt": "2026-11-21T13:25:25Z",
+            "lastUrl": "https://github.com/tikoci/routeros-skills/actions/runs/44908758833",
             "isHead": true
           }
         ]
@@ -2584,8 +2593,8 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 11,
-            "owner": 11,
+            "total": 9,
+            "owner": 9,
             "external": 0,
             "bot": 0
           },
@@ -2600,26 +2609,13 @@
           }
         },
         "page": {
-          "fetched": 11,
+          "fetched": 9,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
-          {
-            "number": 78,
-            "title": "Follow-ups after #77: SHA-pin enforcement, workflow token, admin enforcement, stale tikoci branch",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/routeros-skills/issues/78",
-            "createdAt": "2026-11-21T05:32:52Z",
-            "updatedAt": "2026-11-21T05:32:52Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [],
-            "milestone": null
-          },
           {
             "number": 69,
             "title": "New skill: routeros-tikoci-rosetta (thin: when to use rosetta, export/MCP/DB)",
@@ -2634,19 +2630,6 @@
               "skill:new",
               "tool:rosetta"
             ],
-            "milestone": null
-          },
-          {
-            "number": 63,
-            "title": "Point tikoci-* setup at the house skills on tikoci.dev",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/routeros-skills/issues/63",
-            "createdAt": "2026-11-18T20:39:01Z",
-            "updatedAt": "2026-11-20T20:50:49Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [],
             "milestone": null
           },
           {
@@ -2756,6 +2739,21 @@
               "documentation"
             ],
             "milestone": null
+          },
+          {
+            "number": 25,
+            "title": "routeros-netinstall: add 7.24 Netinstall package, split generic process from host tooling, add \"when is netinstall needed\"",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/issues/25",
+            "createdAt": "2026-09-21T15:35:59Z",
+            "updatedAt": "2026-09-21T15:35:59Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "documentation"
+            ],
+            "milestone": null
           }
         ]
       },
@@ -2763,7 +2761,7 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 11,
+        "totalIssues": 9,
         "totalPRs": 0,
         "truncated": false,
         "byLabel": {},
@@ -3629,24 +3627,6 @@
       ]
     },
     {
-      "id": "ci-run-not-head:centrs:QA",
-      "rule": "ci-run-not-head",
-      "severity": "info",
-      "category": "ci",
-      "repos": [
-        "centrs"
-      ],
-      "summary": "centrs: QA latest run is not on the current head commit",
-      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
-      "evidence": [
-        "repos.centrs.ci.workflows[QA].headSha=80a6f9f12196b3ef84d1038a08b9aba04b315f66",
-        "repos.centrs.ci.headSha=3cf57aead59c7c4a560d54c65a1e7cffd6f96017"
-      ],
-      "urls": [
-        "https://github.com/tikoci/centrs/actions/runs/44751120767"
-      ]
-    },
-    {
       "id": "ci-run-not-head:centrs:Release",
       "rule": "ci-run-not-head",
       "severity": "info",
@@ -3694,7 +3674,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.quickchr.ci.workflows[Release].headSha=47b02eac53ad7a05694c4a524563cc7ea5242053",
-        "repos.quickchr.ci.headSha=127549f8e81b55aaaf555222b3cc8f043c336f74"
+        "repos.quickchr.ci.headSha=e1ab1709d8b8a18aec55131bb2158c676dea0c6c"
       ],
       "urls": [
         "https://github.com/tikoci/quickchr/actions/runs/44610349112"
@@ -3711,11 +3691,11 @@
       "summary": "quickchr: RouterOS Versions latest run is not on the current head commit",
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
-        "repos.quickchr.ci.workflows[RouterOS Versions].headSha=5573f30b9c588f0772114748395c578251630b27",
-        "repos.quickchr.ci.headSha=127549f8e81b55aaaf555222b3cc8f043c336f74"
+        "repos.quickchr.ci.workflows[RouterOS Versions].headSha=127549f8e81b55aaaf555222b3cc8f043c336f74",
+        "repos.quickchr.ci.headSha=e1ab1709d8b8a18aec55131bb2158c676dea0c6c"
       ],
       "urls": [
-        "https://github.com/tikoci/quickchr/actions/runs/44739866163"
+        "https://github.com/tikoci/quickchr/actions/runs/44905096437"
       ]
     },
     {

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "routeros-skills",
-  "generatedAt": "2026-11-21T11:14:08.791Z",
+  "generatedAt": "2026-11-21T18:03:36.893Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,8 +9,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 11,
-        "owner": 11,
+        "total": 9,
+        "owner": 9,
         "external": 0,
         "bot": 0
       },
@@ -25,26 +25,13 @@
       }
     },
     "page": {
-      "fetched": 11,
+      "fetched": 9,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
-      {
-        "number": 78,
-        "title": "Follow-ups after #77: SHA-pin enforcement, workflow token, admin enforcement, stale tikoci branch",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/issues/78",
-        "createdAt": "2026-11-21T05:32:52Z",
-        "updatedAt": "2026-11-21T05:32:52Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [],
-        "milestone": null
-      },
       {
         "number": 69,
         "title": "New skill: routeros-tikoci-rosetta (thin: when to use rosetta, export/MCP/DB)",
@@ -59,19 +46,6 @@
           "skill:new",
           "tool:rosetta"
         ],
-        "milestone": null
-      },
-      {
-        "number": 63,
-        "title": "Point tikoci-* setup at the house skills on tikoci.dev",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/issues/63",
-        "createdAt": "2026-11-18T20:39:01Z",
-        "updatedAt": "2026-11-20T20:50:49Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [],
         "milestone": null
       },
       {
