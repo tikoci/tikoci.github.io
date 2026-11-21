@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-21T18:03:36.893Z",
+  "generatedAt": "2026-11-21T23:24:21.520Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,7 +10,7 @@
     "otherHttpCalls": 11,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4835
+    "rateLimitRemaining": 4836
   },
   "sources": {
     "ros-current": "https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel> (MikroTik upgrade feed; body \"<version> <build-ts>\")",
@@ -802,8 +802,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "e1ab1709d8b8a18aec55131bb2158c676dea0c6c",
-        "headUrl": "https://github.com/tikoci/quickchr/commit/e1ab1709d8b8a18aec55131bb2158c676dea0c6c",
+        "headSha": "52bb00e8a5cdd7365e7d973bb07b075410c75cec",
+        "headUrl": "https://github.com/tikoci/quickchr/commit/52bb00e8a5cdd7365e7d973bb07b075410c75cec",
         "workflows": [
           {
             "configured": "CI",
@@ -815,11 +815,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "e1ab1709d8b8a18aec55131bb2158c676dea0c6c",
+            "headSha": "52bb00e8a5cdd7365e7d973bb07b075410c75cec",
             "event": "push",
-            "runStartedAt": "2026-11-21T17:36:18Z",
-            "lastUpdatedAt": "2026-11-21T17:39:12Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/44930960783",
+            "runStartedAt": "2026-11-21T19:46:14Z",
+            "lastUpdatedAt": "2026-11-21T19:49:13Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/44942703402",
             "isHead": true
           },
           {
@@ -862,29 +862,107 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 54,
-            "owner": 54,
+            "total": 53,
+            "owner": 53,
             "external": 0,
             "bot": 0
           },
           "prs": {
-            "total": 0,
-            "owner": 0,
+            "total": 3,
+            "owner": 3,
             "external": 0,
             "bot": 0,
             "ownerReady": 0,
-            "ownerDraft": 0,
+            "ownerDraft": 3,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 54,
+          "fetched": 56,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 311,
+            "title": "test(lab): Windows pipe-chardev spike for #57",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/pull/311",
+            "createdAt": "2026-11-21T20:54:08Z",
+            "updatedAt": "2026-11-21T20:54:37Z",
+            "isPR": true,
+            "draft": true,
+            "labels": [
+              "skip-review"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 310,
+            "title": "test(lab): download-origin probe for #146",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/pull/310",
+            "createdAt": "2026-11-21T20:25:48Z",
+            "updatedAt": "2026-11-21T20:26:57Z",
+            "isPR": true,
+            "draft": true,
+            "labels": [
+              "skip-review"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 309,
+            "title": "fix: three consumer-reported bugs (#287, #290, #294)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/pull/309",
+            "createdAt": "2026-11-21T20:14:21Z",
+            "updatedAt": "2026-11-21T20:28:53Z",
+            "isPR": true,
+            "draft": true,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 306,
+            "title": "agents: review and adopt tikoci house conventions (AGENTS.md entry, CLAUDE.md import, instructions → skills)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/306",
+            "createdAt": "2026-11-21T18:06:40Z",
+            "updatedAt": "2026-11-21T18:06:40Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "documentation",
+              "area:docs",
+              "P3",
+              "needs-decision"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 305,
+            "title": "ci: drop macos-x86 from the `all` alias (keep it opt-in); add windows-arm64 as an opt-in platform",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/305",
+            "createdAt": "2026-11-21T18:06:21Z",
+            "updatedAt": "2026-11-21T18:06:21Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement",
+              "area:ci",
+              "P3"
+            ],
+            "milestone": null
+          },
           {
             "number": 295,
             "title": "cache: adopt tikoci-home's cache profile (QUICKCHR_CACHE_DIR / TIKOCI_CACHE_DIR apart from the data dir)",
@@ -949,14 +1027,13 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/quickchr/issues/292",
             "createdAt": "2026-11-19T21:34:40Z",
-            "updatedAt": "2026-11-19T22:33:12Z",
+            "updatedAt": "2026-11-21T18:06:07Z",
             "isPR": false,
             "draft": null,
             "labels": [
               "enhancement",
               "area:library-api",
-              "P3",
-              "needs-decision",
+              "P2",
               "consumer:tzsp-sniff"
             ],
             "milestone": null
@@ -978,95 +1055,6 @@
               "consumer:tzsp-sniff"
             ],
             "milestone": null
-          },
-          {
-            "number": 287,
-            "title": "networking: --no-network (networks: []) silently gets the default user NIC instead of none",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/287",
-            "createdAt": "2026-11-19T19:01:37Z",
-            "updatedAt": "2026-11-19T19:01:37Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "bug",
-              "area:networking",
-              "area:cli",
-              "P3"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 284,
-            "title": "ros-versions.yml: an unreadable tested-versions.json re-dispatches every version, including failed ones",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/284",
-            "createdAt": "2026-11-18T01:36:22Z",
-            "updatedAt": "2026-11-18T01:36:22Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "bug",
-              "area:ci",
-              "P3"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 283,
-            "title": "credentials: decide how (or whether) MikroTik.com license credentials use the OS keychain (Bun.secrets) — hang risk for agents",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/283",
-            "createdAt": "2026-11-17T17:19:02Z",
-            "updatedAt": "2026-11-17T17:19:02Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "area:provisioning",
-              "area:library-api",
-              "P3",
-              "needs-decision"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 280,
-            "title": "provisioning: add a managed, batch-verified SSH key to an already-booted machine (set --ssh-key)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/280",
-            "createdAt": "2026-11-17T03:20:08Z",
-            "updatedAt": "2026-11-17T03:20:08Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "enhancement",
-              "area:provisioning",
-              "P3",
-              "needs-decision",
-              "consumer:centrs"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 279,
-            "title": "ci: house tikoci-ci alignment — linter skip in CI, cancel-on-main",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/279",
-            "createdAt": "2026-11-16T22:46:44Z",
-            "updatedAt": "2026-11-17T03:19:51Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "enhancement",
-              "area:ci",
-              "P3"
-            ],
-            "milestone": "next"
           }
         ]
       },
@@ -1074,8 +1062,8 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 54,
-        "totalPRs": 0,
+        "totalIssues": 53,
+        "totalPRs": 3,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -3114,8 +3102,8 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 1,
-            "owner": 1,
+            "total": 2,
+            "owner": 2,
             "external": 0,
             "bot": 0
           },
@@ -3130,13 +3118,26 @@
           }
         },
         "page": {
-          "fetched": 1,
+          "fetched": 2,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 13,
+            "title": "MNDP: evidence from 7.24.6 and 7.25.1 on x86_64 and arm64 (tzsp-sniff lab)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/m2ir/issues/13",
+            "createdAt": "2026-11-21T18:28:55Z",
+            "updatedAt": "2026-11-21T18:41:54Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
           {
             "number": 3,
             "title": "Ground MNDP unpack TLV, unidentified MNDP values, and IP packing frames",
@@ -3156,7 +3157,7 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 1,
+        "totalIssues": 2,
         "totalPRs": 0,
         "truncated": false,
         "byLabel": {},
@@ -3674,7 +3675,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.quickchr.ci.workflows[Release].headSha=47b02eac53ad7a05694c4a524563cc7ea5242053",
-        "repos.quickchr.ci.headSha=e1ab1709d8b8a18aec55131bb2158c676dea0c6c"
+        "repos.quickchr.ci.headSha=52bb00e8a5cdd7365e7d973bb07b075410c75cec"
       ],
       "urls": [
         "https://github.com/tikoci/quickchr/actions/runs/44610349112"
@@ -3692,7 +3693,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.quickchr.ci.workflows[RouterOS Versions].headSha=127549f8e81b55aaaf555222b3cc8f043c336f74",
-        "repos.quickchr.ci.headSha=e1ab1709d8b8a18aec55131bb2158c676dea0c6c"
+        "repos.quickchr.ci.headSha=52bb00e8a5cdd7365e7d973bb07b075410c75cec"
       ],
       "urls": [
         "https://github.com/tikoci/quickchr/actions/runs/44905096437"

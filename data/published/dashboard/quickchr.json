@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-21T18:03:36.893Z",
+  "generatedAt": "2026-11-21T23:24:21.520Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -68,29 +68,107 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 54,
-        "owner": 54,
+        "total": 53,
+        "owner": 53,
         "external": 0,
         "bot": 0
       },
       "prs": {
-        "total": 0,
-        "owner": 0,
+        "total": 3,
+        "owner": 3,
         "external": 0,
         "bot": 0,
         "ownerReady": 0,
-        "ownerDraft": 0,
+        "ownerDraft": 3,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 54,
+      "fetched": 56,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 311,
+        "title": "test(lab): Windows pipe-chardev spike for #57",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/pull/311",
+        "createdAt": "2026-11-21T20:54:08Z",
+        "updatedAt": "2026-11-21T20:54:37Z",
+        "isPR": true,
+        "draft": true,
+        "labels": [
+          "skip-review"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 310,
+        "title": "test(lab): download-origin probe for #146",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/pull/310",
+        "createdAt": "2026-11-21T20:25:48Z",
+        "updatedAt": "2026-11-21T20:26:57Z",
+        "isPR": true,
+        "draft": true,
+        "labels": [
+          "skip-review"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 309,
+        "title": "fix: three consumer-reported bugs (#287, #290, #294)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/pull/309",
+        "createdAt": "2026-11-21T20:14:21Z",
+        "updatedAt": "2026-11-21T20:28:53Z",
+        "isPR": true,
+        "draft": true,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 306,
+        "title": "agents: review and adopt tikoci house conventions (AGENTS.md entry, CLAUDE.md import, instructions → skills)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/306",
+        "createdAt": "2026-11-21T18:06:40Z",
+        "updatedAt": "2026-11-21T18:06:40Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "documentation",
+          "area:docs",
+          "P3",
+          "needs-decision"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 305,
+        "title": "ci: drop macos-x86 from the `all` alias (keep it opt-in); add windows-arm64 as an opt-in platform",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/305",
+        "createdAt": "2026-11-21T18:06:21Z",
+        "updatedAt": "2026-11-21T18:06:21Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "area:ci",
+          "P3"
+        ],
+        "milestone": null
+      },
       {
         "number": 295,
         "title": "cache: adopt tikoci-home's cache profile (QUICKCHR_CACHE_DIR / TIKOCI_CACHE_DIR apart from the data dir)",
@@ -155,14 +233,13 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/292",
         "createdAt": "2026-11-19T21:34:40Z",
-        "updatedAt": "2026-11-19T22:33:12Z",
+        "updatedAt": "2026-11-21T18:06:07Z",
         "isPR": false,
         "draft": null,
         "labels": [
           "enhancement",
           "area:library-api",
-          "P3",
-          "needs-decision",
+          "P2",
           "consumer:tzsp-sniff"
         ],
         "milestone": null
@@ -264,13 +341,14 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/279",
         "createdAt": "2026-11-16T22:46:44Z",
-        "updatedAt": "2026-11-17T03:19:51Z",
+        "updatedAt": "2026-11-21T19:37:12Z",
         "isPR": false,
         "draft": null,
         "labels": [
           "enhancement",
           "area:ci",
-          "P3"
+          "P2",
+          "waiting"
         ],
         "milestone": "next"
       },
@@ -317,14 +395,13 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/265",
         "createdAt": "2026-11-11T14:53:59Z",
-        "updatedAt": "2026-11-11T15:36:15Z",
+        "updatedAt": "2026-11-21T18:06:04Z",
         "isPR": false,
         "draft": null,
         "labels": [
           "enhancement",
           "area:provisioning",
           "P3",
-          "needs-decision",
           "consumer:app-t3code"
         ],
         "milestone": null
@@ -336,14 +413,15 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/263",
         "createdAt": "2026-11-11T13:43:11Z",
-        "updatedAt": "2026-11-11T13:43:11Z",
+        "updatedAt": "2026-11-21T18:28:56Z",
         "isPR": false,
         "draft": null,
         "labels": [
           "area:networking",
           "P3",
           "research",
-          "platform:windows"
+          "platform:windows",
+          "waiting"
         ],
         "milestone": null
       },
@@ -374,7 +452,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/257",
         "createdAt": "2026-11-07T19:34:56Z",
-        "updatedAt": "2026-11-11T14:49:52Z",
+        "updatedAt": "2026-11-21T18:06:02Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -392,7 +470,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/256",
         "createdAt": "2026-11-07T19:34:53Z",
-        "updatedAt": "2026-11-17T03:19:11Z",
+        "updatedAt": "2026-11-21T20:06:40Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -407,19 +485,18 @@
       },
       {
         "number": 243,
-        "title": "Cloud sessions: decide whether to provide an alternative CHR image mirror",
+        "title": "download: configurable download base URL (MikroTik layout); quickchr does not host images",
         "author": "Amm0Bot",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/243",
         "createdAt": "2026-10-30T20:27:23Z",
-        "updatedAt": "2026-11-17T03:19:34Z",
+        "updatedAt": "2026-11-21T20:06:38Z",
         "isPR": false,
         "draft": null,
         "labels": [
           "enhancement",
           "area:library-api",
-          "P4",
-          "needs-decision"
+          "P4"
         ],
         "milestone": null
       },
@@ -481,14 +558,15 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/169",
         "createdAt": "2026-09-20T18:53:44Z",
-        "updatedAt": "2026-10-30T20:28:45Z",
+        "updatedAt": "2026-11-21T18:28:55Z",
         "isPR": false,
         "draft": null,
         "labels": [
           "enhancement",
           "area:networking",
           "area:cli",
-          "P2"
+          "P2",
+          "waiting"
         ],
         "milestone": null
       },
@@ -537,13 +615,14 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/151",
         "createdAt": "2026-09-18T17:30:05Z",
-        "updatedAt": "2026-10-22T21:03:55Z",
+        "updatedAt": "2026-11-21T18:28:51Z",
         "isPR": false,
         "draft": null,
         "labels": [
           "enhancement",
           "area:ci",
-          "P2"
+          "P2",
+          "waiting"
         ],
         "milestone": null
       },
@@ -554,7 +633,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/146",
         "createdAt": "2026-09-17T06:59:44Z",
-        "updatedAt": "2026-09-17T07:00:22Z",
+        "updatedAt": "2026-11-21T20:26:05Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -572,7 +651,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/145",
         "createdAt": "2026-09-16T21:14:34Z",
-        "updatedAt": "2026-10-30T20:28:27Z",
+        "updatedAt": "2026-11-21T18:28:53Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -580,7 +659,8 @@
           "area:qemu",
           "area:examples",
           "P2",
-          "platform:windows"
+          "platform:windows",
+          "waiting"
         ],
         "milestone": null
       },
@@ -671,31 +751,13 @@
         "milestone": null
       },
       {
-        "number": 97,
-        "title": "arm64 CHR panics under HVF on all Apple Silicon — CHR image requires AArch32 userspace that Apple CPUs do not implement",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/97",
-        "createdAt": "2026-07-24T17:27:00Z",
-        "updatedAt": "2026-08-01T18:13:54Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "area:qemu",
-          "P3",
-          "research"
-        ],
-        "milestone": null
-      },
-      {
         "number": 79,
         "title": "QEMU/RouterOS: post-clean() relaunch leaves www nonresponsive on linux-arm64 (7.21.5)",
         "author": "mobileskyfi",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/79",
         "createdAt": "2026-07-06T00:54:41Z",
-        "updatedAt": "2026-07-31T15:39:14Z",
+        "updatedAt": "2026-11-21T18:28:49Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -703,7 +765,8 @@
           "area:qemu",
           "area:ci",
           "P3",
-          "research"
+          "research",
+          "waiting"
         ],
         "milestone": null
       },
@@ -714,7 +777,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/76",
         "createdAt": "2026-07-05T18:57:47Z",
-        "updatedAt": "2026-10-22T03:58:18Z",
+        "updatedAt": "2026-11-21T18:06:39Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -751,7 +814,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/69",
         "createdAt": "2026-07-05T04:32:42Z",
-        "updatedAt": "2026-11-07T10:58:42Z",
+        "updatedAt": "2026-11-21T18:28:48Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -759,7 +822,8 @@
           "area:provisioning",
           "area:rest",
           "area:ci",
-          "P2"
+          "P2",
+          "waiting"
         ],
         "milestone": null
       },
@@ -787,7 +851,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/57",
         "createdAt": "2026-07-03T16:45:00Z",
-        "updatedAt": "2026-11-21T17:40:41Z",
+        "updatedAt": "2026-11-21T20:54:28Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -805,13 +869,13 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/56",
         "createdAt": "2026-07-03T16:44:58Z",
-        "updatedAt": "2026-11-21T02:40:14Z",
+        "updatedAt": "2026-11-21T19:37:09Z",
         "isPR": false,
         "draft": null,
         "labels": [
+          "enhancement",
           "area:qemu",
-          "P3",
-          "needs-decision"
+          "P3"
         ],
         "milestone": null
       },
@@ -948,23 +1012,6 @@
         "milestone": null
       },
       {
-        "number": 42,
-        "title": "Cross-platform validation matrix (Linux host, completions, disk sizing)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/42",
-        "createdAt": "2026-07-03T16:44:24Z",
-        "updatedAt": "2026-07-04T19:36:31Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "area:qemu",
-          "area:ci",
-          "P3"
-        ],
-        "milestone": null
-      },
-      {
         "number": 41,
         "title": "Platform gaps: host networking (macOS / Linux) (umbrella)",
         "author": "mobileskyfi",
@@ -996,24 +1043,6 @@
           "P3",
           "research",
           "platform:windows"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 36,
-        "title": "agent setup: follow-up cleanup decisions after Codex/Copilot review",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/36",
-        "createdAt": "2026-07-03T05:44:29Z",
-        "updatedAt": "2026-11-07T19:19:04Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "documentation",
-          "enhancement",
-          "area:docs",
-          "P4"
         ],
         "milestone": null
       },
