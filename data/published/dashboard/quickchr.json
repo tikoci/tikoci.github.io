@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-21T02:23:08.998Z",
+  "generatedAt": "2026-11-21T11:14:08.791Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -74,17 +74,17 @@
         "bot": 0
       },
       "prs": {
-        "total": 0,
-        "owner": 0,
+        "total": 1,
+        "owner": 1,
         "external": 0,
         "bot": 0,
         "ownerReady": 0,
-        "ownerDraft": 0,
+        "ownerDraft": 1,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 56,
+      "fetched": 57,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
@@ -92,13 +92,26 @@
     "pullsEnriched": true,
     "items": [
       {
+        "number": 303,
+        "title": "feat(networking): named guest→host receive ports (--receive) + hostGateway in the descriptor (#299)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/pull/303",
+        "createdAt": "2026-11-21T02:51:27Z",
+        "updatedAt": "2026-11-21T05:31:32Z",
+        "isPR": true,
+        "draft": true,
+        "labels": [],
+        "milestone": null
+      },
+      {
         "number": 299,
         "title": "networking: a named per-machine guest→host receive port, in the inspect descriptor (TZSP, syslog, NetFlow)",
         "author": "mobileskyfi",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/299",
         "createdAt": "2026-11-20T22:45:46Z",
-        "updatedAt": "2026-11-20T22:45:46Z",
+        "updatedAt": "2026-11-21T02:40:13Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -106,7 +119,6 @@
           "area:networking",
           "area:cli",
           "area:library-api",
-          "needs-decision",
           "consumer:tzsp-sniff"
         ],
         "milestone": null
@@ -820,7 +832,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/57",
         "createdAt": "2026-07-03T16:45:00Z",
-        "updatedAt": "2026-07-04T19:04:34Z",
+        "updatedAt": "2026-11-21T02:39:06Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -838,7 +850,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/56",
         "createdAt": "2026-07-03T16:44:58Z",
-        "updatedAt": "2026-07-03T22:52:30Z",
+        "updatedAt": "2026-11-21T02:40:14Z",
         "isPR": false,
         "draft": null,
         "labels": [

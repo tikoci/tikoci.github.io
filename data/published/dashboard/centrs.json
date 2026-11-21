@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "centrs",
-  "generatedAt": "2026-11-21T02:23:08.998Z",
+  "generatedAt": "2026-11-21T11:14:08.791Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -15,17 +15,17 @@
         "bot": 0
       },
       "prs": {
-        "total": 4,
-        "owner": 3,
+        "total": 3,
+        "owner": 2,
         "external": 0,
         "bot": 1,
-        "ownerReady": 1,
+        "ownerReady": 0,
         "ownerDraft": 2,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 27,
+      "fetched": 26,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
@@ -55,10 +55,12 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/pull/670",
         "createdAt": "2026-11-18T11:48:19Z",
-        "updatedAt": "2026-11-18T11:49:22Z",
+        "updatedAt": "2026-11-21T02:49:57Z",
         "isPR": true,
         "draft": true,
-        "labels": [],
+        "labels": [
+          "skip-review"
+        ],
         "milestone": null
       },
       {
@@ -110,19 +112,6 @@
           "provider-cmr"
         ],
         "milestone": "next"
-      },
-      {
-        "number": 655,
-        "title": "test(cmr): finish half-paired labs and gate beta3+ contracts (#527)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/pull/655",
-        "createdAt": "2026-11-12T01:06:33Z",
-        "updatedAt": "2026-11-21T01:59:40Z",
-        "isPR": true,
-        "draft": false,
-        "labels": [],
-        "milestone": null
       },
       {
         "number": 654,
@@ -181,10 +170,12 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/pull/637",
         "createdAt": "2026-11-08T06:15:47Z",
-        "updatedAt": "2026-11-08T06:15:54Z",
+        "updatedAt": "2026-11-21T02:50:28Z",
         "isPR": true,
         "draft": true,
-        "labels": [],
+        "labels": [
+          "skip-review"
+        ],
         "milestone": null
       },
       {

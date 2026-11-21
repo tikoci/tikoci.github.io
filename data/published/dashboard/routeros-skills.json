@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "routeros-skills",
-  "generatedAt": "2026-11-21T02:23:08.998Z",
+  "generatedAt": "2026-11-21T11:14:08.791Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,18 +9,18 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 10,
-        "owner": 10,
+        "total": 11,
+        "owner": 11,
         "external": 0,
         "bot": 0
       },
       "prs": {
-        "total": 1,
-        "owner": 1,
+        "total": 0,
+        "owner": 0,
         "external": 0,
         "bot": 0,
         "ownerReady": 0,
-        "ownerDraft": 1,
+        "ownerDraft": 0,
         "draftUnknown": false
       }
     },
@@ -33,15 +33,15 @@
     "pullsEnriched": true,
     "items": [
       {
-        "number": 76,
-        "title": "docs(mndp): point at m2ir's canonical MNDP YAML",
+        "number": 78,
+        "title": "Follow-ups after #77: SHA-pin enforcement, workflow token, admin enforcement, stale tikoci branch",
         "author": "mobileskyfi",
         "authorClass": "owner",
-        "url": "https://github.com/tikoci/routeros-skills/pull/76",
-        "createdAt": "2026-11-21T02:19:20Z",
-        "updatedAt": "2026-11-21T02:19:29Z",
-        "isPR": true,
-        "draft": true,
+        "url": "https://github.com/tikoci/routeros-skills/issues/78",
+        "createdAt": "2026-11-21T05:32:52Z",
+        "updatedAt": "2026-11-21T05:32:52Z",
+        "isPR": false,
+        "draft": null,
         "labels": [],
         "milestone": null
       },
