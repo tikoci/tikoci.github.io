@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "observedAt": "2026-11-15T11:31:04.537Z",
-  "attemptedAt": "2026-11-15T11:31:00.252Z",
+  "observedAt": "2026-11-22T12:00:31.893Z",
+  "attemptedAt": "2026-11-22T12:00:26.855Z",
   "error": null,
   "provenance": {
     "collector": "scripts/repo-github-pages.ts",
@@ -420,6 +420,14 @@
         "title": "Page not found · GitHub Pages",
         "probeFile": "/README.md"
       },
+      "plausible": null
+    },
+    "tzsp-sniff": {
+      "name": "tzsp-sniff",
+      "hasPages": false,
+      "state": "ok",
+      "htmlUrl": null,
+      "serve": null,
       "plausible": null
     },
     "vscode-tikbook": {

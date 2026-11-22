@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-15T11:31:04.537Z",
+  "generatedAt": "2026-11-22T12:00:31.893Z",
   "generatedBy": "scripts/repo-github-pages.ts (weekly/manual — bun run survey:pages)",
   "collection": {
     "mode": "manual",
@@ -8,11 +8,11 @@
     "note": "Durable public-repository survey under data/. Refreshed weekly and manually. Pages settings remain token-scoped; inaccessible settings can return 404."
   },
   "budgets": {
-    "githubApiCalls": 56,
+    "githubApiCalls": 57,
     "otherHttpCalls": 34,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4582
+    "rateLimitRemaining": 4778
   },
   "sources": {
     "pagesApi": "GET repos/{owner}/{repo}/pages (404 = off; 401/403 = unknown)",
@@ -54,12 +54,13 @@
       "tikoci.github.io",
       "traefik-wabt",
       "traefik-wasm-grain",
+      "tzsp-sniff",
       "vscode-tikbook",
       "wargames",
       "winbox-deb"
     ],
     "withPages": 11,
-    "note": "35 org repos surveyed; 11 with Pages. The plausible block exists only where a sweep ran (live sites); truncated flags cap-cut sweeps."
+    "note": "36 org repos surveyed; 11 with Pages. The plausible block exists only where a sweep ran (live sites); truncated flags cap-cut sweeps."
   },
   "repos": {
     ".github": {
@@ -127,9 +128,9 @@
         "probeFile": null
       },
       "latestDeploy": {
-        "at": "2026-11-14T00:36:14Z",
+        "at": "2026-11-16T22:46:22Z",
         "ref": "main",
-        "sha": "6a69595",
+        "sha": "80a6f9f",
         "state": "success"
       },
       "plausible": {
@@ -456,9 +457,9 @@
         "probeFile": null
       },
       "latestDeploy": {
-        "at": "2026-11-15T11:30:22Z",
+        "at": "2026-11-22T11:59:34Z",
         "ref": "main",
-        "sha": "b3fc2cb",
+        "sha": "ac03376",
         "state": "in_progress"
       },
       "plausible": {
@@ -553,6 +554,11 @@
         "sha": "c9cfc04",
         "state": "success"
       }
+    },
+    "tzsp-sniff": {
+      "name": "tzsp-sniff",
+      "hasPages": false,
+      "state": "ok"
     },
     "vscode-tikbook": {
       "name": "vscode-tikbook",
