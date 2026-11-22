@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-22T12:00:16.430Z",
+  "generatedAt": "2026-11-22T15:24:41.181Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -135,9 +135,9 @@
             "headBranch": "main",
             "headSha": "0e476cea72d28ef8564a78acdd063553b72fd95e",
             "event": "schedule",
-            "runStartedAt": "2026-11-21T12:02:57Z",
-            "lastUpdatedAt": "2026-11-21T12:04:05Z",
-            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/44901962779",
+            "runStartedAt": "2026-11-22T12:14:49Z",
+            "lastUpdatedAt": "2026-11-22T12:15:59Z",
+            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/45021275596",
             "isHead": true
           },
           {
@@ -433,9 +433,9 @@
             "headBranch": "main",
             "headSha": "e568f7a3bc6a6265499d3189afc72f2f3e2dbc1d",
             "event": "schedule",
-            "runStartedAt": "2026-11-21T12:14:12Z",
-            "lastUpdatedAt": "2026-11-21T12:14:26Z",
-            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/44902881939",
+            "runStartedAt": "2026-11-22T12:20:24Z",
+            "lastUpdatedAt": "2026-11-22T12:20:36Z",
+            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/45021760394",
             "isHead": true
           },
           {
@@ -849,12 +849,12 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "127549f8e81b55aaaf555222b3cc8f043c336f74",
+            "headSha": "52bb00e8a5cdd7365e7d973bb07b075410c75cec",
             "event": "schedule",
-            "runStartedAt": "2026-11-21T12:40:43Z",
-            "lastUpdatedAt": "2026-11-21T12:40:52Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/44905096437",
-            "isHead": false
+            "runStartedAt": "2026-11-22T12:36:33Z",
+            "lastUpdatedAt": "2026-11-22T12:36:43Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/45023170489",
+            "isHead": true
           }
         ]
       },
@@ -1612,9 +1612,9 @@
             "headBranch": "main",
             "headSha": "3cf57aead59c7c4a560d54c65a1e7cffd6f96017",
             "event": "schedule",
-            "runStartedAt": "2026-11-21T13:36:23Z",
-            "lastUpdatedAt": "2026-11-21T14:14:14Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/44909700278",
+            "runStartedAt": "2026-11-22T13:28:29Z",
+            "lastUpdatedAt": "2026-11-22T13:28:40Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/45027664133",
             "isHead": true
           }
         ]
@@ -3108,17 +3108,17 @@
             "bot": 0
           },
           "prs": {
-            "total": 1,
-            "owner": 1,
+            "total": 0,
+            "owner": 0,
             "external": 0,
             "bot": 0,
-            "ownerReady": 1,
+            "ownerReady": 0,
             "ownerDraft": 0,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 4,
+          "fetched": 3,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
@@ -3135,19 +3135,6 @@
             "updatedAt": "2026-11-22T11:24:37Z",
             "isPR": false,
             "draft": null,
-            "labels": [],
-            "milestone": null
-          },
-          {
-            "number": 14,
-            "title": "jg-descriptors: declared-schema-first WinBox research, steps 0–5",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/m2ir/pull/14",
-            "createdAt": "2026-11-22T11:24:16Z",
-            "updatedAt": "2026-11-22T11:58:38Z",
-            "isPR": true,
-            "draft": false,
             "labels": [],
             "milestone": null
           },
@@ -3184,7 +3171,7 @@
         "openIssues": 0,
         "openPRs": 0,
         "totalIssues": 3,
-        "totalPRs": 1,
+        "totalPRs": 0,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -3637,23 +3624,6 @@
       ]
     },
     {
-      "id": "work-maintainer-prs:m2ir",
-      "rule": "work-maintainer-prs",
-      "severity": "pending",
-      "category": "work",
-      "repos": [
-        "m2ir"
-      ],
-      "summary": "m2ir: 1 open maintainer PR",
-      "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
-      "evidence": [
-        "repos.m2ir.work.counts.prs.ownerReady=1"
-      ],
-      "urls": [
-        "https://github.com/tikoci/m2ir/pulls"
-      ]
-    },
-    {
       "id": "work-maintainer-prs:restraml",
       "rule": "work-maintainer-prs",
       "severity": "pending",
@@ -3722,24 +3692,6 @@
       ],
       "urls": [
         "https://github.com/tikoci/quickchr/actions/runs/44610349112"
-      ]
-    },
-    {
-      "id": "ci-run-not-head:quickchr:RouterOS-Versions",
-      "rule": "ci-run-not-head",
-      "severity": "info",
-      "category": "ci",
-      "repos": [
-        "quickchr"
-      ],
-      "summary": "quickchr: RouterOS Versions latest run is not on the current head commit",
-      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
-      "evidence": [
-        "repos.quickchr.ci.workflows[RouterOS Versions].headSha=127549f8e81b55aaaf555222b3cc8f043c336f74",
-        "repos.quickchr.ci.headSha=52bb00e8a5cdd7365e7d973bb07b075410c75cec"
-      ],
-      "urls": [
-        "https://github.com/tikoci/quickchr/actions/runs/44905096437"
       ]
     },
     {

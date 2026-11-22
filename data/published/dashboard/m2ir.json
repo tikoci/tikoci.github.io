@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "m2ir",
-  "generatedAt": "2026-11-22T12:00:16.430Z",
+  "generatedAt": "2026-11-22T15:24:41.181Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -15,17 +15,17 @@
         "bot": 0
       },
       "prs": {
-        "total": 1,
-        "owner": 1,
+        "total": 0,
+        "owner": 0,
         "external": 0,
         "bot": 0,
-        "ownerReady": 1,
+        "ownerReady": 0,
         "ownerDraft": 0,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 4,
+      "fetched": 3,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
@@ -42,19 +42,6 @@
         "updatedAt": "2026-11-22T11:24:37Z",
         "isPR": false,
         "draft": null,
-        "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 14,
-        "title": "jg-descriptors: declared-schema-first WinBox research, steps 0–5",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/m2ir/pull/14",
-        "createdAt": "2026-11-22T11:24:16Z",
-        "updatedAt": "2026-11-22T11:58:38Z",
-        "isPR": true,
-        "draft": false,
         "labels": [],
         "milestone": null
       },
