@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-22T21:51:58.867Z",
+  "generatedAt": "2026-11-23T02:52:01.437Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -3108,23 +3108,38 @@
             "bot": 0
           },
           "prs": {
-            "total": 0,
-            "owner": 0,
+            "total": 1,
+            "owner": 1,
             "external": 0,
             "bot": 0,
-            "ownerReady": 0,
+            "ownerReady": 1,
             "ownerDraft": 0,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 3,
+          "fetched": 4,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 16,
+            "title": "docs: plan CLI to WebFig review view mapping",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/m2ir/pull/16",
+            "createdAt": "2026-11-23T01:35:14Z",
+            "updatedAt": "2026-11-23T02:51:36Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [
+              "documentation"
+            ],
+            "milestone": null
+          },
           {
             "number": 15,
             "title": "Workflow: get research work onto main (landing cadence, draft PRs, tikoci-house skills)",
@@ -3171,7 +3186,7 @@
         "openIssues": 0,
         "openPRs": 0,
         "totalIssues": 3,
-        "totalPRs": 0,
+        "totalPRs": 1,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -3621,6 +3636,23 @@
       ],
       "urls": [
         "https://github.com/tikoci/bench-routeros-tools/pulls"
+      ]
+    },
+    {
+      "id": "work-maintainer-prs:m2ir",
+      "rule": "work-maintainer-prs",
+      "severity": "pending",
+      "category": "work",
+      "repos": [
+        "m2ir"
+      ],
+      "summary": "m2ir: 1 open maintainer PR",
+      "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
+      "evidence": [
+        "repos.m2ir.work.counts.prs.ownerReady=1"
+      ],
+      "urls": [
+        "https://github.com/tikoci/m2ir/pulls"
       ]
     },
     {
