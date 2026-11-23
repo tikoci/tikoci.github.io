@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "restraml",
-  "generatedAt": "2026-11-23T02:52:01.437Z",
+  "generatedAt": "2026-11-23T12:57:44.446Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,10 +10,12 @@
     "locator": "contents-dirs:docs",
     "kind": "published",
     "coverage": [
+      "7.26beta7",
       "7.26beta5",
       "7.26beta4",
       "7.26beta3",
       "7.26beta1",
+      "7.25.2",
       "7.25.1",
       "7.25",
       "7.25rc3",
@@ -81,24 +83,24 @@
       "7.9.2",
       "7.9"
     ],
-    "totalKnown": 70,
+    "totalKnown": 72,
     "truncated": true,
     "channels": {
       "stable": {
-        "version": "7.25.1",
+        "version": "7.25.2",
         "covered": true
       },
       "testing": {
-        "version": "7.25.1",
+        "version": "7.25.2",
         "covered": true
       },
       "development": {
-        "version": "7.26beta5",
+        "version": "7.26beta7",
         "covered": true
       },
       "long-term": {
-        "version": "7.24.6",
-        "covered": true
+        "version": "7.24.7",
+        "covered": false
       }
     }
   },

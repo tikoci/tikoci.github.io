@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-23T02:52:01.437Z",
+  "generatedAt": "2026-11-23T12:57:44.446Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -47,23 +47,23 @@
   "rosCurrent": {
     "stable": {
       "state": "ok",
-      "version": "7.25.1",
-      "raw": "7.25.1 1793623193"
+      "version": "7.25.2",
+      "raw": "7.25.2 1795173070"
     },
     "testing": {
       "state": "ok",
-      "version": "7.25.1",
-      "raw": "7.25.1 1793623193"
+      "version": "7.25.2",
+      "raw": "7.25.2 1795173070"
     },
     "development": {
       "state": "ok",
-      "version": "7.26beta5",
-      "raw": "7.26beta5 1793358835"
+      "version": "7.26beta7",
+      "raw": "7.26beta7 1795090415"
     },
     "long-term": {
       "state": "ok",
-      "version": "7.24.6",
-      "raw": "7.24.6 1793348669"
+      "version": "7.24.7",
+      "raw": "7.24.7 1795077769"
     }
   },
   "repos": {
@@ -80,10 +80,12 @@
         "locator": "contents-dirs:docs",
         "kind": "published",
         "coverage": [
+          "7.26beta7",
           "7.26beta5",
           "7.26beta4",
           "7.26beta3",
           "7.26beta1",
+          "7.25.2",
           "7.25.1",
           "7.25",
           "7.25rc3",
@@ -91,37 +93,34 @@
           "7.25rc1",
           "7.25beta5",
           "7.25beta4",
-          "7.25beta3",
-          "7.24.6",
-          "7.24.5",
-          "7.24.4"
+          "7.25beta3"
         ],
-        "totalKnown": 70,
+        "totalKnown": 72,
         "truncated": true,
         "channels": {
           "stable": {
-            "version": "7.25.1",
+            "version": "7.25.2",
             "covered": true
           },
           "testing": {
-            "version": "7.25.1",
+            "version": "7.25.2",
             "covered": true
           },
           "development": {
-            "version": "7.26beta5",
+            "version": "7.26beta7",
             "covered": true
           },
           "long-term": {
-            "version": "7.24.6",
-            "covered": true
+            "version": "7.24.7",
+            "covered": false
           }
         }
       },
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "0e476cea72d28ef8564a78acdd063553b72fd95e",
-        "headUrl": "https://github.com/tikoci/restraml/commit/0e476cea72d28ef8564a78acdd063553b72fd95e",
+        "headSha": "2a5a4395e0ffc710de0a26fe1b6656ede3fa5d05",
+        "headUrl": "https://github.com/tikoci/restraml/commit/2a5a4395e0ffc710de0a26fe1b6656ede3fa5d05",
         "workflows": [
           {
             "configured": "Auto-Build New RouterOS Versions",
@@ -134,11 +133,11 @@
             "lastConclusion": "success",
             "headBranch": "main",
             "headSha": "0e476cea72d28ef8564a78acdd063553b72fd95e",
-            "event": "schedule",
-            "runStartedAt": "2026-11-22T12:14:49Z",
-            "lastUpdatedAt": "2026-11-22T12:15:59Z",
-            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/45021275596",
-            "isHead": true
+            "event": "workflow_dispatch",
+            "runStartedAt": "2026-11-23T08:33:50Z",
+            "lastUpdatedAt": "2026-11-23T08:35:26Z",
+            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/45139619507",
+            "isHead": false
           },
           {
             "configured": "Build: Base Schema",
@@ -150,11 +149,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "433d1c1f0a345f481583f69fb2ea31606dd5e627",
+            "headSha": "0e476cea72d28ef8564a78acdd063553b72fd95e",
             "event": "workflow_dispatch",
-            "runStartedAt": "2026-11-03T11:36:01Z",
-            "lastUpdatedAt": "2026-11-03T11:40:45Z",
-            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/41628833145",
+            "runStartedAt": "2026-11-23T08:35:12Z",
+            "lastUpdatedAt": "2026-11-23T08:39:49Z",
+            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/45139807103",
             "isHead": false
           },
           {
@@ -167,11 +166,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "433d1c1f0a345f481583f69fb2ea31606dd5e627",
+            "headSha": "0e476cea72d28ef8564a78acdd063553b72fd95e",
             "event": "workflow_dispatch",
-            "runStartedAt": "2026-11-03T11:36:01Z",
-            "lastUpdatedAt": "2026-11-03T11:54:35Z",
-            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/41628832103",
+            "runStartedAt": "2026-11-23T08:35:11Z",
+            "lastUpdatedAt": "2026-11-23T08:54:24Z",
+            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/45139806182",
             "isHead": false
           }
         ]
@@ -378,10 +377,12 @@
         "locator": "github-tags:",
         "kind": "tagged",
         "coverage": [
+          "7.26beta7",
           "7.26beta5",
           "7.26beta4",
           "7.26beta3",
           "7.26beta1",
+          "7.25.2",
           "7.25.1",
           "7.25",
           "7.25rc3",
@@ -390,27 +391,25 @@
           "7.25beta5",
           "7.25beta4",
           "7.25beta3",
-          "7.24.6",
-          "7.24.5",
-          "7.24.4"
+          "7.24.7"
         ],
-        "totalKnown": 96,
+        "totalKnown": 99,
         "truncated": true,
         "channels": {
           "stable": {
-            "version": "7.25.1",
+            "version": "7.25.2",
             "covered": true
           },
           "testing": {
-            "version": "7.25.1",
+            "version": "7.25.2",
             "covered": true
           },
           "development": {
-            "version": "7.26beta5",
+            "version": "7.26beta7",
             "covered": true
           },
           "long-term": {
-            "version": "7.24.6",
+            "version": "7.24.7",
             "covered": true
           }
         }
@@ -432,10 +431,10 @@
             "lastConclusion": "success",
             "headBranch": "main",
             "headSha": "e568f7a3bc6a6265499d3189afc72f2f3e2dbc1d",
-            "event": "schedule",
-            "runStartedAt": "2026-11-22T12:20:24Z",
-            "lastUpdatedAt": "2026-11-22T12:20:36Z",
-            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/45021760394",
+            "event": "workflow_dispatch",
+            "runStartedAt": "2026-11-23T08:37:11Z",
+            "lastUpdatedAt": "2026-11-23T08:39:04Z",
+            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/45140082941",
             "isHead": true
           },
           {
@@ -445,14 +444,14 @@
             "present": true,
             "state": "ok",
             "status": "completed",
-            "conclusion": "failure",
-            "lastConclusion": "failure",
+            "conclusion": "success",
+            "lastConclusion": "success",
             "headBranch": "main",
             "headSha": "e568f7a3bc6a6265499d3189afc72f2f3e2dbc1d",
             "event": "workflow_dispatch",
-            "runStartedAt": "2026-11-03T11:43:51Z",
-            "lastUpdatedAt": "2026-11-03T11:44:42Z",
-            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/41629869891",
+            "runStartedAt": "2026-11-23T08:39:01Z",
+            "lastUpdatedAt": "2026-11-23T08:42:16Z",
+            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/45140332882",
             "isHead": true
           },
           {
@@ -610,10 +609,12 @@
         "locator": "github-releases:",
         "kind": "published",
         "coverage": [
+          "7.26beta7",
           "7.26beta5",
           "7.26beta4",
           "7.26beta3",
           "7.26beta1",
+          "7.25.2",
           "7.25.1",
           "7.25",
           "7.25rc3",
@@ -622,27 +623,25 @@
           "7.25beta5",
           "7.25beta4",
           "7.25beta3",
-          "7.24.6",
-          "7.24.5",
-          "7.24.4"
+          "7.24.7"
         ],
         "totalKnown": 100,
         "truncated": true,
         "channels": {
           "stable": {
-            "version": "7.25.1",
+            "version": "7.25.2",
             "covered": true
           },
           "testing": {
-            "version": "7.25.1",
+            "version": "7.25.2",
             "covered": true
           },
           "development": {
-            "version": "7.26beta5",
+            "version": "7.26beta7",
             "covered": true
           },
           "long-term": {
-            "version": "7.24.6",
+            "version": "7.24.7",
             "covered": true
           }
         }
@@ -664,10 +663,10 @@
             "lastConclusion": "success",
             "headBranch": "main",
             "headSha": "acd6566c090b9b8060a6bec849e8ad2ca8db5380",
-            "event": "schedule",
-            "runStartedAt": "2026-11-22T05:33:59Z",
-            "lastUpdatedAt": "2026-11-22T05:34:15Z",
-            "lastUrl": "https://github.com/tikoci/fat-chr/actions/runs/44989956297",
+            "event": "workflow_dispatch",
+            "runStartedAt": "2026-11-23T08:37:31Z",
+            "lastUpdatedAt": "2026-11-23T08:38:29Z",
+            "lastUrl": "https://github.com/tikoci/fat-chr/actions/runs/45140127308",
             "isHead": true
           }
         ]
@@ -727,20 +726,20 @@
       },
       "release": {
         "state": "ok",
-        "latestTag": "7.25.1",
-        "latestDate": "2026-11-03T11:43:07Z",
-        "latestUrl": "https://github.com/tikoci/fat-chr/releases/tag/7.25.1",
+        "latestTag": "7.25.2",
+        "latestDate": "2026-11-23T08:34:59Z",
+        "latestUrl": "https://github.com/tikoci/fat-chr/releases/tag/7.25.2",
         "prerelease": false,
         "stable": {
-          "tag": "7.25.1",
-          "date": "2026-11-03T11:43:07Z",
-          "url": "https://github.com/tikoci/fat-chr/releases/tag/7.25.1",
+          "tag": "7.25.2",
+          "date": "2026-11-23T08:34:59Z",
+          "url": "https://github.com/tikoci/fat-chr/releases/tag/7.25.2",
           "prerelease": false
         },
         "newest": {
-          "tag": "7.25.1",
-          "date": "2026-11-03T11:43:07Z",
-          "url": "https://github.com/tikoci/fat-chr/releases/tag/7.25.1",
+          "tag": "7.25.2",
+          "date": "2026-11-23T08:34:59Z",
+          "url": "https://github.com/tikoci/fat-chr/releases/tag/7.25.2",
           "prerelease": false
         },
         "prereleaseChannel": false,
@@ -773,29 +772,26 @@
           "7.25rc1",
           "7.25beta5",
           "7.25beta4",
-          "7.25beta3",
-          "7.24.6",
-          "7.24.5",
-          "7.24.4"
+          "7.25beta3"
         ],
         "totalKnown": 33,
         "truncated": true,
         "channels": {
           "stable": {
-            "version": "7.25.1",
-            "covered": true
+            "version": "7.25.2",
+            "covered": false
           },
           "testing": {
-            "version": "7.25.1",
-            "covered": true
+            "version": "7.25.2",
+            "covered": false
           },
           "development": {
-            "version": "7.26beta5",
-            "covered": true
+            "version": "7.26beta7",
+            "covered": false
           },
           "long-term": {
-            "version": "7.24.6",
-            "covered": true
+            "version": "7.24.7",
+            "covered": false
           }
         }
       },
@@ -1133,18 +1129,17 @@
           "7.23.2",
           "7.23.1",
           "7.23",
-          "7.22.3",
-          "7.22.2"
+          "7.22.3"
         ],
         "totalKnown": 63,
         "truncated": true,
         "channels": {
           "stable": {
-            "version": "7.25.1",
-            "covered": true
+            "version": "7.25.2",
+            "covered": false
           },
           "long-term": {
-            "version": "7.24.6",
+            "version": "7.24.7",
             "covered": false
           }
         }
@@ -1248,7 +1243,7 @@
       "rosLag": {
         "state": "unknown",
         "artifactVersion": null,
-        "stableVersion": "7.25.1",
+        "stableVersion": "7.25.2",
         "error": "no manifest configured"
       },
       "ci": {
@@ -3108,38 +3103,23 @@
             "bot": 0
           },
           "prs": {
-            "total": 1,
-            "owner": 1,
+            "total": 0,
+            "owner": 0,
             "external": 0,
             "bot": 0,
-            "ownerReady": 1,
+            "ownerReady": 0,
             "ownerDraft": 0,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 4,
+          "fetched": 3,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
-          {
-            "number": 16,
-            "title": "docs: plan CLI to WebFig review view mapping",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/m2ir/pull/16",
-            "createdAt": "2026-11-23T01:35:14Z",
-            "updatedAt": "2026-11-23T02:51:36Z",
-            "isPR": true,
-            "draft": false,
-            "labels": [
-              "documentation"
-            ],
-            "milestone": null
-          },
           {
             "number": 15,
             "title": "Workflow: get research work onto main (landing cadence, draft PRs, tikoci-house skills)",
@@ -3186,7 +3166,7 @@
         "openIssues": 0,
         "openPRs": 0,
         "totalIssues": 3,
-        "totalPRs": 1,
+        "totalPRs": 0,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -3515,24 +3495,6 @@
       ]
     },
     {
-      "id": "ci-default-branch-failing:mikropkl:CHR-Packages",
-      "rule": "ci-default-branch-failing",
-      "severity": "failure",
-      "category": "ci",
-      "repos": [
-        "mikropkl"
-      ],
-      "summary": "mikropkl: CHR Packages failure on main",
-      "detail": "The latest default-branch run completed with a failing conclusion. Only default-branch runs count here; PR-branch runs are excluded at collection time.",
-      "evidence": [
-        "repos.mikropkl.ci.workflows[CHR Packages].conclusion=failure",
-        "repos.mikropkl.ci.workflows[CHR Packages].headSha=e568f7a3bc6a6265499d3189afc72f2f3e2dbc1d"
-      ],
-      "urls": [
-        "https://github.com/tikoci/mikropkl/actions/runs/41629869891"
-      ]
-    },
-    {
       "id": "ci-default-branch-failing:rosetta:Device-Map-Refresh",
       "rule": "ci-default-branch-failing",
       "severity": "failure",
@@ -3612,13 +3574,115 @@
       "repos": [
         "mikrotik-gpl"
       ],
-      "summary": "mikrotik-gpl: missing long-term 7.24.6 (published coverage)",
+      "summary": "mikrotik-gpl: missing long-term 7.24.7 (published coverage)",
       "detail": "The current long-term version is absent from this repo's published coverage list. Work to do (usually picked up by the polling workflow), not a failure. Only channels listed in rosChannels are judged.",
       "evidence": [
-        "repos.mikrotik-gpl.ros.channels.long-term=missing 7.24.6"
+        "repos.mikrotik-gpl.ros.channels.long-term=missing 7.24.7"
       ],
       "urls": [
         "https://github.com/tikoci/mikrotik-gpl/actions"
+      ]
+    },
+    {
+      "id": "ros-missing-channel:mikrotik-gpl:stable",
+      "rule": "ros-missing-channel",
+      "severity": "pending",
+      "category": "ros",
+      "repos": [
+        "mikrotik-gpl"
+      ],
+      "summary": "mikrotik-gpl: missing stable 7.25.2 (published coverage)",
+      "detail": "The current stable version is absent from this repo's published coverage list. Work to do (usually picked up by the polling workflow), not a failure. Only channels listed in rosChannels are judged.",
+      "evidence": [
+        "repos.mikrotik-gpl.ros.channels.stable=missing 7.25.2"
+      ],
+      "urls": [
+        "https://github.com/tikoci/mikrotik-gpl/actions"
+      ]
+    },
+    {
+      "id": "ros-missing-channel:quickchr:development",
+      "rule": "ros-missing-channel",
+      "severity": "pending",
+      "category": "ros",
+      "repos": [
+        "quickchr"
+      ],
+      "summary": "quickchr: missing development 7.26beta7 (tested coverage)",
+      "detail": "The current development version is absent from this repo's tested coverage list. Work to do (usually picked up by the polling workflow), not a failure. Only channels listed in rosChannels are judged.",
+      "evidence": [
+        "repos.quickchr.ros.channels.development=missing 7.26beta7"
+      ],
+      "urls": [
+        "https://github.com/tikoci/quickchr/actions"
+      ]
+    },
+    {
+      "id": "ros-missing-channel:quickchr:long-term",
+      "rule": "ros-missing-channel",
+      "severity": "pending",
+      "category": "ros",
+      "repos": [
+        "quickchr"
+      ],
+      "summary": "quickchr: missing long-term 7.24.7 (tested coverage)",
+      "detail": "The current long-term version is absent from this repo's tested coverage list. Work to do (usually picked up by the polling workflow), not a failure. Only channels listed in rosChannels are judged.",
+      "evidence": [
+        "repos.quickchr.ros.channels.long-term=missing 7.24.7"
+      ],
+      "urls": [
+        "https://github.com/tikoci/quickchr/actions"
+      ]
+    },
+    {
+      "id": "ros-missing-channel:quickchr:stable",
+      "rule": "ros-missing-channel",
+      "severity": "pending",
+      "category": "ros",
+      "repos": [
+        "quickchr"
+      ],
+      "summary": "quickchr: missing stable 7.25.2 (tested coverage)",
+      "detail": "The current stable version is absent from this repo's tested coverage list. Work to do (usually picked up by the polling workflow), not a failure. Only channels listed in rosChannels are judged.",
+      "evidence": [
+        "repos.quickchr.ros.channels.stable=missing 7.25.2"
+      ],
+      "urls": [
+        "https://github.com/tikoci/quickchr/actions"
+      ]
+    },
+    {
+      "id": "ros-missing-channel:quickchr:testing",
+      "rule": "ros-missing-channel",
+      "severity": "pending",
+      "category": "ros",
+      "repos": [
+        "quickchr"
+      ],
+      "summary": "quickchr: missing testing 7.25.2 (tested coverage)",
+      "detail": "The current testing version is absent from this repo's tested coverage list. Work to do (usually picked up by the polling workflow), not a failure. Only channels listed in rosChannels are judged.",
+      "evidence": [
+        "repos.quickchr.ros.channels.testing=missing 7.25.2"
+      ],
+      "urls": [
+        "https://github.com/tikoci/quickchr/actions"
+      ]
+    },
+    {
+      "id": "ros-missing-channel:restraml:long-term",
+      "rule": "ros-missing-channel",
+      "severity": "pending",
+      "category": "ros",
+      "repos": [
+        "restraml"
+      ],
+      "summary": "restraml: missing long-term 7.24.7 (published coverage)",
+      "detail": "The current long-term version is absent from this repo's published coverage list. Work to do (usually picked up by the polling workflow), not a failure. Only channels listed in rosChannels are judged.",
+      "evidence": [
+        "repos.restraml.ros.channels.long-term=missing 7.24.7"
+      ],
+      "urls": [
+        "https://github.com/tikoci/restraml/actions"
       ]
     },
     {
@@ -3636,23 +3700,6 @@
       ],
       "urls": [
         "https://github.com/tikoci/bench-routeros-tools/pulls"
-      ]
-    },
-    {
-      "id": "work-maintainer-prs:m2ir",
-      "rule": "work-maintainer-prs",
-      "severity": "pending",
-      "category": "work",
-      "repos": [
-        "m2ir"
-      ],
-      "summary": "m2ir: 1 open maintainer PR",
-      "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
-      "evidence": [
-        "repos.m2ir.work.counts.prs.ownerReady=1"
-      ],
-      "urls": [
-        "https://github.com/tikoci/m2ir/pulls"
       ]
     },
     {
@@ -3727,6 +3774,24 @@
       ]
     },
     {
+      "id": "ci-run-not-head:restraml:Auto-Build-New-RouterOS-Versions",
+      "rule": "ci-run-not-head",
+      "severity": "info",
+      "category": "ci",
+      "repos": [
+        "restraml"
+      ],
+      "summary": "restraml: Auto-Build New RouterOS Versions latest run is not on the current head commit",
+      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
+      "evidence": [
+        "repos.restraml.ci.workflows[Auto-Build New RouterOS Versions].headSha=0e476cea72d28ef8564a78acdd063553b72fd95e",
+        "repos.restraml.ci.headSha=2a5a4395e0ffc710de0a26fe1b6656ede3fa5d05"
+      ],
+      "urls": [
+        "https://github.com/tikoci/restraml/actions/runs/45139619507"
+      ]
+    },
+    {
       "id": "ci-run-not-head:restraml:Build-Base-Schema",
       "rule": "ci-run-not-head",
       "severity": "info",
@@ -3737,11 +3802,11 @@
       "summary": "restraml: Build: Base Schema latest run is not on the current head commit",
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
-        "repos.restraml.ci.workflows[Build: Base Schema].headSha=433d1c1f0a345f481583f69fb2ea31606dd5e627",
-        "repos.restraml.ci.headSha=0e476cea72d28ef8564a78acdd063553b72fd95e"
+        "repos.restraml.ci.workflows[Build: Base Schema].headSha=0e476cea72d28ef8564a78acdd063553b72fd95e",
+        "repos.restraml.ci.headSha=2a5a4395e0ffc710de0a26fe1b6656ede3fa5d05"
       ],
       "urls": [
-        "https://github.com/tikoci/restraml/actions/runs/41628833145"
+        "https://github.com/tikoci/restraml/actions/runs/45139807103"
       ]
     },
     {
@@ -3755,11 +3820,11 @@
       "summary": "restraml: Build: Deep-Inspect Multi-Arch latest run is not on the current head commit",
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
-        "repos.restraml.ci.workflows[Build: Deep-Inspect Multi-Arch].headSha=433d1c1f0a345f481583f69fb2ea31606dd5e627",
-        "repos.restraml.ci.headSha=0e476cea72d28ef8564a78acdd063553b72fd95e"
+        "repos.restraml.ci.workflows[Build: Deep-Inspect Multi-Arch].headSha=0e476cea72d28ef8564a78acdd063553b72fd95e",
+        "repos.restraml.ci.headSha=2a5a4395e0ffc710de0a26fe1b6656ede3fa5d05"
       ],
       "urls": [
-        "https://github.com/tikoci/restraml/actions/runs/41628832103"
+        "https://github.com/tikoci/restraml/actions/runs/45139806182"
       ]
     },
     {

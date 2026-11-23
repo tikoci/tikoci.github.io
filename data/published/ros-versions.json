@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-23T02:52:01.437Z",
+  "generatedAt": "2026-11-23T12:57:44.446Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -8,23 +8,23 @@
   "channels": {
     "stable": {
       "state": "ok",
-      "version": "7.25.1",
-      "raw": "7.25.1 1793623193"
+      "version": "7.25.2",
+      "raw": "7.25.2 1795173070"
     },
     "testing": {
       "state": "ok",
-      "version": "7.25.1",
-      "raw": "7.25.1 1793623193"
+      "version": "7.25.2",
+      "raw": "7.25.2 1795173070"
     },
     "development": {
       "state": "ok",
-      "version": "7.26beta5",
-      "raw": "7.26beta5 1793358835"
+      "version": "7.26beta7",
+      "raw": "7.26beta7 1795090415"
     },
     "long-term": {
       "state": "ok",
-      "version": "7.24.6",
-      "raw": "7.24.6 1793348669"
+      "version": "7.24.7",
+      "raw": "7.24.7 1795077769"
     }
   }
 }
