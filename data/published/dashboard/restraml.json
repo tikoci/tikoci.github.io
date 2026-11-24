@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "restraml",
-  "generatedAt": "2026-11-23T12:57:44.446Z",
+  "generatedAt": "2026-11-24T00:57:37.878Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -24,6 +24,7 @@
       "7.25beta5",
       "7.25beta4",
       "7.25beta3",
+      "7.24.7",
       "7.24.6",
       "7.24.5",
       "7.24.4",
@@ -83,7 +84,7 @@
       "7.9.2",
       "7.9"
     ],
-    "totalKnown": 72,
+    "totalKnown": 73,
     "truncated": true,
     "channels": {
       "stable": {
@@ -100,7 +101,7 @@
       },
       "long-term": {
         "version": "7.24.7",
-        "covered": false
+        "covered": true
       }
     }
   },

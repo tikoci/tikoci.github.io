@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-23T12:57:44.446Z",
+  "generatedAt": "2026-11-24T00:57:37.878Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,10 +10,12 @@
     "locator": "raw-json:ci-data:tested-versions.json",
     "kind": "tested",
     "coverage": [
+      "7.26beta7",
       "7.26beta5",
       "7.26beta4",
       "7.26beta3",
       "7.26beta1",
+      "7.25.2",
       "7.25.1",
       "7.25",
       "7.25rc3",
@@ -22,6 +24,7 @@
       "7.25beta5",
       "7.25beta4",
       "7.25beta3",
+      "7.24.7",
       "7.24.6",
       "7.24.5",
       "7.24.4",
@@ -44,47 +47,47 @@
       "7.21.4",
       "7.20.8"
     ],
-    "totalKnown": 33,
+    "totalKnown": 36,
     "truncated": true,
     "channels": {
       "stable": {
         "version": "7.25.2",
-        "covered": false
+        "covered": true
       },
       "testing": {
         "version": "7.25.2",
-        "covered": false
+        "covered": true
       },
       "development": {
         "version": "7.26beta7",
-        "covered": false
+        "covered": true
       },
       "long-term": {
         "version": "7.24.7",
-        "covered": false
+        "covered": true
       }
     }
   },
   "work": {
     "counts": {
       "issues": {
-        "total": 53,
-        "owner": 53,
+        "total": 46,
+        "owner": 46,
         "external": 0,
         "bot": 0
       },
       "prs": {
-        "total": 3,
-        "owner": 3,
+        "total": 2,
+        "owner": 2,
         "external": 0,
         "bot": 0,
         "ownerReady": 0,
-        "ownerDraft": 3,
+        "ownerDraft": 2,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 56,
+      "fetched": 48,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
@@ -92,46 +95,49 @@
     "pullsEnriched": true,
     "items": [
       {
+        "number": 316,
+        "title": "test: CLI version --json unit test hits the network and can time out on Windows runners",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/316",
+        "createdAt": "2026-11-23T23:06:14Z",
+        "updatedAt": "2026-11-23T23:06:14Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "area:ci",
+          "platform:windows",
+          "ci:slow-platform-flake"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 313,
+        "title": "fix(qemu): pin disks to fixed PCI slots so NIC changes don't rename them (#257)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/pull/313",
+        "createdAt": "2026-11-23T17:09:12Z",
+        "updatedAt": "2026-11-23T20:45:37Z",
+        "isPR": true,
+        "draft": true,
+        "labels": [],
+        "milestone": null
+      },
+      {
         "number": 311,
         "title": "test(lab): Windows pipe-chardev spike for #57",
         "author": "mobileskyfi",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/pull/311",
         "createdAt": "2026-11-21T20:54:08Z",
-        "updatedAt": "2026-11-21T20:54:37Z",
+        "updatedAt": "2026-11-23T20:53:55Z",
         "isPR": true,
         "draft": true,
         "labels": [
           "skip-review"
         ],
-        "milestone": null
-      },
-      {
-        "number": 310,
-        "title": "test(lab): download-origin probe for #146",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/pull/310",
-        "createdAt": "2026-11-21T20:25:48Z",
-        "updatedAt": "2026-11-21T20:26:57Z",
-        "isPR": true,
-        "draft": true,
-        "labels": [
-          "skip-review"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 309,
-        "title": "fix: three consumer-reported bugs (#287, #290, #294)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/pull/309",
-        "createdAt": "2026-11-21T20:14:21Z",
-        "updatedAt": "2026-11-21T20:28:53Z",
-        "isPR": true,
-        "draft": true,
-        "labels": [],
         "milestone": null
       },
       {
@@ -149,23 +155,6 @@
           "area:docs",
           "P3",
           "needs-decision"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 305,
-        "title": "ci: drop macos-x86 from the `all` alias (keep it opt-in); add windows-arm64 as an opt-in platform",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/305",
-        "createdAt": "2026-11-21T18:06:21Z",
-        "updatedAt": "2026-11-21T18:06:21Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "area:ci",
-          "P3"
         ],
         "milestone": null
       },
@@ -189,44 +178,6 @@
         "milestone": null
       },
       {
-        "number": 294,
-        "title": "remove: removeOrphan deletes an unreadable machine's directory while its QEMU may still run",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/294",
-        "createdAt": "2026-11-19T21:34:42Z",
-        "updatedAt": "2026-11-19T23:22:15Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "area:cli",
-          "area:library-api",
-          "P3",
-          "consumer:tzsp-sniff"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 293,
-        "title": "Default arch under Rosetta picks x86 (reads process.arch)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/293",
-        "createdAt": "2026-11-19T21:34:41Z",
-        "updatedAt": "2026-11-19T22:02:48Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "area:library-api",
-          "P3",
-          "platform:mac",
-          "consumer:tzsp-sniff"
-        ],
-        "milestone": null
-      },
-      {
         "number": 292,
         "title": "One deadline for consumers: own the add/start/remove budget composition",
         "author": "mobileskyfi",
@@ -241,59 +192,6 @@
           "area:library-api",
           "P2",
           "consumer:tzsp-sniff"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 290,
-        "title": "Library prints image lines to stdout despite onProgress",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/290",
-        "createdAt": "2026-11-19T21:34:37Z",
-        "updatedAt": "2026-11-19T22:02:44Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "area:library-api",
-          "P3",
-          "consumer:tzsp-sniff"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 287,
-        "title": "networking: --no-network (networks: []) silently gets the default user NIC instead of none",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/287",
-        "createdAt": "2026-11-19T19:01:37Z",
-        "updatedAt": "2026-11-19T19:01:37Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "area:networking",
-          "area:cli",
-          "P3"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 284,
-        "title": "ros-versions.yml: an unreadable tested-versions.json re-dispatches every version, including failed ones",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/284",
-        "createdAt": "2026-11-18T01:36:22Z",
-        "updatedAt": "2026-11-18T01:36:22Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "area:ci",
-          "P3"
         ],
         "milestone": null
       },
@@ -371,42 +269,6 @@
         "milestone": null
       },
       {
-        "number": 269,
-        "title": "test: CLI doctor --json tests spawn the full CLI under bun's 5 s default; Windows runners reach 4–5 s",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/269",
-        "createdAt": "2026-11-11T16:24:46Z",
-        "updatedAt": "2026-11-13T03:10:09Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "area:ci",
-          "P3",
-          "platform:windows"
-        ],
-        "milestone": "next"
-      },
-      {
-        "number": 265,
-        "title": "provisioning: set /system/identity to the machine name when quickchr provisions (opt out with --no-identity)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/265",
-        "createdAt": "2026-11-11T14:53:59Z",
-        "updatedAt": "2026-11-21T18:06:04Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "enhancement",
-          "area:provisioning",
-          "P3",
-          "consumer:app-t3code"
-        ],
-        "milestone": null
-      },
-      {
         "number": 263,
         "title": "research: managed host networks on Linux and Windows (privileged once, unprivileged machines)",
         "author": "mobileskyfi",
@@ -452,7 +314,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/257",
         "createdAt": "2026-11-07T19:34:56Z",
-        "updatedAt": "2026-11-21T18:06:02Z",
+        "updatedAt": "2026-11-23T20:45:43Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -851,7 +713,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/57",
         "createdAt": "2026-07-03T16:45:00Z",
-        "updatedAt": "2026-11-21T20:54:28Z",
+        "updatedAt": "2026-11-23T16:54:09Z",
         "isPR": false,
         "draft": null,
         "labels": [
