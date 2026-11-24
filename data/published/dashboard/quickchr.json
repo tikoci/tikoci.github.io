@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-24T00:57:37.878Z",
+  "generatedAt": "2026-11-24T11:00:37.370Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -71,47 +71,29 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 46,
-        "owner": 46,
+        "total": 45,
+        "owner": 45,
         "external": 0,
         "bot": 0
       },
       "prs": {
-        "total": 2,
-        "owner": 2,
+        "total": 1,
+        "owner": 1,
         "external": 0,
         "bot": 0,
         "ownerReady": 0,
-        "ownerDraft": 2,
+        "ownerDraft": 1,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 48,
+      "fetched": 46,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
-      {
-        "number": 316,
-        "title": "test: CLI version --json unit test hits the network and can time out on Windows runners",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/issues/316",
-        "createdAt": "2026-11-23T23:06:14Z",
-        "updatedAt": "2026-11-23T23:06:14Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "area:ci",
-          "platform:windows",
-          "ci:slow-platform-flake"
-        ],
-        "milestone": null
-      },
       {
         "number": 313,
         "title": "fix(qemu): pin disks to fixed PCI slots so NIC changes don't rename them (#257)",
@@ -123,21 +105,6 @@
         "isPR": true,
         "draft": true,
         "labels": [],
-        "milestone": null
-      },
-      {
-        "number": 311,
-        "title": "test(lab): Windows pipe-chardev spike for #57",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/pull/311",
-        "createdAt": "2026-11-21T20:54:08Z",
-        "updatedAt": "2026-11-23T20:53:55Z",
-        "isPR": true,
-        "draft": true,
-        "labels": [
-          "skip-review"
-        ],
         "milestone": null
       },
       {
@@ -551,7 +518,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/125",
         "createdAt": "2026-08-02T16:57:08Z",
-        "updatedAt": "2026-11-17T03:20:04Z",
+        "updatedAt": "2026-11-24T09:51:30Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -713,7 +680,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/57",
         "createdAt": "2026-07-03T16:45:00Z",
-        "updatedAt": "2026-11-23T16:54:09Z",
+        "updatedAt": "2026-11-24T01:09:12Z",
         "isPR": false,
         "draft": null,
         "labels": [

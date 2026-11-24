@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-24T00:57:37.878Z",
+  "generatedAt": "2026-11-24T11:00:37.370Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,7 +10,7 @@
     "otherHttpCalls": 11,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4836
+    "rateLimitRemaining": 4835
   },
   "sources": {
     "ros-current": "https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel> (MikroTik upgrade feed; body \"<version> <build-ts>\")",
@@ -664,10 +664,10 @@
             "lastConclusion": "success",
             "headBranch": "main",
             "headSha": "acd6566c090b9b8060a6bec849e8ad2ca8db5380",
-            "event": "workflow_dispatch",
-            "runStartedAt": "2026-11-23T08:37:31Z",
-            "lastUpdatedAt": "2026-11-23T08:38:29Z",
-            "lastUrl": "https://github.com/tikoci/fat-chr/actions/runs/45140127308",
+            "event": "schedule",
+            "runStartedAt": "2026-11-24T08:50:56Z",
+            "lastUpdatedAt": "2026-11-24T08:51:13Z",
+            "lastUrl": "https://github.com/tikoci/fat-chr/actions/runs/45359701264",
             "isHead": true
           }
         ]
@@ -802,8 +802,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "d1c6902a0cc4cd535002360931fbaa3d2cb6e65e",
-        "headUrl": "https://github.com/tikoci/quickchr/commit/d1c6902a0cc4cd535002360931fbaa3d2cb6e65e",
+        "headSha": "e90c0f9089b3892b5d9b37c651c5ddb855c5e6c7",
+        "headUrl": "https://github.com/tikoci/quickchr/commit/e90c0f9089b3892b5d9b37c651c5ddb855c5e6c7",
         "workflows": [
           {
             "configured": "CI",
@@ -815,11 +815,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "d1c6902a0cc4cd535002360931fbaa3d2cb6e65e",
+            "headSha": "e90c0f9089b3892b5d9b37c651c5ddb855c5e6c7",
             "event": "push",
-            "runStartedAt": "2026-11-24T00:32:50Z",
-            "lastUpdatedAt": "2026-11-24T00:36:06Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/45298030984",
+            "runStartedAt": "2026-11-24T10:25:32Z",
+            "lastUpdatedAt": "2026-11-24T10:28:40Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/45374672059",
             "isHead": true
           },
           {
@@ -832,12 +832,12 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "47b02eac53ad7a05694c4a524563cc7ea5242053",
+            "headSha": "e90c0f9089b3892b5d9b37c651c5ddb855c5e6c7",
             "event": "workflow_dispatch",
-            "runStartedAt": "2026-11-19T20:36:12Z",
-            "lastUpdatedAt": "2026-11-19T20:41:22Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/44610349112",
-            "isHead": false
+            "runStartedAt": "2026-11-24T10:26:24Z",
+            "lastUpdatedAt": "2026-11-24T10:29:19Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/45374805779",
+            "isHead": true
           },
           {
             "configured": "RouterOS Versions",
@@ -862,47 +862,29 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 46,
-            "owner": 46,
+            "total": 45,
+            "owner": 45,
             "external": 0,
             "bot": 0
           },
           "prs": {
-            "total": 2,
-            "owner": 2,
+            "total": 1,
+            "owner": 1,
             "external": 0,
             "bot": 0,
             "ownerReady": 0,
-            "ownerDraft": 2,
+            "ownerDraft": 1,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 48,
+          "fetched": 46,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
-          {
-            "number": 316,
-            "title": "test: CLI version --json unit test hits the network and can time out on Windows runners",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/316",
-            "createdAt": "2026-11-23T23:06:14Z",
-            "updatedAt": "2026-11-23T23:06:14Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "bug",
-              "area:ci",
-              "platform:windows",
-              "ci:slow-platform-flake"
-            ],
-            "milestone": null
-          },
           {
             "number": 313,
             "title": "fix(qemu): pin disks to fixed PCI slots so NIC changes don't rename them (#257)",
@@ -914,21 +896,6 @@
             "isPR": true,
             "draft": true,
             "labels": [],
-            "milestone": null
-          },
-          {
-            "number": 311,
-            "title": "test(lab): Windows pipe-chardev spike for #57",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/pull/311",
-            "createdAt": "2026-11-21T20:54:08Z",
-            "updatedAt": "2026-11-23T20:53:55Z",
-            "isPR": true,
-            "draft": true,
-            "labels": [
-              "skip-review"
-            ],
             "milestone": null
           },
           {
@@ -1058,6 +1025,45 @@
               "platform:mac"
             ],
             "milestone": null
+          },
+          {
+            "number": 263,
+            "title": "research: managed host networks on Linux and Windows (privileged once, unprivileged machines)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/263",
+            "createdAt": "2026-11-11T13:43:11Z",
+            "updatedAt": "2026-11-21T18:28:56Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "area:networking",
+              "P3",
+              "research",
+              "platform:windows",
+              "waiting"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 258,
+            "title": "networking: own the user-mode DHCP client's route policy when a real network is attached",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/258",
+            "createdAt": "2026-11-07T19:34:57Z",
+            "updatedAt": "2026-11-11T14:49:55Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement",
+              "area:networking",
+              "area:provisioning",
+              "P3",
+              "needs-decision",
+              "consumer:app-t3code"
+            ],
+            "milestone": null
           }
         ]
       },
@@ -1065,8 +1071,8 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 46,
-        "totalPRs": 2,
+        "totalIssues": 45,
+        "totalPRs": 1,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -1075,19 +1081,19 @@
       "npm": {
         "package": "@tikoci/quickchr",
         "expected": true,
-        "repoVersion": "0.6.0",
+        "repoVersion": "0.7.0",
         "repoPrerelease": false,
         "latestVersion": "0.6.0",
         "distTags": {
           "latest": "0.6.0",
           "next": "0.6.0"
         },
-        "repoVersionPublished": true,
+        "repoVersionPublished": false,
         "publishedAt": "2026-11-19T20:45:29.278Z",
-        "behind": false,
+        "behind": true,
         "state": "ok",
         "published": true,
-        "assessment": "in-sync"
+        "assessment": "pending-publish"
       },
       "release": {
         "state": "ok",
@@ -3574,6 +3580,24 @@
       ]
     },
     {
+      "id": "npm-pending-publish:quickchr",
+      "rule": "npm-pending-publish",
+      "severity": "pending",
+      "category": "packages",
+      "repos": [
+        "quickchr"
+      ],
+      "summary": "quickchr: 0.7.0 ahead of registry 0.6.0 — publish pending",
+      "detail": "The repo's package.json carries a stable version newer than the registry's latest tag. Either cut a release or confirm the bump is intentional and unreleased.",
+      "evidence": [
+        "repos.quickchr.npm.repoVersion=0.7.0",
+        "repos.quickchr.npm.latestVersion=0.6.0"
+      ],
+      "urls": [
+        "https://www.npmjs.com/package/@tikoci/quickchr"
+      ]
+    },
+    {
       "id": "ros-missing-channel:mikrotik-gpl:long-term",
       "rule": "ros-missing-channel",
       "severity": "pending",
@@ -3678,24 +3702,6 @@
       ]
     },
     {
-      "id": "ci-run-not-head:quickchr:Release",
-      "rule": "ci-run-not-head",
-      "severity": "info",
-      "category": "ci",
-      "repos": [
-        "quickchr"
-      ],
-      "summary": "quickchr: Release latest run is not on the current head commit",
-      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
-      "evidence": [
-        "repos.quickchr.ci.workflows[Release].headSha=47b02eac53ad7a05694c4a524563cc7ea5242053",
-        "repos.quickchr.ci.headSha=d1c6902a0cc4cd535002360931fbaa3d2cb6e65e"
-      ],
-      "urls": [
-        "https://github.com/tikoci/quickchr/actions/runs/44610349112"
-      ]
-    },
-    {
       "id": "ci-run-not-head:quickchr:RouterOS-Versions",
       "rule": "ci-run-not-head",
       "severity": "info",
@@ -3707,7 +3713,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.quickchr.ci.workflows[RouterOS Versions].headSha=52bb00e8a5cdd7365e7d973bb07b075410c75cec",
-        "repos.quickchr.ci.headSha=d1c6902a0cc4cd535002360931fbaa3d2cb6e65e"
+        "repos.quickchr.ci.headSha=e90c0f9089b3892b5d9b37c651c5ddb855c5e6c7"
       ],
       "urls": [
         "https://github.com/tikoci/quickchr/actions/runs/45196935667"
