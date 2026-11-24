@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-24T11:00:37.370Z",
+  "generatedAt": "2026-11-24T21:17:35.737Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -71,8 +71,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 45,
-        "owner": 45,
+        "total": 46,
+        "owner": 46,
         "external": 0,
         "bot": 0
       },
@@ -87,13 +87,30 @@
       }
     },
     "page": {
-      "fetched": 46,
+      "fetched": 47,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 321,
+        "title": "console exec: the typed-ahead sentinel quits interactive RouterOS views ([Q quit…]), cutting the command short",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/321",
+        "createdAt": "2026-11-24T18:57:50Z",
+        "updatedAt": "2026-11-24T18:57:50Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "area:library-api",
+          "P3"
+        ],
+        "milestone": null
+      },
       {
         "number": 313,
         "title": "fix(qemu): pin disks to fixed PCI slots so NIC changes don't rename them (#257)",

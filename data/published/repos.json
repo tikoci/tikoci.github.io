@@ -1,5 +1,21 @@
 [
   {
+    "name": "mikropkl",
+    "description": "`pkl` packaged UTM virtual machines, including RouterOS CHR",
+    "stars": 56,
+    "language": "Python",
+    "topics": [
+      "chr",
+      "mikrotik",
+      "pkl",
+      "pkl-lang",
+      "routeros",
+      "utm"
+    ],
+    "html_url": "https://github.com/tikoci/mikropkl",
+    "category": "virtualization"
+  },
+  {
     "name": "routeros-skills",
     "description": "Custom instruction SKILL.md for MikroTik RouterOS v7",
     "stars": 95,
@@ -233,22 +249,6 @@
     ],
     "html_url": "https://github.com/tikoci/netinstall",
     "category": "containers"
-  },
-  {
-    "name": "mikropkl",
-    "description": "`pkl` packaged UTM virtual machines, including RouterOS CHR",
-    "stars": 55,
-    "language": "Python",
-    "topics": [
-      "chr",
-      "mikrotik",
-      "pkl",
-      "pkl-lang",
-      "routeros",
-      "utm"
-    ],
-    "html_url": "https://github.com/tikoci/mikropkl",
-    "category": "virtualization"
   },
   {
     "name": "wargames",
