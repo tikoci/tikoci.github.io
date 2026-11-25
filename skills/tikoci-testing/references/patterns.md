@@ -95,7 +95,11 @@ export function childEnv(): Record<string, string> {
 }
 ```
 
-Add the tool's own override (its data directory) when the child reads state.
+This is a minimal allowlist. Add the tool's own override (its data
+directory) when the child reads state, and pass on a cache override the
+parent has (`TIKOCI_CACHE_DIR`, or the child's own, such as
+`QUICKCHR_CACHE_DIR`): without it the child falls back to the default cache
+and downloads again.
 
 ## Remove what you own on a signal
 
@@ -124,13 +128,23 @@ const failed = results.some((r) => r.status === "rejected" || !r.value); // lab(
 process.exit(failed || left.length > 0 ? 1 : 0);
 
 async function cleanupAll(): Promise<string[]> {
-  // A create still running cannot be stopped; once it settles, its machine is in `owned`.
+  // A create still running cannot be stopped; wait for it to settle.
   while (inFlight.size > 0) await Promise.allSettled([...inFlight]);
-  const names = [...owned.keys()];
+  const names = [...owned.keys()]; // creates that succeeded
   const removed = await Promise.all(names.map((name) => teardown(name))); // remove, then list to confirm
-  return names.filter((_, i) => !removed[i]);
+  const left = names.filter((_, i) => !removed[i]);
+  // A create that threw may still have started QEMU (quickchr #298): look for its process.
+  for (const name of failedCreates) {
+    if (qemuFor(name).length > 0 && !left.includes(name)) left.push(name);
+  }
+  return left;
 }
 ```
+
+Ownership has two parts: `owned` holds the machines whose create succeeded,
+and `failedCreates` the names whose create threw after it may have started a
+VM. Cleanup reports both, so an interrupted run never exits without naming a
+VM it started.
 
 With default handling, Bun skips pending `finally` blocks when a signal ends
 the process, so cleanup that lives only in `finally` leaks the VM on Ctrl-C.

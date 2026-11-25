@@ -160,7 +160,8 @@ themselves are in [tikoci-ci](https://tikoci.dev/house/skills/tikoci-ci/SKILL.md
   record. An alert in test or lab code that flags what the code is for (a
   lab writing captured traffic to its evidence files) may be dismissed as
   "used in tests" only when a guard keeps it to that purpose (the lab
-  writes only packets it has validated), checked and named in the
+  records only its own test exchange and drops all other traffic before
+  writing; a format check alone is not a guard), checked and named in the
   dismissal. Without one it is a real finding, test code or not; in shipped
   code, a shipped script or a workflow it is always fixed. In-code
   `codeql[...]` and `lgtm[...]` comments do not suppress an alert (centrs

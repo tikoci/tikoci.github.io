@@ -94,15 +94,21 @@ JSON
 
 On a branch that is already protected, read it first, then add the check to
 the existing list. This keeps the other checks, their app bindings and
-`strict`. It needs required status checks already turned on; where they
-are off, PUT the whole protection back from a read-back with the check added.
-Again, replace `CI gate` with your repo's exact check name.
+`strict`. Again, replace `CI gate` with your repo's exact check name.
 
 ```sh
 gh api "$R/branches/main/protection/required_status_checks"
-gh api -X POST "$R/branches/main/protection/required_status_checks/contexts" \
-  --input - <<<'{"contexts": ["CI gate"]}'
+gh api -X POST "$R/branches/main/protection/required_status_checks/contexts" --input - <<'JSON'
+{"contexts": ["CI gate"]}
+JSON
 ```
+
+The POST needs required status checks already turned on. Where they are off
+on a protected branch, turn them on in the UI (Settings, Branches), which
+keeps the other rules. Do not PUT back an edited read-back: the GET returns
+`enforce_admins`, `required_conversation_resolution` and the restriction
+lists in shapes the PUT does not accept, and the sample body above would drop
+the branch's review and push rules. Run the check commands again afterwards.
 
 ## CodeQL config file for default setup
 
