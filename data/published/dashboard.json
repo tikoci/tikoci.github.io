@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-25T04:55:00.499Z",
+  "generatedAt": "2026-11-25T15:41:56.823Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,7 +10,7 @@
     "otherHttpCalls": 11,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4835
+    "rateLimitRemaining": 4844
   },
   "sources": {
     "ros-current": "https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel> (MikroTik upgrade feed; body \"<version> <build-ts>\")",
@@ -133,12 +133,12 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "c800bd37e2f047e03cf4b01fd4e8bd187e6fb109",
+            "headSha": "cf4f464c7347f7607b3a2bcc262f3aaffb101861",
             "event": "schedule",
-            "runStartedAt": "2026-11-24T14:30:03Z",
-            "lastUpdatedAt": "2026-11-24T14:31:25Z",
-            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/45414767343",
-            "isHead": false
+            "runStartedAt": "2026-11-25T13:51:19Z",
+            "lastUpdatedAt": "2026-11-25T13:52:39Z",
+            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/45627824333",
+            "isHead": true
           },
           {
             "configured": "Build: Base Schema",
@@ -433,9 +433,9 @@
             "headBranch": "main",
             "headSha": "e568f7a3bc6a6265499d3189afc72f2f3e2dbc1d",
             "event": "schedule",
-            "runStartedAt": "2026-11-24T14:37:09Z",
-            "lastUpdatedAt": "2026-11-24T14:37:28Z",
-            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/45416113536",
+            "runStartedAt": "2026-11-25T13:58:24Z",
+            "lastUpdatedAt": "2026-11-25T13:58:41Z",
+            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/45629020880",
             "isHead": true
           },
           {
@@ -665,9 +665,9 @@
             "headBranch": "main",
             "headSha": "acd6566c090b9b8060a6bec849e8ad2ca8db5380",
             "event": "schedule",
-            "runStartedAt": "2026-11-24T08:50:56Z",
-            "lastUpdatedAt": "2026-11-24T08:51:13Z",
-            "lastUrl": "https://github.com/tikoci/fat-chr/actions/runs/45359701264",
+            "runStartedAt": "2026-11-25T07:25:48Z",
+            "lastUpdatedAt": "2026-11-25T07:26:03Z",
+            "lastUrl": "https://github.com/tikoci/fat-chr/actions/runs/45568061212",
             "isHead": true
           }
         ]
@@ -849,12 +849,12 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "e90c0f9089b3892b5d9b37c651c5ddb855c5e6c7",
+            "headSha": "ca77ff1d2abe8bb4576398a5dd17fed106ecbeac",
             "event": "schedule",
-            "runStartedAt": "2026-11-24T14:53:42Z",
-            "lastUpdatedAt": "2026-11-24T14:54:00Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/45419188828",
-            "isHead": false
+            "runStartedAt": "2026-11-25T14:25:15Z",
+            "lastUpdatedAt": "2026-11-25T14:25:28Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/45633851805",
+            "isHead": true
           }
         ]
       },
@@ -1128,6 +1128,7 @@
         "locator": "github-tags:",
         "kind": "published",
         "coverage": [
+          "7.25.2",
           "7.25.1",
           "7.25",
           "7.24.5",
@@ -1141,12 +1142,12 @@
           "7.23",
           "7.22.3"
         ],
-        "totalKnown": 63,
+        "totalKnown": 64,
         "truncated": true,
         "channels": {
           "stable": {
             "version": "7.25.2",
-            "covered": false
+            "covered": true
           },
           "long-term": {
             "version": "7.24.7",
@@ -1172,9 +1173,9 @@
             "headBranch": "main",
             "headSha": "3f8863249e7d944c935b3a58bcbebb1e9b307b58",
             "event": "schedule",
-            "runStartedAt": "2026-11-21T10:50:26Z",
-            "lastUpdatedAt": "2026-11-21T10:50:49Z",
-            "lastUrl": "https://github.com/tikoci/mikrotik-gpl/actions/runs/44896228734",
+            "runStartedAt": "2026-11-25T12:12:43Z",
+            "lastUpdatedAt": "2026-11-25T12:13:54Z",
+            "lastUrl": "https://github.com/tikoci/mikrotik-gpl/actions/runs/45611585506",
             "isHead": true
           }
         ]
@@ -1220,20 +1221,20 @@
       },
       "release": {
         "state": "ok",
-        "latestTag": "7.25.1",
-        "latestDate": "2026-11-04T10:33:36Z",
-        "latestUrl": "https://github.com/tikoci/mikrotik-gpl/releases/tag/7.25.1",
+        "latestTag": "7.25.2",
+        "latestDate": "2026-11-25T12:13:49Z",
+        "latestUrl": "https://github.com/tikoci/mikrotik-gpl/releases/tag/7.25.2",
         "prerelease": false,
         "stable": {
-          "tag": "7.25.1",
-          "date": "2026-11-04T10:33:36Z",
-          "url": "https://github.com/tikoci/mikrotik-gpl/releases/tag/7.25.1",
+          "tag": "7.25.2",
+          "date": "2026-11-25T12:13:49Z",
+          "url": "https://github.com/tikoci/mikrotik-gpl/releases/tag/7.25.2",
           "prerelease": false
         },
         "newest": {
-          "tag": "7.25.1",
-          "date": "2026-11-04T10:33:36Z",
-          "url": "https://github.com/tikoci/mikrotik-gpl/releases/tag/7.25.1",
+          "tag": "7.25.2",
+          "date": "2026-11-25T12:13:49Z",
+          "url": "https://github.com/tikoci/mikrotik-gpl/releases/tag/7.25.2",
           "prerelease": false
         },
         "prereleaseChannel": false,
@@ -3630,23 +3631,6 @@
       ]
     },
     {
-      "id": "ros-missing-channel:mikrotik-gpl:stable",
-      "rule": "ros-missing-channel",
-      "severity": "pending",
-      "category": "ros",
-      "repos": [
-        "mikrotik-gpl"
-      ],
-      "summary": "mikrotik-gpl: missing stable 7.25.2 (published coverage)",
-      "detail": "The current stable version is absent from this repo's published coverage list. Work to do (usually picked up by the polling workflow), not a failure. Only channels listed in rosChannels are judged.",
-      "evidence": [
-        "repos.mikrotik-gpl.ros.channels.stable=missing 7.25.2"
-      ],
-      "urls": [
-        "https://github.com/tikoci/mikrotik-gpl/actions"
-      ]
-    },
-    {
       "id": "work-maintainer-prs:bench-routeros-tools",
       "rule": "work-maintainer-prs",
       "severity": "pending",
@@ -3715,42 +3699,6 @@
       ],
       "urls": [
         "https://github.com/tikoci/quickchr/actions/runs/45457099941"
-      ]
-    },
-    {
-      "id": "ci-run-not-head:quickchr:RouterOS-Versions",
-      "rule": "ci-run-not-head",
-      "severity": "info",
-      "category": "ci",
-      "repos": [
-        "quickchr"
-      ],
-      "summary": "quickchr: RouterOS Versions latest run is not on the current head commit",
-      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
-      "evidence": [
-        "repos.quickchr.ci.workflows[RouterOS Versions].headSha=e90c0f9089b3892b5d9b37c651c5ddb855c5e6c7",
-        "repos.quickchr.ci.headSha=ca77ff1d2abe8bb4576398a5dd17fed106ecbeac"
-      ],
-      "urls": [
-        "https://github.com/tikoci/quickchr/actions/runs/45419188828"
-      ]
-    },
-    {
-      "id": "ci-run-not-head:restraml:Auto-Build-New-RouterOS-Versions",
-      "rule": "ci-run-not-head",
-      "severity": "info",
-      "category": "ci",
-      "repos": [
-        "restraml"
-      ],
-      "summary": "restraml: Auto-Build New RouterOS Versions latest run is not on the current head commit",
-      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
-      "evidence": [
-        "repos.restraml.ci.workflows[Auto-Build New RouterOS Versions].headSha=c800bd37e2f047e03cf4b01fd4e8bd187e6fb109",
-        "repos.restraml.ci.headSha=cf4f464c7347f7607b3a2bcc262f3aaffb101861"
-      ],
-      "urls": [
-        "https://github.com/tikoci/restraml/actions/runs/45414767343"
       ]
     },
     {

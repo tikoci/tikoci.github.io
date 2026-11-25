@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "mikrotik-gpl",
-  "generatedAt": "2026-11-25T04:55:00.499Z",
+  "generatedAt": "2026-11-25T15:41:56.823Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,6 +10,7 @@
     "locator": "github-tags:",
     "kind": "published",
     "coverage": [
+      "7.25.2",
       "7.25.1",
       "7.25",
       "7.24.5",
@@ -74,12 +75,12 @@
       "7.19beta5",
       "7.18.2"
     ],
-    "totalKnown": 63,
+    "totalKnown": 64,
     "truncated": true,
     "channels": {
       "stable": {
         "version": "7.25.2",
-        "covered": false
+        "covered": true
       },
       "long-term": {
         "version": "7.24.7",
