@@ -24,16 +24,23 @@ themselves are in [tikoci-ci](https://tikoci.dev/house/skills/tikoci-ci/SKILL.md
 - **Before a repo goes public**, audit everything committed for private data,
   not only test fixtures: runtime databases, scratch notes, pointers to local
   machines. Fixtures are synthetic.
-- **Before each push, check the new commits the same way**, lab output
-  included. What a leak costs depends on what leaked:
-  - a local machine name in git history is forgiven, and noted in the PR;
-  - a local name or path in docs or code is fixed: it means nothing to
-    someone who clones or forks;
+- **Before each push, check the new commits for local detail**, lab output
+  included. History has to make sense from the repo alone, to someone who
+  clones or forks it without the maintainer's machines:
+  - a local path is fixed: it tells that reader nothing, and often carries
+    a user name;
+  - a generic host name is a clarity question, not a security one. Prose
+    says what the environment was ("not tested on arm64 macOS", not "not
+    tested on `box1`"); a report may keep the name as a label for one test
+    environment when it says what that environment is. A host or user name
+    that matches a real person's name is treated like a path;
   - a public IP address or external DNS name of the local network, a
     credential (also rotated) or a private capture forces a history rewrite.
 
   A fix commit does not remove the old text: the branch's earlier commits
-  stay on GitHub until the branch is deleted after the squash merge.
+  stay on GitHub until the branch is deleted after the squash merge. A slip
+  in a commit that the squash replaces is minor; one that reaches `main` is
+  not.
 
 ## Branch protection
 

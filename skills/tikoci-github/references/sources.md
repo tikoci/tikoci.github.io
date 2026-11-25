@@ -37,7 +37,7 @@ Planning: Phase 3 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 | A current analysis per expected scan | - | CodeRabbit review of PR #27; the analyses API reports `tool` and `category`. |
 | In-code suppressions do not work | centrs-36 | centrs PR #233 (CodeQL 2.26.2). |
 | Dismiss lab and test alerts as "used in tests" | - | tzsp-sniff road test (#21, item 52 answers): the maintainer's policy for CodeQL alerts in tzsp-sniff's lab code, recorded in its `SECURITY.md` (tzsp-sniff #7). |
-| Privacy check before each push, three tiers | - | tzsp-sniff road test (#21, item 52): a hostname fixed in tzsp-sniff #7 stayed in an earlier branch commit; the tiers are the maintainer's (2026-11-19). |
+| Privacy check before each push, three tiers | - | tzsp-sniff road test (#21, item 52): a hostname fixed in tzsp-sniff #7 stayed in an earlier branch commit; the tiers are the maintainer's (2026-11-19), refined in the maintainer's review of tikoci.github.io #47: history must make sense from the code alone; a path is worse than a generic host name; a name matching a real person is a different class. |
 | Alerts by `pr=`; SARIF code flows | centrs-36 | centrs queries `ref=refs/pull/<n>/merge`, which fits its advanced workflow; default setup scans `refs/pull/<n>/head` (Codex review of PR #27, checked on this PR). |
 | Two false positives, and a real finding | centrs-37 | centrs `github-security-quality.instructions.md`; the real one is quickchr's (centrs/quickchr review of PR #27). |
 | SECURITY.md shape | rskills-11, rskills-13, centrs-34, user-90, user-91 | All five surveyed `SECURITY.md` files use Reporting, Scope, Code scanning, Supported versions. Absorbs the user-level `tikoci-security-md` skill. quickchr's lists four enabled features as off. |
