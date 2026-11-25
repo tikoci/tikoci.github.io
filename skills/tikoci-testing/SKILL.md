@@ -1,6 +1,6 @@
 ---
 name: tikoci-testing
-description: "How tikoci repos test: bun:test; unit tier on every PR, smoke integration on a real CHR via quickchr behind an env flag, a channel sweep nightly and before release, lab work by hand or a non-gating dispatch job. Every behavior change ships a test that can fail: assert what the code decides and output markers, not exit 0. Coverage tracked in CI, never a gate. Hermetic: TIKOCI_SANDBOX, explicit child env, port 0, cleanup in finally, timeouts from the operation's budget. Use when writing tests, mocks or test tiers."
+description: "How tikoci repos test: bun:test; unit tier on every PR, smoke integration on a real CHR via quickchr behind an env flag, a channel sweep nightly and before release, lab work by hand or a non-gating dispatch job. Every behavior change ships a test that can fail: assert what the code decides and output markers, not exit 0. Coverage tracked in CI, never a gate. Hermetic: TIKOCI_SANDBOX, explicit child env, port 0, cleanup in finally and on signals, timeouts from the operation's budget. Use when writing tests, mocks or test tiers."
 ---
 
 # Testing
@@ -141,6 +141,15 @@ An assertion nobody has seen fail is a claim, not a test.
 - **Watch each new assertion go red once.** Inject the state it should catch
   (the leftover file, the wrong field) and confirm the test fails. quickchr
   found four assertions checking a `.part` file name the code never wrote.
+- **A test that fails on its first assertion has not shown that its later
+  ones can.** Make each contract fail on its own, or mutate the code under
+  test (zero the input, return a copy, drop a cap) and check that a test
+  catches each mutation. In tzsp-sniff
+  [#6](https://github.com/tikoci/tzsp-sniff/pull/6), 18 new tests each
+  failed against the old parser, but on a new field first; a "bytes
+  preserved" assertion compared the input with itself and passed a parser
+  that zeroed it. Compare with a copy taken before the call (the fixture's
+  hex), and for "a view, not a copy" assert `buffer` and `byteOffset`.
 - **Assert what the code decides**, not what the runtime or the router happens
   to synthesize. A header or message chosen by Bun changes with a Bun upgrade;
   re-measure it rather than trusting an old comment, and narrow the assertion
@@ -172,7 +181,9 @@ re-download what the machine already has.
   Until a tool adopts it, use the tool's own override (`QUICKCHR_DATA_DIR`,
   `CENTRS_CDB_FILE`, `DB_PATH=:memory:`), set in a preload, never the real one.
 - **Pass an explicit env to every child process**, built from an allowlist
-  (tikoci-home's `hermeticEnv()`), never by copying `process.env`. A spawned
+  (tikoci-home's `hermeticEnv()`, or a few lines of your own in a repo
+  without tikoci-home: [patterns](references/patterns.md)), never by
+  copying `process.env`. A spawned
   Bun process does not see later changes to `process.env`, so without `env`
   it silently uses the real data directory. Run `bun` children with
   `--no-env-file`, or Bun loads the checkout's `.env` and brings an override
@@ -189,8 +200,20 @@ re-download what the machine already has.
 - **Reserve nothing fixed**: bind port 0 and pass the port in, never assume a
   free host port, and never hard-code a router address or assume one is
   running. Boot routers through quickchr.
+- **Windows frees a UDP port late.** On windows-latest with Bun 1.4.4, a
+  rebind right after the socket's `close` event failed with `EADDRINUSE` 3
+  times in 3, and the first retry 10 ms later succeeded (tzsp-sniff
+  [#20](https://github.com/tikoci/tzsp-sniff/pull/20), CI run 44521692931).
+  A test that rebinds a port to prove it was released retries briefly on
+  Windows only, citing that, and stays exact elsewhere.
 - **Name what you create with a fixed, reapable prefix**, and remove it in
   `finally`, so a failed run leaks nothing and the next run can clean up.
+- **`finally` does not run on a signal.** Ctrl-C ends a Bun process with exit
+  130 and skips every pending `finally` (checked with Bun 1.4.5). A test or
+  lab that creates something outside its temp directory (a VM, a container)
+  also removes it on SIGINT and SIGTERM, confirms the removal, and exits
+  non-zero naming anything left; a second signal exits at once
+  ([patterns](references/patterns.md)).
 - **Short socket paths**: Unix sockets go under a short temp directory
   (`os.tmpdir()`), never deep in the checkout; the path limit is about 104 to
   108 bytes and some FUSE mounts do not support sockets.

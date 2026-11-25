@@ -28,3 +28,8 @@ updates:
     ignore:
       # Moves with the Bun pin in packageManager (tikoci-toolchain).
       - dependency-name: "@types/bun"
+      # Only for a package that also runs on Node (tikoci-toolchain): the
+      # types stay on the engines.node major and move with it. Delete
+      # otherwise.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]

@@ -79,6 +79,48 @@ host scope where port claims live
 A tool that has not adopted tikoci-home builds the same allowlist by hand and
 sets its own override instead of `TIKOCI_SANDBOX`.
 
+Without tikoci-home, the allowlist is a few lines (tzsp-sniff
+`test/unit/helpers.ts`, abridged):
+
+```ts
+export function childEnv(): Record<string, string> {
+  const env: Record<string, string> = { PATH: process.env.PATH ?? "", NO_COLOR: "1" };
+  // Windows sockets need SystemRoot; keep the temp directory variables too.
+  for (const key of ["SystemRoot", "SYSTEMROOT", "TEMP", "TMP"]) {
+    const value = process.env[key];
+    if (value !== undefined) env[key] = value;
+  }
+  return env;
+}
+```
+
+Add the tool's own override (its data directory) when the child reads state.
+
+## Remove what you own on a signal
+
+```ts
+// tzsp-sniff test/lab/mndp/lab.ts and test/chr/quickchr.ts, abridged
+const owned = new Map<string, string>(); // name -> createdAt, only what this run created
+let interrupted: "SIGINT" | "SIGTERM" | undefined;
+
+function onSignal(signal: "SIGINT" | "SIGTERM"): void {
+  if (interrupted) {
+    for (const name of owned.keys()) console.error(`NOT REMOVED: ${name}`);
+    process.exit(signal === "SIGINT" ? 130 : 143);
+  }
+  interrupted = signal;
+  stop(); // end the experiments; the main path's cleanup removes `owned`
+}
+process.on("SIGINT", () => onSignal("SIGINT"));
+process.on("SIGTERM", () => onSignal("SIGTERM"));
+```
+
+Bun skips pending `finally` blocks when a signal ends the process, so cleanup
+that lives only in `finally` leaks the VM on Ctrl-C. Track only what this run
+created: a name collision must fail the create (quickchr `add` refuses an
+existing name), never adopt someone else's machine. After removal, list the
+machines again to confirm, and exit non-zero naming any left.
+
 ## Undo a module mock
 
 ```ts

@@ -18,6 +18,7 @@ Planning: Phase 3 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 | Dependabot `github-actions`, weekly, grouped | quickchr-111, restraml-17 | routeros-skills and rosetta `.github/dependabot.yml`. |
 | Action pin separate from runtime version | quickchr-111 | `bun-ci-version` in the conflicts table is still open. |
 | Lockfile is the pin; Dependabot `bun` ecosystem | restraml-17 | rosetta `.github/dependabot.yml` groups both ecosystems. |
+| `@types/node` majors ignored for a Node-floor package | - | tzsp-sniff road test (#21, item 27): Dependabot's first PR there (tzsp-sniff #2) raised `@types/node` from 22 to 26 while `engines.node` is `>=22`; tzsp-sniff `.github/dependabot.yml`. |
 | Siblings from the registry; `bun link` locally | restraml-41 | restraml `CLAUDE.md`, `@tikoci/quickchr` as a devDependency. |
 | Track a sibling's `next` tag | - | routeros-muse `package.json` and `AGENTS.md` ("Upstream, not forks"). |
 | Fix siblings upstream, never fork | - | routeros-muse `AGENTS.md`. |

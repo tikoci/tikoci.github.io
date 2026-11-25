@@ -24,6 +24,16 @@ themselves are in [tikoci-ci](https://tikoci.dev/house/skills/tikoci-ci/SKILL.md
 - **Before a repo goes public**, audit everything committed for private data,
   not only test fixtures: runtime databases, scratch notes, pointers to local
   machines. Fixtures are synthetic.
+- **Before each push, check the new commits the same way**, lab output
+  included. What a leak costs depends on what leaked:
+  - a local machine name in git history is forgiven, and noted in the PR;
+  - a local name or path in docs or code is fixed: it means nothing to
+    someone who clones or forks;
+  - a public IP address or external DNS name of the local network, a
+    credential (also rotated) or a private capture forces a history rewrite.
+
+  A fix commit does not remove the old text: the branch's earlier commits
+  stay on GitHub until the branch is deleted after the squash merge.
 
 ## Branch protection
 
@@ -137,7 +147,10 @@ themselves are in [tikoci-ci](https://tikoci.dev/house/skills/tikoci-ci/SKILL.md
 - **Fix real findings. Dismiss a false positive in the Security tab** (or the
   API) only after showing the value is not sensitive or the reported flow
   cannot happen, with that as the written reason; the dismissal is the audit
-  record. In-code
+  record. An alert in test or lab code that flags what the code is for (a
+  lab writing captured traffic to its evidence files) is dismissed as "used
+  in tests", saying what guards it; the same alert in shipped code, a
+  shipped script or a workflow is fixed. In-code
   `codeql[...]` and `lgtm[...]` comments do not suppress an alert (centrs
   PR #233), and moving the code only changes its fingerprint. A
   `query-filters` entry in the CodeQL config file is the rule-wide

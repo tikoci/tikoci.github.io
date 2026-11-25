@@ -59,6 +59,31 @@ Add detail as indented lines only when needed. Move finished items to *Done* (or
 - [ ] [settings] Turn on "Enforce HTTPS" in the repo's Pages settings: `tikoci.github.io`
       currently redirects to `http://tikoci.dev`. (PR #17 review)
 
+- [ ] [house] From the tzsp-sniff road test (#21), not in the first fix PR. Item numbers
+      are the road test's; the new-repo path is #46 and the design-to-done workflow #45.
+      - `tikoci-ci`: ship tzsp-sniff's `scripts/lint-external.sh` (skip locally, fail under
+        `CI`; tell a broken mise shim from a missing tool) and a checksum-verified actionlint
+        install in `ci.example.yml` (18, 40); a Node smoke leg (19); the KaTeX
+        GHSA-238p-pmpm-9mq7 ignore or a note in `audit.example.ts` (26).
+      - `tikoci-toolchain`: the Node path: shebang, choosing `engines.node`, the build
+        recipe, whether `bunx` runs a Node-shebang bin under Node, and that "`npx` → `bunx`"
+        means developer commands (4); ship `check-bun-pin.ts` for `packageManager` as an
+        asset (17); `tsconfig.src.json` with `types: ["node"]` as the guard against `Bun.*`
+        in Node code (20).
+      - `tikoci-cli-mcp`: streamed output (JSONL per event: warnings mid-stream, a summary
+        record, SIGINT, exit code for an empty timed capture) (10); a tool whose use needs
+        setup outside the agent is better as a CLI than one more MCP server (25).
+      - `tikoci-data-contracts`: whether a CLI's `--json` or JSONL output carries a
+        `schemaVersion` (11).
+      - `tikoci-home`: a tool that takes `<TOOL>_<KEY>` env vars but keeps no files fits no
+        profile (8).
+      - `tikoci-house`: copying several skills in a small repo (3); Claude Code lists copied
+        skills mid-session (22); `curl -fsSL` is fine for skills referenced by URL (45).
+      - `tikoci-crossref`: an owner for tool output shape across repos, and for MCP vs CLI
+        (25).
+      - `tikoci-linting`: the formatter's cost for agents (12, 16, 41, 51); waits on the
+        maintainer's decision from tzsp-sniff's data.
+
 ## Done
 
 - [x] [git] Deleted the local `fix/pr17-reviews` worktree branch (contained in #17), with the

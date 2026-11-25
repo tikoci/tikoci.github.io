@@ -36,9 +36,12 @@ Planning: Phase 3 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 | Zero open alerts; dismiss with a reason | centrs-34, user-64, user-65, user-87 | Live: centrs 1 open, quickchr 1 open (a real finding); quickchr has about 33 zizmor findings not yet triaged (#228). |
 | A current analysis per expected scan | - | CodeRabbit review of PR #27; the analyses API reports `tool` and `category`. |
 | In-code suppressions do not work | centrs-36 | centrs PR #233 (CodeQL 2.26.2). |
+| Dismiss lab and test alerts as "used in tests" | - | tzsp-sniff road test (#21, item 52 answers): the maintainer's policy for CodeQL alerts in tzsp-sniff's lab code, recorded in its `SECURITY.md` (tzsp-sniff #7). |
+| Privacy check before each push, three tiers | - | tzsp-sniff road test (#21, item 52): a hostname fixed in tzsp-sniff #7 stayed in an earlier branch commit; the tiers are the maintainer's (2026-11-19). |
 | Alerts by `pr=`; SARIF code flows | centrs-36 | centrs queries `ref=refs/pull/<n>/merge`, which fits its advanced workflow; default setup scans `refs/pull/<n>/head` (Codex review of PR #27, checked on this PR). |
 | Two false positives, and a real finding | centrs-37 | centrs `github-security-quality.instructions.md`; the real one is quickchr's (centrs/quickchr review of PR #27). |
 | SECURITY.md shape | rskills-11, rskills-13, centrs-34, user-90, user-91 | All five surveyed `SECURITY.md` files use Reporting, Scope, Code scanning, Supported versions. Absorbs the user-level `tikoci-security-md` skill. quickchr's lists four enabled features as off. |
+| A required check set by name before it has run | - | tzsp-sniff road test (#21, item 29): the API accepted `contexts: ["CI gate"]` on creation day, and the first PR run reported against it. |
 | Token order | site-14, rosetta-37, user-76 | Settles `github-token-order`. |
 | One API helper | rosetta-37 | rosetta `src/github.ts` (`fetchGitHub()`, `githubApiHeaders()`); `fetch-helper` in the conflicts table. |
 | Settings first, then SECURITY.md from the read-back; the suite switch is asynchronous | - | tikoci.github.io #29 (Codex: two settings listed before they were applied) and the 2026-11-17 switch to Extended, whose setup run ("CodeQL Setup" in the `CodeQL` workflow) queued while the API still read `default`. CodeRabbit on #33: wait for that run before reading back, and check workflow rows against the workflows. |

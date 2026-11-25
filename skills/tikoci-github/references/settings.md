@@ -72,6 +72,19 @@ Branch protection and an optional Copilot ruleset are easiest in the UI, where t
 required checks can be picked from recent runs. Then run the check commands
 again.
 
+A new repo has no recent runs, but the API takes a required check by name
+before it has ever run; the first PR run then reports against it (tzsp-sniff,
+on the day it was created). The name is the check's name as a run reports
+it, usually the job's `name:`:
+
+```sh
+gh api -X PUT "$R/branches/main/protection" --input - <<'JSON'
+{"required_status_checks": {"strict": false, "contexts": ["CI gate"]},
+ "enforce_admins": false, "required_pull_request_reviews": null, "restrictions": null,
+ "required_conversation_resolution": true, "allow_force_pushes": false, "allow_deletions": false}
+JSON
+```
+
 ## CodeQL config file for default setup
 
 For a repo whose default setup should skip paths

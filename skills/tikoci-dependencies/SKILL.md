@@ -68,7 +68,9 @@ and the other tikoci tools. The Bun pin itself is in `tikoci-toolchain`.
 - **Dependabot's `bun` ecosystem**, grouped, weekly and with the cooldown,
   keeps packages from rotting; a repo may skip it and update by hand on a
   schedule it states. It ignores `@types/bun`, which moves with the Bun pin
-  (`tikoci-toolchain`).
+  (`tikoci-toolchain`), and in a package that also runs on Node, major
+  updates of `@types/node`, which stays on the `engines.node` major so code
+  is not typed with APIs a newer Node added.
 - **`bun audit` is the vulnerability check.** Dependabot security updates do
   not support Bun, so version updates alone miss advisories. It runs as
   `tikoci-ci` describes ("Dependency audit"): on a PR or push that changes
