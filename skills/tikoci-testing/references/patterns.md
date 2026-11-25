@@ -79,14 +79,15 @@ host scope where port claims live
 A tool that has not adopted tikoci-home builds the same allowlist by hand and
 sets its own override instead of `TIKOCI_SANDBOX`.
 
-Without tikoci-home, the allowlist is a few lines (tzsp-sniff
-`test/unit/helpers.ts`, abridged):
+Without tikoci-home, the allowlist is a few lines (adapted from tzsp-sniff
+`test/unit/helpers.ts`, which also drops `HOME`):
 
 ```ts
 export function childEnv(): Record<string, string> {
   const env: Record<string, string> = { PATH: process.env.PATH ?? "", NO_COLOR: "1" };
+  // The real home (HOME, USERPROFILE on Windows) locates the shared cache.
   // Windows sockets need SystemRoot; keep the temp directory variables too.
-  for (const key of ["SystemRoot", "SYSTEMROOT", "TEMP", "TMP"]) {
+  for (const key of ["HOME", "USERPROFILE", "SystemRoot", "SYSTEMROOT", "TEMP", "TMP"]) {
     const value = process.env[key];
     if (value !== undefined) env[key] = value;
   }
@@ -119,6 +120,8 @@ const results = await Promise.allSettled(targets.map((t) => lab(t))); // every w
 const left = await cleanupAll(); // waits for in-flight creates, then removes `owned`
 for (const name of left) console.error(`NOT REMOVED: ${name}`);
 if (interrupted) process.exit(interrupted === "SIGINT" ? 130 : 143);
+const failed = results.some((r) => r.status === "rejected" || !r.value); // lab() resolves false on failure
+process.exit(failed || left.length > 0 ? 1 : 0);
 
 async function cleanupAll(): Promise<string[]> {
   // A create still running cannot be stopped; once it settles, its machine is in `owned`.

@@ -76,7 +76,9 @@ Required checks apply only where no workflow pushes to `main` (the SKILL.md
 rule). A new repo has no recent runs, but the API takes a required check by
 name before it has ever run; the first PR run then reports against it
 (tzsp-sniff, on the day it was created). The name is the check's name as a
-run reports it, usually the job's `name:`.
+run reports it, usually the job's `name:`. `CI gate` below is tzsp-sniff's;
+replace it with the exact name your repo's PR run reports, or the check never
+reports and every PR waits for it.
 
 On a new repo whose `main` has no protection yet, one PUT sets the house
 protection. A PUT replaces everything: on a protected branch it would drop
@@ -94,6 +96,7 @@ On a branch that is already protected, read it first, then add the check to
 the existing list. This keeps the other checks, their app bindings and
 `strict`. It needs required status checks already turned on; where they
 are off, PUT the whole protection back from a read-back with the check added.
+Again, replace `CI gate` with your repo's exact check name.
 
 ```sh
 gh api "$R/branches/main/protection/required_status_checks"
