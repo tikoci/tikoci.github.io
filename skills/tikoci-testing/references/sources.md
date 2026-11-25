@@ -31,7 +31,7 @@ Planning: Phase 3 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 | No side effects at import; structural guard | rosetta-36 | rosetta #98. |
 | Port 0; no fixed router address; boot through quickchr | quickchr-045, quickchr-055, centrs-28 | |
 | Reapable names; cleanup in `finally` | quickchr-045, quickchr-064 | |
-| Cleanup on SIGINT and SIGTERM | - | tzsp-sniff road test (#21, item 47): tzsp-sniff `test/lab/*/lab.ts`, after the Codex review of tzsp-sniff #7. `finally` skipped on SIGINT: checked with Bun 1.4.5, exit 130. |
+| Cleanup on SIGINT and SIGTERM | - | tzsp-sniff road test (#21, item 47): tzsp-sniff `test/lab/*/lab.ts`, after the Codex review of tzsp-sniff #7. `finally` skipped on SIGINT: checked with Bun 1.4.5, exit 130. Creates not yet settled, and the stubbed second-signal test: tzsp-sniff #38 (`test/unit/signal.test.ts`). |
 | Windows frees a UDP port late | - | tzsp-sniff road test (#21, item 59): tzsp-sniff #20, CI run 44521692931; `expectPortFree` in `test/unit/helpers.ts`. |
 | Allowlist env without tikoci-home | - | tzsp-sniff road test (#21, item 44): `childEnv` in tzsp-sniff `test/unit/helpers.ts`. |
 | Short socket paths | quickchr-065 | FUSE mounts (Multipass) lack Unix sockets. |

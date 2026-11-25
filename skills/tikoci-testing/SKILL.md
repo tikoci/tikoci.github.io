@@ -214,7 +214,8 @@ re-download what the machine already has.
   temp directory (a VM, a container) handles SIGINT and SIGTERM: the first
   signal stops new work, the main path waits for work in flight, then
   removes what the run owns, confirms the removal and exits non-zero naming
-  anything left; a second signal exits at once
+  anything left; a second signal exits at once, still naming every machine
+  the run may have left, a create not yet settled included
   ([patterns](references/patterns.md)).
 - **Short socket paths**: Unix sockets go under a short temp directory
   (`os.tmpdir()`), never deep in the checkout; the path limit is about 104 to
