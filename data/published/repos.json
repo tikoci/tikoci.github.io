@@ -1,24 +1,8 @@
 [
   {
-    "name": "mikropkl",
-    "description": "`pkl` packaged UTM virtual machines, including RouterOS CHR",
-    "stars": 56,
-    "language": "Python",
-    "topics": [
-      "chr",
-      "mikrotik",
-      "pkl",
-      "pkl-lang",
-      "routeros",
-      "utm"
-    ],
-    "html_url": "https://github.com/tikoci/mikropkl",
-    "category": "virtualization"
-  },
-  {
     "name": "routeros-skills",
     "description": "Custom instruction SKILL.md for MikroTik RouterOS v7",
-    "stars": 95,
+    "stars": 96,
     "language": "Shell",
     "topics": [
       "claude",
@@ -35,6 +19,22 @@
     ],
     "html_url": "https://github.com/tikoci/routeros-skills",
     "category": "ai"
+  },
+  {
+    "name": "mikropkl",
+    "description": "`pkl` packaged UTM virtual machines, including RouterOS CHR",
+    "stars": 56,
+    "language": "Python",
+    "topics": [
+      "chr",
+      "mikrotik",
+      "pkl",
+      "pkl-lang",
+      "routeros",
+      "utm"
+    ],
+    "html_url": "https://github.com/tikoci/mikropkl",
+    "category": "virtualization"
   },
   {
     "name": "m2ir",
