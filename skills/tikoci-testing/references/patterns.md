@@ -79,8 +79,9 @@ host scope where port claims live
 A tool that has not adopted tikoci-home builds the same allowlist by hand and
 sets its own override instead of `TIKOCI_SANDBOX`.
 
-Without tikoci-home, the allowlist is a few lines (adapted from tzsp-sniff
-`test/unit/helpers.ts`, which also drops `HOME`):
+Without tikoci-home, the allowlist is a few lines. This one keeps the real
+home; its source, tzsp-sniff `test/unit/helpers.ts`, drops `HOME` because the
+children it starts keep no cache:
 
 ```ts
 export function childEnv(): Record<string, string> {
@@ -110,7 +111,7 @@ let interrupted: "SIGINT" | "SIGTERM" | undefined;
 
 function onSignal(signal: "SIGINT" | "SIGTERM"): void {
   if (interrupted) {
-    for (const name of owned.keys()) console.error(`NOT REMOVED: ${name}`);
+    for (const name of [...owned.keys(), ...failedCreates]) console.error(`NOT REMOVED: ${name}`);
     process.exit(signal === "SIGINT" ? 130 : 143);
   }
   interrupted = signal;
@@ -143,8 +144,11 @@ async function cleanupAll(): Promise<string[]> {
 
 Ownership has two parts: `owned` holds the machines whose create succeeded,
 and `failedCreates` the names whose create threw after it may have started a
-VM. Cleanup reports both, so an interrupted run never exits without naming a
-VM it started.
+VM. Cleanup removes `owned`. For a failed create it only reports a QEMU still
+running, with its pid and the commands to stop and remove it: quickchr has no
+state for that machine to remove, and killing a process found by its
+arguments is a guess. Both paths, and the second signal, name every machine
+left, so an interrupted run never exits silent about a VM it started.
 
 With default handling, Bun skips pending `finally` blocks when a signal ends
 the process, so cleanup that lives only in `finally` leaks the VM on Ctrl-C.
