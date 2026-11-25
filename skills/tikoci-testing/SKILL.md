@@ -1,6 +1,6 @@
 ---
 name: tikoci-testing
-description: "How tikoci repos test: bun:test; unit tier on every PR, smoke integration on a real CHR via quickchr behind an env flag, a channel sweep nightly and before release, lab work by hand or a non-gating dispatch job. Every behavior change ships a test that can fail: assert what the code decides and output markers, not exit 0. Coverage tracked in CI, never a gate. Hermetic: TIKOCI_SANDBOX, explicit child env, port 0, cleanup in finally and on signals, timeouts from the operation's budget. Use when writing tests, mocks or test tiers."
+description: "How tikoci repos test: bun:test; unit tier on every PR, smoke integration on a real CHR via quickchr behind an env flag, a channel sweep nightly and before release, lab work by hand or non-gating dispatch. Every behavior change ships a test that can fail: assert what the code decides and output markers, not exit 0. Coverage tracked, never a gate. Hermetic: TIKOCI_SANDBOX, explicit child env, port 0, cleanup in finally and on signals, timeouts from the operation's budget. Use when writing tests, mocks or test tiers."
 ---
 
 # Testing
@@ -208,11 +208,13 @@ re-download what the machine already has.
   Windows only, citing that, and stays exact elsewhere.
 - **Name what you create with a fixed, reapable prefix**, and remove it in
   `finally`, so a failed run leaks nothing and the next run can clean up.
-- **`finally` does not run on a signal.** Ctrl-C ends a Bun process with exit
-  130 and skips every pending `finally` (checked with Bun 1.4.5). A test or
-  lab that creates something outside its temp directory (a VM, a container)
-  also removes it on SIGINT and SIGTERM, confirms the removal, and exits
-  non-zero naming anything left; a second signal exits at once
+- **`finally` does not run on an unhandled signal.** With default handling,
+  Ctrl-C ends a Bun process with exit 130 and skips every pending `finally`
+  (checked with Bun 1.4.5). A test or lab that creates something outside its
+  temp directory (a VM, a container) handles SIGINT and SIGTERM: the first
+  signal stops new work, the main path waits for work in flight, then
+  removes what the run owns, confirms the removal and exits non-zero naming
+  anything left; a second signal exits at once
   ([patterns](references/patterns.md)).
 - **Short socket paths**: Unix sockets go under a short temp directory
   (`os.tmpdir()`), never deep in the checkout; the path limit is about 104 to

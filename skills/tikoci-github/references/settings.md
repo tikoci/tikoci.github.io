@@ -72,10 +72,15 @@ Branch protection and an optional Copilot ruleset are easiest in the UI, where t
 required checks can be picked from recent runs. Then run the check commands
 again.
 
-A new repo has no recent runs, but the API takes a required check by name
-before it has ever run; the first PR run then reports against it (tzsp-sniff,
-on the day it was created). The name is the check's name as a run reports
-it, usually the job's `name:`:
+Required checks apply only where no workflow pushes to `main` (the SKILL.md
+rule). A new repo has no recent runs, but the API takes a required check by
+name before it has ever run; the first PR run then reports against it
+(tzsp-sniff, on the day it was created). The name is the check's name as a
+run reports it, usually the job's `name:`.
+
+On a new repo whose `main` has no protection yet, one PUT sets the house
+protection. A PUT replaces everything: on a protected branch it would drop
+other required checks, review rules and push restrictions.
 
 ```sh
 gh api -X PUT "$R/branches/main/protection" --input - <<'JSON'
@@ -83,6 +88,17 @@ gh api -X PUT "$R/branches/main/protection" --input - <<'JSON'
  "enforce_admins": false, "required_pull_request_reviews": null, "restrictions": null,
  "required_conversation_resolution": true, "allow_force_pushes": false, "allow_deletions": false}
 JSON
+```
+
+On a branch that is already protected, read it first, then add the check to
+the existing list. This keeps the other checks, their app bindings and
+`strict`. It needs required status checks already turned on; where they
+are off, PUT the whole protection back from a read-back with the check added.
+
+```sh
+gh api "$R/branches/main/protection/required_status_checks"
+gh api -X POST "$R/branches/main/protection/required_status_checks/contexts" \
+  --input - <<<'{"contexts": ["CI gate"]}'
 ```
 
 ## CodeQL config file for default setup

@@ -61,9 +61,10 @@ Add detail as indented lines only when needed. Move finished items to *Done* (or
 
 - [ ] [house] From the tzsp-sniff road test (#21), not in the first fix PR. Item numbers
       are the road test's; the new-repo path is #46 and the design-to-done workflow #45.
-      - `tikoci-ci`: ship tzsp-sniff's `scripts/lint-external.sh` (skip locally, fail under
-        `CI`; tell a broken mise shim from a missing tool) and a checksum-verified actionlint
-        install in `ci.example.yml` (18, 40); a Node smoke leg (19); the KaTeX
+      - `tikoci-ci`: ship tzsp-sniff's `scripts/lint-external.sh` (skips a tool missing from
+        PATH locally, fails under `CI`) and a checksum-verified actionlint install in
+        `ci.example.yml` (18). Separately, decide whether the asset diagnoses a broken mise
+        shim, which passes `command -v` and then fails to run, or only documents it (40); a Node smoke leg (19); the KaTeX
         GHSA-238p-pmpm-9mq7 ignore or a note in `audit.example.ts` (26).
       - `tikoci-toolchain`: the Node path: shebang, choosing `engines.node`, the build
         recipe, whether `bunx` runs a Node-shebang bin under Node, and that "`npx` → `bunx`"

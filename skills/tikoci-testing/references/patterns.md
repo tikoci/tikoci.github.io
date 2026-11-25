@@ -109,14 +109,31 @@ function onSignal(signal: "SIGINT" | "SIGTERM"): void {
     process.exit(signal === "SIGINT" ? 130 : 143);
   }
   interrupted = signal;
-  stop(); // end the experiments; the main path's cleanup removes `owned`
+  stop(); // abort new steps and kill running children; nothing is removed here
 }
 process.on("SIGINT", () => onSignal("SIGINT"));
 process.on("SIGTERM", () => onSignal("SIGTERM"));
+
+// The main path, which the handled signal returns to:
+const results = await Promise.allSettled(targets.map((t) => lab(t))); // every worker ends
+const left = await cleanupAll(); // waits for in-flight creates, then removes `owned`
+for (const name of left) console.error(`NOT REMOVED: ${name}`);
+if (interrupted) process.exit(interrupted === "SIGINT" ? 130 : 143);
+
+async function cleanupAll(): Promise<string[]> {
+  // A create still running cannot be stopped; once it settles, its machine is in `owned`.
+  while (inFlight.size > 0) await Promise.allSettled([...inFlight]);
+  const names = [...owned.keys()];
+  const removed = await Promise.all(names.map((name) => teardown(name))); // remove, then list to confirm
+  return names.filter((_, i) => !removed[i]);
+}
 ```
 
-Bun skips pending `finally` blocks when a signal ends the process, so cleanup
-that lives only in `finally` leaks the VM on Ctrl-C. Track only what this run
+With default handling, Bun skips pending `finally` blocks when a signal ends
+the process, so cleanup that lives only in `finally` leaks the VM on Ctrl-C.
+A handler that only stops work returns control to the main path, which
+drains in-flight work before it removes anything: removing first would race
+a create that finishes after the cleanup pass. Track only what this run
 created: a name collision must fail the create (quickchr `add` refuses an
 existing name), never adopt someone else's machine. After removal, list the
 machines again to confirm, and exit non-zero naming any left.
