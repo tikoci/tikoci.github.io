@@ -79,6 +79,86 @@ host scope where port claims live
 A tool that has not adopted tikoci-home builds the same allowlist by hand and
 sets its own override instead of `TIKOCI_SANDBOX`.
 
+Without tikoci-home, the allowlist is a few lines. This one keeps the real
+home; its source, tzsp-sniff `test/unit/helpers.ts`, drops `HOME` because the
+children it starts keep no cache:
+
+```ts
+export function childEnv(): Record<string, string> {
+  const env: Record<string, string> = { PATH: process.env.PATH ?? "", NO_COLOR: "1" };
+  // The real home (HOME, USERPROFILE on Windows) locates the shared cache.
+  // Windows sockets need SystemRoot; keep the temp directory variables too.
+  for (const key of ["HOME", "USERPROFILE", "SystemRoot", "SYSTEMROOT", "TEMP", "TMP"]) {
+    const value = process.env[key];
+    if (value !== undefined) env[key] = value;
+  }
+  return env;
+}
+```
+
+This is a minimal allowlist. Add the tool's own override (its data
+directory) when the child reads state, and pass on a cache override the
+parent has (`TIKOCI_CACHE_DIR`, or the child's own, such as
+`QUICKCHR_CACHE_DIR`): without it the child falls back to the default cache
+and downloads again.
+
+## Remove what you own on a signal
+
+```ts
+// tzsp-sniff test/lab/mndp/lab.ts and test/chr/quickchr.ts, abridged
+const owned = new Map<string, string>(); // name -> createdAt, only what this run created
+let interrupted: "SIGINT" | "SIGTERM" | undefined;
+
+function onSignal(signal: "SIGINT" | "SIGTERM"): void {
+  if (interrupted) {
+    for (const name of [...owned.keys(), ...failedCreates]) console.error(`NOT REMOVED: ${name}`);
+    process.exit(signal === "SIGINT" ? 130 : 143);
+  }
+  interrupted = signal;
+  stop(); // abort new steps and kill running children; nothing is removed here
+}
+process.on("SIGINT", () => onSignal("SIGINT"));
+process.on("SIGTERM", () => onSignal("SIGTERM"));
+
+// The main path, which the handled signal returns to:
+const results = await Promise.allSettled(targets.map((t) => lab(t))); // every worker ends
+const left = await cleanupAll(); // waits for in-flight creates, then removes `owned`
+for (const name of left) console.error(`NOT REMOVED: ${name}`);
+if (interrupted) process.exit(interrupted === "SIGINT" ? 130 : 143);
+const failed = results.some((r) => r.status === "rejected" || !r.value); // lab() resolves false on failure
+process.exit(failed || left.length > 0 ? 1 : 0);
+
+async function cleanupAll(): Promise<string[]> {
+  // A create still running cannot be stopped; wait for it to settle.
+  while (inFlight.size > 0) await Promise.allSettled([...inFlight]);
+  const names = [...owned.keys()]; // creates that succeeded
+  const removed = await Promise.all(names.map((name) => teardown(name))); // remove, then list to confirm
+  const left = names.filter((_, i) => !removed[i]);
+  // A create that threw may still have started QEMU (quickchr #298): look for its process.
+  for (const name of failedCreates) {
+    if (qemuFor(name).length > 0 && !left.includes(name)) left.push(name);
+  }
+  return left;
+}
+```
+
+Ownership has two parts: `owned` holds the machines whose create succeeded,
+and `failedCreates` the names whose create threw after it may have started a
+VM. Cleanup removes `owned`. For a failed create it only reports a QEMU still
+running, with its pid and the commands to stop and remove it: quickchr has no
+state for that machine to remove, and killing a process found by its
+arguments is a guess. Both paths, and the second signal, name every machine
+left, so an interrupted run never exits silent about a VM it started.
+
+With default handling, Bun skips pending `finally` blocks when a signal ends
+the process, so cleanup that lives only in `finally` leaks the VM on Ctrl-C.
+A handler that only stops work returns control to the main path, which
+drains in-flight work before it removes anything: removing first would race
+a create that finishes after the cleanup pass. Track only what this run
+created: a name collision must fail the create (quickchr `add` refuses an
+existing name), never adopt someone else's machine. After removal, list the
+machines again to confirm, and exit non-zero naming any left.
+
 ## Undo a module mock
 
 ```ts

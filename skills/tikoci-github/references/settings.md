@@ -72,6 +72,44 @@ Branch protection and an optional Copilot ruleset are easiest in the UI, where t
 required checks can be picked from recent runs. Then run the check commands
 again.
 
+Required checks apply only where no workflow pushes to `main` (the SKILL.md
+rule). A new repo has no recent runs, but the API takes a required check by
+name before it has ever run; the first PR run then reports against it
+(tzsp-sniff, on the day it was created). The name is the check's name as a
+run reports it, usually the job's `name:`. `CI gate` below is tzsp-sniff's;
+replace it with the exact name your repo's PR run reports, or the check never
+reports and every PR waits for it.
+
+On a new repo whose `main` has no protection yet, one PUT sets the house
+protection. A PUT replaces everything: on a protected branch it would drop
+other required checks, review rules and push restrictions.
+
+```sh
+gh api -X PUT "$R/branches/main/protection" --input - <<'JSON'
+{"required_status_checks": {"strict": false, "contexts": ["CI gate"]},
+ "enforce_admins": false, "required_pull_request_reviews": null, "restrictions": null,
+ "required_conversation_resolution": true, "allow_force_pushes": false, "allow_deletions": false}
+JSON
+```
+
+On a branch that is already protected, read it first, then add the check to
+the existing list. This keeps the other checks, their app bindings and
+`strict`. Again, replace `CI gate` with your repo's exact check name.
+
+```sh
+gh api "$R/branches/main/protection/required_status_checks"
+gh api -X POST "$R/branches/main/protection/required_status_checks/contexts" --input - <<'JSON'
+{"contexts": ["CI gate"]}
+JSON
+```
+
+The POST needs required status checks already turned on. Where they are off
+on a protected branch, turn them on in the UI (Settings, Branches), which
+keeps the other rules. Do not PUT back an edited read-back: the GET returns
+`enforce_admins`, `required_conversation_resolution` and the restriction
+lists in shapes the PUT does not accept, and the sample body above would drop
+the branch's review and push rules. Run the check commands again afterwards.
+
 ## CodeQL config file for default setup
 
 For a repo whose default setup should skip paths

@@ -1,6 +1,6 @@
 ---
 name: tikoci-github
-description: "tikoci GitHub repo settings: repos in the tikoci org; squash merge only, branches deleted on merge; main under classic protection (conversation resolution, no force push; required checks only where no workflow pushes to main); only what a free org gets for public repos; secret scanning with push protection, private vulnerability reporting, Dependabot alerts, CodeQL on code and workflows; read-only workflow token, SHA-pinned actions; zero open alerts, each dismissal with a reason; a SECURITY.md; token order TIKOCI_GITHUB_TOKEN, GH_TOKEN, GITHUB_TOKEN, gh auth token. Use when creating a repo, changing settings or handling an alert."
+description: "tikoci GitHub settings: tikoci org repos; squash merge only, merged branches deleted; main under classic protection (conversation resolution, no force push; required checks only where no workflow pushes to main); free-org public features only; secret scanning with push protection, private vulnerability reports, Dependabot alerts, CodeQL on code and workflows; read-only workflow token, SHA-pinned actions; zero open alerts, each dismissal with a reason (test code: its guard); history clear without local machines; a SECURITY.md; token order TIKOCI_GITHUB_TOKEN, GH_TOKEN, GITHUB_TOKEN, gh auth token. Use when creating a repo, changing settings or handling an alert."
 ---
 
 # GitHub settings
@@ -24,6 +24,26 @@ themselves are in [tikoci-ci](https://tikoci.dev/house/skills/tikoci-ci/SKILL.md
 - **Before a repo goes public**, audit everything committed for private data,
   not only test fixtures: runtime databases, scratch notes, pointers to local
   machines. Fixtures are synthetic.
+- **Before each push, check the new commits for local detail**, lab output
+  included. History has to make sense from the repo alone, to someone who
+  clones or forks it without the maintainer's machines:
+  - a local path is fixed: it tells that reader nothing, and often carries
+    a user name;
+  - a generic host name is a clarity question, not a security one. Prose
+    says what the environment was ("not tested on arm64 macOS", not "not
+    tested on `box1`"); a report may keep the name as a label for one test
+    environment when it says what that environment is. A host or user name
+    that matches a real person's name is treated like a path;
+  - a public IP address or external DNS name of the local network, a
+    credential (also rotated) or a private capture forces a history rewrite.
+
+  A fix commit does not remove the old text: the branch's earlier commits
+  stay reachable on GitHub, through the PR's refs and cached views, even
+  after the branch is deleted. So the squash only forgives a clarity slip.
+  Sensitive material is rotated where it can be, and removed following
+  GitHub's
+  [sensitive data guide](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository),
+  which covers the copies a rewrite leaves.
 
 ## Branch protection
 
@@ -137,7 +157,13 @@ themselves are in [tikoci-ci](https://tikoci.dev/house/skills/tikoci-ci/SKILL.md
 - **Fix real findings. Dismiss a false positive in the Security tab** (or the
   API) only after showing the value is not sensitive or the reported flow
   cannot happen, with that as the written reason; the dismissal is the audit
-  record. In-code
+  record. An alert in test or lab code that flags what the code is for (a
+  lab writing captured traffic to its evidence files) may be dismissed as
+  "used in tests" only when a guard keeps it to that purpose (the lab
+  records only its own test exchange and drops all other traffic before
+  writing; a format check alone is not a guard), checked and named in the
+  dismissal. Without one it is a real finding, test code or not; in shipped
+  code, a shipped script or a workflow it is always fixed. In-code
   `codeql[...]` and `lgtm[...]` comments do not suppress an alert (centrs
   PR #233), and moving the code only changes its fingerprint. A
   `query-filters` entry in the CodeQL config file is the rule-wide

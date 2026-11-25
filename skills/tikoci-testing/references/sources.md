@@ -20,6 +20,7 @@ Planning: Phase 3 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 | Anchor tests | user-29, mikropkl-23 | |
 | Examples are canaries | quickchr-052 | |
 | Watch a new assertion fail | quickchr-084 | quickchr's `.part` assertions. |
+| A first failing assertion proves only itself; mutation check | - | tzsp-sniff road test (#21, item 37): the Codex review of tzsp-sniff #6 found the self-comparing assertion and the copy-for-view gap by mutation. |
 | Assert what the code decides | quickchr-084 | Bun 1.3 to 1.4 header and message changes (quickchr #148). |
 | Exit 0 is not evidence; output markers | quickchr-050, restraml-47 | quickchr #102. |
 | No catch-all around the call; grow stubs | quickchr-075 | |
@@ -30,6 +31,9 @@ Planning: Phase 3 of [issue #21](https://github.com/tikoci/tikoci.github.io/issu
 | No side effects at import; structural guard | rosetta-36 | rosetta #98. |
 | Port 0; no fixed router address; boot through quickchr | quickchr-045, quickchr-055, centrs-28 | |
 | Reapable names; cleanup in `finally` | quickchr-045, quickchr-064 | |
+| Cleanup on SIGINT and SIGTERM | - | tzsp-sniff road test (#21, item 47): tzsp-sniff `test/lab/*/lab.ts`, after the Codex review of tzsp-sniff #7. `finally` skipped on SIGINT: checked with Bun 1.4.5, exit 130. |
+| Windows frees a UDP port late | - | tzsp-sniff road test (#21, item 59): tzsp-sniff #20, CI run 44521692931; `expectPortFree` in `test/unit/helpers.ts`. |
+| Allowlist env without tikoci-home | - | tzsp-sniff road test (#21, item 44): `childEnv` in tzsp-sniff `test/unit/helpers.ts`. |
 | Short socket paths | quickchr-065 | FUSE mounts (Multipass) lack Unix sockets. |
 | Module mocks leak in Bun | quickchr-076 | Bun 1.4.4, quickchr #224. |
 | Mock HTTP at the layer the code uses | quickchr-055 | |

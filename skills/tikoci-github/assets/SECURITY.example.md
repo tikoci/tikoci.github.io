@@ -35,6 +35,12 @@ Vulnerabilities in RouterOS itself go to MikroTik, not here. -->
 
 Open alerts are fixed, or dismissed in the Security tab with a written reason.
 
+An alert in test or lab code (`test/`, and scripts run only by hand) that
+flags what the code is for is dismissed as "used in tests" only when a guard
+keeps the code to that purpose, with a comment saying what the code does and
+naming the guard. Without a guard it is a real finding. It is a warning, not
+a waiver: the same alert in `src/`, a shipped script or a workflow is fixed.
+
 ## Supported versions
 
 Fixes go into `main` and the next release. Only the latest release (the npm

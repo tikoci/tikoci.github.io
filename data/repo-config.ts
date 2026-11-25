@@ -388,8 +388,18 @@ export const REPO_OVERRIDES: Record<string, RepoOverride> = {
             "RouterOS binary protocols and formats: YAML schemas for M2 (`nv::message`), WinBox IPC and the Dude store",
             "research and implementation pointers for WinBox CDB, MNDP, RoMON, MAC-Telnet and RouterOS files (no schema yet)",
         ],
+        reference: [
+            { path: "work/2026-10-winbox-dissector/dissector-proposal.md", holds: "A starting brief for a WinBox IPC Wireshark dissector, measured against the Cisco-Talos one." },
+        ],
         category: "dev-tools",
         crossrefGroup: "internals",
+    },
+    "tzsp-sniff": {
+        owns: [
+            "receiving RouterOS packet streams (TZSP from `/tool/sniffer` and mangle `sniff-tzsp`) without root, as a CLI and a Node/Bun library",
+            "packet decoding for agents: Ethernet to TCP/UDP, LLDP, DHCPv4 and MNDP (tables from m2ir); pcapng read and write",
+        ],
+        category: "dev-tools",
     },
     "app-t3code": {
         owns: ["a RouterOS `/app` container for T3 Code"],
@@ -488,6 +498,10 @@ export const RELATIONSHIPS: Relationship[] = [
     { source: "routeros-skills", target: "donny", type: "sibling" },
 
     // RouterOS Muse builds on the published libraries
+    { source: "quickchr", target: "tzsp-sniff", type: "dependency", readiness: "dependency",
+      verifiedNote: "tzsp-sniff's integration tests and labs boot CHRs with @tikoci/quickchr (devDependency; surveyed 2026-11-25)" },
+    { source: "m2ir", target: "tzsp-sniff", type: "dependency", readiness: "artifact-consumption",
+      verifiedNote: "tzsp-sniff vendors m2ir's MNDP YAML under vendor/m2ir and generates its MNDP table from it (scripts/m2ir.ts; surveyed 2026-11-25)" },
     { source: "quickchr", target: "routeros-muse", type: "ecosystem", readiness: "dependency",
       verifiedNote: "routeros-muse's package.json depends on @tikoci/quickchr@next (surveyed 2026-11-18)" },
     { source: "centrs", target: "routeros-muse", type: "ecosystem", readiness: "dependency",

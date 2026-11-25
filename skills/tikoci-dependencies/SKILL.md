@@ -1,6 +1,6 @@
 ---
 name: tikoci-dependencies
-description: "tikoci dependencies: add one only when needed; pin every GitHub Action to a commit SHA with a # vX.Y.Z comment and let Dependabot update them; an action's pin is separate from the runtime version it installs. The lockfile pins packages. Sibling tikoci packages come from the registry (a range or the next tag), never file: paths (bun link locally); fix a sibling in its own repo, never fork or work around silently. Use when adding or updating a dependency or action, or answering a bot that asks for a pin."
+description: "tikoci dependencies: add one only when needed; pin GitHub Actions to commit SHAs (# vX.Y.Z comment), updated by Dependabot; an action's pin is separate from the runtime it installs. Lockfile pins packages; @types/node on the engines.node major. Sibling tikoci packages come from the registry (a range or the next tag), never file: paths (bun link locally); fix a sibling in its own repo, never fork or work around silently. Use when adding or updating a dependency or action, or answering a bot that asks for a pin."
 ---
 
 # Dependencies
@@ -68,7 +68,11 @@ and the other tikoci tools. The Bun pin itself is in `tikoci-toolchain`.
 - **Dependabot's `bun` ecosystem**, grouped, weekly and with the cooldown,
   keeps packages from rotting; a repo may skip it and update by hand on a
   schedule it states. It ignores `@types/bun`, which moves with the Bun pin
-  (`tikoci-toolchain`).
+  (`tikoci-toolchain`), and in a package that also runs on Node, major
+  updates of `@types/node`, which stays on the `engines.node` major so code
+  is not typed with APIs from a newer Node major. APIs added within the
+  major (`util.getCallSites`, Node 22.12) still type-check against a `>=22`
+  floor; only a run on the minimum supported version catches those.
 - **`bun audit` is the vulnerability check.** Dependabot security updates do
   not support Bun, so version updates alone miss advisories. It runs as
   `tikoci-ci` describes ("Dependency audit"): on a PR or push that changes

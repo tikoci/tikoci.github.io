@@ -29,6 +29,7 @@ cwd
 DDL # SQL data definition language
 dispatchable
 Dockerfiles
+EADDRINUSE # Node socket error code
 edk # edk2, the UEFI firmware QEMU boots, https://github.com/tianocore/edk2
 EEXIST # POSIX errno: file exists
 efi
@@ -53,6 +54,7 @@ katex # KaTeX, the math renderer (npm package katex)
 kvm
 LASTEXITCODE
 libsecret
+LLDP
 LLM
 llms
 LOCALAPPDATA
@@ -91,6 +93,7 @@ pidfile
 pids
 pipefail # bash set -o pipefail
 pkl # Apple's configuration language, used by mikropkl
+pmpm # part of a GHSA advisory id
 PSScriptAnalyzer # PowerShell linter, https://github.com/PowerShell/PSScriptAnalyzer
 QGA # QEMU guest agent
 quickchr # CHR VMs under QEMU, https://github.com/tikoci/quickchr
@@ -116,6 +119,7 @@ socat # relays sockets and serial ports, http://www.dest-unreach.org/socat/
 strawman
 subfolders
 subshell
+SYSTEMROOT # Windows env var
 tangentsoft # tangentsoft.com RouterOS guides
 Taskfile # the go-task task runner's file
 TCG # QEMU's software CPU emulator
@@ -124,6 +128,8 @@ tikbook # RouterOS notebooks for VS Code, https://github.com/tikoci/vscode-tikbo
 tikoci
 tini # a container init process
 tsc
+tzsp
+UDP
 UEFI
 uid
 UNC
@@ -140,6 +146,7 @@ VNODE # SQLITE_IOERR_VNODE
 wabt # WebAssembly Binary Toolkit, tikoci/traefik-wabt
 wargames # tikoci/wargames
 winbox
+Wireshark
 worktrees
 XDG
 zizmor # GitHub Actions security linter, https://github.com/zizmorcore/zizmor
