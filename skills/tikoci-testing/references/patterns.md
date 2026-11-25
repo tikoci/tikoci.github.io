@@ -105,13 +105,18 @@ and downloads again.
 ## Remove what you own on a signal
 
 ```ts
-// tzsp-sniff test/lab/mndp/lab.ts and test/chr/quickchr.ts, abridged
+// tzsp-sniff test/chr/quickchr.ts (shared by every lab) and test/lab/*/lab.ts, abridged
 const owned = new Map<string, string>(); // name -> createdAt, only what this run created
+const starting = new Set<string>(); // added before the create starts, deleted once owned or failedCreates has it
 let interrupted: "SIGINT" | "SIGTERM" | undefined;
 
 function onSignal(signal: "SIGINT" | "SIGTERM"): void {
   if (interrupted) {
-    for (const name of [...owned.keys(), ...failedCreates]) console.error(`NOT REMOVED: ${name}`);
+    for (const name of owned.keys()) console.error(`NOT REMOVED: ${name}`);
+    // No record may exist for these: say how to find the VM without one.
+    for (const name of new Set([...failedCreates, ...starting])) {
+      if (!owned.has(name)) console.error(`NOT REMOVED: ${name}: stop any QEMU whose command line contains /machines/${name}/`);
+    }
     process.exit(signal === "SIGINT" ? 130 : 143);
   }
   interrupted = signal;
@@ -142,13 +147,17 @@ async function cleanupAll(): Promise<string[]> {
 }
 ```
 
-Ownership has two parts: `owned` holds the machines whose create succeeded,
-and `failedCreates` the names whose create threw after it may have started a
-VM. Cleanup removes `owned`. For a failed create it only reports a QEMU still
+Ownership has three parts: `owned` holds the machines whose create
+succeeded, `failedCreates` the names whose create threw after it may have
+started a VM, and `starting` the creates not yet settled, whose VM may
+already run. A create's name enters `starting` before the create starts and
+leaves it in `finally`, after `owned` or `failedCreates` has it, so no
+report misses it. Cleanup removes `owned`. For a failed create it only reports a QEMU still
 running, with its pid and the commands to stop and remove it: quickchr has no
 state for that machine to remove, and killing a process found by its
-arguments is a guess. Both paths, and the second signal, name every machine
-left, so an interrupted run never exits silent about a VM it started.
+arguments is a guess. Cleanup, which waits for every create to settle, and
+the second signal, which does not, both name every machine left, so an
+interrupted run never exits silent about a VM it started.
 
 With default handling, Bun skips pending `finally` blocks when a signal ends
 the process, so cleanup that lives only in `finally` leaks the VM on Ctrl-C.
@@ -158,6 +167,12 @@ a create that finishes after the cleanup pass. Track only what this run
 created: a name collision must fail the create (quickchr `add` refuses an
 existing name), never adopt someone else's machine. After removal, list the
 machines again to confirm, and exit non-zero naming any left.
+
+Keep one handler in the module that creates machines, not a copy per lab
+script, so a test of it covers every lab. tzsp-sniff tests it without a VM:
+a child script stubs quickchr with `mock.module` (one create rejects, one
+never settles) and puts a fake `pgrep` first on `PATH`. The test sends
+SIGINT twice and checks exit 130 and a `NOT REMOVED` line for each.
 
 ## Undo a module mock
 
