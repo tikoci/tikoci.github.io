@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-25T15:41:56.823Z",
+  "generatedAt": "2026-11-26T00:27:31.261Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,7 +10,7 @@
     "otherHttpCalls": 11,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4844
+    "rateLimitRemaining": 4835
   },
   "sources": {
     "ros-current": "https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel> (MikroTik upgrade feed; body \"<version> <build-ts>\")",
@@ -862,8 +862,8 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 46,
-            "owner": 46,
+            "total": 47,
+            "owner": 47,
             "external": 0,
             "bot": 0
           },
@@ -878,13 +878,26 @@
           }
         },
         "page": {
-          "fetched": 47,
+          "fetched": 48,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 323,
+            "title": "Read MikroTik.com license credentials from files: MIKROTIK_WEB_PASSWORD_FILE (+ _ACCOUNT_FILE, --license-password-file)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/323",
+            "createdAt": "2026-11-25T22:59:23Z",
+            "updatedAt": "2026-11-25T22:59:23Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
           {
             "number": 321,
             "title": "console exec: the typed-ahead sentinel quits interactive RouterOS views ([Q quit…]), cutting the command short",
@@ -1042,25 +1055,6 @@
               "platform:mac"
             ],
             "milestone": null
-          },
-          {
-            "number": 263,
-            "title": "research: managed host networks on Linux and Windows (privileged once, unprivileged machines)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/263",
-            "createdAt": "2026-11-11T13:43:11Z",
-            "updatedAt": "2026-11-21T18:28:56Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "area:networking",
-              "P3",
-              "research",
-              "platform:windows",
-              "waiting"
-            ],
-            "milestone": null
           }
         ]
       },
@@ -1068,7 +1062,7 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 46,
+        "totalIssues": 47,
         "totalPRs": 1,
         "truncated": false,
         "byLabel": {},
@@ -1569,8 +1563,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "3cf57aead59c7c4a560d54c65a1e7cffd6f96017",
-        "headUrl": "https://github.com/tikoci/centrs/commit/3cf57aead59c7c4a560d54c65a1e7cffd6f96017",
+        "headSha": "45047be3ede843c20a1c137f5972c590c19b2eb6",
+        "headUrl": "https://github.com/tikoci/centrs/commit/45047be3ede843c20a1c137f5972c590c19b2eb6",
         "workflows": [
           {
             "configured": "CI",
@@ -1582,11 +1576,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "3cf57aead59c7c4a560d54c65a1e7cffd6f96017",
+            "headSha": "45047be3ede843c20a1c137f5972c590c19b2eb6",
             "event": "push",
-            "runStartedAt": "2026-11-21T02:48:39Z",
-            "lastUpdatedAt": "2026-11-21T02:51:12Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/44857877965",
+            "runStartedAt": "2026-11-26T00:19:40Z",
+            "lastUpdatedAt": "2026-11-26T00:22:58Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/45727932801",
             "isHead": true
           },
           {
@@ -1618,10 +1612,10 @@
             "headBranch": "main",
             "headSha": "3cf57aead59c7c4a560d54c65a1e7cffd6f96017",
             "event": "schedule",
-            "runStartedAt": "2026-11-24T16:01:48Z",
-            "lastUpdatedAt": "2026-11-24T16:02:04Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/45432328986",
-            "isHead": true
+            "runStartedAt": "2026-11-25T15:49:30Z",
+            "lastUpdatedAt": "2026-11-25T15:49:42Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/45648998461",
+            "isHead": false
           }
         ]
       },
@@ -1629,8 +1623,8 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 23,
-            "owner": 23,
+            "total": 24,
+            "owner": 24,
             "external": 0,
             "bot": 0
           },
@@ -1645,13 +1639,29 @@
           }
         },
         "page": {
-          "fetched": 26,
+          "fetched": 27,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 672,
+            "title": "Read passwords from files: CENTRS_CDB_PASSWORD_FILE, CENTRS_PASSWORD_FILE and --*-file (container /run/secrets)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/672",
+            "createdAt": "2026-11-25T22:57:30Z",
+            "updatedAt": "2026-11-26T00:16:11Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "hardening",
+              "from-app-t3code"
+            ],
+            "milestone": null
+          },
           {
             "number": 671,
             "title": "build(deps-dev): bump the npm group with 4 updates",
@@ -1690,7 +1700,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/centrs/issues/666",
             "createdAt": "2026-11-14T16:26:18Z",
-            "updatedAt": "2026-11-14T16:26:18Z",
+            "updatedAt": "2026-11-26T00:16:08Z",
             "isPR": false,
             "draft": null,
             "labels": [
@@ -1797,22 +1807,6 @@
               "skip-review"
             ],
             "milestone": null
-          },
-          {
-            "number": 624,
-            "title": "CHR integration: MAC-Telnet L2 tests flaky on main (console prompt timeout, MTWEI not ready)",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/issues/624",
-            "createdAt": "2026-11-04T03:09:02Z",
-            "updatedAt": "2026-11-11T22:20:15Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "QA",
-              "proto-mac-telnet"
-            ],
-            "milestone": null
           }
         ]
       },
@@ -1820,7 +1814,7 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 23,
+        "totalIssues": 24,
         "totalPRs": 3,
         "truncated": false,
         "byLabel": {},
@@ -1951,7 +1945,7 @@
             "authorClass": "bot",
             "url": "https://github.com/tikoci/routeros-muse/pull/10",
             "createdAt": "2026-11-18T17:06:39Z",
-            "updatedAt": "2026-11-18T17:06:44Z",
+            "updatedAt": "2026-11-25T17:06:48Z",
             "isPR": true,
             "draft": false,
             "labels": [
@@ -3407,6 +3401,22 @@
     },
     {
       "source": "quickchr",
+      "target": "tzsp-sniff",
+      "type": "dependency",
+      "kind": "dependency",
+      "verified": true,
+      "note": "tzsp-sniff's integration tests and labs boot CHRs with @tikoci/quickchr (devDependency; surveyed 2026-11-25)"
+    },
+    {
+      "source": "m2ir",
+      "target": "tzsp-sniff",
+      "type": "dependency",
+      "kind": "artifact-consumption",
+      "verified": true,
+      "note": "tzsp-sniff vendors m2ir's MNDP YAML under vendor/m2ir and generates its MNDP table from it (scripts/m2ir.ts; surveyed 2026-11-25)"
+    },
+    {
+      "source": "quickchr",
       "target": "routeros-muse",
       "type": "ecosystem",
       "kind": "dependency",
@@ -3648,6 +3658,24 @@
       ]
     },
     {
+      "id": "ci-run-not-head:centrs:QA",
+      "rule": "ci-run-not-head",
+      "severity": "info",
+      "category": "ci",
+      "repos": [
+        "centrs"
+      ],
+      "summary": "centrs: QA latest run is not on the current head commit",
+      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
+      "evidence": [
+        "repos.centrs.ci.workflows[QA].headSha=3cf57aead59c7c4a560d54c65a1e7cffd6f96017",
+        "repos.centrs.ci.headSha=45047be3ede843c20a1c137f5972c590c19b2eb6"
+      ],
+      "urls": [
+        "https://github.com/tikoci/centrs/actions/runs/45648998461"
+      ]
+    },
+    {
       "id": "ci-run-not-head:centrs:Release",
       "rule": "ci-run-not-head",
       "severity": "info",
@@ -3659,7 +3687,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.centrs.ci.workflows[Release].headSha=b411207d943be31031bdbaba3ebc3fb4e36461d3",
-        "repos.centrs.ci.headSha=3cf57aead59c7c4a560d54c65a1e7cffd6f96017"
+        "repos.centrs.ci.headSha=45047be3ede843c20a1c137f5972c590c19b2eb6"
       ],
       "urls": [
         "https://github.com/tikoci/centrs/actions/runs/42104426954"

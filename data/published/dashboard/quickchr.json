@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-25T15:41:56.823Z",
+  "generatedAt": "2026-11-26T00:27:31.261Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -71,8 +71,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 46,
-        "owner": 46,
+        "total": 47,
+        "owner": 47,
         "external": 0,
         "bot": 0
       },
@@ -87,13 +87,26 @@
       }
     },
     "page": {
-      "fetched": 47,
+      "fetched": 48,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 323,
+        "title": "Read MikroTik.com license credentials from files: MIKROTIK_WEB_PASSWORD_FILE (+ _ACCOUNT_FILE, --license-password-file)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/323",
+        "createdAt": "2026-11-25T22:59:23Z",
+        "updatedAt": "2026-11-25T22:59:23Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
       {
         "number": 321,
         "title": "console exec: the typed-ahead sentinel quits interactive RouterOS views ([Q quit…]), cutting the command short",

@@ -1,5 +1,21 @@
 [
   {
+    "name": "mikropkl",
+    "description": "`pkl` packaged UTM virtual machines, including RouterOS CHR",
+    "stars": 57,
+    "language": "Python",
+    "topics": [
+      "chr",
+      "mikrotik",
+      "pkl",
+      "pkl-lang",
+      "routeros",
+      "utm"
+    ],
+    "html_url": "https://github.com/tikoci/mikropkl",
+    "category": "virtualization"
+  },
+  {
     "name": "routeros-skills",
     "description": "Custom instruction SKILL.md for MikroTik RouterOS v7",
     "stars": 96,
@@ -19,22 +35,6 @@
     ],
     "html_url": "https://github.com/tikoci/routeros-skills",
     "category": "ai"
-  },
-  {
-    "name": "mikropkl",
-    "description": "`pkl` packaged UTM virtual machines, including RouterOS CHR",
-    "stars": 56,
-    "language": "Python",
-    "topics": [
-      "chr",
-      "mikrotik",
-      "pkl",
-      "pkl-lang",
-      "routeros",
-      "utm"
-    ],
-    "html_url": "https://github.com/tikoci/mikropkl",
-    "category": "virtualization"
   },
   {
     "name": "m2ir",
@@ -90,7 +90,8 @@
       "sniffer",
       "tzsp"
     ],
-    "html_url": "https://github.com/tikoci/tzsp-sniff"
+    "html_url": "https://github.com/tikoci/tzsp-sniff",
+    "category": "dev-tools"
   },
   {
     "name": "rosetta",
