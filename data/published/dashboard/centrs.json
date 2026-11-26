@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "centrs",
-  "generatedAt": "2026-11-26T00:27:31.261Z",
+  "generatedAt": "2026-11-26T09:36:31.596Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -15,17 +15,17 @@
         "bot": 0
       },
       "prs": {
-        "total": 3,
-        "owner": 2,
+        "total": 4,
+        "owner": 3,
         "external": 0,
         "bot": 1,
-        "ownerReady": 0,
+        "ownerReady": 1,
         "ownerDraft": 2,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 27,
+      "fetched": 28,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
@@ -33,13 +33,26 @@
     "pullsEnriched": true,
     "items": [
       {
+        "number": 674,
+        "title": "Password files (#672), with the working-directory .env guard (#666)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/pull/674",
+        "createdAt": "2026-11-26T01:07:54Z",
+        "updatedAt": "2026-11-26T09:21:05Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [],
+        "milestone": null
+      },
+      {
         "number": 672,
         "title": "Read passwords from files: CENTRS_CDB_PASSWORD_FILE, CENTRS_PASSWORD_FILE and --*-file (container /run/secrets)",
         "author": "mobileskyfi",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/672",
         "createdAt": "2026-11-25T22:57:30Z",
-        "updatedAt": "2026-11-26T00:16:11Z",
+        "updatedAt": "2026-11-26T02:24:26Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -86,7 +99,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/666",
         "createdAt": "2026-11-14T16:26:18Z",
-        "updatedAt": "2026-11-26T00:16:08Z",
+        "updatedAt": "2026-11-26T02:24:26Z",
         "isPR": false,
         "draft": null,
         "labels": [
