@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "centrs",
-  "generatedAt": "2026-11-26T09:36:31.596Z",
+  "generatedAt": "2026-11-26T19:40:59.411Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,23 +9,23 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 24,
-        "owner": 24,
+        "total": 21,
+        "owner": 21,
         "external": 0,
         "bot": 0
       },
       "prs": {
-        "total": 4,
-        "owner": 3,
+        "total": 2,
+        "owner": 2,
         "external": 0,
-        "bot": 1,
+        "bot": 0,
         "ownerReady": 1,
-        "ownerDraft": 2,
+        "ownerDraft": 1,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 28,
+      "fetched": 23,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
@@ -33,97 +33,34 @@
     "pullsEnriched": true,
     "items": [
       {
-        "number": 674,
-        "title": "Password files (#672), with the working-directory .env guard (#666)",
+        "number": 677,
+        "title": "execute/mac-telnet: a print that opens the pager (RouterOS 7.17+) times out, and the pager eats the next command",
         "author": "mobileskyfi",
         "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/pull/674",
-        "createdAt": "2026-11-26T01:07:54Z",
-        "updatedAt": "2026-11-26T09:21:05Z",
+        "url": "https://github.com/tikoci/centrs/issues/677",
+        "createdAt": "2026-11-26T18:34:56Z",
+        "updatedAt": "2026-11-26T18:34:56Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "cmd-execute",
+          "proto-mac-telnet"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 676,
+        "title": "fix(mac-telnet): read console output from its framing, not the command (#575)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/pull/676",
+        "createdAt": "2026-11-26T15:17:49Z",
+        "updatedAt": "2026-11-26T18:43:21Z",
         "isPR": true,
         "draft": false,
         "labels": [],
         "milestone": null
-      },
-      {
-        "number": 672,
-        "title": "Read passwords from files: CENTRS_CDB_PASSWORD_FILE, CENTRS_PASSWORD_FILE and --*-file (container /run/secrets)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/672",
-        "createdAt": "2026-11-25T22:57:30Z",
-        "updatedAt": "2026-11-26T02:24:26Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "hardening",
-          "from-app-t3code"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 671,
-        "title": "build(deps-dev): bump the npm group with 4 updates",
-        "author": "dependabot[bot]",
-        "authorClass": "bot",
-        "url": "https://github.com/tikoci/centrs/pull/671",
-        "createdAt": "2026-11-20T01:35:03Z",
-        "updatedAt": "2026-11-20T01:35:08Z",
-        "isPR": true,
-        "draft": false,
-        "labels": [
-          "dependencies",
-          "javascript"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 670,
-        "title": "docs(matrix): track centrs findings from the house skill reviews",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/pull/670",
-        "createdAt": "2026-11-18T11:48:19Z",
-        "updatedAt": "2026-11-21T02:49:57Z",
-        "isPR": true,
-        "draft": true,
-        "labels": [
-          "skip-review"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 666,
-        "title": "Installed centrs reads CENTRS_* from the working directory's .env (Bun auto-load)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/666",
-        "createdAt": "2026-11-14T16:26:18Z",
-        "updatedAt": "2026-11-26T02:24:26Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "hardening",
-          "cmd-settings"
-        ],
-        "milestone": null
-      },
-      {
-        "number": 659,
-        "title": "Pages: tip detailsUrls 404 and 67 error pages are still stubs",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/659",
-        "createdAt": "2026-11-12T16:07:24Z",
-        "updatedAt": "2026-11-13T19:35:16Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "documentation"
-        ],
-        "milestone": "next"
       },
       {
         "number": 657,
@@ -214,7 +151,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/624",
         "createdAt": "2026-11-04T03:09:02Z",
-        "updatedAt": "2026-11-11T22:20:15Z",
+        "updatedAt": "2026-11-26T15:03:18Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -272,24 +209,6 @@
         "milestone": null
       },
       {
-        "number": 605,
-        "title": "MCP: set isError, return structuredContent/outputSchema, and bound result size",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/605",
-        "createdAt": "2026-11-03T01:31:32Z",
-        "updatedAt": "2026-11-05T13:11:17Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "MCP",
-          "UX",
-          "from-routeros-muse"
-        ],
-        "milestone": null
-      },
-      {
         "number": 604,
         "title": "MCP: allowlist gate and core dial read the CDB separately — authorize and dial one snapshot",
         "author": "Amm0Bot",
@@ -332,7 +251,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/575",
         "createdAt": "2026-11-01T02:48:52Z",
-        "updatedAt": "2026-11-11T21:43:46Z",
+        "updatedAt": "2026-11-26T16:52:41Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -340,7 +259,7 @@
           "cmd-execute",
           "agent-ready"
         ],
-        "milestone": null
+        "milestone": "next"
       },
       {
         "number": 572,

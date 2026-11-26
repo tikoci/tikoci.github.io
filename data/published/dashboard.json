@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-26T09:36:31.596Z",
+  "generatedAt": "2026-11-26T19:40:59.411Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -135,9 +135,9 @@
             "headBranch": "main",
             "headSha": "cf4f464c7347f7607b3a2bcc262f3aaffb101861",
             "event": "schedule",
-            "runStartedAt": "2026-11-25T13:51:19Z",
-            "lastUpdatedAt": "2026-11-25T13:52:39Z",
-            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/45627824333",
+            "runStartedAt": "2026-11-26T13:30:01Z",
+            "lastUpdatedAt": "2026-11-26T13:31:35Z",
+            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/45829718920",
             "isHead": true
           },
           {
@@ -433,9 +433,9 @@
             "headBranch": "main",
             "headSha": "e568f7a3bc6a6265499d3189afc72f2f3e2dbc1d",
             "event": "schedule",
-            "runStartedAt": "2026-11-25T13:58:24Z",
-            "lastUpdatedAt": "2026-11-25T13:58:41Z",
-            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/45629020880",
+            "runStartedAt": "2026-11-26T13:37:28Z",
+            "lastUpdatedAt": "2026-11-26T13:37:46Z",
+            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/45830946126",
             "isHead": true
           },
           {
@@ -851,9 +851,9 @@
             "headBranch": "main",
             "headSha": "ca77ff1d2abe8bb4576398a5dd17fed106ecbeac",
             "event": "schedule",
-            "runStartedAt": "2026-11-25T14:25:15Z",
-            "lastUpdatedAt": "2026-11-25T14:25:28Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/45633851805",
+            "runStartedAt": "2026-11-26T13:55:20Z",
+            "lastUpdatedAt": "2026-11-26T13:55:32Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/45833838096",
             "isHead": true
           }
         ]
@@ -1563,8 +1563,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "45047be3ede843c20a1c137f5972c590c19b2eb6",
-        "headUrl": "https://github.com/tikoci/centrs/commit/45047be3ede843c20a1c137f5972c590c19b2eb6",
+        "headSha": "a27cf20efb0ce25a8bbbbe4b5ec37f35d8e0650c",
+        "headUrl": "https://github.com/tikoci/centrs/commit/a27cf20efb0ce25a8bbbbe4b5ec37f35d8e0650c",
         "workflows": [
           {
             "configured": "CI",
@@ -1576,11 +1576,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "45047be3ede843c20a1c137f5972c590c19b2eb6",
+            "headSha": "a27cf20efb0ce25a8bbbbe4b5ec37f35d8e0650c",
             "event": "push",
-            "runStartedAt": "2026-11-26T00:19:40Z",
-            "lastUpdatedAt": "2026-11-26T00:22:58Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/45727932801",
+            "runStartedAt": "2026-11-26T15:49:44Z",
+            "lastUpdatedAt": "2026-11-26T15:52:30Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/45852921763",
             "isHead": true
           },
           {
@@ -1593,11 +1593,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "b411207d943be31031bdbaba3ebc3fb4e36461d3",
+            "headSha": "b8b4140cc5348c7b04da35c1bdbe55739100f085",
             "event": "workflow_dispatch",
-            "runStartedAt": "2026-11-05T20:33:06Z",
-            "lastUpdatedAt": "2026-11-05T20:35:03Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/42104426954",
+            "runStartedAt": "2026-11-26T14:53:05Z",
+            "lastUpdatedAt": "2026-11-26T15:30:56Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/45843469274",
             "isHead": false
           },
           {
@@ -1610,11 +1610,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "3cf57aead59c7c4a560d54c65a1e7cffd6f96017",
+            "headSha": "b8b4140cc5348c7b04da35c1bdbe55739100f085",
             "event": "schedule",
-            "runStartedAt": "2026-11-25T15:49:30Z",
-            "lastUpdatedAt": "2026-11-25T15:49:42Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/45648998461",
+            "runStartedAt": "2026-11-26T15:29:31Z",
+            "lastUpdatedAt": "2026-11-26T16:07:36Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/45849610173",
             "isHead": false
           }
         ]
@@ -1623,23 +1623,23 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 24,
-            "owner": 24,
+            "total": 21,
+            "owner": 21,
             "external": 0,
             "bot": 0
           },
           "prs": {
-            "total": 4,
-            "owner": 3,
+            "total": 2,
+            "owner": 2,
             "external": 0,
-            "bot": 1,
+            "bot": 0,
             "ownerReady": 1,
-            "ownerDraft": 2,
+            "ownerDraft": 1,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 28,
+          "fetched": 23,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
@@ -1647,97 +1647,34 @@
         "pullsEnriched": true,
         "items": [
           {
-            "number": 674,
-            "title": "Password files (#672), with the working-directory .env guard (#666)",
+            "number": 677,
+            "title": "execute/mac-telnet: a print that opens the pager (RouterOS 7.17+) times out, and the pager eats the next command",
             "author": "mobileskyfi",
             "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/pull/674",
-            "createdAt": "2026-11-26T01:07:54Z",
-            "updatedAt": "2026-11-26T09:21:05Z",
+            "url": "https://github.com/tikoci/centrs/issues/677",
+            "createdAt": "2026-11-26T18:34:56Z",
+            "updatedAt": "2026-11-26T18:34:56Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug",
+              "cmd-execute",
+              "proto-mac-telnet"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 676,
+            "title": "fix(mac-telnet): read console output from its framing, not the command (#575)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/pull/676",
+            "createdAt": "2026-11-26T15:17:49Z",
+            "updatedAt": "2026-11-26T18:43:21Z",
             "isPR": true,
             "draft": false,
             "labels": [],
             "milestone": null
-          },
-          {
-            "number": 672,
-            "title": "Read passwords from files: CENTRS_CDB_PASSWORD_FILE, CENTRS_PASSWORD_FILE and --*-file (container /run/secrets)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/issues/672",
-            "createdAt": "2026-11-25T22:57:30Z",
-            "updatedAt": "2026-11-26T02:24:26Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "hardening",
-              "from-app-t3code"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 671,
-            "title": "build(deps-dev): bump the npm group with 4 updates",
-            "author": "dependabot[bot]",
-            "authorClass": "bot",
-            "url": "https://github.com/tikoci/centrs/pull/671",
-            "createdAt": "2026-11-20T01:35:03Z",
-            "updatedAt": "2026-11-20T01:35:08Z",
-            "isPR": true,
-            "draft": false,
-            "labels": [
-              "dependencies",
-              "javascript"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 670,
-            "title": "docs(matrix): track centrs findings from the house skill reviews",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/pull/670",
-            "createdAt": "2026-11-18T11:48:19Z",
-            "updatedAt": "2026-11-21T02:49:57Z",
-            "isPR": true,
-            "draft": true,
-            "labels": [
-              "skip-review"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 666,
-            "title": "Installed centrs reads CENTRS_* from the working directory's .env (Bun auto-load)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/issues/666",
-            "createdAt": "2026-11-14T16:26:18Z",
-            "updatedAt": "2026-11-26T02:24:26Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "bug",
-              "hardening",
-              "cmd-settings"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 659,
-            "title": "Pages: tip detailsUrls 404 and 67 error pages are still stubs",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/issues/659",
-            "createdAt": "2026-11-12T16:07:24Z",
-            "updatedAt": "2026-11-13T19:35:16Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "bug",
-              "documentation"
-            ],
-            "milestone": "next"
           },
           {
             "number": 657,
@@ -1805,6 +1742,68 @@
               "proto-btest"
             ],
             "milestone": null
+          },
+          {
+            "number": 637,
+            "title": "docs: collect LYSS security rules as a future reference",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/pull/637",
+            "createdAt": "2026-11-08T06:15:47Z",
+            "updatedAt": "2026-11-21T02:50:28Z",
+            "isPR": true,
+            "draft": true,
+            "labels": [
+              "skip-review"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 624,
+            "title": "CHR integration: MAC-Telnet L2 tests flaky on main (console prompt timeout, MTWEI not ready)",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/624",
+            "createdAt": "2026-11-04T03:09:02Z",
+            "updatedAt": "2026-11-26T15:03:18Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "QA",
+              "proto-mac-telnet"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 621,
+            "title": "Tip when a CDB record still uses legacy port=",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/621",
+            "createdAt": "2026-11-04T01:29:48Z",
+            "updatedAt": "2026-11-11T21:43:38Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "UX",
+              "agent-ready"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 620,
+            "title": "Service-specific env/config port keys, then deprecate CENTRS_PORT",
+            "author": "Amm0Bot",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/issues/620",
+            "createdAt": "2026-11-04T01:29:46Z",
+            "updatedAt": "2026-11-11T22:20:00Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "cmd-settings"
+            ],
+            "milestone": null
           }
         ]
       },
@@ -1812,8 +1811,8 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 24,
-        "totalPRs": 4,
+        "totalIssues": 21,
+        "totalPRs": 2,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -1827,7 +1826,7 @@
         "latestVersion": "0.1.10",
         "distTags": {
           "latest": "0.1.10",
-          "next": "0.1.10"
+          "next": "0.2.0-next.31"
         },
         "repoVersionPublished": false,
         "publishedAt": "2026-11-05T20:37:05.414Z",
@@ -2579,8 +2578,8 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 9,
-            "owner": 9,
+            "total": 10,
+            "owner": 10,
             "external": 0,
             "bot": 0
           },
@@ -2595,13 +2594,26 @@
           }
         },
         "page": {
-          "fetched": 9,
+          "fetched": 10,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 80,
+            "title": "routeros-mac-telnet: console section says replies carry no ANSI; 7.23–7.24 captures show prompt/echo framing escapes",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/issues/80",
+            "createdAt": "2026-11-26T16:58:59Z",
+            "updatedAt": "2026-11-26T16:58:59Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [],
+            "milestone": null
+          },
           {
             "number": 69,
             "title": "New skill: routeros-tikoci-rosetta (thin: when to use rosetta, export/MCP/DB)",
@@ -2747,7 +2759,7 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 9,
+        "totalIssues": 10,
         "totalPRs": 0,
         "truncated": false,
         "byLabel": {},
@@ -3663,7 +3675,7 @@
       "repos": [
         "centrs"
       ],
-      "summary": "centrs: 1 open maintainer PR (2 drafts excluded)",
+      "summary": "centrs: 1 open maintainer PR (1 draft excluded)",
       "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
       "evidence": [
         "repos.centrs.work.counts.prs.ownerReady=1"
@@ -3683,11 +3695,11 @@
       "summary": "centrs: QA latest run is not on the current head commit",
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
-        "repos.centrs.ci.workflows[QA].headSha=3cf57aead59c7c4a560d54c65a1e7cffd6f96017",
-        "repos.centrs.ci.headSha=45047be3ede843c20a1c137f5972c590c19b2eb6"
+        "repos.centrs.ci.workflows[QA].headSha=b8b4140cc5348c7b04da35c1bdbe55739100f085",
+        "repos.centrs.ci.headSha=a27cf20efb0ce25a8bbbbe4b5ec37f35d8e0650c"
       ],
       "urls": [
-        "https://github.com/tikoci/centrs/actions/runs/45648998461"
+        "https://github.com/tikoci/centrs/actions/runs/45849610173"
       ]
     },
     {
@@ -3701,11 +3713,11 @@
       "summary": "centrs: Release latest run is not on the current head commit",
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
-        "repos.centrs.ci.workflows[Release].headSha=b411207d943be31031bdbaba3ebc3fb4e36461d3",
-        "repos.centrs.ci.headSha=45047be3ede843c20a1c137f5972c590c19b2eb6"
+        "repos.centrs.ci.workflows[Release].headSha=b8b4140cc5348c7b04da35c1bdbe55739100f085",
+        "repos.centrs.ci.headSha=a27cf20efb0ce25a8bbbbe4b5ec37f35d8e0650c"
       ],
       "urls": [
-        "https://github.com/tikoci/centrs/actions/runs/42104426954"
+        "https://github.com/tikoci/centrs/actions/runs/45843469274"
       ]
     },
     {

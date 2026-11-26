@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "routeros-skills",
-  "generatedAt": "2026-11-26T09:36:31.596Z",
+  "generatedAt": "2026-11-26T19:40:59.411Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,8 +9,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 9,
-        "owner": 9,
+        "total": 10,
+        "owner": 10,
         "external": 0,
         "bot": 0
       },
@@ -25,13 +25,26 @@
       }
     },
     "page": {
-      "fetched": 9,
+      "fetched": 10,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 80,
+        "title": "routeros-mac-telnet: console section says replies carry no ANSI; 7.23–7.24 captures show prompt/echo framing escapes",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/80",
+        "createdAt": "2026-11-26T16:58:59Z",
+        "updatedAt": "2026-11-26T16:58:59Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [],
+        "milestone": null
+      },
       {
         "number": 69,
         "title": "New skill: routeros-tikoci-rosetta (thin: when to use rosetta, export/MCP/DB)",
