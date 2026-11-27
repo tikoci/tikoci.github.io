@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "centrs",
-  "generatedAt": "2026-11-26T19:40:59.411Z",
+  "generatedAt": "2026-11-27T02:54:26.619Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,29 +9,87 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 21,
-        "owner": 21,
+        "total": 20,
+        "owner": 20,
         "external": 0,
         "bot": 0
       },
       "prs": {
-        "total": 2,
-        "owner": 2,
+        "total": 5,
+        "owner": 3,
         "external": 0,
-        "bot": 0,
-        "ownerReady": 1,
-        "ownerDraft": 1,
+        "bot": 2,
+        "ownerReady": 0,
+        "ownerDraft": 3,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 23,
+      "fetched": 25,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 682,
+        "title": "build(deps): bump the npm group with 4 updates",
+        "author": "dependabot[bot]",
+        "authorClass": "bot",
+        "url": "https://github.com/tikoci/centrs/pull/682",
+        "createdAt": "2026-11-27T01:34:53Z",
+        "updatedAt": "2026-11-27T01:34:58Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [
+          "dependencies",
+          "javascript"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 681,
+        "title": "build(deps): bump zizmorcore/zizmor-action from 0.8.1 to 0.9.2 in the github-actions group",
+        "author": "dependabot[bot]",
+        "authorClass": "bot",
+        "url": "https://github.com/tikoci/centrs/pull/681",
+        "createdAt": "2026-11-27T01:34:08Z",
+        "updatedAt": "2026-11-27T01:34:12Z",
+        "isPR": true,
+        "draft": false,
+        "labels": [
+          "dependencies",
+          "github_actions"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 680,
+        "title": "fix(explain): warn on an unknown or ambiguous command inside [ … ] (#572)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/pull/680",
+        "createdAt": "2026-11-27T00:06:35Z",
+        "updatedAt": "2026-11-27T00:47:19Z",
+        "isPR": true,
+        "draft": true,
+        "labels": [],
+        "milestone": null
+      },
+      {
+        "number": 679,
+        "title": "test: give the integration tier a hermetic HOME (#654)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/centrs/pull/679",
+        "createdAt": "2026-11-26T23:54:30Z",
+        "updatedAt": "2026-11-27T00:41:17Z",
+        "isPR": true,
+        "draft": true,
+        "labels": [],
+        "milestone": null
+      },
       {
         "number": 677,
         "title": "execute/mac-telnet: a print that opens the pager (RouterOS 7.17+) times out, and the pager eats the next command",
@@ -47,19 +105,6 @@
           "cmd-execute",
           "proto-mac-telnet"
         ],
-        "milestone": null
-      },
-      {
-        "number": 676,
-        "title": "fix(mac-telnet): read console output from its framing, not the command (#575)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/pull/676",
-        "createdAt": "2026-11-26T15:17:49Z",
-        "updatedAt": "2026-11-26T18:43:21Z",
-        "isPR": true,
-        "draft": false,
-        "labels": [],
         "milestone": null
       },
       {
@@ -86,7 +131,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/654",
         "createdAt": "2026-11-12T00:50:30Z",
-        "updatedAt": "2026-11-12T16:43:55Z",
+        "updatedAt": "2026-11-26T23:54:37Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -245,30 +290,13 @@
         "milestone": null
       },
       {
-        "number": 575,
-        "title": "execute/mac-telnet: console reader drops :put output for trailing-newline single-line sends",
-        "author": "Amm0Bot",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/centrs/issues/575",
-        "createdAt": "2026-11-01T02:48:52Z",
-        "updatedAt": "2026-11-26T16:52:41Z",
-        "isPR": false,
-        "draft": null,
-        "labels": [
-          "bug",
-          "cmd-execute",
-          "agent-ready"
-        ],
-        "milestone": "next"
-      },
-      {
         "number": 572,
         "title": "explain: an unknown or ambiguous command inside [ … ] passes silently; the same text at top level warns",
         "author": "Amm0Bot",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/issues/572",
         "createdAt": "2026-10-31T21:59:14Z",
-        "updatedAt": "2026-11-13T19:43:38Z",
+        "updatedAt": "2026-11-27T00:06:38Z",
         "isPR": false,
         "draft": null,
         "labels": [

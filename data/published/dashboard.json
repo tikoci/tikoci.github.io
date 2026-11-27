@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-26T19:40:59.411Z",
+  "generatedAt": "2026-11-27T02:54:26.619Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -1563,8 +1563,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "a27cf20efb0ce25a8bbbbe4b5ec37f35d8e0650c",
-        "headUrl": "https://github.com/tikoci/centrs/commit/a27cf20efb0ce25a8bbbbe4b5ec37f35d8e0650c",
+        "headSha": "0cc371c7b6f45889f42a4e49df76fbd0359f62bf",
+        "headUrl": "https://github.com/tikoci/centrs/commit/0cc371c7b6f45889f42a4e49df76fbd0359f62bf",
         "workflows": [
           {
             "configured": "CI",
@@ -1576,11 +1576,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "a27cf20efb0ce25a8bbbbe4b5ec37f35d8e0650c",
+            "headSha": "0cc371c7b6f45889f42a4e49df76fbd0359f62bf",
             "event": "push",
-            "runStartedAt": "2026-11-26T15:49:44Z",
-            "lastUpdatedAt": "2026-11-26T15:52:30Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/45852921763",
+            "runStartedAt": "2026-11-26T23:28:04Z",
+            "lastUpdatedAt": "2026-11-26T23:31:02Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/45911105510",
             "isHead": true
           },
           {
@@ -1623,29 +1623,87 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 21,
-            "owner": 21,
+            "total": 20,
+            "owner": 20,
             "external": 0,
             "bot": 0
           },
           "prs": {
-            "total": 2,
-            "owner": 2,
+            "total": 5,
+            "owner": 3,
             "external": 0,
-            "bot": 0,
-            "ownerReady": 1,
-            "ownerDraft": 1,
+            "bot": 2,
+            "ownerReady": 0,
+            "ownerDraft": 3,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 23,
+          "fetched": 25,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 682,
+            "title": "build(deps): bump the npm group with 4 updates",
+            "author": "dependabot[bot]",
+            "authorClass": "bot",
+            "url": "https://github.com/tikoci/centrs/pull/682",
+            "createdAt": "2026-11-27T01:34:53Z",
+            "updatedAt": "2026-11-27T01:34:58Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [
+              "dependencies",
+              "javascript"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 681,
+            "title": "build(deps): bump zizmorcore/zizmor-action from 0.8.1 to 0.9.2 in the github-actions group",
+            "author": "dependabot[bot]",
+            "authorClass": "bot",
+            "url": "https://github.com/tikoci/centrs/pull/681",
+            "createdAt": "2026-11-27T01:34:08Z",
+            "updatedAt": "2026-11-27T01:34:12Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [
+              "dependencies",
+              "github_actions"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 680,
+            "title": "fix(explain): warn on an unknown or ambiguous command inside [ … ] (#572)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/pull/680",
+            "createdAt": "2026-11-27T00:06:35Z",
+            "updatedAt": "2026-11-27T00:47:19Z",
+            "isPR": true,
+            "draft": true,
+            "labels": [],
+            "milestone": null
+          },
+          {
+            "number": 679,
+            "title": "test: give the integration tier a hermetic HOME (#654)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/centrs/pull/679",
+            "createdAt": "2026-11-26T23:54:30Z",
+            "updatedAt": "2026-11-27T00:41:17Z",
+            "isPR": true,
+            "draft": true,
+            "labels": [],
+            "milestone": null
+          },
           {
             "number": 677,
             "title": "execute/mac-telnet: a print that opens the pager (RouterOS 7.17+) times out, and the pager eats the next command",
@@ -1661,19 +1719,6 @@
               "cmd-execute",
               "proto-mac-telnet"
             ],
-            "milestone": null
-          },
-          {
-            "number": 676,
-            "title": "fix(mac-telnet): read console output from its framing, not the command (#575)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/pull/676",
-            "createdAt": "2026-11-26T15:17:49Z",
-            "updatedAt": "2026-11-26T18:43:21Z",
-            "isPR": true,
-            "draft": false,
-            "labels": [],
             "milestone": null
           },
           {
@@ -1700,7 +1745,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/centrs/issues/654",
             "createdAt": "2026-11-12T00:50:30Z",
-            "updatedAt": "2026-11-12T16:43:55Z",
+            "updatedAt": "2026-11-26T23:54:37Z",
             "isPR": false,
             "draft": null,
             "labels": [
@@ -1757,53 +1802,6 @@
               "skip-review"
             ],
             "milestone": null
-          },
-          {
-            "number": 624,
-            "title": "CHR integration: MAC-Telnet L2 tests flaky on main (console prompt timeout, MTWEI not ready)",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/issues/624",
-            "createdAt": "2026-11-04T03:09:02Z",
-            "updatedAt": "2026-11-26T15:03:18Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "QA",
-              "proto-mac-telnet"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 621,
-            "title": "Tip when a CDB record still uses legacy port=",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/issues/621",
-            "createdAt": "2026-11-04T01:29:48Z",
-            "updatedAt": "2026-11-11T21:43:38Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "UX",
-              "agent-ready"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 620,
-            "title": "Service-specific env/config port keys, then deprecate CENTRS_PORT",
-            "author": "Amm0Bot",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/centrs/issues/620",
-            "createdAt": "2026-11-04T01:29:46Z",
-            "updatedAt": "2026-11-11T22:20:00Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "cmd-settings"
-            ],
-            "milestone": null
           }
         ]
       },
@@ -1811,8 +1809,8 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 21,
-        "totalPRs": 2,
+        "totalIssues": 20,
+        "totalPRs": 5,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -3668,23 +3666,6 @@
       ]
     },
     {
-      "id": "work-maintainer-prs:centrs",
-      "rule": "work-maintainer-prs",
-      "severity": "pending",
-      "category": "work",
-      "repos": [
-        "centrs"
-      ],
-      "summary": "centrs: 1 open maintainer PR (1 draft excluded)",
-      "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
-      "evidence": [
-        "repos.centrs.work.counts.prs.ownerReady=1"
-      ],
-      "urls": [
-        "https://github.com/tikoci/centrs/pulls"
-      ]
-    },
-    {
       "id": "ci-run-not-head:centrs:QA",
       "rule": "ci-run-not-head",
       "severity": "info",
@@ -3696,7 +3677,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.centrs.ci.workflows[QA].headSha=b8b4140cc5348c7b04da35c1bdbe55739100f085",
-        "repos.centrs.ci.headSha=a27cf20efb0ce25a8bbbbe4b5ec37f35d8e0650c"
+        "repos.centrs.ci.headSha=0cc371c7b6f45889f42a4e49df76fbd0359f62bf"
       ],
       "urls": [
         "https://github.com/tikoci/centrs/actions/runs/45849610173"
@@ -3714,7 +3695,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.centrs.ci.workflows[Release].headSha=b8b4140cc5348c7b04da35c1bdbe55739100f085",
-        "repos.centrs.ci.headSha=a27cf20efb0ce25a8bbbbe4b5ec37f35d8e0650c"
+        "repos.centrs.ci.headSha=0cc371c7b6f45889f42a4e49df76fbd0359f62bf"
       ],
       "urls": [
         "https://github.com/tikoci/centrs/actions/runs/45843469274"
