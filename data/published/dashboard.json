@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-27T02:54:26.619Z",
+  "generatedAt": "2026-11-27T12:33:21.513Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -665,9 +665,9 @@
             "headBranch": "main",
             "headSha": "acd6566c090b9b8060a6bec849e8ad2ca8db5380",
             "event": "schedule",
-            "runStartedAt": "2026-11-26T07:14:44Z",
-            "lastUpdatedAt": "2026-11-26T07:14:59Z",
-            "lastUrl": "https://github.com/tikoci/fat-chr/actions/runs/45773876783",
+            "runStartedAt": "2026-11-27T07:11:04Z",
+            "lastUpdatedAt": "2026-11-27T07:11:16Z",
+            "lastUrl": "https://github.com/tikoci/fat-chr/actions/runs/45956706465",
             "isHead": true
           }
         ]
@@ -802,8 +802,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "ca77ff1d2abe8bb4576398a5dd17fed106ecbeac",
-        "headUrl": "https://github.com/tikoci/quickchr/commit/ca77ff1d2abe8bb4576398a5dd17fed106ecbeac",
+        "headSha": "9d0991437db3813f2b562af9c2054234ff3230b4",
+        "headUrl": "https://github.com/tikoci/quickchr/commit/9d0991437db3813f2b562af9c2054234ff3230b4",
         "workflows": [
           {
             "configured": "CI",
@@ -815,11 +815,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "ca77ff1d2abe8bb4576398a5dd17fed106ecbeac",
+            "headSha": "9d0991437db3813f2b562af9c2054234ff3230b4",
             "event": "push",
-            "runStartedAt": "2026-11-24T20:46:17Z",
-            "lastUpdatedAt": "2026-11-24T20:49:27Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/45484236542",
+            "runStartedAt": "2026-11-27T09:44:59Z",
+            "lastUpdatedAt": "2026-11-27T09:48:11Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/45976290630",
             "isHead": true
           },
           {
@@ -854,7 +854,7 @@
             "runStartedAt": "2026-11-26T13:55:20Z",
             "lastUpdatedAt": "2026-11-26T13:55:32Z",
             "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/45833838096",
-            "isHead": true
+            "isHead": false
           }
         ]
       },
@@ -862,8 +862,8 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 47,
-            "owner": 47,
+            "total": 52,
+            "owner": 52,
             "external": 0,
             "bot": 0
           },
@@ -878,13 +878,100 @@
           }
         },
         "page": {
-          "fetched": 48,
+          "fetched": 53,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 330,
+            "title": "ci: linux-x86 leg says \"KVM not available\" but runs under KVM — the check races udevadm trigger",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/330",
+            "createdAt": "2026-11-27T09:29:01Z",
+            "updatedAt": "2026-11-27T09:29:01Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug",
+              "area:ci",
+              "P3"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 329,
+            "title": "Research: PXE / netinstall boot of RouterOS in quickchr VMs (incl. CHR netinstall package as server)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/329",
+            "createdAt": "2026-11-27T09:25:20Z",
+            "updatedAt": "2026-11-27T09:25:20Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "area:qemu",
+              "area:networking",
+              "P4",
+              "research"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 328,
+            "title": "Research: UEFI boot for x86 CHR on Apple Silicon (SeaBIOS vs fat-chr/OVMF under cross-arch TCG)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/328",
+            "createdAt": "2026-11-27T09:25:05Z",
+            "updatedAt": "2026-11-27T09:25:05Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "area:qemu",
+              "P4",
+              "research",
+              "platform:mac"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 327,
+            "title": "Disable firmware network boot (iPXE ROM / EDK2 PXE) by default; opt-in flag",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/327",
+            "createdAt": "2026-11-27T09:24:48Z",
+            "updatedAt": "2026-11-27T09:25:22Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "enhancement",
+              "area:qemu",
+              "P3"
+            ],
+            "milestone": null
+          },
+          {
+            "number": 325,
+            "title": "research: provisioning through CHR's cloud-metadata path (SMBIOS vendor + 169.254.169.254)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/325",
+            "createdAt": "2026-11-27T08:36:45Z",
+            "updatedAt": "2026-11-27T09:08:28Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "area:provisioning",
+              "P3",
+              "research"
+            ],
+            "milestone": null
+          },
           {
             "number": 323,
             "title": "Read MikroTik.com license credentials from files: MIKROTIK_WEB_PASSWORD_FILE (+ _ACCOUNT_FILE, --license-password-file)",
@@ -964,97 +1051,6 @@
               "consumer:tzsp-sniff"
             ],
             "milestone": null
-          },
-          {
-            "number": 292,
-            "title": "One deadline for consumers: own the add/start/remove budget composition",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/292",
-            "createdAt": "2026-11-19T21:34:40Z",
-            "updatedAt": "2026-11-21T18:06:07Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "enhancement",
-              "area:library-api",
-              "P2",
-              "consumer:tzsp-sniff"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 283,
-            "title": "credentials: decide how (or whether) MikroTik.com license credentials use the OS keychain (Bun.secrets) — hang risk for agents",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/283",
-            "createdAt": "2026-11-17T17:19:02Z",
-            "updatedAt": "2026-11-17T17:19:02Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "area:provisioning",
-              "area:library-api",
-              "P3",
-              "needs-decision"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 280,
-            "title": "provisioning: add a managed, batch-verified SSH key to an already-booted machine (set --ssh-key)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/280",
-            "createdAt": "2026-11-17T03:20:08Z",
-            "updatedAt": "2026-11-17T03:20:08Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "enhancement",
-              "area:provisioning",
-              "P3",
-              "needs-decision",
-              "consumer:centrs"
-            ],
-            "milestone": null
-          },
-          {
-            "number": 279,
-            "title": "ci: house tikoci-ci alignment — linter skip in CI, cancel-on-main",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/279",
-            "createdAt": "2026-11-16T22:46:44Z",
-            "updatedAt": "2026-11-21T19:37:12Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "enhancement",
-              "area:ci",
-              "P2",
-              "waiting"
-            ],
-            "milestone": "next"
-          },
-          {
-            "number": 271,
-            "title": "networking(macos): named shared (and host-only) managed networks — shared:<name> with its own subnet",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/271",
-            "createdAt": "2026-11-11T17:40:46Z",
-            "updatedAt": "2026-11-17T03:19:09Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "enhancement",
-              "area:networking",
-              "needs-decision",
-              "platform:mac"
-            ],
-            "milestone": null
           }
         ]
       },
@@ -1062,7 +1058,7 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 47,
+        "totalIssues": 52,
         "totalPRs": 1,
         "truncated": false,
         "byLabel": {},
@@ -3731,10 +3727,28 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.quickchr.ci.workflows[Release].headSha=e90c0f9089b3892b5d9b37c651c5ddb855c5e6c7",
-        "repos.quickchr.ci.headSha=ca77ff1d2abe8bb4576398a5dd17fed106ecbeac"
+        "repos.quickchr.ci.headSha=9d0991437db3813f2b562af9c2054234ff3230b4"
       ],
       "urls": [
         "https://github.com/tikoci/quickchr/actions/runs/45457099941"
+      ]
+    },
+    {
+      "id": "ci-run-not-head:quickchr:RouterOS-Versions",
+      "rule": "ci-run-not-head",
+      "severity": "info",
+      "category": "ci",
+      "repos": [
+        "quickchr"
+      ],
+      "summary": "quickchr: RouterOS Versions latest run is not on the current head commit",
+      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
+      "evidence": [
+        "repos.quickchr.ci.workflows[RouterOS Versions].headSha=ca77ff1d2abe8bb4576398a5dd17fed106ecbeac",
+        "repos.quickchr.ci.headSha=9d0991437db3813f2b562af9c2054234ff3230b4"
+      ],
+      "urls": [
+        "https://github.com/tikoci/quickchr/actions/runs/45833838096"
       ]
     },
     {

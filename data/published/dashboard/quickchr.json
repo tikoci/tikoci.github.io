@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-27T02:54:26.619Z",
+  "generatedAt": "2026-11-27T12:33:21.513Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -71,8 +71,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 47,
-        "owner": 47,
+        "total": 52,
+        "owner": 52,
         "external": 0,
         "bot": 0
       },
@@ -87,13 +87,100 @@
       }
     },
     "page": {
-      "fetched": 48,
+      "fetched": 53,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 330,
+        "title": "ci: linux-x86 leg says \"KVM not available\" but runs under KVM — the check races udevadm trigger",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/330",
+        "createdAt": "2026-11-27T09:29:01Z",
+        "updatedAt": "2026-11-27T09:29:01Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "area:ci",
+          "P3"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 329,
+        "title": "Research: PXE / netinstall boot of RouterOS in quickchr VMs (incl. CHR netinstall package as server)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/329",
+        "createdAt": "2026-11-27T09:25:20Z",
+        "updatedAt": "2026-11-27T09:25:20Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "area:qemu",
+          "area:networking",
+          "P4",
+          "research"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 328,
+        "title": "Research: UEFI boot for x86 CHR on Apple Silicon (SeaBIOS vs fat-chr/OVMF under cross-arch TCG)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/328",
+        "createdAt": "2026-11-27T09:25:05Z",
+        "updatedAt": "2026-11-27T09:25:05Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "area:qemu",
+          "P4",
+          "research",
+          "platform:mac"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 327,
+        "title": "Disable firmware network boot (iPXE ROM / EDK2 PXE) by default; opt-in flag",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/327",
+        "createdAt": "2026-11-27T09:24:48Z",
+        "updatedAt": "2026-11-27T09:25:22Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "enhancement",
+          "area:qemu",
+          "P3"
+        ],
+        "milestone": null
+      },
+      {
+        "number": 325,
+        "title": "research: provisioning through CHR's cloud-metadata path (SMBIOS vendor + 169.254.169.254)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/325",
+        "createdAt": "2026-11-27T08:36:45Z",
+        "updatedAt": "2026-11-27T09:08:28Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "area:provisioning",
+          "P3",
+          "research"
+        ],
+        "milestone": null
+      },
       {
         "number": 323,
         "title": "Read MikroTik.com license credentials from files: MIKROTIK_WEB_PASSWORD_FILE (+ _ACCOUNT_FILE, --license-password-file)",
