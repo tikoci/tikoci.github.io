@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-27T12:33:21.513Z",
+  "generatedAt": "2026-11-27T22:01:33.065Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -59,8 +59,8 @@
         "covered": true
       },
       "development": {
-        "version": "7.26beta7",
-        "covered": true
+        "version": "7.26beta8",
+        "covered": false
       },
       "long-term": {
         "version": "7.24.7",
@@ -77,23 +77,36 @@
         "bot": 0
       },
       "prs": {
-        "total": 1,
-        "owner": 1,
+        "total": 2,
+        "owner": 2,
         "external": 0,
         "bot": 0,
         "ownerReady": 0,
-        "ownerDraft": 1,
+        "ownerDraft": 2,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 53,
+      "fetched": 54,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 331,
+        "title": "research(lab): PXE / netinstall into blank QEMU VMs (#329)",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/pull/331",
+        "createdAt": "2026-11-27T16:32:27Z",
+        "updatedAt": "2026-11-27T16:32:37Z",
+        "isPR": true,
+        "draft": true,
+        "labels": [],
+        "milestone": null
+      },
       {
         "number": 330,
         "title": "ci: linux-x86 leg says \"KVM not available\" but runs under KVM — the check races udevadm trigger",

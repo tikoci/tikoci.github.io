@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "mikropkl",
-  "generatedAt": "2026-11-27T12:33:21.513Z",
+  "generatedAt": "2026-11-27T22:01:33.065Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -122,8 +122,8 @@
         "covered": true
       },
       "development": {
-        "version": "7.26beta7",
-        "covered": true
+        "version": "7.26beta8",
+        "covered": false
       },
       "long-term": {
         "version": "7.24.7",
