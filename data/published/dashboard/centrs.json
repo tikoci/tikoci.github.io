@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "centrs",
-  "generatedAt": "2026-11-28T13:07:18.858Z",
+  "generatedAt": "2026-11-28T20:58:52.889Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -84,7 +84,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/pull/679",
         "createdAt": "2026-11-26T23:54:30Z",
-        "updatedAt": "2026-11-28T09:17:26Z",
+        "updatedAt": "2026-11-28T16:57:18Z",
         "isPR": true,
         "draft": true,
         "labels": [],

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-28T13:07:18.858Z",
+  "generatedAt": "2026-11-28T20:58:52.889Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -762,6 +762,7 @@
         "locator": "raw-json:ci-data:tested-versions.json",
         "kind": "tested",
         "coverage": [
+          "7.26beta8",
           "7.26beta7",
           "7.26beta5",
           "7.26beta4",
@@ -777,7 +778,7 @@
           "7.25beta4",
           "7.24.7"
         ],
-        "totalKnown": 36,
+        "totalKnown": 37,
         "truncated": true,
         "channels": {
           "stable": {
@@ -790,7 +791,7 @@
           },
           "development": {
             "version": "7.26beta8",
-            "covered": false
+            "covered": true
           },
           "long-term": {
             "version": "7.24.7",
@@ -801,8 +802,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "9d0991437db3813f2b562af9c2054234ff3230b4",
-        "headUrl": "https://github.com/tikoci/quickchr/commit/9d0991437db3813f2b562af9c2054234ff3230b4",
+        "headSha": "dfa944b61df190cd9fbfa9f43247d5af4ee69a6c",
+        "headUrl": "https://github.com/tikoci/quickchr/commit/dfa944b61df190cd9fbfa9f43247d5af4ee69a6c",
         "workflows": [
           {
             "configured": "CI",
@@ -814,11 +815,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "9d0991437db3813f2b562af9c2054234ff3230b4",
+            "headSha": "dfa944b61df190cd9fbfa9f43247d5af4ee69a6c",
             "event": "push",
-            "runStartedAt": "2026-11-27T09:44:59Z",
-            "lastUpdatedAt": "2026-11-27T09:48:11Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/45976290630",
+            "runStartedAt": "2026-11-28T14:54:27Z",
+            "lastUpdatedAt": "2026-11-28T14:57:38Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/46157052161",
             "isHead": true
           },
           {
@@ -853,7 +854,7 @@
             "runStartedAt": "2026-11-28T13:01:08Z",
             "lastUpdatedAt": "2026-11-28T13:01:24Z",
             "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/46147494863",
-            "isHead": true
+            "isHead": false
           }
         ]
       },
@@ -867,17 +868,17 @@
             "bot": 0
           },
           "prs": {
-            "total": 2,
-            "owner": 2,
+            "total": 1,
+            "owner": 1,
             "external": 0,
             "bot": 0,
-            "ownerReady": 1,
+            "ownerReady": 0,
             "ownerDraft": 1,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 55,
+          "fetched": 54,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
@@ -900,19 +901,6 @@
               "area:ci",
               "P3"
             ],
-            "milestone": null
-          },
-          {
-            "number": 331,
-            "title": "research(lab): PXE / netinstall into blank QEMU VMs (#329)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/pull/331",
-            "createdAt": "2026-11-27T16:32:27Z",
-            "updatedAt": "2026-11-28T09:28:37Z",
-            "isPR": true,
-            "draft": false,
-            "labels": [],
             "milestone": null
           },
           {
@@ -1044,6 +1032,24 @@
             "draft": true,
             "labels": [],
             "milestone": null
+          },
+          {
+            "number": 306,
+            "title": "agents: review and adopt tikoci house conventions (AGENTS.md entry, CLAUDE.md import, instructions → skills)",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/306",
+            "createdAt": "2026-11-21T18:06:40Z",
+            "updatedAt": "2026-11-21T18:06:40Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "documentation",
+              "area:docs",
+              "P3",
+              "needs-decision"
+            ],
+            "milestone": null
           }
         ]
       },
@@ -1052,7 +1058,7 @@
         "openIssues": 0,
         "openPRs": 0,
         "totalIssues": 53,
-        "totalPRs": 2,
+        "totalPRs": 1,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -1243,8 +1249,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "a51b2014d3d94661842225c61f9f7666cd9f54c5",
-        "headUrl": "https://github.com/tikoci/rosetta/commit/a51b2014d3d94661842225c61f9f7666cd9f54c5",
+        "headSha": "16e22aa41e04b8d83288ed73d7fcf00caab4323c",
+        "headUrl": "https://github.com/tikoci/rosetta/commit/16e22aa41e04b8d83288ed73d7fcf00caab4323c",
         "workflows": [
           {
             "configured": "Test",
@@ -1256,11 +1262,11 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "a51b2014d3d94661842225c61f9f7666cd9f54c5",
+            "headSha": "16e22aa41e04b8d83288ed73d7fcf00caab4323c",
             "event": "push",
-            "runStartedAt": "2026-10-31T03:16:44Z",
-            "lastUpdatedAt": "2026-10-31T03:18:11Z",
-            "lastUrl": "https://github.com/tikoci/rosetta/actions/runs/41163671325",
+            "runStartedAt": "2026-11-28T20:19:17Z",
+            "lastUpdatedAt": "2026-11-28T20:20:18Z",
+            "lastUrl": "https://github.com/tikoci/rosetta/actions/runs/46185772254",
             "isHead": true
           },
           {
@@ -1312,7 +1318,7 @@
             "runStartedAt": "2026-11-23T21:24:52Z",
             "lastUpdatedAt": "2026-11-23T21:37:14Z",
             "lastUrl": "https://github.com/tikoci/rosetta/actions/runs/45269404498",
-            "isHead": true
+            "isHead": false
           }
         ]
       },
@@ -1320,17 +1326,17 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 31,
+            "total": 30,
             "owner": 30,
             "external": 0,
-            "bot": 1
+            "bot": 0
           },
           "prs": {
-            "total": 0,
-            "owner": 0,
+            "total": 1,
+            "owner": 1,
             "external": 0,
             "bot": 0,
-            "ownerReady": 0,
+            "ownerReady": 1,
             "ownerDraft": 0,
             "draftUnknown": false
           }
@@ -1343,6 +1349,19 @@
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 255,
+            "title": "Lower table content floors for MikroTik's November manual rewrite",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/rosetta/pull/255",
+            "createdAt": "2026-11-28T20:25:42Z",
+            "updatedAt": "2026-11-28T20:27:29Z",
+            "isPR": true,
+            "draft": false,
+            "labels": [],
+            "milestone": null
+          },
           {
             "number": 253,
             "title": "Review tikoci house skills (tikoci.github.io#21) for adoption; fix stale WAL note",
@@ -1357,19 +1376,6 @@
               "documentation",
               "blocked"
             ],
-            "milestone": null
-          },
-          {
-            "number": 252,
-            "title": "Scheduled device-map refresh: committed artifacts drifted from live sources",
-            "author": "github-actions[bot]",
-            "authorClass": "bot",
-            "url": "https://github.com/tikoci/rosetta/issues/252",
-            "createdAt": "2026-11-02T19:36:58Z",
-            "updatedAt": "2026-11-23T21:37:09Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [],
             "milestone": null
           },
           {
@@ -1494,8 +1500,8 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 31,
-        "totalPRs": 0,
+        "totalIssues": 30,
+        "totalPRs": 1,
         "truncated": false,
         "byLabel": {},
         "byMilestone": {},
@@ -1504,19 +1510,19 @@
       "npm": {
         "package": "@tikoci/rosetta",
         "expected": true,
-        "repoVersion": "0.12.0",
+        "repoVersion": "0.12.1",
         "repoPrerelease": false,
         "latestVersion": "0.12.0",
         "distTags": {
           "latest": "0.12.0",
           "next": "0.12.0"
         },
-        "repoVersionPublished": true,
+        "repoVersionPublished": false,
         "publishedAt": "2026-10-30T21:39:42.170Z",
-        "behind": false,
+        "behind": true,
         "state": "ok",
         "published": true,
-        "assessment": "in-sync"
+        "assessment": "pending-publish"
       },
       "release": {
         "state": "ok",
@@ -1601,9 +1607,9 @@
             "headBranch": "main",
             "headSha": "0cc371c7b6f45889f42a4e49df76fbd0359f62bf",
             "event": "schedule",
-            "runStartedAt": "2026-11-27T15:22:52Z",
-            "lastUpdatedAt": "2026-11-27T16:05:36Z",
-            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/46024390735",
+            "runStartedAt": "2026-11-28T14:22:50Z",
+            "lastUpdatedAt": "2026-11-28T15:05:01Z",
+            "lastUrl": "https://github.com/tikoci/centrs/actions/runs/46154361050",
             "isHead": true
           }
         ]
@@ -1687,7 +1693,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/centrs/pull/679",
             "createdAt": "2026-11-26T23:54:30Z",
-            "updatedAt": "2026-11-28T09:17:26Z",
+            "updatedAt": "2026-11-28T16:57:18Z",
             "isPR": true,
             "draft": true,
             "labels": [],
@@ -3621,6 +3627,24 @@
       ]
     },
     {
+      "id": "npm-pending-publish:rosetta",
+      "rule": "npm-pending-publish",
+      "severity": "pending",
+      "category": "packages",
+      "repos": [
+        "rosetta"
+      ],
+      "summary": "rosetta: 0.12.1 ahead of registry 0.12.0 — publish pending",
+      "detail": "The repo's package.json carries a stable version newer than the registry's latest tag. Either cut a release or confirm the bump is intentional and unreleased.",
+      "evidence": [
+        "repos.rosetta.npm.repoVersion=0.12.1",
+        "repos.rosetta.npm.latestVersion=0.12.0"
+      ],
+      "urls": [
+        "https://www.npmjs.com/package/@tikoci/rosetta"
+      ]
+    },
+    {
       "id": "ros-missing-channel:mikrotik-gpl:long-term",
       "rule": "ros-missing-channel",
       "severity": "pending",
@@ -3635,23 +3659,6 @@
       ],
       "urls": [
         "https://github.com/tikoci/mikrotik-gpl/actions"
-      ]
-    },
-    {
-      "id": "ros-missing-channel:quickchr:development",
-      "rule": "ros-missing-channel",
-      "severity": "pending",
-      "category": "ros",
-      "repos": [
-        "quickchr"
-      ],
-      "summary": "quickchr: missing development 7.26beta8 (tested coverage)",
-      "detail": "The current development version is absent from this repo's tested coverage list. Work to do (usually picked up by the polling workflow), not a failure. Only channels listed in rosChannels are judged.",
-      "evidence": [
-        "repos.quickchr.ros.channels.development=missing 7.26beta8"
-      ],
-      "urls": [
-        "https://github.com/tikoci/quickchr/actions"
       ]
     },
     {
@@ -3672,20 +3679,20 @@
       ]
     },
     {
-      "id": "work-maintainer-prs:quickchr",
+      "id": "work-maintainer-prs:rosetta",
       "rule": "work-maintainer-prs",
       "severity": "pending",
       "category": "work",
       "repos": [
-        "quickchr"
+        "rosetta"
       ],
-      "summary": "quickchr: 1 open maintainer PR (1 draft excluded)",
+      "summary": "rosetta: 1 open maintainer PR",
       "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
       "evidence": [
-        "repos.quickchr.work.counts.prs.ownerReady=1"
+        "repos.rosetta.work.counts.prs.ownerReady=1"
       ],
       "urls": [
-        "https://github.com/tikoci/quickchr/pulls"
+        "https://github.com/tikoci/rosetta/pulls"
       ]
     },
     {
@@ -3736,10 +3743,28 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.quickchr.ci.workflows[Release].headSha=e90c0f9089b3892b5d9b37c651c5ddb855c5e6c7",
-        "repos.quickchr.ci.headSha=9d0991437db3813f2b562af9c2054234ff3230b4"
+        "repos.quickchr.ci.headSha=dfa944b61df190cd9fbfa9f43247d5af4ee69a6c"
       ],
       "urls": [
         "https://github.com/tikoci/quickchr/actions/runs/45457099941"
+      ]
+    },
+    {
+      "id": "ci-run-not-head:quickchr:RouterOS-Versions",
+      "rule": "ci-run-not-head",
+      "severity": "info",
+      "category": "ci",
+      "repos": [
+        "quickchr"
+      ],
+      "summary": "quickchr: RouterOS Versions latest run is not on the current head commit",
+      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
+      "evidence": [
+        "repos.quickchr.ci.workflows[RouterOS Versions].headSha=9d0991437db3813f2b562af9c2054234ff3230b4",
+        "repos.quickchr.ci.headSha=dfa944b61df190cd9fbfa9f43247d5af4ee69a6c"
+      ],
+      "urls": [
+        "https://github.com/tikoci/quickchr/actions/runs/46147494863"
       ]
     },
     {
@@ -3779,6 +3804,24 @@
       ]
     },
     {
+      "id": "ci-run-not-head:rosetta:Device-Map-Refresh",
+      "rule": "ci-run-not-head",
+      "severity": "info",
+      "category": "ci",
+      "repos": [
+        "rosetta"
+      ],
+      "summary": "rosetta: Device Map Refresh latest run is not on the current head commit",
+      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
+      "evidence": [
+        "repos.rosetta.ci.workflows[Device Map Refresh].headSha=a51b2014d3d94661842225c61f9f7666cd9f54c5",
+        "repos.rosetta.ci.headSha=16e22aa41e04b8d83288ed73d7fcf00caab4323c"
+      ],
+      "urls": [
+        "https://github.com/tikoci/rosetta/actions/runs/45269404498"
+      ]
+    },
+    {
       "id": "ci-run-not-head:rosetta:QA",
       "rule": "ci-run-not-head",
       "severity": "info",
@@ -3790,7 +3833,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.rosetta.ci.workflows[QA].headSha=54d5e4b5718f67757309bd7e784810694da1fd71",
-        "repos.rosetta.ci.headSha=a51b2014d3d94661842225c61f9f7666cd9f54c5"
+        "repos.rosetta.ci.headSha=16e22aa41e04b8d83288ed73d7fcf00caab4323c"
       ],
       "urls": [
         "https://github.com/tikoci/rosetta/actions/runs/40597758516"
@@ -3808,7 +3851,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.rosetta.ci.workflows[Release].headSha=6b6397d7739a563b894f9b07f7ac2f6b1ad7f4bf",
-        "repos.rosetta.ci.headSha=a51b2014d3d94661842225c61f9f7666cd9f54c5"
+        "repos.rosetta.ci.headSha=16e22aa41e04b8d83288ed73d7fcf00caab4323c"
       ],
       "urls": [
         "https://github.com/tikoci/rosetta/actions/runs/41129834224"

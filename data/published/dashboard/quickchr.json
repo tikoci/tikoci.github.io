@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-28T13:07:18.858Z",
+  "generatedAt": "2026-11-28T20:58:52.889Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,6 +10,7 @@
     "locator": "raw-json:ci-data:tested-versions.json",
     "kind": "tested",
     "coverage": [
+      "7.26beta8",
       "7.26beta7",
       "7.26beta5",
       "7.26beta4",
@@ -47,7 +48,7 @@
       "7.21.4",
       "7.20.8"
     ],
-    "totalKnown": 36,
+    "totalKnown": 37,
     "truncated": true,
     "channels": {
       "stable": {
@@ -60,7 +61,7 @@
       },
       "development": {
         "version": "7.26beta8",
-        "covered": false
+        "covered": true
       },
       "long-term": {
         "version": "7.24.7",
@@ -77,17 +78,17 @@
         "bot": 0
       },
       "prs": {
-        "total": 2,
-        "owner": 2,
+        "total": 1,
+        "owner": 1,
         "external": 0,
         "bot": 0,
-        "ownerReady": 1,
+        "ownerReady": 0,
         "ownerDraft": 1,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 55,
+      "fetched": 54,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
@@ -110,19 +111,6 @@
           "area:ci",
           "P3"
         ],
-        "milestone": null
-      },
-      {
-        "number": 331,
-        "title": "research(lab): PXE / netinstall into blank QEMU VMs (#329)",
-        "author": "mobileskyfi",
-        "authorClass": "owner",
-        "url": "https://github.com/tikoci/quickchr/pull/331",
-        "createdAt": "2026-11-27T16:32:27Z",
-        "updatedAt": "2026-11-28T09:28:37Z",
-        "isPR": true,
-        "draft": false,
-        "labels": [],
         "milestone": null
       },
       {
