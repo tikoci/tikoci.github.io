@@ -11,6 +11,7 @@ Planning: [issue #21](https://github.com/tikoci/tikoci.github.io/issues/21).
 | --- | --- | --- |
 | Skill tiers and prefixes | rskills-07, rskills-14, user-08, user-09, user-96 to user-98 | `tikoci-*` moves from one operator's user directory to this site. Repo-local skills take the repo's name as prefix. |
 | Copy or reference by URL, list, exceptions | issue #21 "Shape", PR #23 review | New with this skill. |
+| Not adopted yet is not an exception | centrs#679 review | An agent read a pre-adoption stopgap (centrs#654) as a deviation to record under `## House exceptions`; the maintainer treats repos as in transition toward the house skills (2026-11-28). |
 | AGENTS.md entry, CLAUDE.md import | site-01, centrs-12, centrs-24 | Settles `entry-file-roles`: mikropkl and restraml (CLAUDE.md canonical) and quickchr (CLAUDE.md points to Copilot files) change on adoption. |
 | Directory AGENTS.md | centrs-24 | Sibling CLAUDE.md: [Claude Code memory docs](https://code.claude.com/docs/en/memory) (PR #23 review). |
 | No new `.github/instructions/`; list existing ones | rosetta-01, centrs-03, quickchr-001 | Codex has no `applyTo`. |

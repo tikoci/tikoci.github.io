@@ -49,6 +49,11 @@ skills into repos.
   says so in AGENTS.md under `## House exceptions`, one line per rule with the
   reason. A one-off deviation goes in the PR description. Confirm a substantive
   one with the maintainer first.
+- **Not adopted yet is not an exception.** Until a repo takes up a skill, or a
+  profile of one, its current behavior stands and it follows the skill's
+  guidance for that stage where there is some (tikoci-testing: "until a tool
+  adopts it"). A stopgap of that kind needs no exception, and later work that
+  moves the repo onto the skill is ordinary work, not a fix for a violation.
 - **Changing a house rule** is a PR to tikoci/tikoci.github.io, not an edit in a
   consuming repo.
 
