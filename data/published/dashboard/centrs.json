@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "centrs",
-  "generatedAt": "2026-11-28T03:57:26.879Z",
+  "generatedAt": "2026-11-28T13:07:18.858Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -71,7 +71,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/pull/680",
         "createdAt": "2026-11-27T00:06:35Z",
-        "updatedAt": "2026-11-27T00:47:19Z",
+        "updatedAt": "2026-11-28T09:16:23Z",
         "isPR": true,
         "draft": true,
         "labels": [],
@@ -84,7 +84,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/centrs/pull/679",
         "createdAt": "2026-11-26T23:54:30Z",
-        "updatedAt": "2026-11-27T00:41:17Z",
+        "updatedAt": "2026-11-28T09:17:26Z",
         "isPR": true,
         "draft": true,
         "labels": [],

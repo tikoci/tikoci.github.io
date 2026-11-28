@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "mikropkl",
-  "generatedAt": "2026-11-28T03:57:26.879Z",
+  "generatedAt": "2026-11-28T13:07:18.858Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,6 +10,7 @@
     "locator": "github-tags:",
     "kind": "tagged",
     "coverage": [
+      "7.26beta8",
       "7.26beta7",
       "7.26beta5",
       "7.26beta4",
@@ -110,7 +111,7 @@
       "7.18.2",
       "7.18.1"
     ],
-    "totalKnown": 99,
+    "totalKnown": 100,
     "truncated": true,
     "channels": {
       "stable": {
@@ -123,7 +124,7 @@
       },
       "development": {
         "version": "7.26beta8",
-        "covered": false
+        "covered": true
       },
       "long-term": {
         "version": "7.24.7",

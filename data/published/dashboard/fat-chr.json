@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "fat-chr",
-  "generatedAt": "2026-11-28T03:57:26.879Z",
+  "generatedAt": "2026-11-28T13:07:18.858Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,6 +10,7 @@
     "locator": "github-releases:",
     "kind": "published",
     "coverage": [
+      "7.26beta8",
       "7.26beta7",
       "7.26beta5",
       "7.26beta4",
@@ -102,7 +103,6 @@
       "7.20beta8",
       "7.20beta7",
       "7.20beta6",
-      "7.20beta5",
       "7.19.6",
       "7.19.4",
       "7.19.3",
@@ -124,7 +124,7 @@
       },
       "development": {
         "version": "7.26beta8",
-        "covered": false
+        "covered": true
       },
       "long-term": {
         "version": "7.24.7",

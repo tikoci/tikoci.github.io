@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-28T03:57:26.879Z",
+  "generatedAt": "2026-11-28T13:07:18.858Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -133,12 +133,12 @@
             "conclusion": "success",
             "lastConclusion": "success",
             "headBranch": "main",
-            "headSha": "cf4f464c7347f7607b3a2bcc262f3aaffb101861",
-            "event": "workflow_dispatch",
-            "runStartedAt": "2026-11-27T16:23:06Z",
-            "lastUpdatedAt": "2026-11-27T16:24:42Z",
-            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/46033146782",
-            "isHead": false
+            "headSha": "c56fae38ba349750dbffb124eb3284f0711e85db",
+            "event": "schedule",
+            "runStartedAt": "2026-11-28T12:40:10Z",
+            "lastUpdatedAt": "2026-11-28T12:41:27Z",
+            "lastUrl": "https://github.com/tikoci/restraml/actions/runs/46145807203",
+            "isHead": true
           },
           {
             "configured": "Build: Base Schema",
@@ -378,6 +378,7 @@
         "locator": "github-tags:",
         "kind": "tagged",
         "coverage": [
+          "7.26beta8",
           "7.26beta7",
           "7.26beta5",
           "7.26beta4",
@@ -393,7 +394,7 @@
           "7.25beta4",
           "7.24.7"
         ],
-        "totalKnown": 99,
+        "totalKnown": 100,
         "truncated": true,
         "channels": {
           "stable": {
@@ -406,7 +407,7 @@
           },
           "development": {
             "version": "7.26beta8",
-            "covered": false
+            "covered": true
           },
           "long-term": {
             "version": "7.24.7",
@@ -432,9 +433,9 @@
             "headBranch": "main",
             "headSha": "e568f7a3bc6a6265499d3189afc72f2f3e2dbc1d",
             "event": "schedule",
-            "runStartedAt": "2026-11-27T13:33:02Z",
-            "lastUpdatedAt": "2026-11-27T13:33:15Z",
-            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/46008067651",
+            "runStartedAt": "2026-11-28T12:45:57Z",
+            "lastUpdatedAt": "2026-11-28T12:46:44Z",
+            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/46146273204",
             "isHead": true
           },
           {
@@ -449,9 +450,9 @@
             "headBranch": "main",
             "headSha": "e568f7a3bc6a6265499d3189afc72f2f3e2dbc1d",
             "event": "workflow_dispatch",
-            "runStartedAt": "2026-11-23T08:39:01Z",
-            "lastUpdatedAt": "2026-11-23T08:42:16Z",
-            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/45140332882",
+            "runStartedAt": "2026-11-28T12:46:41Z",
+            "lastUpdatedAt": "2026-11-28T12:50:00Z",
+            "lastUrl": "https://github.com/tikoci/mikropkl/actions/runs/46146330123",
             "isHead": true
           },
           {
@@ -609,6 +610,7 @@
         "locator": "github-releases:",
         "kind": "published",
         "coverage": [
+          "7.26beta8",
           "7.26beta7",
           "7.26beta5",
           "7.26beta4",
@@ -637,7 +639,7 @@
           },
           "development": {
             "version": "7.26beta8",
-            "covered": false
+            "covered": true
           },
           "long-term": {
             "version": "7.24.7",
@@ -662,10 +664,10 @@
             "lastConclusion": "success",
             "headBranch": "main",
             "headSha": "acd6566c090b9b8060a6bec849e8ad2ca8db5380",
-            "event": "schedule",
-            "runStartedAt": "2026-11-27T07:11:04Z",
-            "lastUpdatedAt": "2026-11-27T07:11:16Z",
-            "lastUrl": "https://github.com/tikoci/fat-chr/actions/runs/45956706465",
+            "event": "workflow_dispatch",
+            "runStartedAt": "2026-11-28T12:46:18Z",
+            "lastUpdatedAt": "2026-11-28T12:46:31Z",
+            "lastUrl": "https://github.com/tikoci/fat-chr/actions/runs/46146299792",
             "isHead": true
           }
         ]
@@ -848,9 +850,9 @@
             "headBranch": "main",
             "headSha": "9d0991437db3813f2b562af9c2054234ff3230b4",
             "event": "schedule",
-            "runStartedAt": "2026-11-27T13:53:38Z",
-            "lastUpdatedAt": "2026-11-27T13:53:47Z",
-            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/46011029596",
+            "runStartedAt": "2026-11-28T13:01:08Z",
+            "lastUpdatedAt": "2026-11-28T13:01:24Z",
+            "lastUrl": "https://github.com/tikoci/quickchr/actions/runs/46147494863",
             "isHead": true
           }
         ]
@@ -907,7 +909,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/quickchr/pull/331",
             "createdAt": "2026-11-27T16:32:27Z",
-            "updatedAt": "2026-11-28T03:13:43Z",
+            "updatedAt": "2026-11-28T09:28:37Z",
             "isPR": true,
             "draft": false,
             "labels": [],
@@ -1154,9 +1156,9 @@
             "headBranch": "main",
             "headSha": "3f8863249e7d944c935b3a58bcbebb1e9b307b58",
             "event": "schedule",
-            "runStartedAt": "2026-11-25T12:12:43Z",
-            "lastUpdatedAt": "2026-11-25T12:13:54Z",
-            "lastUrl": "https://github.com/tikoci/mikrotik-gpl/actions/runs/45611585506",
+            "runStartedAt": "2026-11-28T11:32:52Z",
+            "lastUpdatedAt": "2026-11-28T11:33:15Z",
+            "lastUrl": "https://github.com/tikoci/mikrotik-gpl/actions/runs/46140396355",
             "isHead": true
           }
         ]
@@ -1672,7 +1674,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/centrs/pull/680",
             "createdAt": "2026-11-27T00:06:35Z",
-            "updatedAt": "2026-11-27T00:47:19Z",
+            "updatedAt": "2026-11-28T09:16:23Z",
             "isPR": true,
             "draft": true,
             "labels": [],
@@ -1685,7 +1687,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/centrs/pull/679",
             "createdAt": "2026-11-26T23:54:30Z",
-            "updatedAt": "2026-11-27T00:41:17Z",
+            "updatedAt": "2026-11-28T09:17:26Z",
             "isPR": true,
             "draft": true,
             "labels": [],
@@ -2790,7 +2792,7 @@
             "headSha": "0c13a683bfc66ac888db0345ca3839549c51bed6",
             "event": "push",
             "runStartedAt": "2026-03-30T19:39:57Z",
-            "lastUpdatedAt": "2026-03-30T19:40:18Z",
+            "lastUpdatedAt": "2026-11-28T05:36:46Z",
             "lastUrl": "https://github.com/tikoci/netinstall/actions/runs/23764019575",
             "isHead": true
           }
@@ -2942,7 +2944,7 @@
             "headSha": "d312428c12079a629de9c1f2b65548e8df8b7223",
             "event": "push",
             "runStartedAt": "2026-03-30T21:19:49Z",
-            "lastUpdatedAt": "2026-03-30T21:19:49Z",
+            "lastUpdatedAt": "2026-11-28T05:53:30Z",
             "lastUrl": "https://github.com/tikoci/make.d/actions/runs/23768303863",
             "isHead": true
           }
@@ -3619,40 +3621,6 @@
       ]
     },
     {
-      "id": "ros-missing-channel:fat-chr:development",
-      "rule": "ros-missing-channel",
-      "severity": "pending",
-      "category": "ros",
-      "repos": [
-        "fat-chr"
-      ],
-      "summary": "fat-chr: missing development 7.26beta8 (published coverage)",
-      "detail": "The current development version is absent from this repo's published coverage list. Work to do (usually picked up by the polling workflow), not a failure. Only channels listed in rosChannels are judged.",
-      "evidence": [
-        "repos.fat-chr.ros.channels.development=missing 7.26beta8"
-      ],
-      "urls": [
-        "https://github.com/tikoci/fat-chr/actions"
-      ]
-    },
-    {
-      "id": "ros-missing-channel:mikropkl:development",
-      "rule": "ros-missing-channel",
-      "severity": "pending",
-      "category": "ros",
-      "repos": [
-        "mikropkl"
-      ],
-      "summary": "mikropkl: missing development 7.26beta8 (tagged coverage)",
-      "detail": "The current development version is absent from this repo's tagged coverage list. Work to do (usually picked up by the polling workflow), not a failure. Only channels listed in rosChannels are judged.",
-      "evidence": [
-        "repos.mikropkl.ros.channels.development=missing 7.26beta8"
-      ],
-      "urls": [
-        "https://github.com/tikoci/mikropkl/actions"
-      ]
-    },
-    {
       "id": "ros-missing-channel:mikrotik-gpl:long-term",
       "rule": "ros-missing-channel",
       "severity": "pending",
@@ -3772,24 +3740,6 @@
       ],
       "urls": [
         "https://github.com/tikoci/quickchr/actions/runs/45457099941"
-      ]
-    },
-    {
-      "id": "ci-run-not-head:restraml:Auto-Build-New-RouterOS-Versions",
-      "rule": "ci-run-not-head",
-      "severity": "info",
-      "category": "ci",
-      "repos": [
-        "restraml"
-      ],
-      "summary": "restraml: Auto-Build New RouterOS Versions latest run is not on the current head commit",
-      "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
-      "evidence": [
-        "repos.restraml.ci.workflows[Auto-Build New RouterOS Versions].headSha=cf4f464c7347f7607b3a2bcc262f3aaffb101861",
-        "repos.restraml.ci.headSha=c56fae38ba349750dbffb124eb3284f0711e85db"
-      ],
-      "urls": [
-        "https://github.com/tikoci/restraml/actions/runs/46033146782"
       ]
     },
     {
