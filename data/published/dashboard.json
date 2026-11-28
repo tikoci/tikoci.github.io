@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-27T22:01:33.065Z",
+  "generatedAt": "2026-11-28T03:57:26.879Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -10,7 +10,7 @@
     "otherHttpCalls": 11,
     "maxConcurrency": 4,
     "timeoutMsPerRequest": 15000,
-    "rateLimitRemaining": 4821
+    "rateLimitRemaining": 4835
   },
   "sources": {
     "ros-current": "https://upgrade.mikrotik.com/routeros/NEWESTa7.<channel> (MikroTik upgrade feed; body \"<version> <build-ts>\")",
@@ -120,8 +120,8 @@
       "ci": {
         "state": "ok",
         "defaultBranch": "main",
-        "headSha": "ea3e8c88b9fc255f9a6bb57bf186d97b94b313c1",
-        "headUrl": "https://github.com/tikoci/restraml/commit/ea3e8c88b9fc255f9a6bb57bf186d97b94b313c1",
+        "headSha": "c56fae38ba349750dbffb124eb3284f0711e85db",
+        "headUrl": "https://github.com/tikoci/restraml/commit/c56fae38ba349750dbffb124eb3284f0711e85db",
         "workflows": [
           {
             "configured": "Auto-Build New RouterOS Versions",
@@ -859,8 +859,8 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 52,
-            "owner": 52,
+            "total": 53,
+            "owner": 53,
             "external": 0,
             "bot": 0
           },
@@ -869,13 +869,13 @@
             "owner": 2,
             "external": 0,
             "bot": 0,
-            "ownerReady": 0,
-            "ownerDraft": 2,
+            "ownerReady": 1,
+            "ownerDraft": 1,
             "draftUnknown": false
           }
         },
         "page": {
-          "fetched": 54,
+          "fetched": 55,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
@@ -883,15 +883,33 @@
         "pullsEnriched": true,
         "items": [
           {
+            "number": 332,
+            "title": "test(unit): port-block tests depend on live host ports and flake on CI (\"reserved blocks do not use up the live-probe budget\")",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/quickchr/issues/332",
+            "createdAt": "2026-11-27T22:59:14Z",
+            "updatedAt": "2026-11-27T22:59:14Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "bug",
+              "area:networking",
+              "area:ci",
+              "P3"
+            ],
+            "milestone": null
+          },
+          {
             "number": 331,
             "title": "research(lab): PXE / netinstall into blank QEMU VMs (#329)",
             "author": "mobileskyfi",
             "authorClass": "owner",
             "url": "https://github.com/tikoci/quickchr/pull/331",
             "createdAt": "2026-11-27T16:32:27Z",
-            "updatedAt": "2026-11-27T16:32:37Z",
+            "updatedAt": "2026-11-28T03:13:43Z",
             "isPR": true,
-            "draft": true,
+            "draft": false,
             "labels": [],
             "milestone": null
           },
@@ -955,7 +973,7 @@
             "authorClass": "owner",
             "url": "https://github.com/tikoci/quickchr/issues/327",
             "createdAt": "2026-11-27T09:24:48Z",
-            "updatedAt": "2026-11-27T09:25:22Z",
+            "updatedAt": "2026-11-27T22:58:57Z",
             "isPR": false,
             "draft": null,
             "labels": [
@@ -1024,24 +1042,6 @@
             "draft": true,
             "labels": [],
             "milestone": null
-          },
-          {
-            "number": 306,
-            "title": "agents: review and adopt tikoci house conventions (AGENTS.md entry, CLAUDE.md import, instructions → skills)",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/quickchr/issues/306",
-            "createdAt": "2026-11-21T18:06:40Z",
-            "updatedAt": "2026-11-21T18:06:40Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "documentation",
-              "area:docs",
-              "P3",
-              "needs-decision"
-            ],
-            "milestone": null
           }
         ]
       },
@@ -1049,7 +1049,7 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 52,
+        "totalIssues": 53,
         "totalPRs": 2,
         "truncated": false,
         "byLabel": {},
@@ -2563,8 +2563,8 @@
         "state": "ok",
         "counts": {
           "issues": {
-            "total": 10,
-            "owner": 10,
+            "total": 11,
+            "owner": 11,
             "external": 0,
             "bot": 0
           },
@@ -2579,13 +2579,28 @@
           }
         },
         "page": {
-          "fetched": 10,
+          "fetched": 11,
           "perPage": 100,
           "truncated": false,
           "countsAreLowerBounds": false
         },
         "pullsEnriched": true,
         "items": [
+          {
+            "number": 81,
+            "title": "routeros-app-yaml: trailing :udp in ports maps TCP; add 7.26beta8 port ranges",
+            "author": "mobileskyfi",
+            "authorClass": "owner",
+            "url": "https://github.com/tikoci/routeros-skills/issues/81",
+            "createdAt": "2026-11-27T22:12:07Z",
+            "updatedAt": "2026-11-27T22:12:07Z",
+            "isPR": false,
+            "draft": null,
+            "labels": [
+              "documentation"
+            ],
+            "milestone": null
+          },
           {
             "number": 80,
             "title": "routeros-mac-telnet: console section says replies carry no ANSI; 7.23–7.24 captures show prompt/echo framing escapes",
@@ -2722,21 +2737,6 @@
               "documentation"
             ],
             "milestone": null
-          },
-          {
-            "number": 25,
-            "title": "routeros-netinstall: add 7.24 Netinstall package, split generic process from host tooling, add \"when is netinstall needed\"",
-            "author": "mobileskyfi",
-            "authorClass": "owner",
-            "url": "https://github.com/tikoci/routeros-skills/issues/25",
-            "createdAt": "2026-09-21T15:35:59Z",
-            "updatedAt": "2026-09-21T15:35:59Z",
-            "isPR": false,
-            "draft": null,
-            "labels": [
-              "documentation"
-            ],
-            "milestone": null
           }
         ]
       },
@@ -2744,7 +2744,7 @@
         "state": "ok",
         "openIssues": 0,
         "openPRs": 0,
-        "totalIssues": 10,
+        "totalIssues": 11,
         "totalPRs": 0,
         "truncated": false,
         "byLabel": {},
@@ -3704,6 +3704,23 @@
       ]
     },
     {
+      "id": "work-maintainer-prs:quickchr",
+      "rule": "work-maintainer-prs",
+      "severity": "pending",
+      "category": "work",
+      "repos": [
+        "quickchr"
+      ],
+      "summary": "quickchr: 1 open maintainer PR (1 draft excluded)",
+      "detail": "In-flight maintainer pull requests (ready for review unless marked draft). Tracks ongoing work, not problems.",
+      "evidence": [
+        "repos.quickchr.work.counts.prs.ownerReady=1"
+      ],
+      "urls": [
+        "https://github.com/tikoci/quickchr/pulls"
+      ]
+    },
+    {
       "id": "ci-run-not-head:centrs:Release",
       "rule": "ci-run-not-head",
       "severity": "info",
@@ -3769,7 +3786,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.restraml.ci.workflows[Auto-Build New RouterOS Versions].headSha=cf4f464c7347f7607b3a2bcc262f3aaffb101861",
-        "repos.restraml.ci.headSha=ea3e8c88b9fc255f9a6bb57bf186d97b94b313c1"
+        "repos.restraml.ci.headSha=c56fae38ba349750dbffb124eb3284f0711e85db"
       ],
       "urls": [
         "https://github.com/tikoci/restraml/actions/runs/46033146782"
@@ -3787,7 +3804,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.restraml.ci.workflows[Build: Base Schema].headSha=cf4f464c7347f7607b3a2bcc262f3aaffb101861",
-        "repos.restraml.ci.headSha=ea3e8c88b9fc255f9a6bb57bf186d97b94b313c1"
+        "repos.restraml.ci.headSha=c56fae38ba349750dbffb124eb3284f0711e85db"
       ],
       "urls": [
         "https://github.com/tikoci/restraml/actions/runs/46033370899"
@@ -3805,7 +3822,7 @@
       "detail": "The latest default-branch run tested an older commit than the branch head. Its verdict (pass or fail) may not describe the current tree — e.g. CI has not run since the last push.",
       "evidence": [
         "repos.restraml.ci.workflows[Build: Deep-Inspect Multi-Arch].headSha=cf4f464c7347f7607b3a2bcc262f3aaffb101861",
-        "repos.restraml.ci.headSha=ea3e8c88b9fc255f9a6bb57bf186d97b94b313c1"
+        "repos.restraml.ci.headSha=c56fae38ba349750dbffb124eb3284f0711e85db"
       ],
       "urls": [
         "https://github.com/tikoci/restraml/actions/runs/46033371039"

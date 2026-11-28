@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "routeros-skills",
-  "generatedAt": "2026-11-27T22:01:33.065Z",
+  "generatedAt": "2026-11-28T03:57:26.879Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -9,8 +9,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 10,
-        "owner": 10,
+        "total": 11,
+        "owner": 11,
         "external": 0,
         "bot": 0
       },
@@ -25,13 +25,28 @@
       }
     },
     "page": {
-      "fetched": 10,
+      "fetched": 11,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
     },
     "pullsEnriched": true,
     "items": [
+      {
+        "number": 81,
+        "title": "routeros-app-yaml: trailing :udp in ports maps TCP; add 7.26beta8 port ranges",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/routeros-skills/issues/81",
+        "createdAt": "2026-11-27T22:12:07Z",
+        "updatedAt": "2026-11-27T22:12:07Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "documentation"
+        ],
+        "milestone": null
+      },
       {
         "number": 80,
         "title": "routeros-mac-telnet: console section says replies carry no ANSI; 7.23–7.24 captures show prompt/echo framing escapes",

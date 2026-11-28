@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "repo": "quickchr",
-  "generatedAt": "2026-11-27T22:01:33.065Z",
+  "generatedAt": "2026-11-28T03:57:26.879Z",
   "collection": {
     "mode": "fresh",
     "cacheWrittenAt": null
@@ -71,8 +71,8 @@
   "work": {
     "counts": {
       "issues": {
-        "total": 52,
-        "owner": 52,
+        "total": 53,
+        "owner": 53,
         "external": 0,
         "bot": 0
       },
@@ -81,13 +81,13 @@
         "owner": 2,
         "external": 0,
         "bot": 0,
-        "ownerReady": 0,
-        "ownerDraft": 2,
+        "ownerReady": 1,
+        "ownerDraft": 1,
         "draftUnknown": false
       }
     },
     "page": {
-      "fetched": 54,
+      "fetched": 55,
       "perPage": 100,
       "truncated": false,
       "countsAreLowerBounds": false
@@ -95,15 +95,33 @@
     "pullsEnriched": true,
     "items": [
       {
+        "number": 332,
+        "title": "test(unit): port-block tests depend on live host ports and flake on CI (\"reserved blocks do not use up the live-probe budget\")",
+        "author": "mobileskyfi",
+        "authorClass": "owner",
+        "url": "https://github.com/tikoci/quickchr/issues/332",
+        "createdAt": "2026-11-27T22:59:14Z",
+        "updatedAt": "2026-11-27T22:59:14Z",
+        "isPR": false,
+        "draft": null,
+        "labels": [
+          "bug",
+          "area:networking",
+          "area:ci",
+          "P3"
+        ],
+        "milestone": null
+      },
+      {
         "number": 331,
         "title": "research(lab): PXE / netinstall into blank QEMU VMs (#329)",
         "author": "mobileskyfi",
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/pull/331",
         "createdAt": "2026-11-27T16:32:27Z",
-        "updatedAt": "2026-11-27T16:32:37Z",
+        "updatedAt": "2026-11-28T03:13:43Z",
         "isPR": true,
-        "draft": true,
+        "draft": false,
         "labels": [],
         "milestone": null
       },
@@ -167,7 +185,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/327",
         "createdAt": "2026-11-27T09:24:48Z",
-        "updatedAt": "2026-11-27T09:25:22Z",
+        "updatedAt": "2026-11-27T22:58:57Z",
         "isPR": false,
         "draft": null,
         "labels": [
@@ -372,7 +390,7 @@
         "authorClass": "owner",
         "url": "https://github.com/tikoci/quickchr/issues/263",
         "createdAt": "2026-11-11T13:43:11Z",
-        "updatedAt": "2026-11-21T18:28:56Z",
+        "updatedAt": "2026-11-27T22:59:03Z",
         "isPR": false,
         "draft": null,
         "labels": [
